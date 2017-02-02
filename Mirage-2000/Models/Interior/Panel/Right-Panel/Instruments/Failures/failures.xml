@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+################################################################################
+#
+#               m2005-5's FLIGHT DYNAMIC MODEL DEFINITION : YASIM
+#
+################################################################################
+
+Mirage-2000/Docs/panel_failures.png
+-->
+
+<PropertyList>
+
+  <path>failures.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>fond</object-name>
+    <object-name>traits</object-name>
+    <!-- Off -->
+    <object-name>failures</object-name>
+    <!-- Ambre -->
+    <object-name>ambreA1</object-name>
+    <object-name>ambreB1</object-name>
+    <object-name>ambreC1</object-name>
+    <object-name>ambreD1</object-name>
+    <object-name>ambreA2</object-name>
+    <object-name>ambreB2</object-name>
+    <object-name>ambreC2</object-name>
+    <object-name>ambreD2</object-name>
+    <object-name>ambreE2</object-name>
+    <object-name>ambreA3</object-name>
+    <object-name>ambreB3</object-name>
+    <object-name>ambreC3</object-name>
+    <object-name>ambreD3</object-name>
+    <object-name>ambreE3</object-name>
+    <object-name>ambreA4</object-name>
+    <object-name>ambreB4</object-name>
+    <object-name>ambreC4</object-name>
+    <object-name>ambreD4</object-name>
+    <object-name>ambreE4</object-name>
+    <object-name>ambreA5</object-name>
+    <object-name>ambreB5</object-name>
+    <object-name>ambreC5</object-name>
+    <object-name>ambreD5</object-name>
+    <object-name>ambreE5</object-name>
+    <object-name>ambreA6</object-name>
+    <object-name>ambreB6</object-name>
+    <object-name>ambreC6</object-name>
+    <object-name>ambreD6</object-name>
+    <object-name>ambreE6</object-name>
+    <object-name>ambreA7</object-name>
+    <object-name>ambreB7</object-name>
+    <object-name>ambreC7</object-name>
+    <object-name>ambreD7</object-name>
+    <object-name>ambreE7</object-name>
+    <object-name>ambreA8</object-name>
+    <object-name>ambreB8</object-name>
+    <object-name>ambreC8</object-name>
+    <object-name>ambreD8</object-name>
+    <object-name>ambreE8</object-name>
+    <object-name>ambreB9</object-name>
+    <object-name>ambreC9</object-name>
+    <object-name>ambreD9</object-name>
+    <!-- Yellow -->
+    <object-name>jauneA1</object-name>
+    <object-name>jauneB1</object-name>
+    <object-name>jauneC1</object-name>
+    <object-name>jauneD1</object-name>
+    <object-name>jauneA2</object-name>
+    <object-name>jauneB2</object-name>
+    <object-name>jauneC2</object-name>
+    <object-name>jauneD2</object-name>
+    <object-name>jauneE2</object-name>
+    <object-name>jauneA3</object-name>
+    <object-name>jauneB3</object-name>
+    <object-name>jauneC3</object-name>
+    <object-name>jauneD3</object-name>
+    <object-name>jauneE3</object-name>
+    <object-name>jauneA4</object-name>
+    <object-name>jauneB4</object-name>
+    <object-name>jauneC4</object-name>
+    <object-name>jauneD4</object-name>
+    <object-name>jauneE4</object-name>
+    <object-name>jauneA5</object-name>
+    <object-name>jauneB5</object-name>
+    <object-name>jauneC5</object-name>
+    <object-name>jauneD5</object-name>
+    <object-name>jauneE5</object-name>
+    <object-name>jauneA6</object-name>
+    <object-name>jauneB6</object-name>
+    <object-name>jauneC6</object-name>
+    <object-name>jauneD6</object-name>
+    <object-name>jauneE6</object-name>
+    <object-name>jauneA7</object-name>
+    <object-name>jauneB7</object-name>
+    <object-name>jauneC7</object-name>
+    <object-name>jauneD7</object-name>
+    <object-name>jauneE7</object-name>
+    <object-name>jauneA8</object-name>
+    <object-name>jauneB8</object-name>
+    <object-name>jauneC8</object-name>
+    <object-name>jauneD8</object-name>
+    <object-name>jauneE8</object-name>
+    <object-name>jauneB9</object-name>
+    <object-name>jauneC9</object-name>
+    <object-name>jauneD9</object-name>
+
+    <!-- Objets transparents -->
+
+  </animation>
+
+  <animation>
+    <type>select</type>
+
+    <!-- Ambre -->
+    <!--
+    <object-name>ambreA1</object-name>
+    <object-name>ambreB1</object-name>
+    <object-name>ambreC1</object-name>
+    <object-name>ambreD1</object-name>
+    <object-name>ambreA3</object-name>
+    <object-name>ambreB3</object-name>
+    <object-name>ambreC3</object-name>
+    <object-name>ambreA4</object-name>
+    <object-name>ambreB4</object-name>
+    <object-name>ambreC4</object-name>
+    <object-name>ambreD4</object-name>-->
+
+    <object-name>ambreA2</object-name>
+    <object-name>ambreC2</object-name>
+    <object-name>ambreD2</object-name>
+    <object-name>ambreE2</object-name>
+    <object-name>ambreD3</object-name>
+    <object-name>ambreE3</object-name>
+    <object-name>ambreB5</object-name>
+    <object-name>ambreC5</object-name>
+    <object-name>ambreD5</object-name>
+    <object-name>ambreE5</object-name>
+    <object-name>ambreA6</object-name>
+    <object-name>ambreB6</object-name>
+    <object-name>ambreC6</object-name>
+    <object-name>ambreD6</object-name>
+    <object-name>ambreE6</object-name>
+    <object-name>ambreA7</object-name>
+    <object-name>ambreB7</object-name>
+    <object-name>ambreC7</object-name>
+    <object-name>ambreD7</object-name>
+    <object-name>ambreE7</object-name>
+    <object-name>ambreB8</object-name>
+    <object-name>ambreC8</object-name>
+    <object-name>ambreD8</object-name>
+    <object-name>ambreB9</object-name>
+    <object-name>ambreC9</object-name>
+    <object-name>ambreD9</object-name>
+
+    <!-- Yellow -->
+    <object-name>jauneA1</object-name>
+    <object-name>jauneB1</object-name>
+    <object-name>jauneC1</object-name>
+    <object-name>jauneD1</object-name>
+    <object-name>jauneA2</object-name>
+    <object-name>jauneB2</object-name>
+    <object-name>jauneC2</object-name>
+    <object-name>jauneD2</object-name>
+    <object-name>jauneE2</object-name>
+    <object-name>jauneA3</object-name>
+    <object-name>jauneB3</object-name>
+    <object-name>jauneC3</object-name>
+    <object-name>jauneD3</object-name>
+    <object-name>jauneE3</object-name>
+    <object-name>jauneA4</object-name>
+    <object-name>jauneB4</object-name>
+    <object-name>jauneC4</object-name>
+    <object-name>jauneD4</object-name>
+    <object-name>jauneE4</object-name>
+    <object-name>jauneA5</object-name>
+    <object-name>jauneB5</object-name>
+    <object-name>jauneC5</object-name>
+    <object-name>jauneD5</object-name>
+    <object-name>jauneE5</object-name>
+    <object-name>jauneA6</object-name>
+    <object-name>jauneB6</object-name>
+    <object-name>jauneC6</object-name>
+    <object-name>jauneD6</object-name>
+    <object-name>jauneE6</object-name>
+    <object-name>jauneA7</object-name>
+    <object-name>jauneB7</object-name>
+    <object-name>jauneC7</object-name>
+    <object-name>jauneD7</object-name>
+    <object-name>jauneE7</object-name>
+    <object-name>jauneB8</object-name>
+    <object-name>jauneC8</object-name>
+    <object-name>jauneD8</object-name>
+    <object-name>jauneE8</object-name>
+    <object-name>jauneB9</object-name>
+    <object-name>jauneC9</object-name>
+    <object-name>jauneD9</object-name>
+    <condition>
+      <equals>
+        <value>0</value>
+        <value>1</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!-- Objets Lights -->
+  <animation>
+    <type>material</type>
+    <object-name>traits</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <emission>
+      <red>   0.05 </red>
+      <green> 0.05 </green>
+      <blue>  0.05 </blue>
+    </emission>
+  </animation>
+
+  <!--  REMBRANDT support for transparent objects-->
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <object-name>failures</object-name>
+    <object-name>ambre</object-name>
+    <object-name>jaune</object-name>
+  </effect>
+
+  <animation>
+    <type>material</type>
+    <name>ambre</name>
+    <object-name>ambreA1</object-name>
+    <object-name>ambreB1</object-name>
+    <object-name>ambreC1</object-name>
+    <object-name>ambreD1</object-name>
+    <object-name>ambreA2</object-name>
+    <object-name>ambreB2</object-name>
+    <object-name>ambreC2</object-name>
+    <object-name>ambreD2</object-name>
+    <object-name>ambreE2</object-name>
+    <object-name>ambreA3</object-name>
+    <object-name>ambreB3</object-name>
+    <object-name>ambreC3</object-name>
+    <object-name>ambreD3</object-name>
+    <object-name>ambreE3</object-name>
+    <object-name>ambreA4</object-name>
+    <object-name>ambreB4</object-name>
+    <object-name>ambreC4</object-name>
+    <object-name>ambreD4</object-name>
+    <object-name>ambreE4</object-name>
+    <object-name>ambreA5</object-name>
+    <object-name>ambreB5</object-name>
+    <object-name>ambreC5</object-name>
+    <object-name>ambreD5</object-name>
+    <object-name>ambreE5</object-name>
+    <object-name>ambreA6</object-name>
+    <object-name>ambreB6</object-name>
+    <object-name>ambreC6</object-name>
+    <object-name>ambreD6</object-name>
+    <object-name>ambreE6</object-name>
+    <object-name>ambreA7</object-name>
+    <object-name>ambreB7</object-name>
+    <object-name>ambreC7</object-name>
+    <object-name>ambreD7</object-name>
+    <object-name>ambreE7</object-name>
+    <object-name>ambreA8</object-name>
+    <object-name>ambreB8</object-name>
+    <object-name>ambreC8</object-name>
+    <object-name>ambreD8</object-name>
+    <object-name>ambreE8</object-name>
+    <object-name>ambreB9</object-name>
+    <object-name>ambreC9</object-name>
+    <object-name>ambreD9</object-name>
+    <emission>
+      <red>   4 </red>
+      <green> 4 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <name>jaune</name>
+    <!-- Yellow -->
+    <object-name>jauneA1</object-name>
+    <object-name>jauneB1</object-name>
+    <object-name>jauneC1</object-name>
+    <object-name>jauneD1</object-name>
+    <object-name>jauneA2</object-name>
+    <object-name>jauneB2</object-name>
+    <object-name>jauneC2</object-name>
+    <object-name>jauneD2</object-name>
+    <object-name>jauneE2</object-name>
+    <object-name>jauneA3</object-name>
+    <object-name>jauneB3</object-name>
+    <object-name>jauneC3</object-name>
+    <object-name>jauneD3</object-name>
+    <object-name>jauneE3</object-name>
+    <object-name>jauneA4</object-name>
+    <object-name>jauneB4</object-name>
+    <object-name>jauneC4</object-name>
+    <object-name>jauneD4</object-name>
+    <object-name>jauneE4</object-name>
+    <object-name>jauneA5</object-name>
+    <object-name>jauneB5</object-name>
+    <object-name>jauneC5</object-name>
+    <object-name>jauneD5</object-name>
+    <object-name>jauneE5</object-name>
+    <object-name>jauneA6</object-name>
+    <object-name>jauneB6</object-name>
+    <object-name>jauneC6</object-name>
+    <object-name>jauneD6</object-name>
+    <object-name>jauneE6</object-name>
+    <object-name>jauneA7</object-name>
+    <object-name>jauneB7</object-name>
+    <object-name>jauneC7</object-name>
+    <object-name>jauneD7</object-name>
+    <object-name>jauneE7</object-name>
+    <object-name>jauneA8</object-name>
+    <object-name>jauneB8</object-name>
+    <object-name>jauneC8</object-name>
+    <object-name>jauneD8</object-name>
+    <object-name>jauneE8</object-name>
+    <object-name>jauneB9</object-name>
+    <object-name>jauneC9</object-name>
+    <object-name>jauneD9</object-name>
+    <emission>
+      <red>   4 </red>
+      <green> 4 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreB2</object-name>
+    <condition>
+      <greater-than>
+        <property>/engines/engine[0]/egt-degC</property>
+        <value>880</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreE8</object-name>
+    <condition>
+      <property>/controls/gear/brake-parking</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreA5</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>/sim/model/door-positions/crew/position-norm</property>
+          <value>0</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreE4</object-name>
+    <condition>
+      <equals>
+        <property>/instrumentation/consumables/bingo_low</property>
+        <value>1</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>jauneA8</object-name>
+    <condition>
+      <equals>
+        <property>/sim/alarms/stall-warning</property>
+        <value>1</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreA8</object-name>
+    <condition>
+      <equals>
+        <property>/sim/alarms/stall-warning</property>
+        <value>2</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreA1</object-name>
+    <condition>
+      <not><property>/controls/switches/battery-switch</property></not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreB1</object-name>
+    <condition>
+      <not><property>/controls/switches/transformator-switch</property></not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreC1</object-name>
+    <condition>
+      <or>
+        <not><property>/controls/switches/ALT1-switch</property></not>
+        <less-than>
+          <property>/systems/electrical/suppliers/ALT_1</property>
+          <value>115</value>
+        </less-than>
+      </or>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreD1</object-name>
+    <condition>
+      <or>
+        <not><property>/controls/switches/ALT2-switch</property></not>
+        <less-than>
+          <property>/systems/electrical/suppliers/ALT_2</property>
+          <value>115</value>
+        </less-than>
+      </or>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreA4</object-name>
+    <condition>
+      <less-than>
+        <property>/systems/hydraulical/circuit1_press</property>
+        <value>195</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreB4</object-name>
+    <condition>
+      <less-than>
+        <property>/systems/hydraulical/circuit2_press</property>
+        <value>195</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ambreC4</object-name>
+    <condition>
+      <less-than>
+        <property>/systems/hydraulical/circuit2_press</property>
+        <value>140</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!-- This is simplification with the EP-->
+  <animation>
+    <type>select</type>
+    <object-name>ambreD4</object-name>
+    <condition>
+      <less-than>
+        <property>/systems/hydraulical/circuit2_press</property>
+        <value>160</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!-- This is simplification with the BP(LP)-->
+  <animation>
+    <type>select</type>
+    <object-name>ambreA3</object-name>
+    <condition>
+      <less-than>
+        <property>/systems/fuel/suppliers/BP_press</property>
+        <value>1</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!-- This is simplification with the BPG (LLP)-->
+  <animation>
+    <type>select</type>
+    <object-name>ambreB3</object-name>
+    <condition>
+      <less-than>
+        <property>/systems/fuel/suppliers/FUEL1_press</property>
+        <value>1</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!-- This is simplification with the BPD (RLP)-->
+  <animation>
+    <type>select</type>
+    <object-name>ambreC3</object-name>
+    <condition>
+      <less-than>
+        <property>/systems/fuel/suppliers/FUEL2_press</property>
+        <value>1</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!-- SWITCH -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/divers/switch1.xml</path>
+    <offsets>
+      <x-m> 0.00169</x-m>
+      <y-m>-0.03573</y-m>
+      <z-m> 0.03448</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/divers/switch2.xml</path>
+    <offsets>
+      <x-m> 0.00169</x-m>
+      <y-m>-0.01838</y-m>
+      <z-m> 0.03448</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/divers/switch2.xml</path>
+    <offsets>
+      <x-m> 0.00169</x-m>
+      <y-m>-0.00138</y-m>
+      <z-m> 0.03448</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/divers/switch2.xml</path>
+    <offsets>
+      <x-m>0.00169</x-m>
+      <y-m>0.01498</y-m>
+      <z-m>0.03448</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/divers/switch2.xml</path>
+    <offsets>
+      <x-m>0.00169</x-m>
+      <y-m>0.02798</y-m>
+      <z-m>0.02548</z-m>
+      <roll-deg>90</roll-deg>
+    </offsets>
+  </model>
+
+</PropertyList>

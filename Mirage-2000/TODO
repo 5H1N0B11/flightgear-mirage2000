@@ -1,0 +1,235 @@
+-------------------------------------------------------------------------------
+                                REMERCIMENTS
+-------------------------------------------------------------------------------
+
+Merci à tout ceux qui ont contribué à ce grand projet :
+- Helijah
+- Buckaroo
+- Koubi
+- FG-TUX
+- Ray,
+- Anusil
+- XIII
+- la f16 team
+- la CitationX team
+- tout ceux qui ont developpé en libre les missiles que j'ai pu récupérer
+- Nico
+- Thomas
+- Hardball
+
+Merci à tous ceux qui m'ont aidé -et qui m'aideront peut-être encore :-)
+Merci à tous les autres que j'ai peut être oublié.
+
+Tous ensemble on a fait (et on fera j'espère) un super boulot.
+Ce mirage 2000-5, il est énorme !!
+
+-------------------------------------------------------------------------------
+                                    FAIT
+-------------------------------------------------------------------------------
+
+- Rajout de tout un tas de load. (Matra MICA, AIM120, Matra R550 Magic 2,
+  aim-9, GBU16, GBU12, AGM65, SCALP, Sea Eagle, AIM-54, MATRA-R530, R74)
+- Voir la possibilité de lancer des missiles, de mettre le code en générique
+  pour que cela soit facilement adaptable sur d'autre appareils ou d’autres
+  missiles. Cela se fera en relation avec les load.
+- possibilité de larguer les réservoirs.
+- Rajouter des boutons pour "load rapide" comme les boutons "FAD" du f14
+- Amélioration du son.
+- Amélioration de la texture old (plus de décalage des aérofrein du dessous)
+- Amélioration du tir au canon (que j'ai du réduire de moitié de vitesse pour
+  conserver les fps)
+- Amélioration du HUD, (agrandissement et suppression des décalages des ronds
+  "radar" avec plusieurs modes sélectionnables, des indications supplémentaires
+  qui s'affichent de façon conditionnelles (mach, Agl, frein, Gear) ...
+- Possibilité d'avoir pour l'appareil le plus proche, le callsign, altitude,
+  cap de l'appareil, position par rapport au 2000, vitesse au sol (parce que je
+  ne trouve pas la fonction X^X nécessaire au calcul de la vitesse KEAS à un
+  altitude donnée...)
+- Possibilité de démarrer le réacteur... Script de Ryan Miller (basé sur celui
+  de Syd Adams)
+- Revoir le radar, et les ronds hud qui restent en parasites quand on diminue
+  la portée du radar etc (Ca a été changé sur le code source du HUD de base,
+  donc pas moi qui l'ai fait mais merci au bonhomme qui l'a fait)
+- Changer l'affichage du radar central, avec des traits moins gros...(mais vu
+  que j'arrive à rien avec blender....) et corriger le code d'affichage (ça je
+  peux faire)
+- Autopilot + suivi d'avion en mode auto
+- Regarder comment faire "apparaître" le model sans fumée et l'explosion (de
+  façon graphique... J'ai les modèles mais il faut que je code)
+- Amelioration du contrail (temps, -40, humidité >65% et augmentation du volume
+  du contrail)
+- Ajout d'un bruit de turbine au démarrage
+- See changelog
+
+
+- réduire la font-size des mfd
+- valeurs settées pour l'AP en magenta (comme sur le MFD des liners)
+- modifier certaines couleurs de l'EHSI
+- activer la météo au démarrage sur le mfd EHSI
+- ajouter l'information dewpoint (météo mfd EHSI)
+- modifier les font-size des MFD
+- corriger l'efficacite du train avant
+- améliorer le hud : changer la disposition des infos (cible la plus proche)
+- améliorer le hud : ajouter un Turn Indicator
+- améliorer le hud : afficher les g, aoa
+- améliorer le hud : mode plus compact pour gears et breaks
+- améliorer le hud : STALL, PULL UP, WARNING blink
+- ouvrir la verrière au démarrage
+- sur l'EHSI ajouter la possibilité de suivre un wp gps (DTO, nav slave)
+- harmoniser les unités : NM, ft, inHg, hPa, kt, FL, OAT, aoa
+- lire les sons exterieurs si le cockpit est ouvert
+- ajouter des commentaires. refaire certaines indentations
+- ajouter en haut à droite un mini hud visible lorsque le panel est hors champ
+  données minimales : alt-cap-speed-assiette
+- réindenter les fichiers xml et les scripts nas, corriger les erreurs, 
+  ajout de commentaires, supprimer les "trailing spaces"
+- pouvoir entre-ouvrir la verrière
+- désactiver les sons (train et moteur) au lancement du jeu
+- modifier le fichier textures.xcf.gz pour faire plus facilement de nouvelles
+  livrées (4 layers : radar, intrados, extrados couleur1, extrados couleur2)
+- créer une livrée "désert"
+- créer une livrée "emirats arabes unis"
+- supprimer les fichiers xml inutilisés (renommés pour l'instant en *.TO_CHECK et *.TO_DELETE)
+- modifier les xml suite à l'utilisation de tidy pour qu'ils soient plus lisibles
+- refondre des camouflages dans textures.xcf.gz (camouflages différents 2000-5/2000 C)
+- améliorer la livrée "texture.png"
+- améliorer la livrée "sky_HQ.png"
+- améliorer la livrée "desert_HQ.png"
+- améliorer la livrée "UAEAF_HQ.png"
+- supprimer les logos + numéros + marquages dans textures.xcf.gz
+- ajouter une doc de création des livrées dans Mirage2000/Docs/
+- ajouter des calques dans le fichier logos.xcf.gz et créer des groupes : langue, pays, escadron
+- corriger des bugs
+- avoir un camouflage plus conforme à la réalité
+  * les côtés gauche et droit ne sont normalement pas identiques
+  * le camouflage du 2000C et du 2000N ne sont pas totalement identiques (la
+    tache de l'aile droite sur le 2000N remonte sur le fuselage
+  * le 2000N a une troisième couleur pour l'intrados le camouflage diffère de
+    celui du 2000C près du radome
+
+-------------------------------------------------------------------------------
+                                  To Do list
+-------------------------------------------------------------------------------
+
+Pour moi et pour ceux qui veulent bien :
+
+LOAD :
+- Rendre visibles les load en multijoueur
+- Essayer de moins charger d'objet 3D (dans les load, car cela peut ralentir
+  les fps)
+- Peut être limiter les chargements aux armes Matra ... ? ...
+- Rajouter le missile Exocet et ASMP
+
+FDM :
+- améliorer la stabilisation en mode Auto-pilote (essayer en time * 8 pour voir
+  le problème)
+
+MODEL :
+- rendre plus joli le cône transsonique
+- améliorer encore la PC ? (voir le f35 du hangar FGUK)
+- 2000C -> 2000-5
+  * ajouter les antennes de queue
+  * supprimer le tube pitot [DONE]
+  * ajouter les lance leurres sur les Karman de voilure [DONE]
+- créer une version biplace [DONE]
+
+SUBMODELS :
+- Voir si en multijoueur, un missile lancé par un avion tiers peut être
+  visible...
+- créer des livrées pour les bidons externes
+
+INSTRUMENTS :
+- pouvoir éteindre le radar
+- Faire marcher les différents mode hud, par exemple le rond pour le tir Canon,
+  le rond du lock mode, rajouter un mode de virtualisation des pistes
+  d'atterrissage (existe dans les hud) ou encore gestion de waypoint (existe
+  aussi)
+- Finir de rajouter les instruments qui manquent : manche, manette de gaz, ECM
+  APU etc ... [WORK IN PROGRESS]
+- Siège éjectable (+bloquer la vue sur le siège éjecté+bloquer les commandes de
+  l'avion)
+- améliorer l'EHSI : cas où nav1 est slave d'un wp gps
+- ajouter sur le hud ou sur un MFD le taux de virage (1min, 2min)
+
+SON :
+- corriger dans le xml la balise ofset -> offset
+- Étudier les sons, et les cônes de dispersion rendu possible par le xml. Cela
+  permettrai d'avoir le son seulement "après" l'appareil quand la vitesse du
+  son est dépassée ...(voir même de diminuer le cône de dispersion quand mach 2
+  est atteint.)
+- améliorer les sons de démarrage du moteur : voir su27 dans le hangar FGUK
+
+TANKER :
+- Quand on commande un tanker, il n'est pas visible en multijoueur...
+
+LIGHT :
+- Mettre des boutons pour les lights...(ou sur le MFD ou en recupérer
+  d'ailleurs ....ce serait bien d'avoir 3 ou 4 option de light) [DONE]
+- Les phares principaux ne font pas de lumière...(parking)
+- ajouter les lumières de vol en formation (gris éteint, vert pastel allumé) [DONE]
+
+MISSILE :
+- Gérer les missiles semi actifs
+- Comprendre le problème avec la "ground detection" des missiles A/G
+- Faire déplier les ailes du Apache/scalp (et faire une livrée SCALP)
+- Faire réagir les missiles au contre mesures... (type flare....)
+- Pod de designation laser -> vue plus possibilité de "créer" une cible en
+  sniper vu et de cliquer pour la sélectionner
+
+COMMUNICATION :
+- ?
+
+TUTORIAUX
+- ajouter un tuto pour l'utilisation de l'auto-pilot
+- ajouter un tuto sur la radio-navigation
+
+DÉVELOPPEMENT :
+- http://wiki.flightgear.org/Standard_aircraft_structure
+- faire une documentation pour permettre à plus de monde de participer au 
+  développement
+- définir des normes de codages sur les fichiers xml et les scripts nasal
+  (indentation, commentaires, position des accolades, des propriétés des
+  balises, des alignements, comment aider au debug)
+- faire du ménage dans les fichiers et ajouter des commentaires
+- extraire les scripts nasal des xml
+- supprimer les fichiers qui ne sont pas utilisés/chargés
+- augmenter les FPS :
+  * identifier les pertes
+  * réduire certaines facettes des modèles 3D
+  * fusionner certains fichiers pour accélerer le chargement lors du lancement
+    du jeu
+  * revoir l'accès aux propriétés : 
+    http://wiki.flightgear.org/Nasal_Variables#Nasal_variables_vs._the_property_tree
+  * consulter :
+    http://wiki.flightgear.org/User:Philosopher/Optimization_findings
+- améliorer les nasal
+  * harmoniser les noms des scripts nasal (les prefixer de m2000-5- ?)
+  * if(a == nil) et non pas if(a == "nil")
+  * éviter :
+      if(a == 1){...}
+      if(a == 2){...}
+      if(a == 3){...}
+    préférer :
+      if(a == 1){...}
+      elsif(a == 2){...}
+      elsif(a == 3){...}
+  * éviter :
+      if(k == 'cle1') { v == 'valeur1'; }
+      if(k == 'cle2') { v == 'valeur2'; }
+      if(k == 'cle3') { v == 'valeur3'; }
+    préférer :
+      hash = { 'cle1': 'valeur1', 'cle2': 'valeur2', 'cle3': 'valeur3',};
+      v = hash['cle1'];
+  * éviter :
+        count_1 += 1;
+        if(count_1 > 3)  { count_1 = 0;              }
+        if(count_1 == 0) { setprop(NAVprop, "NAV1"); }
+        if(count_1 == 1) { setprop(NAVprop, "NAV2"); }
+        if(count_1 == 2) { setprop(NAVprop, "TACAN");}
+        if(count_1 == 3) { setprop(NAVprop, "FMS");  }
+      préférer :
+        cycle = ["NAV1", "NAV2", "TACAN", "FMS"];
+        choice += 1;
+        setprop(my_property, cycle[math.mod(choice, 4)]);
+
+-------------------------------------------------------------------------------

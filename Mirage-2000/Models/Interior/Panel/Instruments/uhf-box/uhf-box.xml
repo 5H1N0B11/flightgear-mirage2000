@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>uhf-box.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>fond</object-name>
+    <object-name>trous</object-name>
+    <object-name>molette1</object-name>
+    <object-name>molette2</object-name>
+    <object-name>molette3</object-name>
+    <object-name>molette4</object-name>
+    <object-name>molette5</object-name>
+    <object-name>chiffre1</object-name>
+    <object-name>chiffre2</object-name>
+    <object-name>chiffre3</object-name>
+    <object-name>chiffre4</object-name>
+    <object-name>chiffre5</object-name>
+    <object-name>chiffre6</object-name>
+    <object-name>switch1</object-name>
+    <object-name>switch2</object-name>
+    <object-name>select</object-name>
+    <object-name>choice1</object-name>
+    <object-name>choice2</object-name>
+
+    <!-- Hot spot -->
+    <object-name>clicplus1</object-name>
+    <object-name>clicplus2</object-name>
+    <object-name>clicplus3</object-name>
+    <object-name>clicplus4</object-name>
+    <object-name>clicplus5</object-name>
+    <object-name>clicmoins1</object-name>
+    <object-name>clicmoins2</object-name>
+    <object-name>clicmoins3</object-name>
+    <object-name>clicmoins4</object-name>
+    <object-name>clicmoins5</object-name>
+    <object-name>clicselectR</object-name>
+    <object-name>clicselectL</object-name>
+    <object-name>clicchoice1R</object-name>
+    <object-name>clicchoice1L</object-name>
+    <object-name>clicchoice2R</object-name>
+    <object-name>clicchoice2L</object-name>
+
+    <!-- Objets transparents -->
+    <object-name>lampetest</object-name>
+    <object-name>lampesil</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <object-name>trous</object-name>
+    <object-name>molette1</object-name>
+    <object-name>molette2</object-name>
+    <object-name>molette3</object-name>
+    <object-name>molette4</object-name>
+    <emission>
+      <factor>0.2</factor>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>chiffre1</object-name>
+    <object-name>chiffre2</object-name>
+    <object-name>chiffre3</object-name>
+    <object-name>chiffre4</object-name>
+    <object-name>chiffre5</object-name>
+    <object-name>chiffre6</object-name>
+    <object-name>lampetest</object-name>
+    <object-name>lampesil</object-name>
+    <emission>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+    </emission>
+  </animation>
+
+  <!-- Selectors -->
+  <animation>
+    <type>pick</type>
+    <object-name>clicchoice1L</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicchoice1R</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>choice1</object-name>
+    <!-- property
+    <interpolation>
+      <entry><ind> ? </ind><dep>   0 </dep></entry>
+      <entry><ind> ? </ind><dep>  60 </dep></entry>
+      <entry><ind> ? </ind><dep> 125 </dep></entry>
+      <entry><ind> ? </ind><dep> 185 </dep></entry>
+      <entry><ind> ? </ind><dep> 245 </dep></entry>
+    </interpolation>
+-->
+    <center>
+      <x-m>-0.002</x-m>
+      <y-m>-0.056</y-m>
+      <z-m>-0.036</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicchoice2L</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicchoice2R</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>choice1</object-name>
+    <!-- property
+    <interpolation>
+      <entry><ind> ? </ind><dep>   0 </dep></entry>
+      <entry><ind> ? </ind><dep>  60 </dep></entry>
+      <entry><ind> ? </ind><dep> 115 </dep></entry>
+    </interpolation>
+-->
+    <center>
+      <x-m>-0.002</x-m>
+      <y-m>0.011</y-m>
+      <z-m>-0.036</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Number -->
+  <animation>
+    <type>pick</type>
+    <object-name>clicselectL</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicselectR</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>select</object-name>
+    <center>
+      <x-m>0.011</x-m>
+      <y-m>0.058</y-m>
+      <z-m>-0.027</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>chiffre6</object-name>
+    <!-- property -->
+    <!-- <factor> ? </factor> -->
+    <!-- <step> ? </step> -->
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicplus1</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">100</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicplus2</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">10</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicplus3</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">1</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicplus4</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">0.1</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicplus5</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">0.01</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>switch1</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicmoins1</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">-100</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicmoins2</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">-10</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicmoins3</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">-10</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicmoins4</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">-0.1</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>clicmoins5</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <command>property-adjust</command>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <step type="double">-0.01</step>
+      <min>0</min>
+      <max>999.99</max>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch1</object-name>
+    <center>
+      <x-m>0.004</x-m>
+      <y-m>-0.020</y-m>
+      <z-m>-0.033</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>chiffre1</object-name>
+    <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+    <factor>0.001</factor>
+    <step type="double">100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>chiffre2</object-name>
+    <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+    <factor>0.01</factor>
+    <step type="double">10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>chiffre3</object-name>
+    <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+    <factor>0.1</factor>
+    <step type="double">1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>chiffre4</object-name>
+    <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+    <factor>1</factor>
+    <step type="double">0.1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>chiffre5</object-name>
+    <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+    <factor>10</factor>
+    <step type="double">0.01</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molette1</object-name>
+    <center>
+      <x-m>-0.002</x-m>
+      <y-m>-0.064</y-m>
+      <z-m>0.002</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molette2</object-name>
+    <center>
+      <x-m>-0.002</x-m>
+      <y-m>-0.046</y-m>
+      <z-m>0.002</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molette3</object-name>
+    <center>
+      <x-m>-0.002</x-m>
+      <y-m>-0.028</y-m>
+      <z-m>0.002</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molette4</object-name>
+    <center>
+      <x-m>-0.002</x-m>
+      <y-m>-0.010</y-m>
+      <z-m>0.002</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molette5</object-name>
+    <center>
+      <x-m>-0.002</x-m>
+      <y-m>0.008</y-m>
+      <z-m>0.002</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Switch -->
+  <animation>
+    <type>pick</type>
+    <object-name>switch2</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch2</object-name>
+    <center>
+      <x-m>0.004</x-m>
+      <y-m>-0.014</y-m>
+      <z-m>0.031</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

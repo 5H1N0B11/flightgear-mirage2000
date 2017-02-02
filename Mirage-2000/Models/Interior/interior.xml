@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>interior.ac</path>
+
+  <animation>
+
+    <!-- Objets opaques -->
+    <object-name>interieur-MONOPLACE</object-name>
+    <object-name>inttour</object-name>
+    <object-name>intcanopy-MONOPLACE</object-name>
+    <object-name>planchet</object-name>
+    <object-name>attaches-MONOPLACE</object-name>
+    <object-name>poignees-MONOPLACE</object-name>
+
+    <!-- Objets transparents -->
+    <object-name>intvitres</object-name>
+    <object-name>intverriere-MONOPLACE</object-name>
+  </animation>
+
+  <!-- working for Rembrandt -->
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>intvitres</object-name>
+    <object-name>intverriere-MONOPLACE</object-name>
+  </effect>
+  
+  <animation>
+    <type>select</type>
+    <object-name>intvitres</object-name>
+    <object-name>intverriere-MONOPLACE</object-name>
+    <condition>
+      <less-than>
+        <property>/environment/rain-norm</property>
+        <value>0.1</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!-- Raind Drops Effect -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Effects/RainDrops/rainglass.xml</path>
+    <condition>
+      <greater-than>
+        <property>/environment/rain-norm</property>
+        <value>0.1</value>
+      </greater-than>
+    </condition>
+  </model>
+  
+  <!-- Tableau de bord -->
+  <model>
+    <name>Panel</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/panel.xml</path>
+    <offsets>
+      <x-m> -3.653 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m> -0.297 </z-m>
+      <pitch-deg> -14 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- left part -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Left-Panel/left.xml</path>
+    <offsets>
+      <x-m> -3.105 </x-m>
+      <y-m> -0.281 </y-m>
+      <z-m> -0.503 </z-m>
+    </offsets>
+  </model>
+
+  <!-- right part -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/right.xml</path>
+    <offsets>
+      <x-m> -3.105 </x-m>
+      <y-m>  0.281 </y-m>
+      <z-m> -0.503 </z-m>
+    </offsets>
+  </model>
+
+  <!-- Retro -->
+  <model>
+    <name>Retroviseur</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Retro/retro.xml</path>
+    <offsets>
+      <x-m> -3.32121 </x-m>
+      <y-m>  0.00000 </y-m>
+      <z-m>  0.18368 </z-m>
+    </offsets>
+  </model>
+  
+  <!-- Manette -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/manette/manette.xml</path>
+    <offsets>
+      <x-m> -3.070 </x-m>
+      <y-m>  0.364 </y-m>
+      <z-m> -0.350 </z-m>
+      <roll-deg>     5 </roll-deg>
+      <heading-deg> 10 </heading-deg>
+    </offsets>
+  </model>
+  
+  <!-- Loquet -->
+  <model>
+    <name>LeLoquet</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/loquet/loquet.xml</path>
+    <offsets>
+      <x-m> -3.293 </x-m>
+      <y-m>  0.122 </y-m>
+      <z-m>  0.158 </z-m>
+      <pitch-deg>   -25 </pitch-deg>
+      <roll-deg>    -30 </roll-deg>
+      <heading-deg> -15 </heading-deg>
+    </offsets>
+  </model>
+
+  <!-- pilot -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Pilot/pilot.xml</path>
+    <condition>
+      <or>
+        <and>
+          <equals>
+            <property>/controls/seat/pilot</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>/sim/current-view/view-number</property>
+            <value>0</value>
+          </equals>
+        </and>
+        <not>
+          <equals>
+            <property>/sim/current-view/view-number</property>
+            <value>0</value>
+          </equals>
+        </not>
+      </or>
+    </condition>
+    <offsets>
+      <x-m> -2.518 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m> -0.464 </z-m>
+    </offsets>
+  </model>
+
+  <!-- Seat -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/seat/seat.xml</path>
+    <offsets>
+      <x-m> -2.555 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m> -0.502 </z-m>
+    </offsets>
+  </model>
+
+  <!-- Canopy -->
+  <animation>
+    <name>IntEnsembleCanope</name>
+    <object-name>intcanopy-MONOPLACE</object-name>
+    <object-name>intverriere-MONOPLACE</object-name>
+    <object-name>attaches-MONOPLACE</object-name>
+    <object-name>Retroviseur</object-name>
+    <object-name>poignees-MONOPLACE</object-name>
+    <object-name>LeLoquet</object-name>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>poignees-MONOPLACE</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>doors.move_canopy_byHand();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>IntEnsembleCanope</object-name>
+    <property>sim/model/door-positions/crew/position-norm</property>
+    <interpolation>
+      <entry><ind>0</ind><dep> 0</dep></entry>
+      <entry><ind>1</ind><dep>45</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> -2.017 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m>  0.225 </z-m>
+    </center>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+  <!-- LoD -->
+  <animation>
+    <object-name>Panel</object-name>
+    <type>range</type>
+    <min-m>  0 </min-m>
+    <max-m> 100 </max-m>
+  </animation>
+
+</PropertyList>

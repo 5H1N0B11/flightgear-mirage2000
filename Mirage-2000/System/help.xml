@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <title>Mirage 2000</title>
+
+  <key>
+    <name>d</name>
+    <desc>Open/Close canopy</desc>
+  </key>
+
+  <key>
+    <name>}</name>
+    <desc>On/Off Reactor</desc>
+  </key>
+
+  <key>
+    <name>t</name>
+    <desc>Increase Radar Distances (10, 20 40,60,160)</desc>
+  </key>
+  
+  <key>
+    <name>T</name>
+    <desc>Decrease Radar Distances (10, 20 40,60,160)</desc>
+  </key>
+
+  <key>
+    <name>R</name>
+    <desc>Activate/desactivate targeting (the target have to be bellow radar range)</desc>
+  </key>
+  
+  <key>
+    <name>q</name>
+    <desc>Toggle Radar</desc>
+  </key>
+  
+  <key>
+    <name>Q</name>
+    <desc>Toggle ECM (not really working)</desc>
+  </key>
+
+  <key>
+    <name>n</name>
+    <desc>Next Target</desc>
+  </key>
+
+  <key>
+    <name>Ctrl-n</name>
+    <desc>Previous Target</desc>
+  </key>
+
+
+
+  <key>
+    <name>w</name>
+    <desc>Cycle Stick Weapon Mode Selector</desc>
+  </key>
+
+  <key>
+    <name>e</name>
+    <desc>Fire guns/missiles</desc>
+  </key>
+
+  <!--key>
+    <name>H</name>
+    <desc>Toggle Armements Circles</desc>
+  </key-->
+  <key>
+    <name>J</name>
+    <desc>Release 2,3,4 (Jettison Tank)</desc>
+  </key>
+
+  <key>
+    <name>l</name>
+    <desc>Flare out</desc>
+  </key>
+
+  <key>
+    <name>E</name>
+    <desc>Parachute</desc>
+  </key>
+
+  <line>Afterburners engage when</line>
+  <line>throttle moves past 75%</line>
+  <line>To fire a guided Missile, select A/A missile with "w",</line>
+  <line>activate "lock" with R, aim with the HUD and fire with "e"</line>
+  <line>Beware : it's a bad idea to fire a missile and have negative G...(Don't shoot yourself)</line>
+  
+</PropertyList>

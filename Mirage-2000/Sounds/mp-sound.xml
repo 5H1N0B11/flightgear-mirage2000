@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 08/2012 Updated by 5H1N0B1
+12/2012 Updated by Helijah
+07/2013 Updated by 5H1N0B1
+07/2015 Updated by Hardball : external sounds if canopy opened
+01/2016 mp-sound version by Helijah
+-->
+<PropertyList>
+  
+  <fx>
+    
+    <engine>
+      <name>engine-start</name>
+      <mode>once</mode>
+      <path>Sounds/turbine_start.wav</path>
+      <condition>
+        <property>/controls/engines/engine[0]/starter</property>
+      </condition>
+      <volume>
+        <property>engines/engine[0]/thrust-lbs</property>
+        <factor>0.000012</factor>
+        <min>0.1</min>
+        <max>0.2</max>
+      </volume>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </engine>
+    
+    <engine>
+      <name>engine-shutdown</name>
+      <mode>once</mode>
+      <path>Sounds/turbine_shutdown.wav</path>
+      <condition>
+        <and>
+          <property>/controls/engines/engine[0]/cutoff</property>
+          <greater-than>
+            <property>/controls/engines/engine[0]/n1</property>
+            <value>0</value>
+          </greater-than>
+        </and>
+      </condition>
+      <volume>
+        <factor>0.2</factor>
+      </volume>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </engine>
+    
+    <!-- notes :
+    
+    engine[0]/running could be problematic in the begining due to the conflict
+    between yasim and engine.nas...
+    To detect if engine is really running, we use rpm
+    -->
+    <engine-jet>
+      <name>engine-jet</name>
+      <path>Aircraft/Mirage-2000/Sounds/BaBoOn-mirageIV-Turbine2.wav</path>
+      <mode>looped</mode>
+      <condition>
+        <and>
+          <greater-than>
+            <property>engines/engine[0]/rpm</property>
+            <value>30</value>
+          </greater-than>
+          <or>
+            <not>
+              <property>sim/current-view/internal</property>
+            </not>
+            <greater-than>
+              <property>sim/model/door-positions/crew/position-norm</property>
+              <value>0</value>
+            </greater-than>
+          </or>
+          <not>
+            <property>engines/engine[0]/out-of-fuel</property>
+          </not>
+        </and>
+      </condition>
+      <orientation>
+        <x>   0.0</x>
+        <y>   0.0</y>
+        <z>-180.0</z>
+        <inner-angle>180.0</inner-angle>
+        <outer-angle>360.0</outer-angle>
+        <outer-gain>0.2</outer-gain>
+      </orientation>
+      <pitch>
+        <property>engines/engine[0]/n1</property>
+        <!-- bug : should be offset -->
+        <ofset>0.1</ofset>
+        <factor>.001</factor>
+      </pitch>
+      <volume>
+        <property>engines/engine[0]/thrust-lbs</property>
+        <factor>0.000025</factor>
+        <min>0.20</min>
+        <max>0.75</max>
+      </volume>
+    </engine-jet>
+    
+    <engine-rumble>
+      <name>engine-rumble</name>
+      <path>Aircraft/Mirage-2000/Sounds/afterburner.wav</path>
+      <mode>looped</mode>
+      <condition>
+        <greater-than>
+          <property>engines/engine[0]/rpm</property>
+          <value>30</value>
+        </greater-than>
+        <not>
+          <property>sim/current-view/internal</property>
+        </not>
+        <not>
+          <property>engines/engine[0]/out-of-fuel</property>
+        </not>
+      </condition>
+      <property>engines/engine[0]/afterburner</property>
+      <orientation>
+        <x>0.0</x>
+        <y>0.0</y>
+        <z>-180.0</z>
+        <inner-angle>180.0</inner-angle>
+        <outer-angle>360.0</outer-angle>
+        <outer-gain>0.2</outer-gain>
+      </orientation>
+      <pitch>
+        <property>engines/engine[0]/afterburner</property>
+        <factor>1</factor>
+        <offset>0.3</offset>
+      </pitch>
+      <volume>
+        <property>engines/engine[0]/afterburner</property>
+        <factor>1.2</factor>
+        <offset>0.15</offset>
+      </volume>
+    </engine-rumble>
+    
+    <engine-whine-external>
+      <name>external-whine</name>
+      <path>Sounds/turbojet_fan.wav</path>
+      <mode>looped</mode>
+      <condition>
+        <and>
+          <greater-than>
+            <property>engines/engine[0]/rpm</property>
+            <value>30</value>
+          </greater-than>
+          <or>
+            <not>
+              <property>sim/current-view/internal</property>
+            </not>
+            <greater-than>
+              <property>sim/model/door-positions/crew/position-norm</property>
+              <value>0</value>
+            </greater-than>
+          </or>
+          <not>
+            <property>engines/engine[0]/out-of-fuel</property>
+          </not>
+        </and>
+      </condition>
+      <orientation>
+        <x>0.0</x>
+        <y>0.0</y>
+        <z>1.0</z>
+        <inner-angle>180.0</inner-angle>
+        <outer-angle>360.0</outer-angle>
+        <outer-gain>0.5</outer-gain>
+      </orientation>
+      <pitch>
+        <property>engines/engine[0]/n1</property>
+        <ofset>0.7</ofset>
+        <!-- bug : should be offset -->
+        <factor>.003</factor>
+      </pitch>
+      <volume>
+        <property>engines/engine/n1</property>
+        <offset>1.0</offset>
+        <factor>-0.008</factor>
+        <max>0.6</max>
+      </volume>
+    </engine-whine-external>
+    
+    <wind>
+      <name>wind</name>
+      <mode>looped</mode>
+      <path>Aircraft/Mirage-2000/Sounds/BaBoOn-mirageIV-Wind.wav</path>
+      <condition>
+        <not>
+          <property>/sim/current-view/internal</property>
+        </not>
+      </condition>
+      <property>/velocities/airspeed-kt</property>
+      <volume>
+        <property>/position/altitude-ft</property>
+        <factor>-0.000015</factor>
+        <offset>1.0</offset>
+        <min>0.1</min>
+        <max>0.7</max>
+      </volume>
+      <volume>
+        <property>/velocities/airspeed-kt</property>
+        <factor>0.015</factor>
+        <min>0.03</min>
+        <max>0.55</max>
+      </volume>
+      <pitch>
+        <property>/velocities/airspeed-kt</property>
+        <factor>0.01</factor>
+        <offset>0.75</offset>
+      </pitch>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </wind>
+    
+    <rumble>
+      <name>rumble</name>
+      <mode>looped</mode>
+      <path>Sounds/rumble.wav</path>
+      <condition>
+        <or>
+          <property>/gear/gear[0]/wow</property>
+          <property>/gear/gear[1]/wow</property>
+          <property>/gear/gear[2]/wow</property>
+        </or>
+      </condition>
+      <volume>
+        <property>/velocities/airspeed-kt</property>
+        <factor>.0005</factor>
+      </volume>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </rumble>
+    
+    <squeal>
+      <name>squeal</name>
+      <path>Aircraft/Mirage-2000/Sounds/BaBoOn-mirageIV-Tire-Squeal.wav</path>
+      <condition>
+        <or>
+          <property>/gear/gear[0]/wow</property>
+          <property>/gear/gear[1]/wow</property>
+          <property>/gear/gear[2]/wow</property>
+        </or>
+      </condition>
+      <volume>
+        <property>/velocities/speed-down-fps</property>
+        <factor>0.05</factor>
+      </volume>
+      <volume>
+        <property>/velocities/airspeed-kt</property>
+        <factor>0.01</factor>
+      </volume>
+      <volume>
+        <internal>dt_stop</internal>
+        <factor>0.05</factor>
+        <max>1.0</max>
+      </volume>
+      <pitch>
+        <property>/velocities/airspeed-kt</property>
+        <factor>0.0025</factor>
+        <offset>1.2</offset>
+      </pitch>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </squeal>
+    
+    <gear>
+      <name>gear</name>
+      <mode>in-transit</mode>
+      <path>Sounds/gear.wav</path>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/gear/gear[0]/position-norm</property>
+            <value>0</value>
+          </greater-than>
+          <less-than>
+            <property>/gear/gear[0]/position-norm</property>
+            <value>1</value>
+          </less-than>
+          <equals>
+            <property>/controls/engines/engine[0]/cutoff</property>
+            <value>0</value>
+          </equals>
+        </and>
+      </condition>
+      <pitch>
+        <internal>dt_play</internal>
+        <offset>1.0</offset>
+        <factor>-0.001</factor>
+      </pitch>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </gear>
+    
+    <gear>
+      <name>gear-lock</name>
+      <path>Sounds/gear-lck.wav</path>
+      <condition>
+        <equals>
+          <property>/gear/gear[0]/position-norm</property>
+          <value>0</value>
+        </equals>
+      </condition>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </gear>
+    
+    <flap>
+      <name>flaps</name>
+      <mode>in-transit</mode>
+      <path>Sounds/flaps.wav</path>
+      <property>/surface-positions/flap-pos-norm</property>
+      <volume>
+        <max>0.25</max>
+      </volume>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </flap>
+    
+    <guns>
+      <name>gunfire</name>
+      <mode>looped</mode>
+      <path>Aircraft/Mirage-2000/Sounds/M-2000-Guns.wav</path>
+      <condition>
+        <property>controls/armament/Gun_trigger</property>
+        <property>ai/submodels/submodel/count</property>
+      </condition>
+      <volume>
+        <value>1</value>
+      </volume>
+    </guns>
+
+  </fx>
+  
+</PropertyList>

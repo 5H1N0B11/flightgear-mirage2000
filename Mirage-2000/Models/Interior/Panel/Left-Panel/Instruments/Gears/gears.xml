@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>gears.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>base</object-name>
+    <object-name>texte</object-name>
+    <object-name>visses</object-name>
+    <object-name>A</object-name>
+    <object-name>F</object-name>
+    <object-name>dirav</object-name>
+    <object-name>frein</object-name>
+    <object-name>cross</object-name>
+    <object-name>spad</object-name>
+    <object-name>knob</object-name>
+    <object-name>bip</object-name>
+    <object-name>leftgear</object-name>
+    <object-name>nozegear</object-name>
+    <object-name>rightgear</object-name>
+
+    <!-- Objets transparents -->
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>base</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>base</object-name>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <emission>
+      <red>   0.05 </red>
+      <green> 0.05 </green>
+      <blue>  0.05 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.3 </red>
+      <green> 0.3 </green>
+      <blue>  0.3 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>A</object-name>
+    <object-name>F</object-name>
+    <condition>
+      <property>/instrumentation/gearBox/AirBrakes</property>
+      <!--and>
+        <property>/systems/electrical/outputs/instrument-lights</property>
+        <not>
+          <equals>
+            <property>/surface-positions/spoiler-pos-norm</property>
+            <value>0</value>
+          </equals>
+        </not>
+      </and-->
+    </condition>
+    <emission>
+      <red>   1.000 </red>
+      <green> 0 </green>
+      <blue>  0</blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>A</object-name>
+    <object-name>F</object-name>
+    <property>/instrumentation/gearBox/AirBrakes</property>
+    <factor>0.09</factor>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>bip</object-name>
+    <condition>
+      <property>/instrumentation/gearBox/gearRed</property>
+      <!--and>
+        <property>/systems/electrical/outputs/instrument-lights</property>
+        <not>
+          <equals>
+            <property>/gear/gear[0]/position-norm</property>
+            <value>1</value>
+          </equals>
+        </not>
+        <not>
+          <equals>
+            <property>/gear/gear[0]/position-norm</property>
+            <value>0</value>
+          </equals>
+        </not>
+      </and-->
+    </condition>
+    <emission>
+      <red>   1 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>bip</object-name>
+    <property>/instrumentation/gearBox/gearRed</property>
+    <factor>0.09</factor>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>nozegear</object-name>
+    <condition>
+      <property>/instrumentation/gearBox/nozegear</property>
+      <!--and>
+        <property>/systems/electrical/outputs/instrument-lights</property>
+        <equals>
+          <property>/gear/gear[0]/position-norm</property>
+          <value>1</value>
+        </equals>
+      </and-->
+    </condition>
+    <emission>
+      <!--factor-prop>/gear/gear[0]/position-norm</factor-prop-->
+      <red>   0 </red>
+      <green> 1 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>nozegear</object-name>
+    <property>/instrumentation/gearBox/nozegear</property>
+    <factor>0.09</factor>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>leftgear</object-name>
+    <condition>
+      <property>/instrumentation/gearBox/leftgear</property>
+      <!--and>
+        <property>/systems/electrical/outputs/instrument-lights</property>
+        <equals>
+          <property>/gear/gear[1]/position-norm</property>
+          <value>1</value>
+        </equals>
+      </and-->
+    </condition>
+    <emission>
+      <!--factor-prop>/gear/gear[1]/position-norm</factor-prop-->
+      <red>   0 </red>
+      <green> 1 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>leftgear</object-name>
+    <property>/instrumentation/gearBox/leftgear</property>
+    <factor>0.09</factor>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>rightgear</object-name>
+    <condition>
+      <property>/instrumentation/gearBox/rightgear</property>
+      <!--and>
+        <property>/systems/electrical/outputs/instrument-lights</property>
+        <equals>
+          <property>/gear/gear[2]/position-norm</property>
+          <value>1</value>
+        </equals>
+      </and-->
+    </condition>
+    <emission>
+      <!--factor-prop>/gear/gear[2]/position-norm</factor-prop-->
+      <red>   0 </red>
+      <green> 1 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>rightgear</object-name>
+    <property>/instrumentation/gearBox/rightgear</property>
+    <factor>0.09</factor>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>frein</object-name>
+    <condition>
+      <property>/instrumentation/gearBox/brakes</property>
+    </condition>
+    <emission>
+      <!--factor-prop>/gear/gear[2]/position-norm</factor-prop-->
+      <red>   1 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>frein</object-name>
+    <property>/instrumentation/gearBox/brakes</property>
+    <factor>0.09</factor>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+    </axis>
+  </animation>
+  
+  <!--animation>
+    <type>translate</type>
+    <object-name>knob</object-name>
+    <property>...................</property>
+    <factor> 0.0003 </factor>
+    <axis>
+      <x> 1 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </axis>
+  </animation-->
+
+</PropertyList>

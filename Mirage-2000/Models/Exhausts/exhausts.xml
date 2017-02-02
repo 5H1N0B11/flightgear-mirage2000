@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <!-- Tuyere 01 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m> 0.00000 </x-m>
+      <y-m> 0.00000 </y-m>
+      <z-m> 0.48977 </z-m>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 02 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m> -0.18946</y-m>
+      <z-m>  0.44634 </z-m>
+      <roll-deg> 23 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 03 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m> -0.34632 </y-m>
+      <z-m>  0.34632 </z-m>
+      <roll-deg> 45 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 04 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m> -0.44958 </y-m>
+      <z-m>  0.18164 </z-m>
+      <roll-deg> 68 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 05 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m> -0.48977 </y-m>
+      <z-m>  0.00000 </z-m>
+      <roll-deg> 90 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 06 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m> -0.44634 </y-m>
+      <z-m> -0.18946 </z-m>
+      <roll-deg> 113 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 07 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m> -0.34632 </y-m>
+      <z-m> -0.34632 </z-m>
+      <roll-deg> 135 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 08 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m> -0.18164 </y-m>
+      <z-m> -0.44958 </z-m>
+      <roll-deg> 158 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 09 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m>  0.00000 </y-m>
+      <z-m> -0.48977 </z-m>
+      <roll-deg> 180 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 10 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m>  0.18946 </y-m>
+      <z-m> -0.44634 </z-m>
+      <roll-deg> 203 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 11 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m>  0.34632 </y-m>
+      <z-m> -0.34632 </z-m>
+      <roll-deg> 225 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 12 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m>  0.00000 </x-m>
+      <y-m>  0.44958 </y-m>
+      <z-m> -0.18164 </z-m>
+      <roll-deg> 248 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 13 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m> 0.00000 </x-m>
+      <y-m> 0.48977 </y-m>
+      <z-m> 0.00000 </z-m>
+      <roll-deg> 270 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 14 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m> 0.00000 </x-m>
+      <y-m> 0.44634 </y-m>
+      <z-m> 0.18946 </z-m>
+      <roll-deg> 293 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 15 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m> 0.00000 </x-m>
+      <y-m> 0.34632 </y-m>
+      <z-m> 0.34632 </z-m>
+      <roll-deg> 315 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Tuyere 14 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Exhausts/exhaust.xml</path>
+    <offsets>
+      <x-m> 0.00000 </x-m>
+      <y-m> 0.18164 </y-m>
+      <z-m> 0.44958 </z-m>
+      <roll-deg> 338 </roll-deg>
+    </offsets>
+  </model>
+
+</PropertyList>

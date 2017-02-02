@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>parachute.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+
+    <!-- Objets transparents -->
+    <object-name>parachute</object-name>
+    <object-name>cables</object-name>
+  </animation>
+
+  <animation>
+    <type>noshadow</type>
+    <object-name>parachute</object-name>
+    <object-name>cables</object-name>
+  </animation>
+
+  <animation>
+    <name>ParachuteEntier</name>
+    <object-name>parachute</object-name>
+    <object-name>cables</object-name>
+  </animation>
+
+  <!-- Sortie du parachute -->
+  <animation>
+    <type>select</type>
+    <object-name>ParachuteEntier</object-name>
+    <condition>
+      <greater-than>
+        <property>sim/model/door-positions/parachute/position-norm</property>
+        <value>0.5</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+</PropertyList>

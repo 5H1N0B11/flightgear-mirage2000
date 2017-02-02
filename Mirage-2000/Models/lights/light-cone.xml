@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>light-cone.ac</path>
+
+  <animation>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+    <object-name>Light</object-name>
+  </animation>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Effects/light-cone</inherits-from>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+  </effect>
+
+  <animation>
+    <type>material</type>
+    <object-name>Light</object-name>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+    <emission>
+      <red>1</red>
+      <green>1</green>
+      <blue>1</blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Cone</object-name>
+    <object-name>Cone-texture</object-name>
+    <object-name>Light</object-name>
+    <condition>
+      <and>
+        <property>sim/model/lights/landing/state</property>
+        <greater-than>
+          <property>gear/gear[0]/position-norm</property>
+          <value>0.3</value>
+          </greater-than>
+      </and>
+    </condition>
+  </animation>
+
+</PropertyList>

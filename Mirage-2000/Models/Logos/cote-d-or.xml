@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <sim>
+    <model>
+      <logos>
+        <name type="string">Cote d'or</name>
+        <texture>cote-d-or.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
+    </model>
+  </sim>
+
+</PropertyList>

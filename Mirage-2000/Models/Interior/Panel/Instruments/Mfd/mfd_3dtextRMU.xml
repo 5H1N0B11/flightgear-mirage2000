@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <text>
+    <name>button_b1</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.035</y-m>
+      <z-m>-0.056</z-m>
+    </offsets>
+
+    <type>literal</type>
+    <text>RMU</text>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>comm1_sel</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.043</y-m>
+      <z-m> 0.045</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/comm/frequencies/selected-mhz</property>
+    <format>%3.2f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>comm1_stb</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.015</y-m>
+      <z-m> 0.045</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/comm/frequencies/standby-mhz</property>
+    <format>%3.2f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>comm2_sel</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.043</y-m>
+      <z-m> 0.015</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/comm[1]/frequencies/selected-mhz</property>
+    <format>%3.2f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>comm2_stb</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.015</y-m>
+      <z-m> 0.015</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/comm[1]/frequencies/standby-mhz</property>
+    <format>%3.2f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>nav1_sel</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.043</y-m>
+      <z-m>-0.016</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/nav[0]/frequencies/selected-mhz</property>
+    <format>%3.2f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>nav1_stb</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.015</y-m>
+      <z-m>-0.016</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/nav[0]/frequencies/standby-mhz</property>
+    <format>%3.2f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>nav2_sel</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.043</y-m>
+      <z-m>-0.045</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/nav[1]/frequencies/selected-mhz</property>
+    <format>%3.2f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>nav2_stb</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.015</y-m>
+      <z-m>-0.045</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/nav[1]/frequencies/standby-mhz</property>
+    <format>%3.2f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>adf1_sel</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.015</y-m>
+      <z-m>0.045</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/adf/frequencies/selected-khz</property>
+    <format>%4.0f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>adf1_stb</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.043</y-m>
+      <z-m>0.045</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/adf/frequencies/standby-khz</property>
+    <format>%4.0f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>adf2_sel</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.015</y-m>
+      <z-m>0.015</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/adf[1]/frequencies/selected-khz</property>
+    <format>%4.0f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>adf2_stb</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.043</y-m>
+      <z-m>0.015</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/adf[1]/frequencies/standby-khz</property>
+    <format>%4.0f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>tacan_sel</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.012</y-m>
+      <z-m>-0.016</z-m>
+    </offsets>
+    <type>number-value</type>
+    <property>instrumentation/tacan/frequencies/selected-channel</property>
+    <format>%4.0f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>tacan_sel_xy</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.022</y-m>
+      <z-m>-0.016</z-m>
+    </offsets>
+
+    <type type="string">text-value</type>
+    <property>instrumentation/tacan/frequencies/selected-channel[4]</property>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>tacan_sel_0</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.009</y-m>
+      <z-m>-0.016</z-m>
+    </offsets>
+
+    <type type="string">text-value</type>
+    <property>instrumentation/tacan/frequencies/selected-channel[1]</property>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>tacan_sel_0</object-name>
+    <condition>
+      <less-than>
+        <property>instrumentation/tacan/frequencies/selected-channel</property>
+        <value>100</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <text>
+    <name>tacan_stb</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.040</y-m>
+      <z-m>-0.016</z-m>
+    </offsets>
+
+    <type>number-value</type>
+    <property>instrumentation/tacan/frequencies/stby-can</property>
+    <format>%4.0f</format>
+    <truncate>false</truncate>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>tacan_stb_xy</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.050</y-m>
+      <z-m>-0.016</z-m>
+    </offsets>
+
+    <type type="string">text-value</type>
+    <property>instrumentation/tacan/frequencies/stby-can2</property>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <text>
+    <name>tacan_stb_0</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.037</y-m>
+      <z-m>-0.016</z-m>
+    </offsets>
+    <type type="string">text-value</type>
+    <property>instrumentation/tacan/frequencies/stby-can1</property>
+
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.0075</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>tacan_stb_0</object-name>
+    <condition>
+      <less-than>
+        <property>instrumentation/tacan/frequencies/stby-can</property>
+        <value>100</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <name>magenta</name>
+    <type>material</type>
+    <object-name>comm1_sel</object-name>
+    <object-name>comm2_sel</object-name>
+    <object-name>nav1_sel</object-name>
+    <object-name>nav2_sel</object-name>
+    <object-name>adf1_sel</object-name>
+    <object-name>adf2_sel</object-name>
+    <object-name>tacan_sel</object-name>
+    <object-name>tacan_sel_xy</object-name>
+    <object-name>tacan_sel_0</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.80 </red>
+      <green> 0.05 </green>
+      <blue>  0.50 </blue>
+      <alpha> 1.00 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>green</name>
+    <type>material</type>
+    <object-name>button_b1</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.0 </red>
+      <green> 0.9 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>yellow</name>
+    <type>material</type>
+    <object-name>comm1_stb</object-name>
+    <object-name>comm2_stb</object-name>
+    <object-name>nav1_stb</object-name>
+    <object-name>nav2_stb</object-name>
+    <object-name>adf1_stb</object-name>
+    <object-name>adf2_stb</object-name>
+    <object-name>tacan_stb</object-name>
+    <object-name>tacan_stb_xy</object-name>
+    <object-name>tacan_stb_0</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.7 </red>
+      <green> 0.7 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+</PropertyList>

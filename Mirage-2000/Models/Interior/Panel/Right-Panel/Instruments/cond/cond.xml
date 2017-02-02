@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>cond.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>base</object-name>
+    <object-name>texte</object-name>
+    <object-name>visses</object-name>
+    <object-name>switch0</object-name>
+    <object-name>switch1</object-name>
+    <object-name>switch2</object-name>
+    <object-name>switch3</object-name>
+    <object-name>molette</object-name>
+    <object-name>lampeC-ON</object-name>
+    <object-name>lampeF-ON</object-name>
+    <object-name>lampeC-OFF</object-name>
+    <object-name>lampeF-OFF</object-name>
+
+    <!-- Objets transparents -->
+
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>lampeC-ON</object-name>
+    <object-name>lampeF-ON</object-name>
+    <emission>
+      <red>   2 </red>
+      <green> 2 </green>
+      <blue>  2 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>lampeC-OFF</object-name>
+    <object-name>lampeF-OFF</object-name>
+    <emission>
+      <red>   0.2 </red>
+      <green> 0.2 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+
+  <!--
+  Centre de rotation de molette
+  
+  Objet : ?
+  
+  x : 0.00162
+  y : 0.01128
+  z : 0.00068
+  
+    0° on X axis -> top
+   90° on X axis -> right
+  180° on X axis -> bottom
+  270° on X axis -> left
+  
+  Centre de rotation de switch0
+  
+  Objet : AUTO/MAN
+  
+  x :  0.00127
+  y : -0.03364
+  z :  0.00097
+  
+  50 ° sur axe Y
+  
+  Centre de rotation de switch1
+  
+  Objet : DEPOLL
+  
+  x :  0.00127
+  y : -0.00820
+  z : -0.00523
+  
+  50 ° sur axe Y
+  
+  Centre de rotation de switch2
+  
+  Objet : COND
+  
+  x :  0.00127
+  y : -0.00820
+  z :  0.00885
+  
+  50 ° sur axe Y
+  
+  Centre de rotation de switch3
+  
+  Objet : DESEMB
+  
+  x :  0.00127
+  y : -0.03418
+  z :  0.00877
+  
+  50 ° sur axe Y
+  -->
+
+</PropertyList>

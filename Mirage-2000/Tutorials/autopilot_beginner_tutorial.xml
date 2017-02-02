@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+################################################################################
+#
+#                   m2005-5's TUTORIAL : HOW TO START ENGINE
+#
+################################################################################
+
+-->
+
+<PropertyList>
+
+  <name>How to use the autopilot (beginner)</name>
+  <description>
+This tutorial teaches how to use the m2000 autopilot for beginners.
+
+Sorry, the only instructor we found is french but he is nice anyway ;)
+  </description>
+
+<!-- TODO : set AP (spd, alt, hdg), CAP, HORLOGE -->
+
+  <timeofday>morning</timeofday>
+  <presets>
+    <airport-id>KLVK</airport-id>
+    <on-ground>1</on-ground>
+    <runway>12</runway>
+    <altitude-ft>-9999</altitude-ft>
+    <latitude-deg>37.6952</latitude-deg>
+    <longitude-deg>-121.8167</longitude-deg>
+    <heading-deg>175.0</heading-deg>
+    <airspeed-kt>0</airspeed-kt>
+    <glideslope-deg>0</glideslope-deg>
+    <offset-azimuth-deg>0</offset-azimuth-deg>
+    <offset-distance-nm>0</offset-distance-nm>
+  </presets>
+
+  <init>
+    <set>
+        <property>/controls/gear/brake-parking</property>
+        <value>1</value>
+    </set>
+    <set>
+        <property>/controls/switches/magnetos</property>
+        <value>0</value>
+    </set>
+    <set>
+        <property>/controls/engines/current-engine/throttle</property>
+        <value>0.0</value>
+    </set>
+    <set>
+        <property>/engines/active-engine/running</property>
+        <value>false</value>
+    </set>
+    <set>
+        <property>/instrumentation/adf/frequencies/selected-khz</property>
+        <value>340</value>
+    </set>
+    <set>
+        <property>/environment/weather-scenario</property>
+        <value>Fair weather</value>
+    </set>
+    <!--<set>
+        <property>/controls/switches/master-avionics</property>
+        <value>0.0</value>
+    </set>-->
+    <set>
+      <property>/sim/current-view/view-number</property>
+      <value>0</value>
+    </set>
+  </init>
+
+<!--
+  <step>
+    <message>
+    </message>
+    <wait>10</wait>
+    <exit>
+    </exit>
+  </step>
+-->
+
+  <!-- ~~~~~~~~~~~~~~~~~~ intro -->
+  <step>
+    <message>
+Salut, je m'appelle Laverdure et je suis ton instructeur.
+Avant que je commence mes explications sur l'autopilot, démarre dès maintenant le moteur.
+    </message>
+    <wait>10</wait>
+  </step>
+
+
+
+  <!-- ~~~~~~~~~~~~~~~~~~ start engine -->
+  <step>
+    <!--interval>10</interval-->
+    <message>
+Si tu ne sais pas démarrer cette formidable machine, il faut passer voir mon collègue Tanguy sur un autre tutorial.
+Tu reviendras quand tu seras prêt steuplait.
+    </message>
+    <exit>
+      <condition>
+        <property>/controls/engines/engine/starter</property>
+      </condition>
+    </exit>
+  </step>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ attente moteur demarre -->
+  <step>
+    <message>
+En attendant que les instruments soient complètement opérationnels je vais t'expliquer comment nous allons procéder.
+Reste bien attentif OK ?
+    </message>
+    <wait>5</wait>
+  </step>
+
+  <step>
+    <message>
+Pour nos 3 informations importantes : vitesse, altitude, cap, je vais te montrer où les situer dans le cockpit et comment modifier leurs valeurs pour l'autopilot.
+Je vais d'ailleurs te laisser faire quelques manipulations au sol.
+    </message>
+    <wait>5</wait>
+  </step>
+  <step>
+    <message>
+    </message>
+    <wait>5</wait>
+  </step>
+  <step>
+    <message>
+Enfin, tu vas décoller, activer l'autopilot et modifier ses valeurs en vol.
+Ok pour toi ?
+    </message>
+    <wait>5</wait>
+  </step>
+
+  <step>
+    <message>
+C'est parti !!!
+    </message>
+    <wait>5</wait>
+    <!--
+    <exit>
+      MOTEUR DEMARRE
+    </exit>
+    -->
+  </step>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ la vitesse -->
+  <!-- ou se trouve la vitesse mesuree -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2496 </x-m>
+      <y-m>  -0.2545 </y-m>
+      <z-m>  -0.3190 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>Commençons par la vitesse, voici où se trouve la vitesse mesurée : c'est la vitesse actuelle.</message>
+    <wait>5</wait>
+  </step>
+
+  <!-- ou se trouve la vitesse definie -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2496 </x-m>
+      <y-m>  -0.2306 </y-m>
+      <z-m>  -0.2752 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>Et voici où se trouve la vitesse définie, c'est cette vitesse que l'autopilot suivra lorsqu'il sera activé.</message>
+    <wait>5</wait>
+  </step>
+
+  <!-- comment modifier la vitesse definie -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2496 </x-m>
+      <y-m>  -0.2810 </y-m>
+      <z-m>  -0.2752 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>En agissant sur ce bouton, tu peux modifier la vitesse définie. Tu vas choisir 400 kt</message>
+    <exit>
+      <!-- VARIATION DE LA DONNEE : 400 -->
+    </exit>
+  </step>
+
+  <!-- comment activer l autopilot a la vitesse definie -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2959 </x-m>
+      <y-m>  -0.1562 </y-m>
+      <z-m>  -0.1430 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>Quand tu voudras activer l'autopilot, tu actionneras ce bouton pour qu'il suive la vitesse définie.</message>
+    <wait>5</wait>
+  </step>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ l altitude -->
+  <!-- ou se trouve l altitude mesuree -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2471 </x-m>
+      <y-m>  -0.1322 </y-m>
+      <z-m>  -0.3182 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>L'altitude mesurée se trouve là...</message>
+    <wait>5</wait>
+  </step>
+
+  <!-- ou se trouve l altitude definie -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2545 </x-m>
+      <y-m>  -0.1355 </y-m>
+      <z-m>  -0.2768 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>...et l'altitude définie pour l'autpilot ici</message>
+    <wait>5</wait>
+  </step>
+
+  <!-- comment modifier l altitude definie -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2471 </x-m>
+      <y-m>  -0.1132 </y-m>
+      <z-m>  -0.2719 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>En agissant sur ce bouton, tu peux modifier l'altitude définie. Tu vas mettre 8000 ft</message>
+    <exit>
+      <!-- VARIATION DE LA DONNEE 8000 -->
+    </exit>
+  </step>
+
+  <!-- comment activer l autopilot a l altitude definie -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2744 </x-m>
+      <y-m>  -0.2083 </y-m>
+      <z-m>  -0.1876 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>Quand tu voudras activer l'autopilot, tu actionneras ce bouton pour qu'il suive l'altitude définie.</message>
+    <wait>5</wait>
+  </step>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ le cap -->
+  <!-- ou se trouve le cap mesure -->
+  <step>
+    <view>
+      <heading-offset-deg>343.8</heading-offset-deg>
+      <pitch-offset-deg>-23.1</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2554 </x-m>
+      <y-m>   0.1959 </y-m>
+      <z-m>  -0.2785 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>Le cap mesuré se trouve ici.</message>
+    <wait>5</wait>
+  </step>
+
+  <!-- ou se trouve le cap defini -->
+  <step>
+    <view>
+      <heading-offset-deg>343.8</heading-offset-deg>
+      <pitch-offset-deg>-23.1</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2339 </x-m>
+      <y-m>   0.1372 </y-m>
+      <z-m>  -0.3694 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>Et le cap défini là</message>
+    <wait>5</wait>
+  </step>
+
+  <!-- comment modifier le cap defini -->
+  <step>
+    <view>
+      <heading-offset-deg>343.8</heading-offset-deg>
+      <pitch-offset-deg>-23.1</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2289 </x-m>
+      <y-m>   0.1372 </y-m>
+      <z-m>  -0.3834 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>Et pour modifier le cap défini, tu sais comment faire. Donc mets 330 deg.</message>
+    <exit>
+      <!-- VARIATION DE LA DONNEE 330 -->
+    </exit>
+  </step>
+
+  <!-- comment activer l autopilot au cap defini -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2884 </x-m>
+      <y-m>  -0.2000 </y-m>
+      <z-m>  -0.1801 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>Quand tu voudras activer l'autopilot, tu actionneras ce bouton pour qu'il suive le cap défini.</message>
+    <wait>5</wait>
+  </step>
+
+  <!-- comment activer l autopilote pour suivre cap et altitude -->
+  <step>
+    <view>
+      <heading-offset-deg>14.4</heading-offset-deg>
+      <pitch-offset-deg>-21.5</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>0.0</x-offset-m>
+      <y-offset-m>0.0</y-offset-m>
+      <z-offset-m>-2.6</z-offset-m>
+      <field-of-view>32.9</field-of-view>
+    </view>
+    <marker>
+      <x-m>  -3.2703 </x-m>
+      <y-m>  -0.2529 </y-m>
+      <z-m>  -0.2248 </z-m>
+      <scale> 0.8678 </scale>
+    </marker>
+    <message>Pour que l'autopilot suive cap et altitude définis, il faut que les boutons Hdg et Alt soient activés, il faut également activer le bouton AP. </message>
+    <wait>5</wait>
+  </step>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ close canopy -->
+
+  <!--
+    <message>
+Prêt pour le décollage ?
+Ferme la verrière (d 2fois), lache les freins (shift-b) !
+    </message>
+    <exit>
+position de la verrière
+et
+freins lachés
+    </exit>
+  -->
+
+  <!-- ~~~~~~~~~~~~~~~~~~ decollage -->
+
+  <!--
+    <message>
+Rotation à 150 kt.
+Ensuite, rentre les trains d'atterrissage (g).
+    </message>
+    <exit>
+gears up
+    </exit>
+  -->
+
+  <!-- ~~~~~~~~~~~~~~~~~~ activation de spd -->
+  <!--
+  <marker>
+    <x-m>   0.0000 </x-m>
+    <y-m>  -0.0198 </y-m>
+    <z-m>   0.0132 </z-m>
+    <scale> 1.0000 </scale>
+  </marker>
+  <message>
+On va laisser l'autopilot suivre notre vitesse, ça fera un truc en moins à gérer.
+Appuie sur SPD
+    </message>
+    <exit>
+SPD ok
+    </exit>
+  -->
+
+  <!-- ~~~~~~~~~~~~~~~~~~ montee et stabilisation -->
+  <!--
+    <message>
+Avant d'activer l'autopilot, il faut que tu stabilises l'avion.
+Mets-toi à 3000 ft au cap 360.
+    </message>
+    <exit>
+2500 < alt < 3500
+&& 340 < cap < 020
+    </exit>
+  -->
+
+  <!-- ~~~~~~~~~~~~~~~~~~ activation de l'AP -->
+  <!--
+    <message>
+Ok, tu peux activer ALT, HDG et AP
+Tu constates que les commandes ne répondent plus, l'AP a pris la main, c'est lui qui pilote.
+    </message>
+    <exit>
+SPD, ALT, HDG et AP ok
+    </exit>
+  -->
+
+
+  <end>
+
+    <!--
+    <message>
+Le tuto est terminé, tu peux modifier les valeurs et constater que l'AP agit sur les commandes de l'avion.
+Tu peux également désactiver l'AP.
+    </message>
+    -->
+
+  </end>
+
+</PropertyList>

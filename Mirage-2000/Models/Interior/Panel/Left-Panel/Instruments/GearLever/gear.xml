@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>gear.ac</path>
+
+  <animation>
+    <object-name>Gear</object-name>
+    <object-name>GearLever</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>Gear</object-name>
+    <object-name>GearLever</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>GearLever</object-name>
+    <!--<property>gear/gear[0]/position-norm</property>-->
+    <property>/controls/gear/gear-down</property>
+    <factor> 40 </factor>
+    <center>
+      <x-m> -0.04882 </x-m>
+      <y-m>  0.00376 </y-m>
+      <z-m>  0.00061 </z-m>
+    </center>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>GearLever</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <condition>
+          <and>
+            <not><property>/gear/gear[1]/wow</property></not>
+            <not><property>/gear/gear[2]/wow</property></not>
+          </and>
+        </condition>
+        <command>property-toggle</command>
+        <property>/controls/gear/gear-down</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>Gear</tooltip-id>
+        <label>Gear Up/Down</label>
+      </binding>
+    </hovered>
+  </animation>
+
+</PropertyList>

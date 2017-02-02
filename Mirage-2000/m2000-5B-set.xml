@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList include="System/m2000-5B-base.xml">
+
+  <sim>
+
+    <description>Mirage 2000 Biplace (YASim)</description>
+    <author>BARANGER Emmanuel (3D/FDM), Buckaroo (FDM), 5H1N0B1 (Weapons, system), F-Sig and hardball (3D, ssystems)</author>
+    
+    <aircraft-version>2015-09-16</aircraft-version>
+    <status>production</status>
+
+    <flight-model>yasim</flight-model>
+    <aero>System/m2000-5-yasim</aero>
+
+    <rating>
+      <FDM     type="int"> 4 </FDM>
+      <systems type="int"> 4 </systems>
+      <cockpit type="int"> 3 </cockpit>
+      <model   type="int"> 4 </model>
+    </rating>
+
+  </sim>
+
+</PropertyList>

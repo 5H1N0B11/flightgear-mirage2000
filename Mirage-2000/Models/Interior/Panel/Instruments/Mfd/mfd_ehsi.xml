@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>mfd_ehsi.ac</path>
+
+  <!-- *************Text*************** -->
+  <model>
+    <name>text3dEHSI</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Mfd/mfd_3dtextEHSI.xml</path>
+    <offsets>
+      <x-m>-0.008</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+      <pitch-deg>0</pitch-deg>
+    </offsets>
+    <condition>
+      <equals>
+        <property>/instrumentation/mfd/modeR</property>
+        <value>0</value>
+      </equals>
+    </condition>
+  </model>
+
+  <animation>
+    <!-- EHSI -->
+    <object-name>EHSI-hdg-bug</object-name>
+    <object-name>EHSI-compass</object-name>
+    <object-name>EHSI-compass-rep</object-name>
+    <object-name>EHSI-CRS-needle</object-name>
+    <object-name>EHSI-CRS-deflect</object-name>
+    <object-name>EHSI-CRS-FROM</object-name>
+    <object-name>EHSI-CRS-TO</object-name>
+    <object-name>EHSI-ptr1</object-name>
+    <object-name>EHSI-ptr2</object-name>
+    <object-name>EHSI-ptr1-rep</object-name>
+    <object-name>EHSI-ptr2-rep</object-name>
+    <object-name>EHSI-ecran</object-name>
+    <object-name>EHSI-w-arrow</object-name>
+    <object-name>EHSI-w-rep</object-name>
+    <object-name>text3dEHSI</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>EHSI-hdg-bug</object-name>
+    <object-name>EHSI-compass</object-name>
+    <object-name>EHSI-compass-rep</object-name>
+    <object-name>EHSI-CRS-needle</object-name>
+    <object-name>EHSI-CRS-deflect</object-name>
+    <object-name>EHSI-CRS-FROM</object-name>
+    <object-name>EHSI-CRS-TO</object-name>
+    <object-name>EHSI-ptr1</object-name>
+    <object-name>EHSI-ptr2</object-name>
+    <object-name>EHSI-ptr1-rep</object-name>
+    <object-name>EHSI-ptr2-rep</object-name>
+    <object-name>EHSI-ecran</object-name>
+    <object-name>EHSI-w-arrow</object-name>
+    <object-name>EHSI-w-rep</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.5 </red>
+      <green> 0.5 </green>
+      <blue>  0.5 </blue>
+    </emission>
+    <ambient>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </ambient>
+    <diffuse>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </diffuse>
+    <specular>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </specular>
+  </animation>
+
+  <!-- ***************EHSI****************** -->
+  <animation>
+    <type>rotate</type>
+    <object-name>EHSI-hdg-bug</object-name>
+    <property>autopilot/internal/fdm-heading-bug-error-deg</property>
+    <axis>
+      <x>-1.0</x>
+      <y> 0.0</y>
+      <z> 0.0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>EHSI-compass</object-name>
+    <object-name>EHSI-CRS-needle</object-name>
+    <object-name>EHSI-CRS-deflect</object-name>
+    <object-name>EHSI-CRS-TO</object-name>
+    <object-name>EHSI-CRS-FROM</object-name>
+    <object-name>EHSI-ptr2</object-name>
+    <object-name>EHSI-ptr1</object-name>
+    <property>orientation/heading-magnetic-deg</property>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--EHSI CRS -->
+  <animation>
+    <type>rotate</type>
+    <object-name>EHSI-CRS-needle</object-name>
+    <object-name>EHSI-CRS-deflect</object-name>
+    <object-name>EHSI-CRS-TO</object-name>
+    <object-name>EHSI-CRS-FROM</object-name>
+    <property>autopilot/internal/radial-selected-deg</property>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>EHSI-CRS-deflect</object-name>
+    <property>autopilot/internal/heading-needle-deflection</property>
+    <interpolation>
+      <entry><ind>-999</ind><dep>-0.02</dep></entry>
+      <entry><ind> -10</ind><dep>-0.02</dep></entry>
+      <entry><ind>   0</ind><dep> 0.00</dep></entry>
+      <entry><ind>  10</ind><dep> 0.02</dep></entry>
+      <entry><ind> 999</ind><dep> 0.02</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>EHSI-CRS-TO</object-name>
+    <condition>
+      <property>autopilot/internal/to-flag</property>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>EHSI-CRS-FROM</object-name>
+    <condition>
+      <property>autopilot/internal/from-flag</property>
+    </condition>
+  </animation>
+
+  <!--RMI-->
+  <!--EHSI-RMI-2-->
+  <animation>
+    <type>select</type>
+    <object-name>EHSI-ptr2</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/mfd/rmi-2-src</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>EHSI-ptr2</object-name>
+    <property>instrumentation/mfd/rmi-2-bearing-deg</property>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!--EHSI-RMI-1-->
+  <animation>
+    <type>select</type>
+    <object-name>EHSI-ptr1</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/mfd/rmi-1-src</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>EHSI-ptr1</object-name>
+    <property>instrumentation/mfd/rmi-1-bearing-deg</property>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!--EHSI-wind-->
+  <animation>
+    <type>select</type>
+    <object-name>EHSI-w-arrow</object-name>
+    <object-name>EHSI-w-rep</object-name>
+    <condition>
+      <equals>
+        <property>instrumentation/mfd/wind-display</property>
+        <value>1</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>EHSI-w-arrow</object-name>
+    <property>orientation/heading-magnetic-deg</property>
+    <offset-deg>180</offset-deg>
+    <center>
+      <x-m>-0.010</x-m>
+      <y-m> 0.059</y-m>
+      <z-m> 0.045</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>EHSI-w-arrow</object-name>
+    <property>environment/wind-from-heading-deg</property>
+    <center>
+      <x-m>-0.010</x-m>
+      <y-m>0.059</y-m>
+      <z-m>0.045</z-m>
+    </center>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

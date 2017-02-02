@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>manette.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>base</object-name>
+    <object-name>manette1</object-name>
+    <object-name>manette2</object-name>
+    
+    <!-- Objets transparents -->
+  </animation>
+
+  <animation>
+    <name>Manette</name>
+    <object-name>manette1</object-name>
+    <object-name>manette2</object-name>
+  </animation>
+  
+  <animation>
+    <type>pick</type>
+    <object-name>Manette</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>doors.move_canopy_lock();</script>
+      </binding>
+    </action>
+  </animation>
+  
+  <animation>
+    <type>rotate</type>
+    <object-name>Manette</object-name>
+    <property>sim/model/door-positions/crew/position-norm</property>
+    <interpolation>
+      <entry><ind> 0.00 </ind><dep> -60 </dep></entry>
+      <entry><ind> 0.02 </ind><dep> -60 </dep></entry>
+      <entry><ind> 0.05 </ind><dep>   0 </dep></entry>
+      <entry><ind> 0.10 </ind><dep>  60 </dep></entry>
+      <entry><ind> 1.00 </ind><dep>  60 </dep></entry>
+    </interpolation>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+  
+  <animation>
+    <type>rotate</type>
+    <object-name>manette2</object-name>
+    <property>sim/model/door-positions/crew/position-norm</property>
+    <interpolation>
+      <entry><ind> 0.00 </ind><dep>  0 </dep></entry>
+      <entry><ind> 0.02 </ind><dep> 70 </dep></entry>
+      <entry><ind> 1.00 </ind><dep> 70 </dep></entry>
+    </interpolation>
+    <center>
+      <x-m> 0.00000 </x-m>
+      <y-m> 0.00008 </y-m>
+      <z-m> 0.03690 </z-m>
+    </center>
+    <axis>
+      <x> 1 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+  
+</PropertyList>

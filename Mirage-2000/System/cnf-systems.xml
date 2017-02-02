@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <refuel>
+    <type>probe</type>
+    <serviceable type="bool">true</serviceable>
+    <!--Around max : 1400 l/min  1400 * 1.918021 = 2685 lbs/min so I put 3000-->
+    <max-fuel-transfer-lbs-min>3000</max-fuel-transfer-lbs-min>
+  </refuel>
+  
+</PropertyList>

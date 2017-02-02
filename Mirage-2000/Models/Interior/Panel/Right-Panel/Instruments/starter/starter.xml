@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>starter.ac</path>
+
+  <animation>
+
+    <!-- Objets opaques -->
+    <object-name>base</object-name>
+    <object-name>visses</object-name>
+    <object-name>starter</object-name>
+    <object-name>cachestart</object-name>
+    <object-name>pompe</object-name>
+    <object-name>pompes</object-name>
+    <object-name>dm</object-name>
+    <object-name>vent</object-name>
+    <object-name>texte</object-name>
+    <object-name>coupefeu</object-name>
+    <object-name>cachecoupefeu</object-name>
+    <object-name>textecoupefeu</object-name>
+
+    <!-- Objets transparents -->
+
+  </animation>
+
+  <!-- Objets Lights -->
+  <animation>
+    <type>material</type>
+    <object-name>texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>base</object-name>
+    <object-name>visses</object-name>
+    <object-name>starter</object-name>
+    <object-name>cachestart</object-name>
+    <object-name>pompe</object-name>
+    <object-name>pompes</object-name>
+    <object-name>dm</object-name>
+    <object-name>vent</object-name>
+    <object-name>coupefeu</object-name>
+    <object-name>cachecoupefeu</object-name>
+    <object-name>textecoupefeu</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <!--#####   switch cache starter  ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>cachestart</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/hide-starter</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>
+          if(getprop("/controls/switches/hide-starter"))
+          {
+              setprop("/controls/switches/pump-BP",1);
+          }
+        </script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>unhidestarter</tooltip-id>
+        <label>Un-hide Starter : Step 7</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>cachestart</object-name>
+    <property>/controls/switches/hide-starter</property>
+    <factor>80</factor>
+    <center>
+      <x-m> 0.0021</x-m>
+      <y-m>-0.0223</y-m>
+      <z-m> 0.0068</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!--
+  Centre de rotation cache starter
+  
+  Objet : cachestart
+  
+  x :  0.0021
+  y : -0.0223
+  z :  0.0068
+  
+  80 ° sur axe Z
+  -->
+  <animation>
+    <type>pick</type>
+    <object-name>starter</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/engines/engine/starter</property>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-toggle</command>
+          <property>/controls/engines/engine/starter</property>
+        </binding>
+      </mod-up>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>starter</tooltip-id>
+        <label>Starter : Step 8</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>starter</object-name>
+    <property>/controls/engines/engine/starter</property>
+    <factor>0.0011</factor>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!--hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>jettison</tooltip-id>
+      <label>Jettison Tank</label>
+    </binding>
+  </hovered-->
+
+  <!--
+  Translation du starter
+  
+  Objet : starter
+  
+  -0.0007 sur axe X
+  -->
+
+  <!--#####   switch pump   ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>pompe</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/pump-BP</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>bp</tooltip-id>
+        <label>Pump BP : Step 6</label>
+      </binding>
+    </hovered>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>pompe</object-name>
+    <property>/controls/switches/pump-BP</property>
+    <offset-deg>-50</offset-deg>
+    <factor>50</factor>
+    <center>
+      <x-m> 0.0008</x-m>
+      <y-m>-0.0152</y-m>
+      <z-m> 0.0066</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!--
+  Centre de rotation du switch pompe
+  
+  Objet : pompe
+  
+  x :  0.0008
+  y : -0.0152
+  z :  0.0066
+  
+  50 ° sur axe Z
+  -->
+
+  <!--#####   switch PUMP G (left)  ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>pompes</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/pump-BPG</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>bpg</tooltip-id>
+        <label>Left Pump : Step 3</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>pompes</object-name>
+    <property>/controls/switches/pump-BPG</property>
+    <offset-deg>-50</offset-deg>
+    <factor>50</factor>
+    <center>
+      <x-m>0.0008</x-m>
+      <y-m>0.0033</y-m>
+      <z-m>0.0066</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!--
+  Centre de rotation du switch pompes
+  
+  Objet : pompes
+  
+  x :  0.0008
+  y :  0.0033
+  z :  0.0066
+  
+  50 ° sur axe Z
+  -->
+
+  <!--#####   switch PUMP D (Right)  ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>dm</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/pump-BPD</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>bpd</tooltip-id>
+        <label>Right Pump : Step 4</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>dm</object-name>
+    <property>/controls/switches/pump-BPD</property>
+    <offset-deg>-50</offset-deg>
+    <factor>50</factor>
+    <center>
+      <x-m>0.0008</x-m>
+      <y-m>0.0232</y-m>
+      <z-m>0.0066</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!--
+  Centre de rotation du switch dm
+  
+  Objet : dm
+  
+  x :  0.0008
+  y :  0.0232
+  z :  0.0066
+  
+  50 ° sur axe Z
+  -->
+
+  <!--#####   switch ventilation/allumage  ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>vent</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/vent-allumage</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>bpg</tooltip-id>
+        <label>Select Allumage : Step 5</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>vent</object-name>
+    <property>/controls/switches/vent-allumage</property>
+    <offset-deg>-50</offset-deg>
+    <factor>50</factor>
+    <center>
+      <x-m>0.0008</x-m>
+      <y-m>-0.0102</y-m>
+      <z-m>-0.0070</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!--
+  Centre de rotation du switch vent
+  
+  Objet : vent
+  
+  x :  0.0008
+  y : -0.0102
+  z : -0.0070
+  
+  50 ° sur axe Z
+  -->
+
+  <!--#####   Cache  coupe feu ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>cachecoupefeu</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/hide-cutoff</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>
+          if(! getprop("/controls/switches/hide-cutoff"))
+          {
+              setprop("/controls/engines/engine/cutoff", 0);
+          }
+        </script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>hidecutoff</tooltip-id>
+        <label>Hide Cut Off : Step 2</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>cachecoupefeu</object-name>
+    <object-name>textecoupefeu</object-name>
+    <property>/controls/switches/hide-cutoff</property>
+    <factor>80</factor>
+    <center>
+      <x-m> 0.0011</x-m>
+      <y-m> 0.0093</y-m>
+      <z-m>-0.0070</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y> 0</y>
+      <z>-1</z>
+    </axis>
+  </animation>
+
+  <!--
+  Centre de rotation cache coupe feu
+  
+  Objet : cachecoupefeu et textecoupefeu
+  
+  x :  0.0011
+  y :  0.0093
+  z : -0.0070
+  
+  -80 ° sur axe Z
+  -->
+
+  <!--#####   coupe feu   ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>coupefeu</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <!--<property>/controls/switches/cutoff</property>-->
+        <property>/controls/engines/engine/cutoff</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>
+          if(! getprop("/controls/switches/hide-cutoff"))
+          {
+              setprop("/controls/engines/engine/cutoff", 0);
+          }
+        </script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>cutoff</tooltip-id>
+        <label>Cut Off : Step 1</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>coupefeu</object-name>
+    <property>/controls/engines/engine/cutoff</property>
+    <factor>50</factor>
+    <center>
+      <x-m> 0.0006</x-m>
+      <y-m> 0.0183</y-m>
+      <z-m>-0.0070</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y> 0</y>
+      <z>-1</z>
+    </axis>
+  </animation>
+
+  <!--
+  Centre de rotation du switch coupe feu
+  
+  Objet : coupefeu
+  
+  x :  0.0006
+  y :  0.0183
+  z : -0.0070
+  
+  50 ° sur axe Z
+  -->
+
+</PropertyList>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>adi.ac</path>
+
+  <animation>
+    <object-name>fond</object-name>
+    <object-name>drum</object-name>
+    <object-name>ring</object-name>
+    <object-name>scale</object-name>
+    <object-name>button</object-name>
+    <object-name>bkg</object-name>
+    <object-name>plane</object-name>
+    <object-name>rect</object-name>
+    <object-name>bank-index</object-name>
+    <object-name>vitre</object-name>
+  </animation>
+
+  <!-- working for Rembrandt -->
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
+    <object-name>vitre</object-name>
+  </effect>
+
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>drum</object-name>
+    <object-name>ring</object-name>
+    <object-name>scale</object-name>
+    <object-name>plane</object-name>
+    <object-name>bank-index</object-name>
+    <emission>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>drum</object-name>
+    <property>orientation/roll-deg</property>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>bkg</object-name>
+    <property>orientation/roll-deg</property>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>drum</object-name>
+    <property>orientation/pitch-deg</property>
+    <factor>1.5</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>bank-index</object-name>
+    <property>orientation/roll-deg</property>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

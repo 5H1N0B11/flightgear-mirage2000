@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <name>TCAS1</name>
+  <x>256</x>
+  <y>200</y>
+  <w-base>296</w-base>
+  <h-base>228</h-base>
+
+  <layers>
+
+    <layer>
+      <texture>
+        <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/tcas.png</path>
+        <x1>0.004</x1>
+        <y1>0.229</y1>
+        <x2>0.998</x2>
+        <y2>0.998</y2>
+      </texture>
+      <emissive>true</emissive>
+    </layer>
+
+    <layer>
+      <texture>
+        <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/tcas-display.png</path>
+        <x1>0.004</x1>
+        <y1>0.229</y1>
+        <x2>0.998</x2>
+        <y2>0.998</y2>
+      </texture>
+      <emissive>true</emissive>
+    </layer>
+
+    <layer>
+      <type>text</type>
+      <point-size>20</point-size>
+      <font>helvetica_bold</font>
+      <color>
+        <red>   0.8 </red>
+        <green> 0.8 </green>
+        <blue>  0.8 </blue>
+      </color>
+      <chunks>
+        <chunk>
+          <type>text-value</type>
+          <property>instrumentation/tcas/range</property>
+        </chunk>
+      </chunks>
+      <transformations>
+        <transformation>
+          <type>x-shift</type>
+          <offset>-138.0</offset>
+        </transformation>
+        <transformation>
+          <type>y-shift</type>
+          <offset>12.0</offset>
+        </transformation>
+      </transformations>
+    </layer>
+
+    <layer>
+      <type>text</type>
+      <point-size>20</point-size>
+      <font>helvetica_bold</font>
+      <color>
+        <red>   0.8 </red>
+        <green> 0.8 </green>
+        <blue>  0.8 </blue>
+      </color>
+      <chunks>
+        <chunk>
+          <type>text-value</type>
+          <property>instrumentation/tcas/range</property>
+        </chunk>
+      </chunks>
+      <transformations>
+        <transformation>
+          <type>x-shift</type>
+          <offset>130.0</offset>
+        </transformation>
+        <transformation>
+          <type>y-shift</type>
+          <offset>12.0</offset>
+        </transformation>
+      </transformations>
+    </layer>
+
+  </layers>
+
+</PropertyList>

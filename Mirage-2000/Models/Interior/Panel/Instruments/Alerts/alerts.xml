@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>alerts.ac</path>
+
+  <animation>
+    <object-name>fond</object-name>
+    <object-name>visses</object-name>
+    <object-name>texte.off</object-name>
+    <object-name>texte.1</object-name>
+    <object-name>texte.mic</object-name>
+    <object-name>texte.idf</object-name>
+    <object-name>texte.2</object-name>
+    <object-name>texte.3</object-name>
+    <object-name>texte.jet</object-name>
+    <object-name>texte.app</object-name>
+    <object-name>texte.upd</object-name>
+    <object-name>texte.mrk</object-name>
+    <object-name>texte.4</object-name>
+    <object-name>texte.5</object-name>
+    <object-name>texte.6</object-name>
+    <object-name>texte.rwm</object-name>
+    <object-name>texte.wrf</object-name>
+    <object-name>texte.vs</object-name>
+    <object-name>texte.7</object-name>
+    <object-name>texte.8</object-name>
+    <object-name>texte.9</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <object-name>visses</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <object-name>visses</object-name>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <emission>
+      <red>   0.05 </red>
+      <green> 0.05 </green>
+      <blue>  0.05 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>texte.1</object-name>
+    <object-name>texte.mic</object-name>
+    <object-name>texte.idf</object-name>
+    <object-name>texte.2</object-name>
+    <object-name>texte.3</object-name>
+    <object-name>texte.jet</object-name>
+    <object-name>texte.app</object-name>
+    <object-name>texte.upd</object-name>
+    <object-name>texte.mrk</object-name>
+    <object-name>texte.4</object-name>
+    <object-name>texte.5</object-name>
+    <object-name>texte.6</object-name>
+    <object-name>texte.rwm</object-name>
+    <object-name>texte.wrf</object-name>
+    <object-name>texte.vs</object-name>
+    <object-name>texte.7</object-name>
+    <object-name>texte.8</object-name>
+    <object-name>texte.9</object-name>
+    <emission>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+    </emission>
+  </animation>
+
+</PropertyList>

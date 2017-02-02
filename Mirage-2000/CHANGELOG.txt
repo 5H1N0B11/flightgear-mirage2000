@@ -1,0 +1,131 @@
+2017-01-26
+
+new biplace version
+-------------------
+The aircraft model is common between mono and bi, some parts are shown or not
+for example :
+- mirage 2000-5 : m2000-5-set.xml includes System/m2000-5-base.xml which loads Models/m2000-5.xml which hide biplace parts
+- mirage 2000-5B (launch with --aircraft=m2000-5B) : m2000-5B-set.xml (new file) includes System/m2000-5B-base.xml (new file) which loads Models/m2000-5B.xml (new file) which hide monoplace p
+
+- adapted logo uvmap, antennas placement
+- modelized back seat panel
+- added copilot's left and right panel
+- placed copilot's instruments and canopy handles
+- placed copilot model in the back seat
+- created a new view (no=11, id=103) from the back seat
+- new livery mirage 2000D
+
+other improvments
+-----------------
+- added some ground equipment
+- corrected the front gear doors (4 doors and not 2)
+- improved wheels
+- corrected rotation center of the turbine
+- shade of intakes
+- improve pole of in-flight refueling
+- regeneration of some liveries
+
+
+
+
+02.2015
+3D : 
+- Several more instrument in the cockpit. The working ones are : startup instrument, light variator instruments.
+  (The others, I'm still working on it)
+- New gun explosion : more realistics
+- New missiles explosion : more realistics
+- New flames that take differents colors, depending of the sun position
+- New light effect in the cockpit when using Rembrandt.
+- New rule about each instruments lights effects
+- Possibility to disable the pilot.
+- Desactivate temporary the "non Rembrandt Shadow" that have big issue in MP (and do not allow a correct dogfight)
+- New "Exhaust"
+- Sperated livery & logos (that allow differents HQ logos independently of the livery)
+
+Systems :
+- Double center Mfd for the guys who want (or not) the canvas one. The older is now working lot more better.
+- Working startup procedure
+- Working cockpit light variator
+- Working Tutorial.(Even if  there no maker use yet)
+Weapons
+- Ground designation : This now possible to create a "ground target", by clicking on the ground and then clicking
+  at the "Create a Target" in "Mirage 2000 > Fast Config" menu.
+
+Nasal :
+- Lot of improvement by using a centralised function lanch and update instead of setListener or multiple different
+  loop. This should invisble to the user except that their FPS will stay high
+- Allow loads under the wings (missiles, tanks etc) to be visible over MP, even, if you are not in a m2000, and even
+  if you have more than 1 aircraft forlder
+
+
+10.2014
+
+3D : Correction du model : Servos commande, Souris, Manette de gaz, boutons de démarrage
+- Changement des UV map, animation des slats,ajout de tip trail,position du parachute
+
+Xml
+- Ajout du canvaset de ses boutons et du double mfd pour ceux qui n'aiment pas le canvas
+- Ajout des tooltips
+
+Yasim
+- Correction + mise à jour version + Activation parachute, recul lor du tir.
+
+Nasal
+- Correction des bugs de lenteurs, creations des systèmes electriques, fuel, huiles
+- Procédure de démarrage et nouvelle gestion du moteur, début de commande de vol electrique 
+  (pour ça que ça ne dérappe plus en fin de piste), 
+- Ajout de la navigation TACAN et suivi de route (renseigné par le gestionnaire de route MAJ du code de FSIG)
+- Ajout d'un fonction brake (que l'on peut implementer dans le joystick) et qui anime les aerofreins en vol
+  (ça veut dire que l'on peut refuel sans quitter le manche)
+- Guns : correction du tir (impossible au sol) + cadence de tir etc...
+  Et surement d'autres trucs
+
+02.2013
+
+- Correction of tiger2 livery call.
+- Correction of problems on nav intrument (in "no nav-id" zones)
+
+01.2013
+
+- ENGINE :
+------------
+- Correction the Nasal
+- Exhaust/thurst update (double nozzle)
+- Improved "Mouse" -> Inlet cones for supersonic flight  ... ( they go out > Mach 1.25 ).
+- Reheat Correction (Using n value, instead of throttle value)
+
+- Electric flight control : 
+---------------------------
+- Slats : they have an automated movement, during flight, and are retracted when landing (but still can be reopened 
+  manualy in case of engine failure)
+- SAS System Stabilizer Automatic Flight Stabilizer flight depending on the position of the joystick ( Still job to 
+  do to improve that )
+Note : this make stick less sensitive for low stick value or high speed. Also work for the nosewheel : > 10kts it become more stable with speed increasing
+
+- Nasal :
+---------
+- Centralization of "init" functions of the various systems , (to "revive" systems in case of faillure (real or simulated
+  crash) and help "restart" management (in the future)) -> This still need to be improved
+- More reviews in the party " missile.nas " ( <- Not Enough)
+- Correction of some bugs in nav & radar
+
+- Graphical stuff :
+-------------------
+- High resolution texture (2048 * 2048) I made only 2 , but it's really pretty.
+- Adding pilot view
+
+- Instrument/Alert :
+--------------------
+- Jettinson : Yellow and black button to drop the tanks in case of emergency ( I rebossé texture button) and ajjout a keyboard
+  shortcut (Shift + J). This helps unlock the full keypad, and so those who use it for steering can be used without problems.
+- HUD : Change the target display in the HUD : This overlaped and did not read all the infos. Everything is readable now.
+- Stall Warning Alert + stall (On the HUD and on the alert panel)
+- Transponder : Working transponder. Actually only the civilian part of the Transpondeur is working
+
+- Loads :
+---------
+- Quick loads are closer in name and in load to what we can see on a real mirage 2000
+
+-Other Stuff :
+--------------
+- Normalisation in order to make this aircraft available to "Aircraft_Selection_Criteria" (but not finished yet)

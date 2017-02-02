@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>mfd_eicas.ac</path>
+
+  <!-- *************Text*************** -->
+  <model>
+    <name>text3dEADI</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Mfd/mfd_3dtextEICAS.xml</path>
+    <offsets>
+      <x-m>-0.008</x-m>
+      <y-m> 0.000</y-m>
+      <z-m> 0.000</z-m>
+      <pitch-deg>0</pitch-deg>
+    </offsets>
+    <condition>
+      <equals>
+        <property>/instrumentation/mfd/modeR</property>
+        <value>3</value>
+      </equals>
+    </condition>
+  </model>
+
+  <!-- EICAS -->
+  <object-name>EICAS-ecran</object-name>
+  <object-name>EICAS-n1</object-name>
+  <object-name>EICAS-n2</object-name>
+  <object-name>EICAS-itt</object-name>
+  <object-name>EICAS-oil-temp</object-name>
+  <object-name>EICAS-oil-psi</object-name>
+  <object-name>EICAS-hyd-psi</object-name>
+  <object-name>EICAS-ff-rep</object-name>
+  <object-name>EICAS-ff-fond</object-name>
+  <object-name>text3dEICAS</object-name>
+
+  <animation>
+    <type>material</type>
+    <object-name>EICAS-ecran</object-name>
+    <object-name>EICAS-n1</object-name>
+    <object-name>EICAS-n2</object-name>
+    <object-name>EICAS-itt</object-name>
+    <object-name>EICAS-oil-temp</object-name>
+    <object-name>EICAS-oil-psi</object-name>
+    <object-name>EICAS-hyd-psi</object-name>
+    <object-name>EICAS-ff-rep</object-name>
+    <object-name>EICAS-ff-fond</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.5 </red>
+      <green> 0.5 </green>
+      <blue>  0.5 </blue>
+    </emission>
+    <ambient>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </ambient>
+    <diffuse>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </diffuse>
+    <specular>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </specular>
+  </animation>
+
+  <!-- N1 -->
+  <animation>
+    <name>N1</name>
+    <type>rotate</type>
+    <object-name>EICAS-n1</object-name>
+    <property>engines/engine[0]/rpm</property>
+    <interpolation>
+      <entry><ind>    0</ind><dep>   0</dep></entry>
+      <entry><ind>10000</ind><dep>-245</dep></entry>
+    </interpolation>
+    <center>
+      <x-m>0.0000</x-m>
+      <y-m>-0.0436</y-m>
+      <z-m>0.0328</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- N2 -->
+  <animation>
+    <name>N2</name>
+    <type>rotate</type>
+    <object-name>EICAS-n2</object-name>
+    <property>engines/engine[0]/rpm</property>
+    <interpolation>
+      <entry><ind>    0</ind><dep>   0.00</dep></entry>
+      <entry><ind> 3000</ind><dep>-111.15</dep></entry>
+      <entry><ind> 6800</ind><dep>-185.25</dep></entry>
+      <entry><ind> 8200</ind><dep>-205.00</dep></entry>
+      <entry><ind>10000</ind><dep>-245.00</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> 0.000</x-m>
+      <y-m>-0.020</y-m>
+      <z-m> 0.001</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- ITT -->
+  <animation>
+    <name>ITT</name>
+    <type>rotate</type>
+    <object-name>EICAS-itt</object-name>
+    <property>engines/engine[0]/rpm</property>
+    <interpolation>
+      <entry><ind>    0</ind><dep>   0</dep></entry>
+      <entry><ind> 3000</ind><dep> -60</dep></entry>
+      <entry><ind> 5000</ind><dep> -90</dep></entry>
+      <entry><ind> 8000</ind><dep>-120</dep></entry>
+      <entry><ind>10000</ind><dep>-150</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> 0.000</x-m>
+      <y-m>-0.052</y-m>
+      <z-m> 0.001</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Oil temp -->
+  <animation>
+    <name>Oil-temp</name>
+    <type>rotate</type>
+    <object-name>EICAS-oil-temp</object-name>
+    <property>engines/engine[0]/oilt-norm</property>
+    <interpolation>
+      <entry><ind>0.0</ind><dep>   0</dep></entry>
+      <entry><ind>1.2</ind><dep>-245</dep></entry>
+    </interpolation>
+    <center>
+      <x-m>0.0000</x-m>
+      <y-m>0.0183</y-m>
+      <z-m>0.0400</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Oil psi -->
+  <animation>
+    <name>Oil-psi</name>
+    <type>rotate</type>
+    <object-name>EICAS-oil-psi</object-name>
+    <property>engines/engine[0]/rpm</property>
+    <interpolation>
+      <entry><ind>    0</ind><dep>   0</dep></entry>
+      <entry><ind> 3000</ind><dep>-120</dep></entry>
+      <entry><ind> 5000</ind><dep>-135</dep></entry>
+      <entry><ind> 8000</ind><dep>-155</dep></entry>
+      <entry><ind>10000</ind><dep>-160</dep></entry>
+    </interpolation>
+    <center>
+      <x-m>0.000</x-m>
+      <y-m>0.051</y-m>
+      <z-m>0.040</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- hydraulic psi -->
+  <animation>
+    <name>Hyd-psi</name>
+    <type>rotate</type>
+    <object-name>EICAS-hyd-psi</object-name>
+    <property>engines/engine[0]/rpm</property>
+    <interpolation>
+      <entry><ind>  0</ind><dep>   0</dep></entry>
+      <entry><ind> 30</ind><dep>-180</dep></entry>
+      <entry><ind> 50</ind><dep>-188</dep></entry>
+      <entry><ind> 80</ind><dep>-195</dep></entry>
+      <entry><ind>100</ind><dep>-200</dep></entry>
+    </interpolation>
+    <center>
+      <x-m>0.000</x-m>
+      <y-m>0.017</y-m>
+      <z-m>0.003</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- pressure and ITT from engine/rpm waiting more relevant values -->
+  <!--Fuel-flow-->
+  <animation>
+    <type>translate</type>
+    <object-name>EICAS-ff-rep</object-name>
+    <property>engines/engine[0]/rpm</property>
+    <interpolation>
+      <entry><ind>    0</ind><dep>0.000</dep></entry>
+      <entry><ind> 3000</ind><dep>0.005</dep></entry>
+      <entry><ind> 8500</ind><dep>0.042</dep></entry>
+      <entry><ind>10000</ind><dep>0.068</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <!--fuel-fow extrapolated de engine/rpm
+      due to lack of doc I admitted the idle engine consumption at ~10Kg/min
+      according to Snecma :
+      96Kg/min    full dry (throttle 85%)
+      332.5Kg/min full PC (throttle 100%)
+  -->
+
+</PropertyList>

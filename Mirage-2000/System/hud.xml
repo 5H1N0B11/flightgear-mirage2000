@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <!-- hardball's note [2015-08-02] :
+         we have 2 specific huds :
+         - #1 redefines the default one
+         - #4 has been added to provide a mini-hud in external views
+              and in internal view when the pilot's head is too turned to see the #1
+         clipping (Thanks f16 team for that !) is updated by mini-hud.nas
+         mini-hud.nas switchs between hud #1 and #4
+  -->
+  <path n="1">Aircraft/Mirage-2000/Hud/hud.xml</path>
+  <path n="4">Aircraft/Mirage-2000/Hud/mini-hud.xml</path>
+  <visibility n="1">true</visibility>
+  
+  <palette>
+    <color n="0">
+      <alpha type="float"> 0.85 </alpha>
+      <antialiased type="bool">true</antialiased>
+      <brightness type="float"> 0.85 </brightness>
+      <transparent type="bool">true</transparent>
+      <red type="float">   0.38 </red>
+      <green type="float"> 1.00 </green>
+      <blue type="float">  0.22 </blue>
+    </color>
+    <color n="1">
+      <alpha type="float"> 0.85 </alpha>
+      <antialiased type="bool">true</antialiased>
+      <brightness type="float"> 0.85 </brightness>
+      <transparent type="bool">true</transparent>
+      <red type="float">   1.0 </red>
+      <green type="float"> 0.2 </green>
+      <blue type="float">  0.0 </blue>
+    </color>
+  </palette>
+  
+  <clipping>
+    <left type="double">   -65 </left>
+    <right type="double">   65 </right>
+    <top type="double">     60 </top>
+    <bottom type="double"> -88 </bottom>
+  </clipping>
+  
+</PropertyList>

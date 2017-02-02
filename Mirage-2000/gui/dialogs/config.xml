@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <!-- If you put the dialog file in the Aircraft/aircraftname/gui/dialog the dialog box is loaded -->
+  <name>config</name>
+  <modal type="bool">false</modal>
+  <layout>vbox</layout>
+  
+  <group>
+    <layout>hbox</layout>
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+    
+    <text>
+      <label>Load Fast Configuration</label>
+    </text>
+    
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+    
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
+  
+  <hrule />
+  
+  <!--  <button>
+  <legend>MP Shot Report</legend>
+  <binding>
+  <command>nasal</command>
+  <script>missile.MPReport()</script>
+  </binding>
+  </button>-->
+  <group>
+    <layout>hbox</layout>
+    <text><label>MP Shot Report</label></text>
+    <checkbox>
+      <property>/controls/armament/mp-messaging</property>
+      <live>true</live>
+      <binding>
+        <command>nasal</command>
+        <script>missile.MPReport()</script>
+      </binding>
+    </checkbox>
+  </group>
+  
+  <hrule />
+  
+  <group>
+    <layout>hbox</layout>
+    <text><label>Activate Auto missile view</label></text>
+    <checkbox>
+      <property>/controls/armament/automissileview</property>
+      <live>true</live>
+        <binding>
+          <command>property-toggle</command>
+          <property>/controls/armament/automissileview</property>
+        </binding>
+    </checkbox>
+  </group>
+  
+  <hrule />
+  
+  <button>
+    <legend>Create a target</legend>
+    <binding>
+      <command>nasal</command>
+      <script>missile.targetingGround()</script>
+    </binding>
+  </button>
+  
+  <hrule />
+  
+  <button>
+    <legend>Reload Gun</legend>
+    <binding>
+      <command>nasal</command>
+      <script>guns.reload_Cannon()</script>
+    </binding>
+  </button>
+  
+  <hrule />
+  
+  <text>
+    <label>Everything bellow is only available on GROUND!</label>
+  </text>
+  <text>
+    <label>Select a Config bellow</label>
+  </text>
+  
+  <button>
+    <legend>No load</legend>
+    <binding>
+      <command>nasal</command>
+      <script>m2000_load.NoLoad()</script>
+    </binding>
+  </button>
+  <button>
+    <legend>PO</legend>
+    <binding>
+      <command>nasal</command>
+      <script>m2000_load.Po()</script>
+    </binding>
+  </button>
+  <button>
+    <legend>Fox</legend>
+    <binding>
+      <command>nasal</command>
+      <script>m2000_load.Fox()</script>
+    </binding>
+  </button>
+  <button>
+    <legend>Bravo</legend>
+    <binding>
+      <command>nasal</command>
+      <script>m2000_load.Bravo()</script>
+    </binding>
+  </button>
+  <button>
+    <legend>Kilo</legend>
+    <binding>
+      <command>nasal</command>
+      <script>m2000_load.Kilo()</script>
+    </binding>
+  </button>
+  <button>
+    <legend>Air to Ground</legend>
+    <binding>
+      <command>nasal</command>
+      <script>m2000_load.AirToGround()</script>
+    </binding>
+  </button>
+  
+</PropertyList>

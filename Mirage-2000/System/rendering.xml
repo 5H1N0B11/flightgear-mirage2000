@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <redout>
+    <parameters>
+      <blackout-complete-g>10</blackout-complete-g>
+      <blackout-onset-g>8</blackout-onset-g>
+    </parameters>
+  </redout>
+  
+</PropertyList>

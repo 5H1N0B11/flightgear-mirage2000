@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <text>
+    <name>button_b1</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.035</y-m>
+      <z-m>-0.056</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>LOADS</text>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>missiles</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.041</y-m>
+      <z-m> 0.054</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>MISSILES</text>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>button_h1-h2</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.043</y-m>
+      <z-m> 0.048</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>A-A A-G</text>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.005</character-size>
+  </text>
+
+  <text>
+    <name>bombs</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.044</y-m>
+      <z-m>0.054</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>BOMBS</text>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>1L</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>-0.024</y-m>
+      <z-m>0.008</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>sim/weight/selected</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.005</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>1L</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>sim/weight/selected</property>
+          <value>none</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <text>
+    <name>2L</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.046</y-m>
+      <z-m>-0.038</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>sim/weight[1]/selected</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.005</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>2L</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>sim/weight[1]/selected</property>
+          <value>none</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <text>
+    <name>3L</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.035</y-m>
+      <z-m>-0.012</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>sim/weight[2]/selected</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.005</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>3L</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>none</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <text>
+    <name>C</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.0</y-m>
+      <z-m>-0.018</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>sim/weight[3]/selected</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.005</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>C</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>sim/weight[3]/selected</property>
+          <value>none</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <text>
+    <name>3R</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.035</y-m>
+      <z-m>-0.012</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>sim/weight[4]/selected</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.005</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>3R</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>sim/weight[4]/selected</property>
+          <value>none</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <text>
+    <name>2R</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.046</y-m>
+      <z-m>-0.038</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>sim/weight[5]/selected</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.005</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>2R</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>sim/weight[5]/selected</property>
+          <value>none</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <text>
+    <name>1R</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.024</y-m>
+      <z-m>0.008</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>sim/weight[6]/selected</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.005</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>1R</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>sim/weight[6]/selected</property>
+          <value>none</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <text>
+    <name>BL</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.020</y-m>
+      <z-m>-0.045</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>sim/weight[7]/selected</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.005</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>BL</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>sim/weight[7]/selected</property>
+          <value>none</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <text>
+    <name>BR</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.020</y-m>
+      <z-m>-0.045</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>sim/weight[8]/selected</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.005</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>BR</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>sim/weight[8]/selected</property>
+          <value>none</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <animation>
+    <name>green</name>
+    <type>material</type>
+    <object-name>button_b1</object-name>
+    <object-name>missiles</object-name>
+    <object-name>bombs</object-name>
+    <object-name>button_h1-h2</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.0 </red>
+      <green> 0.9 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>white</name>
+    <type>material</type>
+    <object-name>1L</object-name>
+    <object-name>2L</object-name>
+    <object-name>3L</object-name>
+    <object-name>C</object-name>
+    <object-name>3R</object-name>
+    <object-name>2R</object-name>
+    <object-name>1R</object-name>
+    <object-name>BL</object-name>
+    <object-name>BR</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.9 </red>
+      <green> 0.9 </green>
+      <blue>  0.9 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+</PropertyList>

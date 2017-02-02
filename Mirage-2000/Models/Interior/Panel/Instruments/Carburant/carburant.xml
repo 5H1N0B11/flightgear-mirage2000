@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>carburant.ac</path>
+
+  <animation>
+    <object-name>base</object-name>
+    <object-name>visses</object-name>
+    <object-name>face</object-name>
+    <object-name>num1-1</object-name>
+    <object-name>num1-2</object-name>
+    <object-name>num1-3</object-name>
+    <object-name>num1-4</object-name>
+    <object-name>num2-1</object-name>
+    <object-name>num2-2</object-name>
+    <object-name>num2-3</object-name>
+    <object-name>num2-4</object-name>
+    <object-name>num3-1</object-name>
+    <object-name>num3-2</object-name>
+    <object-name>num3-3</object-name>
+    <object-name>num3-4</object-name>
+    <object-name>knob</object-name>
+    <object-name>leftgauge</object-name>
+    <object-name>rightgauge</object-name>
+    <object-name>lefttank</object-name>
+    <object-name>middletank</object-name>
+    <object-name>righttank</object-name>
+    <object-name>warningblancL</object-name>
+    <object-name>warningblancR</object-name>
+    <object-name>warningrougeL</object-name>
+    <object-name>warningrougeR</object-name>
+    <object-name>low-lamp</object-name>
+    <object-name>low-lamp-off</object-name>
+    <object-name>low-lamp2</object-name>
+    <object-name>low-lamp-off2</object-name>
+    <object-name>texte</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>base</object-name>
+    <object-name>visses</object-name>
+    <object-name>knob</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>base</object-name>
+    <object-name>visses</object-name>
+    <object-name>knob</object-name>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <emission>
+      <red>   0.05 </red>
+      <green> 0.05 </green>
+      <blue>  0.05 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>face</object-name>
+    <object-name>num1-1</object-name>
+    <object-name>num1-2</object-name>
+    <object-name>num1-3</object-name>
+    <object-name>num1-4</object-name>
+    <object-name>num2-1</object-name>
+    <object-name>num2-2</object-name>
+    <object-name>num2-3</object-name>
+    <object-name>num2-4</object-name>
+    <object-name>num3-1</object-name>
+    <object-name>num3-2</object-name>
+    <object-name>num3-3</object-name>
+    <object-name>num3-4</object-name>
+    <object-name>leftgauge</object-name>
+    <object-name>rightgauge</object-name>
+    <object-name>lefttank</object-name>
+    <object-name>middletank</object-name>
+    <object-name>righttank</object-name>
+    <object-name>warningblancL</object-name>
+    <object-name>warningblancR</object-name>
+    <object-name>warningrougeL</object-name>
+    <object-name>warningrougeR</object-name>
+    <object-name>texte</object-name>
+    <emission>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>low-lamp</object-name>
+    <object-name>low-lamp2</object-name>
+    <emission>
+      <red>   2 </red>
+      <green> 2 </green>
+      <blue>  2 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>low-lamp-off</object-name>
+    <object-name>low-lamp-off2</object-name>
+    <emission>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+
+  <!-- Fuel in total fuel in kg -->
+  <animation>
+    <type>textranslate</type>
+    <object-name>num1-1</object-name>
+    <property>/consumables/fuel/total-fuel-kg</property>
+    <factor>0.0001</factor>
+    <step>1000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>num1-2</object-name>
+    <property>/consumables/fuel/total-fuel-kg</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>num1-3</object-name>
+    <property>/consumables/fuel/total-fuel-kg</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>num1-4</object-name>
+    <property>/consumables/fuel/total-fuel-kg</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--     Remain fuel -->
+  <animation>
+    <type>textranslate</type>
+    <object-name>num2-1</object-name>
+    <property>/instrumentation/consumables/remain_fuel</property>
+    <factor>0.0001</factor>
+    <step>1000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>num2-2</object-name>
+    <property>/instrumentation/consumables/remain_fuel</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>num2-3</object-name>
+    <property>/instrumentation/consumables/remain_fuel</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>num2-4</object-name>
+    <property>/instrumentation/consumables/remain_fuel</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--     Bingo fuel -->
+  <animation>
+    <type>textranslate</type>
+    <object-name>num3-1</object-name>
+    <property>/instrumentation/consumables/bingo_fuel</property>
+    <factor>0.0001</factor>
+    <step>1000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>num3-2</object-name>
+    <property>/instrumentation/consumables/bingo_fuel</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>num3-3</object-name>
+    <property>/instrumentation/consumables/bingo_fuel</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>num3-4</object-name>
+    <property>/instrumentation/consumables/bingo_fuel</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>lefttank</object-name>
+    <condition>
+      <property>/consumables/fuel/tank[2]/selected</property>
+      <value>true</value>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>middletank</object-name>
+    <condition>
+      <property>/consumables/fuel/tank[3]/selected</property>
+      <value>true</value>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>righttank</object-name>
+    <condition>
+      <property>/consumables/fuel/tank[4]/selected</property>
+      <value>true</value>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>leftgauge</object-name>
+    <property>/consumables/fuel/tank/level-kg</property>
+    <factor>0.000322</factor>
+    <step>0.001</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>rightgauge</object-name>
+    <property>/consumables/fuel/tank[1]/level-kg</property>
+    <factor>0.000322</factor>
+    <step>0.001</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>warningblancL</object-name>
+    <object-name>warningblancR</object-name>
+    <condition>
+      <equals>
+        <property>instrumentation/consumables/bingo_low</property>
+        <value>0</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>warningrougeL</object-name>
+    <object-name>warningrougeR</object-name>
+    <condition>
+      <equals>
+        <property>/instrumentation/consumables/bingo_low</property>
+        <value>1</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!-- low fuel warning -->
+  <!-- Below 100 kg -->
+  <animation>
+    <type>select</type>
+    <object-name>low-lamp</object-name>
+    <condition>
+      <less-than>
+        <property>/instrumentation/consumables/remain_fuel</property>
+        <value>100</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!-- Above 100 kg -->
+  <animation>
+    <type>select</type>
+    <object-name>low-lamp-off</object-name>
+    <condition>
+      <greater-than>
+        <property>/instrumentation/consumables/remain_fuel</property>
+        <value>100.001</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!-- Temporarly same as previous -->
+  <animation>
+    <type>select</type>
+    <object-name>low-lamp2</object-name>
+    <condition>
+      <less-than>
+        <property>/instrumentation/consumables/remain_fuel</property>
+        <value>100</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!-- Above 100 kg -->
+  <animation>
+    <type>select</type>
+    <object-name>low-lamp-off2</object-name>
+    <condition>
+      <greater-than>
+        <property>/instrumentation/consumables/remain_fuel</property>
+        <value>100.001</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+</PropertyList>

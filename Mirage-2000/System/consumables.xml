@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <fuel>
+    
+    <tank n="0">
+      <tank-num type="int"> 0 </tank-num>
+      <level-gal_us archive="y"> 527.7 </level-gal_us>
+    </tank>
+    
+    <tank n="1">
+      <tank-num type="int"> 1 </tank-num>
+      <level-gal_us archive="y"> 527.7 </level-gal_us>
+    </tank>
+    
+    <tank n="2">
+      <name>left-Tank</name>
+      <selected type="bool">false</selected>
+    </tank>
+    
+    <tank n="3">
+      <name>Center-tank</name>
+      <selected type="bool">false</selected>
+    </tank>
+    
+    <tank n="4">
+      <name>right-Tank</name>
+      <selected type="bool">false</selected>
+    </tank>
+    
+  </fuel>
+  
+</PropertyList>

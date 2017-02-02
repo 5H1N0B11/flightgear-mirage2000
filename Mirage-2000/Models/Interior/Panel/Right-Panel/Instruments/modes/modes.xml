@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>modes.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>base</object-name>
+    <object-name>texte</object-name>
+    <object-name>visses</object-name>
+    <object-name>knob0</object-name>
+    <object-name>knob0</object-name>
+
+    <!-- Objets transparents -->
+  </animation>
+
+  <!--
+  Centre de rotation de knob0
+  
+  Objet : ?
+  
+  x :  0.00156
+  y : -0.02472
+  z :  0.00166
+  
+    0 ° sur axe X -> OFF
+   30 ° sur axe X -> VEI
+   65 ° sur axe X -> CAL
+  100 ° sur axe X -> TST
+  130 ° sur axe x -> AUGN
+  155 ° sur axe X -> ALCM
+  185 ° sur axe x -> NAV
+  215 ° sur axe x -> SEC
+  
+  Centre de rotation de knob1
+  
+  Objet : ?
+  
+  x : 0.00156
+  y : 0.03092
+  z : 0.00117
+  
+    0 ° sur axe X -> MAIN
+   35 ° sur axe X -> CRV
+   70 ° sur axe X -> DCI
+  105 ° sur axe X -> STS
+  140 ° sur axe X -> M
+  -->
+
+</PropertyList>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>switch2.ac</path>
+
+  <animation>
+
+    <!-- Objets opaques -->
+    <object-name>fond</object-name>
+    <object-name>switch</object-name>
+
+    <!-- Objets transparents -->
+
+  </animation>
+
+  <!--Offset -->
+  <animation>
+    <type>rotate</type>
+    <object-name>switch</object-name>
+    <offset-deg>-25</offset-deg>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>switch</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/transformator-switch</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/ALT1-switch</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/ALT2-switch</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch</object-name>
+    <property>/controls/switches/transformator-switch</property>
+    <factor>50</factor>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

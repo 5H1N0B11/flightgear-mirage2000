@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>jettison.ac</path>
+
+  <animation>
+    <object-name>fond</object-name>
+    <object-name>button</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>button</object-name>
+    <emission>
+      <factor>0.13</factor>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </emission>
+  </animation>
+
+  <!-- Select missile -->
+  <animation>
+    <type>pick</type>
+    <object-name>button</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/jettinson-button</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>m2000_load.dropTanks();</script>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-toggle</command>
+          <property>/controls/switches/jettinson-button</property>
+        </binding>
+      </mod-up>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>jettison</tooltip-id>
+        <label>Jettison Tank</label>
+        <!--<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>-->
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>button</object-name>
+    <property>/controls/switches/jettinson-button</property>
+    <factor>0.003</factor>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

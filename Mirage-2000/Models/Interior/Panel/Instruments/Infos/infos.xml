@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>infos.ac</path>
+
+  <animation>
+    <object-name>fond</object-name>
+    <object-name>text</object-name>
+
+    <object-name>kt0</object-name>
+    <object-name>kt1</object-name>
+    <object-name>kt10</object-name>
+    <object-name>kt100</object-name>
+
+    <object-name>hdg0</object-name>
+    <object-name>hdg1</object-name>
+    <object-name>hdg10</object-name>
+    <object-name>hdg100</object-name>
+
+    <object-name>ft0</object-name>
+    <object-name>ft1</object-name>
+    <object-name>ft10</object-name>
+    <object-name>ft100</object-name>
+    <object-name>ft1000</object-name>
+    <object-name>ft10000</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <object-name>text</object-name>
+    <emission>
+      <factor>0.2</factor>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>kt1</object-name>
+    <object-name>kt10</object-name>
+    <object-name>kt100</object-name>
+    <object-name>hdg1</object-name>
+    <object-name>hdg10</object-name>
+    <object-name>hdg100</object-name>
+    <object-name>ft1</object-name>
+    <object-name>ft10</object-name>
+    <object-name>ft100</object-name>
+    <object-name>ft1000</object-name>
+    <object-name>ft10000</object-name>
+    <emission>
+      <factor-prop>systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.6 </red>
+      <green> 0.3 </green>
+      <blue>  0.3 </blue>
+    </emission>
+  </animation>
+
+  <!-- hdg -->
+  <animation>
+    <type>select</type>
+    <object-name>hdg10</object-name>
+    <condition>
+      <greater-than>
+        <property>/orientation/heading-magnetic-deg</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>hdg100</object-name>
+    <condition>
+      <greater-than>
+        <property>/orientation/heading-magnetic-deg</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>hdg1</object-name>
+    <property>/orientation/heading-magnetic-deg</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>hdg10</object-name>
+    <property>/orientation/heading-magnetic-deg</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>hdg100</object-name>
+    <property>/orientation/heading-magnetic-deg</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Altitude -->
+  <animation>
+    <type>select</type>
+    <object-name>ft10</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ft100</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ft1000</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+        <value>999.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ft10000</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+        <value>9999.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>ft1</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>ft10</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>ft100</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>ft1000</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.0001</factor>
+    <step>1000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>ft10000</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.00001</factor>
+    <step>10000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Airspeed -->
+  <animation>
+    <type>select</type>
+    <object-name>kt10</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>kt100</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>kt1</object-name>
+    <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>kt10</object-name>
+    <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>kt100</object-name>
+    <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

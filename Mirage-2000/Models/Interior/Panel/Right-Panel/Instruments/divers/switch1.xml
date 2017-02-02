@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>switch1.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>fond</object-name>
+    <object-name>switch</object-name>
+    <!-- Objets transparents -->
+  </animation>
+
+  <!-- Objets Lights -->
+  <animation>
+    <type>material</type>
+    <object-name>switch</object-name>
+    <emission>
+      <!--<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>-->
+      <red>   0.10 </red>
+      <green> 0.05 </green>
+      <blue>  0.05 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>switch</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/battery-switch</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch</object-name>
+    <offset-deg>-25</offset-deg>
+    <property>/controls/switches/battery-switch</property>
+    <factor>50</factor>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

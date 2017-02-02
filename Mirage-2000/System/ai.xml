@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <closest>
+    <callsign type="string">  0 </callsign>
+    <range type="double">    -2 </range>
+    <heading type="int">      0 </heading>
+    <bearing type="int">      0 </bearing>
+    <altitude type="int">     0 </altitude>
+    <speed type="int">        0 </speed>
+    <longitude type="double"> 0 </longitude>
+    <latitude type="double">  0 </latitude>
+  </closest>
+  
+</PropertyList>

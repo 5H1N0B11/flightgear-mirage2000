@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>effect2.ac</path>
+
+  <!-- ******************************************************************* -->
+  <!-- Condensation                                                        -->
+  <!-- ******************************************************************* -->
+
+  <!--  REMBRANDT support for transparent objects-->
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>condensation-left</object-name>
+    <object-name>condensation-right</object-name>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+  </effect>
+
+  <!-- condensation -->
+  <animation>
+    <type>select</type>
+    <object-name>condensation-left</object-name>
+    <object-name>condensation-right</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>orientation/alpha-deg</property>
+          <value>5.0</value>
+        </greater-than>
+        <greater-than>
+          <property>velocities/airspeed-kt</property>
+          <value>200</value>
+        </greater-than>
+        <less-than>
+          <property>/position/altitude-ft</property>
+          <value>5000.0</value>
+        </less-than>
+      </and>
+    </condition>
+    <attach>world</attach>
+    <placer>
+      <type>point</type>
+    </placer>
+  </animation>
+
+</PropertyList>

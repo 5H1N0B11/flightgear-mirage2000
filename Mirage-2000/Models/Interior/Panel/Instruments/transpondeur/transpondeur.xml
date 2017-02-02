@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- can help : http://fr.wikipedia.org/wiki/Radar_secondaire -->
+
+<PropertyList>
+
+  <path>transpondeur.ac</path>
+
+  <animation>
+    <object-name>fond</object-name>
+    <object-name>visses</object-name>
+    <object-name>texte</object-name>
+    <object-name>lignes</object-name>
+    <object-name>switch1</object-name>
+    <object-name>switch2</object-name>
+    <object-name>switch3</object-name>
+    <object-name>switch4</object-name>
+    <object-name>switch5</object-name>
+    <object-name>switch6</object-name>
+    <object-name>switch7</object-name>
+    <object-name>molete1</object-name>
+    <object-name>molete2</object-name>
+    <object-name>molete3</object-name>
+    <object-name>molete4</object-name>
+    <object-name>molete5</object-name>
+    <object-name>molete6</object-name>
+    <object-name>value1</object-name>
+    <object-name>value2</object-name>
+    <object-name>value3</object-name>
+    <object-name>value4</object-name>
+    <object-name>value5</object-name>
+    <object-name>value6</object-name>
+    <object-name>textebutton1</object-name>
+    <object-name>button1.1</object-name>
+    <object-name>button1.2</object-name>
+    <object-name>textebutton2</object-name>
+    <object-name>button2.1</object-name>
+    <object-name>button2.2</object-name>
+    <object-name>background</object-name>
+  </animation>
+
+  <!--LIGHT EMISSION -->
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <object-name>visses</object-name>
+    <object-name>switch1</object-name>
+    <object-name>switch2</object-name>
+    <object-name>switch3</object-name>
+    <object-name>switch4</object-name>
+    <object-name>switch5</object-name>
+    <object-name>switch6</object-name>
+    <object-name>switch7</object-name>
+    <object-name>molete1</object-name>
+    <object-name>molete2</object-name>
+    <object-name>molete3</object-name>
+    <object-name>molete4</object-name>
+    <object-name>molete5</object-name>
+    <object-name>molete6</object-name>
+    <object-name>textebutton1</object-name>
+    <object-name>button1.1</object-name>
+    <object-name>button1.2</object-name>
+    <object-name>textebutton2</object-name>
+    <object-name>button2.1</object-name>
+    <object-name>button2.2</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <object-name>visses</object-name>
+    <object-name>switch1</object-name>
+    <object-name>switch2</object-name>
+    <object-name>switch3</object-name>
+    <object-name>switch4</object-name>
+    <object-name>switch5</object-name>
+    <object-name>switch6</object-name>
+    <object-name>switch7</object-name>
+    <object-name>molete1</object-name>
+    <object-name>molete2</object-name>
+    <object-name>molete3</object-name>
+    <object-name>molete4</object-name>
+    <object-name>molete5</object-name>
+    <object-name>molete6</object-name>
+    <object-name>textebutton1</object-name>
+    <object-name>button1.1</object-name>
+    <object-name>button1.2</object-name>
+    <object-name>textebutton2</object-name>
+    <object-name>button2.1</object-name>
+    <object-name>button2.2</object-name>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <emission>
+      <red>   0.05 </red>
+      <green> 0.05 </green>
+      <blue>  0.05 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>texte</object-name>
+    <object-name>lignes</object-name>
+    <object-name>value1</object-name>
+    <object-name>value2</object-name>
+    <object-name>value3</object-name>
+    <object-name>value4</object-name>
+    <object-name>value5</object-name>
+    <object-name>value6</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+    </emission>
+  </animation>
+
+  <!--=================================== Molette 1 et valeur 1 =================================-->
+  <animation>
+    <type>pick</type>
+    <object-name>molete1</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[0]</property>
+        <step>1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>molete1</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[0]</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molete1</object-name>
+    <property>/instrumentation/transponder/inputs/digit[0]</property>
+    <factor>72</factor>
+    <center>
+      <x-m>-0.00787</x-m>
+      <y-m> 0.04533</y-m>
+      <z-m> 0.05442</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>value1</object-name>
+    <property>/instrumentation/transponder/inputs/digit[0]</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Molette 2 et valeur 2 === -->
+  <animation>
+    <type>pick</type>
+    <object-name>molete2</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[1]</property>
+        <step>1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>molete2</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[1]</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molete2</object-name>
+    <property>/instrumentation/transponder/inputs/digit[1]</property>
+    <factor>72</factor>
+    <center>
+      <x-m>-0.00787</x-m>
+      <y-m> 0.04533</y-m>
+      <z-m> 0.05442</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>value2</object-name>
+    <property>/instrumentation/transponder/inputs/digit[1]</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Molette 3 et valeur 3 -->
+  <animation>
+    <type>pick</type>
+    <object-name>molete3</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[2]</property>
+        <step>1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>molete3</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[2]</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molete3</object-name>
+    <property>/instrumentation/transponder/inputs/digit[2]</property>
+    <factor>72</factor>
+    <center>
+      <x-m>-0.00787</x-m>
+      <y-m> 0.04533</y-m>
+      <z-m> 0.05442</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>value3</object-name>
+    <property>/instrumentation/transponder/inputs/digit[2]</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Molette 4 et valeur 4 -->
+  <animation>
+    <type>pick</type>
+    <object-name>molete4</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[3]</property>
+        <step>1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>molete4</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[3]</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molete4</object-name>
+    <property>/instrumentation/transponder/inputs/digit[3]</property>
+    <factor>72</factor>
+    <center>
+      <x-m>-0.00787</x-m>
+      <y-m> 0.04533</y-m>
+      <z-m> 0.05442</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>value4</object-name>
+    <property>/instrumentation/transponder/inputs/digit[3]</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--
+  <animation>
+    <type>pick</type>
+    <object-name>molete4</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molete4</object-name>
+    <property>...</property>
+    <factor>36</factor>
+    <center>
+      <x-m>-0.00787</x-m>
+      <y-m> 0.00093</y-m>
+      <z-m> 0.05442</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+ 
+  <animation>
+    <type>textranslate</type>
+    <object-name>value4</object-name>
+    <property>...</property>
+    <factor>...</factor>
+    <step>...</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Molette 5 et valeur 5
+  <animation>
+    <type>pick</type>
+    <object-name>molete5</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molete5</object-name>
+    <property>...</property>
+    <factor>36</factor>
+    <center>
+      <x-m>-0.00787</x-m>
+      <y-m>-0.01921</y-m>
+      <z-m> 0.05442</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+ 
+  <animation>
+    <type>textranslate</type>
+    <object-name>value5</object-name>
+    <property>...</property>
+    <factor>...</factor>
+    <step>...</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Molette 6 et valeur 6
+  <animation>
+    <type>pick</type>
+    <object-name>molete6</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+  
+  <animation>
+    <type>rotate</type>
+    <object-name>molete6</object-name>
+    <property>...</property>
+    <factor>36</factor>
+    <center>
+      <x-m>-0.00787</x-m>
+      <y-m>-0.03369</y-m>
+      <z-m> 0.05442</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+  
+  <animation>
+    <type>textranslate</type>
+    <object-name>value6</object-name>
+    <property>...</property>
+    <factor>...</factor>
+    <step>...</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <!--  Switch 1-->
+  <animation>
+    <type>pick</type>
+    <object-name>switch1</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/transponder/inputs/ident-btn</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch1</object-name>
+    <property>/instrumentation/transponder/inputs/ident-btn</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-0.00266</x-m>
+      <y-m>-0.05195</y-m>
+      <z-m> 0.01089</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!-- Switch 2
+  <animation>
+    <type>pick</type>
+    <object-name>switch2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch2</object-name>
+    <property>...</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-0.00266</x-m>
+      <y-m>-0.02002</y-m>
+      <z-m> 0.01089</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Switch 3
+  <animation>
+    <type>pick</type>
+    <object-name>switch3</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch3</object-name>
+    <property>...</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-0.00266</x-m>
+      <y-m> 0.00144</y-m>
+      <z-m> 0.01089</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Switch 4 -->
+  <animation>
+    <type>pick</type>
+    <object-name>switch4</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/transponder/switch/IDENTIFICATION</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.IDENT();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch4</object-name>
+    <property>/instrumentation/transponder/switch/IDENTIFICATION</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-0.00266</x-m>
+      <y-m> 0.02080</y-m>
+      <z-m> 0.01089</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!-- Switch 5 -->
+  <animation>
+    <type>pick</type>
+    <object-name>switch5</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/transponder/switch/ALTITUDE</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.ALTITUDE();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch5</object-name>
+    <property>/instrumentation/transponder/switch/ALTITUDE</property>
+    <value>1</value>
+    <factor>70</factor>
+    <center>
+      <x-m>-0.00266</x-m>
+      <y-m> 0.04093</y-m>
+      <z-m> 0.01089</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!-- Switch 6
+  <animation>
+    <type>pick</type>
+    <object-name>switch6</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch6</object-name>
+    <property>...</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-0.00266</x-m>
+      <y-m>-0.05996</y-m>
+      <z-m>-0.03938</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Switch 7
+  <animation>
+    <type>pick</type>
+    <object-name>switch7</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch7</object-name>
+    <property>...</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-0.00266</x-m>
+      <y-m>-0.04556</y-m>
+      <z-m>-0.05966</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation> -->
+
+  <!-- button1.1
+  <animation>
+    <type>pick</type>
+    <object-name>button1.1</object-name>
+    <object-name>textebutton2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>button1.1</object-name>
+    <object-name>textebutton2</object-name>
+    <property>...</property>
+    <factor>45</factor>
+    <center>
+      <x-m> 0.00395</x-m>
+      <y-m>-0.02391</y-m>
+      <z-m>-0.02300</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <!-- button1.2
+  <animation>
+    <type>pick</type>
+    <object-name>button1.2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>button1.2</object-name>
+    <property>...</property>
+    <factor>45</factor>
+    <center>
+      <x-m> 0.00395</x-m>
+      <y-m>-0.02391</y-m>
+      <z-m>-0.02300</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <animation>
+    <name>MoletteIFF</name>
+    <object-name>button1.1</object-name>
+    <object-name>button1.2</object-name>
+    <object-name>textebutton1</object-name>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>MoletteIFF</object-name>
+    <offset-deg>48</offset-deg>
+    <center>
+      <x-m> 0.00395</x-m>
+      <y-m>-0.02391</y-m>
+      <z-m>-0.02300</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <name>MoletteTransponder</name>
+    <object-name>button2.1</object-name>
+    <object-name>button2.2</object-name>
+    <object-name>textebutton2</object-name>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>MoletteTransponder</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/switch/MoletteTrans</property>
+        <step>1</step>
+        <min>0</min>
+        <max>4</max>
+        <wrap>false</wrap>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.MOLETTE_haut();</script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>mode-transp</tooltip-id>
+        <label>Transpondeur : %s</label>
+        <property>/instrumentation/transponder/switch/MoletteTrans</property>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>MoletteTransponder</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/switch/MoletteTrans</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>4</max>
+        <wrap>false</wrap>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.MOLETTE_bas();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>MoletteTransponder</object-name>
+    <property>/instrumentation/transponder/switch/MoletteTrans</property>
+    <factor>20</factor>
+    <center>
+      <x-m> 0.00395</x-m>
+      <y-m> 0.03385</y-m>
+      <z-m>-0.02300</z-m>
+    </center>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

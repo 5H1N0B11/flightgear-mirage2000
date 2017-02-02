@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>formation.ac</path>
+
+  <animation>
+    <object-name>contourlight</object-name>
+    <object-name>light</object-name>
+  </animation>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>light</object-name>
+  </effect>
+
+  <animation>
+    <type>alpha-test</type>
+    <alpha-factor> 0.01 </alpha-factor>
+  </animation>
+
+  <!-- day : off -->
+  <animation>
+    <type>material</type>
+    <object-name>light</object-name>
+    <emission>
+      <red>   0.0 </red>
+      <green> 0.0 </green>
+      <blue>  0.0 </blue>
+    </emission>
+    <condition>
+      <and>
+        <less-than>
+          <property>/sim/time/sun-angle-rad</property>
+          <value>1.58</value>
+        </less-than>
+        <property>sim/model/lights/formation/state</property>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- night : on and low -->
+  <animation>
+    <type>material</type>
+    <object-name>light</object-name>
+    <emission>
+      <red>   0.00 </red>
+      <green> 0.60 </green>
+      <blue>  0.42 </blue>
+    </emission>
+    <condition>
+      <and>
+        <greater-than>
+          <property>/sim/time/sun-angle-rad</property>
+          <value>1.77</value>
+        </greater-than>
+        <property>sim/model/lights/formation/state</property>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- dusk : on and bright -->
+  <animation>
+    <type>material</type>
+    <object-name>light</object-name>
+    <emission>
+      <red>   0.0 </red>
+      <green> 1.0 </green>
+      <blue>  0.7 </blue>
+    </emission>
+    <condition>
+      <and>
+        <less-than>
+          <property>sim/time/sun-angle-rad</property>
+          <value>1.77</value>
+        </less-than>
+        <greater-than>
+          <property>/sim/time/sun-angle-rad</property>
+          <value>1.58</value>
+        </greater-than>
+        <property>sim/model/lights/formation/state</property>
+      </and>
+    </condition>
+  </animation>
+
+</PropertyList>

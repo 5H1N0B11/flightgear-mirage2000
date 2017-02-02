@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Configure the nav-display symbology -->
+<PropertyList>
+
+  <symbol>
+    <type type="string">VOR</type>
+    <limit>10</limit>
+    <enable>
+      <property>instrumentation/nd/display/vor</property>
+    </enable>
+    <state type="string">!tuned</state>
+    <state type="string">!on-active-route</state>
+    <width type="float">32</width>
+    <texture-size type="int">512</texture-size>
+    <u0 type="float">192</u0>
+    <v0 type="float">64</v0>
+    <u1 type="float">256</u1>
+    <v1 type="float">128</v1>
+    <color>
+      <red type="float">   0 </red>
+      <green type="float"> 1 </green>
+      <blue type="float">  0 </blue>
+    </color>
+    <text type="string">{id}</text>
+    <text-align type="string">left-center</text-align>
+    <text-offset-x>15</text-offset-x>
+    <text-offset-y>0</text-offset-y>
+  </symbol>
+
+  <symbol>
+    <type type="string">VOR</type>
+    <enable>
+      <property>instrumentation/nd/display/vor</property>
+    </enable>
+    <state type="string">tuned</state>
+    <width type="float">32</width>
+    <texture-size type="int">512</texture-size>
+    <u0 type="float">192</u0>
+    <v0 type="float">64</v0>
+    <u1 type="float">256</u1>
+    <v1 type="float">128</v1>
+    <color>
+      <red type="float">   1 </red>
+      <green type="float"> 0 </green>
+      <blue type="float">  1 </blue>
+    </color>
+    <text type="string">{id}</text>
+    <text-align type="string">left-center</text-align>
+    <text-offset-x>15</text-offset-x>
+    <text-offset-y>0</text-offset-y>
+  </symbol>
+
+  <symbol>
+    <type type="string">dme</type>
+    <enable>
+      <property>instrumentation/nd/display/vor</property>
+    </enable>
+    <state type="string">tuned</state>
+    <width type="float">32</width>
+    <texture-size type="int">512</texture-size>
+    <u0 type="float"> 64</u0>
+    <v0 type="float"> 64</v0>
+    <u1 type="float">128</u1>
+    <v1 type="float">128</v1>
+    <color>
+      <red type="float">   1 </red>
+      <green type="float"> 0 </green>
+      <blue type="float">  1 </blue>
+    </color>
+    <text type="string">{id}</text>
+    <text-align type="string">left-center</text-align>
+    <text-offset-x>15</text-offset-x>
+    <text-offset-y>0</text-offset-y>
+  </symbol>
+
+  <symbol>
+    <type type="string">dme</type>
+    <limit>10</limit>
+    <enable>
+      <property>instrumentation/nd/display/vor</property>
+    </enable>
+    <state type="string">!tuned</state>
+    <state type="string">!on-active-route</state>
+    <width type="float">32</width>
+    <texture-size type="int">512</texture-size>
+    <u0 type="float"> 64</u0>
+    <v0 type="float"> 64</v0>
+    <u1 type="float">128</u1>
+    <v1 type="float">128</v1>
+    <color>
+      <red type="float">   0 </red>
+      <green type="float"> 1 </green>
+      <blue type="float">  0 </blue>
+    </color>
+    <text type="string">{id}</text>
+    <text-align type="string">left-center</text-align>
+    <text-offset-x>15</text-offset-x>
+    <text-offset-y>0</text-offset-y>
+  </symbol>
+
+  <symbol>
+    <type type="string">airport</type>
+    <limit>9</limit>
+    <enable>
+      <property>instrumentation/nd/display/arpt</property>
+    </enable>
+    <state type="string">!departure</state>
+    <state type="string">!arrival</state>
+    <width type="float">24</width>
+    <texture-size type="int">512</texture-size>
+    <u0 type="float"> 6.0</u0>
+    <v0 type="float"> 6.0</v0>
+    <u1 type="float">58.0</u1>
+    <v1 type="float">58.0</v1>
+    <color>
+      <red type="float">   0 </red>
+      <green type="float"> 1 </green>
+      <blue type="float">  1 </blue>
+    </color>
+    <text type="string">{id}</text>
+    <text-align type="string">left-center</text-align>
+    <text-offset-x>15</text-offset-x>
+    <text-offset-y>0</text-offset-y>
+  </symbol>
+
+  <symbol>
+    <type type="string">waypoint</type>
+    <enable>
+      <property>instrumentation/nd/serviceable</property>
+    </enable>
+    <state type="string">current-wp</state>
+    <width type="float">40</width>
+    <texture-size type="int">512</texture-size>
+    <u0 type="float">  0</u0>
+    <v0 type="float"> 64</v0>
+    <u1 type="float"> 64</u1>
+    <v1 type="float">128</v1>
+    <color>
+      <red type="float">   1 </red>
+      <green type="float"> 0 </green>
+      <blue type="float">  1 </blue>
+    </color>
+    <line-color>
+      <red type="float">   1 </red>
+      <green type="float"> 1 </green>
+      <blue type="float">  1 </blue>
+    </line-color>
+    <draw-leg type="bool">true</draw-leg>
+    <text type="string">{id}</text>
+    <text-align type="string">left-top</text-align>
+    <text-offset-x>20</text-offset-x>
+    <text-offset-y>10</text-offset-y>
+  </symbol>
+
+  <symbol>
+    <type type="string">waypoint</type>
+    <enable>
+      <property>instrumentation/nd/serviceable</property>
+    </enable>
+    <state type="string">on-active-route</state>
+    <state type="string">!current-wp</state>
+    <width type="float">40</width>
+    <texture-size type="int">512</texture-size>
+    <u0 type="float">  0</u0>
+    <v0 type="float"> 64</v0>
+    <u1 type="float"> 64</u1>
+    <v1 type="float">128</v1>
+    <color>
+      <red type="float">   1 </red>
+      <green type="float"> 1 </green>
+      <blue type="float">  1 </blue>
+    </color>
+    <draw-leg type="bool">true</draw-leg>
+    <text type="string">{id}</text>
+    <text-align type="string">left-top</text-align>
+    <text-offset-x>20</text-offset-x>
+    <text-offset-y>10</text-offset-y>
+  </symbol>
+
+</PropertyList>

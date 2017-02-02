@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <nasal>
+    <load>
+      #print("Gun splash");
+      #print("Number of impact :"~ guns.Nb_Impact());
+      guns.Impact();
+    </load>
+  </nasal>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/explosionFire.xml</path>
+  </model>
+
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/explosionSmoke.xml</path>
+  </model>
+
+</PropertyList>

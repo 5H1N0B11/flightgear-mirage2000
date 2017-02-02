@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>center-mfd.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <type>material</type>
+    <object-name>cadre</object-name>
+    <object-name>vis</object-name>
+    <object-name>trim1</object-name>
+    <object-name>trim2</object-name>
+    <object-name>trim3</object-name>
+    <object-name>bt-b1</object-name>
+    <object-name>bt-b2</object-name>
+    <object-name>bt-b3</object-name>
+    <object-name>bt-b4</object-name>
+    <object-name>bt-b5</object-name>
+    <object-name>bt-h1</object-name>
+    <object-name>bt-h2</object-name>
+    <object-name>bt-h3</object-name>
+    <object-name>bt-h4</object-name>
+    <object-name>bt-h5</object-name>
+    <object-name>pot-l1</object-name>
+    <object-name>pot-l2</object-name>
+    <object-name>pot-l3</object-name>
+    <object-name>pot-l4</object-name>
+    <object-name>pot-r1</object-name>
+    <object-name>pot-r2</object-name>
+    <object-name>pot-r3</object-name>
+    <object-name>pot-r4</object-name>
+    <object-name>blackbkd</object-name>
+
+    <!-- Objets transparents -->
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <!--object-name>cadre</object-name>
+    <object-name>vis</object-name-->
+
+    <object-name>blackbkd</object-name>
+    <emission>
+      <factor>0.5</factor>
+      <red>   2 </red>
+      <green> 2 </green>
+      <blue>  2 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>cadre</object-name>
+    <object-name>vis</object-name>
+    <object-name>trim1</object-name>
+    <object-name>trim2</object-name>
+    <object-name>trim3</object-name>
+    <object-name>bt-b1</object-name>
+    <object-name>bt-b2</object-name>
+    <object-name>bt-b3</object-name>
+    <object-name>bt-b4</object-name>
+    <object-name>bt-b5</object-name>
+    <object-name>bt-h1</object-name>
+    <object-name>bt-h2</object-name>
+    <object-name>bt-h3</object-name>
+    <object-name>bt-h4</object-name>
+    <object-name>bt-h5</object-name>
+    <object-name>pot-l1</object-name>
+    <object-name>pot-l2</object-name>
+    <object-name>pot-l3</object-name>
+    <object-name>pot-l4</object-name>
+    <object-name>pot-r1</object-name>
+    <object-name>pot-r2</object-name>
+    <object-name>pot-r3</object-name>
+    <object-name>pot-r4</object-name>
+    <emission>
+      <factor>0.13</factor>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>blackbkd</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.showNd();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <!--######################## Change display mode  ############################-->
+  <animation>
+    <type>pick</type>
+    <object-name>bt-b1</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-cycle</command>
+        <property>/instrumentation/efis/mfd/display-mode</property>
+        <value>APP</value>
+        <value>MAP</value>
+        <value>PLAN</value>
+        <value>VOR</value>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>display_mode</tooltip-id>
+        <label>Display type : %s</label>
+        <property>/instrumentation/efis/mfd/display-mode</property>
+      </binding>
+    </hovered>
+  </animation>
+
+  <!--######################## Change display type  ############################-->
+  <animation>
+    <type>pick</type>
+    <object-name>bt-b2</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-cycle</command>
+        <property>/instrumentation/efis/mfd/display-type</property>
+        <value>CRT</value>
+        <value>LCD</value>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>display_type</tooltip-id>
+        <label>Display type : %s</label>
+        <property>/instrumentation/efis/mfd/display-type</property>
+      </binding>
+    </hovered>
+  </animation>
+
+  <!--######################## Center ND modes   ############################-->
+  <animation>
+    <type>pick</type>
+    <object-name>bt-b3</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/efis/inputs/nd-centered</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>Center_ND_modes</tooltip-id>
+        <label>Center ND modes : %s</label>
+        <property>/instrumentation/efis/inputs/nd-centered</property>
+      </binding>
+    </hovered>
+  </animation>
+
+  <!--######################## Airports ############################-->
+  <animation>
+    <type>pick</type>
+    <object-name>bt-h1</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/efis/inputs/arpt</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>airport</tooltip-id>
+        <label>Airport</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <!--######################## Display way point data ############################-->
+  <animation>
+    <type>pick</type>
+    <object-name>bt-h2</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/efis/inputs/data</property>
+        <value>true</value>
+        <value>false</value>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>way_point_data</tooltip-id>
+        <label>Waypoint data</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <!--######################## Wpt ############################-->
+  <animation>
+    <type>pick</type>
+    <object-name>bt-h3</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/efis/inputs/wpt</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>way_point</tooltip-id>
+        <label>Waypoints</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <!--######################## Position point ############################-->
+  <animation>
+    <type>pick</type>
+    <object-name>bt-h4</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/efis/inputs/pos</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>position_point</tooltip-id>
+        <label>Position points</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <!--######################## Weather ############################-->
+  <animation>
+    <type>pick</type>
+    <object-name>bt-h5</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/efis/inputs/wxr</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>weather</tooltip-id>
+        <label>Weather</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <!-- ###################### Distance #############################-->
+  <animation>
+    <type>pick</type>
+    <object-name>trim1</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-cycle</command>
+        <property>/instrumentation/efis/inputs/range-nm</property>
+        <value>10</value>
+        <value>20</value>
+        <value>40</value>
+        <value>80</value>
+        <value>160</value>
+        <value>320</value>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>trim1</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-cycle</command>
+        <property>/instrumentation/efis/inputs/range-nm</property>
+        <value>320</value>
+        <value>160</value>
+        <value>80</value>
+        <value>40</value>
+        <value>20</value>
+        <value>10</value>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>trim2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/efis/serviceable</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>trim2</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-cycle</command>
+        <property>/instrumentation/efis/Mode</property>
+        <value>CANVAS</value>
+        <value>OLD</value>
+        <!--<value>OFF</value>-->
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.mdfselection();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>trim2</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-cycle</command>
+        <property>/instrumentation/efis/Mode</property>
+        <!--<value>OFF</value>-->
+        <value>OLD</value>
+        <value>CANVAS</value>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.mdfselection();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <!--######################Tooltips###########################-->
+  <animation>
+    <type>pick</type>
+    <object-name>trim2</object-name>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>mode-mfd</tooltip-id>
+        <label>Mode : %s</label>
+        <property>/instrumentation/efis/Mode</property>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>trim1</object-name>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>range-nm</tooltip-id>
+        <label>Range : %3d nm</label>
+        <property>/instrumentation/efis/inputs/range-nm</property>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>bt-b4</object-name>
+    <visible>true</visible>
+    <action></action>
+  </animation>
+  <animation>
+
+    <type>select</type>
+    <object-name>blackbkd</object-name>
+    <condition>
+      <equals>
+        <property>/instrumentation/efis/Mode</property>
+        <value>CANVAS</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!-- MFD Center border-->
+  <model>
+    <name>MFD-Screen</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/Old/MFD3d.xml</path>
+    <condition>
+      <equals>
+        <property>/instrumentation/efis/Mode</property>
+        <value>OLD</value>
+      </equals>
+    </condition>
+    <offsets>
+      <x-m> 0.0115</x-m>
+      <y-m> 0.000</y-m>
+      <z-m>-0.015</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>scale</type>
+    <object-name>MFD-Screen</object-name>
+    <condition>
+      <equals>
+        <property>/instrumentation/efis/Mode</property>
+        <value>OLD</value>
+      </equals>
+    </condition>
+    <x-offset>1.00</x-offset>
+    <y-offset>0.90</y-offset>
+    <z-offset>0.87</z-offset>
+  </animation>
+
+</PropertyList>

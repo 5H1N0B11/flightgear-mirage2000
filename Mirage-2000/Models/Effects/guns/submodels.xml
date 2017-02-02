@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <!--
+  Submodels are objects which can be dropped or launched from the user aircraft.
+      The trigger is a boolean property, which you define, which when "true" causes
+      the submodel to be released/launched.
+      A submodel will create an AIBallistic object which will follow a ballistic path.
+      By default one submodel will be released when the corresponding trigger is "true".
+      The initial conditions (IC) define the object's starting point (relative to the
+      user aircraft's "reported position"), and its initial speed and direction
+      (relative to the user aircraft).  If you want to release many similar objects
+      with similar IC, then you may use the <repeat>, <delay> and <count> properties
+      to define this.  The allowed properties are:
+
+      <name>         The name of the submodel.
+      <model>        The path to the visual model.
+      <trigger>      The property which will act as the trigger.
+      <speed>        Initial speed, in feet/sec, relative to user aircraft.
+      <repeat>       Set "true" if you want multiple releases of this submodel.
+      <delay>        Time, in seconds, between repeated releases.
+      <count>        Number of submodels available for multiple release.
+      <slaved>       Not used yet.
+      <x-offset>     Submodel's initial fore/aft position relative to user aircraft.
+                     Fore is positive.
+      <y-offset>     Submodel's initial left/right position relative to user aircraft.
+                     Right is positive.
+      <z-offset>     Submodel's initial up/down position relative to user aircraft.
+                     Up is positive.
+      <yaw-offset>   Submodel's initial azimuth, in degrees, relative to user aircraft's
+                     nose.  Right is positive.
+      <pitch-offset> Submodel's initial elevation, in degrees, relative to user aircraft's
+                     pitch.  Up is positive.
+      <eda>          Equivalent Drag Area in ft squared.  The object is assumed to have a
+                     mass of 0.03 slugs and a drag coefficient of 0.295, and sea-level air
+                     density is assumed.  Adjust the EDA to give the model the ballistics you need.
+                     The default value is 0.007.
+      <life>         Life span in seconds.  Default is 900.0.
+      <buoyancy>     In ft/sec/sec.  Works opposite acceleration of gravity.  For example, if
+                     set to 32 the submodel will feel no gravity. If greater than 32 the object
+                     will rise. Default is 0.
+      <wind>         Set to true if you want the submodel to react to the wind.  Default is "false".
+
+    Each canon : 120 ammo each, rate 1800 round/min (= 30 r/sec = delay : 1/30 = 0.033) for air-air,
+       (for memory usage, this has been / 2) and can be slowed to 1100 round/min (delay : 0.05454) in
+       air-ground
+  -->
+
+  <!--Aircraft/Mirage-2000/Models/Effects/guns/apibullet-tracer.xml-->
+  <!--Aircraft/Mirage-2000/Models/Effects/guns/tracer.xml-->
+  <!--Aircraft/f-14b/Models/Stores/M61A1/apibullet-tracer.xml-->
+
+  <cannon>
+    <model>Aircraft/Mirage-2000/Models/Effects/guns/tracer.xml</model>
+    <speed>3363.0</speed>
+    <cd>0.193</cd>
+    <weight>0.9369635</weight>
+    <eda>0.007609</eda>
+    <fuse-range>0</fuse-range>
+    <life>30</life>
+    <trigger>controls/armament/Gun_trigger</trigger>
+    <expiry>true</expiry>
+    <repeat>true</repeat>
+    <delay>0.03</delay>
+    <count>120</count>
+    <wind>false</wind>
+    <collision>true</collision>
+     <collision-reports>sim/ai/aircraft/collision/cannon</collision-reports>
+     
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/bullet</impact-report>
+    
+    <submodel-path>Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml</submodel-path>
+    <yaw-offset>0</yaw-offset>
+    <!--The m2000-5's guns have a negatif angle : -2°-->
+    <pitch-offset>0</pitch-offset>
+  </cannon>
+  <!--Aircraft/f-14b/Models/Stores/M61A1/M61A1-submodels.xml
+      Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml-->
+
+  <submodel>
+    <name>left cannon</name>
+    <model alias="../../cannon/model" />
+    <trigger alias="../../cannon/trigger" />
+    <speed alias="../../cannon/speed" />
+    <cd alias="../../cannon/cd" />
+    <eda alias="../../cannon/eda" />
+    <fuse-range alias="../../cannon/fuse-range" />
+    <weight alias="../../cannon/weight" />
+    <life alias="../../cannon/life" />
+    <repeat alias="../../cannon/repeat" />
+    <delay alias="../../cannon/delay" />
+    <count alias="../../cannon/count" />
+    <wind alias="../../cannon/wind" />
+    <expiry alias="../../cannon/expiry" />
+    <collision alias="../../cannon/collision" />
+    <impact alias="../../cannon/impact" />
+    <submodel-path alias="../../cannon/submodel-path" />
+    <x-offset>3.98</x-offset>
+    <!-- -1.212 m =  3.98 ft -->
+    <y-offset>1.01</y-offset>
+    <!-- -0.308 m =  1.01 ft -->
+    <z-offset>-3.88</z-offset>
+    <!-- -1.183 m = -3.88 ft -->
+    <yaw-offset alias="../../cannon/yaw-offset" />
+    <pitch-offset alias="../../cannon/pitch-offset" />
+  </submodel>
+
+  <!--submodel>
+    <name>left smoke</name>
+    <model>Aircraft/Mirage-2000/Models/Effects/guns/smoke.xml</model>
+    <trigger alias="../../cannon/trigger"/>
+    <speed>20</speed>
+    <repeat>true</repeat>
+    <delay>0.1</delay>
+    <count>36</count>
+    <x-offset>  3.98 </x-offset>
+    <y-offset>  1.01 </y-offset>
+    <z-offset> -3.88 </z-offset>
+    <yaw-offset>-60</yaw-offset>
+    <pitch-offset>-60</pitch-offset>
+    <eda>10</eda>
+    <wind>true</wind>
+    <buoyancy>40</buoyancy>
+    <life>1.5</life>
+  </submodel-->
+
+  <submodel>
+    <name>right cannon</name>
+    <model alias="../../cannon/model" />
+    <trigger alias="../../cannon/trigger" />
+    <speed alias="../../cannon/speed" />
+    <cd alias="../../cannon/cd" />
+    <eda alias="../../cannon/eda" />
+    <fuse-range alias="../../cannon/fuse-range" />
+    <weight alias="../../cannon/weight" />
+    <life alias="../../cannon/life" />
+    <repeat alias="../../cannon/repeat" />
+    <delay alias="../../cannon/delay" />
+    <count alias="../../cannon/count" />
+    <wind alias="../../cannon/wind" />
+    <expiry alias="../../cannon/expiry" />
+    <collision alias="../../cannon/collision" />
+    <impact alias="../../cannon/impact" />
+    <submodel-path alias="../../cannon/submodel-path" />
+    <x-offset>3.98</x-offset>
+    <!-- -1.212 m =  3.98 ft -->
+    <y-offset>-1.01</y-offset>
+    <!--  0.308 m = -1.01 ft -->
+    <z-offset>-3.88</z-offset>
+    <!-- -1.183 m = -3.88 ft -->
+    <yaw-offset alias="../../cannon/yaw-offset" />
+    <pitch-offset alias="../../cannon/pitch-offset" />
+  </submodel>
+
+  <!--submodel>
+    <name>right smoke</name>
+    <model>Aircraft/Mirage-2000/Models/Effects/guns/smoke.xml</model>
+    <trigger alias="../../cannon/trigger"/>
+    <speed>20</speed>
+    <repeat>true</repeat>
+    <delay>0.1</delay>
+    <count>36</count>
+    <x-offset>  3.98 </x-offset>
+    <y-offset> -1.01 </y-offset>
+    <z-offset> -3.88 </z-offset>
+    <yaw-offset>-60</yaw-offset>
+    <pitch-offset>-60</pitch-offset>
+    <eda>10</eda>
+    <wind>true</wind>
+    <buoyancy>40</buoyancy>
+    <life>1.5</life>
+  </submodel-->
+  <!-- pylon options -->
+  <!--                  /-\
+                       /   \
+      _________________|   |_________________
+        |      |      |\   /|      |      |
+       2.L    3.L    1.L\-/1.R    s3.R    2.R
+       (1)    (2)    (0) | (6)    (4)    (5)
+                       Center
+                        (3)
+  -->
+
+  <!--
+  __________________________________Tanks Submodels_____________________________
+  -->
+  <!--     Central Tank __________-->
+  <submodel>
+    <name>center-tank</name>
+    <model>Aircraft/Mirage-2000/Models/External-objects/tank1300l/tank1300l.xml</model>
+    <trigger>controls/armament/station[3]/release-C1300</trigger>
+    <speed>0</speed>
+    <cd>0.035</cd>
+    <eda>2.8</eda>
+    <weight>250</weight>
+    <repeat>true</repeat>
+    <delay>1</delay>
+    <count>-1</count>
+    <wind>false</wind>
+    <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
+    <x-offset> 0.082</x-offset>   <!-- -1.212 m =  3.98 ft -->
+    <y-offset> 0.000</y-offset>   <!-- -0.308 m =  1.01 ft -->
+    <z-offset>-5.000</z-offset>   <!-- -1.183 m = -3.88 ft -->
+    <yaw-offset>0</yaw-offset>
+    <pitch-offset>-1</pitch-offset>
+    <contents>consumables/fuel/tank[3]</contents>
+    <life>1000</life>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/droptank1300C</impact-report>
+  </submodel>
+
+  <submodel>
+    <name>left-tank-1300</name>
+    <model>Aircraft/Mirage-2000/Models/External-objects/tank1300l/tank1300l.xml</model>
+    <trigger>controls/armament/station[2]/release-L1300</trigger>
+    <speed>1</speed>
+    <cd>0.035</cd>
+    <eda>2.8</eda>
+    <weight>250</weight>
+    <repeat>true</repeat>
+    <delay>1</delay>
+    <count>-1</count>
+    <wind>false</wind>
+    <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
+    <x-offset>-1.047</x-offset>    <!-- -1.212 m =  3.98 ft -->
+    <y-offset>-7.359</y-offset>    <!-- -0.308 m =  1.01 ft -->
+    <z-offset>-4.656</z-offset>    <!-- -1.183 m = -3.88 ft -->
+    <yaw-offset>358</yaw-offset>
+    <pitch-offset>-1</pitch-offset>
+    <contents>consumables/fuel/tank[2]</contents>
+    <life>1000</life>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/droptank1300l</impact-report>
+  </submodel>
+
+  <submodel>
+    <name>right-tank-1300</name>
+    <model>Aircraft/Mirage-2000/Models/External-objects/tank1300l/tank1300l.xml</model>
+    <trigger>controls/armament/station[4]/release-R1300</trigger>
+    <speed>1</speed>
+    <cd>0.035</cd>
+    <eda>2.8</eda>
+    <weight>250</weight>
+    <repeat>true</repeat>
+    <delay>1</delay>
+    <count>-1</count>
+    <wind>false</wind>
+    <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
+    <x-offset>-1.047</x-offset>   <!-- -1.212 m =  3.98 ft -->
+    <y-offset>7.359</y-offset>    <!-- -0.308 m =  1.01 ft -->
+    <z-offset>-4.656</z-offset>   <!-- -1.183 m = -3.88 ft -->
+    <yaw-offset>2</yaw-offset>
+    <pitch-offset>-1</pitch-offset>
+    <contents>consumables/fuel/tank[4]</contents>
+    <life>1000</life>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/droptank1300r</impact-report>
+  </submodel>
+
+  <submodel>
+    <name>left-tank-1700</name>
+    <model>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</model>
+    <trigger>controls/armament/station[2]/release-L1700</trigger>
+    <speed>1</speed>
+    <cd>0.035</cd>
+    <eda>2.8</eda>
+    <weight>250</weight>
+    <repeat>true</repeat>
+    <delay>1</delay>
+    <count>-1</count>
+    <wind>false</wind>
+    <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
+    <x-offset>-1.047</x-offset>    <!-- -1.212 m =  3.98 ft -->
+    <y-offset>-6.359</y-offset>    <!-- -0.308 m =  1.01 ft -->
+    <z-offset>-4.656</z-offset>    <!-- -1.183 m = -3.88 ft -->
+    <yaw-offset>358</yaw-offset>
+    <pitch-offset>-1</pitch-offset>
+    <contents>consumables/fuel/tank[2]</contents>
+    <life>1000</life>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/droptank1700l</impact-report>
+  </submodel>
+
+  <submodel>
+    <name>right-tank-1700</name>
+    <model>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</model>
+    <trigger>controls/armament/station[4]/release-R1700</trigger>
+    <speed>1</speed>
+    <cd>0.035</cd>
+    <eda>2.8</eda>
+    <weight>250</weight>
+    <repeat>true</repeat>
+    <delay>1</delay>
+    <count>-1</count>
+    <wind>false</wind>
+    <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
+    <x-offset>-1.047</x-offset>    <!-- -1.212 m =  3.98 ft -->
+    <y-offset>6.359</y-offset>     <!-- -0.308 m =  1.01 ft -->
+    <z-offset>-4.656</z-offset>    <!-- -1.183 m = -3.88 ft -->
+    <yaw-offset>2</yaw-offset>
+    <pitch-offset>-1</pitch-offset>
+    <contents>consumables/fuel/tank[4]</contents>
+    <life>1000</life>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/droptank1700r</impact-report>
+  </submodel>
+
+  <!--
+    <name>         The name of the submodel.
+    <model>        The path to the visual model. Any model in any location is allowed. All the normal
+                   animations are available.
+    <trigger>      The property which will act as the trigger.
+    <speed>        Initial speed, in feet/sec, relative to user aircraft.
+    <repeat>       Set "true" if you want multiple releases of this submodel. Defaults
+                   to false
+    <delay>        Time, in seconds, between repeated releases.
+    <count>        Number of submodels available for multiple release.
+    <x-offset>     Submodel's initial fore/aft position relative to user aircraft.
+                   Fore is positive. (ft)
+    <y-offset>     Submodel's initial left/right position relative to user aircraft.
+                   Right is positive. (ft)
+    <z-offset>     Submodel's initial up/down position relative to user aircraft.
+                   Up is positive. (ft)
+    <yaw-offset>   Submodel's initial azimuth, in degrees, relative to user aircraft's
+                   nose.  Right is positive.
+    <pitch-offset> Submodel's initial elevation, in degrees, relative to user aircraft's
+                   pitch.  Up is positive.
+    <buoyancy>     Submodel's upward acceleration (fps) due to buoyancy in air. 32 is
+                   neutral (contrails),  > 32 exhaust gas, smoke.
+    <wind>             If true, the Submodel is affected by local wind. Defaults to false. This
+                   tag was added to cater for smoke, contrails and the like. The effect of
+                   wind on ballistic objects is not well modelled. For bombs, bulllets etc
+                   this is best left at the default setting.
+    <cd>           The Coeffient of Drag. Varies with submodel shape - 0.295 for a bullet,
+                   0.045 for an airfoil. Enter an appropriate value. Defaults to 0.295.
+    <eda>          Effective drag area (sq ft). Usually the cross-sectional area of the
+                   submodel normal to the airflow.
+    <weight>       The weight of the submodel (lbs). Defaults to 0.25
+    <aero-stabilised> If true, the submodel aligns with the local airflow. Defaults to true.
+    <external-force> If true the submodel is subjected to an external force.
+    <force-path>   A string describing the property where the magnitude, azimuth and elevation
+                   of the external force is to be found. The following child properties are
+                   instantiated:
+                      ~/force-lb
+                      ~/force-azimuth-deg
+                      ~/force-elevation-deg
+                   You need to manipulate these properties with some Nasal to apply an external
+                   force to the submodel.
+    <force-stabilised> If true, the submodel aligns with the external force. Defaults to false.
+                   If both this and <aero-stabilised> are true this takes priority.
+    <no-roll>      If true, the submodel does not bank in turns. Defaults to false.
+    <collision>    If true, the position of collisions (or hits) with other non-ballistic
+                   AI models are reported. Defaults to false.
+    <impact>       If this is true the position of impact on the terrain is reported. Defaults to
+                   false.
+    <expiry>       If true, the postion of the Submodel when its life expires is reported. Defaults
+                   to false. Collision, Impact, and Expiry are handled in that order.
+    <impact-reports> A string descibing the location of Collision, Impact, or Expiry position.
+                   Defaults to "/ai/models/model-impact".
+    <fuse-range>   Range (ft) added to Collision and Impact calculations. Defaults to 0.0.
+    <contents>     A string describing the property where the contents (lbs) of a Submodel are located.
+                   Used with droptanks. Set to zero on release. Defaults to "none".
+    <speed-prop>   A string describing the property where the initial speed of the Submodel is located.
+                   Defaults to "none".
+    <submodel-path> A string describing the path to the .xml file where the next submodel Initial
+                   Conditions are located. This submodel will be instantiated when any of Collision
+                   Impact or Expiry are true. Submodels can be linked to any depth using this tag.
+                   Defaults to "".
+    <random>       If true, initial Azimuth is varied by +- 10 degrees, cd by 10%, and Life by the
+                   value Randomness. Defaults to false.
+    <randomness>   Varies the randomness of Life between 0.0(0%) and 1.0(100%). Defaults to 0.5 (50%).
+    <slaved>       If true the Submodel is slaved to its parent model on release. For a subsequent release
+                   the property "controls/slave-to-ac" must be set to false.
+  -->
+  <submodel>
+    <name>flares</name>
+    <model>Aircraft/Mirage-2000/Models/Effects/flare/flare.xml</model>
+    <trigger>controls/switches/flares</trigger>
+    <speed>400</speed>
+    <repeat>true</repeat>
+    <delay>0.5</delay>
+    <count>-1</count>
+    <x-offset>-3</x-offset>
+    <y-offset> 0</y-offset>
+    <z-offset>-8</z-offset>
+    <eda>0.1</eda>
+    <life>10</life>
+    <buoyancy>28</buoyancy>
+    <aero-stabilise>false</aero-stabilise>
+    <wind>true</wind>
+    <pitch-offset>-35.0</pitch-offset>
+    <yaw-offset>2</yaw-offset>
+  </submodel>
+
+  <submodel>
+    <name>flares</name>
+    <model>Aircraft/Mirage-2000/Models/Effects/flare/flare.xml</model>
+    <trigger>controls/switches/flares</trigger>
+    <speed>400</speed>
+    <repeat>true</repeat>
+    <delay>0.5</delay>
+    <count>-1</count>
+    <x-offset>-3</x-offset>
+    <y-offset> 0</y-offset>
+    <z-offset>-8</z-offset>
+    <eda>0.1</eda>
+    <life>10</life>
+    <buoyancy>28</buoyancy>
+    <aero-stabilise>false</aero-stabilise>
+    <wind>true</wind>
+    <pitch-offset>-35.0</pitch-offset>
+    <yaw-offset>358</yaw-offset>
+  </submodel>
+
+  <submodel>
+    <name>ejection</name>
+    <model>Aircraft/Mirage-2000/Models/Effects/ejection/ejection.xml</model>
+    <trigger>instrumentation/ejection</trigger>
+    <speed>40</speed>
+    <weight>2</weight>
+    <repeat>true</repeat>
+    <delay>2</delay>
+    <count>1</count>
+    <x-offset>0.0</x-offset>
+    <y-offset>0.0</y-offset>
+    <z-offset>0.0</z-offset>
+    <eda>0.1</eda>
+    <life>10</life>
+    <buoyancy>32</buoyancy>
+    <aero-stabilise>false</aero-stabilise>
+    <wind>false</wind>
+    <pitch-offset>60</pitch-offset>
+    <yaw-offset>0</yaw-offset>
+  </submodel>
+
+</PropertyList>

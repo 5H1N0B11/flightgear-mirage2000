@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>surf-indic.ac</path>
+
+  <animation>
+    <object-name>fond</object-name>
+    <object-name>cadre</object-name>
+    <object-name>vis</object-name>
+    <object-name>rep-airbrake</object-name>
+    <object-name>rep-slats</object-name>
+    <object-name>text1</object-name>
+    <object-name>text2</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>fond</object-name>
+    <object-name>rep-airbrake</object-name>
+    <object-name>rep-slats</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </emission>
+    <ambient>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </ambient>
+    <diffuse>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </diffuse>
+    <specular>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>cadre</object-name>
+    <object-name>vis</object-name>
+    <object-name>text1</object-name>
+    <object-name>text2</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>cadre</object-name>
+    <object-name>vis</object-name>
+    <object-name>text1</object-name>
+    <object-name>text2</object-name>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <emission>
+      <red>   0.05 </red>
+      <green> 0.05 </green>
+      <blue>  0.05 </blue>
+    </emission>
+  </animation>
+
+  <!--Airbrakes-->
+  <animation>
+    <type>translate</type>
+    <object-name>rep-airbrake</object-name>
+    <property>surface-positions/spoiler-pos-norm</property>
+    <interpolation>
+      <entry><ind>0.00</ind><dep>0.0000</dep></entry>
+      <entry><ind>0.25</ind><dep>0.0077</dep></entry>
+      <entry><ind>0.50</ind><dep>0.0210</dep></entry>
+      <entry><ind>0.75</ind><dep>0.0345</dep></entry>
+      <entry><ind>1.00</ind><dep>0.0480</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>rep-airbrake</object-name>
+    <property>surface-positions/spoiler-pos-norm</property>
+    <interpolation>
+      <entry><ind>0</ind><dep>0.0000</dep></entry>
+      <entry><ind>1</ind><dep>0.0006</dep></entry>
+    </interpolation>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--Slats-->
+  <animation>
+    <type>translate</type>
+    <object-name>rep-slats</object-name>
+    <property>surface-positions/slat-pos-norm</property>
+    <interpolation>
+      <entry><ind>0.000</ind><dep>0.000</dep></entry>
+      <entry><ind>0.333</ind><dep>0.012</dep></entry>
+      <entry><ind>0.666</ind><dep>0.030</dep></entry>
+      <entry><ind>1.000</ind><dep>0.048</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>rep-slats</object-name>
+    <property>surface-positions/slat-pos-norm</property>
+    <interpolation>
+      <entry><ind>0</ind><dep>0.00000</dep></entry>
+      <entry><ind>1</ind><dep>0.00047</dep></entry>
+    </interpolation>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

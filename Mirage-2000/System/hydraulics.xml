@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <supplier>
+    <pump n="0">
+      <!-- In PSI OMG... 280bar -->
+      <name>HYD1</name>
+      <pressure type="int">4063</pressure>
+    </pump>
+    <pump n="1">
+      <!-- In PSI OMG... 280bar -->
+      <name>HYD2</name>
+      <pressure type="int">4063</pressure>
+    </pump>
+    <pump n="2">
+      <!-- In PSI OMG... 195bar -->
+      <name>EP</name>
+      <!-- 'Secours'-->
+      <pressure type="int">2829</pressure>
+    </pump>
+
+  </supplier>
+
+</PropertyList>
