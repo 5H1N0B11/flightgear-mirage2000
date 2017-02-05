@@ -199,9 +199,11 @@
       <opt><name>Sea Eagle</name>         <lbs type="double"> 1825.00 </lbs></opt>
       <opt><name>Matra R550 Magic 2</name><lbs type="double">  196.21 </lbs></opt>
       <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
+      <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
+      <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
     </weight>
 
-    <weight n="3">
+       <weight n="3">
       <name>pylon.C</name>
       <tank>3</tank>
       <weight-lb type="double"> 0 </weight-lb>
@@ -222,6 +224,7 @@
       <opt><name>Meteor</name>            <lbs type="double">  407.00 </lbs></opt>
       <opt><name>AGM65</name>             <lbs type="double">  600.00 </lbs></opt>
       <opt><name>R77</name>               <lbs type="double">  498.00 </lbs></opt>
+      <opt><name>ASMP</name>              <lbs type="double">  1850.00</lbs></opt>
     </weight>
 
     <weight n="4">
@@ -240,6 +243,8 @@
       <opt><name>Sea Eagle</name>         <lbs type="double"> 1825.00 </lbs></opt>
       <opt><name>Matra R550 Magic 2</name><lbs type="double">  196.21 </lbs></opt>
       <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
+      <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
+      <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
     </weight>
 
     <weight n="5">

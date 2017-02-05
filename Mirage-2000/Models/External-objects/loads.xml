@@ -284,6 +284,45 @@
       </and>
     </condition>
   </animation>
+  
+    <!-- Pylon3 GBU16 -->
+  <animation>
+    <type>select</type>
+    <object-name>P3L-GBU16</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>GBU16</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[2]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- Pylon3 GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>P3L-GBU12</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>GBU12</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[2]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+  
+  
 
   <!-- center station (Index 3) -->
   <animation>
@@ -464,6 +503,18 @@
       </and>
     </condition>
   </animation>
+  
+    <!-- ASMP -->
+  <animation>
+    <type>select</type>
+    <object-name>ASMP</object-name>
+    <condition>
+        <equals>
+          <property>sim/weight[3]/selected</property>
+          <value>ASMP</value>
+        </equals>
+    </condition>
+  </animation>
 
   <!-- station right 3 (Index 4)-->
   <animation>
@@ -551,6 +602,44 @@
       </and>
     </condition>
   </animation>
+  
+    
+    <!-- Pylon3 GBU16 -->
+  <animation>
+    <type>select</type>
+    <object-name>P3R-GBU16</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[4]/selected</property>
+          <value>GBU16</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[4]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- Pylon3 GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>P3R-GBU12</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[4]/selected</property>
+          <value>GBU12</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[4]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
 
   <!-- station right 2 (Index 5) -->
   <animation>
@@ -704,7 +793,7 @@
     </condition>
   </animation>
 
-  <!-- Center GBU12 -->
+  <!-- right GBU12 -->
   <animation>
     <type>select</type>
     <object-name>right-GBU12</object-name>
@@ -719,6 +808,17 @@
           <value>false</value>
         </equals>
       </and>
+    </condition>
+  </animation>
+    <!-- POD -->
+  <animation>
+    <type>select</type>
+    <object-name>PDLCT</object-name>
+    <condition>
+        <equals>
+          <property>sim/weight[6]/selected</property>
+          <value>PDLCT</value>
+        </equals>
     </condition>
   </animation>
 

@@ -179,6 +179,26 @@
       <z-m>-1.556</z-m>
     </offsets>
   </model>
+  
+    <model>
+    <name>P3L-GBU16</name>
+    <path>Aircraft/Mirage-2000/Missiles/GBU16/gbu16.xml</path>
+    <offsets>
+      <x-m> 1.447</x-m>
+      <y-m>-2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <name>P3L-GBU12</name>
+    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <offsets>
+      <x-m> 1.447</x-m>
+      <y-m>-2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
 
   <!-- center station (Index 3) -->
   <model>
@@ -260,6 +280,16 @@
       <z-m>-1.656</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>ASMP</name>
+    <path>Aircraft/Mirage-2000/Missiles/asmp/ASMP.xml</path>
+    <offsets>
+      <x-m> 1.082</x-m>
+      <y-m> 0.000</y-m>
+      <z-m>-1.656</z-m>
+    </offsets>
+  </model>
 
   <model>
     <name>AGM65</name>
@@ -325,6 +355,26 @@
   <model>
     <name>Sea_EagleR</name>
     <path>Aircraft/Mirage-2000/Missiles/SeaEagle/seaeagle.xml</path>
+    <offsets>
+      <x-m> 1.447</x-m>
+      <y-m> 2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
+  
+  <model>
+    <name>P3R-GBU16</name>
+    <path>Aircraft/Mirage-2000/Missiles/GBU16/gbu16.xml</path>
+    <offsets>
+      <x-m> 1.447</x-m>
+      <y-m> 2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <name>P3R-GBU12</name>
+    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
     <offsets>
       <x-m> 1.447</x-m>
       <y-m> 2.359</y-m>
@@ -427,6 +477,16 @@
   <model>
     <name>right-GBU12</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <offsets>
+      <x-m>-1.265</x-m>
+      <y-m> 0.824</y-m>
+      <z-m>-1.404</z-m>
+    </offsets>
+  </model>
+  
+    <model>
+    <name>PDLCT</name>
+    <path>Aircraft/Mirage-2000/Missiles/pdlct/POD.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m> 0.824</y-m>

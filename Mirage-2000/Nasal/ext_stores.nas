@@ -39,7 +39,9 @@ var Encode_Load = func()
         "R77",
         "SCALP",
         "Sea Eagle",
-        "SmokePod"
+        "SmokePod",
+        "ASMP",
+        "PDLCT"
     ];
     var compiled = "";
     
@@ -96,7 +98,9 @@ var Decode_Load = {
             "R77",
             "SCALP",
             "Sea Eagle",
-            "SmokePod"
+            "SmokePod",
+            "ASMP",
+            "PDLCT"
         ];
         return m;
     },
@@ -412,10 +416,55 @@ var AirToGround = func()
     if(getprop("/gear/gear[2]/wow") == 1)
     {
         # pylon 0
-        setprop("/sim/weight[0]/selected",                   "GBU16");
+        setprop("/sim/weight[0]/selected",                   "none");
         
         # pylon 1
         setprop("/sim/weight[1]/selected",                   "Matra MICA");
+        
+        # pylon 2
+        setprop("/sim/weight[2]/selected",                   "GBU16");
+        setprop("/consumables/fuel/tank[2]/selected",        0);
+        setprop("/consumables/fuel/tank[2]/capacity-gal_us", 0);
+        setprop("/consumables/fuel/tank[2]/level-gal_us",    0);
+        
+        # pylon 3
+        setprop("/sim/weight[3]/selected",                   "1300 l Droptank");
+        setprop("/consumables/fuel/tank[3]/selected",        1);
+        setprop("/consumables/fuel/tank[3]/capacity-gal_us", 343);
+        setprop("/consumables/fuel/tank[3]/level-gal_us",    342);
+        
+        # pylon 4
+        setprop("/sim/weight[4]/selected",                   "GBU16");
+        setprop("/consumables/fuel/tank[4]/selected",        0);
+        setprop("/consumables/fuel/tank[4]/capacity-gal_us", 0);
+        setprop("/consumables/fuel/tank[4]/level-gal_us",    0);
+        
+        # pylon 5
+        setprop("/sim/weight[5]/selected",                   "Matra MICA");
+        
+        # pylon 6
+        setprop("/sim/weight[6]/selected",                   "PDLCT");
+        
+        # pylon 7
+        setprop("/sim/weight[7]/selected",                   "none");
+        
+        # pylon 8
+        setprop("/sim/weight[8]/selected",                   "none");
+        
+        FireableAgain();
+    }
+}
+
+
+var m2000N = func()
+{
+    if(getprop("/gear/gear[2]/wow") == 1)
+    {
+        # pylon 0
+        setprop("/sim/weight[0]/selected",                   "none");
+        
+        # pylon 1
+        setprop("/sim/weight[1]/selected",                   "Matra R550 Magic 2");
         
         # pylon 2
         setprop("/sim/weight[2]/selected",                   "1700 l Droptank");
@@ -424,7 +473,7 @@ var AirToGround = func()
         setprop("/consumables/fuel/tank[2]/level-gal_us",    447);
         
         # pylon 3
-        setprop("/sim/weight[3]/selected",                   "SCALP");
+        setprop("/sim/weight[3]/selected",                   "ASMP");
         setprop("/consumables/fuel/tank[3]/selected",        0);
         setprop("/consumables/fuel/tank[3]/capacity-gal_us", 0);
         setprop("/consumables/fuel/tank[3]/level-gal_us",    0);
@@ -436,20 +485,22 @@ var AirToGround = func()
         setprop("/consumables/fuel/tank[4]/level-gal_us",    447);
         
         # pylon 5
-        setprop("/sim/weight[5]/selected",                   "Matra MICA");
+        setprop("/sim/weight[5]/selected",                   "Matra R550 Magic 2");
         
         # pylon 6
-        setprop("/sim/weight[6]/selected",                   "GBU16");
+        setprop("/sim/weight[6]/selected",                   "none");
         
         # pylon 7
-        setprop("/sim/weight[7]/selected",                   "GBU16");
+        setprop("/sim/weight[7]/selected",                   "none");
         
         # pylon 8
-        setprop("/sim/weight[8]/selected",                   "GBU16");
+        setprop("/sim/weight[8]/selected",                   "none");
         
         FireableAgain();
     }
 }
+
+
 
 var FireableAgain = func()
 {
@@ -476,6 +527,10 @@ var FireableAgain = func()
         elsif(select == "SCALP")
         {
             setprop("/sim/weight["~ i ~"]/weight-lb", 2866);
+        }
+        elsif(select == "ASMP")
+        {
+            setprop("/sim/weight["~ i ~"]/weight-lb", 1850);
         }
         elsif(select == "1700 l Droptank")
         {
@@ -508,9 +563,13 @@ dropLoad = func(number)
         }
         else
         {
-            if(getprop("/controls/armament/station["~ number ~"]/release") == 0)
-            {
-                m2000_load.dropMissile(number);
+            if(select == "ASMP"){
+              m2000_load.nuc();
+            }else{
+              if(getprop("/controls/armament/station["~ number ~"]/release") == 0)
+              {
+                  m2000_load.dropMissile(number);
+              }
             }
         }
     }
@@ -753,4 +812,33 @@ var view_firing_missile = func(myMissile)
     # We feed the handler
     view.missile_view_handler.setup(data);
 
+}
+##
+# nuc switch
+##
+var nuc = func {
+  var mpmessaging = getprop("/controls/armament/mp-messaging");
+  if(mpmessaging ==0){
+    ltext = "Sorry, Nuke will never be available on this plane(t)!";
+    screen.log.write(ltext);
+  }else{
+    var message1 = "This mirage have been Hijacked by a moron who want to nuke the planet."; 
+    var message2 = "Too all operating aircraft, this mirage is your top priority target";
+    
+    #m2000_load.setMessage(message1);
+    #m2000_load.setMessage(message2);
+    
+    #settimer(m2000_load.setMessage(message1),1);
+    #settimer(m2000_load.setMessage(message2),2);
+    
+    settimer(func {m2000_load.setMessage(message1)},1);
+    settimer(func {m2000_load.setMessage(message2)},2);
+    
+    setprop('/instrumentation/transponder/id-code',"7500");
+    mirage2000.init_Transpondeur();
+    
+  }
+}
+var setMessage = func (msg){
+  setprop("/sim/multiplay/chat",msg);
 }

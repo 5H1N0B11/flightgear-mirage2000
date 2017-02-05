@@ -146,5 +146,16 @@
       <script>m2000_load.AirToGround()</script>
     </binding>
   </button>
+ <button>
+    <legend>m2000N</legend>
+    <binding>
+      <command>nasal</command>
+      <script>m2000_load.m2000N()</script>
+    </binding>
+  </button>
+  
+  
+  
+  
   
 </PropertyList>

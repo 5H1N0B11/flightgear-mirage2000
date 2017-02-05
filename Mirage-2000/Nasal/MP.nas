@@ -28,7 +28,9 @@ var Decode_Load = {
             "R77",
             "SCALP",
             "Sea Eagle",
-            "SmokePod"
+            "SmokePod",
+            "ASMP",
+            "PDLCT"
         ];
         return m;
     },
