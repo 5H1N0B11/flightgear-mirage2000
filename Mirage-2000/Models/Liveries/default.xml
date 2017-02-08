@@ -8,6 +8,7 @@
 
         <name type="string">default [2000 N]</name>
         <texture>texture.png</texture>
+        <texture-tank-1700>tank1700_N.png</texture-tank-1700>
 
         <specular>
           <red>   0.3 </red>

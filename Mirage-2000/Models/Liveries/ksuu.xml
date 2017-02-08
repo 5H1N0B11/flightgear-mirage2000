@@ -8,6 +8,7 @@
 
         <name type="string">ksuu</name>
         <texture>Liveries/1024x1024/ksuu.png</texture>
+        <texture-tank-1700>tank1700_black.png</texture-tank-1700>
 
         <specular>
           <red>   0.3 </red>

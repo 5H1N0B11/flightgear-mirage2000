@@ -158,8 +158,8 @@ controls.deployChute = func(v)
     # Deploy
     if(v > 0)
     {
-        setprop("sim/model/lightning/controls/flight/chute_deployed", 1);
-        setprop("sim/model/lightning/controls/flight/chute_open", 1);
+        setprop("controls/flight/chute_deployed", 1);
+        setprop("controls/flight/chute_open", 1);
         chuteAngle();
     }
     # Jettison
@@ -168,15 +168,15 @@ controls.deployChute = func(v)
         var voltage = getprop("systems/electrical/outputs/chute_jett");
         if(voltage > 20)
         {
-            setprop("sim/model/lightning/controls/flight/chute_jettisoned", 1);
-            setprop("sim/model/lightning/controls/flight/chute_open", 0);
+            setprop("controls/flight/chute_jettisoned", 1);
+            setprop("controls/flight/chute_open", 0);
         }
     }
 }
 
 var chuteAngle = func
 {
-    var chute_open = getprop('sim/model/lightning/controls/flight/chute_open');
+    var chute_open = getprop('controls/flight/chute_open');
     
     if(chute_open != '1')
     {
@@ -185,18 +185,18 @@ var chuteAngle = func
     var speed = getprop('/velocities/airspeed-kt');
     var aircraftpitch = getprop('/orientation/pitch-deg[0]');
     var aircraftyaw = getprop('/orientation/side-slip-deg');
-    var chuteyaw = getprop("/sim/model/lightning/orientation/chute_yaw");
+    var chuteyaw = getprop("orientation/chute_yaw");
     var aircraftroll = getprop('/orientation/roll-deg');
     
     if(speed > 210)
     {
-        setprop("sim/model/lightning/controls/flight/chute_jettisoned", 1); # Model Shear Pin
+        setprop("controls/flight/chute_jettisoned", 1); # Model Shear Pin
         return();
     }
     
     # Chute Pitch
     var chutepitch = aircraftpitch * -1;
-    setprop("/sim/model/lightning/orientation/chute_pitch", chutepitch);
+    setprop("orientation/chute_pitch", chutepitch);
     
     # Damped yaw from Vivian's A4 work
     var n = 0.01;
@@ -209,20 +209,20 @@ var chuteAngle = func
         chuteyaw = 0;
     }
     var chuteyaw = (aircraftyaw * n) + (chuteyaw * (1 - n));
-    setprop("/sim/model/lightning/orientation/chute_yaw", chuteyaw);
+    setprop("orientation/chute_yaw", chuteyaw);
     
     # Chute Roll - no twisting for now
     var chuteroll = aircraftroll;
-    setprop("/sim/model/lightning/orientation/chute_roll", chuteroll * rand() * -1);
+    setprop("orientation/chute_roll", chuteroll * rand() * -1);
     
     return registerTimerControlsNil(chuteAngle);  # Keep watching
 }
 
 var chuteRepack = func
 {
-    setprop('sim/model/lightning/controls/flight/chute_open',       0);
-    setprop('sim/model/lightning/controls/flight/chute_deployed',   0);
-    setprop('sim/model/lightning/controls/flight/chute_jettisoned', 0);
+    setprop('controls/flight/chute_open',       0);
+    setprop('controls/flight/chute_deployed',   0);
+    setprop('controls/flight/chute_jettisoned', 0);
 }
 
 var fuel_managment = func()
@@ -305,7 +305,7 @@ var theShakeEffect = func{
     #print("sin(time)="~math.sin(48*myTime)/333.333);
     #print("Test result:"~wow);
       
-    if(shakeEffect2000.getBoolValue() and (((G > 7  or alpha>20) and rSpeed>30) or (mach>0.98 and mach<1.02) or (wow and rSpeed>100) or gun)){
+    if(shakeEffect2000.getBoolValue() and (((G > 7  or alpha>20) and rSpeed>30) or (mach>0.99 and mach<1.01) or (wow and rSpeed>100) or gun)){
       #print("it is working.");
       setprop("controls/cabin/shaking", math.sin(48*myTime)/333.333);  
     }else{

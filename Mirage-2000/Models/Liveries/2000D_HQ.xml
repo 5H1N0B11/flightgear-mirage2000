@@ -8,6 +8,7 @@
 
         <name type="string">grey and blue (HQ) [2000 D]</name>
         <texture>Liveries/2048x2048/2000D_HQ.png</texture>
+        <texture-tank-1700>tank1700_D.png</texture-tank-1700>
 
         <specular>
           <red>   0.3 </red>

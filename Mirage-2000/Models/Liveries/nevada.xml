@@ -8,6 +8,7 @@
 
         <name type="string">Nevada</name>
         <texture>Liveries/1024x1024/nevada.png</texture>
+        <texture-tank-1700>tank1700_desert.png</texture-tank-1700>
 
         <specular>
           <red>   0.3 </red>

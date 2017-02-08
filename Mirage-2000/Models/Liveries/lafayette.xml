@@ -7,6 +7,8 @@
       <livery>
         <name type="string">La Fayette</name>
         <texture>Liveries/1024x1024/lafayette.png</texture>
+        <texture-tank-1700>tank1700_N.png</texture-tank-1700>
+
         <specular>
           <red>    0.3  </red>
           <green>  0.3  </green>

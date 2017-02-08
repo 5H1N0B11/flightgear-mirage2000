@@ -11,6 +11,15 @@
     <!-- Objets transparents -->
   </animation>
 
+  <animation>
+    <type>material</type>
+    <object-name>tank</object-name>
+    <property-base>sim/model/livery</property-base>
+    <texture-prop>texture-tank-1700</texture-prop>
+    <texture-tank-1700>tank1700.png</texture-tank-1700>
+  </animation>
+
+
   <effect>
     <inherits-from>Aircraft/Generic/Effects/Fuselagereflect</inherits-from>
     <object-name>tank</object-name>

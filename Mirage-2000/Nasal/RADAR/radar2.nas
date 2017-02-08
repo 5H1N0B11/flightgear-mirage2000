@@ -272,7 +272,7 @@ var Radar = {
                 if(me.get_check(u))
                 {
                     var HaveRadarNode = c.getNode("radar");
-                    u.create_tree(me.MyCoord);
+                    u.create_tree(me.MyCoord, me.OurHdg);
                     u.set_all(me.MyCoord);
                     me.calculateScreen(u);
                     # for Target Selection
@@ -956,7 +956,7 @@ var Target = {
         return obj;
     },
 
-    create_tree: func(MyAircraftCoord) {
+    create_tree: func(MyAircraftCoord,MyAircraftHeading = nil) {
         me.TgtsFiles      = me.InstrTgts.getNode(me.shortstring, 1);
         
         me.MyCallsign     = me.TgtsFiles.getNode("callsign", 1);
@@ -989,9 +989,11 @@ var Target = {
         var radarBearing =me.TgtsFiles.getNode("radar/bearing-deg",1);
         var radarRange =me.TgtsFiles.getNode("radar/range-nm",1);
         var elevation =me.TgtsFiles.getNode("radar/elevation-deg",1);
+        var deviation =me.TgtsFiles.getNode("radar/deviation-deg",1);
         var velocities =me.TgtsFiles.getNode("velocities/true-airspeed-kt",1);
         var transpondeur =me.TgtsFiles.getNode("instrumentation/transponder/transmitted-id",1);
         var heading =me.TgtsFiles.getNode("orientation/true-heading-deg",1);
+        var myDeviation = me.get_deviation(MyAircraftHeading,MyAircraftCoord);
 
         altTree.setValue(me.Alt.getValue());
         latTree.setValue(me.lat.getValue());
@@ -1000,6 +1002,7 @@ var Target = {
         radarBearing.setValue(me.Bearing.getValue());
         radarRange.setValue(me.Range.getValue());
         elevation.setValue(me.Elevation.getValue());
+        deviation.setValue(myDeviation);
         velocities.setValue(me.Speed.getValue());
         if(me.TransponderID != nil)
         {
@@ -1171,8 +1174,8 @@ var Target = {
     },
     
     get_total_elevation: func(own_pitch){
-        me.deviation =  - deviation_normdeg(own_pitch, me.Elevation.getValue());
-        return me.deviation;
+        me.myTotalElevation =  - deviation_normdeg(own_pitch, me.Elevation.getValue());
+        return me.myTotalElevation;
     },
 
     get_range: func(){

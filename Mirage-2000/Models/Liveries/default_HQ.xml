@@ -8,6 +8,7 @@
 
         <name type="string">default (HQ) [2000 N]</name>
         <texture>Liveries/2048x2048/default_HQ.png</texture>
+        <texture-tank-1700>tank1700_N.png</texture-tank-1700>
 
         <specular>
           <red>   0.3 </red>

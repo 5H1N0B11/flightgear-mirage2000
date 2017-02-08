@@ -197,6 +197,14 @@ var HUD = {
       .moveTo( 10, 0)
       .arcSmallCW(15,15, 0, -30, 0)
       .arcSmallCW(15,15, 0, 30, 0);
+      
+         # Circle
+    m.circle_group2 = m.root.createChild("group");
+    m.circle_group2.createChild("path")
+      .moveTo( 10, 0)
+      .arcSmallCW(15,15, 0, -30, 0)
+      .arcSmallCW(15,15, 0, 30, 0)
+      .set("stroke", "rgba(0,0,255,0.9)");
                    
 
     m.input = {
@@ -284,6 +292,25 @@ var HUD = {
     me.airspeed.hide();
     me.energy_cue.hide();
     me.acc.hide();
+    var myXtranslation = getprop("/controls/flight/aileron");
+    var myYtranslation = getprop("/controls/flight/elevator");
+    
+    mydeviation = getprop("instrumentation/radar2/targets/tanker/radar/deviation-deg");
+    #myhorizontaldeviation = 0.766 * math.tan(mydeviation);
+    print(mydeviation);
+    
+    myhorizontaldeviation = mydeviation!=nil ?0.766 * math.tan(mydeviation*D2R):0;
+    print( myhorizontaldeviation);
+    
+    myarrayofTarget = mirage2000.myRadar3.update();
+    
+    myTanker = props.globals.getNode("instrumentation/radar2/targets/tanker");
+    
+    #print(size(myarrayofTarget));
+    
+    me.circle_group.setTranslation(10*myXtranslation,10*myYtranslation  );
+    
+    me.circle_group2.setTranslation(1000*myhorizontaldeviation,0);
     
     me.energy_cue.reset();
 #    if( math.abs(speed_error) > 3 )

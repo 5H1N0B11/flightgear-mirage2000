@@ -8,6 +8,10 @@
   
   <path>m2000-5.ac</path>
 
+  <offsets>
+    <z-m>0.01</z-m>
+  </offsets>
+
   <sound>
     <path>Aircraft/Mirage-2000/Sounds/mp-sound.xml</path>
   </sound>
@@ -239,7 +243,7 @@
     <object-name>guns</object-name>
     <object-name>trous</object-name>
     <object-name>axeAH</object-name>
-    <object-name>axeAH2</object-name>
+    <!--object-name>axeAH2</object-name-->
     <object-name>axeAlights</object-name>
     <object-name>axeAB</object-name>
     <object-name>axeA1</object-name>
@@ -324,7 +328,7 @@
     <object-name>guns</object-name>
     <object-name>trous</object-name>
     <object-name>axeAH</object-name>
-    <object-name>axeAH2</object-name>
+    <!--object-name>axeAH2</object-name-->
     <object-name>axeAlights</object-name>
     <object-name>axeAB</object-name>
     <object-name>axeA1</object-name>
@@ -1278,7 +1282,7 @@
   <animation>
     <name>TrainAvant</name>
     <object-name>axeAH</object-name>
-    <object-name>axeAH2</object-name>
+    <!--object-name>axeAH2</object-name-->
     <object-name>axeAB</object-name>
     <object-name>axeA1</object-name>
     <object-name>axeA2</object-name>
@@ -1309,7 +1313,7 @@
     </axis>
   </animation>
 
-  <animation>
+  <!--animation>
     <type>rotate</type>
     <object-name>axeAH2</object-name>
     <property>gear/gear[0]/position-norm</property>
@@ -1328,7 +1332,7 @@
       <y> 1 </y>
       <z> 0 </z>
     </axis>
-  </animation>
+  </animation-->
   
   <!-- ~~~~~~~~~~~~~~~~~~ front wheels -->
   <animation>

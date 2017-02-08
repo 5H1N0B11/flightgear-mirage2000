@@ -8,6 +8,7 @@
 
         <name type="string">desert (HQ) [2000 N Red Flag]</name>
         <texture>Liveries/2048x2048/desert_HQ.png</texture>
+        <texture-tank-1700>tank1700_desert.png</texture-tank-1700>
 
         <specular>
           <red>   0.3 </red>
