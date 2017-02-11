@@ -61,9 +61,38 @@ var clamp = func(x, min, max) { return x < min ? min : (x > max ? max : x); }
 #Canvs start upper right
 #x is positive rightwards. y is positive downwards
 #480,480 --> (140,-150) - (150,200)
+#Canvas coordinates :
+#X: 80 to 400
+#Y: 27.36 to 456.89
+
+ #HUD Position : x,y,z
+#left lower corner (-0.07606, -0.07327, -0.03237) 
+#right upper corner (0.05357, 0.07327, 0.11536)
+#Center HUD : (-0.12963,0,0.08299)
+
+#OFFSET1 panel.xml :<offsets><x-m> 0.456 </x-m> <y-m> 0.000 </y-m><z-m> 0.159 </z-m></offsets>
+#OFFSET2  interior.xml <offsets><x-m> -3.653 </x-m> <y-m>  0.000 </y-m>  <z-m> -0.297 </z-m>      <pitch-deg> -14 </pitch-deg>    </offsets>
+
+
+var centerHUDx = (-0.07606 + 0.05357)/2;
+var centerHUDy = (-0.07327 +0.07327)/2;
+var centerHUDz = (-0.03237 +0.11536)/2;
+
+
+centerHUDx = centerHUDx+0.456-3.653;
+centerHUDy = centerHUDy;
+#centerHUDz = centerHUDz+0.159-0.297;
+centerHUDz = 0.040;
 
 
 
+#Pilot position: 
+#Pilotz = getprop("sim/view[0]/config/y-offset-m"); 
+#Pilotx = getprop("sim/view[0]/config/z-offset-m");
+#Piloty = getprop("sim/view[0]/config/x-offset-m");
+
+
+#center of the hud
 
 
 
@@ -89,8 +118,8 @@ var HUD = {
     
     m.root =
       m.canvas.createGroup()
-              .setScale(1, 1/math.cos(25 * math.pi/180))
-              .setTranslation(240, 180)
+              #.setScale(1, 1/math.cos(25 * math.pi/180))
+              .setTranslation(240, 240)
               .set("font", "LiberationFonts/LiberationMono-Regular.ttf")
               .setDouble("character-size", 18)
               .setDouble("character-aspect-ration", 0.9)
@@ -295,11 +324,32 @@ var HUD = {
     var myXtranslation = getprop("/controls/flight/aileron");
     var myYtranslation = getprop("/controls/flight/elevator");
     
-    mydeviation = getprop("instrumentation/radar2/targets/tanker/radar/deviation-deg");
-    #myhorizontaldeviation = 0.766 * math.tan(mydeviation);
+    #Pilot position:    
+    var Piloty = getprop("sim/current-view/x-offset-m"); 
+    var Pilotz = getprop("sim/current-view/y-offset-m");
+    var Pilotx = getprop("sim/current-view/z-offset-m");
+     var xCube = (centerHUDx - Pilotx)*(centerHUDx - Pilotx);
+     var yCube = (centerHUDy - Piloty)*(centerHUDy - Piloty);
+     var zCube = (centerHUDz - Pilotz)*(centerHUDz - Pilotz);
+     
+     print("centerHUDx=" ~ centerHUDx ~ "centerHUDy=" ~ centerHUDy ~ "centerHUDz=" ~centerHUDz);
+     print("Pilotx = " ~ Pilotx ~ ";Piloty = " ~ Piloty ~ ";Pilotz = " ~ Pilotz);
+     print("xCube = " ~ xCube ~ ";yCube = " ~ yCube ~ ";zCube = " ~ zCube);
+    
+    mydistanceTohud = math.sqrt(xCube+yCube+zCube);
+    
+    print(mydistanceTohud);
+    
+    
+    #mydeviation = getprop("instrumentation/radar2/targets/tanker/radar/deviation-deg");
+    mydeviation = getprop("instrumentation/radar2/targets/aircraft/radar/deviation-deg");
+    myelevation = getprop("instrumentation/radar2/targets/aircraft/radar/elevation-deg");
+    #myhorizontaldeviation = mydistanceTohud * math.tan(mydeviation);
     print(mydeviation);
     
-    myhorizontaldeviation = mydeviation!=nil ?0.766 * math.tan(mydeviation*D2R):0;
+    myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
+    myverticalelevation = myelevation!=nil ? - mydistanceTohud * math.tan(myelevation*D2R):0;
+    
     print( myhorizontaldeviation);
     
     myarrayofTarget = mirage2000.myRadar3.update();
@@ -308,9 +358,9 @@ var HUD = {
     
     #print(size(myarrayofTarget));
     
-    me.circle_group.setTranslation(10*myXtranslation,10*myYtranslation  );
+    me.circle_group.setTranslation(150*myXtranslation,150*myYtranslation  );
     
-    me.circle_group2.setTranslation(1000*myhorizontaldeviation,0);
+    me.circle_group2.setTranslation((380/0.14654)*myhorizontaldeviation,(480/0.14654)*myverticalelevation);
     
     me.energy_cue.reset();
 #    if( math.abs(speed_error) > 3 )
@@ -336,3 +386,4 @@ var init = setlistener("/sim/signals/fdm-initialized", func() {
 #  var hud_copilot = HUD.new({"node": "verre2"});
 #  hud_copilot.update();
 });
+
