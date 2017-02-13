@@ -73,6 +73,11 @@ var clamp = func(x, min, max) { return x < min ? min : (x > max ? max : x); }
 #OFFSET1 panel.xml :<offsets><x-m> 0.456 </x-m> <y-m> 0.000 </y-m><z-m> 0.159 </z-m></offsets>
 #OFFSET2  interior.xml <offsets><x-m> -3.653 </x-m> <y-m>  0.000 </y-m>  <z-m> -0.297 </z-m>      <pitch-deg> -14 </pitch-deg>    </offsets>
 
+#TO do = update distance to HUD in fonction of the position on it : if vertical on 2D HUD is high, distance should be lower.
+#find a trigonometric way to calculate the y position (2D HUD) as the real hud have around 45° of inclinaison.
+#Make it happen for all non null radar properies
+#Make null properties hidded
+
 
 var centerHUDx = (-0.07606 + 0.05357)/2;
 var centerHUDy = (-0.07327 +0.07327)/2;
@@ -118,7 +123,7 @@ var HUD = {
     
     m.root =
       m.canvas.createGroup()
-              #.setScale(1, 1/math.cos(25 * math.pi/180))
+              #.setScale(1, 1/math.cos(45 * D2R))
               .setTranslation(240, 240)
               .set("font", "LiberationFonts/LiberationMono-Regular.ttf")
               .setDouble("character-size", 18)
@@ -332,25 +337,25 @@ var HUD = {
      var yCube = (centerHUDy - Piloty)*(centerHUDy - Piloty);
      var zCube = (centerHUDz - Pilotz)*(centerHUDz - Pilotz);
      
-     print("centerHUDx=" ~ centerHUDx ~ "centerHUDy=" ~ centerHUDy ~ "centerHUDz=" ~centerHUDz);
-     print("Pilotx = " ~ Pilotx ~ ";Piloty = " ~ Piloty ~ ";Pilotz = " ~ Pilotz);
-     print("xCube = " ~ xCube ~ ";yCube = " ~ yCube ~ ";zCube = " ~ zCube);
+     #print("centerHUDx=" ~ centerHUDx ~ "centerHUDy=" ~ centerHUDy ~ "centerHUDz=" ~centerHUDz);
+     #print("Pilotx = " ~ Pilotx ~ ";Piloty = " ~ Piloty ~ ";Pilotz = " ~ Pilotz);
+     #print("xCube = " ~ xCube ~ ";yCube = " ~ yCube ~ ";zCube = " ~ zCube);
     
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
     
-    print(mydistanceTohud);
+    #print(mydistanceTohud);
     
     
     #mydeviation = getprop("instrumentation/radar2/targets/tanker/radar/deviation-deg");
     mydeviation = getprop("instrumentation/radar2/targets/aircraft/radar/deviation-deg");
     myelevation = getprop("instrumentation/radar2/targets/aircraft/radar/elevation-deg");
     #myhorizontaldeviation = mydistanceTohud * math.tan(mydeviation);
-    print(mydeviation);
+    #print(mydeviation);
     
     myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
     myverticalelevation = myelevation!=nil ? - mydistanceTohud * math.tan(myelevation*D2R):0;
     
-    print( myhorizontaldeviation);
+    #print( myhorizontaldeviation);
     
     myarrayofTarget = mirage2000.myRadar3.update();
     
@@ -360,6 +365,7 @@ var HUD = {
     
     me.circle_group.setTranslation(150*myXtranslation,150*myYtranslation  );
     
+    #me.circle_group2.setTranslation((380/0.14654)*myhorizontaldeviation,(480/0.14654)*myverticalelevation*math.sin(45*D2R)-40);
     me.circle_group2.setTranslation((380/0.14654)*myhorizontaldeviation,(480/0.14654)*myverticalelevation);
     
     me.energy_cue.reset();

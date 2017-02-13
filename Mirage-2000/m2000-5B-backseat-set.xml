@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <sim>
+
+    <description>Mirage 2000 Biplace back-seat (YASim)</description>
+    <author>BARANGER Emmanuel (3D/FDM), Buckaroo (FDM), 5H1N0B1 (Weapons, system), F-Sig and hardball (3D, ssystems)</author>
+    
+    <aircraft-version>2015-09-16</aircraft-version>
+    <status>production</status>
+
+    <flight-model>null</flight-model>
+
+    <rating>
+      <FDM     type="int"> 4 </FDM>
+      <systems type="int"> 4 </systems>
+      <cockpit type="int"> 3 </cockpit>
+      <model   type="int"> 4 </model>
+    </rating>
+
+    <model>
+      <name>m2000B backseat</name>
+      <path>Aircraft/Mirage-2000/Models/m2000-5B-backseat.xml</path>
+    </model>
+
+    <startup>
+      <splash-texture>Aircraft/Mirage-2000/Splashs/m2000-5B-splash.png</splash-texture>
+    </startup>
+
+    <!-- ~~~~~~~~~~~~~~~~~~ sound -->
+    <sound>
+      <audible>false</audible>
+      <path/>
+    </sound>
+
+    <!-- ~~~~~~~~~~~~~~~~~~ menu -->
+    <menubar>
+      <default>
+        <menu n="50">
+          <label>Mirage 2000</label>
+          <item>
+            <label>Select MP pilot</label>
+            <binding>
+              <command>nasal</command>
+              <script>
+                dual_control_tools.copilot_dialog.show(aircraft_dual_control.pilot_type);
+              </script>
+            </binding>
+          </item>
+        </menu>
+      </default>
+    </menubar>
+
+    <view n="0">
+      <name>Navigator View</name>
+      <type>lookfrom</type>
+      <internal archive="y">true</internal>
+      <config>
+        <from-model type="bool">true</from-model>
+        <from-model-idx type="int">0</from-model-idx>
+        <x-offset-m archive="y" type="double">  0.00 </x-offset-m>
+        <y-offset-m archive="y" type="double">  0.21 </y-offset-m>
+        <z-offset-m archive="y" type="double"> -1.06 </z-offset-m>
+        <pitch-offset-deg type="double"> -10 </pitch-offset-deg>
+        <heading-offset-deg type="double"> 0 </heading-offset-deg>
+        <default-field-of-view-deg type="double">82</default-field-of-view-deg>
+      </config>
+    </view>
+    
+    <rendering>
+      <redout>
+        <parameters>
+          <blackout-complete-g>10</blackout-complete-g>
+          <blackout-onset-g>8</blackout-onset-g>
+        </parameters>
+      </redout>
+    </rendering>
+    
+    <multiplay>
+      <chat_display>1</chat_display>
+      <generic>
+        <!-- immat -->
+        <int type="int"       n="0"> 0 </int>
+        <int type="int"       n="1"> 0 </int>
+        <int type="int"       n="2"> 0 </int>
+        <int type="int"       n="3"> 0 </int>
+        <int type="int"       n="4"> 0 </int>
+        <int type="int"       n="5"> 0 </int>
+        <!-- 6 : start smoke -->
+        <!--<int type="bool"      n="6" alias="/controls/armament/smoke/active"> 0 </int>--> <!--Passed now via decode_bool-->
+        <!-- 7 : particlepersec -->
+        <!-- <int type="int"       n="7" alias="/controls/armament/smoke/particlepersec"> 50 </int>-->
+        <int type="int"       n="8" /> <!--This is bool encode/decode manager-->
+        <!-- 10 : reserved for bombable mode -->
+        <int                  n="10" alias="/controls/armament/Gun_trigger"/>
+
+        <float                n="0"  alias="/sim/model/door-positions/crew/position-norm"/>
+        <float                n="1"  alias="/sim/model/door-positions/passenger/position-norm"/>
+        <!-- altitude for MP shadow -->
+        <float                n="2"  alias="/position/gear-agl-m"> 0 </float>
+        <float                n="3"  alias="/position/altitude-agl-ft"> 0 </float>
+        <float                n="4"  alias="/engines/engine[0]/n1" />
+        <float                n="5"  alias="/engines/engine[0]/n2" />
+        <float                n="7"  alias="/controls/engines/engine[0]/throttle"/>
+        <!-- <float                n="8"  alias="/gear/gear[0]/wow/" />
+        <float                n="9"  alias="/gear/gear[1]/wow/" />
+        <float                n="10" alias="/gear/gear[2]/wow/" />-->
+        <float                n="11" alias="/gear/gear[0]/rollspeed-ms" />
+        <float                n="12" alias="/gear/gear[1]/rollspeed-ms" />
+        <float                n="13" alias="/gear/gear[2]/rollspeed-ms" />
+        <float                n="14" alias="/engines/engine[0]/afterburner" />
+        <string type="string" n="0" />
+        <!-- for loads -->
+        <string type="string" n="1" />
+        <!-- reserved for bombable mode -->
+        <string type="string" n="9" />
+        <string n="13" type="string"></string>
+        <string n="15" type="string"></string>
+      </generic>
+    </multiplay>
+    
+  </sim>
+
+  <!--
+________________________________________________________________________________
+                                                                           NASAL
+  -->
+  <nasal>
+    <dual_control_tools>
+      <file>Aircraft/Generic/DualControl/dual-control-tools.nas</file>
+    </dual_control_tools>
+    <aircraft_dual_control>
+      <file>DualControl/dual-control.nas</file>
+    </aircraft_dual_control>
+    <dual_control>
+      <file>Aircraft/Generic/DualControl/copilot-dual-control.nas</file>
+    </dual_control>
+  </nasal>
+
+</PropertyList>

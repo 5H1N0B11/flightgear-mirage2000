@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- changelog
+
+       02/08/2015 Updated by Hardball : added comments
+-->
+<PropertyList>
+
+  <nasal>
+    <load>
+      cmdarg().getNode("sim/model/ac-type", 1).setValue("m2000-5B-backseat");
+
+    </load>
+    <unload>
+      cmdarg().getNode("sim/model/ac-type", 1).setValue("");
+
+    </unload>
+  </nasal>
+
+  
+</PropertyList>

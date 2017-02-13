@@ -172,7 +172,6 @@
         <slat    start="0.20"  end="0.80"  aoa="2"     drag=" 2.0" />
         <flap0   start="0.59"  end="0.90"  lift="1.64" drag=" 1.2" />
         <spoiler start="0.59"  end="0.90"  lift="1"    drag="39.9" />
-        
 
         <control-input axis="/controls/flight/SAS-roll"     control="FLAP0" split="true" />
         <control-input axis="/controls/flight/aileron-trim" control="FLAP0" split="true" />
@@ -338,7 +337,7 @@
       spring="1.4"
       damp="2.6"
       sfric="0.8"
-      dfric="0.7">
+      dfric="1.7">
       <control-input axis="/controls/flight/SAS-gear" control="STEER" src0="-1.0" src1="1.0" dst0="-0.45" dst1="0.45"/>
       <control-input axis="/controls/gear/gear-down"  control="EXTEND"/>
 
@@ -353,7 +352,9 @@
         retract-time="7"
         compression="0.6"
         spring="1.0"
-        damp="1.8">
+        damp="1.8"
+        sfric="0.8"
+        dfric="1.9">
         <control-input axis="/controls/gear/brake-left" control="BRAKE"/>
         <control-input axis="/controls/gear/brake-parking" control="BRAKE"/>
         <control-input axis="/controls/gear/gear-down" control="EXTEND"/>
@@ -368,7 +369,9 @@
         retract-time="7"
         compression="0.6"
         spring="1.0"
-        damp="1.8">
+        damp="1.8"
+        sfric="0.8"
+        dfric="1.9">
         <control-input axis="/controls/gear/brake-right" control="BRAKE"/>
         <control-input axis="/controls/gear/brake-parking" control="BRAKE"/>
         <control-input axis="/controls/gear/gear-down" control="EXTEND"/>

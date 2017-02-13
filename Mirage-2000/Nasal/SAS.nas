@@ -540,7 +540,7 @@ var computeSAS = func() {
                     #ElevatorTrim.setValue(e_trim-indice);
                 }
             }
-            if(abs(raw_e)>0.5 and airspeed>150)
+            if(abs(raw_e) > 0.5 and airspeed > 150)
             {
                 if(abs(e_trim)>0.01)
                 {

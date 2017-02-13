@@ -5,6 +5,8 @@
      changelog
      
        04/08/2015 Updated by Hardball : added comments
+       30/01/2017 Duplicated from m2000-5 by Hardball : added 2 seat specific
+
 -->
 <PropertyList>
   
@@ -42,7 +44,7 @@
       <logos>
         <file type="string">default</file>
       </logos>
-      <!-- ' canopy opened at game start -->
+      <!-- canopy opened at game start -->
       <doors>
         <crew>
           <position-norm type="float">1</position-norm>
@@ -75,24 +77,24 @@
     <multiplay>
       <chat_display>1</chat_display>
       <generic>
-        <!-- ' immat -->
+        <!-- immat -->
         <int type="int"       n="0"> 0 </int>
         <int type="int"       n="1"> 0 </int>
         <int type="int"       n="2"> 0 </int>
         <int type="int"       n="3"> 0 </int>
         <int type="int"       n="4"> 0 </int>
         <int type="int"       n="5"> 0 </int>
-        <!-- ' 6 : start smoke -->
+        <!-- 6 : start smoke -->
         <!--<int type="bool"      n="6" alias="/controls/armament/smoke/active"> 0 </int>--> <!--Passed now via decode_bool-->
-        <!-- ' 7 : particlepersec -->
+        <!-- 7 : particlepersec -->
         <!-- <int type="int"       n="7" alias="/controls/armament/smoke/particlepersec"> 50 </int>-->
         <int type="int"       n="8" /> <!--This is bool encode/decode manager-->
-        <!-- ' 10 : reserved for bombable mode -->
+        <!-- 10 : reserved for bombable mode -->
         <int                  n="10" alias="/controls/armament/Gun_trigger"/>
 
         <float                n="0"  alias="/sim/model/door-positions/crew/position-norm"/>
         <float                n="1"  alias="/sim/model/door-positions/passenger/position-norm"/>
-        <!-- ' altitude for MP shadow -->
+        <!-- altitude for MP shadow -->
         <float                n="2"  alias="/position/gear-agl-m"> 0 </float>
         <float                n="3"  alias="/position/altitude-agl-ft"> 0 </float>
         <float                n="4"  alias="/engines/engine[0]/n1" />
@@ -106,9 +108,9 @@
         <float                n="13" alias="/gear/gear[2]/rollspeed-ms" />
         <float                n="14" alias="/engines/engine[0]/afterburner" />
         <string type="string" n="0" />
-        <!-- ' for loads -->
+        <!-- for loads -->
         <string type="string" n="1" />
-        <!--reserved for bombable mode-->
+        <!-- reserved for bombable mode -->
         <string type="string" n="9" />
         <string n="13" type="string"></string>
         <string n="15" type="string"></string>
@@ -203,7 +205,7 @@
       <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
     </weight>
 
-       <weight n="3">
+    <weight n="3">
       <name>pylon.C</name>
       <tank>3</tank>
       <weight-lb type="double"> 0 </weight-lb>
@@ -279,6 +281,7 @@
       <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
       <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
       <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
+      <opt><name>PDLCT</name>             <lbs type="double">  280.00 </lbs></opt>
     </weight>
 
     <weight n="7">

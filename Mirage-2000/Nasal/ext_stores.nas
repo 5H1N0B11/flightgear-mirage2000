@@ -500,8 +500,6 @@ var m2000N = func()
     }
 }
 
-
-
 var FireableAgain = func()
 {
     for(var i = 0 ; i < 9 ; i += 1)
@@ -563,13 +561,16 @@ dropLoad = func(number)
         }
         else
         {
-            if(select == "ASMP"){
-              m2000_load.nuc();
-            }else{
-              if(getprop("/controls/armament/station["~ number ~"]/release") == 0)
-              {
-                  m2000_load.dropMissile(number);
-              }
+            if(select == "ASMP")
+            {
+                m2000_load.nuc();
+            }
+            else
+            {
+                if(getprop("/controls/armament/station["~ number ~"]/release") == 0)
+                {
+                    m2000_load.dropMissile(number);
+                }
             }
         }
     }
@@ -812,33 +813,4 @@ var view_firing_missile = func(myMissile)
     # We feed the handler
     view.missile_view_handler.setup(data);
 
-}
-##
-# nuc switch
-##
-var nuc = func {
-  var mpmessaging = getprop("/controls/armament/mp-messaging");
-  if(mpmessaging ==0){
-    ltext = "Sorry, Nuke will never be available on this plane(t)!";
-    screen.log.write(ltext);
-  }else{
-    var message1 = "This mirage have been Hijacked by a moron who want to nuke the planet."; 
-    var message2 = "Too all operating aircraft, this mirage is your top priority target";
-    
-    #m2000_load.setMessage(message1);
-    #m2000_load.setMessage(message2);
-    
-    #settimer(m2000_load.setMessage(message1),1);
-    #settimer(m2000_load.setMessage(message2),2);
-    
-    settimer(func {m2000_load.setMessage(message1)},1);
-    settimer(func {m2000_load.setMessage(message2)},2);
-    
-    setprop('/instrumentation/transponder/id-code',"7500");
-    mirage2000.init_Transpondeur();
-    
-  }
-}
-var setMessage = func (msg){
-  setprop("/sim/multiplay/chat",msg);
 }

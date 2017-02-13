@@ -66,7 +66,7 @@
         <int type="int"       n="3"> 0 </int>
         <int type="int"       n="4"> 0 </int>
         <int type="int"       n="5"> 0 </int>
-        <!-- ' 6 : start smoke -->
+        <!-- 6 : start smoke -->
         <!--<int type="bool"      n="6" alias="/controls/armament/smoke/active"> 0 </int>--> <!--Passed now via decode_bool-->
         <!-- 7 : particlepersec -->
         <!-- <int type="int"       n="7" alias="/controls/armament/smoke/particlepersec"> 50 </int>-->
@@ -208,7 +208,7 @@
       <opt><name>Meteor</name>            <lbs type="double">  407.00 </lbs></opt>
       <opt><name>AGM65</name>             <lbs type="double">  600.00 </lbs></opt>
       <opt><name>R77</name>               <lbs type="double">  498.00 </lbs></opt>
-      <opt><name>ASMP</name>              <lbs type="double">  1850.00   </lbs></opt>
+      <opt><name>ASMP</name>              <lbs type="double">  1850.00</lbs></opt>
     </weight>
 
     <weight n="4">
@@ -263,7 +263,7 @@
       <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
       <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
       <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
-      <opt><name>PDLCT</name>   <lbs type="double">  280.00 </lbs></opt>
+      <opt><name>PDLCT</name>             <lbs type="double">  280.00 </lbs></opt>
     </weight>
 
     <weight n="7">

@@ -1,4 +1,25 @@
-2017-01-26
+2017-02
+================================================================================
+
+SAS improvments
+HUD improvments
+radar improvments
+
+selectables liveries (N, D, desert, black and default) on fuel tank 1700L
+development files (blender, gimp) no more in the aircraft directory
+new emport : POD pdlct (Pod de Désignation Laser - Caméra Thermique)
+new emport : inert ASMP
+improve armament (GBU)
+backseat on multiplayer, the copilot is named NOSA (Navigateur Officier Système d'Arme)
+
+how to test multiplayer on same PC ?
+- run flightgear with parameters :       --aircraft=m2000-5B          --multiplay=out,10,127.0.0.1,5000 --multiplay=in,10,127.0.0.1,5001 --callsign="PILOT" --prop:/sim/remote/pilot-callsign="NOSA"
+- run another instance with parameters : --aircraft=m2000-5B-backseat --multiplay=out,10,127.0.0.1,5001 --multiplay=in,10,127.0.0.1,5000 --callsign="NOSA"  --prop:/sim/remote/pilot-callsign="PILOT"
+
+
+
+2017-01
+================================================================================
 
 new biplace version
 -------------------
@@ -17,18 +38,25 @@ for example :
 
 other improvments
 -----------------
-- added some ground equipment
-- corrected the front gear doors (4 doors and not 2)
-- improved wheels
-- corrected rotation center of the turbine
-- shade of intakes
-- improve pole of in-flight refueling
-- regeneration of some liveries
+- models : added some ground equipment (scale, flags, intakes obturators)
+- 3d : corrected the front gear doors (4 doors and not 2)
+- texture : improved wheels
+- uvmap : corrected rotation center of the turbine
+- 3d : shade of intakes
+- 3d+texture : improve pole of in-flight refueling
+- texture : regeneration of some liveries
 
 
+2016
+================================================================================
+OPRF ready
+new textures (swamp)
+new instruments
+SAS improvments
 
 
-02.2015
+2015-02
+================================================================================
 3D : 
 - Several more instrument in the cockpit. The working ones are : startup instrument, light variator instruments.
   (The others, I'm still working on it)
@@ -58,10 +86,11 @@ Nasal :
   if you have more than 1 aircraft forlder
 
 
-10.2014
+2014-10
+================================================================================
 
 3D : Correction du model : Servos commande, Souris, Manette de gaz, boutons de démarrage
-- Changement des UV map, animation des slats,ajout de tip trail,position du parachute
+- Changement des UV map, animation des slats, ajout de tip trail, position du parachute
 
 Xml
 - Ajout du canvaset de ses boutons et du double mfd pour ceux qui n'aiment pas le canvas
@@ -80,12 +109,14 @@ Nasal
 - Guns : correction du tir (impossible au sol) + cadence de tir etc...
   Et surement d'autres trucs
 
-02.2013
+2013-02
+================================================================================
 
 - Correction of tiger2 livery call.
 - Correction of problems on nav intrument (in "no nav-id" zones)
 
-01.2013
+2013-01
+================================================================================
 
 - ENGINE :
 ------------
