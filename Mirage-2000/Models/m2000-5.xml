@@ -118,34 +118,15 @@
       #   - external load set.
       if(! contains(globals, "m2000_mp"))
       {
-          var file = call(func getprop("/sim/fg-aircraft") ~ "/Mirage-2000/Nasal/MP.nas", nil, var err = []);
+          var file = call(func "Aircraft/Mirage-2000/Nasal/MP.nas", nil, var err = []);
           var code = call(func compile(io.readfile(file), file), nil, err);
-          print("Path 1. Error : " ~size(err));
+          print("Path 0. Error : " ~size(err));
           if(size(err) == 0)
           {
               io.load_nasal(file, "m2000_mp");
           }
       }
-      if(! contains(globals, "m2000_mp"))
-      {
-          var file = call(func getprop("/sim/fg-aircraft[1]") ~ "/Mirage-2000/Nasal/MP.nas", nil, var err = []);
-          var code = call(func compile(io.readfile(file), file), nil, err);
-          print("Path 2. Error : " ~size(err));
-          if(size(err) == 0)
-          {
-              io.load_nasal(file, "m2000_mp");
-          }
-      }
-      if(! contains(globals, "m2000_mp"))
-      {
-          var file = call(func getprop("/sim/fg-root") ~ "/Aircraft/Mirage-2000/Nasal/MP.nas", nil, var err = []);
-          var code = call(func compile(io.readfile(file), file), nil, err);
-          print("Path 3. Error : " ~ size(err));
-          if(size(err) == 0)
-          {
-              io.load_nasal(file, "m2000_mp");
-          }
-      }
+
       var update = aircraft.overlay_update.new();
       update.add("Aircraft/Mirage-2000/Models/Liveries", "sim/model/livery/file");
       update.add("Aircraft/Mirage-2000/Models/Logos/", "sim/multiplay/generic/string");
@@ -484,9 +465,9 @@
     </axis>
   </animation>
 
-  <model>
+<!--  <model>
     <path>Models/Aircraft/marker.xml</path>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/Mirage-2000/Models/Logos/logos.xml</path>

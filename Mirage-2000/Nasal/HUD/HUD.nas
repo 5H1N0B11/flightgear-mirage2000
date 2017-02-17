@@ -353,7 +353,9 @@ var HUD = {
     #print(mydeviation);
     
     myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
-    myverticalelevation = myelevation!=nil ? - mydistanceTohud * math.tan(myelevation*D2R):0;
+    
+    myverticalelevation = myelevation!=nil ? -(math.cos(45*D2R)*mydistanceTohud - math.tan((45-myelevation)*D2R) * mydistanceTohud * math.sin (45*D2R)):0;
+    #myverticalelevation = myelevation!=nil ? - mydistanceTohud * math.tan(myelevation*D2R):0;
     
     #print( myhorizontaldeviation);
     
