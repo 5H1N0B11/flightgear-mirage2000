@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-  <path>revi.ac</path>
+  <path>reviVertical.ac</path>
 
   <animation>
     <!-- Objets opaques -->
@@ -11,6 +11,8 @@
     <!-- Objets transparents -->
     <object-name>verre1</object-name>
     <object-name>verre2</object-name>
+     <object-name>verre3</object-name>
+     <object-name>canvasHUD</object-name>
   </animation>
 
   <!--  REMBRANDT support for transparent objects-->
@@ -18,8 +20,19 @@
     <inherits-from>Effects/model-transparent</inherits-from>
     <object-name>verre1</object-name>
     <object-name>verre2</object-name>
+    <object-name>verre3</object-name>
+    <object-name>canvasHUD</object-name>
   </effect>
   
+  <animation> 
+    <type>material</type>
+    <object-name>canvasHUD</object-name>
+    <emission>
+      <red> 1 </red>
+      <green> 1 </green>
+      <blue> 1 </blue>
+    </emission>
+  </animation>
 
   <animation>
     <type>material</type>
