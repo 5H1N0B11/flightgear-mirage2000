@@ -105,6 +105,10 @@ var wideMeters = math.abs(-0.02038 - (-0.15438));
 #Pilotx = getprop("sim/view[0]/config/z-offset-m");
 #Piloty = getprop("sim/view[0]/config/x-offset-m");
 
+var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
+print("Size:" ~ size(raw_list));
+var MaxTarget = size(raw_list);
+
 
 #center of the hud
 
@@ -236,24 +240,24 @@ var HUD = {
                    
    
    # Circle
-    m.circle_group = m.root.createChild("group");
-    m.circle_group.createChild("path")
-      .moveTo( 10, 0)
-      .arcSmallCW(15,15, 0, -30, 0)
-      .arcSmallCW(15,15, 0, 30, 0);
+    #m.circle_group = m.root.createChild("group");
+    #m.circle_group.createChild("path")
+    #  .moveTo( 10, 0)
+    #  .arcSmallCW(15,15, 0, -30, 0)
+    #  .arcSmallCW(15,15, 0, 30, 0);
       
          # Circle
 
-    m.targetArray = [];     
+    m.targetArray = [];
+    #var circle_group2;
          
-    for(var i = 1; i <= 50; i += 1){
-      m.circle_group2 = m.root.createChild("group");
-      var targetCircle = m.circle_group2.createChild("path")
+    for(var i = 1; i <= MaxTarget; i += 1){
+      circle_group2 = m.root.createChild("group").createChild("path")
         .moveTo( 10, 0)
         .arcSmallCW(15,15, 0, -30, 0)
         .arcSmallCW(15,15, 0, 30, 0)
-        .set("stroke", "rgba(0,0,255,0.9)");
-      append(m.targetArray, targetCircle);
+        .set("stroke", "rgba(0,255,0,0.9)");
+      append(m.targetArray, circle_group2);
     }
   
                    
@@ -373,9 +377,10 @@ var HUD = {
     
     myarrayofTarget = mirage2000.myRadar3.update();
     var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
+    print("Size:" ~ size(raw_list));
     i=0;
     foreach(var c; raw_list){
-      i=i+1;
+      i+=1;
       #getprop("instrumentation/radar2/targets/aircraft/radar/deviation-deg");
       #getprop("instrumentation/radar2/targets/aircraft/radar/elevation-deg");
       #Not done yet
@@ -386,28 +391,27 @@ var HUD = {
       
         var mydeviation = mydeviationNode.getValue();
         var myelevation = myelevationNode.getValue();
+        myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
+        print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
     
         myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
         
         #myverticalelevation = myelevation!=nil ? -(math.cos(45*D2R)*mydistanceTohud - math.tan((45-myelevation)*D2R) * mydistanceTohud * math.sin (45*D2R)):0;
-        myverticalelevation = myelevation!=nil ? - mydistanceTohud * math.tan(myelevation*D2R):0;
+        myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
         
         #print( myhorizontaldeviation);
-        
-        
-        
-        myTanker = props.globals.getNode("instrumentation/radar2/targets/tanker");
-        
+
         
         #print(size(myarrayofTarget));
         
-        me.circle_group.setTranslation(150*myXtranslation,150*myYtranslation  );
+        #me.circle_group.setTranslation(150*myXtranslation,150*myYtranslation  );
         
         #me.circle_group2.setTranslation((380/wideMeters)*myhorizontaldeviation,(380/heightMeters)*myverticalelevation*math.sin(45*D2R));
-        
-        me.targetArray(i).setTranslation((500/wideMeters)*myhorizontaldeviation,(480/heightMeters)*myverticalelevation+offsetZ-15);
+        me.targetArray[i-1].show();
+        me.targetArray[i-1].setTranslation((500/wideMeters)*myhorizontaldeviation,(480/heightMeters)*myverticalelevation+offsetZ);
       }else{
-        me.targetArray(i).hide();
+        #print(i);
+        me.targetArray[i-1].hide();
       }
     }
     
