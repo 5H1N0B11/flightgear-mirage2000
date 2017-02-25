@@ -301,6 +301,7 @@ var AIM = {
 		m.ai.getNode("name", 1).setValue(type);
 		m.ai.getNode("sign", 1).setValue(sign);
 		m.ai.getNode("callsign", 1).setValue(type);
+		m.ai.getNode("missile", 1).setBoolValue(1);
 		#m.model.getNode("collision", 1).setBoolValue(0);
 		#m.model.getNode("impact", 1).setBoolValue(0);
 		var id_model = m.weapon_model ~ m.ID ~ ".xml";
