@@ -62,7 +62,7 @@ var Radar = {
         m.MyTimeLimit       = (NewMyTimeLimit == nil) ? 2 : NewMyTimeLimit; # in seconds
         m.janitorTime       = (NewJanitorTime == nil) ? 5 : NewJanitorTime;
         m.haveSweep         = (NewhaveSweep == nil) ? 1 : NewhaveSweep;
-        m.typeTarget        = (NewTypeTarget == nil) ? ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile"] : NewTypeTarget;
+        m.typeTarget        = (NewTypeTarget == nil) ? ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "aim120", "aim-9"] : NewTypeTarget;
         m.showAI            = (NewshowAI == nil) ? 1 : NewshowAI;
         m.radarHeading      = 0; # in this we fix the radar position in the nose. We will change it to make rear radar or RWR etc
         m.unfocused_az_fld  = (NewUnfocused_az_fld == nil) ? 120 : NewUnfocused_az_fld;
@@ -278,7 +278,7 @@ var Radar = {
                     # for Target Selection
                     # here we disable the capacity of targeting a missile. But 's possible.
                     append(CANVASARRAY, u);
-                    if(type != "missile")
+                    if(type != "missile" and type != "aim120" and type != "aim-9")
                     {
                         me.TargetList_AddingTarget(u);
                     }
@@ -1015,7 +1015,7 @@ var Target = {
     },
 
     set_all: func(myAircraftCoord){
-        me.RdrProp.getNode("in-range").setValue("true");
+        me.RdrProp.getNode("in-range",1).setBoolValue(1);
         me.MyCallsign.setValue(me.get_Callsign());
         me.BHeading.setValue(me.Heading.getValue());
         me.BBearing.setValue(me.get_bearing_from_Coord(myAircraftCoord));
@@ -1371,6 +1371,31 @@ var Target = {
 
     get_shortring:func(){
         return me.shortstring;
+    },
+
+    get_type: func(){
+        return missile.AIR; # Shinobi change this to what type it is
+    },
+
+    getUnique: func () {
+        return rand();
+    },
+
+    isValid: func() {
+        return me.Valid.getValue();
+        #return me.validTree.getValue();
+    },
+
+    getElevation: func () {
+        return me.get_Elevation_from_Coord(geo.aircraft_position());
+    },
+
+    getFlareNode: func(){
+        return nil;           # Shinobi use this for flares
+    },
+
+    isPainted: func() {
+        return 1;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
     },
 
     list : [],

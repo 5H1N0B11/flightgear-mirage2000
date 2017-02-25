@@ -342,6 +342,8 @@
   <ai include="ai.xml" />
 
   <autopilot include="cnf-autopilot.xml" />
+
+  <payload include="payload.xml" />
   
   <nasal>
     <ai>
@@ -431,7 +433,6 @@
 
     <missile>
       <file>Aircraft/Mirage-2000/Nasal/missile.nas</file>
-      <file>Aircraft/Mirage-2000/Missiles/Loading_Missiles.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/missile_GroundTargeting.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/damage.nas</file>
     </missile>

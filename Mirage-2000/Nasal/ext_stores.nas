@@ -586,27 +586,57 @@ dropMissile = func(number)
 {
     var target = mirage2000.myRadar3.GetTarget();
     var typeMissile = getprop("/sim/weight["~ number ~"]/selected");
-    var isMissile = missile.Loading_missile(typeMissile);
-    if(isMissile != 0)
+    
+    if(target == nil)
     {
-        if(target == nil)
-        {
-            return;
-        }
-        Current_missile = missile.MISSILE.new(number);
-        Current_missile.status = 0;
-        Current_missile.search(target);
-        Current_missile.release();
-        setprop("/sim/weight["~ number ~"]/weight-lb", 0);
-        
-        #If auto focus on missile is activated the we call the function
-        if(getprop("/controls/armament/automissileview"))
-        {
-          view_firing_missile(Current_missile);
-        }
-        
-        
+        return;
     }
+    missile.contact = target;
+    var Current_missile = missile.AIM.new(number, typeMissile, typeMissile);
+    if (Current_missile != -1) {
+        Current_missile.status = 0;
+        Current_missile.search();
+    } else {
+        return;
+    }
+    settimer(func dropMissile2(Current_missile, number), 0.1);
+}
+
+dropMissile2 = func(Current_missile, number)
+{
+    if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
+        dropMissile3(Current_missile, number);
+    } else {
+        settimer(func dropMissile3(Current_missile, number), 0.1);
+    }
+}
+
+# stuff that no longer works:
+# - missile view looks backwards?
+# - no missile model or smoke
+# - missing lots of missiles
+dropMissile3 = func(Current_missile, number)
+{
+    if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
+        Current_missile.release();
+    } else {
+        Current_missile.del();
+        return;
+    }
+    var phrase = Current_missile.brevity ~ " at: " ~ Current_missile.Tgt.get_Callsign();# change this to what you want Shinobi
+    if (getprop("/controls/armament/mp-messaging")) {
+      missile.defeatSpamFilter(phrase);
+    } else {
+      setprop("/sim/messages/atc", phrase);
+    }
+    setprop("/sim/weight["~ number ~"]/weight-lb", 0);
+    
+    #If auto focus on missile is activated the we call the function
+    if(getprop("/controls/armament/automissileview"))
+    {
+      view_firing_missile(Current_missile);
+    }        
+      
     setprop("/controls/armament/station["~ number ~"]/release", 1);
     after_fire_next();
 }

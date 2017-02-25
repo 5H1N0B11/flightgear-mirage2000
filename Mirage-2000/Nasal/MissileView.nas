@@ -70,11 +70,11 @@ var missile_view_handler = {
       "eye-lat-deg-path": data.root ~ "/position/latitude-deg",
       "eye-lon-deg-path": data.root ~ "/position/longitude-deg",
       "eye-alt-ft-path": data.root ~ "/position/altitude-ft",
-      "eye-heading-deg-path": data.root ~ "/orientation/heading-deg",
+      "eye-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
       "target-lat-deg-path": data.root ~ "/position/latitude-deg",
       "target-lon-deg-path": data.root ~ "/position/longitude-deg",
       "target-alt-ft-path": data.root ~ "/position/altitude-ft",
-      "target-heading-deg-path": data.root ~ "/orientation/heading-deg",
+      "target-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
       "target-pitch-deg-path": data.root ~ "/orientation/pitch-deg",
       "target-roll-deg-path": data.root ~ "/orientation/roll-deg",
     });

@@ -10864,12 +10864,12 @@
     <alt0-name>MI1alt0</alt0-name>
     <alt1-name>MI1alt1</alt1-name>
     <alt2-name>MI1alt2</alt2-name>
-    <display>instrumentation/radar2/targets/missile[0]/display</display>
-    <bearing-deg>instrumentation/radar2/targets/missile[0]/bearing-deg</bearing-deg>
-    <draw-range-nm>instrumentation/radar2/targets/missile[0]/tid-draw-range-nm</draw-range-nm>
-    <true-heading-deg>instrumentation/radar2/targets/missile[0]/true-heading-deg</true-heading-deg>
-    <rounded-alt-ft>instrumentation/radar2/targets/missile[0]/rounded-alt-ft</rounded-alt-ft>
-    <carrier>instrumentation/radar2/targets/missile[0]/carrier</carrier>
+    <display>instrumentation/radar2/targets/aim120[0]/display</display>
+    <bearing-deg>instrumentation/radar2/targets/aim120[0]/bearing-deg</bearing-deg>
+    <draw-range-nm>instrumentation/radar2/targets/aim120[0]/tid-draw-range-nm</draw-range-nm>
+    <true-heading-deg>instrumentation/radar2/targets/aim120[0]/true-heading-deg</true-heading-deg>
+    <rounded-alt-ft>instrumentation/radar2/targets/aim120[0]/rounded-alt-ft</rounded-alt-ft>
+    <carrier>instrumentation/radar2/targets/aim120[0]/carrier</carrier>
   </MI1>
   
   <animation>
@@ -11094,12 +11094,12 @@
     <alt0-name>MI2alt0</alt0-name>
     <alt1-name>MI2alt1</alt1-name>
     <alt2-name>MI2alt2</alt2-name>
-    <display>instrumentation/radar2/targets/missile[1]/display</display>
-    <bearing-deg>instrumentation/radar2/targets/missile[1]/bearing-deg</bearing-deg>
-    <draw-range-nm>instrumentation/radar2/targets/missile[1]/tid-draw-range-nm</draw-range-nm>
-    <true-heading-deg>instrumentation/radar2/targets/missile[1]/true-heading-deg</true-heading-deg>
-    <rounded-alt-ft>instrumentation/radar2/targets/missile[1]/rounded-alt-ft</rounded-alt-ft>
-    <carrier>instrumentation/radar2/targets/missile[1]/carrier</carrier>
+    <display>instrumentation/radar2/targets/aim120[1]/display</display>
+    <bearing-deg>instrumentation/radar2/targets/aim120[1]/bearing-deg</bearing-deg>
+    <draw-range-nm>instrumentation/radar2/targets/aim120[1]/tid-draw-range-nm</draw-range-nm>
+    <true-heading-deg>instrumentation/radar2/targets/aim120[1]/true-heading-deg</true-heading-deg>
+    <rounded-alt-ft>instrumentation/radar2/targets/aim120[1]/rounded-alt-ft</rounded-alt-ft>
+    <carrier>instrumentation/radar2/targets/aim120[1]/carrier</carrier>
   </MI2>
   
   <animation>
@@ -11324,12 +11324,12 @@
     <alt0-name>MI3alt0</alt0-name>
     <alt1-name>MI3alt1</alt1-name>
     <alt2-name>MI3alt2</alt2-name>
-    <display>instrumentation/radar2/targets/missile[2]/display</display>
-    <bearing-deg>instrumentation/radar2/targets/missile[2]/bearing-deg</bearing-deg>
-    <draw-range-nm>instrumentation/radar2/targets/missile[2]/tid-draw-range-nm</draw-range-nm>
-    <true-heading-deg>instrumentation/radar2/targets/missile[2]/true-heading-deg</true-heading-deg>
-    <rounded-alt-ft>instrumentation/radar2/targets/missile[2]/rounded-alt-ft</rounded-alt-ft>
-    <carrier>instrumentation/radar2/targets/missile[2]/carrier</carrier>
+    <display>instrumentation/radar2/targets/aim-9[0]/display</display>
+    <bearing-deg>instrumentation/radar2/targets/aim-9[0]/bearing-deg</bearing-deg>
+    <draw-range-nm>instrumentation/radar2/targets/aim-9[0]/tid-draw-range-nm</draw-range-nm>
+    <true-heading-deg>instrumentation/radar2/targets/aim-9[0]/true-heading-deg</true-heading-deg>
+    <rounded-alt-ft>instrumentation/radar2/targets/aim-9[0]/rounded-alt-ft</rounded-alt-ft>
+    <carrier>instrumentation/radar2/targets/aim-9[0]/carrier</carrier>
   </MI3>
   
   <animation>
@@ -11554,12 +11554,12 @@
     <alt0-name>MI4alt0</alt0-name>
     <alt1-name>MI4alt1</alt1-name>
     <alt2-name>MI4alt2</alt2-name>
-    <display>instrumentation/radar2/targets/missile[3]/display</display>
-    <bearing-deg>instrumentation/radar2/targets/missile[3]/bearing-deg</bearing-deg>
-    <draw-range-nm>instrumentation/radar2/targets/missile[3]/tid-draw-range-nm</draw-range-nm>
-    <true-heading-deg>instrumentation/radar2/targets/missile[3]/true-heading-deg</true-heading-deg>
-    <rounded-alt-ft>instrumentation/radar2/targets/missile[3]/rounded-alt-ft</rounded-alt-ft>
-    <carrier>instrumentation/radar2/targets/missile[3]/carrier</carrier>
+    <display>instrumentation/radar2/targets/aim-9[1]/display</display>
+    <bearing-deg>instrumentation/radar2/targets/aim-9[1]/bearing-deg</bearing-deg>
+    <draw-range-nm>instrumentation/radar2/targets/aim-9[1]/tid-draw-range-nm</draw-range-nm>
+    <true-heading-deg>instrumentation/radar2/targets/aim-9[1]/true-heading-deg</true-heading-deg>
+    <rounded-alt-ft>instrumentation/radar2/targets/aim-9[1]/rounded-alt-ft</rounded-alt-ft>
+    <carrier>instrumentation/radar2/targets/aim-9[1]/carrier</carrier>
   </MI4>
   
   <animation>

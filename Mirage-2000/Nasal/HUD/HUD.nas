@@ -360,8 +360,8 @@ var HUD = {
      
      var offsetZ = centerHUDz-Pilotz;
      
-     print("centerHUDx=" ~ centerHUDx ~ "centerHUDy=" ~ centerHUDy ~ "centerHUDz=" ~centerHUDz);
-     print("Pilotx = " ~ Pilotx ~ ";Piloty = " ~ Piloty ~ ";Pilotz = " ~ Pilotz);
+#     print("centerHUDx=" ~ centerHUDx ~ "centerHUDy=" ~ centerHUDy ~ "centerHUDz=" ~centerHUDz);
+#     print("Pilotx = " ~ Pilotx ~ ";Piloty = " ~ Piloty ~ ";Pilotz = " ~ Pilotz);
      #print("xCube = " ~ xCube ~ ";yCube = " ~ yCube ~ ";zCube = " ~ zCube);
     
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
@@ -377,7 +377,7 @@ var HUD = {
     
     myarrayofTarget = mirage2000.myRadar3.update();
     var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
-    print("Size:" ~ size(raw_list));
+#    print("Size:" ~ size(raw_list));
     i=0;
     foreach(var c; raw_list){
       i+=1;
@@ -392,7 +392,7 @@ var HUD = {
         var mydeviation = mydeviationNode.getValue();
         var myelevation = myelevationNode.getValue();
         myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
-        print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
+#        print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
     
         myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
         

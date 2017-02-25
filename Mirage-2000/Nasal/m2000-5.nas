@@ -28,7 +28,7 @@ var engine1 = engines.Jet.new(0, 0, 0.01, 20, 3, 5, 30, 15);
 
 
 var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160],NewRangeIndex:1,forcePath:"instrumentation/radar2/targets",NewAutoUpdate:1);
-var LaserDetection = radar.Radar.new(NewRangeTab:[20],NewVerticalAzimuth:180,NewRangeIndex:0,NewTypeTarget:["aircraft","multiplayer","carrier","ship","missile"],NewRadarType:"laser", NewhaveSweep:0,NewAutoUpdate:0,forcePath:"instrumentation/radar2/targets");
+var LaserDetection = radar.Radar.new(NewRangeTab:[20],NewVerticalAzimuth:180,NewRangeIndex:0,NewTypeTarget:["aircraft","multiplayer","carrier","ship","missile","aim120","aim-9"],NewRadarType:"laser", NewhaveSweep:0,NewAutoUpdate:0,forcePath:"instrumentation/radar2/targets");
 setprop("/instrumentation/radar/az-fieldCenter",0);
 
 var InitListener = setlistener("/sim/signals/fdm-initialized", func
