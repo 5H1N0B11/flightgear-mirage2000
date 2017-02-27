@@ -112,7 +112,7 @@
             <all-aspect                   type="bool">true</all-aspect>
             <lock-on-sun-deg            type="double"> 0 </lock-on-sun-deg>
             <seeker-angular-speed-dps   type="double"> 0 </seeker-angular-speed-dps>
-            <rail                         type="bool">false</rail>
+            <rail                         type="bool">true</rail>
             <rail-length-m              type="double"> 2.667 </rail-length-m>
             <rail-point-forward           type="bool">true</rail-point-forward>
             <rail-pitch-deg             type="double"> 0 </rail-pitch-deg>
