@@ -360,8 +360,8 @@ var HUD = {
      
      var offsetZ = centerHUDz-Pilotz;
      
-     print("centerHUDx=" ~ centerHUDx ~ "centerHUDy=" ~ centerHUDy ~ "centerHUDz=" ~centerHUDz);
-     print("Pilotx = " ~ Pilotx ~ ";Piloty = " ~ Piloty ~ ";Pilotz = " ~ Pilotz);
+     #print("centerHUDx=" ~ centerHUDx ~ "centerHUDy=" ~ centerHUDy ~ "centerHUDz=" ~centerHUDz);
+     #print("Pilotx = " ~ Pilotx ~ ";Piloty = " ~ Piloty ~ ";Pilotz = " ~ Pilotz);
      #print("xCube = " ~ xCube ~ ";yCube = " ~ yCube ~ ";zCube = " ~ zCube);
     
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
@@ -377,7 +377,7 @@ var HUD = {
     
     myarrayofTarget = mirage2000.myRadar3.update();
     var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
-    print("Size:" ~ size(raw_list));
+    #print("Size:" ~ size(raw_list));
     i=0;
     foreach(var c; raw_list){
       i+=1;
@@ -392,7 +392,7 @@ var HUD = {
         var mydeviation = mydeviationNode.getValue();
         var myelevation = myelevationNode.getValue();
         myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
-        print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
+        #print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
     
         myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
         
@@ -401,6 +401,61 @@ var HUD = {
         
         #print( myhorizontaldeviation);
 
+        
+#        get_cartesian: func() {
+#
+#    var gpsAlt = me.coord.alt();
+
+#    var self      =  geo.aircraft_position();
+#    var myPitch   =  input.pitch.getValue()*deg2rads;
+#    var myRoll    =  input.roll.getValue()*deg2rads;
+#    var myAlt     =  self.alt();
+#    var myHeading =  input.hdgReal.getValue();
+#    var distance  =  self.distance_to(me.coord);
+
+#    var yg_rad = getPitch(self, me.coord)-myPitch;#math.atan2(gpsAlt-myAlt, distance) - myPitch; 
+#    var xg_rad = (self.course_to(me.coord) - myHeading) * deg2rads;
+#    
+#    while (xg_rad > math.pi) {
+ #     xg_rad = xg_rad - 2*math.pi;
+  #  }
+   # while (xg_rad < -math.pi) {
+#      xg_rad = xg_rad + 2*math.pi;
+ ##   }
+   # while (yg_rad > math.pi) {
+    #  yg_rad = yg_rad - 2*math.pi;
+    #}
+#    while (yg_rad < -math.pi) {
+ #     yg_rad = yg_rad + 2*math.pi;
+  #  }
+#
+    #aircraft angle, remember positive roll is right
+ #   var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
+  #  var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
+
+   # while (xa_rad < -math.pi) {
+    #  xa_rad = xa_rad + 2*math.pi;
+    #}
+   # while (xa_rad > math.pi) {
+  #    xa_rad = xa_rad - 2*math.pi;
+   # }
+    #while (ya_rad > math.pi) {
+     # ya_rad = ya_rad - 2*math.pi;
+    #}
+    #while (ya_rad < -math.pi) {
+    #  ya_rad = ya_rad + 2*math.pi;
+    #}
+
+    #var hud_pos_x = canvas_HUD.pixelPerDegreeX * xa_rad * rad2deg;
+    #var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * -ya_rad * rad2deg;
+
+    #return [hud_pos_x, hud_pos_y];
+ # },
+        #  float pos_x = (h_deg * cos(roll_value) - v_deg * sin(roll_value)) * _compression;
+        #float pos_y = (v_deg * cos(roll_value) + h_deg * sin(roll_value)) * _compression;
+        
+        #  float pos_x = (h_deg * cos(roll_value) - v_deg * sin(roll_value)) * _compression;
+        #float pos_y = (v_deg * cos(roll_value) + h_deg * sin(roll_value)) * _compression;
         
         #print(size(myarrayofTarget));
         

@@ -78,6 +78,7 @@
       </and>
     </condition>
   </animation>
+  
 
   <!-- left GBU16 -->
   <animation>
@@ -166,6 +167,23 @@
       </and>
     </condition>
   </animation>
+  
+    <animation>
+    <type>select</type>
+    <object-name>left-pos-2-MICA_IR</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[1]/selected</property>
+          <value>Matra MICA IR</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[1]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
 
   <animation>
     <type>select</type>
@@ -224,6 +242,23 @@
         <equals>
           <property>sim/weight[2]/selected</property>
           <value>1300 l Droptank</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[2]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>left-exocet</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>Exocet</value>
         </equals>
         <equals>
           <property>controls/armament/station[2]/release</property>
@@ -515,6 +550,18 @@
         </equals>
     </condition>
   </animation>
+  
+  <!-- Center Exocet -->
+  <animation>
+    <type>select</type>
+    <object-name>center-exocet</object-name>
+    <condition>
+        <equals>
+          <property>sim/weight[3]/selected</property>
+          <value>Exocet</value>
+        </equals>
+    </condition>
+  </animation>
 
   <!-- station right 3 (Index 4)-->
   <animation>
@@ -542,6 +589,23 @@
         <equals>
           <property>sim/weight[4]/selected</property>
           <value>1300 l Droptank</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[4]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>right-exocet</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[4]/selected</property>
+          <value>Exocet</value>
         </equals>
         <equals>
           <property>controls/armament/station[4]/release</property>
@@ -701,6 +765,23 @@
         <equals>
           <property>sim/weight[5]/selected</property>
           <value>Matra MICA</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[5]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>right-pos-2-MICA_IR</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[5]/selected</property>
+          <value>Matra MICA IR</value>
         </equals>
         <equals>
           <property>controls/armament/station[5]/release</property>
@@ -893,6 +974,7 @@
       </and>
     </condition>
   </animation>
+  
 
   <!-- right GBU16 -->
   <animation>

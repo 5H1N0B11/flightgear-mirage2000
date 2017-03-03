@@ -30,7 +30,9 @@ var Decode_Load = {
             "Sea Eagle",
             "SmokePod",
             "ASMP",
-            "PDLCT"
+            "PDLCT",
+            "Matra MICA IR",
+            "Exocet"
         ];
         return m;
     },

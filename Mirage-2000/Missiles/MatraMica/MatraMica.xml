@@ -14,7 +14,7 @@
        Weight   : 112 kg (246.91 lb)
   -->
 
-  <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/MatraMica/mica_em.ac</path>
 
   <animation>
     <!-- Objets opaques -->

@@ -163,6 +163,7 @@
       <opt><name>Matra R550 Magic 2</name><lbs type="double">  196.21 </lbs></opt>
       <opt><name>aim-9</name>             <lbs type="double">  191.00 </lbs></opt>
       <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
+      <opt><name>Matra MICA IR</name>        <lbs type="double">  246.91 </lbs></opt>
       <opt><name>R74</name>               <lbs type="double">  230.00 </lbs></opt>
       <opt><name>SmokePod</name><lbs type="double">  196.21 </lbs></opt>
     </weight>
@@ -185,6 +186,7 @@
       <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
       <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
       <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
+      <opt><name>Exocet</name>            <lbs type="double">  2866</lbs></opt>
     </weight>
 
     <weight n="3">
@@ -209,6 +211,7 @@
       <opt><name>AGM65</name>             <lbs type="double">  600.00 </lbs></opt>
       <opt><name>R77</name>               <lbs type="double">  498.00 </lbs></opt>
       <opt><name>ASMP</name>              <lbs type="double">  1850.00</lbs></opt>
+      <opt><name>Exocet</name>            <lbs type="double">  2866</lbs></opt>
     </weight>
 
     <weight n="4">
@@ -229,6 +232,7 @@
       <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
       <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
       <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
+      <opt><name>Exocet</name>            <lbs type="double">  2866</lbs></opt>
     </weight>
 
     <weight n="5">
@@ -244,6 +248,7 @@
       <opt><name>Matra R550 Magic 2</name><lbs type="double">  196.21 </lbs></opt>
       <opt><name>aim-9</name>             <lbs type="double">  191.00 </lbs></opt>
       <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
+      <opt><name>Matra MICA IR</name>        <lbs type="double">  246.91 </lbs></opt>
       <opt><name>R74</name>               <lbs type="double">  230.00 </lbs></opt>
       <opt><name>SmokePod</name><lbs type="double">  196.21 </lbs></opt>
     </weight>

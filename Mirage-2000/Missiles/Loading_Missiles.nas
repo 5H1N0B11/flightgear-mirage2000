@@ -123,6 +123,35 @@ var Loading_missile = func(name)
         guidance = "heat";
         fuel_lbm = 60;
     }
+    if(name == "Matra MICA IR")
+    {
+        # MICA max range 80 km for actual version. ->43 nm.. at mach 4 it's about 59 sec. I put a life of 120, and thurst duration to 3/4 the travel time, and have vectorial thurst (So 27 G more than a similar missile wich have not vectorial thurst)
+        address = "/Aircraft/Mirage-2000/Missiles/MatraMicaIR/MatraMica_smoke.xml";
+        NoSmoke = "/Aircraft/Mirage-2000/Missiles/MatraMica/MatraMicaIR.xml";
+        Explosion = "/Aircraft/Mirage-2000/Missiles/MatraMica/explosion.xml";
+        maxdetectionrngnm = 45;                      #  Not real Impact yet
+        fovdeg = 30;                                 # seeker optical FOV
+        detectionfovdeg = 180;                       # Search pattern diameter (rosette scan)
+        trackmaxdeg = 135;                           # Seeker max total angular rotation
+        maxg = 50;                                   # In turn
+        thrustlbs1 = 2800;
+        thrustlbs2 = 300;
+        thrust1durationsec = 10;
+        thrust2durationsec = 20;
+        weightlaunchlbs = 216;
+        weightwarheadlbs = 30;
+        seeker_angular_speed_dps = 60;
+        dragcoeff = 0.19;                           # guess; original 0.05
+        dragarea = 0.30;                            # sq ft
+        maxExplosionRange = 65;                      # in meter ! Due to the code, more the speed is important, more we need to have this figure high
+        maxspeed = 4;                                # In Mach
+        life = 110;
+        fox = "Fox 2";
+        rail = "true";
+        cruisealt = 55000;
+        fuel_lbm = 140;
+        min_guiding_speed_mach = 0.7;
+    }
     elsif(name == "aim-9")
     {
         # aim-9 max range 18 km for actual version. ->9 nm.. at mach 2.5 it's about 21 sec. I put a life of 40, and thurst duration to 3/4 the travel time.
@@ -270,6 +299,32 @@ var Loading_missile = func(name)
         dragarea = 0.411;                             # sq ft
         maxExplosionRange = 80;                       # Due to the code, more the speed is important, more we need to have this figure high
         maxspeed = 0.8;                               # In Mach
+        life = 1000;
+        fox = "A/M";
+        rail = "false";
+        cruisealt = 40;
+        min_guiding_speed_mach = 0.25;
+        seeker_angular_speed_dps = 45;
+    }
+    elsif(name == "Exocet")
+    {
+        address = "/Aircraft/Mirage-2000/Missiles/Exocet/exocet_smoke.xml";
+        NoSmoke = "/Aircraft/Mirage-2000/Missiles/Exocet/exocet.xml";
+        maxdetectionrngnm = 134;                      # Not real Impact yet
+        fovdeg = 25;                                  # seeker optical FOV
+        detectionfovdeg = 180;                        # Search pattern diameter (rosette scan)
+        trackmaxdeg = 180;                            # Seeker max total angular rotation
+        maxg = 15;                                    # In turn
+        thrustlbs1 = 2000;                            # guess
+        thrust1durationsec = 1000;                    # Mk.36 Mod.7,8
+        thrustlbs2 = 0;
+        thrust2durationsec =  0;
+        weightlaunchlbs = 1480;
+        weightwarheadlbs = 364;
+        dragcoeff = 0.478;                            # guess; original 0.05
+        dragarea = 0.411;                             # sq ft
+        maxExplosionRange = 80;                       # Due to the code, more the speed is important, more we need to have this figure high
+        maxspeed = 0.92;                               # In Mach
         life = 1000;
         fox = "A/M";
         rail = "false";

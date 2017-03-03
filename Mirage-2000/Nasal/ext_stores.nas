@@ -41,7 +41,9 @@ var Encode_Load = func()
         "Sea Eagle",
         "SmokePod",
         "ASMP",
-        "PDLCT"
+        "PDLCT",
+        "Matra MICA IR",
+        "Exocet"
     ];
     var compiled = "";
     
@@ -100,7 +102,9 @@ var Decode_Load = {
             "Sea Eagle",
             "SmokePod",
             "ASMP",
-            "PDLCT"
+            "PDLCT",
+            "Matra MICA IR",
+            "Exocet"
         ];
         return m;
     },
@@ -332,7 +336,7 @@ var Kilo = func()
         setprop("/sim/weight[0]/selected",                   "Matra MICA");
         
         # pylon 1
-        setprop("/sim/weight[1]/selected",                   "Matra MICA");
+        setprop("/sim/weight[1]/selected",                   "Matra MICA IR");
         
         # pylon 2
         setprop("/sim/weight[2]/selected",                   "1700 l Droptank");
@@ -353,7 +357,7 @@ var Kilo = func()
         setprop("/consumables/fuel/tank[4]/level-gal_us",    447);
         
         # pylon 5
-        setprop("/sim/weight[5]/selected",                   "Matra MICA");
+        setprop("/sim/weight[5]/selected",                   "Matra MICA IR");
         
         # pylon 6
         setprop("/sim/weight[6]/selected",                   "Matra MICA");
@@ -419,7 +423,7 @@ var AirToGround = func()
         setprop("/sim/weight[0]/selected",                   "none");
         
         # pylon 1
-        setprop("/sim/weight[1]/selected",                   "Matra MICA");
+        setprop("/sim/weight[1]/selected",                   "Matra MICA IR");
         
         # pylon 2
         setprop("/sim/weight[2]/selected",                   "GBU16");
@@ -440,7 +444,7 @@ var AirToGround = func()
         setprop("/consumables/fuel/tank[4]/level-gal_us",    0);
         
         # pylon 5
-        setprop("/sim/weight[5]/selected",                   "Matra MICA");
+        setprop("/sim/weight[5]/selected",                   "Matra MICA IR");
         
         # pylon 6
         setprop("/sim/weight[6]/selected",                   "PDLCT");
@@ -514,6 +518,10 @@ var FireableAgain = func()
         {
             setprop("/sim/weight["~ i ~"]/weight-lb", 246.91);
         }
+        if(select == "Matra MICA IR")
+        {
+            setprop("/sim/weight["~ i ~"]/weight-lb", 246.91);
+        }
         elsif(select == "Matra R550 Magic 2")
         {
             setprop("/sim/weight["~ i ~"]/weight-lb", 196.21);
@@ -525,6 +533,10 @@ var FireableAgain = func()
         elsif(select == "SCALP")
         {
             setprop("/sim/weight["~ i ~"]/weight-lb", 2866);
+        }
+        elsif(select == "Exocet")
+        {
+            setprop("/sim/weight["~ i ~"]/weight-lb", 1460);
         }
         elsif(select == "ASMP")
         {
