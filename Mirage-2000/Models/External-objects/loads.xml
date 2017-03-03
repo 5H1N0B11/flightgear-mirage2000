@@ -556,10 +556,16 @@
     <type>select</type>
     <object-name>center-exocet</object-name>
     <condition>
+      <and>
         <equals>
           <property>sim/weight[3]/selected</property>
           <value>Exocet</value>
         </equals>
+        <equals>
+          <property>controls/armament/station[3]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
     </condition>
   </animation>
 
