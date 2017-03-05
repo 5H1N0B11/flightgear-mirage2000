@@ -16,13 +16,13 @@
 
   <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/mica_ir.ac</path>
 
-  <animation>
+<!--  <animation>-->
     <!-- Objets opaques -->
-    <object-name>Mica</object-name>
-    <object-name>MicaAilettes</object-name>
+<!--    <object-name>Mica</object-name>
+    <object-name>MicaAilettes</object-name>-->
 
     <!-- Objets transparents -->
-  </animation>
+<!--  </animation>-->
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>

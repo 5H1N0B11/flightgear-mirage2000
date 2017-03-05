@@ -37,7 +37,7 @@
 
     <counter>
       <particles-per-sec>
-        <value>2</value>
+        <value>1</value>
         <spread>8</spread>
       </particles-per-sec>
     </counter>
@@ -71,7 +71,7 @@
       </end>
 
       <life-sec>
-        <value>3</value>
+        <value>1</value>
       </life-sec>
 
       <mass-kg>5</mass-kg>

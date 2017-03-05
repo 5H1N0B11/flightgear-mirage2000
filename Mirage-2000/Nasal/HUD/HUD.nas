@@ -250,15 +250,20 @@ var HUD = {
 
     m.targetArray = [];
     #var circle_group2;
+    m.circle_group2 = m.root.createChild("group");
          
     for(var i = 1; i <= MaxTarget; i += 1){
-      circle_group2 = m.root.createChild("group").createChild("path")
+      myCircle = m.circle_group2.createChild("path")
+      #circle_group2 = m.root.createChild("group").createChild("path")
+      #circle_group2 = m.horizon_group.createChild("path")
         .moveTo( 10, 0)
         .arcSmallCW(15,15, 0, -30, 0)
         .arcSmallCW(15,15, 0, 30, 0)
         .set("stroke", "rgba(0,255,0,0.9)");
-      append(m.targetArray, circle_group2);
+      append(m.targetArray, myCircle);
     }
+    
+    m.targetrot   = m.circle_group2.createTransform();
   
                    
 
@@ -304,6 +309,7 @@ var HUD = {
     
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
     me.h_rot.setRotation(rot);
+    me.targetrot.setRotation(rot);
     
     # flight path vector (FPV)
     var vel_gx = me.input.speed_n.getValue();
@@ -347,8 +353,8 @@ var HUD = {
     me.airspeed.hide();
     me.energy_cue.hide();
     me.acc.hide();
-    var myXtranslation = getprop("/controls/flight/aileron");
-    var myYtranslation = getprop("/controls/flight/elevator");
+    me.vertical_speed.hide();
+    
     
     #Pilot position:    
     var Piloty = getprop("sim/current-view/x-offset-m"); 
@@ -367,13 +373,7 @@ var HUD = {
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
     
     #print(mydistanceTohud);
-    
-    
-    #mydeviation = getprop("instrumentation/radar2/targets/tanker/radar/deviation-deg");
-    mydeviation = getprop("instrumentation/radar2/targets/aircraft/radar/deviation-deg");
-    myelevation = getprop("instrumentation/radar2/targets/aircraft/radar/elevation-deg");
-    #myhorizontaldeviation = mydistanceTohud * math.tan(mydeviation);
-    #print(mydeviation);
+
     
     myarrayofTarget = mirage2000.myRadar3.update();
     var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
@@ -392,78 +392,20 @@ var HUD = {
         var mydeviation = mydeviationNode.getValue();
         var myelevation = myelevationNode.getValue();
         myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
-        #print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
+        print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
     
         myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
-        
-        #myverticalelevation = myelevation!=nil ? -(math.cos(45*D2R)*mydistanceTohud - math.tan((45-myelevation)*D2R) * mydistanceTohud * math.sin (45*D2R)):0;
         myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
         
         #print( myhorizontaldeviation);
 
         
-#        get_cartesian: func() {
-#
-#    var gpsAlt = me.coord.alt();
-
-#    var self      =  geo.aircraft_position();
-#    var myPitch   =  input.pitch.getValue()*deg2rads;
-#    var myRoll    =  input.roll.getValue()*deg2rads;
-#    var myAlt     =  self.alt();
-#    var myHeading =  input.hdgReal.getValue();
-#    var distance  =  self.distance_to(me.coord);
-
-#    var yg_rad = getPitch(self, me.coord)-myPitch;#math.atan2(gpsAlt-myAlt, distance) - myPitch; 
-#    var xg_rad = (self.course_to(me.coord) - myHeading) * deg2rads;
-#    
-#    while (xg_rad > math.pi) {
- #     xg_rad = xg_rad - 2*math.pi;
-  #  }
-   # while (xg_rad < -math.pi) {
-#      xg_rad = xg_rad + 2*math.pi;
- ##   }
-   # while (yg_rad > math.pi) {
-    #  yg_rad = yg_rad - 2*math.pi;
-    #}
-#    while (yg_rad < -math.pi) {
- #     yg_rad = yg_rad + 2*math.pi;
-  #  }
-#
-    #aircraft angle, remember positive roll is right
- #   var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
-  #  var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
-
-   # while (xa_rad < -math.pi) {
-    #  xa_rad = xa_rad + 2*math.pi;
-    #}
-   # while (xa_rad > math.pi) {
-  #    xa_rad = xa_rad - 2*math.pi;
-   # }
-    #while (ya_rad > math.pi) {
-     # ya_rad = ya_rad - 2*math.pi;
-    #}
-    #while (ya_rad < -math.pi) {
-    #  ya_rad = ya_rad + 2*math.pi;
-    #}
-
-    #var hud_pos_x = canvas_HUD.pixelPerDegreeX * xa_rad * rad2deg;
-    #var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * -ya_rad * rad2deg;
-
-    #return [hud_pos_x, hud_pos_y];
- # },
-        #  float pos_x = (h_deg * cos(roll_value) - v_deg * sin(roll_value)) * _compression;
-        #float pos_y = (v_deg * cos(roll_value) + h_deg * sin(roll_value)) * _compression;
-        
-        #  float pos_x = (h_deg * cos(roll_value) - v_deg * sin(roll_value)) * _compression;
-        #float pos_y = (v_deg * cos(roll_value) + h_deg * sin(roll_value)) * _compression;
-        
         #print(size(myarrayofTarget));
+
         
-        #me.circle_group.setTranslation(150*myXtranslation,150*myYtranslation  );
-        
-        #me.circle_group2.setTranslation((380/wideMeters)*myhorizontaldeviation,(380/heightMeters)*myverticalelevation*math.sin(45*D2R));
         me.targetArray[i-1].show();
-        me.targetArray[i-1].setTranslation((500/wideMeters)*myhorizontaldeviation,(480/heightMeters)*myverticalelevation+offsetZ);
+        me.targetArray[i-1].setTranslation((500/wideMeters)*myhorizontaldeviation,(380/heightMeters)*myverticalelevation+offsetZ);
+        #me.targetArray[i-1].setTranslation((500/wideMeters)*myhorizontaldeviation,(350/heightMeters)*myverticalelevation);
       }else{
         #print(i);
         me.targetArray[i-1].hide();
