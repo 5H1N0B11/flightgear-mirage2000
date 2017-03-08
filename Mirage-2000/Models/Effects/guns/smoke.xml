@@ -35,7 +35,7 @@
 
     <counter>
       <particles-per-sec>
-        <value>5</value>
+        <value>1</value>
         <spread>30</spread>
       </particles-per-sec>
     </counter>

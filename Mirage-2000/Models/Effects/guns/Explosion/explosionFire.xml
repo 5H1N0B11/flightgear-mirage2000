@@ -23,7 +23,7 @@
       <phi-max-deg> 180</phi-max-deg>
       <speed-mps>
         <value> 50</value>
-        <spread> 8</spread>
+        <spread> 4</spread>
       </speed-mps>
       <rotation-speed>
         <x-min-deg-sec>0</x-min-deg-sec>
@@ -37,7 +37,7 @@
 
     <counter>
       <particles-per-sec>
-        <value>5</value>
+        <value>1</value>
         <spread>10</spread>
       </particles-per-sec>
     </counter>

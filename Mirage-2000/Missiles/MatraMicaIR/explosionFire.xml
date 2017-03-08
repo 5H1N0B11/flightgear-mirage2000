@@ -4,10 +4,10 @@
 
   <particlesystem>
 
-    <name>BulletSmoke</name>
+    <name>MissileExplosion</name>
     <texture>smoke.png</texture>
 
-    <emissive type="bool">false</emissive>
+    <emissive type="bool">true</emissive>
     <lighting type="bool">false</lighting>
 
     <attach>world</attach>
@@ -18,12 +18,12 @@
 
     <shooter>
       <theta-min-deg>-180</theta-min-deg>
-      <theta-max-deg>180</theta-max-deg>
-      <phi-min-deg>-180</phi-min-deg>
-      <phi-max-deg>180</phi-max-deg>
+      <theta-max-deg> 180</theta-max-deg>
+      <phi-min-deg>  -180</phi-min-deg>
+      <phi-max-deg>   180</phi-max-deg>
       <speed-mps>
-        <value>25</value>
-        <spread>3</spread>
+        <value>500</value>
+        <spread>80</spread>
       </speed-mps>
       <rotation-speed>
         <x-min-deg-sec>0</x-min-deg-sec>
@@ -37,8 +37,8 @@
 
     <counter>
       <particles-per-sec>
-        <value>1</value>
-        <spread>8</spread>
+        <value>30</value>
+        <spread>10</spread>
       </particles-per-sec>
     </counter>
 
@@ -48,22 +48,22 @@
 
       <start>
         <color>
-          <red><value>   0.30 </value></red>
-          <green><value> 0.30 </value></green>
-          <blue><value>  0.25 </value></blue>
-          <alpha><value> 0.50 </value></alpha>
+          <red><value>   1.0 </value></red>
+          <green><value> 1.0 </value></green>
+          <blue><value>  0.4 </value></blue>
+          <alpha><value> 1.0 </value></alpha>
         </color>
         <size>
-          <value>20</value>
+          <value>2</value>
         </size>
       </start>
 
       <end>
         <color>
-          <red><value>   0.40 </value></red>
-          <green><value> 0.40 </value></green>
-          <blue><value>  0.40 </value></blue>
-          <alpha><value> 0.04 </value></alpha>
+          <red><value>   0.8 </value></red>
+          <green><value> 0.5 </value></green>
+          <blue><value>  0.2 </value></blue>
+          <alpha><value> 0.1 </value></alpha>
         </color>
         <size>
           <value>30</value>
@@ -71,9 +71,8 @@
       </end>
 
       <life-sec>
-        <value>1</value>
+        <value>0.5</value>
       </life-sec>
-
       <mass-kg>5</mass-kg>
       <radius-m>0.5</radius-m>
     </particle>

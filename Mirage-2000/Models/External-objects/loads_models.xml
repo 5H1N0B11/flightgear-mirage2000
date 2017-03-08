@@ -108,6 +108,16 @@
       <z-m>-1.494</z-m>
     </offsets>
   </model>
+  
+    <model>
+    <name>left-pos-2-MICA_IR</name>
+    <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml</path>
+    <offsets>
+      <x-m> 2.373</x-m>
+      <y-m>-3.278</y-m>
+      <z-m>-1.494</z-m>
+    </offsets>
+  </model>
 
   <model>
     <name>left-pos-2-R74</name>
@@ -149,6 +159,18 @@
       <z-m>-1.556</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>left-exocet</name>
+    <path>Aircraft/Mirage-2000/Missiles/Exocet/Exocet.xml</path>
+    <offsets>
+      <x-m> 1.047</x-m>
+      <y-m>-2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
+  
+  
 
   <model>
     <name>left-magic-2</name>
@@ -210,6 +232,18 @@
       <z-m>-1.656</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>center-exocet</name>
+    <path>Aircraft/Mirage-2000/Missiles/Exocet/Exocet.xml</path>
+    <offsets>
+      <x-m> 1.082</x-m>
+      <y-m> 0.000</y-m>
+      <z-m>-1.656</z-m>
+    </offsets>
+  </model>
+  
+  
 
   <model>
     <name>Center-GBU16</name>
@@ -331,6 +365,16 @@
       <z-m>-1.556</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>right-exocet</name>
+    <path>Aircraft/Mirage-2000/Missiles/Exocet/Exocet.xml</path>
+    <offsets>
+      <x-m> 1.047</x-m>
+      <y-m> 2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
 
   <model>
     <name>right-magic-2</name>
@@ -414,6 +458,16 @@
   </model>
 
   <model>
+    <name>right-pos-2-MICA_IR</name>
+    <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml</path>
+    <offsets>
+      <x-m> 2.373</x-m>
+      <y-m> 3.278</y-m>
+      <z-m>-1.494</z-m>
+    </offsets>
+  </model>
+  
+  <model>
     <name>right-pos-2-R74</name>
     <path>Aircraft/Mirage-2000/Missiles/R74/R-74.xml</path>
     <offsets>
@@ -463,7 +517,7 @@
       <z-m>-1.404</z-m>
     </offsets>
   </model>
-
+  
   <model>
     <name>right-GBU16</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU16/gbu16.xml</path>

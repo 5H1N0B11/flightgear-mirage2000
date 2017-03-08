@@ -4,7 +4,7 @@
 
   <particlesystem>
 
-    <name>BulletSmoke</name>
+    <name>ExplosionSmoke</name>
     <texture>smoke.png</texture>
 
     <emissive type="bool">false</emissive>
@@ -18,12 +18,12 @@
 
     <shooter>
       <theta-min-deg>-180</theta-min-deg>
-      <theta-max-deg>180</theta-max-deg>
-      <phi-min-deg>-180</phi-min-deg>
-      <phi-max-deg>180</phi-max-deg>
+      <theta-max-deg> 180</theta-max-deg>
+      <phi-min-deg>  -180</phi-min-deg>
+      <phi-max-deg>   180</phi-max-deg>
       <speed-mps>
-        <value>25</value>
-        <spread>3</spread>
+        <value>500</value>
+        <spread>60</spread>
       </speed-mps>
       <rotation-speed>
         <x-min-deg-sec>0</x-min-deg-sec>
@@ -37,8 +37,8 @@
 
     <counter>
       <particles-per-sec>
-        <value>1</value>
-        <spread>8</spread>
+        <value>50</value>
+        <spread>10</spread>
       </particles-per-sec>
     </counter>
 
@@ -54,7 +54,7 @@
           <alpha><value> 0.50 </value></alpha>
         </color>
         <size>
-          <value>20</value>
+          <value>10</value>
         </size>
       </start>
 
@@ -66,14 +66,13 @@
           <alpha><value> 0.04 </value></alpha>
         </color>
         <size>
-          <value>30</value>
+          <value>60</value>
         </size>
       </end>
 
       <life-sec>
-        <value>1</value>
+        <value>40</value>
       </life-sec>
-
       <mass-kg>5</mass-kg>
       <radius-m>0.5</radius-m>
     </particle>

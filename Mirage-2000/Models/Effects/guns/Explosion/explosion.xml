@@ -4,8 +4,8 @@
 
   <nasal>
     <load>
-      #print("Gun splash");
-      #print("Number of impact :"~ guns.Nb_Impact());
+      print("Gun splash");
+      print("Number of impact :"~ guns.Nb_Impact());
       guns.Impact();
     </load>
   </nasal>
@@ -14,8 +14,8 @@
     <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/explosionFire.xml</path>
   </model>
 
-  <model>
+ <!-- <model>
     <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/explosionSmoke.xml</path>
-  </model>
+  </model>-->
 
 </PropertyList>

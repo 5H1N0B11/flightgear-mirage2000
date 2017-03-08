@@ -14,15 +14,15 @@
        Weight   : 112 kg (246.91 lb)
   -->
 
-  <path>Aircraft/Mirage-2000/Missiles/MatraMica/mica_em.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.ac</path>
 
-<!--  <animation>-->
+  <animation>
     <!-- Objets opaques -->
-<!--    <object-name>Mica</object-name>
-    <object-name>MicaAilettes</object-name>-->
+    <object-name>Mica</object-name>
+    <object-name>MicaAilettes</object-name>
 
     <!-- Objets transparents -->
-<!--  </animation>-->
+  </animation>
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>
