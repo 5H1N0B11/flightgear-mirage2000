@@ -596,13 +596,18 @@ dropLoad_stop = func(n)
 
 dropMissile = func(number)
 {
+    #print("Drop Function launched");
     var target = mirage2000.myRadar3.GetTarget();
     var typeMissile = getprop("/sim/weight["~ number ~"]/selected");
+    #print("Should fire : "~typeMissile);
     var isMissile = missile.Loading_missile(typeMissile);
+    #print("isMissile = "~isMissile);
     if(isMissile != 0)
     {
+        #print("Firing missile");
         if(target == nil)
         {
+            print("Abort, no target");
             return;
         }
         Current_missile = missile.MISSILE.new(number);
