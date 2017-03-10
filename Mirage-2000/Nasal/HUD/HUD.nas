@@ -259,7 +259,8 @@ var HUD = {
         .moveTo( 10, 0)
         .arcSmallCW(15,15, 0, -30, 0)
         .arcSmallCW(15,15, 0, 30, 0)
-        .set("stroke", "rgba(0,255,0,0.9)");
+        .setStrokeLineWidth(3)
+        .set("stroke", "rgba(0,180,0,0.9)");
       append(m.targetArray, myCircle);
     }
     
@@ -373,43 +374,64 @@ var HUD = {
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
     
     #print(mydistanceTohud);
-
+    var mydeviationNode = nil;
+    var myelevationNode = nil;
+    var displayITNode = nil;
+    var mydeviation = 0;
+    var myelevation = 0;
+    var displayIt = 0;
     
-    myarrayofTarget = mirage2000.myRadar3.update();
+    
+
+    #myarrayofTarget = mirage2000.myRadar3.update();
     var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
+    
     #print("Size:" ~ size(raw_list));
     i=0;
     foreach(var c; raw_list){
-      i+=1;
-      #getprop("instrumentation/radar2/targets/aircraft/radar/deviation-deg");
-      #getprop("instrumentation/radar2/targets/aircraft/radar/elevation-deg");
-      #Not done yet
-      var mydeviationNode = c.getNode("radar/deviation-deg"); 
-      var myelevationNode = c.getNode("radar/elevation-deg");
       
-      if(mydeviationNode != nil){
-      
-        var mydeviation = mydeviationNode.getValue();
-        var myelevation = myelevationNode.getValue();
+ 
+
+      mydeviationNode = c.getNode("radar/deviation-deg"); 
+      myelevationNode = c.getNode("radar/elevation-deg");
+      displayITNode = c.getNode("display");
+      if(displayITNode != nil){
+        displayIt = displayITNode.getValue();
+        displayIt = displayIt==nil?0:displayIt;
+        #print("displayIt : "~displayIt);
+      }
+
+      if(mydeviationNode != nil and displayIt==1){
+
+        #print("It worked");
+        #print("offsetZ : "~ offsetZ);
+        
+        mydeviation = mydeviationNode.getValue();
+        myelevation = myelevationNode.getValue();
+        
+        
         myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
-        print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
+        #print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
     
         myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
         myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
         
         #print( myhorizontaldeviation);
-
-        
         #print(size(myarrayofTarget));
 
         
-        me.targetArray[i-1].show();
-        me.targetArray[i-1].setTranslation((500/wideMeters)*myhorizontaldeviation,(380/heightMeters)*myverticalelevation+offsetZ);
-        #me.targetArray[i-1].setTranslation((500/wideMeters)*myhorizontaldeviation,(350/heightMeters)*myverticalelevation);
+        #print(mirage2000.myRadar3.GetTarget().get_Callsign());
+        
+        #me.targetArray[i-1].show();
+        me.targetArray[i].show();
+        me.targetArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+        #me.targetArray[i-1].setTranslation((500/wideMeters)*myhorizontaldeviation,(350/heightMeters)*myverticalelevation+offsetZ);
       }else{
         #print(i);
-        me.targetArray[i-1].hide();
+        #me.targetArray[i-1].hide();
+        me.targetArray[i].hide();
       }
+      i+=1;
     }
     
     me.energy_cue.reset();
