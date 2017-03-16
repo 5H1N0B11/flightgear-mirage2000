@@ -887,7 +887,7 @@ refs 4
 80 0 0.491718
 kids 0
 OBJECT poly
-name "box"
+name "box0"
 loc -0.338667 0.571573 0.246426
 texture "matra.png"
 crease 45.000000
@@ -953,7 +953,7 @@ refs 3
 5 0.812826 0.991154
 kids 0
 OBJECT poly
-name "box"
+name "box1"
 loc -0.338667 -0.245213 0.561329
 texture "matra.png"
 crease 45.000000
@@ -1019,7 +1019,7 @@ refs 3
 5 0.812826 1
 kids 0
 OBJECT poly
-name "box"
+name "box2"
 loc 1.41111 0.223312 -0.00445881
 texture "matra.png"
 crease 45.000000
@@ -1091,7 +1091,7 @@ refs 4
 7 0.976562 0.832565
 kids 0
 OBJECT poly
-name "box"
+name "box3"
 loc 1.41111 0.00576902 0.218193
 texture "matra.png"
 crease 45.000000
