@@ -7,6 +7,7 @@ print("*** LOADING Loading_missiles.nas ... ***");
 
 var Loading_missile = func(name)
 {
+    print("Loading_Missile :"~name);
     var address           = "test";
     var NoSmoke           = "test2";
     var Explosion         = "/Aircraft/Mirage-2000/Missiles/MatraMica/explosion.xml";
@@ -123,11 +124,11 @@ var Loading_missile = func(name)
         guidance = "heat";
         fuel_lbm = 60;
     }
-    if(name == "Matra MICA IR")
+    elsif(name == "Matra MICA IR")
     {
         # MICA max range 80 km for actual version. ->43 nm.. at mach 4 it's about 59 sec. I put a life of 120, and thurst duration to 3/4 the travel time, and have vectorial thurst (So 27 G more than a similar missile wich have not vectorial thurst)
         address = "/Aircraft/Mirage-2000/Missiles/MatraMicaIR/MatraMica_smoke.xml";
-        NoSmoke = "/Aircraft/Mirage-2000/Missiles/MatraMica/MatraMicaIR.xml";
+        NoSmoke = "/Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml";
         Explosion = "/Aircraft/Mirage-2000/Missiles/MatraMica/explosion.xml";
         maxdetectionrngnm = 45;                      #  Not real Impact yet
         fovdeg = 30;                                 # seeker optical FOV

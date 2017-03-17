@@ -237,35 +237,65 @@ var HUD = {
                    .moveTo(-500, 0)
                    .horizTo(500)
                    .setStrokeLineWidth(1.5);
-                   
-   
-   # Circle
-    #m.circle_group = m.root.createChild("group");
-    #m.circle_group.createChild("path")
-    #  .moveTo( 10, 0)
-    #  .arcSmallCW(15,15, 0, -30, 0)
-    #  .arcSmallCW(15,15, 0, 30, 0);
+                     
       
-         # Circle
-
+   ##################################### Circle ####################################
     m.targetArray = [];
-    #var circle_group2;
     m.circle_group2 = m.root.createChild("group");
-         
     for(var i = 1; i <= MaxTarget; i += 1){
       myCircle = m.circle_group2.createChild("path")
-      #circle_group2 = m.root.createChild("group").createChild("path")
-      #circle_group2 = m.horizon_group.createChild("path")
         .moveTo( 10, 0)
         .arcSmallCW(15,15, 0, -30, 0)
         .arcSmallCW(15,15, 0, 30, 0)
-        .set("stroke", "rgba(0,255,0,0.9)");
+        .setStrokeLineWidth(3)
+        .set("stroke", "rgba(0,180,0,0.9)");
       append(m.targetArray, myCircle);
     }
-    
     m.targetrot   = m.circle_group2.createTransform();
   
-                   
+    ####################### Info Text ########################################
+    m.TextInfoArray = [];
+    m.TextInfoGroup = m.root.createChild("group");
+    
+    for(var i = 1; i <= MaxTarget; i += 1){
+        # on affiche des infos de la cible a cote du cercle
+        text_info = m.TextInfoGroup.createChild("text", "infos")
+                .setTranslation(15, -10)
+                .setAlignment("left-center")
+                .setFont("LiberationFonts/LiberationSansNarrow-Bold.ttf")
+                .setFontSize(9)
+                .setColor(0,180,0,0.9)
+                .setText("VOID");
+        append(m.TextInfoArray, text_info);
+    }
+    m.Textrot   = m.TextInfoGroup.createTransform();
+    
+  
+    
+    #######################  Triangles ##########################################
+    
+    var TriangleSize = 30;
+    m.TriangleGroupe = m.root.createChild("group");
+    
+    #m.triangleArray = [];
+    # le triangle donne le cap relatif
+        m.triangle = m.TriangleGroupe.createChild("path")
+            .setStrokeLineWidth(2)
+            .set("stroke", "rgba(0,180,0,0.9)")
+            .moveTo(0, TriangleSize*-1)
+            .lineTo(TriangleSize*0.866, TriangleSize*0.5)
+            .lineTo(TriangleSize*-0.866, TriangleSize*0.5)
+            .lineTo(0, TriangleSize*-1);
+    TriangleSize = TriangleSize*0.8;
+    
+        m.triangle2 = m.TriangleGroupe.createChild("path")
+            .setStrokeLineWidth(2)
+            .set("stroke", "rgba(0,180,0,0.9)")
+            .moveTo(0, TriangleSize*-1)
+            .lineTo(TriangleSize*0.866, TriangleSize*0.5)
+            .lineTo(TriangleSize*-0.866, TriangleSize*0.5)
+            .lineTo(0, TriangleSize*-1);
+         m.triangleRot =  m.TriangleGroupe.createTransform();
 
     m.input = {
       pitch:      "/orientation/pitch-deg",
@@ -310,6 +340,10 @@ var HUD = {
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
     me.h_rot.setRotation(rot);
     me.targetrot.setRotation(rot);
+    me.Textrot.setRotation(rot);
+    me.triangleRot.setRotation(rot);
+    
+    
     
     # flight path vector (FPV)
     var vel_gx = me.input.speed_n.getValue();
@@ -373,43 +407,118 @@ var HUD = {
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
     
     #print(mydistanceTohud);
-
+    #Node variables
+    var mydeviationNode = nil;
+    var myelevationNode = nil;
+    var displayITNode = nil;
+    var target_callsignNode = nil;
+    var target_altitudeNode = nil;
+    var target_closureRateNode = nil;
+    var target_headingNode = nil;
+    var target_DistanceNode = nil;
     
-    myarrayofTarget = mirage2000.myRadar3.update();
+    #Nodes values variables
+    var mydeviation = 0;
+    var myelevation = 0;
+    var displayIt = 0;
+    var target_callsign = "";
+    var target_altitude = 0;
+    var target_closureRate = 0;
+    var target_heading_deg = 0;
+    var target_Distance = 0;
+    
+    #To put a triangle on the selected target
+    #This should be changed by calling directly the radar object (in case of multi targeting)
+    var closestCallsign = getprop("ai/closest/callsign");
+    var closestRange = getprop("ai/closest/range");
+    var Token = 0;
+    
+
+    #myarrayofTarget = mirage2000.myRadar3.update();
     var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
+    
     #print("Size:" ~ size(raw_list));
     i=0;
     foreach(var c; raw_list){
-      i+=1;
-      #getprop("instrumentation/radar2/targets/aircraft/radar/deviation-deg");
-      #getprop("instrumentation/radar2/targets/aircraft/radar/elevation-deg");
-      #Not done yet
-      var mydeviationNode = c.getNode("radar/deviation-deg"); 
-      var myelevationNode = c.getNode("radar/elevation-deg");
       
-      if(mydeviationNode != nil){
-      
-        var mydeviation = mydeviationNode.getValue();
-        var myelevation = myelevationNode.getValue();
+ 
+
+      mydeviationNode = c.getNode("radar/deviation-deg"); 
+      myelevationNode = c.getNode("radar/elevation-deg");
+      displayITNode = c.getNode("display");
+      if(displayITNode != nil){
+        displayIt = displayITNode.getValue();
+        displayIt = displayIt==nil?0:displayIt;
+        #print("displayIt : "~displayIt);
+      }
+
+      if(mydeviationNode != nil and displayIt==1){
+
+        #Extraction of the text data
+        target_callsignNode = c.getNode("callsign");
+        target_callsign = target_callsignNode.getValue();
+        
+        target_altitudeNode = c.getNode("position/altitude-ft");
+        target_altitude = target_altitudeNode.getValue();
+        
+        target_closureRateNode = c.getNode("closure-rate-kts");
+        target_closureRate = target_closureRateNode.getValue();
+        
+        target_headingNode = c.getNode("orientation/true-heading-deg");
+        target_heading_deg = target_headingNode.getValue();
+        
+        target_DistanceNode = c.getNode("radar/range-nm");
+        target_Distance = target_DistanceNode.getValue();
+        
+        #print("It worked");
+        #print("offsetZ : "~ offsetZ);
+        
+        #Data for position calculation
+        mydeviation = mydeviationNode.getValue();
+        myelevation = myelevationNode.getValue();
+        
+        
         myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
-#        print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
+        #print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
     
         myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
         myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
         
         #print( myhorizontaldeviation);
-
-        
         #print(size(myarrayofTarget));
 
         
-        me.targetArray[i-1].show();
-        me.targetArray[i-1].setTranslation((500/wideMeters)*myhorizontaldeviation,(380/heightMeters)*myverticalelevation+offsetZ);
-        #me.targetArray[i-1].setTranslation((500/wideMeters)*myhorizontaldeviation,(350/heightMeters)*myverticalelevation);
+        #print(mirage2000.myRadar3.GetTarget().get_Callsign());
+        
+        #If we have a selected target we display a triangle
+        if(target_callsign == closestCallsign and closestRange > 0){
+          Token = 1;
+          me.TriangleGroupe.show();
+          me.triangle.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+          me.triangle2.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+          #And we hide the circle
+          me.targetArray[i].hide();
+        }else{
+          #Else  the circle
+          me.targetArray[i].show();
+          me.targetArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+        }
+        #here is the text display
+        me.TextInfoArray[i].show();
+        me.TextInfoArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+        
+        me.TextInfoArray[i].setText(sprintf("%s : %d ft / %d kt / %d / %d nm", target_callsign, target_altitude, target_closureRate, target_heading_deg, target_Distance));
+        
       }else{
-        #print(i);
-        me.targetArray[i-1].hide();
+        me.targetArray[i].hide();
+        me.TextInfoArray[i].hide();
       }
+      #The token has 1 when we have a selected target
+      if(Token == 0){
+          me.TriangleGroupe.hide();
+      }
+      
+      i+=1;
     }
     
     me.energy_cue.reset();

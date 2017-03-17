@@ -596,6 +596,7 @@ dropLoad_stop = func(n)
 
 dropMissile = func(number)
 {
+    #print("Drop Function launched");
     var target = mirage2000.myRadar3.GetTarget();
     var typeMissile = getprop("/sim/weight["~ number ~"]/selected");
     
