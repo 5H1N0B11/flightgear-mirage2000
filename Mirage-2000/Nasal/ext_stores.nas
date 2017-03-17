@@ -594,13 +594,37 @@ dropLoad_stop = func(n)
     #setprop("/controls/armament/station["~ n ~"]/release", 0);
 }
 
+var weaponNames = {
+    # translate weapon names used in stores dialog into names used in missile code:
+    #
+    # Notice that names used in missile code are without space, and case is important.
+    # They also match the folder names. Lowercase of missile code names are used to get xml stats and name of xml.
+    #
+    "AGM65":                "AGM65",
+    "AIM-54":               "AIM-54",
+    "?":                    "aim-7",
+    "aim-9":                "aim-9",
+    "AIM120":               "AIM120",
+    "GBU12":                "GBU12",
+    "GBU16":                "GBU16",
+    "MATRA-R530":           "MATRA-R530",
+    "Matra MICA":           "MatraMica",
+    "Matra R550 Magic 2":   "MatraR550Magic2",
+    "Meteor":               "Meteor",
+    "R74":                  "R74",
+    "SCALP":                "SCALP",
+    "Sea Eagle":            "SeaEagle",
+};
+
 dropMissile = func(number)
 {
     #print("Drop Function launched");
     var target = mirage2000.myRadar3.GetTarget();
     var typeMissile = getprop("/sim/weight["~ number ~"]/selected");
     
-    if(target == nil)
+    typeMissile = weaponNames[typeMissile];
+
+    if(target == nil or typeMissile == nil)
     {
         return;
     }
