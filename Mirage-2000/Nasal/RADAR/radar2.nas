@@ -19,6 +19,34 @@ var tmp_nearest_u     = nil;
 var nearest_rng       = 0;
 var nearest_u         = nil;
 
+var weaponRadarNames = {
+    # 
+    # this should match weaponNames in ext_stores.nas
+    # Its a list of folders inside ai/models that has weapons.
+    #
+    "AGM65": nil,
+    "AIM-54": nil,
+    "aim-7": nil,
+    "aim-9": nil,
+    "AIM120": nil,
+    "GBU12": nil,
+    "GBU16": nil,
+    "MATRA-R530": nil,
+    "MatraMica": nil,
+    "MatraR550Magic2": nil,
+    "Meteor": nil,
+    "R74": nil,
+    "SCALP": nil,
+    "SeaEagle": nil,
+};
+listOfGroundTargetNames = ["groundvehicle"];
+listOfShipNames      = ["carrier", "ship"];
+listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle"];
+listOfAIRadarEchoes2 = keys(weaponRadarNames);
+foreach(var addMe ; listOfAIRadarEchoes2) {
+    append(listOfAIRadarEchoes, addMe);
+}
+
 
 # radar : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, doppler, isNotBehindTerrain
 # rwr   : check : InhisRange (radardist), inHisElevation, inHisAzimuth, NotBeyondHorizon, isNotBehindTerrain
@@ -62,7 +90,7 @@ var Radar = {
         m.MyTimeLimit       = (NewMyTimeLimit == nil) ? 2 : NewMyTimeLimit; # in seconds
         m.janitorTime       = (NewJanitorTime == nil) ? 5 : NewJanitorTime;
         m.haveSweep         = (NewhaveSweep == nil) ? 1 : NewhaveSweep;
-        m.typeTarget        = (NewTypeTarget == nil) ? ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "aim120", "aim-9"] : NewTypeTarget;
+        m.typeTarget        = (NewTypeTarget == nil) ? listOfAIRadarEchoes : NewTypeTarget;
         m.showAI            = (NewshowAI == nil) ? 1 : NewshowAI;
         m.radarHeading      = 0; # in this we fix the radar position in the nose. We will change it to make rear radar or RWR etc
         m.unfocused_az_fld  = (NewUnfocused_az_fld == nil) ? 120 : NewUnfocused_az_fld;
@@ -259,6 +287,23 @@ var Radar = {
             {
                 # creation of the tempo object Target
                 var u = Target.new(c,me.myTree.getPath());
+
+                folderName = c.getName();
+
+                # important Shinobi:
+                # expand this so multiplayer that is on sea or ground is also set correct.
+                # also consider if doppler do not see them that they are either SURFACE or MARINE, depending on if they have alt = ~ 0
+                # notice that GROUND_TARGET is set inside Target.new().
+                foreach (var testMe ; listOfShipNames) {
+                    if (testMe == folderName) {
+                        u.setType(missile.MARINE);
+                    }
+                }
+                foreach (var testMe ; listOfGroundTargetNames) {
+                    if (testMe == folderName) {
+                        u.setType(missile.SURFACE);
+                    }
+                }
                 
                 #print("Testing "~ u.get_Callsign()~"Type: " ~ type);
                 
@@ -278,7 +323,7 @@ var Radar = {
                     # for Target Selection
                     # here we disable the capacity of targeting a missile. But 's possible.
                     append(CANVASARRAY, u);
-                    if(type != "missile" and type != "aim120" and type != "aim-9")
+                    if(type != "missile" and !contains(weaponRadarNames, type))
                     {
                         me.TargetList_AddingTarget(u);
                     }
@@ -952,6 +997,12 @@ var Target = {
         obj.RadarStandby    = c.getNode("sim/multiplay/generic/int[2]");
         
         obj.deviation       = nil;
+
+        obj.type = missile.AIR;
+
+        if (obj.get_Callsign() == "GROUND_TARGET") {
+            obj.type = missile.SURFACE;
+        }
         
         return obj;
     },
@@ -1374,7 +1425,11 @@ var Target = {
     },
 
     get_type: func(){
-        return missile.AIR; # Shinobi change this to what type it is
+        return me.type;
+    },
+
+    setType: func(typ) {
+        me.type = typ;
     },
 
     getUnique: func () {

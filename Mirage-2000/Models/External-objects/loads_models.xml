@@ -500,7 +500,7 @@
 
   <model>
     <name>AIM120R</name>
-    <path>Aircraft/Mirage-2000/Missiles/AIM120/AIM120.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/AIM120/AIM-120.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m> 0.824</y-m>

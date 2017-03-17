@@ -636,7 +636,7 @@ dropMissile = func(number)
     } else {
         return;
     }
-    settimer(func dropMissile2(Current_missile, number), 0.1);
+    settimer(func dropMissile2(Current_missile, number), 0.10);
 }
 
 dropMissile2 = func(Current_missile, number)
@@ -644,19 +644,16 @@ dropMissile2 = func(Current_missile, number)
     if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
         dropMissile3(Current_missile, number);
     } else {
-        settimer(func dropMissile3(Current_missile, number), 0.1);
+        settimer(func dropMissile3(Current_missile, number), 0.2);
     }
 }
 
-# stuff that no longer works:
-# - missile view looks backwards?
-# - no missile model or smoke
-# - missing lots of missiles
 dropMissile3 = func(Current_missile, number)
 {
     if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
         Current_missile.release();
     } else {
+        print("Weapon got no lock on target (probably out of range, out of view or wrong target type), deleting weapon.");
         Current_missile.del();
         return;
     }
@@ -666,6 +663,7 @@ dropMissile3 = func(Current_missile, number)
     } else {
       setprop("/sim/messages/atc", phrase);
     }
+    print(phrase);
     setprop("/sim/weight["~ number ~"]/weight-lb", 0);
     
     #If auto focus on missile is activated the we call the function
