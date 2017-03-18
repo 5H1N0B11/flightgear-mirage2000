@@ -33,11 +33,13 @@ var weaponRadarNames = {
     "GBU16": nil,
     "MATRA-R530": nil,
     "MatraMica": nil,
+    "MatraMicaIR": nil,
     "MatraR550Magic2": nil,
     "Meteor": nil,
     "R74": nil,
     "SCALP": nil,
     "SeaEagle": nil,
+    "Exocet": nil,
 };
 listOfGroundTargetNames = ["groundvehicle"];
 listOfShipNames      = ["carrier", "ship"];

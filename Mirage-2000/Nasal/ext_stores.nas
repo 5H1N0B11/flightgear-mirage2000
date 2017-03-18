@@ -609,11 +609,13 @@ var weaponNames = {
     "GBU16":                "GBU16",
     "MATRA-R530":           "MATRA-R530",
     "Matra MICA":           "MatraMica",
+    "Matra MICA IR":        "MatraMicaIR",
     "Matra R550 Magic 2":   "MatraR550Magic2",
     "Meteor":               "Meteor",
     "R74":                  "R74",
     "SCALP":                "SCALP",
     "Sea Eagle":            "SeaEagle",
+    "Exocet":               "Exocet",
 };
 
 dropMissile = func(number)

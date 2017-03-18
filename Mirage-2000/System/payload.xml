@@ -89,7 +89,7 @@
             <fire-msg                   type="string">Fox 3</fire-msg>
             <class                      type="string">A</class>
             <max-fire-range-nm          type="double"> 45 </max-fire-range-nm>
-            <min-fire-range-nm          type="double">  </min-fire-range-nm>
+            <min-fire-range-nm          type="double"> 0.5 </min-fire-range-nm>
             <guidance                   type="string">radar</guidance>
             <navigation                 type="string">APN</navigation>
             <loft-altitude                 type="int"> 55000 </loft-altitude>
@@ -124,6 +124,45 @@
             <vol-track                  type="double"> 0.25 </vol-track>
             <vol-track-weak             type="double"> 0.175 </vol-track-weak>
         </matramica>
+        <matramicair>             <!-- Matra Mica IR       http://www.areamilitar.net/directorio/MIS.aspx?nm=205 -->
+            <fire-msg                   type="string">Fox 2</fire-msg>
+            <class                      type="string">A</class>
+            <max-fire-range-nm          type="double"> 32.4 </max-fire-range-nm><!-- 60 Km -->
+            <min-fire-range-nm          type="double"> 0.25 </min-fire-range-nm>
+            <guidance                   type="string">heat</guidance>
+            <navigation                 type="string">APN</navigation>
+            <loft-altitude                 type="int"> 0 </loft-altitude>
+            <terrain-follow               type="bool">false</terrain-follow>
+            <FCS-field-deg                 type="int"> 30 </FCS-field-deg>                              
+            <seeker-field-deg              type="int"> 135 </seeker-field-deg>                 
+            <max-g                         type="int"> 50 </max-g>                                  
+            <thrust-lbf-stage-1         type="double"> 2800 </thrust-lbf-stage-1>
+            <thrust-lbf-stage-2         type="double"> 300 </thrust-lbf-stage-2>    
+            <stage-1-duration-sec       type="double"> 10 </stage-1-duration-sec>
+            <stage-2-duration-sec       type="double"> 20 </stage-2-duration-sec>
+            <weight-launch-lbs          type="double"> 216 </weight-launch-lbs>      
+            <weight-warhead-lbs         type="double"> 30 </weight-warhead-lbs>   
+            <weight-fuel-lbm            type="double"> 140 </weight-fuel-lbm>          
+            <drag-coeff                 type="double"> 0.19 </drag-coeff>                   
+            <drag-area                  type="double"> 0.30 </drag-area>                   
+            <arming-time-sec            type="double"> 1.2  </arming-time-sec>         
+            <min-speed-for-guiding-mach type="double"> 0.7 </min-speed-for-guiding-mach>
+            <self-destruct-time-sec     type="double"> 110 </self-destruct-time-sec>        
+            <all-aspect                   type="bool">true</all-aspect>
+            <lock-on-sun-deg            type="double"> 5 </lock-on-sun-deg>
+            <seeker-angular-speed-dps   type="double"> 40 </seeker-angular-speed-dps>
+            <rail                         type="bool">true</rail>
+            <rail-length-m              type="double"> 2.667 </rail-length-m>
+            <rail-point-forward           type="bool">true</rail-point-forward>
+            <rail-pitch-deg             type="double"> 0 </rail-pitch-deg>
+            <max-report-distance        type="double"> 10 </max-report-distance>
+            <sound-on-off                 type="bool">false</sound-on-off>
+            <sound-fire-on-off            type="bool">false</sound-fire-on-off>
+            <sound-volume               type="double"> 0.0 </sound-volume>
+            <vol-search                 type="double"> 0.075 </vol-search>
+            <vol-track                  type="double"> 0.25 </vol-track>
+            <vol-track-weak             type="double"> 0.175 </vol-track-weak>
+        </matramicair>
         <matrar550magic2>             <!-- Matra R550 Magic 2 --> 
             <fire-msg                   type="string">Fox 2</fire-msg>
             <class                      type="string">A</class>
@@ -358,6 +397,45 @@
             <vol-track                  type="double"> 0.25 </vol-track>
             <vol-track-weak             type="double"> 0.175 </vol-track-weak>
         </seaeagle>
+        <exocet>            <!-- Exocet --> 
+            <fire-msg                   type="string">Bruiser</fire-msg>
+            <class                      type="string">M</class>
+            <max-fire-range-nm          type="double"> 134 </max-fire-range-nm>
+            <min-fire-range-nm          type="double"> 0.5 </min-fire-range-nm>
+            <guidance                   type="string">gps</guidance>
+            <navigation                 type="string">APN</navigation>
+            <loft-altitude                 type="int"> 50 </loft-altitude>
+            <terrain-follow               type="bool">false</terrain-follow>
+            <FCS-field-deg                 type="int"> 25 </FCS-field-deg>                              
+            <seeker-field-deg              type="int"> 180 </seeker-field-deg>                 
+            <max-g                         type="int"> 15 </max-g>
+            <thrust-lbf-stage-1         type="double"> 2000 </thrust-lbf-stage-1>
+            <thrust-lbf-stage-2         type="double"> 0 </thrust-lbf-stage-2>    
+            <stage-1-duration-sec       type="double"> 1000 </stage-1-duration-sec>
+            <stage-2-duration-sec       type="double"> 0 </stage-2-duration-sec>
+            <weight-launch-lbs          type="double"> 1480 </weight-launch-lbs>      
+            <weight-warhead-lbs         type="double"> 364 </weight-warhead-lbs>   
+            <weight-fuel-lbm            type="double"> 0 </weight-fuel-lbm>          
+            <drag-coeff                 type="double"> 0.478 </drag-coeff>                   
+            <drag-area                  type="double"> 0.411 </drag-area>                   
+            <arming-time-sec            type="double"> 2.0 </arming-time-sec>         
+            <min-speed-for-guiding-mach type="double"> 0.25 </min-speed-for-guiding-mach>
+            <self-destruct-time-sec     type="double"> 1000 </self-destruct-time-sec>        
+            <all-aspect                   type="bool">true</all-aspect>
+            <lock-on-sun-deg            type="double"> 0 </lock-on-sun-deg>
+            <seeker-angular-speed-dps   type="double"> 30 </seeker-angular-speed-dps>
+            <rail                         type="bool">false</rail>
+            <rail-length-m              type="double"> 2.667 </rail-length-m>
+            <rail-point-forward           type="bool">true</rail-point-forward>
+            <rail-pitch-deg             type="double"> 0 </rail-pitch-deg>
+            <max-report-distance        type="double"> 5 </max-report-distance>
+            <sound-on-off                 type="bool">false</sound-on-off>
+            <sound-fire-on-off            type="bool">false</sound-fire-on-off>
+            <sound-volume               type="double"> 0.0 </sound-volume>
+            <vol-search                 type="double"> 0.075 </vol-search>
+            <vol-track                  type="double"> 0.25 </vol-track>
+            <vol-track-weak             type="double"> 0.175 </vol-track-weak>
+        </exocet>
         <aim-54><!-- aim-54c Phoenix -->
             <sound-on-off type="bool">false</sound-on-off>
             <sound-fire-on-off type="bool">false</sound-fire-on-off>
