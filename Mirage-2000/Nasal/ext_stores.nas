@@ -594,36 +594,86 @@ dropLoad_stop = func(n)
     #setprop("/controls/armament/station["~ n ~"]/release", 0);
 }
 
+var weaponNames = {
+    # translate weapon names used in stores dialog into names used in missile code:
+    #
+    # Notice that names used in missile code are without space, and case is important.
+    # They also match the folder names. Lowercase of missile code names are used to get xml stats and name of xml.
+    #
+    "AGM65":                "AGM65",
+    "AIM-54":               "AIM-54",
+    "?":                    "aim-7",
+    "aim-9":                "aim-9",
+    "AIM120":               "AIM120",
+    "GBU12":                "GBU12",
+    "GBU16":                "GBU16",
+    "MATRA-R530":           "MATRA-R530",
+    "Matra MICA":           "MatraMica",
+    "Matra MICA IR":        "MatraMicaIR",
+    "Matra R550 Magic 2":   "MatraR550Magic2",
+    "Meteor":               "Meteor",
+    "R74":                  "R74",
+    "SCALP":                "SCALP",
+    "Sea Eagle":            "SeaEagle",
+    "Exocet":               "Exocet",
+};
+
 dropMissile = func(number)
 {
     #print("Drop Function launched");
     var target = mirage2000.myRadar3.GetTarget();
     var typeMissile = getprop("/sim/weight["~ number ~"]/selected");
-    #print("Should fire : "~typeMissile);
-    var isMissile = missile.Loading_missile(typeMissile);
-    #print("isMissile = "~isMissile);
-    if(isMissile != 0)
+    
+    typeMissile = weaponNames[typeMissile];
+
+    if(target == nil or typeMissile == nil)
     {
-        #print("Firing missile");
-        if(target == nil)
-        {
-            print("Abort, no target");
-            return;
-        }
-        Current_missile = missile.MISSILE.new(number);
-        Current_missile.status = 0;
-        Current_missile.search(target);
-        Current_missile.release();
-        setprop("/sim/weight["~ number ~"]/weight-lb", 0);
-        
-        #If auto focus on missile is activated the we call the function
-        if(getprop("/controls/armament/automissileview"))
-        {
-          view_firing_missile(Current_missile);
-        }
-        
-        
+        return;
     }
+    missile.contact = target;
+    var Current_missile = missile.AIM.new(number, typeMissile, typeMissile);
+    if (Current_missile != -1) {
+        Current_missile.status = 0;
+        Current_missile.search();
+    } else {
+        return;
+    }
+    settimer(func dropMissile2(Current_missile, number), 0.10);
+}
+
+dropMissile2 = func(Current_missile, number)
+{
+    if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
+        dropMissile3(Current_missile, number);
+    } else {
+        settimer(func dropMissile3(Current_missile, number), 0.2);
+    }
+}
+
+dropMissile3 = func(Current_missile, number)
+{
+    if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
+        Current_missile.release();
+    } else {
+        print("Weapon got no lock on target (probably out of range, out of view or wrong target type), deleting weapon.");
+        Current_missile.del();
+        return;
+    }
+    var phrase = Current_missile.brevity ~ " at: " ~ Current_missile.Tgt.get_Callsign();# change this to what you want Shinobi
+    if (getprop("/controls/armament/mp-messaging")) {
+      missile.defeatSpamFilter(phrase);
+    } else {
+      setprop("/sim/messages/atc", phrase);
+    }
+    print(phrase);
+    setprop("/sim/weight["~ number ~"]/weight-lb", 0);
+    
+    #If auto focus on missile is activated the we call the function
+    if(getprop("/controls/armament/automissileview"))
+    {
+      view_firing_missile(Current_missile);
+    }        
+      
     setprop("/controls/armament/station["~ number ~"]/release", 1);
     after_fire_next();
 }
