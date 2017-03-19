@@ -494,8 +494,20 @@ var HUD = {
         if(target_callsign == closestCallsign and closestRange > 0){
           Token = 1;
           me.TriangleGroupe.show();
-          me.triangle.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
-          me.triangle2.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+          var horizontal = (480/wideMeters)*myhorizontaldeviation;
+          var vertical  = (480/heightMeters)*(myverticalelevation)-55;
+          
+          #Limitation
+          vertical = vertical>250?250:vertical;
+          vertical = vertical<-240?-240:vertical;
+          
+          horizontal = horizontal>200?200:horizontal;
+          horizontal = horizontal<-190?-190:horizontal;
+          print("vertical : "~vertical~" horizontal : "~ horizontal);
+          
+          
+          me.triangle.setTranslation(horizontal,vertical);
+          me.triangle2.setTranslation(horizontal,vertical);
           #And we hide the circle
           me.targetArray[i].hide();
         }else{
