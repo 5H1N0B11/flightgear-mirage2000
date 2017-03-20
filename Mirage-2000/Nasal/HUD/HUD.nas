@@ -106,8 +106,10 @@ var wideMeters = math.abs(-0.02038 - (-0.15438));
 #Piloty = getprop("sim/view[0]/config/x-offset-m");
 
 var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
-print("Size:" ~ size(raw_list));
+#print("Size:" ~ size(raw_list));
 var MaxTarget = size(raw_list);
+#print("MAX TARGET = "~MaxTarget);
+#var MaxTarget = 60;
 
 
 #center of the hud
@@ -503,7 +505,7 @@ var HUD = {
           
           horizontal = horizontal>200?200:horizontal;
           horizontal = horizontal<-190?-190:horizontal;
-          print("vertical : "~vertical~" horizontal : "~ horizontal);
+          #print("vertical : "~vertical~" horizontal : "~ horizontal);
           
           
           me.triangle.setTranslation(horizontal,vertical);

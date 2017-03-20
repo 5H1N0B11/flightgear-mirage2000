@@ -18,6 +18,7 @@ var tmp_nearest_rng   = nil;
 var tmp_nearest_u     = nil;
 var nearest_rng       = 0;
 var nearest_u         = nil;
+var missileIndex = 0;
 
 var weaponRadarNames = {
     # 
@@ -117,7 +118,7 @@ var Radar = {
         # for Target Selection
         m.tgts_list     = [];
         m.Target_Index  = 0 ; # for Target Selection
-
+        
         # source behavior
         m.OurHdg        = 0;
         m.OurPitch      = 0;
@@ -261,6 +262,9 @@ var Radar = {
         
         # This is the return array. Made First for Canvas, but can be usefull to a lot of other things
         var CANVASARRAY = [];
+        
+        #This is the missile index. It is reset on each loop.
+        missileIndex = 0;
         
         var raw_list = me.Mp.getChildren();
         foreach(var c ; raw_list)
@@ -697,6 +701,17 @@ var Radar = {
     #Variable for the selection Type test
     var selectedType = SelectedObject.getName();
     
+    #Overwrite selectedType if missile
+    var TestIfMissileNode = SelectedObject.getNode("missile");
+    if(TestIfMissileNode != nil) {
+      if(TestIfMissileNode.getValue()){
+        #print("It is a missile");
+        selectedType = "missile";
+      }
+    }
+    
+    #print("MY type  IS  : "~selectedType);
+    
      #variable for the RadarNode test
       var shouldHaveRadarNode = ["tanker","aircraft","missile"];
      var HaveRadarNode = SelectedObject.getNode("radar");
@@ -957,6 +972,20 @@ var Target = {
         obj.AcType          = c.getNode("sim/model/ac-type");
         obj.type            = c.getName();
         obj.index           = c.getIndex();
+        
+        #Change here the object type to set the radar2 path
+        #Overwrite selectedType if missile
+        var TestIfMissileNode = c.getNode("missile");
+        if(TestIfMissileNode != nil) {
+          if(TestIfMissileNode.getValue()){
+            #print("It is a missile");
+            obj.type  = "missile";
+            missileIndex = missileIndex + 1;
+            obj.index = missileIndex;            
+          }
+        }
+
+        
         obj.string          = "ai/models/" ~ obj.type ~ "[" ~ obj.index ~ "]";
         obj.shortstring     = obj.type ~ "[" ~ obj.index ~ "]";
         
@@ -1086,7 +1115,7 @@ var Target = {
         # But nothing is done when "It's no more in range"
         # So this is a little hack for HUD.
         if(me.validTree != 0){me.validTree.setValue(0);}
-        me.RdrProp.getNode("in-range").setValue("false");
+        #me.RdrProp.getNode("in-range").setValue("false");
         
         var Tempo_TgtsFiles = me.InstrTgts.getNode(me.shortstring, 1);
         var Property_list   = Tempo_TgtsFiles.getChildren();
