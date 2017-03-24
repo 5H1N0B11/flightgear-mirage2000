@@ -106,10 +106,8 @@ var wideMeters = math.abs(-0.02038 - (-0.15438));
 #Piloty = getprop("sim/view[0]/config/x-offset-m");
 
 var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
-#print("Size:" ~ size(raw_list));
+print("Size:" ~ size(raw_list));
 var MaxTarget = size(raw_list);
-#print("MAX TARGET = "~MaxTarget);
-#var MaxTarget = 60;
 
 
 #center of the hud
@@ -496,20 +494,8 @@ var HUD = {
         if(target_callsign == closestCallsign and closestRange > 0){
           Token = 1;
           me.TriangleGroupe.show();
-          var horizontal = (480/wideMeters)*myhorizontaldeviation;
-          var vertical  = (480/heightMeters)*(myverticalelevation)-55;
-          
-          #Limitation
-          vertical = vertical>250?250:vertical;
-          vertical = vertical<-240?-240:vertical;
-          
-          horizontal = horizontal>200?200:horizontal;
-          horizontal = horizontal<-190?-190:horizontal;
-          #print("vertical : "~vertical~" horizontal : "~ horizontal);
-          
-          
-          me.triangle.setTranslation(horizontal,vertical);
-          me.triangle2.setTranslation(horizontal,vertical);
+          me.triangle.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+          me.triangle2.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
           #And we hide the circle
           me.targetArray[i].hide();
         }else{

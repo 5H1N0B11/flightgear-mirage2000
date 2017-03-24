@@ -23,7 +23,7 @@ var min_e               = 0.55;
 var maxG                = 9; # mirage 2000 max everyday 8.5G; overload 11G and 12G will damage the aircraft 9G is for airshow. 5.5 for Heavy loads
 var minG                = -4; # -3.5
 var maxAoa              = 26;
-var minAoa              = -10;
+var minAoa              = -15;
 var maxRoll             = 290; # in degre/sec but when heavy loaded : 150 
 var last_e_tab          = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 var last_a_tab          = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -160,7 +160,7 @@ var Update_SAS = func() {
     if(SAS_Loop_running == 0)
     {
         SAS_Loop_running = 1;
-        computeSAS();
+        call(computeSAS,[]);
     }
 }
 
@@ -332,6 +332,10 @@ var computeSAS = func() {
         var AoaFactor = 1;
         # Gpos Gneg last_e_tabGpos last_e_tabGneg
         # G factor and Aoa Factor will be calculated in every speed
+        #we need here to add a condition when upside down
+        
+        var upsidedown = abs(OrientationRoll.getValue()) < 90 ;
+        #if(upsidedown){print("Upside down");}
         
             if(raw_e < 0)
             {
@@ -345,7 +349,8 @@ var computeSAS = func() {
                     and abs(last_e_tab[0] - last_e_tab[1]) > 0
                     and airspeed > 10
                     and myBrakes == 0
-                    and wow == 0)
+                    and wow == 0
+                    and upsidedown)
                 {
                     shiftTab(Gpos, gload);
                     shiftTab(last_e_tabGpos, last_e);
@@ -370,7 +375,8 @@ var computeSAS = func() {
                     and abs(last_e_tab[0] - last_e_tab[1]) > 0
                     and airspeed > 10
                     and myBrakes == 0
-                    and wow == 0)
+                    and wow == 0
+                    and upsidedown)
                 {
                     shiftTab(aoapos, alpha);
                     shiftTab(last_e_tabaoapos, last_e);
@@ -398,7 +404,8 @@ var computeSAS = func() {
                     and abs(last_e_tab[0] - last_e_tab[1]) > 0
                     and airspeed > 10
                     and myBrakes == 0
-                    and wow == 0) 
+                    and wow == 0
+                    and upsidedown) 
                 {
                     shiftTab(Gneg, gload);
                     shiftTab(last_e_tabGneg, last_e);
@@ -423,7 +430,8 @@ var computeSAS = func() {
                     and abs(last_e_tab[0] - last_e_tab[1]) > 0
                     and airspeed > 10
                     and myBrakes == 0
-                    and wow == 0)
+                    and wow == 0
+                    and upsidedown)
                 {
                     shiftTab(aoaneg, alpha);
                     shiftTab(last_e_tabaoaneg, last_e);
@@ -482,8 +490,8 @@ var computeSAS = func() {
         }
         
         # Remove Calculation anomalies
-        p_biasTemp = airspeed > 340                     ? p_bias * Gfactor  : p_bias;
-        p_input += airspeed < 340 or abs(raw_e) < 0.5   ? p_biasTemp        : 0;
+        #p_biasTemp = airspeed > 340                     ? p_bias * Gfactor  : p_bias;
+        #p_input += airspeed < 340 or abs(raw_e) < 0.5   ? p_biasTemp        : 0;
         p_input = (p_input <= 0 and raw_e >= 0)         ?  0                : p_input;
         p_input = (p_input >= 0 and raw_e <= 0)         ?  0                : p_input;
         p_input = (p_input >  1)                        ?  1                : p_input;
@@ -498,7 +506,7 @@ var computeSAS = func() {
         {
             shiftTab(last_e_tab, p_input);
             last_e_tab[0] = averageTab(last_e_tab);
-            p_input = last_e_tab[0];
+            #p_input = last_e_tab[0];
         }
 
         #print("Moyenne p_input:" ~ p_input ~ " Futur G  = p_input * gload / last_e :" ~ p_input * gload / last_e);

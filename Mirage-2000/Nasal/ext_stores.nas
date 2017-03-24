@@ -913,3 +913,20 @@ var setMessage = func (msg){
   setprop("/sim/multiplay/chat",msg);
 }
 
+
+var MPMessaging    = props.globals.getNode("/controls/armament/mp-messaging", 1);
+MPMessaging.setBoolValue(0);
+
+var MPReport = func(){
+    if(MPMessaging.getValue() == 1)
+    {
+        MPMessaging.setBoolValue(0);
+    }
+    else
+    {
+        MPMessaging.setBoolValue(1);
+    }
+    var phrase = (MPMessaging.getValue()) ? "Activated" : "Desactivated";
+    phrase = "MP messaging : " ~ phrase;
+    setprop("/sim/messages/atc", phrase);
+}

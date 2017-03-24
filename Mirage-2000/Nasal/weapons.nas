@@ -52,6 +52,13 @@ reload_Cannon = func() {
     setprop("/ai/submodels/submodel[3]/count", 120);
 }
 
+Cannon_rate = func() {
+    var rate = getprop("/ai/submodels/submodel/delay");
+    setprop("/ai/submodels/submodel[1]/delay", rate);
+    setprop("/ai/submodels/submodel[2]/delay", rate);
+    setprop("/ai/submodels/submodel[3]/delay", rate);
+}
+
 # This is to detect collision when balistic are shooted.
 # The goal is to put an automatic message for gun splash
 var Mp = props.globals.getNode("ai/models");

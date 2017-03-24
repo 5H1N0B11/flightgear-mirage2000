@@ -39,6 +39,8 @@
   </group>
   
   <hrule />
+
+
   
   <!--  <button>
   <legend>MP Shot Report</legend>
@@ -55,7 +57,7 @@
       <live>true</live>
       <binding>
         <command>nasal</command>
-        <script>missile.MPReport()</script>
+        <script>m2000_load.MPReport()</script>
       </binding>
     </checkbox>
   </group>
@@ -95,7 +97,40 @@
     </binding>
   </button>
   
-  <hrule />
+    
+<hrule />
+  <text><label>Rate of Fire </label></text>
+  <text><label>A/A => A/G => Lower..</label></text>
+  <group>
+    <layout>hbox</layout>
+    <group>
+      <layout>vbox</layout>
+      <halign>left</halign>
+      <text><label>1800rnd/min-1100rnd/min-Lower</label></text>
+    </group>
+    
+    <group>
+      <layout>vbox</layout>
+      <halign>right</halign>
+      <slider>
+        <name>Rate</name>
+        <property>/ai/submodels/submodel/delay</property>
+        <live>1</live>
+        <min>0.03</min>
+        <max>0.09</max>
+        <step>0.03</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>guns.Cannon_rate()</script>
+        </binding>
+      </slider>
+    </group>
+  </group>
+  
+<hrule />
   
   <text>
     <label>Everything bellow is only available on GROUND!</label>
