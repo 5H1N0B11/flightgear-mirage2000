@@ -91,7 +91,7 @@
 
 <airplane mass="16350" version="YASIM_VERSION_CURRENT">
   
-  <approach speed="135" aoa="6" fuel="0.3">
+  <approach speed="135" aoa="8" fuel="0.3">
     <control-setting axis="/controls/engines/engine[0]/SAS_throttle" value="0.3" />
     <control-setting axis="/controls/engines/engine[0]/reheat"       value="0" />
     <control-setting axis="/controls/gear/gear-down"                 value="1" />
@@ -168,7 +168,7 @@
         dihedral="-4"
         incidence="0"
         camber="0.03">
-        <stall aoa="26" width="8" peak="1.7" />
+        <stall aoa="24" width="8" peak="1.7" />
         <slat    start="0.20"  end="0.80"  aoa="4"     drag=" 2.0" />
         <flap0   start="0.59"  end="0.90"  lift="1.64" drag=" 1.2" />
         <spoiler start="0.59"  end="0.90"  lift="1"    drag="39.9" />
@@ -223,7 +223,7 @@
          camber="0.07"
          dihedral="-4">
          <stall aoa="26" width="4" peak="1.5" />
-         <flap0   start="0.28" end="0.9" lift="1.90" drag="1.35"/> <!-- lift 1.48-->  <!-- <flap0 start="0.28" end="0.90" lift="1.48" drag="1.35" />--> <!-- lift 1.48-->
+         <flap0   start="0.28" end="0.9" lift="1.80" drag="1.35"/> <!-- lift 1.48-->  <!-- <flap0 start="0.28" end="0.90" lift="1.48" drag="1.35" />--> <!-- lift 1.48-->
          <spoiler start="0.00" end="0.9" lift="0.00" drag="200"/>
 
          <control-input  control="FLAP0"   axis="controls/flight/SAS-pitch"/>

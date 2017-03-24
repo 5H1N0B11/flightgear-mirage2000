@@ -23,7 +23,7 @@ var min_e               = 0.55;
 var maxG                = 9; # mirage 2000 max everyday 8.5G; overload 11G and 12G will damage the aircraft 9G is for airshow. 5.5 for Heavy loads
 var minG                = -4; # -3.5
 var maxAoa              = 26;
-var minAoa              = -15;
+var minAoa              = -5;
 var maxRoll             = 290; # in degre/sec but when heavy loaded : 150 
 var last_e_tab          = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 var last_a_tab          = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -481,7 +481,7 @@ var computeSAS = func() {
         else
         {
             # New new method :
-            var IdealG =  myCoeef * abs(p_input * minG) + (1-myCoeef) * abs(p_input * minAoa);
+            var IdealG =  myCoeef * abs(p_input * minG) + (1-myCoeef) * abs(p_input * (upsidedown?minAoa:minAoa*2));
             p_input = IdealG * Gfactor;
             if(getprop("/controls/bugs/command-bug"))
             {
@@ -490,8 +490,8 @@ var computeSAS = func() {
         }
         
         # Remove Calculation anomalies
-        #p_biasTemp = airspeed > 340                     ? p_bias * Gfactor  : p_bias;
-        #p_input += airspeed < 340 or abs(raw_e) < 0.5   ? p_biasTemp        : 0;
+        p_biasTemp = airspeed > 340                     ? p_bias * Gfactor  : p_bias;
+        p_input += (airspeed < 340 or abs(raw_e) < 0.5) and upsidedown   ? p_biasTemp        : 0;
         p_input = (p_input <= 0 and raw_e >= 0)         ?  0                : p_input;
         p_input = (p_input >= 0 and raw_e <= 0)         ?  0                : p_input;
         p_input = (p_input >  1)                        ?  1                : p_input;
@@ -506,14 +506,14 @@ var computeSAS = func() {
         {
             shiftTab(last_e_tab, p_input);
             last_e_tab[0] = averageTab(last_e_tab);
-            #p_input = last_e_tab[0];
+            p_input = last_e_tab[0];
         }
 
         #print("Moyenne p_input:" ~ p_input ~ " Futur G  = p_input * gload / last_e :" ~ p_input * gload / last_e);
         #if p_input<0.001
         
         # Reinitialisation of the different matrix if we detect something strange
-        # p_input = abs(p_input) < 0.005 ? 0 : p_input;
+        p_input = abs(p_input) < 0.005 ? 0 : p_input;
         if(abs(p_input) < 0.005 and abs(raw_e) > 0.99)
         {
             init_matrix();
@@ -534,7 +534,8 @@ var computeSAS = func() {
                 and wow == 0
                 and abs(OrientationPitch.getValue()) < 45
                 and abs(OrientationRoll.getValue()) < 45
-                and myBrakes == 0)
+                and myBrakes == 0
+                and gear == 0)
             {
                 var indice = abs(pitch_rate) > 2 ? 0.05 : 0.001;
                 if(pitch_rate > 0)
@@ -548,7 +549,7 @@ var computeSAS = func() {
                     #ElevatorTrim.setValue(e_trim-indice);
                 }
             }
-            if(abs(raw_e) > 0.5 and airspeed > 150)
+            if(abs(raw_e) > 0.5 and airspeed > 150 and gear == 1)
             {
                 if(abs(e_trim)>0.01)
                 {
