@@ -184,7 +184,7 @@
         <control-output control="SPOILER"            prop="/surface-positions/spoiler-pos-norm" invert="true" />
         <control-output control="SLAT"               prop="/surface-positions/slat-pos-norm" />
 
-        <control-speed  control="FLAP0"   transition-time="0.3" />
+        <control-speed  control="FLAP0"   transition-time="0" />
         <control-speed  control="SPOILER" transition-time="1.5" />
         <control-speed  control="SLAT"    transition-time="2.6" />
   </wing>

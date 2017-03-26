@@ -19,10 +19,10 @@
     <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/explosionSmoke.xml</path>
   </model>-->
   
-  <model>
+<!--  <model>
     <name>LQ_Explosion</name>
     <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/smoke-impact.xml</path>
-  </model>
+  </model>-->
 <!--  <animation>
     <type>select</type>
     <object-name>HQ_Explosion</object-name>
@@ -30,7 +30,7 @@
   </animation>
   -->
     
-  <animation>
+  <!--<animation>
     <type>select</type>
     <object-name>HQ_Explosion</object-name>
     <condition>
@@ -45,7 +45,7 @@
       <property>controls/armament/gunQuality</property>
       <value>false</value>
     </condition>
-  </animation>
+  </animation>-->
   
   
 
