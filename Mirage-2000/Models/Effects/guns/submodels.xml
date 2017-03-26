@@ -50,7 +50,8 @@
   <!--Aircraft/Mirage-2000/Models/Effects/guns/apibullet-tracer.xml-->
   <!--Aircraft/Mirage-2000/Models/Effects/guns/tracer.xml-->
   <!--Aircraft/f-14b/Models/Stores/M61A1/apibullet-tracer.xml-->
-
+<!--Aircraft/A-10/Models/Stores/GAU-8A/apibullet-tracer.xml-->
+<!--  Aircraft/Mirage-2000/Models/Effects/guns/tracer.xml-->
   <cannon>
     <model>Aircraft/Mirage-2000/Models/Effects/guns/tracer.xml</model>
     <speed>3363.0</speed>
@@ -76,6 +77,10 @@
     <!--The m2000-5's guns have a negatif angle : -2°-->
     <pitch-offset>0</pitch-offset>
   </cannon>
+  
+<!--  Aircraft/A-10/Models/Stores/GAU-8A/gau-8a-submodels.xml-->
+       
+  
   <!--Aircraft/f-14b/Models/Stores/M61A1/M61A1-submodels.xml
       Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml-->
 

@@ -518,7 +518,7 @@ var computeSAS = func() {
         {
             init_matrix();
             # here is to limit to 0
-            p_input = (raw_e == 0 and p_input != 0) ? 0 : p_input * p_input / p_input;
+            #p_input = (raw_e == 0 and p_input != 0) ? 0 : p_input * p_input / p_input;
         }
         
         last_e = p_input;

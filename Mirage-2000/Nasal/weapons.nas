@@ -48,16 +48,39 @@ var stopFiring = func() {
 reload_Cannon = func() {
     setprop("/ai/submodels/submodel/count",    120);
     setprop("/ai/submodels/submodel[1]/count", 120);
-    setprop("/ai/submodels/submodel[2]/count", 120);
-    setprop("/ai/submodels/submodel[3]/count", 120);
 }
 
 Cannon_rate = func() {
     var rate = getprop("/ai/submodels/submodel/delay");
     setprop("/ai/submodels/submodel[1]/delay", rate);
-    setprop("/ai/submodels/submodel[2]/delay", rate);
-    setprop("/ai/submodels/submodel[3]/delay", rate);
+    if(rate > 0.07){
+      Cannon_lQ_HQ_trigger("LQ");
+    }else{
+      Cannon_lQ_HQ_trigger("HQ");
+    }
+    
 }
+
+Cannon_lQ_HQ_trigger = func(Qual) {
+  var path = getprop("/ai/submodels/submodel/submodel");
+  
+  #if(path == "Aircraft/Mirage-2000/Models/Effects/guns/LQ-submodels.xml"){
+  if(Qual == "HQ"){
+    #path = "Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml";
+    setprop("controls/armament/gunQuality",1);
+  }else{
+    #path = "Aircraft/Mirage-2000/Models/Effects/guns/LQ-submodels.xml";
+    setprop("controls/armament/gunQuality",0);
+  }
+  print("Submodels Path" ~ path);
+  setprop("/ai/submodels/submodel/submodel", path);
+  setprop("/ai/submodels/submodel[1]/submodel", path);
+  
+  #Aircraft/A-10/Models/Stores/GAU-8A/gau-8a-submodels.xml
+  #Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
+}
+
+
 
 # This is to detect collision when balistic are shooted.
 # The goal is to put an automatic message for gun splash
@@ -179,3 +202,5 @@ var findmultiplayer = func(targetCoord, dist = 20) {
     #print("Splash on : Callsign:"~SelectedMP);
     return SelectedMP;
 }
+
+
