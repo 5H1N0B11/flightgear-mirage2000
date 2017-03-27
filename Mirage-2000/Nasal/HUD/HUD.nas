@@ -441,81 +441,82 @@ var HUD = {
     i=0;
     foreach(var c; raw_list){
       
- 
+      if(i<size(me.targetArray)){
 
-      mydeviationNode = c.getNode("radar/deviation-deg"); 
-      myelevationNode = c.getNode("radar/elevation-deg");
-      displayITNode = c.getNode("display");
-      if(displayITNode != nil){
-        displayIt = displayITNode.getValue();
-        displayIt = displayIt==nil?0:displayIt;
-        #print("displayIt : "~displayIt);
-      }
-
-      if(mydeviationNode != nil and displayIt==1){
-
-        #Extraction of the text data
-        target_callsignNode = c.getNode("callsign");
-        target_callsign = target_callsignNode.getValue();
-        
-        target_altitudeNode = c.getNode("position/altitude-ft");
-        target_altitude = target_altitudeNode.getValue();
-        
-        target_closureRateNode = c.getNode("closure-rate-kts");
-        target_closureRate = target_closureRateNode.getValue();
-        
-        target_headingNode = c.getNode("orientation/true-heading-deg");
-        target_heading_deg = target_headingNode.getValue();
-        
-        target_DistanceNode = c.getNode("radar/range-nm");
-        target_Distance = target_DistanceNode.getValue();
-        
-        #print("It worked");
-        #print("offsetZ : "~ offsetZ);
-        
-        #Data for position calculation
-        mydeviation = mydeviationNode.getValue();
-        myelevation = myelevationNode.getValue();
-        
-        
-        myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
-        #print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
-    
-        myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
-        myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
-        
-        #print( myhorizontaldeviation);
-        #print(size(myarrayofTarget));
-
-        
-        #print(mirage2000.myRadar3.GetTarget().get_Callsign());
-        
-        #If we have a selected target we display a triangle
-        if(target_callsign == closestCallsign and closestRange > 0){
-          Token = 1;
-          me.TriangleGroupe.show();
-          me.triangle.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
-          me.triangle2.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
-          #And we hide the circle
-          me.targetArray[i].hide();
-        }else{
-          #Else  the circle
-          me.targetArray[i].show();
-          me.targetArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+        mydeviationNode = c.getNode("radar/deviation-deg"); 
+        myelevationNode = c.getNode("radar/elevation-deg");
+        displayITNode = c.getNode("display");
+        if(displayITNode != nil){
+          displayIt = displayITNode.getValue();
+          displayIt = displayIt==nil?0:displayIt;
+          #print("displayIt : "~displayIt);
         }
-        #here is the text display
-        me.TextInfoArray[i].show();
-        me.TextInfoArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
-        
-        me.TextInfoArray[i].setText(sprintf("%s : %d ft / %d kt / %d / %d nm", target_callsign, target_altitude, target_closureRate, target_heading_deg, target_Distance));
-        
-      }else{
-        me.targetArray[i].hide();
-        me.TextInfoArray[i].hide();
-      }
-      #The token has 1 when we have a selected target
-      if(Token == 0){
-          me.TriangleGroupe.hide();
+
+        if(mydeviationNode != nil and displayIt==1){
+
+          #Extraction of the text data
+          target_callsignNode = c.getNode("callsign");
+          target_callsign = target_callsignNode.getValue();
+          
+          target_altitudeNode = c.getNode("position/altitude-ft");
+          target_altitude = target_altitudeNode.getValue();
+          
+          target_closureRateNode = c.getNode("closure-rate-kts");
+          target_closureRate = target_closureRateNode.getValue();
+          
+          target_headingNode = c.getNode("orientation/true-heading-deg");
+          target_heading_deg = target_headingNode.getValue();
+          
+          target_DistanceNode = c.getNode("radar/range-nm");
+          target_Distance = target_DistanceNode.getValue();
+          
+          #print("It worked");
+          #print("offsetZ : "~ offsetZ);
+          
+          #Data for position calculation
+          mydeviation = mydeviationNode.getValue();
+          myelevation = myelevationNode.getValue();
+          
+          
+          myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
+          #print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
+      
+          myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
+          myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
+          
+          #print( myhorizontaldeviation);
+          #print(size(myarrayofTarget));
+
+          
+          #print(mirage2000.myRadar3.GetTarget().get_Callsign());
+          
+          #If we have a selected target we display a triangle
+          if(target_callsign == closestCallsign and closestRange > 0){
+            Token = 1;
+            me.TriangleGroupe.show();
+            me.triangle.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+            me.triangle2.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+            #And we hide the circle
+            me.targetArray[i].hide();
+          }else{
+            #Else  the circle
+            me.targetArray[i].show();
+            me.targetArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+          }
+          #here is the text display
+          me.TextInfoArray[i].show();
+          me.TextInfoArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+          
+          me.TextInfoArray[i].setText(sprintf("%s : %d ft / %d kt / %d / %d nm", target_callsign, target_altitude, target_closureRate, target_heading_deg, target_Distance));
+          
+        }else{
+          me.targetArray[i].hide();
+          me.TextInfoArray[i].hide();
+        }
+        #The token has 1 when we have a selected target
+        if(Token == 0){
+            me.TriangleGroupe.hide();
+        }
       }
       
       i+=1;

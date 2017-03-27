@@ -117,7 +117,8 @@ var Radar = {
 
         # for Target Selection
         m.tgts_list     = [];
-        m.Target_Index  = 0 ; # for Target Selection
+        m.Target_Index  = -1 ; # for Target Selection
+        m.Target_Callsign   = nil;
         
         # source behavior
         m.OurHdg        = 0;
@@ -272,7 +273,7 @@ var Radar = {
             # FIXME: At that time a multiplayer node may have been deleted while still
             # existing as a displayable target in the radar targets nodes.
             # FIXED, with janitor. 5H1N0B1
-            var type = c.getName();
+            var type = me.type_selector(c);
             if(! c.getNode("valid", 1).getValue())
             {
                 continue;
@@ -694,36 +695,43 @@ var Radar = {
         }
         return checked;
     },
+    #function in order to make it work with unified missile method in FG
+    type_selector: func(SelectedObject){
+        var selectedType = SelectedObject.getName();
+        
+        #Overwrite selectedType if missile
+        var TestIfMissileNode = SelectedObject.getNode("missile");
+        if(TestIfMissileNode != nil) {
+          if(TestIfMissileNode.getValue()){
+            #print("It is a missile");
+            selectedType = "missile";
+          }
+        }
     
+        return selectedType;
+    },
     check_selected_type: func(SelectedObject)
     {
-    var result = 0;
-    #Variable for the selection Type test
-    var selectedType = SelectedObject.getName();
-    
-    #Overwrite selectedType if missile
-    var TestIfMissileNode = SelectedObject.getNode("missile");
-    if(TestIfMissileNode != nil) {
-      if(TestIfMissileNode.getValue()){
-        #print("It is a missile");
-        selectedType = "missile";
-      }
-    }
-    
-    #print("MY type  IS  : "~selectedType);
-    
-     #variable for the RadarNode test
+      var result = 0;
+      #Variable for the selection Type test
+      var selectedType = SelectedObject.getName();
+
+      selectedType = me.type_selector(SelectedObject);
+
+      #print("MY type  IS  : "~selectedType);
+
+      #variable for the RadarNode test
       var shouldHaveRadarNode = ["tanker","aircraft","missile"];
-     var HaveRadarNode = SelectedObject.getNode("radar");
-     
-     #We test the type of target
+      var HaveRadarNode = SelectedObject.getNode("radar");
+
+      #We test the type of target
       foreach(myType;me.typeTarget)
       {
         if(myType == selectedType){
-           result = 1;
+          result = 1;
         }
       }
-      
+
       #We test if they have a radar Node (they should all have one, but unconventionnal model like ATC or else could have these issue)
       foreach(myType;shouldHaveRadarNode)
       {
@@ -731,7 +739,7 @@ var Radar = {
           result = 0;
         }
       }
-      
+
       return result;
     },
 
@@ -861,6 +869,11 @@ var Radar = {
         {
             me.Target_Index = 0;
         }
+        if (size(me.tgts_list) > 0) {
+          me.Target_Callsign = me.tgts_list[me.Target_Index].get_Callsign();
+        } else {
+          me.Target_Callsign = nil;
+        }
     },
 
     previous_Target_Index: func(){
@@ -868,6 +881,11 @@ var Radar = {
         if(me.Target_Index < 0)
         {
             me.Target_Index = size(me.tgts_list)-1;
+        }
+        if (size(me.tgts_list) > 0) {
+          me.Target_Callsign = me.tgts_list[me.Target_Index].get_Callsign();
+        } else {
+          me.Target_Callsign = nil;
         }
     },
 
@@ -881,11 +899,25 @@ var Radar = {
             if( me.Target_Index < 0)
             {
                  me.Target_Index = size(me.tgts_list) - 1;
+                 me.Target_Callsign = nil;
+                 setprop("/ai/closest/range", 0);
+                 return;#me.Target_Index = size(me.tgts_list) - 1;
+                 
             }
             if( me.Target_Index > size(me.tgts_list) - 1)
             {
                  me.Target_Index = 0;
+                 me.Target_Callsign = nil;
+                 setprop("/ai/closest/range", 0);
+                 return;#me.Target_Index = 0;
             }
+            if (me.Target_Callsign != me.tgts_list[me.Target_Index].get_Callsign()) {
+                me.Target_Callsign = nil;
+                me.Target_Callsign = nil;
+                setprop("/ai/closest/range", 0);
+                return;
+             }
+            
             var MyTarget = me.tgts_list[ me.Target_Index];
             closeRange   = me.targetRange(MyTarget);
             heading      = MyTarget.get_heading();
@@ -922,13 +954,19 @@ var Radar = {
         }
         if(me.Target_Index < 0)
         {
-            me.Target_Index = size(me.tgts_list) - 1;
+            return nil;#me.Target_Index = size(me.tgts_list) - 1;
         }
         if(me.Target_Index > size(me.tgts_list) - 1)
         {
-            me.Target_Index = 0;
+            return nil;#me.Target_Index = 0;
         }
-        return me.tgts_list[me.Target_Index];
+        if (me.Target_Callsign == me.tgts_list[me.Target_Index].get_Callsign()) {
+          return me.tgts_list[me.Target_Index];
+        } else {
+          me.Target_Callsign = nil;
+          return nil;
+        }
+        #return me.tgts_list[me.Target_Index];
     },
     #toggle_Type: func(){
     #  me.detectionTypeIndex = math.mod(me.detectionTypeIndex + 1, size(me.detectionTypetab));
