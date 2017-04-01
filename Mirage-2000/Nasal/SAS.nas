@@ -23,7 +23,7 @@ var min_e               = 0.55;
 var maxG                = 9; # mirage 2000 max everyday 8.5G; overload 11G and 12G will damage the aircraft 9G is for airshow. 5.5 for Heavy loads
 var minG                = -4; # -3.5
 var maxAoa              = 26;
-var minAoa              = -10;
+var minAoa              = -15;
 var maxRoll             = 290; # in degre/sec but when heavy loaded : 150 
 var last_e_tab          = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 var last_a_tab          = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -511,7 +511,7 @@ var computeSAS = func() {
             p_input = last_e_tab[0];
         }
 
-        print("Moyenne p_input:" ~ p_input ~ " Futur G  = p_input * gload / last_e :" ~ p_input * gload / last_e);
+        #print("Moyenne p_input:" ~ p_input ~ " Futur G  = p_input * gload / last_e :" ~ p_input * gload / last_e);
         #if p_input<0.001
         
         # Reinitialisation of the different matrix if we detect something strange
