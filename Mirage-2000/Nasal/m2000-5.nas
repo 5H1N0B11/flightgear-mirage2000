@@ -85,6 +85,7 @@ var main_Init_Loop = func()
     
     print("MFD ... Check");
     
+    #setprop("/instrumentation/efis/Mode",false);
     if(getprop("/instrumentation/efis/Mode"))
     {
       mirage2000.mdfselection();

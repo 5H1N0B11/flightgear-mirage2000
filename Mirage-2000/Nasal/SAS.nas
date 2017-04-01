@@ -43,9 +43,11 @@ var last_e_tabGposInit      = [-0.85, -0.85, -0.85, -0.85, -0.85, -0.85, -0.85, 
 var last_e_tabGnegInit      = [0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15];
 
 # Values for aoa leading the pitch aroud 150 kts
-var aoaposInit              = [9,9,9,9,9,9,9,9,9,9];
+#var aoaposInit              = [9,9,9,9,9,9,9,9,9,9];
+var aoaposInit              = [18,18,18,18,18,18,18,18,18,18];#Test
 var aoanegInit              = [-4.92,-4.92,-4.92,-4.92,-4.92,-4.92,-4.92,-4.92,-4.92,-4.92];
-var last_e_tabaoaposInit    = [-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86];
+#var last_e_tabaoaposInit    = [-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86];
+var last_e_tabaoaposInit    = [-0.52,-0.52,-0.52,-0.52,-0.52,-0.52,-0.52,-0.52,-0.52,-0.52];
 var last_e_tabaoanegInit    =  [0.24,0.24,0.24,0.24,0.24,0.24,0.24,0.24,0.24,0.24];
 
 # Values around 300 kts for Gload leading the pitch
@@ -509,7 +511,7 @@ var computeSAS = func() {
             p_input = last_e_tab[0];
         }
 
-        #print("Moyenne p_input:" ~ p_input ~ " Futur G  = p_input * gload / last_e :" ~ p_input * gload / last_e);
+        print("Moyenne p_input:" ~ p_input ~ " Futur G  = p_input * gload / last_e :" ~ p_input * gload / last_e);
         #if p_input<0.001
         
         # Reinitialisation of the different matrix if we detect something strange

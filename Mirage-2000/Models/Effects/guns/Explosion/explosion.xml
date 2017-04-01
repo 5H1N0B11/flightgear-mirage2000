@@ -19,17 +19,12 @@
     <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/explosionSmoke.xml</path>
   </model>-->
   
-  <model>
+<!--  <model>
     <name>LQ_Explosion</name>
     <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/smoke-impact.xml</path>
-  </model>
-<!--  <animation>
-    <type>select</type>
-    <object-name>HQ_Explosion</object-name>
-    <object-name>LQ_Explosion</object-name>
-  </animation>
-  -->
-    
+  </model>-->
+
+<!--    
   <animation>
     <type>select</type>
     <object-name>HQ_Explosion</object-name>
@@ -52,7 +47,7 @@
       </equals>
     </condition>
   </animation>
-  
+  -->
   
 
 </PropertyList>
