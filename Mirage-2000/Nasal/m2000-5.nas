@@ -85,7 +85,7 @@ var main_Init_Loop = func()
     
     print("MFD ... Check");
     
-    #setprop("/instrumentation/efis/Mode",false);
+    settimer(mirage2000.setCentralMFD,10);
     if(getprop("/instrumentation/efis/Mode"))
     {
       mirage2000.mdfselection();
@@ -312,4 +312,12 @@ var theShakeEffect = func{
     }else{
         setprop("controls/cabin/shaking", 0);  
     }     
+}
+
+var setCentralMFD = func{
+    setprop("/instrumentation/efis/Mode",1);
+    if(getprop("/instrumentation/efis/Mode"))
+    {
+      mirage2000.mdfselection();
+    }
 }
