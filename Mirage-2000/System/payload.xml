@@ -211,9 +211,9 @@
             <navigation                 type="string">direct</navigation>
             <loft-altitude                 type="int"> 0 </loft-altitude>
             <terrain-follow               type="bool">false</terrain-follow>
-            <FCS-field-deg                 type="int"> 25 </FCS-field-deg>                              
-            <seeker-field-deg              type="int"> 110 </seeker-field-deg>                 
-            <max-g                         type="int"> 0.5 </max-g>                                  
+            <FCS-field-deg                 type="int"> 180 </FCS-field-deg>                              
+            <seeker-field-deg              type="int"> 200 </seeker-field-deg>                 
+            <max-g                      type="double"> 1.5 </max-g>                                  
             <thrust-lbf-stage-1         type="double"> 0 </thrust-lbf-stage-1>
             <thrust-lbf-stage-2         type="double"> 0 </thrust-lbf-stage-2>    
             <stage-1-duration-sec       type="double"> 0 </stage-1-duration-sec>
@@ -250,9 +250,9 @@
             <navigation                 type="string">direct</navigation>
             <loft-altitude                 type="int"> 0 </loft-altitude>
             <terrain-follow               type="bool">false</terrain-follow>
-            <FCS-field-deg                 type="int"> 25 </FCS-field-deg>                              
-            <seeker-field-deg              type="int"> 110 </seeker-field-deg>                 
-            <max-g                         type="int"> 0.5 </max-g>                                  
+            <FCS-field-deg                 type="int"> 180 </FCS-field-deg>                              
+            <seeker-field-deg              type="int"> 200 </seeker-field-deg>                 
+            <max-g                      type="double"> 1.5 </max-g>                                 
             <thrust-lbf-stage-1         type="double"> 0 </thrust-lbf-stage-1>
             <thrust-lbf-stage-2         type="double"> 0 </thrust-lbf-stage-2>    
             <stage-1-duration-sec       type="double"> 0 </stage-1-duration-sec>
