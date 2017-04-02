@@ -202,9 +202,9 @@
     <object-name>canope-MONOPLACE</object-name>
     <object-name>canopeAvant-BIPLACE</object-name>
     <object-name>canopeArriere-BIPLACE</object-name>
+    <object-name>antennes</object-name>
     <object-name>antennes-MONOPLACE</object-name>
     <object-name>antennes-BIPLACE</object-name>
-    <object-name>tuyere</object-name>
     <object-name>porteA1</object-name>
     <object-name>porteA2</object-name>
     <object-name>porteAG</object-name>
@@ -246,6 +246,7 @@
     <object-name>roueD</object-name>
     <object-name>turbine</object-name>
     <object-name>bruleur</object-name>
+    <object-name>tuyere</object-name>
 
     <object-name>parking</object-name>
 
@@ -288,8 +289,9 @@
     <object-name>canope-MONOPLACE</object-name>
     <object-name>canopeAvant-BIPLACE</object-name>
     <object-name>canopeArriere-BIPLACE</object-name>
+    <object-name>antennes</object-name>
     <object-name>antennes-MONOPLACE</object-name>
-    <object-name>tuyere</object-name>
+    <object-name>antennes-BIPLACE</object-name>
     <object-name>porteA1</object-name>
     <object-name>porteA2</object-name>
     <object-name>porteAG</object-name>
@@ -330,7 +332,6 @@
     <object-name>axeD4</object-name>
     <object-name>roueD</object-name>
     <object-name>turbine</object-name>
-    <object-name>bruleur</object-name>
 
     <!-- ~~~~~~~~~~~~~~~~~~ textures -->
     <property-base>sim/model/livery</property-base>
@@ -363,7 +364,10 @@
     <type>select</type>
     <object-name>parking</object-name>
     <condition>
-      <property>controls/ground-equipment</property>
+      <and>
+        <property>controls/ground-equipment</property>
+        <property>controls/engines/engine[0]/cutoff</property>
+      </and>
     </condition>
   </animation>
 
@@ -398,8 +402,9 @@
     <object-name>canope-MONOPLACE</object-name>
     <object-name>canopeAvant-BIPLACE</object-name>
     <object-name>canopeArriere-BIPLACE</object-name>
+    <object-name>antennes</object-name>
     <object-name>antennes-MONOPLACE</object-name>
-    <object-name>tuyere</object-name>
+    <object-name>antennes-BIPLACE</object-name>
     <object-name>porteA1</object-name>
     <object-name>porteA2</object-name>
     <object-name>porteG1</object-name>
@@ -422,30 +427,6 @@
     <object-name>verriere-MONOPLACE</object-name>
   </effect>
   
-  <!--
-  <animation>
-    <type>material</type>
-    <object-name>R550</object-name>
-    <object-name>ailettes</object-name>
-    <object-name>tank</object-name>
-    <object-name>Mica</object-name>
-    <object-name>tail</object-name>
-    <object-name>body</object-name>
-    <object-name>canard</object-name>
-    <object-name>AIM-120C5</object-name>
-    <object-name>gbu16</object-name>
-
-    <property-base>sim/model/livery-tank</property-base>
-    <texture-prop>texture</texture-prop>
-    <texture>External-objects/tank1700l/tank1700.png</texture>
-    <emission>
-      <red-prop>emission/red</red-prop>
-      <green-prop>emission/green</green-prop>
-      <blue-prop>emission/blue</blue-prop>
-    </emission>
-  </animation>
-  -->
-
   <model>
     <name>Interior</name>
     <path>Aircraft/Mirage-2000/Models/Interior/interior.xml</path>
@@ -577,18 +558,6 @@
       <z> 0 </z>
     </axis>
   </animation>
-
-  <!-- bruleur
-  <animation>
-    <type>material</type>
-    <object-name>bruleur</object-name>
-    <emission>
-      <red>   1.00 </red>
-      <green> 0.20 </green>
-      <blue>  0.05 </blue>
-    </emission>
-  </animation>
-  -->
   
   <!-- Particules OSG -->
   <model>
@@ -1665,9 +1634,9 @@
     <property>sim/multiplay/generic/float[11]</property>
     <factor> 30 </factor>
     <center>
-      <x-m> -2.996 </x-m>
+      <x-m> -2.988 </x-m>
       <y-m>  0.000 </y-m>
-      <z-m> -2.399 </z-m>
+      <z-m> -2.4313 </z-m>
     </center>
     <axis>
       <x>  0 </x>
@@ -1965,4 +1934,26 @@
     </axis>
   </animation>
   
+  <!-- red effects on engine-->
+  <animation>
+    <type>material</type>
+    <object-name>bruleur</object-name>
+    <emission>
+      <factor-prop>controls/engines/engine[0]/SAS_throttle</factor-prop>
+      <red>1</red>
+      <green>0.1</green>
+      <blue>0.1</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>material</type>
+    <object-name>tuyere</object-name>
+    <emission>
+      <factor-prop>controls/engines/engine[0]/SAS_throttle</factor-prop>
+      <red>0.7</red>
+      <green>0</green>
+      <blue>0</blue>
+    </emission>
+  </animation>
+
 </PropertyList>

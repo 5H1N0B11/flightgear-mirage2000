@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">Nevada</name>
+        <name type="string">2-contrib Nevada</name>
         <texture>Liveries/1024x1024/nevada.png</texture>
         <texture-tank-1700>tank1700_desert.png</texture-tank-1700>
 

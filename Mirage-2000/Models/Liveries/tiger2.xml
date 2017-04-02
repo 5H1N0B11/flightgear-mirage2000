@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">Tiger [special]</name>
+        <name type="string">3-event Tiger Meet</name>
         <texture>Liveries/1024x1024/tiger2.png</texture>
         <texture-tank-1700>tank1700.png</texture-tank-1700>
 

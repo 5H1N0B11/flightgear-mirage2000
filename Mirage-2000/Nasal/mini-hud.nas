@@ -37,8 +37,12 @@ var minihud = func()
         else
         {
             # if too much G, the bottom of the hud is hidden
-            var pilot_gdamped = getprop("/accelerations/pilot-g");
-            var dynamic_clipping_bottom = -(95 - (pilot_gdamped * 7));
+            var is_dynamic_view = getprop("/sim/current-view/dynamic-view");
+            if(is_dynamic_view)
+            {
+                var dynamic_clipping_bottom = -(95 - (getprop("/accelerations/pilot-gdamped") * 7));
+                setprop("/sim/hud/clipping/bottom", dynamic_clipping_bottom);
+            }
             
             if(hud_number != 1 and internalHUD_selected)
             {
@@ -48,7 +52,6 @@ var minihud = func()
                 setprop("/sim/hud/clipping/right",                       65);
                 setprop("/sim/hud/clipping/top",                         60);
             }
-            setprop("/sim/hud/clipping/bottom", dynamic_clipping_bottom);
         }
     }
     else

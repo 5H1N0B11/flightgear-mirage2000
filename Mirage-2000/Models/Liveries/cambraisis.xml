@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">1/5 de Cambrai [special]</name>
+        <name type="string">3-event Cambraisis</name>
         <texture>Liveries/1024x1024/cambraisis.png</texture>
         <texture-tank-1700>tank1700.png</texture-tank-1700>
 

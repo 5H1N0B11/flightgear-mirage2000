@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">OPRF</name>
+        <name type="string">2-contrib OPRF</name>
         <texture>Liveries/1024x1024/oprf.png</texture>
         <texture-tank-1700>tank1700_black.png</texture-tank-1700>
 
