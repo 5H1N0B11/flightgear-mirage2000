@@ -2,6 +2,15 @@
 
 <!-- sweat by maggse -->
 <PropertyList>
+  
+  
+  <nasal>
+    <load>
+      #print("Gun splash");
+      #print("Number of impact :"~ guns.Nb_Impact());
+      guns.flare();
+    </load>
+  </nasal>
 
   <particlesystem>
     <!-- <type>trail</type>-->

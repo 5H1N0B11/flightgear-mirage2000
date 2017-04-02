@@ -1515,7 +1515,8 @@ var Target = {
     },
 
     getFlareNode: func(){
-        return nil;           # Shinobi use this for flares
+        #return nil;           # Shinobi use this for flares
+        return c.getNode("rotors/main/blade[3]/flap-deg");
     },
 
     isPainted: func() {

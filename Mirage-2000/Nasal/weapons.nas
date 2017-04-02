@@ -8,6 +8,7 @@ print("*** LOADING weapons.nas ... ***");
 var dt = 0;
 var isFiring = 0;
 var splashdt = 0;
+var tokenFlare = 0;
 var MPMessaging = props.globals.getNode("/controls/armament/mp-messaging", 1);
 
 fire_MG = func(b) {
@@ -203,4 +204,18 @@ var findmultiplayer = func(targetCoord, dist = 20) {
     return SelectedMP;
 }
 
+var flare = func(){
+if(tokenFlare==0){
+    tokenFlare= 1;
+    setprop("rotors/main/blade[3]/flap-deg", rand());
+    settimer(initFlare,0.5);
+    settimer(initToken,1);
+  } 
+}
 
+var initFlare = func(){
+  setprop("rotors/main/blade[3]/flap-deg", 0); 
+}
+var initToken = func(){
+  tokenFlare= 0;
+}

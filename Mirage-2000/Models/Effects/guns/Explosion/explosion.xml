@@ -10,19 +10,19 @@
     </load>
   </nasal>
   
-  <model>
+<!--  <model>
     <name>HQ_Explosion</name>
     <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/explosionFire.xml</path>
-  </model>
+  </model>-->
 
  <!-- <model>
     <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/explosionSmoke.xml</path>
   </model>-->
   
-<!--  <model>
+  <model>
     <name>LQ_Explosion</name>
     <path>Aircraft/Mirage-2000/Models/Effects/guns/Explosion/smoke-impact.xml</path>
-  </model>-->
+  </model>
 
 <!--    
   <animation>
