@@ -16,13 +16,16 @@
 
   <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/mica_ir.ac</path>
 
- <!-- <animation>-->
+  <animation>
     <!-- Objets opaques -->
-<!--    <object-name>Mica</object-name>
-    <object-name>MicaAilettes</object-name>-->
-
+    <object-name>mica_ir</object-name>
     <!-- Objets transparents -->
-<!--  </animation>-->
+    <object-name>mica_ir.optique</object-name>
+  </animation>
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
+    <object-name>mica_ir.optique</object-name>
+  </effect>
 
   <animation>
     <enable-hot type="bool">false</enable-hot>
