@@ -1010,6 +1010,7 @@ var Target = {
         obj.AcType          = c.getNode("sim/model/ac-type");
         obj.type            = c.getName();
         obj.index           = c.getIndex();
+        obj.flareNode       = c.getNode("rotors/main/blade[3]/flap-deg");
         
         #Change here the object type to set the radar2 path
         #Overwrite selectedType if missile
@@ -1515,8 +1516,7 @@ var Target = {
     },
 
     getFlareNode: func(){
-        #return nil;           # Shinobi use this for flares
-        return c.getNode("rotors/main/blade[3]/flap-deg");
+        return me.flareNode;
     },
 
     isPainted: func() {
