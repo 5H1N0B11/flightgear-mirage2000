@@ -6,9 +6,9 @@
     <model>
       <livery>
 
-        <name type="string">default [2000 N]</name>
+        <name type="string">1-official 2000-5</name>
         <texture>texture.png</texture>
-        <texture-tank-1700>tank1700_N.png</texture-tank-1700>
+        <texture-tank-1700>tank1700.png</texture-tank-1700>
 
         <specular>
           <red>   0.3 </red>

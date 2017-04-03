@@ -54,7 +54,10 @@
     <offsets>
       <x-m>-1.265</x-m>
       <y-m>-0.824</y-m>
-      <z-m>-1.404</z-m>
+      <z-m>-1.370</z-m>
+      <heading-deg>-1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>1</pitch-deg>
     </offsets>
   </model>
 
@@ -109,7 +112,7 @@
     </offsets>
   </model>
   
-    <model>
+  <model>
     <name>left-pos-2-MICA_IR</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml</path>
     <offsets>
@@ -514,7 +517,10 @@
     <offsets>
       <x-m>-1.265</x-m>
       <y-m> 0.824</y-m>
-      <z-m>-1.404</z-m>
+      <z-m>-1.370</z-m>
+      <heading-deg>1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>1</pitch-deg>
     </offsets>
   </model>
   
@@ -548,14 +554,17 @@
     </offsets>
   </model>
 
-  <!-- station back right (Index 7) -->
+  <!-- station back left (Index 7) -->
   <model>
     <name>MICABL</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</path>
     <offsets>
       <x-m> 3.360</x-m>
       <y-m>-0.920</y-m>
-      <z-m>-1.404</z-m>
+      <z-m>-1.380</z-m>
+      <heading-deg>1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
 
@@ -586,7 +595,10 @@
     <offsets>
       <x-m> 3.360</x-m>
       <y-m> 0.920</y-m>
-      <z-m>-1.404</z-m>
+      <z-m>-1.380</z-m>
+      <heading-deg>-1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
 

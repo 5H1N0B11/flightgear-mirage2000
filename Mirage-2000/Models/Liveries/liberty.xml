@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">Liberty</name>
+        <name type="string">2-contrib Liberty</name>
         <texture>Liveries/1024x1024/liberty.png</texture>
         <texture-tank-1700>tank1700_black.png</texture-tank-1700>
 

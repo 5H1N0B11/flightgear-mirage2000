@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">Chevaliers du Ciel [the movie]</name>
+        <name type="string">3-event Chevaliers du Ciel</name>
         <texture>Liveries/1024x1024/chduciel.png</texture>
         <texture-tank-1700>tank1700.png</texture-tank-1700>
 

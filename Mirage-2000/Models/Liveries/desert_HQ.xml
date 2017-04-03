@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">desert (HQ) [2000 N Red Flag]</name>
+        <name type="string">1-official HQ 2000-N red flag</name>
         <texture>Liveries/2048x2048/desert_HQ.png</texture>
         <texture-tank-1700>tank1700_desert.png</texture-tank-1700>
 
