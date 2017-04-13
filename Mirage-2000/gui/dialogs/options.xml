@@ -177,17 +177,17 @@
     <legend>MAP (test)</legend>
     <binding>
       <command>nasal</command>
-      <script>mirage2000.initMAP()</script>
+      <script>mirage2000.createMap()</script>
     </binding>
   </button>
   
-  <button>
+<!--  <button>
     <legend>Type</legend>
     <binding>
       <command>nasal</command>
       <script>mirage2000.changeindex()</script>
     </binding>
-  </button>
+  </button>-->
   
   <hrule />
   
