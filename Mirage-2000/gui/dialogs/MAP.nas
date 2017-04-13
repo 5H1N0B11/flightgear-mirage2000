@@ -59,8 +59,15 @@ var initMAP = func() {
     # http://otile1.mqcdn.com/tiles/1.0.0/map
     # http://otile1.mqcdn.com/tiles/1.0.0/sat
     # (also see http://wiki.openstreetmap.org/wiki/Tile_usage_policy)
-    var makeUrl = string.compileTemplate('http://otile1.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.jpg');
-    var makePath = string.compileTemplate(maps_base ~ '/osm-{type}/{z}/{x}/{y}.jpg');
+    #Old one : var makeUrl = string.compileTemplate('http://otile1.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.jpg');
+    #     var makePath = string.compileTemplate(maps_base ~ '/osm-{type}/{z}/{x}/{y}.jpg');
+    
+    #if crash again : go https://wiki.openstreetmap.org/wiki/Browsing#Layers
+    #http://a.tile.openstreetmap.org/8/126/87.png
+    #http://otile1.mqcdn.com/tiles/1.0.0/map/8/126/87.jpg
+    
+    var makeUrl = string.compileTemplate('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png');
+    var makePath = string.compileTemplate(maps_base ~ '/osm-{type}/{z}/{x}/{y}.png');
     var num_tiles = [4, 3];
 
     var center_tile_offset = [
