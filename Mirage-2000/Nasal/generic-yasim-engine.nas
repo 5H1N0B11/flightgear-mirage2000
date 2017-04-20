@@ -216,8 +216,8 @@ var Jet =
                 # This is to simulate rpm rate increase
                 rpm += ((me.Time - me.lasTime) / me.start_time) * me.rpmIdle;
                 me.rpm.setValue(rpm);
-                me.n1_Control.setValue(rpm/100);
-                me.n1.setValue(rpm/100);
+                me.n1_Control.setValue(rpm / 100);
+                me.n1.setValue(rpm / 100);
             }
             # STARTED
             if(me.rpm.getValue() > 4500 and ! me.IsRunning)

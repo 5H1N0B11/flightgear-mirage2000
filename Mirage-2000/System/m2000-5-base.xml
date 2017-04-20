@@ -56,6 +56,10 @@
 
     <startup>
       <splash-texture>Aircraft/Mirage-2000/Splashs/m2000-5-splash.png</splash-texture>
+      <splash-texture>Aircraft/Mirage-2000/Splashs/splash-01.png</splash-texture>
+      <splash-texture>Aircraft/Mirage-2000/Splashs/splash-02.png</splash-texture>
+      <splash-texture>Aircraft/Mirage-2000/Splashs/splash-03.png</splash-texture>
+      <splash-texture>Aircraft/Mirage-2000/Splashs/splash-04.png</splash-texture>
     </startup>
 
     <sound>

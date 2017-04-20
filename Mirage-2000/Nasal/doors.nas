@@ -26,7 +26,6 @@ parachute = aircraft.door.new("/sim/model/door-positions/parachute", 2, 0);
 var move_canopy = func()
 {
     var position = getprop("/sim/model/door-positions/crew/position-norm");
-    #print("DEBUG position : " ~ position) ;
     
     # let's check current position :
     if(position <= 0.000)
@@ -52,33 +51,34 @@ var move_canopy = func()
 
 }
 var move_canopy_byHand = func() {
-  var position = getprop("/sim/model/door-positions/crew/position-norm");
-  if(position>0.090){
-    if(position == 1)
+    var position = getprop("/sim/model/door-positions/crew/position-norm");
+    if(position > 0.090)
     {
-      # it's opened let's half open :
-      interpolate("/sim/model/door-positions/crew/position-norm", 0.095, 2);
+        if(position == 1)
+        {
+            # it's opened let's half open :
+            interpolate("/sim/model/door-positions/crew/position-norm", 0.095, 2);
+        }
+        else
+        {
+            # it's half-opened let's open :
+            interpolate("/sim/model/door-positions/crew/position-norm", 1.000, 2);
+        }
     }
-    else
-    {
-      # it's half-opened let's open :
-      interpolate("/sim/model/door-positions/crew/position-norm", 1.000, 2);
-    }
-  }
 }
 
 var move_canopy_lock = func() {
-  var position = getprop("/sim/model/door-positions/crew/position-norm");
-  if(position<0.1){
-    if(position <= 0.000)
-    {
-      # it's closed let's half open :
-      interpolate("/sim/model/door-positions/crew/position-norm", 0.095, 2);
+    var position = getprop("/sim/model/door-positions/crew/position-norm");
+    if(position<0.1){
+        if(position <= 0.000)
+        {
+            # it's closed let's half open :
+            interpolate("/sim/model/door-positions/crew/position-norm", 0.095, 2);
+        }
+        else
+        {
+            # let's close :
+            interpolate("/sim/model/door-positions/crew/position-norm", 0.000, 2);
+        }
     }
-    else
-    {
-      # let's close :
-      interpolate("/sim/model/door-positions/crew/position-norm", 0.000, 2);
-    }
-  }
 }

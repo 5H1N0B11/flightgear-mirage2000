@@ -6,8 +6,7 @@ print("*** LOADING ext_stores.nas ... ***");
 ################################################################################
 
 # check then drop
-var dropTanks = func()
-{
+var dropTanks = func() {
     for(var i = 2 ; i < 5 ; i += 1)
     {
         var select = getprop("/sim/weight["~ i ~"]/selected");
@@ -19,8 +18,7 @@ var dropTanks = func()
 }
 
 # compile all load in a multiplay variable
-var Encode_Load = func()
-{
+var Encode_Load = func() {
     var list = [
         "none",
         "1300 l Droptank",
@@ -122,13 +120,10 @@ var Decode_Load = {
             # Here to detect each substring index
             for(i = 0 ; i < size(myString) ; i += 1)
             {
-                #print(chr(myString[i]));
                 if(chr(myString[i]) == '#')
                 {
-                    #print("We got one : " ~ i );
                     append(myIndexArray, i);
                 }
-                #print(size(myIndexArray));
             }
             
             # now we can split the substring
@@ -136,21 +131,15 @@ var Decode_Load = {
             {
                 if(i < size(myIndexArray) - 1)
                 {
-                    #print(substr(myString, myIndexArray[i], myIndexArray[i + 1] - myIndexArray[i]));
-                    
                     # index of weight :
                     var myWeightIndex = substr(myString, myIndexArray[i] + 1, 1);
-                    #print("myWeightIndex:"~ myWeightIndex);
                     
                     # has been fired (display pylons or not)
                     var myFired = substr(myString, myIndexArray[i] + 2, 1) == 1;
-                    #print(myFired);
                     
                     # what to put in weight[]/selected index
                     var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, (myIndexArray[i + 1] - 1) - (myIndexArray[i] + 2));
                     var myWeight = me.loadList[myWeightOptIndex];
-                    #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
-                    #print("myWeight: " ~ myWeight);
                     
                     # rebuilt the property Tree
                     me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(myWeight);
@@ -158,8 +147,6 @@ var Decode_Load = {
                 }
                 else
                 {
-                    #print(substr(myString, myIndexArray[i], size(myString) - myIndexArray[i]));
-                    
                     # index of weight :
                     var myWeightIndex = substr(myString, myIndexArray[i] + 1, 1);
                     #print(myWeightIndex);
@@ -171,8 +158,6 @@ var Decode_Load = {
                     # what to put in weight[]/selected
                     var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, size(myString) - (myIndexArray[i] + 2));
                     var myWeight = me.loadList[myWeightOptIndex];
-                    #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
-                    #print(myWeight);
                     
                     # rebuilt the property Tree
                     me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(myWeight);
@@ -185,7 +170,6 @@ var Decode_Load = {
                 }
             }
         }
-        #print(me.mySelf.getName() ~ "["~ me.mySelf.getIndex() ~"]");
     },
     stop: func()
     {
@@ -196,8 +180,7 @@ var Decode_Load = {
 # Here is where quick load management is managed...
 # These 4 function can't be active when flying : This mean a little preparation for the mission
 # It's an anti kiddo script
-var Po = func()
-{
+var Po = func() {
     if(getprop("/gear/gear[2]/wow") == 1)
     {
         # pylon 0
@@ -240,8 +223,7 @@ var Po = func()
     }
 }
 
-var Fox = func()
-{
+var Fox = func() {
     if(getprop("/gear/gear[2]/wow") == 1)
     {
         # pylon 0
@@ -284,8 +266,7 @@ var Fox = func()
     }
 }
 
-var Bravo = func()
-{
+var Bravo = func() {
     if(getprop("/gear/gear[2]/wow") == 1)
     {
         # pylon 0
@@ -328,8 +309,7 @@ var Bravo = func()
     }
 }
 
-var Kilo = func()
-{
+var Kilo = func() {
     if(getprop("/gear/gear[2]/wow") == 1)
     {
         # pylon 0
@@ -372,8 +352,7 @@ var Kilo = func()
     }
 }
 
-var NoLoad = func()
-{
+var NoLoad = func() {
     if(getprop("/gear/gear[2]/wow") == 1)
     {
         # pylon 0
@@ -415,8 +394,7 @@ var NoLoad = func()
     }
 }
 
-var AirToGround = func()
-{
+var AirToGround = func() {
     if(getprop("/gear/gear[2]/wow") == 1)
     {
         # pylon 0
@@ -459,9 +437,7 @@ var AirToGround = func()
     }
 }
 
-
-var m2000N = func()
-{
+var m2000N = func() {
     if(getprop("/gear/gear[2]/wow") == 1)
     {
         # pylon 0
@@ -504,8 +480,7 @@ var m2000N = func()
     }
 }
 
-var FireableAgain = func()
-{
+var FireableAgain = func() {
     for(var i = 0 ; i < 9 ; i += 1)
     {
         # to make it fireable again
@@ -518,7 +493,7 @@ var FireableAgain = func()
         {
             setprop("/sim/weight["~ i ~"]/weight-lb", 246.91);
         }
-        if(select == "Matra MICA IR")
+        elsif(select == "Matra MICA IR")
         {
             setprop("/sim/weight["~ i ~"]/weight-lb", 246.91);
         }
@@ -557,8 +532,7 @@ var FireableAgain = func()
 # Begining of the dropable function.
 # It has to be simplified and generic made
 # Need to know how to make a table
-dropLoad = func(number)
-{
+dropLoad = func(number) {
     var select = getprop("/sim/weight["~ number ~"]/selected");
     if(select != "none")
     {
@@ -589,8 +563,7 @@ dropLoad = func(number)
 }
 
 # Need to be changed
-dropLoad_stop = func(n)
-{
+dropLoad_stop = func(n) {
     #setprop("/controls/armament/station["~ n ~"]/release", 0);
 }
 
@@ -879,45 +852,38 @@ var view_firing_missile = func(myMissile)
 
     # We feed the handler
     view.missile_view_handler.setup(data);
-
 }
-
 
 ##
 # nuc switch
 ##
 var nuc = func {
-  var mpmessaging = getprop("/controls/armament/mp-messaging");
-  if(mpmessaging ==0){
-    ltext = "Sorry, Nuke will never be available on this plane(t)!";
-    screen.log.write(ltext);
-  }else{
-    var message1 = "This mirage have been Hijacked by a moron who want to nuke the planet."; 
-    var message2 = "Too all operating aircraft, this mirage is your top priority target";
-    
-    #m2000_load.setMessage(message1);
-    #m2000_load.setMessage(message2);
-    
-    #settimer(m2000_load.setMessage(message1),1);
-    #settimer(m2000_load.setMessage(message2),2);
-    
-    settimer(func {m2000_load.setMessage(message1)},1);
-    settimer(func {m2000_load.setMessage(message2)},2);
-    
-    setprop('/instrumentation/transponder/id-code',"7500");
-    mirage2000.init_Transpondeur();
-   
-  }
+    var mpmessaging = getprop("/controls/armament/mp-messaging");
+    if(mpmessaging == 0)
+    {
+        ltext = "Sorry, Nuke will never be available on this plane(t)!";
+        screen.log.write(ltext);
+    }
+    else
+    {
+        var message1 = "This mirage have been Hijacked by a moron who want to nuke the planet."; 
+        var message2 = "Too all operating aircraft, this mirage is your top priority target";
+        
+        settimer(func {m2000_load.setMessage(message1)},1);
+        settimer(func {m2000_load.setMessage(message2)},2);
+        
+        setprop('/instrumentation/transponder/id-code',"7500");
+        mirage2000.init_Transpondeur();
+    }
 }
-var setMessage = func (msg){
-  setprop("/sim/multiplay/chat",msg);
+var setMessage = func(msg) {
+    setprop("/sim/multiplay/chat",msg);
 }
 
-
-var MPMessaging    = props.globals.getNode("/controls/armament/mp-messaging", 1);
+var MPMessaging = props.globals.getNode("/controls/armament/mp-messaging", 1);
 MPMessaging.setBoolValue(0);
 
-var MPReport = func(){
+var MPReport = func() {
     if(MPMessaging.getValue() == 1)
     {
         MPMessaging.setBoolValue(0);
@@ -927,6 +893,7 @@ var MPReport = func(){
         MPMessaging.setBoolValue(1);
     }
     var phrase = (MPMessaging.getValue()) ? "Activated" : "Desactivated";
-    phrase = "MP messaging : " ~ phrase;
+    phrase = "MP messaging : "~ phrase;
     setprop("/sim/messages/atc", phrase);
 }
+

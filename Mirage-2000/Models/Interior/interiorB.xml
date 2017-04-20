@@ -25,15 +25,14 @@
 
   <!-- working for Rembrandt -->
   <effect>
-    <!--inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from-->
-    <inherits-from>Effects/model-transparent</inherits-from>
+    <inherits-from>Effects/glass</inherits-from>
     <object-name>intvitres</object-name>
     <object-name>intvitres-BIPLACE</object-name>
     <object-name>intverriereAvant-BIPLACE</object-name>
     <object-name>intverriereArriere-BIPLACE</object-name>
   </effect>
   
-  <animation>
+  <!--animation>
     <type>select</type>
     <object-name>intvitres</object-name>
     <object-name>intvitres-BIPLACE</object-name>
@@ -46,8 +45,6 @@
       </less-than>
     </condition>
   </animation>
-
-  <!-- Raind Drops Effect -->
   <model>
     <path>Aircraft/Mirage-2000/Models/Effects/RainDrops/rainglass.xml</path>
     <condition>
@@ -56,7 +53,7 @@
         <value>0.1</value>
       </greater-than>
     </condition>
-  </model>
+  </model-->
 
   <!-- Tableau de bord pilote -->
   <model>

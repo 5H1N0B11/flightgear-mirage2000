@@ -1,3 +1,4 @@
+print("*** LOADING MAP.nas ... ***");
 var createMap = func {
     var window = canvas.Window.new([768, 512], "dialog").set('title', "Map").set("mipmap", 1);
 

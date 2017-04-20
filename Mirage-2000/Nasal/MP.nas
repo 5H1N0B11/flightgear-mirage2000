@@ -121,11 +121,7 @@ var Decode_Load = {
     },
 };
 
-
 var Encode_Bool = func(){
-
-
-
   var mycomp = mirage2000.landing1_switch.getValue();
   mycomp       = mirage2000.formation_switch.getValue()                         ~ mycomp;
   mycomp       = mirage2000.position_switch.getValue()                          ~ mycomp;
@@ -136,17 +132,10 @@ var Encode_Bool = func(){
   mycomp       = props.globals.getNode("/gear/gear[1]/wow").getValue()          ~ mycomp;
   mycomp       = props.globals.getNode("/gear/gear[2]/wow").getValue()          ~ mycomp;
   mycomp       = props.globals.getNode("/controls/ground-equipment").getValue() ~ mycomp;
-  
 
   var myIntBool = bits.value(mycomp);
-  
-  #print(bits.string(myIntBool,8));
-  #print(chr(bits.string(myIntBool,8)[size(bits.string(myIntBool,8))-1]));
-  #print(myIntBool);
-  
   setprop("sim/multiplay/generic/int[8]",myIntBool);
 }
-
 
 ### Object decode
 var Decode_Bool = {
@@ -172,8 +161,7 @@ var Decode_Bool = {
         
         return m;
     },
-    init:func(){
-    
+    init:func() {
     },
     
     decode: func()
@@ -218,9 +206,6 @@ var Decode_Bool = {
     },
 };
 
-
-
-
 ### Object decode
 var MP_light = {
     new: func(mySelf)
@@ -231,29 +216,29 @@ var MP_light = {
         #m.updateTime = updateTime;
         #m.running = 1;
         
-        m.strobe_switch = m.mySelf.getNode("systems/electrical/outputs/strobe", 1);
-        m.strobe2_switch = m.mySelf.getNode("systems/electrical/outputs/strobe2", 1);
-        m.tailLight_switch = m.mySelf.getNode("systems/electrical/outputs/tailLight", 1);
-        m.position_switch = m.mySelf.getNode("systems/electrical/outputs/position", 1);
-        m.formation_switch = m.mySelf.getNode("systems/electrical/outputs/formation-lights", 1);
-        m.landing1_switch = m.mySelf.getNode("systems/electrical/outputs/landing-lights", 1);
+        m.strobe_switch      = m.mySelf.getNode("systems/electrical/outputs/strobe", 1);
+        m.strobe2_switch     = m.mySelf.getNode("systems/electrical/outputs/strobe2", 1);
+        m.tailLight_switch   = m.mySelf.getNode("systems/electrical/outputs/tailLight", 1);
+        m.position_switch    = m.mySelf.getNode("systems/electrical/outputs/position", 1);
+        m.formation_switch   = m.mySelf.getNode("systems/electrical/outputs/formation-lights", 1);
+        m.landing1_switch    = m.mySelf.getNode("systems/electrical/outputs/landing-lights", 1);
 
-        m.FinalStrobe = m.mySelf.getNode("sim/model/lights/strobe");
-        m.FinalStrobe2 = m.mySelf.getNode("sim/model/lights/strobe2");
-        m.FinaltailLight = m.mySelf.getNode("sim/model/lights/tailLight");
-        m.Finalposition = m.mySelf.getNode("sim/model/lights/position");
-        m.Finalformation = m.mySelf.getNode("sim/model/lights/formation");
-        m.Finallanding= m.mySelf.getNode("sim/model/lights/landing");
+        m.FinalStrobe        = m.mySelf.getNode("sim/model/lights/strobe");
+        m.FinalStrobe2       = m.mySelf.getNode("sim/model/lights/strobe2");
+        m.FinaltailLight     = m.mySelf.getNode("sim/model/lights/tailLight");
+        m.Finalposition      = m.mySelf.getNode("sim/model/lights/position");
+        m.Finalformation     = m.mySelf.getNode("sim/model/lights/formation");
+        m.Finallanding       = m.mySelf.getNode("sim/model/lights/landing");
         
-        m.FinalStrobeObject = aircraft.light.new(m.mySelf.getPath()~"/sim/model/lights/strobe", [0.03, 1.5], m.strobe_switch);
-        m.FinalStrobe2 = aircraft.light.new(m.mySelf.getPath()~"/sim/model/lights/strobe2", [0.03, 1.4], m.strobe2_switch);
-        m.FinaltailLight = aircraft.light.new(m.mySelf.getPath()~"/sim/model/lights/tailLight", [0], m.tailLight_switch);
-        m.Finalposition = aircraft.light.new(m.mySelf.getPath()~"/sim/model/lights/position", [0], m.position_switch);
-        m.Finalformation = aircraft.light.new(m.mySelf.getPath()~"/sim/model/lights/formation", [0], m.formation_switch);
-        m.Finallanding = aircraft.light.new(m.mySelf.getPath()~"/sim/model/lights/landing", [0], m.landing1_switch);
+        m.FinalStrobeObject  = aircraft.light.new(m.mySelf.getPath() ~"/sim/model/lights/strobe", [0.03, 1.5], m.strobe_switch);
+        m.FinalStrobe2       = aircraft.light.new(m.mySelf.getPath() ~"/sim/model/lights/strobe2", [0.03, 1.4], m.strobe2_switch);
+        m.FinaltailLight     = aircraft.light.new(m.mySelf.getPath() ~"/sim/model/lights/tailLight", [0], m.tailLight_switch);
+        m.Finalposition      = aircraft.light.new(m.mySelf.getPath() ~"/sim/model/lights/position", [0], m.position_switch);
+        m.Finalformation     = aircraft.light.new(m.mySelf.getPath() ~"/sim/model/lights/formation", [0], m.formation_switch);
+        m.Finallanding       = aircraft.light.new(m.mySelf.getPath() ~"/sim/model/lights/landing", [0], m.landing1_switch);
         
         return m;
     },
-    init:func(){
+    init:func() {
     },
   }

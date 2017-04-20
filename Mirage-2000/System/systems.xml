@@ -15,7 +15,13 @@
     <path></path>
   </electrical>
   <property-rule n="100">
-      <path>Aircraft/Mirage-2000/Systems/views-Zoom.xml</path>
+    <path>Aircraft/Mirage-2000/System/views-Zoom.xml</path>
   </property-rule>
+
+  <property-rule n="101">
+    <name>rain-drops</name>
+    <path>Aircraft/Mirage-2000/System/rain-drops.xml</path>
+  </property-rule>
+
 
 </PropertyList>

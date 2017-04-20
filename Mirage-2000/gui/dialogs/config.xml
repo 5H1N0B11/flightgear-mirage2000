@@ -133,10 +133,10 @@
 <hrule />
   
   <text>
-    <label>Everything bellow is only available on GROUND!</label>
+    <label>Everything below is only available on GROUND!</label>
   </text>
   <text>
-    <label>Select a Config bellow</label>
+    <label>Select a Config below</label>
   </text>
   
   <button>

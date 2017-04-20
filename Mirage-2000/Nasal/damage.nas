@@ -19,58 +19,57 @@ var cannon_types = {
 };
 
 var warhead_lbs = {
-    "aim-120":              44.00,
-    "AIM120":               44.00,
-    "AIM-120":              44.00,
-    "RB-99":                44.00,
-    "aim-7":                88.00,
-    "AIM-7":                88.00,
-    "RB-71":                88.00,
-    "aim-9":                20.80,
-    "AIM9":                 20.80,
-    "AIM-9":                20.80,
-    "RB-24":                20.80,
-    "RB-24J":               20.80,
-    "RB-74":                20.80,
-    "R74":                  16.00,
-    "MATRA-R530":           55.00,
-    "Meteor":               55.00,
-    "AIM-54":              135.00,
-    "Matra R550 Magic 2":   27.00,
-    "MatraR550Magic2":      27.00,
-    "Matra MICA":           30.00,
-    "MatraMica":            30.00,
-    "MatraMicaIR":          30.00,
-    "RB-15F":              440.92,
-    "SCALP":               992.00,
-    "KN-06":               315.00,
-    "GBU12":               190.00,
-    "GBU16":               450.00,
-    "Sea Eagle":           505.00,
-    "SeaEagle":            505.00,
-    "AGM65":               200.00,
-    "RB-04E":              661.00,
-    "RB-05A":              353.00,
-    "RB-75":               126.00,
-    "M90":                 500.00,
-    "M71":                 200.00,
-    "M71R":                200.00,
-    "MK-82":               192.00,
-    "LAU-68":               10.00,
-    "M317":                145.00,
-    "GBU-31":              945.00,
-    "AIM132":               22.05,
-    "ALARM":               450.00,
-    "STORMSHADOW":         850.00,
-    "R-60":                  6.60,
-    "R-27R1":               85.98,
-    "R-27T1":               85.98,
-    "FAB-500":             564.00,
-    "Exocet":              364.00,
+    "aim-120":               44.00,
+    "AIM120":                44.00,
+    "AIM-120":               44.00,
+    "RB-99":                 44.00,
+    "aim-7":                 88.00,
+    "AIM-7":                 88.00,
+    "RB-71":                 88.00,
+    "aim-9":                 20.80,
+    "AIM9":                  20.80,
+    "AIM-9":                 20.80,
+    "RB-24":                 20.80,
+    "RB-24J":                20.80,
+    "RB-74":                 20.80,
+    "R74":                   16.00,
+    "MATRA-R530":            55.00,
+    "Meteor":                55.00,
+    "AIM-54":               135.00,
+    "Matra R550 Magic 2":    27.00,
+    "MatraR550Magic2":       27.00,
+    "Matra MICA":            30.00,
+    "MatraMica":             30.00,
+    "MatraMicaIR":           30.00,
+    "RB-15F":               440.92,
+    "SCALP":                992.00,
+    "KN-06":                315.00,
+    "GBU12":                190.00,
+    "GBU16":                450.00,
+    "Sea Eagle":            505.00,
+    "SeaEagle":             505.00,
+    "AGM65":                200.00,
+    "RB-04E":               661.00,
+    "RB-05A":               353.00,
+    "RB-75":                126.00,
+    "M90":                  500.00,
+    "M71":                  200.00,
+    "M71R":                 200.00,
+    "MK-82":                192.00,
+    "LAU-68":                10.00,
+    "M317":                 145.00,
+    "GBU-31":               945.00,
+    "AIM132":                22.05,
+    "ALARM":                450.00,
+    "STORMSHADOW":          850.00,
+    "R-60":                   6.60,
+    "R-27R1":                85.98,
+    "R-27T1":                85.98,
+    "FAB-500":              564.00,
+    "Exocet":               364.00,
 };
 
 var fireMsgs = {
-
     # F14
     " FOX3 at":       nil, # radar
     " FOX2 at":       nil, # heat
@@ -99,7 +98,7 @@ var incoming_listener = func() {
     var hist_vector = split("\n", history);
     if(size(hist_vector) > 0)
     {
-        var last = hist_vector[size(hist_vector)-1];
+        var last = hist_vector[size(hist_vector) - 1];
         var last_vector = split(":", last);
         var author = last_vector[0];
         var callsign = getprop("sim/multiplay/callsign");
@@ -108,7 +107,7 @@ var incoming_listener = func() {
             # not myself
             #print("not me");
             var m2000 = FALSE;
-            if(find(" at " ~ callsign ~ ". Release ", last_vector[1]) != -1)
+            if(find(" at "~ callsign ~". Release ", last_vector[1]) != -1)
             {
                 # a m2000 is firing at us
                 m2000 = TRUE;
@@ -128,7 +127,7 @@ var incoming_listener = func() {
                         {
                             #print("enemy identified");
                             var bearingNode = enemy.getNode("radar/bearing-deg");
-                            if (bearingNode != nil)
+                            if(bearingNode != nil)
                             {
                                 #print("bearing to enemy found");
                                 var bearing = bearingNode.getValue();
@@ -300,9 +299,9 @@ var incoming_listener = func() {
     }
 }
 
-var maxDamageDistFromWarhead = func(lbs){
+var maxDamageDistFromWarhead = func(lbs) {
     # very simple
-    var dist = 3*math.sqrt(lbs);
+    var dist = 3 * math.sqrt(lbs);
     return dist;
 }
 
@@ -323,7 +322,7 @@ var fail_systems = func(probability) {
 
 var playIncomingSound = func(clock) {
     setprop("sound/incoming"~ clock, 1);
-    settimer(func {stopIncomingSound(clock);},3);
+    settimer(func {stopIncomingSound(clock);}, 3);
 }
 
 var stopIncomingSound = func (clock) {
@@ -370,7 +369,7 @@ var processCallsigns = func() {
 
 processCallsigns();
 
-#m2000-5
+# m2000-5
 var sendMis = func() {
     var mkeys = keys(missile.MISSILE.active);
     var str = "";
@@ -388,20 +387,20 @@ var sendMis = func() {
             #print(lat);
             #print(lon);
             #print(alt);
-            str = str~mid~";"~lat~";"~lon~";"~alt~":";
+            str = str ~ mid ~";"~ lat ~";"~ lon ~";"~ alt ~":";
         }
     }
     setprop("sim/multiplay/generic/string[13]", str);
     logTime();
-    settimer(sendMis,0.05);
+    settimer(sendMis, 0.05);
 }
 
 var logTime = func() {
     #log time and date for outputing ucsv files for converting into KML files for google earth.
     if(getprop("logging/log[0]/enabled") == TRUE and getprop("sim/time/utc/year") != nil)
     {
-        var date = getprop("sim/time/utc/year")~"/"~getprop("sim/time/utc/month")~"/"~getprop("sim/time/utc/day");
-        var time = getprop("sim/time/utc/hour")~":"~getprop("sim/time/utc/minute")~":"~getprop("sim/time/utc/second");
+        var date = getprop("sim/time/utc/year") ~"/"~ getprop("sim/time/utc/month") ~"/"~ getprop("sim/time/utc/day");
+        var time = getprop("sim/time/utc/hour") ~":"~ getprop("sim/time/utc/minute") ~":"~ getprop("sim/time/utc/second");
         setprop("logging/date-log", date);
         setprop("logging/time-log", time);
     }
@@ -468,12 +467,12 @@ var code_ct = func() {
     {
         ff = 0;
     }
-    var cl = getprop("sim/weight[0]/weight-lb")+getprop("sim/weight[1]/weight-lb")
-           + getprop("sim/weight[2]/weight-lb")+getprop("sim/weight[3]/weight-lb")
-           + getprop("sim/weight[4]/weight-lb")+getprop("sim/weight[5]/weight-lb")
-           + getprop("sim/weight[6]/weight-lb")+getprop("sim/weight[7]/weight-lb")
+    var cl = getprop("sim/weight[0]/weight-lb") + getprop("sim/weight[1]/weight-lb")
+           + getprop("sim/weight[2]/weight-lb") + getprop("sim/weight[3]/weight-lb")
+           + getprop("sim/weight[4]/weight-lb") + getprop("sim/weight[5]/weight-lb")
+           + getprop("sim/weight[6]/weight-lb") + getprop("sim/weight[7]/weight-lb")
            + getprop("sim/weight[8]/weight-lb");
-    if(cl > (ll*1.05) and getprop("gear/gear[0]/wow") != TRUE)
+    if(cl > (ll * 1.05) and getprop("gear/gear[0]/wow") != TRUE)
     {
         setprop("sim/ct/rl", 1);
     }
@@ -493,7 +492,7 @@ var code_ct = func() {
            + getprop("/consumables/fuel/tank[2]/level-gal_us")
            + getprop("/consumables/fuel/tank[3]/level-gal_us")
            + getprop("/consumables/fuel/tank[4]/level-gal_us");
-    if(cf != nil and lf != -1 and cf > (lf*1.1) and getprop("gear/gear[0]/wow") != TRUE and getprop("/systems/refuel/contact") == FALSE)
+    if(cf != nil and lf != -1 and cf > (lf * 1.1) and getprop("gear/gear[0]/wow") != TRUE and getprop("/systems/refuel/contact") == FALSE)
     {
         setprop("sim/ct/rf", 1);
     }
@@ -533,7 +532,7 @@ var code_ct = func() {
     {
         ifa = 0;
     }
-    var final = "ct"~cu~ff~rl~rf~rp~a~dm~tm~rd~ml~sf~ifa;
+    var final = "ct"~ cu ~ ff ~ rl ~ rf ~ rp ~ a ~ dm ~ tm ~ rd ~ ml ~ sf ~ ifa;
     setprop("sim/multiplay/generic/string[15]", final);
     settimer(code_ct, 2);
 }
@@ -627,16 +626,8 @@ var changeGuiLoad = func()
             {
                 if(name.getValue() == searchname1)
                 {
-                    #var e = item.getNode("enabled").getValue();
-                    #var path = item.getPath();
-                    #item.remove();
-                    #item = props.globals.getNode(path,1);
-                    #item.getNode("enabled",1).setBoolValue(FALSE);
-                    #item.getNode("binding").remove();
-                    #item.getNode("name",1).setValue(searchname1);
                     item.getNode("binding/command").setValue("nasal");
                     item.getNode("binding/script").setValue("missile.loadMPList()");
-                    #item.getNode("enabled",1).setBoolValue(TRUE);
                 }
                 if(name.getValue() == searchname2)
                 {

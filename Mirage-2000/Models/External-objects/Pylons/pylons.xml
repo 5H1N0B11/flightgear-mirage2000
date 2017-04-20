@@ -16,6 +16,22 @@
     <object-name>pylon1.R</object-name>
   </animation>
 
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/aircraft/aircraft</inherits-from>
+    <object-name>pylon1.L</object-name>
+    <object-name>pylon2.L</object-name>
+    <object-name>pylon3.L</object-name>
+    <object-name>pylon4.L</object-name>
+    <object-name>pylon.C</object-name>
+    <object-name>pylon4.R</object-name>
+    <object-name>pylon3.R</object-name>
+    <object-name>pylon2.R</object-name>
+    <object-name>pylon1.R</object-name>
+    <condition>
+      <not><property>sim/rendering/rembrandt/enabled</property></not>
+    </condition>
+  </effect>
+
   <!-- pylon options
       _________________|___|_________________
       \                |   |                /

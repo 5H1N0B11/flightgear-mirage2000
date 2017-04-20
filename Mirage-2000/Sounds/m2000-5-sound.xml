@@ -5,12 +5,19 @@
      07/2013 Updated by 5H1N0B1
      07/2015 Updated by Hardball : external sounds if canopy opened
      01/2016 Updated by Helijah
+     04/2017 Updated by Hardball : rain
 -->
 <PropertyList>
 
   <fx>
     
-    <!-- ~~~~~~~~~~~~~~~~~~ external -->
+
+    <!--
+________________________________________________________________________________
+                                                                 ENGINE EXTERNAL
+    -->
+
+    <!-- ~~~~~~~~~~~~~~~~~~ engine - start -->
     <engine>
       <name>engine-start</name>
       <mode>once</mode>
@@ -28,7 +35,7 @@
       <max-dist>1000</max-dist>
     </engine>
 
-    <!-- ~~~~~~~~~~~~~~~~~~ engines - stop -->
+    <!-- ~~~~~~~~~~~~~~~~~~ engine - stop -->
     <engine>
       <name>engine-shutdown</name>
       <mode>once</mode>
@@ -49,8 +56,8 @@
       <max-dist>1000</max-dist>
     </engine>
 
+    <!-- ~~~~~~~~~~~~~~~~~~ engine jet external -->
     <!-- notes :
-    
            engine[0]/running could be problematic in the begining due to the conflict
            between yasim and engine.nas...
            To detect if engine is really running, we use rpm
@@ -89,8 +96,7 @@
       </orientation>
       <pitch>
         <property>engines/engine[0]/n1</property>
-        <!-- bug : should be offset -->
-        <ofset>0.1</ofset>
+        <ofset>0.1</ofset> <!-- bug : should be offset -->
         <factor>.001</factor>
       </pitch>
       <volume>
@@ -101,6 +107,7 @@
       </volume>
     </engine-jet>
 
+    <!-- ~~~~~~~~~~~~~~~~~~ rumble external -->
     <engine-rumble>
       <name>engine-rumble</name>
       <path>Aircraft/Mirage-2000/Sounds/afterburner.wav</path>
@@ -138,6 +145,7 @@
       </volume>
     </engine-rumble>
     
+    <!-- ~~~~~~~~~~~~~~~~~~ whine external -->
     <engine-whine-external>
       <name>external-whine</name>
       <path>Sounds/turbojet_fan.wav</path>
@@ -172,8 +180,7 @@
       </orientation>
       <pitch>
         <property>engines/engine[0]/n1</property>
-        <ofset>0.7</ofset>
-        <!-- bug : should be offset -->
+        <ofset>0.7</ofset>  <!-- bug : should be offset -->
         <factor>.003</factor>
       </pitch>
       <volume>
@@ -184,39 +191,12 @@
       </volume>
     </engine-whine-external>
     
-    <wind>
-      <name>wind</name>
-      <mode>looped</mode>
-      <path>Aircraft/Mirage-2000/Sounds/BaBoOn-mirageIV-Wind.wav</path>
-      <condition>
-        <not>
-          <property>/sim/current-view/internal</property>
-        </not>
-      </condition>
-      <property>/velocities/airspeed-kt</property>
-      <volume>
-        <property>/position/altitude-ft</property>
-        <factor>-0.000015</factor>
-        <offset>1.0</offset>
-        <min>0.1</min>
-        <max>0.7</max>
-      </volume>
-      <volume>
-        <property>/velocities/airspeed-kt</property>
-        <factor>0.015</factor>
-        <min>0.03</min>
-        <max>0.55</max>
-      </volume>
-      <pitch>
-        <property>/velocities/airspeed-kt</property>
-        <factor>0.01</factor>
-        <offset>0.75</offset>
-      </pitch>
-      <reference-dist>100</reference-dist>
-      <max-dist>1000</max-dist>
-    </wind>
-    
-    <!-- ~~~~~~~~~~~~~~~~~~ internal -->
+    <!--
+________________________________________________________________________________
+                                                                 ENGINE INTERNAL
+    -->
+
+    <!-- ~~~~~~~~~~~~~~~~~~ jet internal -->
     <engine-jet-internal>
       <name>internal-jet</name>
       <path>Sounds/jet.wav</path>
@@ -245,6 +225,7 @@
       </volume>
     </engine-jet-internal>
 
+    <!-- ~~~~~~~~~~~~~~~~~~ rumble internal -->
     <engine-rumble>
       <name>engine-rumble</name>
       <path>Aircraft/Mirage-2000/Sounds/afterburner.wav</path>
@@ -280,6 +261,7 @@
       </volume>
     </engine-rumble>
 
+    <!-- ~~~~~~~~~~~~~~~~~~ whine internal -->
     <engine-whine-internal>
       <name>internal-whine</name>
       <path>Sounds/whine.wav</path>
@@ -296,8 +278,7 @@
       </condition>
       <pitch>
         <property>engines/engine[0]/n1</property>
-        <ofset>0.1</ofset>
-        <!-- bug : should be offset -->
+        <ofset>0.1</ofset>  <!-- bug : should be offset -->
         <factor>.0016</factor>
       </pitch>
       <volume>
@@ -308,7 +289,117 @@
       </volume>
     </engine-whine-internal>
 
-    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!--
+________________________________________________________________________________
+                                                                     ENVIRONMENT
+    -->
+    <!--rain>
+      <name>rain</name>
+      <mode>looped</mode>
+      <path>Aircraft/Mirage-2000/Sounds/rain_canopy.wav</path>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/local-weather/current/rain-norm</property>
+            <value>0.2</value>
+          </greater-than>
+          <property>sim/current-view/internal</property>
+        </and>
+      </condition>
+      <volume>
+        <property>/local-weather/current/rain-norm</property>
+        <factor>1.00</factor>
+        <offset>0.00</offset>
+        <min>0.4</min>
+        <max>0.9</max>
+      </volume>
+      <pitch>
+        <property>/velocities/airspeed-kt</property>
+        <factor>0.001</factor>
+        <offset>1.0</offset>
+      </pitch>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </rain-->
+    
+    <!-- ~~~~~~~~~~~~~~~~~~ windshield rain -->
+    <rain_int>
+      <name>rain_int</name>
+      <path>Sounds/rain-windshield.wav</path>
+      <mode>looped</mode>
+      <condition>
+        <greater-than>
+          <property>/environment/rain-norm</property>
+          <value>0.1</value>
+        </greater-than>
+      </condition>
+      <volume>
+        <property>/environment/rain-norm</property>
+        <factor>0.6</factor>
+      </volume>
+      <pitch>
+        <property>/velocities/mach</property>
+        <factor>0.6</factor>
+      </pitch>
+    </rain_int>
+
+    <!-- ~~~~~~~~~~~~~~~~~~ external rain -->
+    <rain_ext>
+      <name>rain_ext</name>
+      <path>Sounds/rain.wav</path>
+      <mode>looped</mode>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/environment/rain-norm</property>
+            <value>0.1</value>
+          </greater-than>
+          <or>
+            <not><property>sim/current-view/internal</property></not>
+            <greater-than>
+              <property>sim/model/door-positions/crew/position-norm</property>
+              <value>0</value>
+            </greater-than>
+          </or>
+        </and>
+      </condition>
+      <volume>
+        <factor>0.8</factor>
+      </volume>
+    </rain_ext>
+    
+    <wind>
+      <name>wind</name>
+      <mode>looped</mode>
+      <path>Aircraft/Mirage-2000/Sounds/BaBoOn-mirageIV-Wind.wav</path>
+      <condition>
+        <not>
+          <property>/sim/current-view/internal</property>
+        </not>
+      </condition>
+      <property>/velocities/airspeed-kt</property>
+      <volume>
+        <property>/position/altitude-ft</property>
+        <factor>-0.000015</factor>
+        <offset>1.0</offset>
+        <min>0.1</min>
+        <max>0.7</max>
+      </volume>
+      <volume>
+        <property>/velocities/airspeed-kt</property>
+        <factor>0.015</factor>
+        <min>0.03</min>
+        <max>0.55</max>
+      </volume>
+      <pitch>
+        <property>/velocities/airspeed-kt</property>
+        <factor>0.01</factor>
+        <offset>0.75</offset>
+      </pitch>
+      <reference-dist>100</reference-dist>
+      <max-dist>1000</max-dist>
+    </wind>
+    
     <rumble>
       <name>rumble</name>
       <mode>looped</mode>
@@ -360,6 +451,10 @@
       <max-dist>1000</max-dist>
     </squeal>
 
+    <!--
+________________________________________________________________________________
+                                                                        AVIONICS
+    -->
     <pre-stall>
       <name>pre-stall</name>
       <mode>looped</mode>
@@ -413,6 +508,11 @@
         <factor>1.0</factor>
       </volume>
     </click>
+
+    <!--
+________________________________________________________________________________
+                                                                       EQUIPMENT
+    -->
 
     <!-- @TODO:
            - add airbreakes : animation + wind
@@ -472,6 +572,10 @@
       <max-dist>1000</max-dist>
     </flap>
 
+    <!--
+________________________________________________________________________________
+                                                                 WEAPONS SYSTEMS
+    -->
     <guns>
       <name>gunfire</name>
       <mode>looped</mode>
@@ -484,37 +588,7 @@
         <value>1</value>
       </volume>
     </guns>
-    
-    <rain>
-      <name>rain</name>
-      <mode>looped</mode>
-      <path>Aircraft/Mirage-2000/Sounds/rain_canopy.wav</path>
-      <condition>
-        <and>
-          <greater-than>
-            <property>/local-weather/current/rain-norm</property>
-            <value>0.2</value>
-          </greater-than>
-          <property>sim/current-view/internal</property>
-        </and>
-      </condition>
-      <volume>
-        <property>/local-weather/current/rain-norm</property>
-        <factor>1.00</factor>
-        <offset>0.00</offset>
-        <min>0.4</min>
-        <max>0.9</max>
-      </volume>
-      <pitch>
-        <property>/velocities/airspeed-kt</property>
-        <factor>0.001</factor>
-        <offset>1.0</offset>
-      </pitch>
-      <reference-dist>100</reference-dist>
-      <max-dist>1000</max-dist>
-    </rain>
-    
-    
+
     <incoming>
       <name>incoming</name>
       <mode>single</mode>

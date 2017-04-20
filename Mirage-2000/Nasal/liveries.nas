@@ -11,4 +11,3 @@ var logo_dialog = gui.OverlaySelector.new("Select Logo", "/Aircraft/Mirage-2000/
 aircraft.data.add("/sim/model/logos/name");
 
 aircraft.livery.init("Aircraft/Mirage-2000/Models/Liveries");
-#aircraft.livery.init("Aircraft/Mirage-2000/Models/Logos");

@@ -5,7 +5,6 @@
   <path>interior.ac</path>
 
   <animation>
-
     <!-- Objets opaques -->
     <object-name>interieur-MONOPLACE</object-name>
     <object-name>inttour</object-name>
@@ -21,12 +20,12 @@
 
   <!-- working for Rembrandt -->
   <effect>
-    <inherits-from>Effects/model-transparent</inherits-from>
+    <inherits-from>Effects/glass</inherits-from>
     <object-name>intvitres</object-name>
     <object-name>intverriere-MONOPLACE</object-name>
   </effect>
   
-  <animation>
+  <!--animation>
     <type>select</type>
     <object-name>intvitres</object-name>
     <object-name>intverriere-MONOPLACE</object-name>
@@ -37,8 +36,6 @@
       </less-than>
     </condition>
   </animation>
-
-  <!-- Raind Drops Effect -->
   <model>
     <path>Aircraft/Mirage-2000/Models/Effects/RainDrops/rainglass.xml</path>
     <condition>
@@ -47,8 +44,8 @@
         <value>0.1</value>
       </greater-than>
     </condition>
-  </model>
-  
+  </model-->
+
   <!-- Tableau de bord -->
   <model>
     <name>Panel</name>

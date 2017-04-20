@@ -369,7 +369,8 @@
   </animation>
 
   <effect>
-    <inherits-from>Aircraft/Generic/Effects/Fuselagereflect</inherits-from>
+    <!--inherits-from>Aircraft/Generic/Effects/Fuselagereflect</inherits-from-->
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/aircraft/aircraft</inherits-from>
     <object-name>fuselage</object-name>
     <object-name>paletteHG</object-name>
     <object-name>paletteHD</object-name>
@@ -616,6 +617,17 @@
   </model>
 
   <!-- ~~~~~~~~~~~~~~~~~~ ground effects -->
+
+  <!-- exhaust while rotation if it rain -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Effects/ground/rain_exhaust.xml</path>
+    <offsets>
+      <x-m>  5   </x-m>
+      <y-m>  0   </y-m>
+      <z-m> -0.5 </z-m>
+    </offsets>
+  </model>
+
   <!-- front gear -->
   <model>
     <path>Aircraft/Mirage-2000/Models/Effects/ground/ground0.xml</path>
@@ -666,7 +678,7 @@
     </offsets>
   </model>
   
-  <!-- right gear -->
+  <!-- right gear touchdown -->
   <model>
     <path>Aircraft/Mirage-2000/Models/Effects/ground/ground2_touchdown.xml</path>
     <offsets>

@@ -14,13 +14,27 @@
 
     <condition>
       <and>
+        <greater-than>
+          <property>/environment/rain-norm</property>
+          <value>0.1</value>
+        </greater-than>
+        <property>gear/gear[2]/wow</property>
+        <greater-than>
+          <property>sim/multiplay/generic/float[13]</property>
+          <value>10</value>
+        </greater-than>
+      </and>
+    </condition>
+
+    <!--condition>
+      <and>
         <property>gear/gear[2]/wow</property>
         <greater-than>
           <property>sim/multiplay/generic/float[13]</property>
           <value>15</value>
         </greater-than>
       </and>
-    </condition>
+    </condition-->
 
     <attach>world</attach>
 
