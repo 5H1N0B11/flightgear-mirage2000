@@ -4,8 +4,8 @@ hardball 2017-01-26
 
 blender layers
 --------------
-A1 A2 A3 A4 A5 | A6 A7
-B1 B2 B3 B4 B5 | B6 A8
+A1 A2 A3 A4 A5 | A6 A7 A8
+B1 B2 B3 B4 B5 | B6 B7 B8
 
 content of the layers :
 A1- common objects (wings, gears, windshield, ground equipment, etc)
@@ -22,8 +22,8 @@ B5- mobile monoplace interior parts (canopy)
 A6- biplace logos
 B6- monoplace logos
 
-A7- panel
-A8- back_panel
+A8- panel
+B8- back_panel
 
 export ac
 ---------

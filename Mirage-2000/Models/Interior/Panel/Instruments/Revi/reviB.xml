@@ -2,30 +2,7 @@
 
 <PropertyList>
 
-  <path>reviVertical.ac</path>
-
-  <!--<animation>-->
-    <!-- Objets opaques -->
- <!--   <object-name>fond</object-name>
-  </animation>-->
-  
-    <!--  REMBRANDT support for transparent objects-->
-<!--  <effect>
-    <inherits-from>Effects/model-transparent</inherits-from>
-    <object-name>verre1</object-name>
-    <object-name>verre2</object-name>
-    <object-name>verre3</object-name>
-  </effect>
-  
-
-  <animation>
-    <type>material</type>
-    <object-name>fond</object-name>
-    <emission>
-      <red>   0.13 </red>
-      <green> 0.13 </green>
-      <blue>  0.13 </blue>
-    </emission>
-  </animation>-->
+  <!--path>reviVertical.ac</path-->
+  <path>reviB.ac</path>
 
 </PropertyList>

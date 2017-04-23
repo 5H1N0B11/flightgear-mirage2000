@@ -592,6 +592,11 @@ var computeSAS = func() {
         {
             myMaxRoll = myMaxRoll / 2;
         }
+        #lowering the roll at high alt
+         if(myalt>45000)
+        {
+            myMaxRoll = myMaxRoll / 2;
+        }
 
         # decrease sas_roll with airbrakes
         sas_roll = (sas_roll != 0) ? sas_roll * (1 - (myBrakes * 0.90)) : 0;

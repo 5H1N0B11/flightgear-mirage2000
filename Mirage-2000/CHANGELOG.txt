@@ -1,3 +1,13 @@
+2017-04
+================================================================================
+
+Raindrop effects on canopy
+Raindrop effects on fuselage
+Exterior rain sounds
+Windshield rain sounds
+Rain effects on ground (from gears and exhausts)
+
+
 2017-03
 ================================================================================
 
@@ -10,6 +20,7 @@ improve mica EM
 3d a lot of 3d model littles improvments
 
 grouping liveries
+
 
 2017-02
 ================================================================================
@@ -28,7 +39,6 @@ backseat on multiplayer, the copilot is named NOSA (Navigateur Officier Système
 how to test multiplayer on same PC ?
 - run flightgear with parameters :       --aircraft=m2000-5B          --multiplay=out,10,127.0.0.1,5000 --multiplay=in,10,127.0.0.1,5001 --callsign="PILOT" --prop:/sim/remote/pilot-callsign="NOSA"
 - run another instance with parameters : --aircraft=m2000-5B-backseat --multiplay=out,10,127.0.0.1,5001 --multiplay=in,10,127.0.0.1,5000 --callsign="NOSA"  --prop:/sim/remote/pilot-callsign="PILOT"
-
 
 
 2017-01
