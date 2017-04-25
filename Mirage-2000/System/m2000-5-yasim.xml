@@ -337,7 +337,7 @@
       spring="1.4"
       damp="2.6"
       sfric="0.8"
-      dfric="1.7">
+      dfric="0.7">
       <control-input axis="/controls/flight/SAS-gear" control="STEER" src0="-1.0" src1="1.0" dst0="-0.45" dst1="0.45"/>
       <control-input axis="/controls/gear/gear-down"  control="EXTEND"/>
 
@@ -354,7 +354,7 @@
         spring="1.0"
         damp="1.8"
         sfric="0.8"
-        dfric="1.9">
+        dfric="1.3">
         <control-input axis="/controls/gear/brake-left" control="BRAKE"/>
         <control-input axis="/controls/gear/brake-parking" control="BRAKE"/>
         <control-input axis="/controls/gear/gear-down" control="EXTEND"/>
@@ -371,7 +371,7 @@
         spring="1.0"
         damp="1.8"
         sfric="0.8"
-        dfric="1.9">
+        dfric="1.3">
         <control-input axis="/controls/gear/brake-right" control="BRAKE"/>
         <control-input axis="/controls/gear/brake-parking" control="BRAKE"/>
         <control-input axis="/controls/gear/gear-down" control="EXTEND"/>
