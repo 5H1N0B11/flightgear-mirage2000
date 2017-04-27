@@ -272,6 +272,7 @@
       <opt><name>Sea Eagle</name>         <lbs type="double"> 1825.00 </lbs></opt>
       <opt><name>Matra R550 Magic 2</name><lbs type="double">  196.21 </lbs></opt>
       <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
+      <opt><name>Matra MICA IR</name>     <lbs type="double">  246.91 </lbs></opt>
       <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
       <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
       <opt><name>Exocet</name>            <lbs type="double">  2866</lbs></opt>

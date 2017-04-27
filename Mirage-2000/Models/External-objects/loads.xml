@@ -300,6 +300,23 @@
       </and>
     </condition>
   </animation>
+  
+    <animation>
+    <type>select</type>
+    <object-name>left-MICA-IR</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>Matra MICA IR</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[2]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
 
   <!-- Sea Eagle -->
   <animation>
@@ -645,6 +662,23 @@
         <equals>
           <property>sim/weight[4]/selected</property>
           <value>Matra MICA</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[4]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+    <animation>
+    <type>select</type>
+    <object-name>right-MICA-IR</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[4]/selected</property>
+          <value>Matra MICA IR</value>
         </equals>
         <equals>
           <property>controls/armament/station[4]/release</property>

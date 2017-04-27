@@ -194,6 +194,16 @@
       <z-m>-1.556</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>left-MICA-IR</name>
+    <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml</path>
+    <offsets>
+      <x-m> 1.047</x-m>
+      <y-m>-2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
 
   <model>
     <name>Sea_EagleL</name>
@@ -392,6 +402,16 @@
   <model>
     <name>right-MICA</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</path>
+    <offsets>
+      <x-m> 1.047</x-m>
+      <y-m> 2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
+  
+  <model>
+    <name>right-MICA-IR</name>
+    <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml</path>
     <offsets>
       <x-m> 1.047</x-m>
       <y-m> 2.359</y-m>
