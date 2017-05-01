@@ -1734,7 +1734,7 @@
     </axis>
   </animation>
 
-  <!-- Ajout des effets lumineux --> 
+  <!-- Ajout des effets lumineux -->
   <!-- top Vert stab -->
   <model>
     <path>Aircraft/Mirage-2000/Models/lights/StrobeWhite.xml</path>

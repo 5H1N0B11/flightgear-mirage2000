@@ -75,18 +75,19 @@
       <pitch-deg> 90 </pitch-deg>
     </offsets>
   </model>
-  
 
   <animation>
     <type>select</type>
     <object-name>EffectTopRight</object-name>
     <condition>
       <and>
-       <property>sim/rendering/rembrandt/enabled</property>
-       <not><equals>
-          <property>/systems/electrical/outputs/boardLightUV</property>
-          <value>0</value>
-       </equals></not>
+        <property>sim/rendering/rembrandt/enabled</property>
+        <not>
+          <equals>
+            <property>/systems/electrical/outputs/boardLightUV</property>
+            <value>0</value>
+          </equals>
+        </not>
       </and>
     </condition>
   </animation>
@@ -107,16 +108,17 @@
     <type>select</type>
     <object-name>banqRight</object-name>
     <condition>
-        <and>
-       <property>sim/rendering/rembrandt/enabled</property>
-       <not><equals>
-          <property>/systems/electrical/outputs/sideLightUV</property>
-          <value>0</value>
-       </equals></not>
+      <and>
+        <property>sim/rendering/rembrandt/enabled</property>
+        <not>
+          <equals>
+            <property>/systems/electrical/outputs/sideLightUV</property>
+            <value>0</value>
+          </equals>
+        </not>
       </and>
     </condition>
   </animation>
-
 
   <!-- MFD Left -->
   <model>

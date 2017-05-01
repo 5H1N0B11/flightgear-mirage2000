@@ -26,12 +26,11 @@ var engine1 = engines.Jet.new(0, 0, 0.01, 20, 3, 5, 30, 15);
 #var RDI
 #var RDY
 
-var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160],NewRangeIndex:1,forcePath:"instrumentation/radar2/targets",NewAutoUpdate:1);
-var LaserDetection = radar.Radar.new(NewRangeTab:[20],NewVerticalAzimuth:180,NewRangeIndex:0,NewTypeTarget:["aircraft","multiplayer","carrier","ship","missile","aim120","aim-9"],NewRadarType:"laser", NewhaveSweep:0,NewAutoUpdate:0,forcePath:"instrumentation/radar2/targets");
-setprop("/instrumentation/radar/az-fieldCenter",0);
+var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:1, forcePath:"instrumentation/radar2/targets", NewAutoUpdate:1);
+var LaserDetection = radar.Radar.new(NewRangeTab:[20], NewVerticalAzimuth:180, NewRangeIndex:0, NewTypeTarget:["aircraft", "multiplayer", "carrier", "ship", "missile", "aim120", "aim-9"], NewRadarType:"laser", NewhaveSweep:0, NewAutoUpdate:0, forcePath:"instrumentation/radar2/targets");
+setprop("/instrumentation/radar/az-fieldCenter", 0);
 
-var InitListener = setlistener("/sim/signals/fdm-initialized", func
-{
+var InitListener = setlistener("/sim/signals/fdm-initialized", func() {
     settimer(main_Init_Loop, 5.0);
     removelistener(InitListener);
 });
@@ -84,12 +83,11 @@ var main_Init_Loop = func()
     
     print("MFD ... Check");
     
-    settimer(mirage2000.setCentralMFD,10);
+    settimer(mirage2000.setCentralMFD, 10);
     if(getprop("/instrumentation/efis/Mode"))
     {
-      mirage2000.mdfselection();
+        mirage2000.mdfselection();
     }
-        
 }
 
 var UpdateMain = func
@@ -282,27 +280,26 @@ var fuel_managment = func()
 #######################################################################################
 
 ############################ roll out and shake effect ##################################
-var shakeEffect2000 = props.globals.initNode("controls/cabin/shake-effect",0,"BOOL");
-var shake2000     = props.globals.initNode("controls/cabin/shaking",0,"DOUBLE");
-
+var shakeEffect2000 = props.globals.initNode("controls/cabin/shake-effect", 0, "BOOL");
+var shake2000       = props.globals.initNode("controls/cabin/shaking", 0, "DOUBLE");
 
 var theShakeEffect = func() {
     #ge_a_r = getprop("sim/multiplay/generic/float[1]") or 0;
-    rSpeed = getprop("/velocities/airspeed-kt") or 0;
-    var G = getprop("/accelerations/pilot-g");
-    var alpha    = getprop("/orientation/alpha-deg");
-    var mach    = getprop("velocities/mach");
-    var wow = getprop("/gear/gear[1]/wow");
-    var gun  = getprop("controls/armament/Gun_trigger");
-    var myTime = getprop("/sim/time/elapsed-sec");
+    rSpeed          = getprop("/velocities/airspeed-kt") or 0;
+    var G           = getprop("/accelerations/pilot-g");
+    var alpha       = getprop("/orientation/alpha-deg");
+    var mach        = getprop("velocities/mach");
+    var wow         = getprop("/gear/gear[1]/wow");
+    var gun         = getprop("controls/armament/Gun_trigger");
+    var myTime      = getprop("/sim/time/elapsed-sec");
     
-    #sf = ((rSpeed / 500000 + G/25000 + alpha/20000 )/3) ;
-    #I want to find a way to improve vibration amplitude with sf, but to tired actually to make it.
+    #sf = ((rSpeed / 500000 + G / 25000 + alpha / 20000 ) / 3) ;
+    # I want to find a way to improve vibration amplitude with sf, but to tired actually to make it.
     
-    if(shakeEffect2000.getBoolValue() and (((G > 7 or alpha>20) and rSpeed > 30) or (mach > 0.99 and mach < 1.01) or (wow and rSpeed > 100) or gun))
+    if(shakeEffect2000.getBoolValue() and (((G > 7 or alpha > 20) and rSpeed > 30) or (mach > 0.99 and mach < 1.01) or (wow and rSpeed > 100) or gun))
     {
         #print("it is working.");
-        setprop("controls/cabin/shaking", math.sin(48 * myTime) / 333.333);  
+        setprop("controls/cabin/shaking", math.sin(48 * myTime) / 333.333);
     }
     else
     {
@@ -311,7 +308,7 @@ var theShakeEffect = func() {
 }
 
 var setCentralMFD = func() {
-    setprop("/instrumentation/efis/Mode",1);
+    setprop("/instrumentation/efis/Mode", 1);
     if(getprop("/instrumentation/efis/Mode"))
     {
         mirage2000.mdfselection();

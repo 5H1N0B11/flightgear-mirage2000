@@ -11,41 +11,41 @@
 
     <object-name>Rainintvitres2</object-name>
     <object-name>Rainintverriere2</object-name>
-  
+
     <object-name>Rainintvitres3</object-name>
     <object-name>Rainintverriere3</object-name>
-  </animation>    
-  
+  </animation>
+
   <effect>
     <inherits-from>Effects/model-transparent</inherits-from>
     <object-name>Rainintvitres1</object-name>
     <object-name>Rainintverriere1</object-name>
-    
+
     <object-name>Rainintvitres2</object-name>
     <object-name>Rainintverriere2</object-name>
-    
+
     <object-name>Rainintvitres3</object-name>
     <object-name>Rainintverriere3</object-name>
   </effect>
-  
+
   <animation>
     <name>ensemble1</name>
     <object-name>Rainintvitres1</object-name>
     <object-name>Rainintverriere1</object-name>
   </animation>
-  
+
   <animation>
     <name>ensemble2</name>
     <object-name>Rainintvitres2</object-name>
     <object-name>Rainintverriere2</object-name>
   </animation>
-  
+
   <animation>
     <name>ensemble3</name>
     <object-name>Rainintvitres3</object-name>
     <object-name>Rainintverriere3</object-name>
   </animation>
-  
+
   <animation>
     <type>timed</type>
     <object-name>ensemble1</object-name>
@@ -56,7 +56,7 @@
     <branch-duration-sec>0.1</branch-duration-sec>
     <branch-duration-sec>0.1</branch-duration-sec>
   </animation>
-  
+
   <!-- Animation windows -->
   <!-- Canopy -->
   <animation>

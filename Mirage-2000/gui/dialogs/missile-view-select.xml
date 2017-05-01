@@ -52,7 +52,7 @@
   </nasal>
 
   <list>
-    <legend/>
+    <legend />
     <pref-height>100</pref-height>
     <pref-width>250</pref-width>
     <border>0</border>
@@ -68,4 +68,5 @@
       <command>dialog-close</command>
     </binding>
   </list>
+
 </PropertyList>

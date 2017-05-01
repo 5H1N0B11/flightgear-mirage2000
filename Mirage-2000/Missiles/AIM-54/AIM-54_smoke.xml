@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-
   <path>Aircraft/Mirage-2000/Missiles/AIM-54/aim-54.ac</path>
-
   <animation>
     <!-- Objets opaques -->
     <object-name>aim-54-6</object-name>
-
     <!-- Objets transparents -->
   </animation>
-
-
   <model>
     <path>Aircraft/Mirage-2000/Missiles/AIM-54/smoke.xml</path>
     <offsets>
@@ -23,6 +17,4 @@
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>
-
 </PropertyList>
-

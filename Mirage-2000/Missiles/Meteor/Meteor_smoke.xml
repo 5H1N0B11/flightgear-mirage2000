@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-
   <path>Aircraft/Mirage-2000/Missiles/Meteor/meteor.ac</path>
-
   <model>
     <path>Aircraft/Mirage-2000/Missiles/Meteor/smoke.xml</path>
     <offsets>
@@ -15,6 +12,4 @@
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>
-
 </PropertyList>
-

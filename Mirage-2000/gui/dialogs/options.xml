@@ -6,26 +6,26 @@
   <name>options</name>
   <modal type="bool">false</modal>
   <layout>vbox</layout>
-  
+
   <group>
     <layout>hbox</layout>
     <empty>
       <stretch>1</stretch>
     </empty>
-    
+
     <text>
       <label>Options</label>
     </text>
-    
+
     <empty>
       <stretch>1</stretch>
     </empty>
-    
+
     <button>
       <pref-width>16</pref-width>
       <pref-height>16</pref-height>
-      <legend></legend>
-      
+      <legend />
+
       <default>1</default>
       <keynum>27</keynum>
       <border>2</border>
@@ -37,9 +37,9 @@
       </binding>
     </button>
   </group>
-  
+
   <hrule />
-  
+
   <group>
     <layout>hbox</layout>
     <text><label>Show Pilot</label></text>
@@ -67,7 +67,7 @@
   </group>
 
   <hrule />
-  
+
   <button>
     <legend>Toggle ground equipment</legend>
     <binding>
@@ -75,9 +75,9 @@
       <property>/controls/ground-equipment</property>
     </binding>
   </button>
-  
+
   <hrule />
-  
+
     <group>
     <layout>hbox</layout>
     <text><label>Command Bug</label></text>
@@ -90,9 +90,9 @@
       </binding>
     </checkbox>
   </group>
-  
+
   <hrule />
-  
+
   <group>
     <layout>hbox</layout>
     <text><label>CANVAS MFD</label></text>
@@ -111,7 +111,7 @@
       </binding>
     </checkbox>
   </group>
-  
+
   <hrule />
   <text><label>Fly-by-wire</label></text>
   <group>
@@ -122,7 +122,7 @@
       <text><label>Auto trim</label></text>
       <text><label>A/A - CHARGES</label></text>
     </group>
-    
+
     <group>
       <layout>vbox</layout>
       <halign>right</halign>
@@ -147,13 +147,13 @@
       </slider>
     </group>
   </group>
-  
+
   <hrule />
-  
-   <group>
+
+  <group>
     <layout>hbox</layout>
     <group><text><label>HUD</label></text></group>
-    
+
     <group>
     <layout>vbox</layout>
     <halign>right</halign>
@@ -170,9 +170,9 @@
       </slider>
       </group>
   </group>
-    
-    <hrule />
-  
+
+  <hrule />
+
   <button>
     <legend>MAP (test)</legend>
     <binding>
@@ -180,17 +180,19 @@
       <script>mirage2000.createMap()</script>
     </binding>
   </button>
-  
-<!--  <button>
+
+<!--
+  <button>
     <legend>Type</legend>
     <binding>
       <command>nasal</command>
       <script>mirage2000.changeindex()</script>
     </binding>
-  </button>-->
-  
+  </button>
+-->
+
   <hrule />
-  
+
   <button>
     <legend>REPAIR</legend>
     <binding>

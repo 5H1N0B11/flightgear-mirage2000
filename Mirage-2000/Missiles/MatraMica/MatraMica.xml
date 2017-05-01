@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-
   <!-- Source   : http://en.wikipedia.org/wiki/MICA_(missile)
                 : http://www.aviationsmilitaires.net/display/missile/126
 
@@ -13,22 +11,16 @@
        Wingspan : 0.560 m
        Weight   : 112 kg (246.91 lb)
   -->
-
   <path>Aircraft/Mirage-2000/Missiles/MatraMica/mica_em.ac</path>
-
- <!-- <animation>-->
-    <!-- Objets opaques -->
-<!--    <object-name>Mica</object-name>
-    <object-name>MicaAilettes</object-name>-->
-
-    <!-- Objets transparents -->
+  <!-- <animation>-->
+  <!-- Objets opaques -->
+  <!--
+    <object-name>Mica</object-name>
+    <object-name>MicaAilettes</object-name>
+-->
+  <!-- Objets transparents -->
   <!--</animation>-->
-
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>
-
-
-
 </PropertyList>
-

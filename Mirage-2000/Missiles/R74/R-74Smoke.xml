@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-
   <path>R-74Smoke.ac</path>
-
   <animation>
     <type>dist-scale</type>
     <object-name>r-74</object-name>
@@ -22,17 +19,15 @@
       </entry>
     </interpolation>
   </animation>
-
   <animation>
     <type>material</type>
     <object-name>flame</object-name>
     <emission>
-      <red>   255 </red>
-      <green> 255 </green>
-      <blue>  254 </blue>
+      <red>255</red>
+      <green>255</green>
+      <blue>254</blue>
     </emission>
   </animation>
-
   <model>
     <path>Aircraft/Mirage-2000/Missiles/R74/smoke.xml</path>
     <offsets>
@@ -41,5 +36,4 @@
       <z-m>0</z-m>
     </offsets>
   </model>
-
 </PropertyList>

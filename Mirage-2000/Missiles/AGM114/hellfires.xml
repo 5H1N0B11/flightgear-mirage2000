@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-
   <path>hellfires.ac</path>
   <animation>
     <type>select</type>
@@ -16,5 +14,4 @@
     <min-m>0</min-m>
     <max-m>150</max-m>
   </animation>
-
 </PropertyList>

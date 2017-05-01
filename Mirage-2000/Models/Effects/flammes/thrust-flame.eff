@@ -42,7 +42,7 @@
         <or>
           <less-equal>
             <value type="float">2.0</value>
-            <glversion/>
+            <glversion />
           </less-equal>
           <and>
             <extension-supported>GL_ARB_shader_objects</extension-supported>

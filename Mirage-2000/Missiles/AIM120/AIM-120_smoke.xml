@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-
   <path>Aircraft/Mirage-2000/Missiles/AIM-120/AIM-120C5.ac</path>
   <animation>
     <object-name>AIM-120C5</object-name>
   </animation>
-
   <model>
     <path>Aircraft/Mirage-2000/Missiles/AIM-120/smoke.xml</path>
     <offsets>
@@ -17,7 +14,5 @@
   </model>
   <animation>
     <enable-hot type="bool">false</enable-hot>
-
   </animation>
-
 </PropertyList>

@@ -9,9 +9,7 @@ Length  6.3 m
 Warhead Semiactive Radarhoming
 -->
 <PropertyList>
-
   <path>R40.ac</path>
-
   <animation>
     <type>select</type>
     <object-name>RD-40</object-name>
@@ -21,7 +19,6 @@ Warhead Semiactive Radarhoming
       </not>
     </condition>
   </animation>
-
   <!-- Smoke -->
   <model>
     <path>Aircraft/DavePack/Stores/FFAR/smoke.xml</path>
@@ -31,6 +28,4 @@ Warhead Semiactive Radarhoming
       <z-m>0.0</z-m>
     </offsets>
   </model>
-
 </PropertyList>
-

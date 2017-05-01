@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <!-- R40 AIM (USSR)
 R40
   Type    long range
@@ -9,10 +8,6 @@ R40
   Length  6.3 m
   Warhead Semiactive Radarhoming
 -->
-
 <PropertyList>
-
   <path>R40.ac</path>
-
 </PropertyList>
-

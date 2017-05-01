@@ -592,8 +592,8 @@ var computeSAS = func() {
         {
             myMaxRoll = myMaxRoll / 2;
         }
-        #lowering the roll at high alt
-         if(myalt>45000)
+        # lowering the roll at high alt
+        if(myalt > 45000)
         {
             myMaxRoll = myMaxRoll / 2;
         }

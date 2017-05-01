@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-  
   <name>thrust-flame</name>
-  
   <parameters>
     <texture n="0">
       <type>white</type>
     </texture>
-    
     <flame_radius_fraction type="float">0.2</flame_radius_fraction>
     <thrust_collimation type="float">0.1</thrust_collimation>
     <thrust_density type="float">0.5</thrust_density>
@@ -28,13 +24,22 @@
     <deflection_coeff type="float">0.0</deflection_coeff>
     <use_shocks type="int">1</use_shocks>
     <use_noise type="int">1</use_noise>
-    <visibility><use>/environment/ground-visibility-m</use></visibility>
-    <avisibility><use>/environment/visibility-m</use></avisibility>
-    <lthickness><use>/environment/ground-haze-thickness-m</use></lthickness>
-    <terrain_alt><use>/environment/mean-terrain-elevation-m</use></terrain_alt>
-    <eye_alt><use>/sim/rendering/eye-altitude-m</use></eye_alt>
+    <visibility>
+      <use>/environment/ground-visibility-m</use>
+    </visibility>
+    <avisibility>
+      <use>/environment/visibility-m</use>
+    </avisibility>
+    <lthickness>
+      <use>/environment/ground-haze-thickness-m</use>
+    </lthickness>
+    <terrain_alt>
+      <use>/environment/mean-terrain-elevation-m</use>
+    </terrain_alt>
+    <eye_alt>
+      <use>/sim/rendering/eye-altitude-m</use>
+    </eye_alt>
   </parameters>
-  
   <technique n="4">
     <predicate>
       <and>
@@ -42,7 +47,7 @@
         <or>
           <less-equal>
             <value type="float">2.0</value>
-            <glversion/>
+            <glversion />
           </less-equal>
           <and>
             <extension-supported>GL_ARB_shader_objects</extension-supported>
@@ -53,41 +58,77 @@
         </or>
       </and>
     </predicate>
-
     <pass>
       <lighting>true</lighting>
       <material>
-        <active><use>material/active</use></active>
-        <ambient><use>material/ambient</use></ambient>
-        <diffuse><use>material/diffuse</use></diffuse>
-        <specular><use>material/specular</use></specular>
-        <emissive><use>material/emissive</use></emissive>
-        <shininess><use>material/shininess</use></shininess>
-        <color-mode><use>material/color-mode</use></color-mode>
+        <active>
+          <use>material/active</use>
+        </active>
+        <ambient>
+          <use>material/ambient</use>
+        </ambient>
+        <diffuse>
+          <use>material/diffuse</use>
+        </diffuse>
+        <specular>
+          <use>material/specular</use>
+        </specular>
+        <emissive>
+          <use>material/emissive</use>
+        </emissive>
+        <shininess>
+          <use>material/shininess</use>
+        </shininess>
+        <color-mode>
+          <use>material/color-mode</use>
+        </color-mode>
       </material>
       <blend>
-        <active><use>blend/active</use></active>
-        <source><use>blend/source</use></source>
-        <destination><use>blend/destination</use></destination>
+        <active>
+          <use>blend/active</use>
+        </active>
+        <source>
+          <use>blend/source</use>
+        </source>
+        <destination>
+          <use>blend/destination</use>
+        </destination>
       </blend>
-      <shade-model><use>shade-model</use></shade-model>
-      <cull-face><use>cull-face</use></cull-face>
-      <rendering-hint><use>rendering-hint</use></rendering-hint>
+      <shade-model>
+        <use>shade-model</use>
+      </shade-model>
+      <cull-face>
+        <use>cull-face</use>
+      </cull-face>
+      <rendering-hint>
+        <use>rendering-hint</use>
+      </rendering-hint>
       <render-bin>
         <bin-number>111</bin-number>
         <bin-name>DepthSortedBin</bin-name>
       </render-bin>
-
       <texture-unit>
         <!-- The texture unit is always active because the shaders expect
         that. -->
         <unit>0</unit>
-        <active><use>texture[0]/active</use></active>
-        <type><use>texture[0]/type</use></type>
-        <image><use>texture[0]/image</use></image>
-        <filter><use>texture[0]/filter</use></filter>
-        <wrap-s><use>texture[0]/wrap-s</use></wrap-s>
-        <wrap-t><use>texture[0]/wrap-t</use></wrap-t>
+        <active>
+          <use>texture[0]/active</use>
+        </active>
+        <type>
+          <use>texture[0]/type</use>
+        </type>
+        <image>
+          <use>texture[0]/image</use>
+        </image>
+        <filter>
+          <use>texture[0]/filter</use>
+        </filter>
+        <wrap-s>
+          <use>texture[0]/wrap-s</use>
+        </wrap-s>
+        <wrap-t>
+          <use>texture[0]/wrap-t</use>
+        </wrap-t>
         <internal-format>
           <use>texture[0]/internal-format</use>
         </internal-format>
@@ -101,134 +142,151 @@
         <fragment-shader>Aircraft/Mirage-2000/Models/Effects/flammes/thrustflame-ALS.frag</fragment-shader>
         <fragment-shader>Shaders/noise.frag</fragment-shader>
       </program>
-      
       <uniform>
         <name>flame_radius_fraction</name>
         <type>float</type>
-        <value><use>flame_radius_fraction</use></value>
+        <value>
+          <use>flame_radius_fraction</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>thrust_collimation</name>
         <type>float</type>
-        <value><use>thrust_collimation</use></value>
+        <value>
+          <use>thrust_collimation</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>thrust_density</name>
         <type>float</type>
-        <value><use>thrust_density</use></value>
+        <value>
+          <use>thrust_density</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>base_flame_density</name>
         <type>float</type>
-        <value><use>base_flame_density</use></value>
+        <value>
+          <use>base_flame_density</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>shock_frequency</name>
         <type>float</type>
-        <value><use>shock_frequency</use></value>
+        <value>
+          <use>shock_frequency</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>noise_strength</name>
         <type>float</type>
-        <value><use>noise_strength</use></value>
+        <value>
+          <use>noise_strength</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>noise_scale</name>
         <type>float</type>
-        <value><use>noise_scale</use></value>
+        <value>
+          <use>noise_scale</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>flame_color_low_r</name>
         <type>float</type>
-        <value><use>flame_color_low_r</use></value>
+        <value>
+          <use>flame_color_low_r</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>flame_color_low_g</name>
         <type>float</type>
-        <value><use>flame_color_low_g</use></value>
+        <value>
+          <use>flame_color_low_g</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>flame_color_low_b</name>
         <type>float</type>
-        <value><use>flame_color_low_b</use></value>
+        <value>
+          <use>flame_color_low_b</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>flame_color_high_r</name>
         <type>float</type>
-        <value><use>flame_color_high_r</use></value>
+        <value>
+          <use>flame_color_high_r</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>flame_color_high_g</name>
         <type>float</type>
-        <value><use>flame_color_high_g</use></value>
+        <value>
+          <use>flame_color_high_g</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>flame_color_high_b</name>
         <type>float</type>
-        <value><use>flame_color_high_b</use></value>
+        <value>
+          <use>flame_color_high_b</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>base_flame_r</name>
         <type>float</type>
-        <value><use>base_flame_r</use></value>
+        <value>
+          <use>base_flame_r</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>base_flame_g</name>
         <type>float</type>
-        <value><use>base_flame_g</use></value>
+        <value>
+          <use>base_flame_g</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>base_flame_b</name>
         <type>float</type>
-        <value><use>base_flame_b</use></value>
+        <value>
+          <use>base_flame_b</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>deflection_coeff</name>
         <type>float</type>
-        <value><use>deflection_coeff</use></value>
+        <value>
+          <use>deflection_coeff</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>use_shocks</name>
         <type>int</type>
-        <value><use>use_shocks</use></value>
+        <value>
+          <use>use_shocks</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>use_noise</name>
         <type>int</type>
-        <value><use>use_noise</use></value>
+        <value>
+          <use>use_noise</use>
+        </value>
       </uniform>
-
       <uniform>
         <name>texture</name>
         <type>sampler-2d</type>
         <value type="int">0</value>
       </uniform>
-
       <uniform>
         <name>colorMode</name>
         <type>int</type>
-        <value><use>material/color-mode-uniform</use></value>
+        <value>
+          <use>material/color-mode-uniform</use>
+        </value>
       </uniform>
     </pass>
-    
   </technique>
-  
 </PropertyList>

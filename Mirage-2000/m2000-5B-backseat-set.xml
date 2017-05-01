@@ -34,7 +34,7 @@
     <!-- ~~~~~~~~~~~~~~~~~~ sound -->
     <sound>
       <audible>false</audible>
-      <path/>
+      <path />
     </sound>
 
     <!-- ~~~~~~~~~~~~~~~~~~ menu -->
@@ -90,25 +90,17 @@
         <int type="int"       n="3"> 0 </int>
         <int type="int"       n="4"> 0 </int>
         <int type="int"       n="5"> 0 </int>
-        <!-- 6 : start smoke -->
-        <!--<int type="bool"      n="6" alias="/controls/armament/smoke/active"> 0 </int>--> <!--Passed now via decode_bool-->
-        <!-- 7 : particlepersec -->
-        <!-- <int type="int"       n="7" alias="/controls/armament/smoke/particlepersec"> 50 </int>-->
         <int type="int"       n="8" /> <!--This is bool encode/decode manager-->
         <!-- 10 : reserved for bombable mode -->
-        <int                  n="10" alias="/controls/armament/Gun_trigger"/>
-
-        <float                n="0"  alias="/sim/model/door-positions/crew/position-norm"/>
-        <float                n="1"  alias="/sim/model/door-positions/passenger/position-norm"/>
+        <int                  n="10" alias="/controls/armament/Gun_trigger" />
+        <float                n="0"  alias="/sim/model/door-positions/crew/position-norm" />
+        <float                n="1"  alias="/sim/model/door-positions/passenger/position-norm" />
         <!-- altitude for MP shadow -->
         <float                n="2"  alias="/position/gear-agl-m"> 0 </float>
         <float                n="3"  alias="/position/altitude-agl-ft"> 0 </float>
         <float                n="4"  alias="/engines/engine[0]/n1" />
         <float                n="5"  alias="/engines/engine[0]/n2" />
-        <float                n="7"  alias="/controls/engines/engine[0]/throttle"/>
-        <!-- <float                n="8"  alias="/gear/gear[0]/wow/" />
-        <float                n="9"  alias="/gear/gear[1]/wow/" />
-        <float                n="10" alias="/gear/gear[2]/wow/" />-->
+        <float                n="7"  alias="/controls/engines/engine[0]/throttle" />
         <float                n="11" alias="/gear/gear[0]/rollspeed-ms" />
         <float                n="12" alias="/gear/gear[1]/rollspeed-ms" />
         <float                n="13" alias="/gear/gear[2]/rollspeed-ms" />
@@ -122,7 +114,7 @@
         <string n="15" type="string"></string>
       </generic>
     </multiplay>
-    
+
   </sim>
 
   <!--

@@ -2,18 +2,18 @@
 
 <PropertyList>
   
-  <!--<autopilot include="m2000-5_autopilot.xml"/>-->
   <autopilot>
     <path>Aircraft/Mirage-2000/System/m2000-5_autopilot.xml</path>
   </autopilot>
   
   <electrical>
     <!-- note :
-      null electrical system path here so we can use a nasal based model defined
-      later in the nasal section of this file.
+    null electrical system path here so we can use a nasal based model defined
+    later in the nasal section of this file.
     -->
     <path></path>
   </electrical>
+
   <property-rule n="100">
     <path>Aircraft/Mirage-2000/System/views-Zoom.xml</path>
   </property-rule>
@@ -22,6 +22,5 @@
     <name>rain-drops</name>
     <path>Aircraft/Mirage-2000/System/rain-drops.xml</path>
   </property-rule>
-
 
 </PropertyList>

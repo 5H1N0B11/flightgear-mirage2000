@@ -138,7 +138,7 @@ Electrical_init = func()
     foreach(var a ; props.globals.getNode("/controls/lighting").getChildren())
     {
         a.setValue(1);
-    }  
+    }
     props.globals.getNode("/controls/lighting/landing-lights", 1).setBoolValue(0);
     props.globals.getNode("/controls/lighting/landing-lights[0]", 1).setBoolValue(0);
     props.globals.getNode("/controls/lighting/instrument-lights", 1).setBoolValue(1);
@@ -392,7 +392,7 @@ var electrical_bus = func(bus_volts)
     }
     
     #Belly Light
-     if(props.globals.getNode("/controls/lighting/strobeBelly").getBoolValue())
+    if(props.globals.getNode("/controls/lighting/strobeBelly").getBoolValue())
     {
         OutPuts.getNode("strobe2", 1).setValue(bus_volts);
         load += 0.000002;

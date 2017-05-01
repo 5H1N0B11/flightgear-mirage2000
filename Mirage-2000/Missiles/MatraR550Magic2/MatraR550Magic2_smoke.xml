@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-
   <!-- Source   : http://fr.wikipedia.org/wiki/Matra_R550_Magic_II
        Picture  : http://www.bharat-rakshak.com/IAF/Images/8410-1/Matra+Magic+II+on+an+overwing+pylon+of+a+Jaguar.jpg
 
@@ -9,23 +7,17 @@
        Diameter : 0.157 m
        Weight   : 89 kg (196.21 lb)
   -->
-
   <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.ac</path>
-
   <animation>
     <!-- Objets opaques -->
     <object-name>R550</object-name>
     <object-name>Magic2Ailettes</object-name>
-
     <!-- Objets transparents -->
   </animation>
-
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>
-
-
-    <model>
+  <model>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/combustion.xml</path>
     <offsets>
       <x-m>3</x-m>
@@ -33,8 +25,6 @@
       <z-m>0</z-m>
     </offsets>
   </model>
-  
-  
   <model>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/smoke.xml</path>
     <offsets>
@@ -43,6 +33,4 @@
       <z-m>0</z-m>
     </offsets>
   </model>
-
 </PropertyList>
-

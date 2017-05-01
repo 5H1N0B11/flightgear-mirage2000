@@ -37,18 +37,18 @@
       </binding>
     </button>
   </group>
-  
+
   <hrule />
 
-
-  
-  <!--  <button>
-  <legend>MP Shot Report</legend>
-  <binding>
-  <command>nasal</command>
-  <script>missile.MPReport()</script>
-  </binding>
-  </button>-->
+  <!--
+  <button>
+    <legend>MP Shot Report</legend>
+    <binding>
+      <command>nasal</command>
+      <script>missile.MPReport()</script>
+    </binding>
+  </button>
+  -->
   <group>
     <layout>hbox</layout>
     <text><label>MP Shot Report</label></text>
@@ -61,9 +61,9 @@
       </binding>
     </checkbox>
   </group>
-  
+
   <hrule />
-  
+
   <group>
     <layout>hbox</layout>
     <text><label>Activate Auto missile view</label></text>
@@ -76,9 +76,9 @@
         </binding>
     </checkbox>
   </group>
-  
+
   <hrule />
-  
+
   <button>
     <legend>Create a target</legend>
     <binding>
@@ -86,9 +86,9 @@
       <script>missile.targetingGround()</script>
     </binding>
   </button>
-  
+
   <hrule />
-  
+
   <button>
     <legend>Reload Gun</legend>
     <binding>
@@ -96,9 +96,9 @@
       <script>guns.reload_Cannon()</script>
     </binding>
   </button>
-  
-    
-<hrule />
+
+  <hrule />
+
   <text><label>Rate of Fire </label></text>
   <text><label>A/A => A/G => Lower..</label></text>
   <group>
@@ -129,16 +129,16 @@
       </slider>
     </group>
   </group>
-  
-<hrule />
-  
+
+  <hrule />
+
   <text>
     <label>Everything below is only available on GROUND!</label>
   </text>
   <text>
     <label>Select a Config below</label>
   </text>
-  
+
   <button>
     <legend>No load</legend>
     <binding>
@@ -181,7 +181,7 @@
       <script>m2000_load.AirToGround()</script>
     </binding>
   </button>
- <button>
+  <button>
     <legend>m2000N</legend>
     <binding>
       <command>nasal</command>

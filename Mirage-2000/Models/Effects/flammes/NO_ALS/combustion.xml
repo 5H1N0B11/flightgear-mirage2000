@@ -22,17 +22,17 @@
     <object-name>ReheatInner</object-name>
     <object-name>ReheatOuter</object-name>
   </animation>
-  
+
   <animation>
     <type>material</type>
     <object-name>HeatblurOuter</object-name>
-    <emission>  
+    <emission>
       <red>   0.4 </red>
       <green> 0.2 </green>
       <blue>  1.0 </blue>
     </emission>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>ExternalFlame</object-name>
@@ -98,7 +98,7 @@
       <z> 0 </z>
     </axis>
   </animation>
-  
+
   <!-- ############### NIGHT FLAMME ####################-->
   <animation>
     <type>material</type>

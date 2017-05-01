@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-
   <particlesystem>
-
     <name>explosion</name>
     <texture>smoke.png</texture>
-
     <emissive type="bool">true</emissive>
     <lighting type="bool">false</lighting>
-
     <attach>world</attach>
-
     <placer>
       <type>point</type>
     </placer>
-
     <shooter>
       <theta-min-deg>-180</theta-min-deg>
-      <theta-max-deg> 180</theta-max-deg>
-      <phi-min-deg>  -180</phi-min-deg>
-      <phi-max-deg>   180</phi-max-deg>
+      <theta-max-deg>180</theta-max-deg>
+      <phi-min-deg>-180</phi-min-deg>
+      <phi-max-deg>180</phi-max-deg>
       <speed-mps>
         <value>500</value>
         <spread>80</spread>
@@ -34,76 +27,78 @@
         <z-max-deg-sec>0</z-max-deg-sec>
       </rotation-speed>
     </shooter>
-
     <counter>
       <particles-per-sec>
         <value>30</value>
         <spread>10</spread>
       </particles-per-sec>
     </counter>
-
     <align>billboard</align>
-
     <particle>
       <start>
         <color>
-          <red><value>   1.0 </value></red>
-          <green><value> 1.0 </value></green>
-          <blue><value>  0.4 </value></blue>
-          <alpha><value> 1.0 </value></alpha>
+          <red>
+            <value>1.0</value>
+          </red>
+          <green>
+            <value>1.0</value>
+          </green>
+          <blue>
+            <value>0.4</value>
+          </blue>
+          <alpha>
+            <value>1.0</value>
+          </alpha>
         </color>
         <size>
           <value>2</value>
         </size>
       </start>
-
       <end>
         <color>
-          <red><value>   0.8 </value></red>
-          <green><value> 0.5 </value></green>
-          <blue><value>  0.2 </value></blue>
-          <alpha><value> 0.1 </value></alpha>
+          <red>
+            <value>0.8</value>
+          </red>
+          <green>
+            <value>0.5</value>
+          </green>
+          <blue>
+            <value>0.2</value>
+          </blue>
+          <alpha>
+            <value>0.1</value>
+          </alpha>
         </color>
         <size>
           <value>30</value>
         </size>
       </end>
-
       <life-sec>
         <value>0.5</value>
       </life-sec>
       <mass-kg>5</mass-kg>
       <radius-m>0.5</radius-m>
-
     </particle>
-
     <program>
-      <fluid>              air </fluid>
+      <fluid>air</fluid>
       <gravity type="bool">true</gravity>
-      <wind typ="bool">    true</wind>
+      <wind typ="bool">true</wind>
     </program>
-
   </particlesystem>
-
   <particlesystem>
-
     <name>explosion-smoke</name>
     <texture>smoke.png</texture>
-
     <emissive type="bool">false</emissive>
     <lighting type="bool">false</lighting>
-
     <attach>world</attach>
-
     <placer>
       <type>point</type>
     </placer>
-
     <shooter>
       <theta-min-deg>-180</theta-min-deg>
-      <theta-max-deg> 180</theta-max-deg>
-      <phi-min-deg>  -180</phi-min-deg>
-      <phi-max-deg>   180</phi-max-deg>
+      <theta-max-deg>180</theta-max-deg>
+      <phi-min-deg>-180</phi-min-deg>
+      <phi-max-deg>180</phi-max-deg>
       <speed-mps>
         <value>500</value>
         <spread>60</spread>
@@ -117,56 +112,62 @@
         <z-max-deg-sec>0</z-max-deg-sec>
       </rotation-speed>
     </shooter>
-
     <counter>
       <particles-per-sec>
         <value>50</value>
         <spread>10</spread>
       </particles-per-sec>
     </counter>
-
     <align>billboard</align>
-
     <particle>
       <start>
         <color>
-          <red><value>   0.30 </value></red>
-          <green><value> 0.30 </value></green>
-          <blue><value>  0.25 </value></blue>
-          <alpha><value> 0.50 </value></alpha>
+          <red>
+            <value>0.30</value>
+          </red>
+          <green>
+            <value>0.30</value>
+          </green>
+          <blue>
+            <value>0.25</value>
+          </blue>
+          <alpha>
+            <value>0.50</value>
+          </alpha>
         </color>
         <size>
           <value>10</value>
         </size>
       </start>
-
       <end>
         <color>
-          <red><value>   0.40 </value></red>
-          <green><value> 0.40 </value></green>
-          <blue><value>  0.40 </value></blue>
-          <alpha><value> 0.04 </value></alpha>
+          <red>
+            <value>0.40</value>
+          </red>
+          <green>
+            <value>0.40</value>
+          </green>
+          <blue>
+            <value>0.40</value>
+          </blue>
+          <alpha>
+            <value>0.04</value>
+          </alpha>
         </color>
         <size>
           <value>60</value>
         </size>
       </end>
-
       <life-sec>
         <value>40</value>
       </life-sec>
-
       <mass-kg>5</mass-kg>
       <radius-m>0.5</radius-m>
-
     </particle>
-
     <program>
-      <fluid>              air </fluid>
+      <fluid>air</fluid>
       <gravity type="bool">true</gravity>
-      <wind typ="bool">    true</wind>
+      <wind typ="bool">true</wind>
     </program>
-
   </particlesystem>
-
 </PropertyList>

@@ -486,8 +486,8 @@
 
   <filter>
     <!-- This LP filter is needed to smooth some noise in the
-         indicated altitude that causes the D controller to give
-         spurious results. -->
+      indicated altitude that causes the D controller to give
+      spurious results. -->
     <name>altitude-pid/LP</name>
     <type>exponential</type>
     <input>
@@ -568,33 +568,33 @@
     </sum></expression></reference>
     <output>/autopilot/settings/vertical-speed-fpm</output>
     <!-- Unlimited output, we rely on the pitch control to keep
-         reasonable values -->
+      reasonable values -->
   </filter>
 
   <!-- PID controller that sets the target pitch to maintain a given
-       vertical speed.
+  vertical speed.
 
-       Input:     /velocities/vertical-speed-fps
-       Reference: /autopilot/internal/gs-rate-fps (GS mode)
-       Reference: /autopilot/settings/vertical-speed-fpm (VS mode)
-       Internals: /autopilot/internal/vertical-speed-pid/*
-       Condition: /autopilot/locks/altitude == "GS" (GS mode)
-       Condition: /autopilot/locks/altitude == "VS" (VS mode)
-       Condition: /autopilot/internal/altitude-pid/enabled (VS mode)
-       Output:    /autopilot/settings/target-pitch-deg
+  Input:     /velocities/vertical-speed-fps
+  Reference: /autopilot/internal/gs-rate-fps (GS mode)
+  Reference: /autopilot/settings/vertical-speed-fpm (VS mode)
+  Internals: /autopilot/internal/vertical-speed-pid/*
+  Condition: /autopilot/locks/altitude == "GS" (GS mode)
+  Condition: /autopilot/locks/altitude == "VS" (VS mode)
+  Condition: /autopilot/internal/altitude-pid/enabled (VS mode)
+  Output:    /autopilot/settings/target-pitch-deg
 
-       At 200 kts, 5000 ft:
-       Ku: 0.67
-       Fu: 4.41 Hz
+  At 200 kts, 5000 ft:
+  Ku: 0.67
+  Fu: 4.41 Hz
 
-       At 700 kts, 40000 ft:
-       Ku: 0.34
-       Fu: 2.21 Hz
-       Safety margin: 50%
+  At 700 kts, 40000 ft:
+  Ku: 0.34
+  Fu: 2.21 Hz
+  Safety margin: 50%
 
-       Note that at high speed, the "standard no overshoot" formula
-       still gave unstable results. Hence the 50% safety margin from
-       the standard parameters.
+  Note that at high speed, the "standard no overshoot" formula
+  still gave unstable results. Hence the 50% safety margin from
+  the standard parameters.
   -->
   <logic>
     <input><equals>
@@ -623,7 +623,7 @@
 
   <filter>
     <!-- At low speeds, we want to allow higher pitch values to
-         compensate for the lowered lift. -->
+    compensate for the lowered lift. -->
     <name>vertical-speed-pid/output-limits-offset</name>
     <type>gain</type>
     <input><expression><table>
@@ -658,8 +658,8 @@
 
   <filter>
     <!-- This LP filter is needed to smooth some noise in the
-         indicated altitude that causes the D controller to give
-         spurious results. -->
+    indicated altitude that causes the D controller to give
+    spurious results. -->
     <name>vertical-speed-pid/LP</name>
     <type>exponential</type>
     <input>/velocities/vertical-speed-fps</input>

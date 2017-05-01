@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <PropertyList>
-
   <!-- Source   : http://en.wikipedia.org/wiki/MICA_(missile)
                 : http://www.aviationsmilitaires.net/display/missile/126
 
@@ -13,23 +11,17 @@
        Wingspan : 0.560 m
        Weight   : 112 kg (246.91 lb)
   -->
-
   <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/mica_ir.ac</path>
-
-<!--  <animation>-->
-    <!-- Objets opaques -->
-<!--    <object-name>Mica</object-name>
+  <!--  <animation>-->
+  <!-- Objets opaques -->
+  <!--    <object-name>Mica</object-name>
     <object-name>MicaAilettes</object-name>-->
-
-    <!-- Objets transparents -->
-<!--  </animation>-->
+  <!-- Objets transparents -->
+  <!--  </animation>-->
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>
-
-
-
-<!--  <model>
+  <!--  <model>
     <path>Aircraft/Mirage-2000/Missiles/MatraMica/smoke.xml</path>
     <offsets>
       <x-m>3</x-m>
@@ -37,8 +29,7 @@
       <z-m>0</z-m>
     </offsets>
   </model>-->
-  
- <model>
+  <model>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/combustion.xml</path>
     <offsets>
       <x-m>3</x-m>
@@ -46,9 +37,6 @@
       <z-m>0</z-m>
     </offsets>
   </model>
-  
-  
-  
   <model>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/smoke.xml</path>
     <offsets>
@@ -57,6 +45,4 @@
       <z-m>0</z-m>
     </offsets>
   </model>
-
 </PropertyList>
-

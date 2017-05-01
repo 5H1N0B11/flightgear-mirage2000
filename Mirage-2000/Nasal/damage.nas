@@ -227,12 +227,12 @@ var incoming_listener = func() {
                         {
                             var dist = distance;
                             
-                            if (type == "M90")
+                            if(type == "M90")
                             {
                                 var prob = rand()*0.5;
                                 var failed = fail_systems(prob);
                                 var percent = 100 * prob;
-                                printf("Took %.1f%% damage from %s clusterbombs at %0.1f meters. %s systems was hit", percent,type,dist,failed);
+                                printf("Took %.1f%% damage from %s clusterbombs at %0.1f meters. %s systems was hit", percent, type, dist, failed);
                                 nearby_explosion();
                                 return;
                             }
@@ -258,7 +258,7 @@ var incoming_listener = func() {
                             
                             var failed = fail_systems(probability);
                             var percent = 100 * probability;
-                            printf("Took %.1f%% damage from %s missile at %0.1f meters. %s systems was hit", percent,type,dist,failed);
+                            printf("Took %.1f%% damage from %s missile at %0.1f meters. %s systems was hit", percent, type, dist, failed);
                             nearby_explosion();
                         }
                     }
@@ -275,7 +275,7 @@ var incoming_listener = func() {
                             if(hit_count != nil)
                             {
                                 var damaged_sys = 0;
-                                for(var i = 1; i <= hit_count; i = i + 1)
+                                for(var i = 1; i <= hit_count; i += 1)
                                 {
                                     var failed = fail_systems(probability);
                                     damaged_sys = damaged_sys + failed;
@@ -309,7 +309,7 @@ var fail_systems = func(probability) {
     var failure_modes = FailureMgr._failmgr.failure_modes;
     var mode_list = keys(failure_modes);
     var failed = 0;
-    foreach(var failure_mode_id; mode_list)
+    foreach(var failure_mode_id ; mode_list)
     {
         if(rand() < probability)
         {
@@ -322,11 +322,11 @@ var fail_systems = func(probability) {
 
 var playIncomingSound = func(clock) {
     setprop("sound/incoming"~ clock, 1);
-    settimer(func {stopIncomingSound(clock);}, 3);
+    settimer(func() {stopIncomingSound(clock);}, 3);
 }
 
-var stopIncomingSound = func (clock) {
-   setprop("sound/incoming"~ clock, 0);
+var stopIncomingSound = func(clock) {
+    setprop("sound/incoming"~ clock, 0);
 }
 
 var nearby_explosion = func() {
@@ -352,7 +352,7 @@ var getCallsign = func(callsign) {
 var processCallsigns = func() {
     callsign_struct = {};
     var players = props.globals.getNode("ai/models").getChildren();
-    foreach (var player; players)
+    foreach(var player ; players)
     {
         if(player.getChild("valid") != nil
             and player.getChild("valid").getValue() == TRUE
@@ -373,7 +373,7 @@ processCallsigns();
 var sendMis = func() {
     var mkeys = keys(missile.MISSILE.active);
     var str = "";
-    foreach(var m; mkeys)
+    foreach(var m ; mkeys)
     {
         var mid = m;
         m = missile.MISSILE.active[m];
@@ -444,12 +444,12 @@ var ll = 0;
 
 var code_ct = func() {
     var cu = getprop("sim/ct/c-u");
-    if (cu == nil or cu != 1)
+    if(cu == nil or cu != 1)
     {
         cu = 0;
     }
     var a = getprop("sim/ct/a");
-    if (a == nil or a != 1)
+    if(a == nil or a != 1)
     {
         a = 0;
     }
@@ -468,10 +468,10 @@ var code_ct = func() {
         ff = 0;
     }
     var cl = getprop("sim/weight[0]/weight-lb") + getprop("sim/weight[1]/weight-lb")
-           + getprop("sim/weight[2]/weight-lb") + getprop("sim/weight[3]/weight-lb")
-           + getprop("sim/weight[4]/weight-lb") + getprop("sim/weight[5]/weight-lb")
-           + getprop("sim/weight[6]/weight-lb") + getprop("sim/weight[7]/weight-lb")
-           + getprop("sim/weight[8]/weight-lb");
+        + getprop("sim/weight[2]/weight-lb") + getprop("sim/weight[3]/weight-lb")
+        + getprop("sim/weight[4]/weight-lb") + getprop("sim/weight[5]/weight-lb")
+        + getprop("sim/weight[6]/weight-lb") + getprop("sim/weight[7]/weight-lb")
+        + getprop("sim/weight[8]/weight-lb");
     if(cl > (ll * 1.05) and getprop("gear/gear[0]/wow") != TRUE)
     {
         setprop("sim/ct/rl", 1);
@@ -488,10 +488,10 @@ var code_ct = func() {
         rp = 0;
     }
     var cf = getprop("/consumables/fuel/tank[0]/level-gal_us")
-           + getprop("/consumables/fuel/tank[1]/level-gal_us")
-           + getprop("/consumables/fuel/tank[2]/level-gal_us")
-           + getprop("/consumables/fuel/tank[3]/level-gal_us")
-           + getprop("/consumables/fuel/tank[4]/level-gal_us");
+        + getprop("/consumables/fuel/tank[1]/level-gal_us")
+        + getprop("/consumables/fuel/tank[2]/level-gal_us")
+        + getprop("/consumables/fuel/tank[3]/level-gal_us")
+        + getprop("/consumables/fuel/tank[4]/level-gal_us");
     if(cf != nil and lf != -1 and cf > (lf * 1.1) and getprop("gear/gear[0]/wow") != TRUE and getprop("/systems/refuel/contact") == FALSE)
     {
         setprop("sim/ct/rf", 1);
@@ -501,7 +501,7 @@ var code_ct = func() {
     {
         rf = 0;
     }
-    lf = cf == nil ? 0 : cf;
+    lf = (cf == nil) ? 0 : cf;
     var dm = ! getprop("/controls/armament/mp-messaging");
     if(dm == nil or dm != 1)
     {
@@ -518,7 +518,7 @@ var code_ct = func() {
         rd = 0;
     }
     var ml = getprop("sim/ct/list");
-    if (ml == nil or ml != 1)
+    if(ml == nil or ml != 1)
     {
         ml = 0;
     }
@@ -540,7 +540,7 @@ var code_ct = func() {
 var not = func() {
     if(getprop("/controls/armament/mp-messaging") == TRUE and getprop("gear/gear[0]/wow") != TRUE)
     {
-        var ct = getprop("sim/multiplay/generic/string[15]") ;
+        var ct = getprop("sim/multiplay/generic/string[15]");
         var msg = "I might be chea"~"ting..";
         if(ct != nil)
         {
@@ -555,53 +555,53 @@ var not = func() {
                     settimer(not, 60);
                     return;
                 }
-                if(substr(bits,0,1) == "1")
+                if(substr(bits, 0, 1) == "1")
                 {
-                    msg = msg~"Used CTRL-U..";
+                    msg = msg ~"Used CTRL-U..";
                 }
-                if(substr(bits,1,1) == "1")
+                if(substr(bits, 1, 1) == "1")
                 {
-                    msg = msg~"Use fuelfreeze..";
+                    msg = msg ~"Use fuelfreeze..";
                 }
-                if(substr(bits,2,1) == "1")
+                if(substr(bits, 2, 1) == "1")
                 {
-                    msg = msg~"Reloaded in air..";
+                    msg = msg ~"Reloaded in air..";
                 }
-                if(substr(bits,3,1) == "1")
+                if(substr(bits, 3, 1) == "1")
                 {
-                    msg = msg~"Refueled in air..";
+                    msg = msg ~"Refueled in air..";
                 }
-                if(substr(bits,4,1) == "1")
+                if(substr(bits, 4, 1) == "1")
                 {
-                    msg = msg~"Repaired not on ground..";
+                    msg = msg ~"Repaired not on ground..";
                 }
-                if(substr(bits,5,1) == "1")
+                if(substr(bits, 5, 1) == "1")
                 {
-                    msg = msg~"Used timewarp..";
+                    msg = msg ~"Used timewarp..";
                 }
-                if(getprop("/controls/armament/mp-messaging") == FALSE and substr(bits,6,1) == "1")
+                if(getprop("/controls/armament/mp-messaging") == FALSE and substr(bits, 6, 1) == "1")
                 {
-                    msg = msg~"Have damage off..";
+                    msg = msg ~"Have damage off..";
                 }
                 if(substr(bits, 7, 1) == "1")
                 {
-                    msg = msg~"Have Terrain mask. off..";
+                    msg = msg ~"Have Terrain mask. off..";
                 }
                 if(substr(bits, 8, 1) == "1")
                 {
-                    msg = msg~"Have Doppler off..";
+                    msg = msg ~"Have Doppler off..";
                 }
                 if(substr(bits, 9, 1) == "1")
                 {
-                    msg = msg~"Had mp-list on..";
+                    msg = msg ~"Had mp-list on..";
                 }
                 if(substr(bits, 10, 1) == "1")
                 {
-                    msg = msg~"Had s-failures open..";
+                    msg = msg ~"Had s-failures open..";
                 }
                 if(substr(bits, 11, 1) == "1")
                 {
-                    msg = msg~"Had i-failures open..";
+                    msg = msg ~"Had i-failures open..";
                 }
             }
         }
@@ -633,13 +633,13 @@ var changeGuiLoad = func()
                 {
                     item.getNode("binding/command").setValue("nasal");
                     item.getNode("binding/dialog-name").remove();
-                    item.getNode("binding/script",1).setValue("missile.loadIFail()");
+                    item.getNode("binding/script", 1).setValue("missile.loadIFail()");
                 }
                 if(name.getValue() == searchname3)
                 {
                     item.getNode("binding/command").setValue("nasal");
                     item.getNode("binding/dialog-name").remove();
-                    item.getNode("binding/script",1).setValue("missile.loadSysFail()");
+                    item.getNode("binding/script", 1).setValue("missile.loadSysFail()");
                 }
             }
         }
@@ -676,7 +676,7 @@ var re_init = func() {
     var failure_modes = FailureMgr._failmgr.failure_modes;
     var mode_list = keys(failure_modes);
 
-    foreach(var failure_mode_id; mode_list)
+    foreach(var failure_mode_id ; mode_list)
     {
         FailureMgr.set_failure_level(failure_mode_id, 0);
     }

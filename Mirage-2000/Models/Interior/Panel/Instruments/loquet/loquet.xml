@@ -9,7 +9,7 @@
     <object-name>base</object-name>
     <object-name>loquet</object-name>
     <object-name>bouton</object-name>
-    
+
     <!-- Objets transparents -->
   </animation>
 
@@ -18,22 +18,7 @@
     <object-name>loquet</object-name>
     <object-name>bouton</object-name>
   </animation>
-<!--  
-  <animation>
-    <type>pick</type>
-    <object-name>bouton</object-name>
-    <visible>true</visible>
-    <action>
-      <button>0</button>
-      <repeatable>false</repeatable>
-      <binding>
-        <command>nasal</command>
-        <script>doors.move_canopy();</script>
-      </binding>
-    </action>
-  </animation>
--->
-  
+
   <animation>
     <type>rotate</type>
     <object-name>LoquetComplet</object-name>
@@ -57,5 +42,5 @@
       <z> 0 </z>
     </axis>
   </animation>
-  
+
 </PropertyList>

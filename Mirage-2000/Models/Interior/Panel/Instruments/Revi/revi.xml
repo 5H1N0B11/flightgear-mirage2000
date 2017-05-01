@@ -11,8 +11,8 @@
     <!-- Objets transparents -->
     <object-name>verre1</object-name>
     <object-name>verre2</object-name>
-     <object-name>verre3</object-name>
-     <object-name>canvasHUD</object-name>
+    <object-name>verre3</object-name>
+    <object-name>canvasHUD</object-name>
   </animation>
 
   <!--  REMBRANDT support for transparent objects-->
@@ -23,8 +23,8 @@
     <object-name>verre3</object-name>
     <object-name>canvasHUD</object-name>
   </effect>
-  
-  <animation> 
+
+  <animation>
     <type>material</type>
     <object-name>canvasHUD</object-name>
     <emission>

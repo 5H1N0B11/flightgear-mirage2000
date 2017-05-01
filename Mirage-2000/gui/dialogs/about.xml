@@ -39,18 +39,21 @@
   </group>
   
   <text><label>Mirage 2000-5, by Heljah and 5H1N0B1</label></text>
-      <hrule />
+
+  <hrule />
+
   <text><label>Special Thanks to : </label></text>
-      <hrule />
+
+  <hrule />
+
   <text><label>Helijah (for the 3D model), Buckaroo (for the FDM), 5HIN0B1 (for the working weapons and systems), </label></text>
   <text><label>Koubi (for the engine script),  Ray (for helping on the MFD), F-Sig (For 3D and MFD), Xiii (for fox2.nas, the initial missile script), </label></text>
-   <text><label>the F-16 team (for the radar and HUD), the Citation X team (for the middle MFD), all those who created missile models, </label></text>
-   <text><label>Niko (for the wiki page and the original ask for the project), Thomas (for the liveries),</label></text>
-   <text><label>Gijs (for the wiki page) , FG-TUX, Anusil, fb237 (for testing) (for testing)and all those forgotten here</label></text>
-   <text><label>Thanks to all. </label></text>
-  
-  
-    <hrule />
+  <text><label>the F-16 team (for the radar and HUD), the Citation X team (for the middle MFD), all those who created missile models, </label></text>
+  <text><label>Niko (for the wiki page and the original ask for the project), Thomas (for the liveries),</label></text>
+  <text><label>Gijs (for the wiki page) , FG-TUX, Anusil, fb237 (for testing) (for testing)and all those forgotten here</label></text>
+  <text><label>Thanks to all. </label></text>
+
+  <hrule />
 
   <button>
     <legend>Developpement link</legend>
@@ -63,14 +66,13 @@
     </binding>
   </button>
 
-
   <button>
     <legend>Stable Release</legend>
     <binding>
       <command>nasal</command>
       <script>
-        var phrase = "Stable Release : http://helijah.free.fr/flightgear/les-appareils/m2000/appareil.htm";
-        setprop("/sim/multiplay/chat", phrase);
+var phrase = "Stable Release : http://helijah.free.fr/flightgear/les-appareils/m2000/appareil.htm";
+setprop("/sim/multiplay/chat", phrase);
         </script>
     </binding>
   </button>

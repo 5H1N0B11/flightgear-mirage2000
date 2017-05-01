@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
+
   <name>radar</name>
   <modal type="bool">false</modal>
   <layout>vbox</layout>
@@ -31,11 +32,11 @@
     </button>
   </group>
   
-  <hrule/>
+  <hrule />
   
   <group>
     <layout>hbox</layout>
-    
+
     <group>
       <!-- Labels -->
       <layout>vbox</layout>
@@ -56,15 +57,13 @@
           <property>instrumentation/radar/radar-standby</property>
         </binding>
       </checkbox>
-      
     </group>
   </group>
-  
+
   <group>
     <layout>hbox</layout>
-    
-    <!--<group>
-  
+    <!--
+    <group>
       <layout>vbox</layout>
       <halign>left</halign>
       <text>
@@ -74,7 +73,7 @@
     <group>
       <layout>vbox</layout>
       <halign>right</halign>
-      <checkbox>  
+      <checkbox>
         <name>Doppler_exclusion</name>
         <property>instrumentation/radar/radar-selection-type-bool</property>
         <live>true</live>
@@ -85,15 +84,17 @@
         <binding>
           <command>nasal</command>
           <script>
-            if(getprop(instrumentation/radar/radar-selection-type-bool)==0{
-              mirage2000.myRadar3.setDetectiontype("laser");
-            else{
-              mirage2000.myRadar3.setDetectiontype("radar");
-            }
+if(getprop(instrumentation/radar/radar-selection-type-bool) == 0)
+{
+    mirage2000.myRadar3.setDetectiontype("laser");
+}
+else
+{
+    mirage2000.myRadar3.setDetectiontype("radar");
+}
             </script>
         </binding>
       </checkbox>
-      
     </group>-->
   </group>
   
@@ -104,8 +105,8 @@
       <script>mirage2000.myRadar3.toggle_Type()</script>
     </binding>
   </button>-->
-  
-  <hrule/>
+
+  <hrule />
 
   <group>
     <layout>hbox</layout>

@@ -33,24 +33,20 @@
       <blue>  1 </blue>
     </emission>
   </animation>
-  
-  
-  
-  
-  
-    <!--#####   Landing Lights   ########-->
+
+  <!--#####   Landing Lights   ########-->
   <animation>
     <type>pick</type>
     <object-name>button2</object-name>
     <action>
       <button>0</button>
       <binding>
-          <command>property-toggle</command>
-          <property>/controls/lighting/landing-lights</property>
+        <command>property-toggle</command>
+        <property>/controls/lighting/landing-lights</property>
       </binding>
       <binding>
-          <command>property-toggle</command>
-          <property>/controls/lighting/landing-lights[1]</property>     
+        <command>property-toggle</command>
+        <property>/controls/lighting/landing-lights[1]</property>
       </binding>
     </action>
     <hovered>
@@ -79,7 +75,7 @@
     </axis>
   </animation>
   
-   <!--#####   Flash Lights   ########-->
+  <!--#####   Flash Lights   ########-->
   <animation>
     <type>pick</type>
     <object-name>button3</object-name>
@@ -89,7 +85,7 @@
         <command>property-toggle</command>
         <property>/controls/lighting/strobe</property>
       </binding>
-       <binding>
+      <binding>
         <command>property-toggle</command>
         <property>/controls/lighting/strobeBelly</property>
       </binding>
@@ -119,9 +115,8 @@
       <z>0</z>
     </axis>
   </animation>
-  
-  
-          <!--#####   Formation Lights   ########-->
+
+  <!--#####   Formation Lights   ########-->
   <animation>
     <type>pick</type>
     <object-name>button4</object-name>
@@ -157,9 +152,8 @@
       <z>0</z>
     </axis>
   </animation>
-  
-  
-        <!--#####   Tail Lights   ########-->
+
+  <!--#####   Tail Lights   ########-->
   <animation>
     <type>pick</type>
     <object-name>button5</object-name>
@@ -195,11 +189,8 @@
       <z>0</z>
     </axis>
   </animation>
-  
-  
-  
-  
-      <!--#####   Wings Lights   ########-->
+
+  <!--#####   Wings Lights   ########-->
   <animation>
     <type>pick</type>
     <object-name>button6</object-name>
@@ -235,13 +226,9 @@
       <z>0</z>
     </axis>
   </animation>
-  
-  
-  
-  
-  
-  
-  <!-- button1
+
+<!--
+  button1
   <center>
     <x-m>  0.00684 </x-m>
     <y-m> -0.03684 </y-m>
@@ -296,6 +283,6 @@
     <y-m>  0.03353 </y-m>
     <z-m> -0.03452 </z-m>
   </center>
-  -->
-  
+-->
+
 </PropertyList>
