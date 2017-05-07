@@ -320,7 +320,7 @@ var computeSAS = func() {
         #print("airspeed:" ~ airspeed ~ " raw_e:"~raw_e);
 
         # Filtering neutral position
-        var p_neutral = 0.05;
+        var p_neutral = 0.01;
         raw_e = (abs(raw_e) < p_neutral) ? 0 : (raw_e * (1 - p_neutral) / 1) + p_neutral * abs(raw_e) / raw_e;
         
         # Input p_input
@@ -572,7 +572,7 @@ var computeSAS = func() {
         var myMaxRoll = maxRoll;
 
         # Filtering neutral position
-        var r_neutral = 0.1;
+        var r_neutral = 0.01;
         raw_a = abs(raw_a) < r_neutral ? 0 : (raw_a * (1 - r_neutral) / 1) + r_neutral * abs(raw_a) / raw_a;
         sas_roll = raw_a;
 
@@ -581,8 +581,8 @@ var computeSAS = func() {
         #sas_roll = raw_a * raw_a * raw_a;
         
         myMaxRoll = abs(raw_a) < 0.95 ? maxRoll / 2 : myMaxRoll;
-        myMaxRoll = abs(raw_a) < 0.80 ? maxRoll / 3 : myMaxRoll;
-        myMaxRoll = abs(raw_a) < 0.50 ? maxRoll / 6 : myMaxRoll;
+        myMaxRoll = abs(raw_a) < 0.80 ? maxRoll / 2 : myMaxRoll;
+        #myMaxRoll = abs(raw_a) < 0.50 ? maxRoll / 6 : myMaxRoll;
 
         # decrease sas_roll with pitch
         sas_roll = (sas_roll != 0) ? (abs(sas_roll) - abs(raw_e * 0.60)) * abs(sas_roll) / sas_roll : 0;
@@ -605,7 +605,7 @@ var computeSAS = func() {
         sas_roll = sas_roll * (1 - (gear * 0.50));
 
         # Take only a third of the order if refuelling
-        sas_roll = (sas_roll != 0 and refuelling and abs(sas_roll) > 0.30) ? 0.30 * abs(sas_roll) / sas_roll : sas_roll;
+        #sas_roll = (sas_roll != 0 and refuelling and abs(sas_roll) > 0.30) ? 0.30 * abs(sas_roll) / sas_roll : sas_roll;
 
         #print("sas_roll before roll filter and after p_input filter:" ~ sas_roll);
 
