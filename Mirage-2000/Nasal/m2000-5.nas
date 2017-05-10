@@ -314,3 +314,6 @@ var setCentralMFD = func() {
         mirage2000.mdfselection();
     }
 }
+
+# to prevent dynamic view to act like helicopter due to defining <rotors>:
+dynamic_view.register(func {me.default_plane();});

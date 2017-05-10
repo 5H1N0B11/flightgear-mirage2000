@@ -23,6 +23,24 @@
       <model   type="int"> 4 </model>
     </rating>
 
+    <tags>
+        <tag>dassault</tag>
+        <tag>single-engine</tag>
+        <tag>jet</tag>
+        <tag>retractable-gear</tag>
+        <tag>supersonic</tag>
+        <tag>coldwar</tag>
+        <tag>fighter</tag>
+        <tag>tricycle</tag>
+        <tag>1970s</tag>
+        <tag>1980s</tag>
+        <tag>1990s</tag>
+        <tag>2000s</tag>
+        <tag>delta</tag>
+        <tag>hud</tag>
+        <tag>afterburner</tag>
+    </tags>
+
   </sim>
 
 </PropertyList>
