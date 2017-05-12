@@ -1,6 +1,6 @@
 print("*** LOADING missiles.nas ... ***");
 #################################################################################
-#######    
+####### 
 ####### Guided/Cruise missiles, rockets and dumb/glide bombs code for Flightgear.
 #######
 ####### License: GPL 2
@@ -235,6 +235,7 @@ var AIM = {
         m.class                 = getprop("payload/armament/"~m.type_lc~"/class");                      # put in letters here that represent the types the missile can fire at. A=air, M=marine, G=ground
         m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");                   # what the pilot will call out over the comm when he fires this weapon
         m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");        # Interpolation hit: max distance from target it report it exploded, not passed. Trig hit: Distance where it will trigger.
+        m.data                  = getprop("payload/armament/"~m.type_lc~"/telemetry");                  # Boolean. Data link back to aircraft when missile is flying.
 
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
         # three variables used for trigonometry hit calc:
@@ -242,6 +243,9 @@ var AIM = {
         m.tpsApproch     = 0;
         m.usedChance     = FALSE;
 
+        if (m.data == nil) {
+            m.data = FALSE;
+        }
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
         m.useModelUpperCase     = getprop("payload/armament/modelsUpperCase");
@@ -297,7 +301,10 @@ var AIM = {
             }
         }
         m.ai = n.getChild(m.type_lc, i, 1);
-
+        if(m.data == TRUE) {
+            m.ai.getNode("ETA", 1).setIntValue(-1);
+            m.ai.getNode("hit", 1).setIntValue(-1);
+        }
         m.ai.getNode("valid", 1).setBoolValue(0);
         m.ai.getNode("name", 1).setValue(type);
         m.ai.getNode("sign", 1).setValue(sign);
@@ -343,7 +350,7 @@ var AIM = {
         m.max_g_current      = m.max_g;
         m.old_speed_horz_fps = nil;
         m.paused             = 0;
-        m.old_speed_fps         = 0;
+        m.old_speed_fps      = 0;
         m.dt                 = 0;
         m.g                  = 0;
 
@@ -410,6 +417,8 @@ var AIM = {
         m.SwSoundFireOnOff.setBoolValue(FALSE);
         m.SwSoundVol.setDoubleValue(m.vol_search);
         #me.trackWeak = 1;
+
+        m.horz_closing_rate_fps = -1;
 
         return AIM.active[m.ID] = m;
     },
@@ -541,7 +550,7 @@ var AIM = {
             init_coord.set_xyz(pos.x, pos.y, pos.z);
         } else {
             init_coord = me.getGPS(me.x, me.y, me.z, ac_pitch);
-        }    
+        }   
 
 
         # Set submodel initial position:
@@ -607,10 +616,10 @@ var AIM = {
             #var dst = me.coord.distance_to(me.Tgt.get_Coord()) * M2NM;
             #
             #f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
-#                me.loft_alt = me.loft_alt - ((me.max_detect_rng - 10) - (dst - 10))*500; original code
-#                me.loft_alt = 0+((dst-38)/(me.max_detect_rng-38))*(me.loft_alt-36000);   originally for phoenix missile
-#            me.loft_alt = 0+((dst-10)/(me.max_detect_rng-10))*(me.loft_alt-0);           also doesn't really work
-#            me.loft_alt = me.clamp(me.loft_alt, 0, 200000);
+#               me.loft_alt = me.loft_alt - ((me.max_detect_rng - 10) - (dst - 10))*500; original code
+#               me.loft_alt = 0+((dst-38)/(me.max_detect_rng-38))*(me.loft_alt-36000);   originally for phoenix missile
+#           me.loft_alt = 0+((dst-10)/(me.max_detect_rng-10))*(me.loft_alt-0);           also doesn't really work
+#           me.loft_alt = me.clamp(me.loft_alt, 0, 200000);
             #printf("Loft to max %5d ft.", me.loft_alt);
         #}
 
@@ -803,7 +812,7 @@ var AIM = {
             #if (getprop("sim/speed-up") == 1) {
                 me.dt = (me.elapsed - me.elapsed_last)*speedUp.getValue();
             #} else {
-            #    dt = getprop("sim/time/delta-sec")*getprop("sim/speed-up");
+            #   dt = getprop("sim/time/delta-sec")*getprop("sim/speed-up");
             #}
             me.init_launch = 1;
             if(me.dt <= 0) {
@@ -887,7 +896,7 @@ var AIM = {
             me.track_signal_e = 0;
             me.track_signal_h = 0;
         }
-           me.last_track_e = me.track_signal_e;
+        me.last_track_e = me.track_signal_e;
         me.last_track_h = me.track_signal_h;
 
         me.new_speed_fps        = me.speed_change_fps + me.old_speed_fps;
@@ -907,7 +916,7 @@ var AIM = {
             # missile still on rail, lets calculate its speed relative to the wind coming in from the aircraft nose.
             me.rail_speed_into_wind = me.rail_speed_into_wind + me.speed_change_fps;
         } else {
-            # gravity acc makes the weapon pitch down            
+            # gravity acc makes the weapon pitch down           
             me.pitch = math.atan2(-me.speed_down_fps, me.speed_horizontal_fps ) * R2D;
         }
 
@@ -933,7 +942,7 @@ var AIM = {
                     me.opposing_wind = 0;
                 }
                 me.hdg = me.Tgt.get_bearing();
-            }            
+            }           
 
             me.speed_on_rail = me.clamp(me.rail_speed_into_wind - me.opposing_wind, 0, 1000000);
             me.movement_on_rail = me.speed_on_rail * me.dt;
@@ -963,7 +972,7 @@ var AIM = {
                     me.coord.set_xyz(me.geodPos.x, me.geodPos.y, me.geodPos.z);
                 } else {
                     me.coord = me.getGPS(me.x, me.y, me.z, OurPitch.getValue());
-                }                
+                }               
             } else {
                 # kind of a hack, but work
                 me.coord = me.getGPS(me.x, me.y, me.z, OurPitch.getValue()+me.rail_pitch_deg);
@@ -1009,8 +1018,8 @@ var AIM = {
         #### Proximity detection.#####
         ##############################
         if (me.rail == FALSE or me.rail_passed == TRUE) {
-             if ( me.free == FALSE ) {
-                 # check if the missile overloaded with G force.
+            if ( me.free == FALSE ) {
+                # check if the missile overloaded with G force.
                 me.g = me.steering_speed_G(me.track_signal_e, me.track_signal_h, me.old_speed_fps, me.dt);
 
                 if ( me.g > me.max_g_current and me.init_launch != 0) {
@@ -1027,7 +1036,7 @@ var AIM = {
 # Uncomment the following lines to check stats while flying:
 #
 #printf("Mach %02.2f , time %03.1f s , thrust %03.1f lbf , G-force %02.2f", me.speed_m, me.life_time, me.thrust_lbf, me.g);
-#printf("Alt %05.1f ft , distance to target %02.1f NM", me.alt_ft, me.direct_dist_m*M2NM);            
+#printf("Alt %05.1f ft , distance to target %02.1f NM", me.alt_ft, me.direct_dist_m*M2NM);          
             
             if (me.exploded == TRUE) {
                 printf("%s max absolute %.2f Mach. Max relative %.2f Mach. Max alt %6d ft. Terminal %.2f mach.", me.type, me.maxMach, me.maxMach-me.startMach, me.maxAlt, me.speed_m);
@@ -1071,8 +1080,43 @@ var AIM = {
         #printf("weight %0.1f", me.weight_current);
         me.mass = me.weight_current / slugs_to_lbm;
 
+        # telemetry
+        if (me.data == TRUE) {
+            me.eta = me.free == TRUE or me.horz_closing_rate_fps == -1?-1:(me.dist_curr*M2FT)/me.horz_closing_rate_fps;
+            me.hit = 50;# in percent
+            if (me.life_time > me.drop_time+me.stage_1_duration) {
+                # little less optimistic after reaching topspeed
+                if (me.selfdestruct_time-me.life_time < me.eta) {
+                    # reduce alot if eta later than lifespan
+                    me.hit -= 75;
+                } elsif (me.eta != -1 and (me.selfdestruct_time-me.life_time) != 0) {
+                    # if its hitting late in life, then reduce
+                    me.hit -= (me.eta / (me.selfdestruct_time-me.life_time)) * 25;
+                }
+                if (me.eta > 0) {
+                    # penalty if eta is high
+                    me.hit -= me.clamp(40*me.eta/(me.life_time*0.85), 0, 40);
+                }
+            }
+            if (me.curr_deviation_h != nil and me.dist_curr > 50) {
+                # penalty for target being off-bore
+                me.hit -= math.abs(me.curr_deviation_h)/2.5;
+            }
+            if (me.guiding == TRUE and me.old_speed_fps > me.t_speed and me.t_speed != 0) {
+                # bonus for traveling faster than target
+                me.hit += me.clamp((me.old_speed_fps / me.t_speed)*15,-25,50);
+            }           
+            if (me.free == TRUE) {
+                # penalty for not longer guiding
+                me.hit -= 75;
+            }
+            me.hit = int(me.clamp(me.hit, 0, 90));
+            me.ai.getNode("ETA").setIntValue(me.eta);
+            me.ai.getNode("hit").setIntValue(me.hit);
+        }
+
         me.last_dt = me.dt;
-        settimer(func me.flight(), update_loop_time, SIM_TIME);        
+        settimer(func me.flight(), update_loop_time, SIM_TIME);     
     },
 
     setFirst: func() {#GCD
@@ -1189,7 +1233,7 @@ var AIM = {
 
         me.offset = math.max(me.elevation_offset, me.heading_offset);
 
-        return me.offset;        
+        return me.offset;       
     },
 
     guide: func() {#GCD
@@ -1372,7 +1416,7 @@ var AIM = {
             me.free = TRUE;
         } elsif (me.all_aspect == FALSE and me.rear_aspect() == FALSE) {
             me.guiding = FALSE;
-               if (me.heatLostLock == FALSE) {
+            if (me.heatLostLock == FALSE) {
                 print(me.type~": Missile lost heat lock, attempting to reaquire..");
             }
             me.heatLostLock = TRUE;
@@ -1382,8 +1426,8 @@ var AIM = {
             print(me.type~": Reaquired radar reflection.");
             me.semiLostLock = FALSE;
         } elsif (me.heatLostLock == TRUE) {
-               print(me.type~": Regained heat lock.");
-               me.heatLostLock = FALSE;
+            print(me.type~": Regained heat lock.");
+            me.heatLostLock = FALSE;
         } elsif (me.tooLowSpeed == TRUE) {
             print(me.type~": Gained speed and started guiding.");
             me.tooLowSpeed = FALSE;
@@ -1589,19 +1633,19 @@ var AIM = {
             #printf("LOS rate: %.4f rad/s", line_of_sight_rate_rps);
 
             #if (me.before_last_t_coord != nil) {
-            #    var t_heading = me.before_last_t_coord.course_to(me.t_coord);
-            #    var t_dist   = me.before_last_t_coord.distance_to(me.t_coord);
-            #    var t_dist_dir   = me.before_last_t_coord.direct_distance_to(me.t_coord);
-            #    var t_climb      = me.t_coord.alt() - me.before_last_t_coord.alt();
-            #    var t_horz_speed = (t_dist*M2FT)/(me.dt+me.last_dt);
-            #    var t_speed      = (t_dist_dir*M2FT)/(me.dt+me.last_dt);
+            #   var t_heading = me.before_last_t_coord.course_to(me.t_coord);
+            #   var t_dist   = me.before_last_t_coord.distance_to(me.t_coord);
+            #   var t_dist_dir   = me.before_last_t_coord.direct_distance_to(me.t_coord);
+            #   var t_climb      = me.t_coord.alt() - me.before_last_t_coord.alt();
+            #   var t_horz_speed = (t_dist*M2FT)/(me.dt+me.last_dt);
+            #   var t_speed      = (t_dist_dir*M2FT)/(me.dt+me.last_dt);
             #} else {
-            #    var t_heading = me.last_t_coord.course_to(me.t_coord);
-            #    var t_dist   = me.last_t_coord.distance_to(me.t_coord);
-            #    var t_dist_dir   = me.last_t_coord.direct_distance_to(me.t_coord);
-            #    var t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
-            #    var t_horz_speed = (t_dist*M2FT)/me.dt;
-            #    var t_speed      = (t_dist_dir*M2FT)/me.dt;
+            #   var t_heading = me.last_t_coord.course_to(me.t_coord);
+            #   var t_dist   = me.last_t_coord.distance_to(me.t_coord);
+            #   var t_dist_dir   = me.last_t_coord.direct_distance_to(me.t_coord);
+            #   var t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
+            #   var t_horz_speed = (t_dist*M2FT)/me.dt;
+            #   var t_speed      = (t_dist_dir*M2FT)/me.dt;
             #}
             
             #var t_pitch      = math.atan2(t_climb,t_dist)*R2D;
@@ -1613,17 +1657,17 @@ var AIM = {
             me.t_speed          = me.Tgt.get_Speed()*KT2FPS;#true airspeed
 
             #if (me.last_t_coord.direct_distance_to(me.t_coord) != 0) {
-            #    # taking sideslip and AoA into consideration:
-            #    me.t_heading    = me.last_t_coord.course_to(me.t_coord);
-            #    me.t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
-            #    me.t_dist       = me.last_t_coord.distance_to(me.t_coord);
-            #    me.t_pitch      = math.atan2(me.t_climb, me.t_dist) * R2D;
+            #   # taking sideslip and AoA into consideration:
+            #   me.t_heading    = me.last_t_coord.course_to(me.t_coord);
+            #   me.t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
+            #   me.t_dist       = me.last_t_coord.distance_to(me.t_coord);
+            #   me.t_pitch      = math.atan2(me.t_climb, me.t_dist) * R2D;
             #} elsif (me.Tgt.get_Speed() > 25) {
                 # target position was not updated since last loop.
                 # to avoid confusing the navigation, we just fly
                 # straight.
                 #print("not updated");
-            #    return;
+            #   return;
             #}
 
 
@@ -1782,7 +1826,7 @@ var AIM = {
                     # between the position A and the position B, the distance x to the 
                     # target is enough short to proxiimity detection.
                     
-                    # get current direct distance.                    
+                    # get current direct distance.                  
                     if(me.direct_dist_m != nil)
                     {
                         var x2 = BC * BC - (((BC * BC - AC * AC + AB * AB) / (2 * AB)) * ((BC * BC - AC * AC + AB * AB) / (2 * AB)));
@@ -1867,7 +1911,7 @@ var AIM = {
         me.coord = explosion_coord;
 
         var wh_mass = event == "exploded"?me.weight_whead_lbm:0;#will report 0 mass if did not have time to arm
-        impact_report(me.coord, wh_mass, "munition", me.type);
+        impact_report(me.coord, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);
 
         if (me.Tgt != nil) {
             var phrase = sprintf( me.type~" "~event~": %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
@@ -1901,7 +1945,7 @@ var AIM = {
         me.t_coord.apply_course_distance(t_bearing_deg, t_dist_m);
         me.t_coord.set_alt(new_t_alt_m);
         var wh_mass = event == "exploded"?me.weight_whead_lbm:0;#will report 0 mass if did not have time to arm
-        impact_report(me.t_coord, wh_mass, "munition", me.type);
+        impact_report(me.t_coord, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);
 
         if (me.lock_on_sun == TRUE) {
             reason = "Locked onto sun.";
@@ -1951,15 +1995,15 @@ var AIM = {
           me.coord3.set_alt(coord2.alt());
           me.d12 = coord1.direct_distance_to(coord2);
           me.d32 = me.coord3.direct_distance_to(coord2);
-          if (me.d12 > 0.01) {
-              me.altDi = coord1.alt()-me.coord3.alt();
-              me.yyy = R2D * math.acos((math.pow(me.d12, 2)+math.pow(me.altDi,2)-math.pow(me.d32, 2))/(2 * me.d12 * me.altDi));
-              me.pitchC = -1* (90 - me.yyy);
-              return me.pitchC;
-          } else{
-              # arccos wont like if the coord are the same
-              return 0;
-          }
+          if (me.d12 > 0.1 and coord1.alt() != coord2.alt()) {
+            me.altDi = coord1.alt()-me.coord3.alt();
+            me.yyy = R2D * math.acos((math.pow(me.d12, 2)+math.pow(me.altDi,2)-math.pow(me.d32, 2))/(2 * me.d12 * me.altDi));
+            me.pitchC = -1* (90 - me.yyy);
+            return me.pitchC;
+        } else{
+            # arccos wont like if the coord are the same
+            return 0;
+        }
           
     },
 
@@ -2333,16 +2377,16 @@ var AIM = {
 
 #altitde-agl-ft DOUBLE
 #impact
-#    elevation-m DOUBLE
-#    heading-deg DOUBLE
-#    latitude-deg DOUBLE
-#    longitude-deg DOUBLE
-#    pitch-deg DOUBLE
-#    roll-deg DOUBLE
-#    speed-mps DOUBLE
-#    type STRING
+#   elevation-m DOUBLE
+#   heading-deg DOUBLE
+#   latitude-deg DOUBLE
+#   longitude-deg DOUBLE
+#   pitch-deg DOUBLE
+#   roll-deg DOUBLE
+#   speed-mps DOUBLE
+#   type STRING
 # valid "true" BOOL
-var impact_report = func(pos, mass, string, name) {
+var impact_report = func(pos, mass, string, name, speed_mps) {
     # Find the next index for "ai/models/model-impact" and create property node.
     var n = props.globals.getNode("ai/models", 1);
     for (var i = 0; 1; i += 1)
@@ -2354,9 +2398,11 @@ var impact_report = func(pos, mass, string, name) {
     impact.getNode("impact/latitude-deg", 1).setDoubleValue(pos.lat());
     impact.getNode("impact/longitude-deg", 1).setDoubleValue(pos.lon());
     impact.getNode("warhead-lbm", 1).setDoubleValue(mass);
+    impact.getNode("mass-slug", 1).setDoubleValue(mass/slugs_to_lbm);
+    impact.getNode("impact/speed-mps", 1).setDoubleValue(speed_mps);
     #impact.getNode("speed-mps", 1).setValue(speed_mps);
     impact.getNode("valid", 1).setBoolValue(1);
-    impact.getNode("impact/type", 1).setValue("terrain");
+    impact.getNode("impact/type", 1).setValue("something");#"terrain"
     impact.getNode("name", 1).setValue(name);
 
     var impact_str = "/ai/models/" ~ string ~ "[" ~ i ~ "]";
@@ -2429,7 +2475,7 @@ var defeatSpamFilter = func (str) {
   }
   var myCallsign = getprop("sim/multiplay/callsign");
   if (myCallsign != nil and find(myCallsign, str) != -1) {
-      str = myCallsign~": "~str;
+    str = myCallsign~": "~str;
   }
   var newList = [str];
   for (var i = 0; i < size(spamList); i += 1) {
