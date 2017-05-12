@@ -46,6 +46,8 @@ listOfGroundTargetNames = ["groundvehicle"];
 listOfShipNames      = ["carrier", "ship"];
 listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle"];
 listOfAIRadarEchoes2 = keys(weaponRadarNames);
+listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1"];
+listOfShipModels          = ["frigate", "missile_frigate", "USS-LakeChamplain", "USS-NORMANDY", "USS-OliverPerry", "USS-SanAntonio"];
 foreach(var addMe ; listOfAIRadarEchoes2) {
     append(listOfAIRadarEchoes, addMe);
 }
@@ -301,24 +303,48 @@ var Radar = {
                 # expand this so multiplayer that is on sea or ground is also set correct.
                 # also consider if doppler do not see them that they are either SURFACE or MARINE, depending on if they have alt = ~ 0
                 # notice that GROUND_TARGET is set inside Target.new().
+                me.skipDoppler = 0;
+                # now we test the property folder name to guess what type it is:
                 foreach (var testMe ; listOfShipNames) {
                     if (testMe == folderName) {
                         u.setType(missile.MARINE);
+                        me.skipDoppler = 1;
                     }
                 }
                 foreach (var testMe ; listOfGroundTargetNames) {
                     if (testMe == folderName) {
                         u.setType(missile.SURFACE);
+                        me.skipDoppler = 1;
                     }
                 }
                 
+                # now we test the model name to guess what type it is:
+                me.pathNode = c.getNode("sim/model/path");
+                if (me.pathNode != nil) {
+                    me.path = me.pathNode.getValue();
+                    me.model = split(".", split("/", me.path)[-1])[0];
+                    foreach (var testMe ; listOfShipModels) {
+                        if (testMe == me.model) {
+                           # Its a ship, Mirage ground radar will pick it up
+                           u.setType(missile.MARINE);
+                           me.skipDoppler = 1;
+                        }
+                    }
+                    foreach (var testMe ; listOfGroundVehicleModels) {
+                        if (testMe == me.model) {
+                           # its a ground vehicle, Mirage ground radar will pick it up
+                           u.setType(missile.SURFACE);
+                           me.skipDoppler = 1;
+                        }
+                    }
+                }
                 #print("Testing "~ u.get_Callsign()~"Type: " ~ type);
                 
                 # set Check_List to void
                 me.Check_List = [];
                 # this function do all the checks and put all result of each
                 # test on an array[] named Check_List
-                me.go_check(u);
+                me.go_check(u, me.skipDoppler);
                 
                 # then a function just check it all
                 if(me.get_check(u))
@@ -743,7 +769,7 @@ var Radar = {
       return result;
     },
 
-    go_check: func(SelectedObject){
+    go_check: func(SelectedObject, skipDoppler){
         #if radar : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, doppler, isNotBehindTerrain
         #if Rwr   : check : InhisRange (radardist), inHisElevation, inHisAzimuth, NotBeyondHorizon, isNotBehindTerrain
         #if heat  : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, heat_sensor, isNotBehindTerrain
@@ -772,7 +798,7 @@ var Radar = {
             return;
         }
         #me.heat_sensor(SelectedObject);
-        if( me.detectionTypetab=="laser")
+        if( me.detectionTypetab=="laser" or skipDoppler == 1)
         {
           append(me.Check_List, 1);
          }else{
