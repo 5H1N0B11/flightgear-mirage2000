@@ -11,9 +11,15 @@
 
   <key>
     <name>}</name>
-    <desc>On/Off Reactor</desc>
+    <desc>On/Off Engine</desc>
   </key>
-
+  
+  
+  <key>
+    <name>b</name>
+    <desc>On ground : brakes. On fly : Airbrakes</desc>
+  </key>
+  
   <key>
     <name>t</name>
     <desc>Increase Radar Distances (10, 20 40,60,160)</desc>
@@ -80,10 +86,41 @@
     <desc>Parachute</desc>
   </key>
 
+  <line> === Take Off === </line>
+  <line>Start the Engine (use autostart or follow the procedure (in tutorial)</line>
+  <line>Around 170/190 kts : Take off</line>
+  <line>195 kts : limit to down the gears</line>
+  <line>280 kts : Never Exceed speed with gear out</line>
+  <line>----------------------------------------------------</line>
+  <line> === Cruise === </line>
+  <line>The mirage 2000 cruise altitude is around 35 000 feet to 40 000 feet.(Best Alt for a mach 2 flight)</line>
+  <line>It have the possibility to fly above 50 000 feet but the pilot should have a special equipment (not simulated yet)</line>
+  <line>1700l dropable tank aren't supersonic</line>
+  
+  <line> </line>  
+  <line> === Low alt Flying === </line>
+  <line> The mirage can perform low alt flying. At these altitude the better is to use ground following AP</line>
+  <line>In order to do that : Click on AP. Then on Alt. This will activate Altitude AP. the selected altitude is setable with the left MFD.</line>
+  <line>Then click again on Alt. Then button in now blinking. You have selected Ground following. On the left MFD, now is displayed selected Alt above terrain.</line>
+  
+  
+  <line>----------------------------------------------------</line>
+  <line> === Landing === </line>
+  <line>195 kts : limit to down the gears</line>
+  <line>175 kts : Approach Speed</line>
+  <line>155 kts : Landing speed with 15% fuel and 2 AAM</line>
+  <line>Once touch down, depending of runway length, you can only use brake or use the parachute</line>
+  
+  <line>When heavily loaded, the FBW have the possibility to lower the limit in order to save the structure</line>
+  <line>Mirage2000=>Options=> Change A/A to CHARGES</line>
+  
+  <line>----------------------------------------------------</line>
+  
   <line>Afterburners engage when</line>
-  <line>throttle moves past 75%</line>
+  <line>throttle moves pass 85%</line>
   <line>To fire a guided Missile, select A/A missile with "w",</line>
   <line>activate "lock" with R, aim with the HUD and fire with "e"</line>
-  <line>Beware : it's a bad idea to fire a missile and have negative G...(Don't shoot yourself)</line>
+  <line>Beware : The Airbrakes are tricky, due to yasim simulating only the upper part. The FBW are limiting it in order to prevent total lost of control</line>
+<!--  <line>Beware : it's a bad idea to fire a missile and have negative G...(Don't shoot yourself)</line>-->
   
 </PropertyList>
