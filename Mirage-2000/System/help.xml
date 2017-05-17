@@ -22,17 +22,17 @@
   
   <key>
     <name>t</name>
-    <desc>Increase Radar Distances (10, 20 40,60,160)</desc>
+    <desc>Increase Radar Distances (10, 20, 40, 60, 160)</desc>
   </key>
   
   <key>
     <name>T</name>
-    <desc>Decrease Radar Distances (10, 20 40,60,160)</desc>
+    <desc>Decrease Radar Distances (10, 20, 40, 60, 160)</desc>
   </key>
 
   <key>
     <name>R</name>
-    <desc>Activate/desactivate targeting (the target have to be bellow radar range)</desc>
+    <desc>Activate/desactivate targeting (the target have to be below radar range)</desc>
   </key>
   
   <key>
