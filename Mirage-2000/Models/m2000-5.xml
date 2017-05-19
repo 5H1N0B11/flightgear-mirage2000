@@ -1797,9 +1797,9 @@
     <path>Aircraft/Mirage-2000/Models/lights/light-cone.xml</path>
     <name>LightCone1</name>
     <offsets>
-      <x-m> -2.99155 </x-m>
+      <x-m> -3.1 </x-m>
       <y-m> -0.10927 </y-m>
-      <z-m> -1.93217 </z-m>
+      <z-m> -1.83217 </z-m>
       <heading-deg> 10 </heading-deg>
     </offsets>
   </model>
@@ -1808,12 +1808,33 @@
     <path>Aircraft/Mirage-2000/Models/lights/light-cone.xml</path>
     <name>LightCone2</name>
     <offsets>
-      <x-m> -2.99155 </x-m>
+      <x-m> -3.1 </x-m>
       <y-m>  0.10927 </y-m>
-      <z-m> -1.93217 </z-m>
+      <z-m> -1.83217 </z-m>
       <heading-deg> -10 </heading-deg>
     </offsets>
   </model>
+  
+    <model>
+    <name>landing light left</name>
+    <path>Aircraft/Mirage-2000/Models/lights/light_landing.xml</path>
+    <offsets>
+      <x-m> -3.1 </x-m>
+      <y-m> -0.10927 </y-m>
+      <z-m> -1.81217 </z-m>
+    </offsets>
+  </model>
+  
+  <model>
+    <name>landing light right</name>
+    <path>Aircraft/Mirage-2000/Models/lights/light_landing.xml</path>
+    <offsets>
+      <x-m> -3.1 </x-m>
+      <y-m>  0.10927 </y-m>
+      <z-m> -1.81217 </z-m>
+    </offsets>
+  </model>
+  
 
   <!-- Sortie de la souris en fonction des Mach -->
   <animation>
