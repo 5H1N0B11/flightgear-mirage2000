@@ -1,15 +1,6 @@
 print("*** LOADING m2000-5.nas ... ***");
 ################################################################################
-#
-#                       m2005-5's SYSTEMS SETTINGS
-#
-################################################################################
-#
-# Typhonn systems
-# crazy dj nasal from many sources...
-# and also, almursi work
-# and 5H1N0B1
-
+#zzzzzzz
 var deltaT                = 1.0;
 var SAS_Loop_running      = 0;
 var Elapsed_time_Seconds  = 0;
@@ -17,6 +8,7 @@ var Elapsed_time_previous = 0;
 var LastTime              = 0;
 # Elapsed for time > 0.25 sec
 var Elapsed               = 0;
+var myErr = [];
 
 # Need some simplification in the way to manage the interval
 var engine1 = engines.Jet.new(0, 0, 0.01, 20, 3, 5, 30, 15);
@@ -105,35 +97,35 @@ var updatefunction = func()
     MfdTime = getprop ("sim/time/elapsed-sec");
     if(AbsoluteTime - Elapsed > 0.5)
     {
-        m2000_load.Encode_Load();
-        m2000_mp.Encode_Bool();
-        Elapsed = Elapsed_time_Seconds;
+        call(m2000_load.Encode_Load,nil,nil,nil, myErr);
+        call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
+        Elapsed = Elapsed_time_Seconds;11
     }
     
     # Flight Director (autopilot)
     if(getprop("/autopilot/locks/AP-status") == "AP1")
     {
-        mirage2000.update_fd();
+        call(mirage2000.update_fd,nil,nil,nil, myErr);
     }
     else
     {
         # this is a way to reduce autopilot refreshing time when not activated  <-? what
         if(Elapsed_time_Seconds != Elapsed_time_previous)
         {
-            mirage2000.update_fd();
+            call(mirage2000.update_fd,nil,nil,nil, myErr);
         }
     }
 
     if(Elapsed_time_Seconds != Elapsed_time_previous)
     {
-        mirage2000.fuel_managment();
+        call(mirage2000.fuel_managment,nil,nil,nil, myErr);
     }
-    mirage2000.tfs_radar();
-    mirage2000.theShakeEffect();
+    call(mirage2000.tfs_radar,nil,nil,nil, myErr);
+    call(mirage2000.theShakeEffect,nil,nil,nil, myErr);
     
     Elapsed_time_previous = Elapsed_time_Seconds;
     LastTime = AbsoluteTime;
-    mirage2000.UpdateMain();
+    call(mirage2000.UpdateMain,nil,nil,nil, myErr);
 }
 
 var init_Transpondeur = func()
