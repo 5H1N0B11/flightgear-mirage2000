@@ -130,7 +130,7 @@ var Impact = func() {
         var phrase = "Gun Splash On : " ~ splashOn;
         if(MPMessaging.getValue() == 1)
         {
-            setprop("/sim/multiplay/chat", phrase);
+            missile.defeatSpamFilter(phrase);
         }
         else
         {
