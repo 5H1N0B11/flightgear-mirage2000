@@ -1064,6 +1064,7 @@ var Target = {
         obj.set_latlon(obj.lat.getValue(), obj.lon.getValue(), obj.Alt.getValue() * FT2M);
         
         obj.pitch           = c.getNode("orientation/pitch-deg");
+        obj.roll           = c.getNode("orientation/roll-deg");
         obj.Speed           = c.getNode("velocities/true-airspeed-kt");
         obj.VSpeed          = c.getNode("velocities/vertical-speed-fps");
         obj.Callsign        = c.getNode("callsign");
@@ -1078,6 +1079,7 @@ var Target = {
         obj.type            = c.getName();
         obj.index           = c.getIndex();
         obj.flareNode       = c.getNode("rotors/main/blade[3]/flap-deg");
+        obj.chaffNode       = c.getNode("rotors/main/blade[3]/position-deg");
         
         #Change here the object type to set the radar2 path
         #Overwrite selectedType if missile
@@ -1294,6 +1296,11 @@ var Target = {
 
     get_Pitch: func(){
         var n = me.pitch.getValue();
+        return n;
+    },
+
+    get_Roll: func(){
+        var n = me.roll.getValue();
         return n;
     },
 
@@ -1584,6 +1591,10 @@ var Target = {
 
     getFlareNode: func(){
         return me.flareNode;
+    },
+
+    getChaffNode: func(){
+        return me.chaffNode;
     },
 
     isPainted: func() {
