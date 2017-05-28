@@ -141,6 +141,9 @@
     <blackout>
       <file>Aircraft/Mirage-2000/Nasal/blackout.nas</file>
     </blackout>
+    <formation>
+      <file>Aircraft/Generic/formation.nas</file>
+    </formation>
   </nasal>
 
 </PropertyList>
