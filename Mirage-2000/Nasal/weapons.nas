@@ -130,7 +130,7 @@ var Impact = func() {
         var phrase = "Gun Splash On : " ~ splashOn;
         if(MPMessaging.getValue() == 1)
         {
-            setprop("/sim/multiplay/chat", phrase);
+            missile.defeatSpamFilter(phrase);
         }
         else
         {
@@ -207,14 +207,16 @@ var findmultiplayer = func(targetCoord, dist = 20) {
 var flare = func(){
 if(tokenFlare==0){
     tokenFlare= 1;
-    setprop("rotors/main/blade[3]/flap-deg", rand());
+    setprop("rotors/main/blade[3]/flap-deg", rand());    #flare
+    setprop("rotors/main/blade[3]/position-deg", rand());#chaff
     settimer(initFlare,0.5);
     settimer(initToken,1);
   } 
 }
 
 var initFlare = func(){
-  setprop("rotors/main/blade[3]/flap-deg", 0); 
+  setprop("rotors/main/blade[3]/flap-deg", 0);   #flare
+  setprop("rotors/main/blade[3]/position-deg", 0;#chaff
 }
 var initToken = func(){
   tokenFlare= 0;

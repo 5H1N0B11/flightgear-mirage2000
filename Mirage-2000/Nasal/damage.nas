@@ -6,16 +6,17 @@ var TRUE  = 1;
 var FALSE = 0;
 
 var cannon_types = {
-    " M70 rocket hit":        0.25,  # 135mm
-    " M55 cannon shell hit":  0.10,  #  30mm
-    " KCA cannon shell hit":  0.10,  #  30mm
-    " Gun Splash On ":        0.10,  #  30mm
-    " M61A1 shell hit":       0.05,  #  20mm
-    " GAU-8/A hit":           0.10,  #  30mm
-    " BK27 cannon hit":       0.07,  #  27mm
-    " GSh-30 hit":            0.10,  #  30mm
-    " 7.62 hit":              0.005, #   7.62mm
-    " 50 BMG hit":            0.015, #  12.7mm
+    " M70 rocket hit":        0.25, #135mm
+    " M55 cannon shell hit":  0.10, # 30mm
+    " KCA cannon shell hit":  0.10, # 30mm
+    " Gun Splash On ":        0.10, # 30mm
+    " M61A1 shell hit":       0.05, # 20mm
+    " GAU-8/A hit":           0.10, # 30mm
+    " BK27 cannon hit":       0.07, # 27mm
+    " GSh-30 hit":            0.10, # 30mm
+    " GSh-23 hit":            0.065,# 23mm
+    " 7.62 hit":              0.005,# 7.62mm
+    " 50 BMG hit":            0.015,# 12.7mm
 };
 
 var warhead_lbs = {
@@ -102,6 +103,7 @@ var incoming_listener = func() {
         var last_vector = split(":", last);
         var author = last_vector[0];
         var callsign = getprop("sim/multiplay/callsign");
+        callsign = size(callsign) < 8 ? callsign : left(callsign,7);
         if(size(last_vector) > 1 and author != callsign)
         {
             # not myself
@@ -267,6 +269,11 @@ var incoming_listener = func() {
                 {
                     if(size(last_vector) > 2 and last_vector[2] == " "~callsign)
                     {
+                        if (size(last_vector) < 4) {
+                          # msg is either missing number of hits, or has no trailing dots from spam filter.
+                          print('"'~last~'"   is not a legal hit message, tell the shooter to upgrade his OPRF plane :)');
+                          return;
+                        }
                         var last3 = split(" ", last_vector[3]);
                         if(size(last3) > 2 and size(last3[2]) > 2 and last3[2] == "hits")
                         {
