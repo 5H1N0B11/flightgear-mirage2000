@@ -9,6 +9,7 @@ var dt = 0;
 var isFiring = 0;
 var splashdt = 0;
 var tokenFlare = 0;
+var tokenMessageFlare = 0;
 var MPMessaging = props.globals.getNode("/controls/armament/mp-messaging", 1);
 
 fire_MG = func(b) {
@@ -206,6 +207,10 @@ var findmultiplayer = func(targetCoord, dist = 20) {
 
 var flare = func(){
 if(tokenFlare==0){
+    if(tokenMessageFlare==0){
+      tokenMessageFlare=1;
+      settimer(message_Flare,1);
+    }
     tokenFlare= 1;
     setprop("rotors/main/blade[3]/flap-deg", rand());    #flare
     setprop("rotors/main/blade[3]/position-deg", rand());#chaff
@@ -216,8 +221,12 @@ if(tokenFlare==0){
 
 var initFlare = func(){
   setprop("rotors/main/blade[3]/flap-deg", 0);   #flare
-  setprop("rotors/main/blade[3]/position-deg", 0;#chaff
+  setprop("rotors/main/blade[3]/position-deg", 0);#chaff
 }
 var initToken = func(){
   tokenFlare= 0;
+}
+var message_Flare = func() {
+      setprop("/sim/messages/atc", "Flare");
+      tokenMessageFlare =0;
 }

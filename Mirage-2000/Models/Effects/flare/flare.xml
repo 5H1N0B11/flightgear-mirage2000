@@ -13,7 +13,7 @@
   </nasal>
 
   <particlesystem>
-    <!-- <type>trail</type>-->
+<!--     <type>trail</type>-->
     <name>flare</name>
     <texture>puff.png</texture>
     <emissive>true</emissive>
@@ -49,7 +49,7 @@
 
     <counter>
       <particles-per-sec>
-        <value> 20 </value>
+        <value> 5 </value>
         <spread> 0 </spread>
       </particles-per-sec>
     </counter>

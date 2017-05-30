@@ -401,7 +401,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <y-offset> 0</y-offset>
     <z-offset>-8</z-offset>
     <eda>0.1</eda>
-    <life>10</life>
+    <life>5</life>
     <buoyancy>28</buoyancy>
     <aero-stabilise>false</aero-stabilise>
     <wind>true</wind>
@@ -421,7 +421,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <y-offset> 0</y-offset>
     <z-offset>-8</z-offset>
     <eda>0.1</eda>
-    <life>10</life>
+    <life>5</life>
     <buoyancy>28</buoyancy>
     <aero-stabilise>false</aero-stabilise>
     <wind>true</wind>
