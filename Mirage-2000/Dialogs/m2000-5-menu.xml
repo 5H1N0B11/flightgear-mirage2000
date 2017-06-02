@@ -78,6 +78,15 @@
         </binding>
       </item>
 
+      <item n="9">
+        <label>wingmen</label>
+        <name>wingmen</name>
+        <binding>
+          <command>dialog-show</command>
+          <dialog-name>wingmen</dialog-name>
+        </binding>
+      </item>
+
     </menu>
   </default>
 

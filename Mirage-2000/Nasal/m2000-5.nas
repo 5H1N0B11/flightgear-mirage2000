@@ -1,6 +1,15 @@
 print("*** LOADING m2000-5.nas ... ***");
 ################################################################################
-#zzzzzzz
+#
+#                       m2005-5's SYSTEMS SETTINGS
+#
+################################################################################
+#
+# Typhonn systems
+# crazy dj nasal from many sources...
+# and also, almursi work
+# and 5H1N0B1
+
 var deltaT                = 1.0;
 var SAS_Loop_running      = 0;
 var Elapsed_time_Seconds  = 0;

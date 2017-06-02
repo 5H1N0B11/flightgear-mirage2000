@@ -12,7 +12,6 @@
     <longitude type="double"> 0 </longitude>
     <latitude type="double">  0 </latitude>
   </closest>
-  
 
   <models>
 
@@ -66,68 +65,67 @@
           </doors>
         </model>
         <weight n="0">
-          <selected>Matra MICA</selected>
+          <selected>none</selected>
         </weight>
         <weight n="1">
-          <selected>Matra MICA IR</selected>
+          <selected>none</selected>
         </weight>
         <weight n="2">
           <selected>none</selected>
         </weight>
         <weight n="3">
-          <selected>1300 l Droptank</selected>
+          <selected>none</selected>
         </weight>
         <weight n="4">
           <selected>none</selected>
         </weight>
         <weight n="5">
-          <selected>Matra MICA IR</selected>
+          <selected>none</selected>
         </weight>
         <weight n="6">
-          <selected>Matra MICA</selected>
+          <selected>none</selected>
         </weight>
         <weight n="7">
-          <selected>Matra MICA</selected>
+          <selected>none</selected>
         </weight>
         <weight n="8">
-          <selected>Matra MICA</selected>
+          <selected>none</selected>
         </weight>
       </sim>
       <controls>
         <armament>
           <station n="0">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="1">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="2">
             <release type="bool">true</release>
           </station>
           <station n="3">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="4">
             <release type="bool">true</release>
           </station>
           <station n="5">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="6">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="7">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="8">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
         </armament>
       </controls>
     </wingman>
 
-
-    <!-- wingman 1 : CONDE-2 (first wingman scenario AI/wingman_m2000-5D_demo.xml) -->
+    <!-- wingman 1 : CONDE-2 (wingman scenario AI/wingman_m2000-5D_demo.xml) -->
     <wingman n="1">
       <gear>
         <gear>
@@ -180,28 +178,28 @@
           <selected>none</selected>
         </weight>
         <weight n="1">
-          <selected>Matra MICA IR</selected>
+          <selected>none</selected>
         </weight>
         <weight n="2">
-          <selected>1700 l Droptank</selected>
+          <selected>none</selected>
         </weight>
         <weight n="3">
           <selected>none</selected>
         </weight>
         <weight n="4">
-          <selected>1700 l Droptank</selected>
+          <selected>none</selected>
         </weight>
         <weight n="5">
-          <selected>Matra MICA IR</selected>
+          <selected>none</selected>
         </weight>
         <weight n="6">
-          <selected>PDLCT</selected>
+          <selected>none</selected>
         </weight>
         <weight n="7">
-          <selected>Matra MICA</selected>
+          <selected>none</selected>
         </weight>
         <weight n="8">
-          <selected>Matra MICA</selected>
+          <selected>none</selected>
         </weight>
       </sim>
       <controls>
@@ -210,36 +208,35 @@
             <release type="bool">true</release>
           </station>
           <station n="1">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="2">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="3">
             <release type="bool">true</release>
           </station>
           <station n="4">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="5">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="6">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="7">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="8">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
         </armament>
       </controls>
     </wingman>
 
 
-
-    <!-- wingman 2 : CONDE-3 (second wingman scenario AI/wingman_m2000-5D_demo.xml) -->
+    <!-- wingman 2 : CONDE-3 (wingman scenario AI/wingman_m2000-5D_demo.xml) -->
     <wingman n="2">
       <gear>
         <gear>
@@ -292,28 +289,28 @@
           <selected>none</selected>
         </weight>
         <weight n="1">
-          <selected>Matra MICA IR</selected>
+          <selected>none</selected>
         </weight>
         <weight n="2">
-          <selected>1700 l Droptank</selected>
+          <selected>none</selected>
         </weight>
         <weight n="3">
           <selected>none</selected>
         </weight>
         <weight n="4">
-          <selected>1700 l Droptank</selected>
+          <selected>none</selected>
         </weight>
         <weight n="5">
-          <selected>Matra MICA IR</selected>
+          <selected>none</selected>
         </weight>
         <weight n="6">
-          <selected>PDLCT</selected>
+          <selected>none</selected>
         </weight>
         <weight n="7">
-          <selected>Matra MICA</selected>
+          <selected>none</selected>
         </weight>
         <weight n="8">
-          <selected>Matra MICA</selected>
+          <selected>none</selected>
         </weight>
       </sim>
       <controls>
@@ -322,33 +319,32 @@
             <release type="bool">true</release>
           </station>
           <station n="1">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="2">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="3">
             <release type="bool">true</release>
           </station>
           <station n="4">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="5">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="6">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="7">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
           <station n="8">
-            <release type="bool">false</release>
+            <release type="bool">true</release>
           </station>
         </armament>
       </controls>
     </wingman>
-
 
 
   </models>

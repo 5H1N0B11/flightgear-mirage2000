@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <!-- If you put the dialog file in the Aircraft/aircraftname/gui/dialog the dialog box is loaded -->
+  <name>wingmen</name>
+  <modal type="bool">false</modal>
+  <layout>vbox</layout>
+  <group>
+    <layout>hbox</layout><empty><stretch>1</stretch></empty><text><label>Wingmen</label></text><empty><stretch>1</stretch></empty>
+    <button><pref-width>16</pref-width><pref-height>16</pref-height><legend /><default>1</default><keynum>27</keynum><border>2</border><binding><command>dialog-close</command></binding><binding><command>dialog-apply</command></binding></button>
+  </group>
+  <hrule />
+
+  <text>
+    <label>IA demos wingman_m2000-5_demo.xml and wingman_m2000-5D_demo.xml has to be enabled</label>
+  </text>
+
+  <group>
+    <layout>table</layout>
+    <halign>left</halign>
+    <text>
+      <row>0</row><col>0</col>
+      <label>config wingman 1</label>
+    </text>
+    <button>
+      <row>0</row><col>1</col>
+      <legend>none</legend>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[0]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[1]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[2]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[3]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[4]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[5]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[6]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[7]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[8]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[0]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[1]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[2]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[3]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[5]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[6]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[7]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[8]/release</property><value>true</value></binding>
+    </button>
+    <button>
+      <row>0</row><col>2</col>
+      <legend>Air-Air</legend>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[0]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[1]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[2]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[3]/selected</property><value>1300 l Droptank</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[4]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[5]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[6]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[7]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[0]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[1]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[2]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[3]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[5]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[6]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[7]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[8]/release</property><value>false</value></binding>
+    </button>
+    <button>
+      <row>0</row><col>3</col>
+      <legend>Air-Ground</legend>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[0]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[1]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[2]/selected</property><value>1700 l Droptank</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[3]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[4]/selected</property><value>1700 l Droptank</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[5]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[6]/selected</property><value>PDLCT</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[7]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[0]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[1]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[2]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[3]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[4]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[5]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[6]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[7]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[8]/release</property><value>false</value></binding>
+    </button>
+    <button>
+      <row>0</row><col>4</col>
+      <legend>as Leader</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+for(var i = 0; i < 8; i += 1)
+{
+    setprop("/ai/models/wingman[0]/sim/weight["~ i ~"]/selected",                 getprop("sim/weight["~ i ~"]/selected"));
+    setprop("/ai/models/wingman[0]/controls/armament/station["~ i ~"]/release",   getprop("controls/armament/station["~ i ~"]/release"));
+}
+        ]]>
+        </script>
+      </binding>
+    </button>
+
+    <text>
+      <row>1</row><col>0</col>
+      <label>config wingman 2</label>
+    </text>
+    <button>
+      <row>1</row><col>1</col>
+      <legend>none</legend>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[0]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[1]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[2]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[3]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[4]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[5]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[6]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[7]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[8]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[0]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[1]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[2]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[3]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[5]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[6]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[7]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[8]/release</property><value>true</value></binding>
+    </button>
+    <button>
+      <row>1</row><col>2</col>
+      <legend>Air-Air</legend>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[0]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[1]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[2]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[3]/selected</property><value>1300 l Droptank</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[4]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[5]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[6]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[7]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[0]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[1]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[2]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[3]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[5]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[6]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[7]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[8]/release</property><value>false</value></binding>
+    </button>
+    <button>
+      <row>1</row><col>3</col>
+      <legend>Air-Ground</legend>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[0]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[1]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[2]/selected</property><value>1700 l Droptank</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[3]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[4]/selected</property><value>1700 l Droptank</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[5]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[6]/selected</property><value>PDLCT</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[7]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[0]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[1]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[2]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[3]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[5]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[6]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[7]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[8]/release</property><value>false</value></binding>
+    </button>
+    <button>
+      <row>1</row><col>4</col>
+      <legend>as Leader</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+for(var i = 0; i < 8; i += 1)
+{
+    setprop("/ai/models/wingman[1]/sim/weight["~ i ~"]/selected",                 getprop("sim/weight["~ i ~"]/selected"));
+    setprop("/ai/models/wingman[1]/controls/armament/station["~ i ~"]/release",   getprop("controls/armament/station["~ i ~"]/release"));
+}
+        ]]>
+        </script>
+      </binding>
+    </button>
+
+    <text>
+      <row>2</row><col>0</col>
+      <label>config wingman 3</label>
+    </text>
+    <button>
+      <row>2</row><col>1</col>
+      <legend>none</legend>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[0]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[1]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[2]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[3]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[4]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[5]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[6]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[7]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[8]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[0]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[1]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[2]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[3]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[5]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[6]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[7]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[8]/release</property><value>true</value></binding>
+    </button>
+    <button>
+      <row>2</row><col>2</col>
+      <legend>Air-Air</legend>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[0]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[1]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[2]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[3]/selected</property><value>1300 l Droptank</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[4]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[5]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[6]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[7]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[0]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[1]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[2]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[3]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[5]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[6]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[7]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[8]/release</property><value>false</value></binding>
+    </button>
+    <button>
+      <row>2</row><col>3</col>
+      <legend>Air-Ground</legend>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[0]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[1]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[2]/selected</property><value>1700 l Droptank</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[3]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[4]/selected</property><value>1700 l Droptank</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[5]/selected</property><value>Matra MICA IR</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[6]/selected</property><value>PDLCT</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[7]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[0]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[1]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[2]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[3]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[5]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[6]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[7]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[8]/release</property><value>false</value></binding>
+    </button>
+    <button>
+      <row>2</row><col>4</col>
+      <legend>as Leader</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+for(var i = 0; i < 8; i += 1)
+{
+    setprop("/ai/models/wingman[2]/sim/weight["~ i ~"]/selected",                 getprop("sim/weight["~ i ~"]/selected"));
+    setprop("/ai/models/wingman[2]/controls/armament/station["~ i ~"]/release",   getprop("controls/armament/station["~ i ~"]/release"));
+}
+        ]]>
+        </script>
+      </binding>
+    </button>
+
+
+  </group>
+
+
+</PropertyList>
