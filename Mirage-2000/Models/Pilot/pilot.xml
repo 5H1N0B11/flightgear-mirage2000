@@ -12,6 +12,8 @@
     <object-name>bras</object-name>
     <object-name>avantbras</object-name>
     <object-name>main</object-name>
+    <object-name>avantbrasD</object-name>
+    <object-name>mainD</object-name>
 
     <!-- Objets transparents -->
     <object-name>lunettes</object-name>
@@ -35,7 +37,10 @@
     <property>sim/model/door-positions/crew/position-norm</property>
     <factor> 45 </factor>
     <center>
-      <x-m> 0.080 </x-m>
+      <!--x-m> 0.080 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.486 </z-m-->
+      <x-m> 0.045 </x-m>
       <y-m> 0.000 </y-m>
       <z-m> 0.486 </z-m>
     </center>
@@ -52,7 +57,10 @@
     <property>controls/flight/elevator</property>
     <factor> -15 </factor>
     <center>
-      <x-m> 0.074 </x-m>
+      <!--x-m> 0.074 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.359 </z-m-->
+      <x-m> 0.049 </x-m>
       <y-m> 0.000 </y-m>
       <z-m> 0.359 </z-m>
     </center>
@@ -69,7 +77,10 @@
     <property>controls/flight/rudder</property>
     <factor> -25 </factor>
     <center>
-      <x-m> 0.074 </x-m>
+      <!--x-m> 0.074 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.359 </z-m-->
+      <x-m> 0.049 </x-m>
       <y-m> 0.000 </y-m>
       <z-m> 0.359 </z-m>
     </center>
@@ -86,7 +97,10 @@
     <property>surface-positions/left-aileron-pos-norm</property>
     <factor> -10 </factor>
     <center>
-      <x-m> 0.074 </x-m>
+      <!--x-m> 0.074 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.359 </z-m-->
+      <x-m> 0.049 </x-m>
       <y-m> 0.000 </y-m>
       <z-m> 0.359 </z-m>
     </center>
@@ -110,14 +124,17 @@
     <object-name>BrasComplet</object-name>
     <property>/controls/engines/engine/throttle</property>
     <interpolation>
-      <entry><ind> 0.0 </ind><dep>  0 </dep></entry>
+      <entry><ind> 0.0 </ind><dep>  2 </dep></entry>
       <entry><ind> 0.5 </ind><dep> 20 </dep></entry>
-      <entry><ind> 1.0 </ind><dep> 40 </dep></entry>
+      <entry><ind> 1.0 </ind><dep> 50 </dep></entry>
     </interpolation>
     <center>
-      <x-m>  0.055 </x-m>
+      <!--x-m>  0.055 </x-m>
       <y-m> -0.111 </y-m>
-      <z-m>  0.248 </z-m>
+      <z-m>  0.248 </z-m-->
+      <x-m>  0.03 </x-m>
+      <y-m> -0.09 </y-m>
+      <z-m>  0.25 </z-m>
     </center>
     <axis>
       <x> 0 </x>
@@ -137,14 +154,17 @@
     <object-name>AvantbrasComplet</object-name>
     <property>/controls/engines/engine/throttle</property>
     <interpolation>
-      <entry><ind> 0.0 </ind><dep>   0 </dep></entry>
-      <entry><ind> 0.5 </ind><dep> -10 </dep></entry>
-      <entry><ind> 1.0 </ind><dep> -30 </dep></entry>
+      <entry><ind> 0.0 </ind><dep>   2 </dep></entry>
+      <entry><ind> 0.5 </ind><dep> -20 </dep></entry>
+      <entry><ind> 1.0 </ind><dep> -62 </dep></entry>
     </interpolation>
     <center>
-      <x-m>  0.148 </x-m>
+      <!--x-m>  0.148 </x-m>
       <y-m> -0.319 </y-m>
-      <z-m>  0.033 </z-m>
+      <z-m>  0.033 </z-m-->
+      <x-m>  0.01 </x-m>
+      <y-m> -0.32 </y-m>
+      <z-m>  0.01 </z-m>
     </center>
     <axis>
       <x> 0 </x>
