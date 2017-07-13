@@ -148,31 +148,31 @@ var HUD = {
             .set("fill", "rgba(0,255,0,0.9)");
 
     # Heading
-    m.hdg =
-      m.text.createChild("text")
-            .setDrawMode(3)
-            .setPadding(2)
-            .setAlignment("center-top")
-            .setTranslation(0, -140);
+    #m.hdg =
+    #  m.text.createChild("text")
+    #        .setDrawMode(3)
+    #        .setPadding(2)
+    #        .setAlignment("center-top")
+    #        .setTranslation(0, -140);
 
     # Airspeed
-    m.airspeed =
-      m.text.createChild("text")
-            .setAlignment("right-center")
-            .setTranslation(-140, -150);
+    #m.airspeed =
+      #m.text.createChild("text")
+      #      .setAlignment("right-center")
+      #      .setTranslation(-140, -150);
     
     # Groundspeed
-    m.groundspeed =
-      m.text.createChild("text")
-            .setAlignment("left-center")
-            .setTranslation(-220, 90);
+    #m.groundspeed =
+    #  m.text.createChild("text")
+    #        .setAlignment("left-center")
+    #        .setTranslation(-220, 90);
     
     # Vertical speed
-    m.vertical_speed =
-      m.text.createChild("text")
-            .setFontSize(10, 0.9)
-            .setAlignment("right-center")
-            .setTranslation(205, 50);
+    #m.vertical_speed =
+    #  m.text.createChild("text")
+    #        .setFontSize(10, 0.9)
+    #        .setAlignment("right-center")
+    #        .setTranslation(205, 50);
     
     # Radar altidude
     m.rad_alt =
@@ -218,19 +218,19 @@ var HUD = {
     m.h_rot   = m.horizon_group.createTransform();
     
     # Pitch lines
-    for(var i = -90; i <= 90; i += 5)
-    {
-      if(i!=0){
-        m.horizon_group.createChild("path")
-                     .moveTo(24, -i * 18)
-                     .horiz(48)
-                     .vert(7)
-                     .moveTo(-24, -i * 18)
-                     .horiz(-48)
-                     .vert(7)
-                     .setStrokeLineWidth(1.5);
-      }
-    }
+    #for(var i = -90; i <= 90; i += 5)
+    #{
+    #  if(i!=0){
+    #    m.horizon_group.createChild("path")
+    #                 .moveTo(24, -i * 18)
+    #                 .horiz(48)
+    #                 .vert(7)
+    #                 .moveTo(-24, -i * 18)
+    #                 .horiz(-48)
+    #                 .vert(7)
+    #                 .setStrokeLineWidth(1.5);
+    #  }
+    #}
     
     # Horizon line
     m.horizon_group.createChild("path")
@@ -323,9 +323,9 @@ var HUD = {
   },
   update: func()
   {
-    me.airspeed.setText(sprintf("%d", me.input.ias.getValue()));
-    me.groundspeed.setText(sprintf("G %3d", me.input.gs.getValue()));
-    me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
+    #me.airspeed.setText(sprintf("%d", me.input.ias.getValue()));
+    #me.groundspeed.setText(sprintf("G %3d", me.input.gs.getValue()));
+    #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
     
     var rad_alt = me.input.rad_alt.getValue();
     if( rad_alt and rad_alt < 5000 ) # Only show below 5000AGL
@@ -334,7 +334,7 @@ var HUD = {
       rad_alt = nil;
     me.rad_alt.setText(rad_alt);
     
-    me.hdg.setText(sprintf("%03d", me.input.hdg.getValue()));
+    #me.hdg.setText(sprintf("%03d", me.input.hdg.getValue()));
     me.h_trans.setTranslation(0, 18 * me.input.pitch.getValue());
     
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
@@ -381,13 +381,13 @@ var HUD = {
       );
       
     me.horizon_group.hide();
-    me.hdg.hide();
-    me.groundspeed.hide();  
+    #me.hdg.hide();
+    #me.groundspeed.hide();  
     me.rad_alt.hide();
-    me.airspeed.hide();
+    #me.airspeed.hide();
     me.energy_cue.hide();
     me.acc.hide();
-    me.vertical_speed.hide();
+    #me.vertical_speed.hide();
     
     
     #Pilot position:    
@@ -535,15 +535,24 @@ var HUD = {
           .line(8, 4)
           .line(-8, 4);
 
-    settimer(func me.update(), 0);
+    #settimer(func me.update(), 0.1);
   }
 };
 
-var init = setlistener("/sim/signals/fdm-initialized", func() {
-  removelistener(init); # only call once
-  var hud_pilot = HUD.new({"node": "canvasHUD", "texture": "hud.png"});
-  hud_pilot.update();
+
+
+#var init = setlistener("/sim/signals/fdm-initialized", func() {
+#  removelistener(init); # only call once
+#  var hud_pilot = HUD.new({"node": "canvasHUD", "texture": "hud.png"});
+#  hud_pilot.update();
 #  var hud_copilot = HUD.new({"node": "verre2"});
 #  hud_copilot.update();
-});
+#});
+
+#var initcanvas = func() {
+#  var hud_pilot = HUD.new({"node": "canvasHUD", "texture": "hud.png"});
+#  hud_pilot.update();
+  #var hud_copilot = HUD.new({"node": "verre2"});
+  #hud_copilot.update()
+#};
 

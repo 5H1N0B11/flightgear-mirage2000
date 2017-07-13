@@ -19,6 +19,9 @@ var LastTime              = 0;
 var Elapsed               = 0;
 var myErr = [];
 
+
+#======   OBJECT CREATION =======
+
 # Need some simplification in the way to manage the interval
 var engine1 = engines.Jet.new(0, 0, 0.01, 20, 3, 5, 30, 15);
 
@@ -30,6 +33,10 @@ var engine1 = engines.Jet.new(0, 0, 0.01, 20, 3, 5, 30, 15);
 var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:1, forcePath:"instrumentation/radar2/targets", NewAutoUpdate:1);
 var LaserDetection = radar.Radar.new(NewRangeTab:[20], NewVerticalAzimuth:180, NewRangeIndex:0, NewTypeTarget:["aircraft", "multiplayer", "carrier", "ship", "missile", "aim120", "aim-9"], NewRadarType:"laser", NewhaveSweep:0, NewAutoUpdate:0, forcePath:"instrumentation/radar2/targets");
 setprop("/instrumentation/radar/az-fieldCenter", 0);
+
+var hud_pilot = hud.HUD.new({"node": "canvasHUD", "texture": "hud.png"});
+
+#===============================
 
 var InitListener = setlistener("/sim/signals/fdm-initialized", func() {
     settimer(main_Init_Loop, 5.0);
@@ -65,7 +72,7 @@ var main_Init_Loop = func()
     
     print("Radar ... Check");
     myRadar3.init();
-    LaserDetection.init();
+    LaserDetection.init();  
     
     print("Flight Director ... Check");
     settimer(mirage2000.init_set, 4.0);
@@ -79,11 +86,17 @@ var main_Init_Loop = func()
     print("system loop ... Check");
     settimer(UpdateMain, 8.0);
     
+    print("blackout ... Check");
+    settimer(blackout.blackout_init, 10);
+    
     print("minihud ... Check");
     settimer(hud.minihud, 10);
     
-    print("MFD ... Check");
+        
+    print("HUD canvas...Check");
+    hud_pilot.update();
     
+    print("MFD ... Check");
     settimer(mirage2000.setCentralMFD, 10);
     if(getprop("/instrumentation/efis/Mode"))
     {
@@ -124,7 +137,13 @@ var updatefunction = func()
             call(mirage2000.update_fd,nil,nil,nil, myErr);
         }
     }
-
+    ### HUD update. it takes lot of ressources and it's, for now, only to show radar contact
+    #print("Size Radar3 : "~ size(mirage2000.myRadar3.update()));#This is working but do not have offset
+    if(size(mirage2000.myRadar3.update())>0){
+      hud_pilot.update();
+    }
+    
+    
     if(Elapsed_time_Seconds != Elapsed_time_previous)
     {
         call(mirage2000.fuel_managment,nil,nil,nil, myErr);

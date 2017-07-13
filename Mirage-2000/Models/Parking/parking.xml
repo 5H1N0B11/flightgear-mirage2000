@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- changelog
+
+       02/08/2015 Updated by Hardball : added comments
+-->
+<PropertyList>
+  
+  <path>parking.ac</path>
+
+  <animation>
+    <object-name>parking</object-name>
+
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>parking</object-name>
+    <condition>
+      <and>
+        <property>controls/ground-equipment</property>
+        <property>controls/engines/engine[0]/cutoff</property>
+      </and>
+    </condition>
+  </animation>
+
+</PropertyList>

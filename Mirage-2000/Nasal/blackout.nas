@@ -149,7 +149,7 @@ var blackout_loop = func() {
         setprop("/sim/rendering/redout/red", 0);
         setprop("/sim/rendering/redout/alpha", sum);
     }
-    settimer(blackout_loop, 0);
+    settimer(blackout_loop, 0.1);
 }
 
 var blackout_init = func() {
@@ -165,10 +165,10 @@ var blackout_init = func() {
     }
 }
 
-var blackout_init_listener = setlistener("sim/signals/fdm-initialized", func() {
-    blackout_init();
-    removelistener(blackout_init_listener);
-}, 0, 0);
+#var blackout_init_listener = setlistener("sim/signals/fdm-initialized", func() {
+#    blackout_init();
+#    removelistener(blackout_init_listener);
+#}, 0, 0);
 
 
 var test = func(blackout_onset, blackout_fast, blackout_onset_time, blackout_fast_time) {
