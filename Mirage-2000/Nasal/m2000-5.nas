@@ -17,8 +17,8 @@ var Elapsed_time_previous = 0;
 var LastTime              = 0;
 # Elapsed for time > 0.25 sec
 var Elapsed               = 0;
-var myErr = [];
-
+var myErr                 = [];
+var myFramerate           = {a:0,b:0,c:0,d:0};#a = 0.1, b=0.2, c = 0.5, d=1
 
 #======   OBJECT CREATION =======
 
@@ -31,7 +31,7 @@ var engine1 = engines.Jet.new(0, 0, 0.01, 20, 3, 5, 30, 15);
 #var RDY
 
 var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:1, forcePath:"instrumentation/radar2/targets", NewAutoUpdate:1);
-var LaserDetection = radar.Radar.new(NewRangeTab:[20], NewVerticalAzimuth:180, NewRangeIndex:0, NewTypeTarget:["aircraft", "multiplayer", "carrier", "ship", "missile", "aim120", "aim-9"], NewRadarType:"laser", NewhaveSweep:0, NewAutoUpdate:0, forcePath:"instrumentation/radar2/targets");
+#var LaserDetection = radar.Radar.new(NewRangeTab:[20], NewVerticalAzimuth:180, NewRangeIndex:0, NewTypeTarget:["aircraft", "multiplayer", "carrier", "ship", "missile", "aim120", "aim-9"], NewRadarType:"laser", NewhaveSweep:0, NewAutoUpdate:0, forcePath:"instrumentation/radar2/targets");
 setprop("/instrumentation/radar/az-fieldCenter", 0);
 
 var hud_pilot = hud.HUD.new({"node": "canvasHUD", "texture": "hud.png"});
@@ -72,7 +72,7 @@ var main_Init_Loop = func()
     
     print("Radar ... Check");
     myRadar3.init();
-    LaserDetection.init();  
+    #LaserDetection.init();  
     
     print("Flight Director ... Check");
     settimer(mirage2000.init_set, 4.0);
@@ -110,49 +110,55 @@ var UpdateMain = func
 }
 
 var updatefunction = func()
-{
-    Elapsed_time_Seconds = int(getprop("/sim/time/elapsed-sec"));
+{  
     AbsoluteTime = getprop("/sim/time/elapsed-sec");
+    #Things to update, order by refresh rate.
     
+    ########################### rate 0
     mirage2000.Update_SAS();
-    mirage2000.update_main();
-    MfdTime = getprop ("sim/time/elapsed-sec");
-    if(AbsoluteTime - Elapsed > 0.5)
-    {
-        call(m2000_load.Encode_Load,nil,nil,nil, myErr);
-        call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
-        Elapsed = Elapsed_time_Seconds;11
-    }
+    call(mirage2000.tfs_radar,nil,nil,nil, myErr);
+    
     
     # Flight Director (autopilot)
     if(getprop("/autopilot/locks/AP-status") == "AP1")
     {
         call(mirage2000.update_fd,nil,nil,nil, myErr);
     }
-    else
-    {
-        # this is a way to reduce autopilot refreshing time when not activated  <-? what
-        if(Elapsed_time_Seconds != Elapsed_time_previous)
-        {
-            call(mirage2000.update_fd,nil,nil,nil, myErr);
-        }
-    }
-    ### HUD update. it takes lot of ressources and it's, for now, only to show radar contact
-    #print("Size Radar3 : "~ size(mirage2000.myRadar3.update()));#This is working but do not have offset
-    if(size(mirage2000.myRadar3.update())>0){
+
+    
+
+    ################## Rate 0.1 ##################
+    if(AbsoluteTime - myFramerate.a > 0.05){
+      #call(hud_pilot.update,nil,nil,nil, myErr);
       hud_pilot.update();
+      call(mirage2000.theShakeEffect,nil,nil,nil, myErr);
+      myFramerate.a = AbsoluteTime;
     }
     
     
-    if(Elapsed_time_Seconds != Elapsed_time_previous)
+    
+    ################## rate 0.5 ###############################
+
+    if(AbsoluteTime - myFramerate.c > 0.5)
+    {
+        call(m2000_load.Encode_Load,nil,nil,nil, myErr);
+        call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
+        myFramerate.b = AbsoluteTime;
+    }
+    
+
+
+    ###################### rate 1 ###########################
+    if(AbsoluteTime - myFramerate.d > 1)
     {
         call(mirage2000.fuel_managment,nil,nil,nil, myErr);
+        if(getprop("/autopilot/locks/AP-status") == "AP1"){
+          call(mirage2000.update_fd,nil,nil,nil, myErr);
+        }
+        myFramerate.d = AbsoluteTime;
     }
-    call(mirage2000.tfs_radar,nil,nil,nil, myErr);
-    call(mirage2000.theShakeEffect,nil,nil,nil, myErr);
-    
-    Elapsed_time_previous = Elapsed_time_Seconds;
-    LastTime = AbsoluteTime;
+
+    # Update at the end
     call(mirage2000.UpdateMain,nil,nil,nil, myErr);
 }
 

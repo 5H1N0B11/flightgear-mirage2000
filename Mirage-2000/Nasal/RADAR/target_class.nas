@@ -54,6 +54,11 @@ var Target = {
           }
         }
 
+        obj.life = 5; #Have to be given in parameters, but now written in hard
+        obj.objectDeviationDeg = 0;
+        obj.objectElevationDeg = 0;
+        obj.objectDisplay       = 0;
+        
         
         obj.string          = "ai/models/" ~ obj.type ~ "[" ~ obj.index ~ "]";
         obj.shortstring     = obj.type ~ "[" ~ obj.index ~ "]";
@@ -69,6 +74,7 @@ var Target = {
         #print("obj.InstrString:" ~obj.InstrString);
         
         #================== This create the tree ===========================
+        #on the long term, tree have to disapear
         obj.InstrTgts       = props.globals.getNode(obj.InstrString, 1);
         
         obj.TgtsFiles       =   0; #obj.InstrTgts.getNode(obj.shortstring, 1);
@@ -113,9 +119,6 @@ var Target = {
     },
 
     create_tree: func(MyAircraftCoord,MyAircraftHeading = nil) {
-        #return;
-        
-        
         me.TgtsFiles      = me.InstrTgts.getNode(me.shortstring, 1);
         
         me.MyCallsign     = me.TgtsFiles.getNode("callsign", 1);
@@ -152,8 +155,7 @@ var Target = {
         var velocities =me.TgtsFiles.getNode("velocities/true-airspeed-kt",1);
         var transpondeur =me.TgtsFiles.getNode("instrumentation/transponder/transmitted-id",1);
         var heading =me.TgtsFiles.getNode("orientation/true-heading-deg",1);
-        var myDeviation = me.get_deviation(MyAircraftHeading,MyAircraftCoord);
-        
+        #var myDeviation = me.get_deviation(MyAircraftHeading,MyAircraftCoord);
 
         altTree.setValue(me.Alt.getValue());
         latTree.setValue(me.lat.getValue());
@@ -162,10 +164,8 @@ var Target = {
         radarBearing.setValue(me.Bearing.getValue());
         radarRange.setValue(me.Range.getValue());
         elevation.setValue(me.Elevation.getValue());
-        deviation.setValue(myDeviation);
+        deviation.setValue(me.objectDeviationDeg);
         velocities.setValue(me.Speed.getValue());
-        me.InRangeProperty.setBoolValue(me.InRange);
-        
         if(me.TransponderID != nil)
         {
             if(me.TransponderID.getValue() != nil)
@@ -306,22 +306,14 @@ var Target = {
         return myBearing;
     },
 
-    set_relative_bearing: func(n){
-        if(n == nil)
-        {
-            n = 0;
-        }
-        me.RelBearing = n;
-    },
-
     get_reciprocal_bearing: func(){
         return geo.normdeg(me.get_bearing() + 180);
     },
 
     get_deviation: func(true_heading_ref, coord){
-        me.deviation =  - deviation_normdeg(true_heading_ref, me.get_bearing_from_Coord(coord));
+        me.objectDeviationDeg =  - deviation_normdeg(true_heading_ref, me.get_bearing_from_Coord(coord));
         #print(me.deviation);
-        return me.deviation;
+        return me.objectDeviationDeg;
     },
 
     get_altitude: func(){
@@ -331,8 +323,8 @@ var Target = {
 
     get_Elevation_from_Coord: func(MyAircraftCoord){
         var myCoord = me.get_Coord();
-        var myPitch = math.asin((myCoord.alt() - MyAircraftCoord.alt()) / myCoord.direct_distance_to(MyAircraftCoord)) * R2D;
-        return myPitch;
+        me.objectElevationDeg = math.asin((myCoord.alt() - MyAircraftCoord.alt()) / myCoord.direct_distance_to(MyAircraftCoord)) * R2D;
+        return me.objectElevationDeg;
     },
 
     get_total_elevation_from_Coord: func(own_pitch, MyAircraftCoord){
@@ -436,9 +428,22 @@ var Target = {
 
     set_display: func(n,writeTree = nil){
         if(writeTree == nil or writeTree==1){
-          me.Display.setValue(n);
+          me.Display.setBoolValue(n);
         }else{
           me.Display = n;
+        }
+        me.objectDisplay = n;
+    },
+    
+    set_relative_bearing: func(n,writeTree = nil){
+        if(n == nil)
+        {
+            n = 0;
+        }
+        if(writeTree == nil or writeTree==1){
+          me.RelBearing.setValue(n);
+        }else{          
+          me.RelBearing = n;
         }
     },
 
@@ -476,11 +481,11 @@ var Target = {
     },
 
     set_tid_draw_range_nm: func(n,writeTree = nil){
-        print("The n 1:" ~ n);
+        #print("The n 1:" ~ n);
         if(writeTree == nil or writeTree==1){
-          print("The n 2:" ~ n);
+          #print("The n 2:" ~ n);
           me.TidDrawRangeNm.setValue(n);
-          print("The n 3:" ~ me.TidDrawRangeNm.getValue());
+          #print("The n 3:" ~ me.TidDrawRangeNm.getValue());
         }else{
           me.TidDrawRangeNm = n;
         }

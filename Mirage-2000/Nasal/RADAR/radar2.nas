@@ -19,6 +19,9 @@ var tmp_nearest_u     = nil;
 var nearest_rng       = 0;
 var nearest_u         = nil;
 var missileIndex = 0;
+var MytargetVariable = nil;
+#var LoopElapsed =0;
+
 
 #This is done for detecting a terrain between aircraft and target. Since 2017.2.1, a new method allow to do the same, faster, and with more precision. (See isNotBehindTerrain function)
 var versionString = getprop("sim/version/flightgear");
@@ -125,6 +128,7 @@ var Radar = {
         
         # variables that need to be initialised
         m.loop_running  = 0;
+        m.LoopElapsed = 0;
        
         m.MyCoord       = geo.aircraft_position(); # this is when the radar is on our own aircraft. This part have to change if we want to put the radar on a missile/AI
         m.az_fld        = m.unfocused_az_fld;
@@ -132,6 +136,7 @@ var Radar = {
 
         # for Target Selection
         m.tgts_list     = [];
+        m.ContactsList = [];
         m.Target_Index  = -1 ; # for Target Selection
         m.Target_Callsign   = nil;
         
@@ -179,7 +184,7 @@ var Radar = {
         print(m.myTree.getPath());
         
         # update interval for engine init() functions
-        m.UPDATE_PERIOD = 0.1; 
+        m.UPDATE_PERIOD = 0.05; 
         
         # return our new object
         return m;
@@ -224,13 +229,13 @@ var Radar = {
             #me.Global_janitor();
             settimer(loop_Update, me.UPDATE_PERIOD);
         };
-        settimer(loop_Update, 0);
+        settimer(loop_Update,me.UPDATE_PERIOD);
 
         var loop_Sweep = func() {
             if(me.haveSweep ==1){me.maj_sweep();}
-            settimer(loop_Sweep, 0);
+            settimer(loop_Sweep, 0.05);
         };
-        settimer(loop_Sweep, 0);
+        settimer(loop_Sweep,0.05);
     },
 
     ############
@@ -250,6 +255,7 @@ var Radar = {
             me.MyCoord = tempCoord;
         }
         
+        me.LoopElapsed = getprop("sim/time/elapsed-sec") - me.TimeWhenUpdate;
         # This is to know when was the last time we called the update
         me.TimeWhenUpdate = getprop("sim/time/elapsed-sec");
         
@@ -369,6 +375,7 @@ var Radar = {
                       u.set_all(me.MyCoord);
                       me.calculateScreen(u);
                     }
+                    me.update_array(u);
                     # for Target Selection
                     # here we disable the capacity of targeting a missile. But 's possible.
                     append(CANVASARRAY, u);
@@ -391,8 +398,9 @@ var Radar = {
                 }
             }
         }
+
+        me.decrease_life();
         me.Global_janitor();
-        #settimer(me.Global_janitor(),me.janitorTime);
         return CANVASARRAY;
     },
     
@@ -403,6 +411,7 @@ var Radar = {
         
         SelectedObject.check_carrier_type();
         mydeviation = SelectedObject.get_deviation(me.OurHdg, me.MyCoord);
+        #print("My Radar deviation %f", mydeviation);
         var u_rng = me.targetRange(SelectedObject);
         
         # compute mp position in our B-scan like display. (Bearing/horizontal + Range/Vertical).
@@ -417,7 +426,7 @@ var Radar = {
         SelectedObject.set_tid_draw_range_nm(factor_range_radar * u_rng,me.UseATree);
         
         # Compute first digit of mp altitude rounded to nearest thousand. (labels).
-        SelectedObject.set_rounded_alt(rounding1000(SelectedObject.get_altitude()) / 1000);
+        SelectedObject.set_rounded_alt(rounding1000(SelectedObject.get_altitude()) / 1000,me.UseATree);
         
         # Compute closure rate in Kts.
         #SelectedObject.get_closure_rate_from_Coord(me.MyCoord) * MPS2KT;
@@ -863,6 +872,7 @@ var Radar = {
     },
     
     Global_janitor: func(){
+        #Action on tree. Too complicated. has to be corrected or removed
         # This function is made to remove all persistent non relevant data on radar2 tree
         #var myRadarNode = props.globals.getNode("instrumentation/radar2/targets", 1);
         var raw_list = me.myTree.getChildren();
@@ -1013,6 +1023,44 @@ var Radar = {
             setprop("/ai/closest/range", 0);
         }
     },
+    
+
+    #Update element of the actual diplayed array
+    update_Element_of_array: func(SelectedObject){
+      forindex(i; me.ContactsList){
+        if(me.ContactsList[i].get_Callsign()==SelectedObject.get_Callsign()){
+          me.ContactsList[i] = SelectedObject;
+          return 1;
+        }
+      }
+      return 0
+    },
+    
+    #add element to the array
+    add_Element_to_Array: func(SelectedObject){
+      append(me.ContactsList,SelectedObject);
+    },   
+    
+    #update array : update element, or add it if there aren't present
+    update_array: func(SelectedObject){
+      if(me.update_Element_of_array(SelectedObject)==0){
+        me.add_Element_to_Array(SelectedObject);
+      }
+      #print("My Array  Size = %d ",size(me.ContactsList));
+    },
+    
+    #decrease life of element. < 0 then it's not displayed anymore
+    #should call a remove_element function to remove element from array
+    decrease_life: func(){
+      foreach(contact;me.ContactsList){
+        contact.life = contact.life - me.LoopElapsed;
+        if(contact.life<1){
+          contact.set_display(0);
+        }
+      }
+    },
+ 
+ 
     GetTarget: func(){
         if(me.tgts_list == nil)
         {
@@ -1066,5 +1114,3 @@ var rounding1000 = func(n){
     n = (n >= l) ? ((a + 1) * 1000) : (a * 1000);
     return(n);
 }
-
-

@@ -41,6 +41,16 @@ var pow2 = func(x) { return x * x; };
 var vec_length = func(x, y,z=0) { return math.sqrt(pow2(x) + pow2(y)+pow2(z)); };
 
 
+#Nodes values variables
+var mydeviation = 0;
+var myelevation = 0;
+var displayIt = 0;
+var target_callsign = "";
+var target_altitude = 0;
+var target_closureRate = 0;
+var target_heading_deg = 0;
+var target_Distance = 0;
+var raw_list = [];
 
 
 #verre2
@@ -105,9 +115,9 @@ var wideMeters = math.abs(-0.02038 - (-0.15438));
 #Pilotx = getprop("sim/view[0]/config/z-offset-m");
 #Piloty = getprop("sim/view[0]/config/x-offset-m");
 
-var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
-print("Size:" ~ size(raw_list));
-var MaxTarget = size(raw_list);
+#var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
+#print("Size:" ~ size(raw_list));
+var MaxTarget = 15;
 
 
 #center of the hud
@@ -147,107 +157,37 @@ var HUD = {
       m.root.createChild("group")
             .set("fill", "rgba(0,255,0,0.9)");
 
-    # Heading
-    #m.hdg =
-    #  m.text.createChild("text")
-    #        .setDrawMode(3)
-    #        .setPadding(2)
-    #        .setAlignment("center-top")
-    #        .setTranslation(0, -140);
-
-    # Airspeed
-    #m.airspeed =
-      #m.text.createChild("text")
-      #      .setAlignment("right-center")
-      #      .setTranslation(-140, -150);
-    
-    # Groundspeed
-    #m.groundspeed =
-    #  m.text.createChild("text")
-    #        .setAlignment("left-center")
-    #        .setTranslation(-220, 90);
-    
-    # Vertical speed
-    #m.vertical_speed =
-    #  m.text.createChild("text")
-    #        .setFontSize(10, 0.9)
-    #        .setAlignment("right-center")
-    #        .setTranslation(205, 50);
-    
+   
     # Radar altidude
     m.rad_alt =
       m.text.createChild("text")
             .setAlignment("right-center")
             .setTranslation(220, 70);
 
-    # Waterline / Pitch indicator
-      #m.root.createChild("path")
-       #     .moveTo(-24, 0)
-       #     .horizTo(-8)
-       #     .lineTo(-4, 6)
-       #     .lineTo(0, 0)
-       #     .lineTo(4, 6)
-       #     .lineTo(8, 0)
-       #     .horizTo(24)
-       #     .setStrokeLineWidth(0.9);
-    
-    # Flightpath/Velocity vector
-    m.fpv = m.root.createChild("group", "FPV");
- #   m.fpv.createChild("path")
-  #       .moveTo(8, 0)
-   #      .arcSmallCCW(8, 8, 0, -16, 0)
-    #     .arcSmallCCW(8, 8, 0,  16, 0)
-     #    .moveTo(-8, 0)
-      #   .horiz(-16)
-       #  .moveTo(8, 0)
-        # .horiz(16)
-         #.setStrokeLineWidth(0.9);
 
-    # Energy/Acceleration cues
-    m.energy_cue =
-      m.fpv.createChild("path")
-           .setStrokeLineWidth(1);
-
-    m.acc =
-      m.fpv.createChild("path")
-           .setStrokeLineWidth(1);
-    
     # Horizon
     m.horizon_group = m.root.createChild("group");
     m.h_trans = m.horizon_group.createTransform();
     m.h_rot   = m.horizon_group.createTransform();
     
-    # Pitch lines
-    #for(var i = -90; i <= 90; i += 5)
-    #{
-    #  if(i!=0){
-    #    m.horizon_group.createChild("path")
-    #                 .moveTo(24, -i * 18)
-    #                 .horiz(48)
-    #                 .vert(7)
-    #                 .moveTo(-24, -i * 18)
-    #                 .horiz(-48)
-    #                 .vert(7)
-    #                 .setStrokeLineWidth(1.5);
-    #  }
-    #}
-    
+  
     # Horizon line
     m.horizon_group.createChild("path")
                    .moveTo(-500, 0)
                    .horizTo(500)
                    .setStrokeLineWidth(1.5);
+    m.radarStuffGroup = m.root.createChild("group");
                      
       
    ##################################### Circle ####################################
     m.targetArray = [];
-    m.circle_group2 = m.root.createChild("group");
+    m.circle_group2 = m.radarStuffGroup.createChild("group");
     for(var i = 1; i <= MaxTarget; i += 1){
       myCircle = m.circle_group2.createChild("path")
         .moveTo( 10, 0)
         .arcSmallCW(15,15, 0, -30, 0)
         .arcSmallCW(15,15, 0, 30, 0)
-        .setStrokeLineWidth(3)
+        .setStrokeLineWidth(4)
         .set("stroke", "rgba(0,180,0,0.9)");
       append(m.targetArray, myCircle);
     }
@@ -255,7 +195,7 @@ var HUD = {
   
     ####################### Info Text ########################################
     m.TextInfoArray = [];
-    m.TextInfoGroup = m.root.createChild("group");
+    m.TextInfoGroup = m.radarStuffGroup.createChild("group");
     
     for(var i = 1; i <= MaxTarget; i += 1){
         # on affiche des infos de la cible a cote du cercle
@@ -263,7 +203,7 @@ var HUD = {
                 .setTranslation(15, -10)
                 .setAlignment("left-center")
                 .setFont("LiberationFonts/LiberationSansNarrow-Bold.ttf")
-                .setFontSize(9)
+                .setFontSize(26)
                 .setColor(0,180,0,0.9)
                 .setText("VOID");
         append(m.TextInfoArray, text_info);
@@ -275,27 +215,29 @@ var HUD = {
     #######################  Triangles ##########################################
     
     var TriangleSize = 30;
-    m.TriangleGroupe = m.root.createChild("group");
+    m.TriangleGroupe = m.radarStuffGroup.createChild("group");
     
-    #m.triangleArray = [];
+
     # le triangle donne le cap relatif
         m.triangle = m.TriangleGroupe.createChild("path")
-            .setStrokeLineWidth(2)
+            .setStrokeLineWidth(3)
             .set("stroke", "rgba(0,180,0,0.9)")
             .moveTo(0, TriangleSize*-1)
             .lineTo(TriangleSize*0.866, TriangleSize*0.5)
             .lineTo(TriangleSize*-0.866, TriangleSize*0.5)
             .lineTo(0, TriangleSize*-1);
-    TriangleSize = TriangleSize*0.8;
+    TriangleSize = TriangleSize*0.7;
     
         m.triangle2 = m.TriangleGroupe.createChild("path")
-            .setStrokeLineWidth(2)
+            .setStrokeLineWidth(3)
             .set("stroke", "rgba(0,180,0,0.9)")
             .moveTo(0, TriangleSize*-1)
             .lineTo(TriangleSize*0.866, TriangleSize*0.5)
             .lineTo(TriangleSize*-0.866, TriangleSize*0.5)
-            .lineTo(0, TriangleSize*-1);
+            .lineTo(0, TriangleSize*-1.1);
          m.triangleRot =  m.TriangleGroupe.createTransform();
+         
+    m.TriangleGroupe.hide();
 
     m.input = {
       pitch:      "/orientation/pitch-deg",
@@ -371,7 +313,7 @@ var HUD = {
     var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.01)) * 180.0 / math.pi;
     var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.01)) * 180.0 / math.pi;
 
-    me.fpv.setTranslation(dir_x * 18, dir_y * 18);
+    #me.fpv.setTranslation(dir_x * 18, dir_y * 18);
 
     var speed_error = 0;
     if( me.input.target_spd.getValue() != nil )
@@ -385,8 +327,8 @@ var HUD = {
     #me.groundspeed.hide();  
     me.rad_alt.hide();
     #me.airspeed.hide();
-    me.energy_cue.hide();
-    me.acc.hide();
+    #me.energy_cue.hide();
+    #me.acc.hide();
     #me.vertical_speed.hide();
     
     
@@ -406,89 +348,47 @@ var HUD = {
     
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
     
-    #print(mydistanceTohud);
-    #Node variables
-    var mydeviationNode = nil;
-    var myelevationNode = nil;
-    var displayITNode = nil;
-    var target_callsignNode = nil;
-    var target_altitudeNode = nil;
-    var target_closureRateNode = nil;
-    var target_headingNode = nil;
-    var target_DistanceNode = nil;
-    
-    #Nodes values variables
-    var mydeviation = 0;
-    var myelevation = 0;
-    var displayIt = 0;
-    var target_callsign = "";
-    var target_altitude = 0;
-    var target_closureRate = 0;
-    var target_heading_deg = 0;
-    var target_Distance = 0;
+    #print(mydistanceTohud)
+
     
     #To put a triangle on the selected target
     #This should be changed by calling directly the radar object (in case of multi targeting)
+    
     var closestCallsign = getprop("ai/closest/callsign");
     var closestRange = getprop("ai/closest/range");
     var Token = 0;
     
 
     #myarrayofTarget = mirage2000.myRadar3.update();
-    var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
-    
+    raw_list = mirage2000.myRadar3.ContactsList;
+      
     #print("Size:" ~ size(raw_list));
     i=0;
+    
     foreach(var c; raw_list){
       
       if(i<size(me.targetArray)){
 
-        mydeviationNode = c.getNode("radar/deviation-deg"); 
-        myelevationNode = c.getNode("radar/elevation-deg");
-        displayITNode = c.getNode("display");
-        if(displayITNode != nil){
-          displayIt = displayITNode.getValue();
-          displayIt = displayIt==nil?0:displayIt;
-          #print("displayIt : "~displayIt);
-        }
 
-        if(mydeviationNode != nil and displayIt==1){
+        displayIt = c.objectDisplay;
+        #print("Display it : %d",displayIt);
+        if(displayIt==1){
 
-          #Extraction of the text data
-          target_callsignNode = c.getNode("callsign");
-          target_callsign = target_callsignNode.getValue();
-          
-          target_altitudeNode = c.getNode("position/altitude-ft");
-          target_altitude = target_altitudeNode.getValue();
-          
-          target_closureRateNode = c.getNode("closure-rate-kts");
-          target_closureRate = target_closureRateNode.getValue();
-          
-          target_headingNode = c.getNode("orientation/true-heading-deg");
-          target_heading_deg = target_headingNode.getValue();
-          
-          target_DistanceNode = c.getNode("radar/range-nm");
-          target_Distance = target_DistanceNode.getValue();
-          
-          #print("It worked");
-          #print("offsetZ : "~ offsetZ);
+
+          target_callsign = c.get_Callsign();
+          target_altitude = c.get_altitude();
+          target_heading_deg = c.get_heading();
+          target_Distance = c.get_range();
           
           #Data for position calculation
-          mydeviation = mydeviationNode.getValue();
-          myelevation = myelevationNode.getValue();
-          
+          mydeviation = c.objectDeviationDeg;
+          myelevation = c.objectElevationDeg;
           
           myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
-          #print("myelevation:"~myelevation~ " mydeviation:"~mydeviation);
       
           myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
           myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
           
-          #print( myhorizontaldeviation);
-          #print(size(myarrayofTarget));
-
-          
-          #print(mirage2000.myRadar3.GetTarget().get_Callsign());
           
           #If we have a selected target we display a triangle
           if(target_callsign == closestCallsign and closestRange > 0){
@@ -507,8 +407,8 @@ var HUD = {
           me.TextInfoArray[i].show();
           me.TextInfoArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
           
-          me.TextInfoArray[i].setText(sprintf("%s : %d ft / %d kt / %d / %d nm", target_callsign, target_altitude, target_closureRate, target_heading_deg, target_Distance));
-          
+          me.TextInfoArray[i].setText(sprintf("  %s \n   %d nm \n   %d ft / %d", target_callsign, target_Distance, target_altitude, target_heading_deg));
+
         }else{
           me.targetArray[i].hide();
           me.TextInfoArray[i].hide();
@@ -521,19 +421,12 @@ var HUD = {
       
       i+=1;
     }
+    for(var y=i;y<size(me.targetArray);y+=1){
+      me.targetArray[y].hide();
+      me.TextInfoArray[y].hide();
+    }
     
-    me.energy_cue.reset();
-#    if( math.abs(speed_error) > 3 )
-      me.energy_cue.moveTo(-22, 0)
-                   .vert(speed_error)
-                   .horiz(3)
-                   .vertTo(0);
-    
-    var acc = me.input.acc.getValue() or 0;
-    me.acc.reset()
-          .moveTo(-34, -acc * 5 - 4)
-          .line(8, 4)
-          .line(-8, 4);
+
 
     #settimer(func me.update(), 0.1);
   }
