@@ -120,6 +120,7 @@
       <layout>vbox</layout>
       <halign>left</halign>
       <text><label>Auto trim</label></text>
+      <text><label>Attenuate micro movement</label></text>
       <text><label>A/A - CHARGES</label></text>
     </group>
 
@@ -132,6 +133,14 @@
         <binding>
           <command>property-toggle</command>
           <property>controls/SAS/autotrim</property>
+        </binding>
+      </checkbox>
+      <checkbox>
+        <property>controls/SAS/micromov</property>
+        <live>false</live>
+        <binding>
+          <command>property-toggle</command>
+          <property>controls/SAS/micromov</property>
         </binding>
       </checkbox>
       <slider>

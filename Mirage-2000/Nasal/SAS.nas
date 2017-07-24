@@ -16,6 +16,7 @@ var roll_lo_speed_sqr   = roll_lo_speed * roll_lo_speed;
 var p_kp                = -0.05;
 var e_smooth_factor     = 0.1;
 var r_smooth_factor     = 0.2;
+var r_neutral           = 0.01;#roll neutral
 var p_max               = 0.2;
 var p_min               = -0.2;
 var max_e               = 1;
@@ -572,7 +573,6 @@ var computeSAS = func() {
         var myMaxRoll = maxRoll;
 
         # Filtering neutral position
-        var r_neutral = 0.01;
         raw_a = abs(raw_a) < r_neutral ? 0 : (raw_a * (1 - r_neutral) / 1) + r_neutral * abs(raw_a) / raw_a;
         sas_roll = raw_a;
 
@@ -580,9 +580,11 @@ var computeSAS = func() {
         #sas_roll = (raw_a != 0)?(raw_a * raw_a) * abs(raw_a)/raw_a:0;
         #sas_roll = raw_a * raw_a * raw_a;
         
+        #print(getprop("controls/SAS/micromov"));
         myMaxRoll = abs(raw_a) < 0.95 ? maxRoll / 2 : myMaxRoll;
         myMaxRoll = abs(raw_a) < 0.80 ? maxRoll / 2 : myMaxRoll;
-        #myMaxRoll = abs(raw_a) < 0.50 ? maxRoll / 6 : myMaxRoll;
+        myMaxRoll = abs(raw_a) < 0.50 and getprop("controls/SAS/micromov") ? maxRoll / 6 : myMaxRoll;
+
 
         # decrease sas_roll with pitch
         sas_roll = (sas_roll != 0) ? (abs(sas_roll) - abs(raw_e * 0.60)) * abs(sas_roll) / sas_roll : 0;
@@ -593,19 +595,16 @@ var computeSAS = func() {
             myMaxRoll = myMaxRoll / 2;
         }
         # lowering the roll at high alt
-        if(myalt > 45000)
-        {
-            myMaxRoll = myMaxRoll / 2;
-        }
+        #if(myalt > 45000)
+        #{
+        #    myMaxRoll = myMaxRoll / 2;
+        #}
 
         # decrease sas_roll with airbrakes
         sas_roll = (sas_roll != 0) ? sas_roll * (1 - (myBrakes * 0.90)) : 0;
 
         # decrease sas_roll with gear
-        sas_roll = sas_roll * (1 - (gear * 0.50));
-
-        # Take only a third of the order if refuelling
-        #sas_roll = (sas_roll != 0 and refuelling and abs(sas_roll) > 0.30) ? 0.30 * abs(sas_roll) / sas_roll : sas_roll;
+        sas_roll = sas_roll * (1 - (gear * 0.30));
 
         #print("sas_roll before roll filter and after p_input filter:" ~ sas_roll);
 

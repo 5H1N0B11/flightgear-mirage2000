@@ -4,6 +4,7 @@
   
   <SAS>
     <autotrim type="bool">true</autotrim>
+    <micromov type="bool">false</micromov>
     <cat type="int">true</cat>
   </SAS>
   
