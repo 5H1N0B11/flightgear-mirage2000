@@ -44,7 +44,7 @@
     <internal archive="y">true</internal>
     <config>
       <x-offset-m archive="y">0.000</x-offset-m> <!-- Right -->
-      <y-offset-m archive="y">0.047</y-offset-m> <!-- Up    -->
+      <y-offset-m archive="y">0.034</y-offset-m> <!-- Up    47--> 
       <z-offset-m archive="y">-2.563</z-offset-m> <!-- Back  -->
       <pitch-offset-deg>-14</pitch-offset-deg>
       <default-field-of-view-deg>83</default-field-of-view-deg>

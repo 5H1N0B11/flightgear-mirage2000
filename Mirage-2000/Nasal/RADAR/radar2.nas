@@ -19,6 +19,9 @@ var tmp_nearest_u     = nil;
 var nearest_rng       = 0;
 var nearest_u         = nil;
 var missileIndex = 0;
+var MytargetVariable = nil;
+#var LoopElapsed =0;
+
 
 #This is done for detecting a terrain between aircraft and target. Since 2017.2.1, a new method allow to do the same, faster, and with more precision. (See isNotBehindTerrain function)
 var versionString = getprop("sim/version/flightgear");
@@ -125,6 +128,7 @@ var Radar = {
         
         # variables that need to be initialised
         m.loop_running  = 0;
+        m.LoopElapsed = 0;
        
         m.MyCoord       = geo.aircraft_position(); # this is when the radar is on our own aircraft. This part have to change if we want to put the radar on a missile/AI
         m.az_fld        = m.unfocused_az_fld;
@@ -132,6 +136,7 @@ var Radar = {
 
         # for Target Selection
         m.tgts_list     = [];
+        m.ContactsList = [];
         m.Target_Index  = -1 ; # for Target Selection
         m.Target_Callsign   = nil;
         
@@ -174,11 +179,12 @@ var Radar = {
             }
         }
         m.myTree = forcePath==nil?n.getChild("targets", i, 1):props.globals.getNode(forcePath, 1);
+        m.UseATree = 1;
 
         print(m.myTree.getPath());
         
         # update interval for engine init() functions
-        m.UPDATE_PERIOD = 0.1; 
+        m.UPDATE_PERIOD = 0.05; 
         
         # return our new object
         return m;
@@ -223,13 +229,13 @@ var Radar = {
             #me.Global_janitor();
             settimer(loop_Update, me.UPDATE_PERIOD);
         };
-        settimer(loop_Update, 0);
+        settimer(loop_Update,me.UPDATE_PERIOD);
 
         var loop_Sweep = func() {
             if(me.haveSweep ==1){me.maj_sweep();}
-            settimer(loop_Sweep, 0);
+            settimer(loop_Sweep, 0.05);
         };
-        settimer(loop_Sweep, 0);
+        settimer(loop_Sweep,0.05);
     },
 
     ############
@@ -249,6 +255,7 @@ var Radar = {
             me.MyCoord = tempCoord;
         }
         
+        me.LoopElapsed = getprop("sim/time/elapsed-sec") - me.TimeWhenUpdate;
         # This is to know when was the last time we called the update
         me.TimeWhenUpdate = getprop("sim/time/elapsed-sec");
         
@@ -363,9 +370,12 @@ var Radar = {
                 if(me.get_check(u))
                 {
                     var HaveRadarNode = c.getNode("radar");
-                    u.create_tree(me.MyCoord, me.OurHdg);
-                    u.set_all(me.MyCoord);
-                    me.calculateScreen(u);
+                    if(me.UseATree){
+                      u.create_tree(me.MyCoord, me.OurHdg);
+                      u.set_all(me.MyCoord);
+                      me.calculateScreen(u);
+                    }
+                    me.update_array(u);
                     # for Target Selection
                     # here we disable the capacity of targeting a missile. But 's possible.
                     append(CANVASARRAY, u);
@@ -388,8 +398,9 @@ var Radar = {
                 }
             }
         }
+
+        me.decrease_life();
         me.Global_janitor();
-        #settimer(me.Global_janitor(),me.janitorTime);
         return CANVASARRAY;
     },
     
@@ -400,21 +411,22 @@ var Radar = {
         
         SelectedObject.check_carrier_type();
         mydeviation = SelectedObject.get_deviation(me.OurHdg, me.MyCoord);
+        #print("My Radar deviation %f", mydeviation);
         var u_rng = me.targetRange(SelectedObject);
         
         # compute mp position in our B-scan like display. (Bearing/horizontal + Range/Vertical).
-        SelectedObject.set_relative_bearing(me.swp_diplay_width / me.az_fld * mydeviation);
+        SelectedObject.set_relative_bearing(me.swp_diplay_width / me.az_fld * mydeviation,me.UseATree);
         var factor_range_radar = me.rng_diplay_width / me.rangeTab[me.rangeIndex]; # length of the distance range on the B-scan screen.
-        SelectedObject.set_ddd_draw_range_nm(factor_range_radar * u_rng);
+        SelectedObject.set_ddd_draw_range_nm(factor_range_radar * u_rng,me.UseATree);
         u_fading = 1;
         u_display = 1;
         
         # Compute mp position in our PPI like display.
         factor_range_radar = me.ppi_diplay_radius / me.rangeTab[me.rangeIndex]; # Length of the radius range on the PPI like screen.
-        SelectedObject.set_tid_draw_range_nm(factor_range_radar * u_rng);
+        SelectedObject.set_tid_draw_range_nm(factor_range_radar * u_rng,me.UseATree);
         
         # Compute first digit of mp altitude rounded to nearest thousand. (labels).
-        SelectedObject.set_rounded_alt(rounding1000(SelectedObject.get_altitude()) / 1000);
+        SelectedObject.set_rounded_alt(rounding1000(SelectedObject.get_altitude()) / 1000,me.UseATree);
         
         # Compute closure rate in Kts.
         #SelectedObject.get_closure_rate_from_Coord(me.MyCoord) * MPS2KT;
@@ -426,8 +438,8 @@ var Radar = {
             tmp_nearest_u = SelectedObject;
             tmp_nearest_rng = u_rng;
         }
-        SelectedObject.set_display(u_display);
-        SelectedObject.set_fading(u_fading);
+        SelectedObject.set_display(u_display, me.UseATree);
+        SelectedObject.set_fading(u_fading, me.UseATree);
     },
 
     isNotBehindTerrain: func(SelectedObject){    
@@ -860,6 +872,7 @@ var Radar = {
     },
     
     Global_janitor: func(){
+        #Action on tree. Too complicated. has to be corrected or removed
         # This function is made to remove all persistent non relevant data on radar2 tree
         #var myRadarNode = props.globals.getNode("instrumentation/radar2/targets", 1);
         var raw_list = me.myTree.getChildren();
@@ -1010,6 +1023,44 @@ var Radar = {
             setprop("/ai/closest/range", 0);
         }
     },
+    
+
+    #Update element of the actual diplayed array
+    update_Element_of_array: func(SelectedObject){
+      forindex(i; me.ContactsList){
+        if(me.ContactsList[i].get_Callsign()==SelectedObject.get_Callsign()){
+          me.ContactsList[i] = SelectedObject;
+          return 1;
+        }
+      }
+      return 0
+    },
+    
+    #add element to the array
+    add_Element_to_Array: func(SelectedObject){
+      append(me.ContactsList,SelectedObject);
+    },   
+    
+    #update array : update element, or add it if there aren't present
+    update_array: func(SelectedObject){
+      if(me.update_Element_of_array(SelectedObject)==0){
+        me.add_Element_to_Array(SelectedObject);
+      }
+      #print("My Array  Size = %d ",size(me.ContactsList));
+    },
+    
+    #decrease life of element. < 0 then it's not displayed anymore
+    #should call a remove_element function to remove element from array
+    decrease_life: func(){
+      foreach(contact;me.ContactsList){
+        contact.life = contact.life - me.LoopElapsed;
+        if(contact.life<1){
+          contact.set_display(0);
+        }
+      }
+    },
+ 
+ 
     GetTarget: func(){
         if(me.tgts_list == nil)
         {
@@ -1043,567 +1094,6 @@ var Radar = {
     myRadarList : [],
 };
 
-################################################################
-#####################   Target class  ##########################
-################################################################
-
-setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "o"~"r"~"f");
-
-var Target = {
-    new: func(c,theTree = nil){
-        var obj             = { parents : [Target,geo.Coord.new()]};
-        obj.RdrProp         = c.getNode("radar");
-        obj.Heading         = c.getNode("orientation/true-heading-deg");
-        
-        obj.Alt             = c.getNode("position/altitude-ft");
-        obj.lat             = c.getNode("position/latitude-deg");
-        obj.lon             = c.getNode("position/longitude-deg");
-        
-        #As it is a geo.Coord object, we have to update lat/lon/alt ->and alt is in meters
-        #print("obj.lat:"~obj.lat~" obj.lon:"~" obj.Alt * FT2M:"~obj.Alt * FT2M);
-        obj.set_latlon(obj.lat.getValue(), obj.lon.getValue(), obj.Alt.getValue() * FT2M);
-        
-        obj.pitch           = c.getNode("orientation/pitch-deg");
-        obj.roll           = c.getNode("orientation/roll-deg");
-        obj.Speed           = c.getNode("velocities/true-airspeed-kt");
-        obj.VSpeed          = c.getNode("velocities/vertical-speed-fps");
-        obj.Callsign        = c.getNode("callsign");
-        obj.name            = c.getNode("name");
-        obj.Valid            = c.getNode("valid");
-        obj.validTree       = 0;
-        obj.TransponderID = c.getNode("instrumentation/transponder/transmitted-id");
-        
-        obj.engineTree      = c.getNode("engines");
-        
-        obj.AcType          = c.getNode("sim/model/ac-type");
-        obj.type            = c.getName();
-        obj.index           = c.getIndex();
-        obj.flareNode       = c.getNode("rotors/main/blade[3]/flap-deg");
-        obj.chaffNode       = c.getNode("rotors/main/blade[3]/position-deg");
-        
-        #Change here the object type to set the radar2 path
-        #Overwrite selectedType if missile
-        var TestIfMissileNode = c.getNode("missile");
-        if(TestIfMissileNode != nil) {
-          if(TestIfMissileNode.getValue()){
-            #print("It is a missile");
-            obj.type  = "missile";
-            missileIndex = missileIndex + 1;
-            obj.index = missileIndex;            
-          }
-        }
-
-        
-        obj.string          = "ai/models/" ~ obj.type ~ "[" ~ obj.index ~ "]";
-        obj.shortstring     = obj.type ~ "[" ~ obj.index ~ "]";
-        
-        if(theTree == nil)
-        {
-            obj.InstrString     = "instrumentation/radar2/targets";
-        }
-        else
-        {
-            obj.InstrString     = theTree;
-        }
-        #print("obj.InstrString:" ~obj.InstrString);
-        obj.InstrTgts       = props.globals.getNode(obj.InstrString, 1);
-        
-        obj.TgtsFiles       =   0; #obj.InstrTgts.getNode(obj.shortstring, 1);
-        
-        obj.Range           = obj.RdrProp.getNode("range-nm");
-        obj.Bearing         = obj.RdrProp.getNode("bearing-deg");
-        obj.Elevation       = obj.RdrProp.getNode("elevation-deg");
-        obj.MyCallsign      = 0;
-        obj.BBearing        = 0; #obj.TgtsFiles.getNode("bearing-deg", 1);
-        obj.BHeading        = 0; #obj.TgtsFiles.getNode("true-heading-deg", 1);
-        obj.RangeScore      = 0; #obj.TgtsFiles.getNode("range-score", 1);
-        obj.RelBearing      = 0; #obj.TgtsFiles.getNode("ddd-relative-bearing", 1);
-        obj.Carrier         = 0; #obj.TgtsFiles.getNode("carrier", 1);
-        obj.EcmSignal       = 0; #obj.TgtsFiles.getNode("ecm-signal", 1);
-        obj.EcmSignalNorm   = 0; #obj.TgtsFiles.getNode("ecm-signal-norm", 1);
-        obj.EcmTypeNum      = 0; #obj.TgtsFiles.getNode("ecm_type_num", 1);
-        obj.Display         = 0; #obj.TgtsFiles.getNode("display", 1);
-        obj.Fading          = 0; #obj.TgtsFiles.getNode("ddd-echo-fading", 1);
-        obj.DddDrawRangeNm  = 0; #obj.TgtsFiles.getNode("ddd-draw-range-nm", 1);
-        obj.TidDrawRangeNm  = 0; #obj.TgtsFiles.getNode("tid-draw-range-nm", 1);
-        obj.RoundedAlt      = 0; #obj.TgtsFiles.getNode("rounded-alt-ft", 1);
-        obj.TimeLast        = 0; #obj.TgtsFiles.getNode("closure-last-time", 1);
-        obj.RangeLast       = 0; #obj.TgtsFiles.getNode("closure-last-range-nm", 1);
-        obj.ClosureRate     = 0; #obj.TgtsFiles.getNode("closure-rate-kts", 1);
-        
-        #obj.TimeLast.setValue(ElapsedSec.getValue());
-        
-        obj.RadarStandby    = c.getNode("sim/multiplay/generic/int[2]");
-        
-        obj.deviation       = nil;
-
-        obj.type = missile.AIR;
-
-        if (obj.get_Callsign() == "GROUND_TARGET") {
-            obj.type = missile.SURFACE;
-        }
-        
-        return obj;
-    },
-
-    create_tree: func(MyAircraftCoord,MyAircraftHeading = nil) {
-        me.TgtsFiles      = me.InstrTgts.getNode(me.shortstring, 1);
-        
-        me.MyCallsign     = me.TgtsFiles.getNode("callsign", 1);
-        me.BBearing       = me.TgtsFiles.getNode("bearing-deg", 1);
-        me.BHeading       = me.TgtsFiles.getNode("true-heading-deg", 1);
-        me.RangeScore     = me.TgtsFiles.getNode("range-score", 1);
-        me.RelBearing     = me.TgtsFiles.getNode("ddd-relative-bearing", 1);
-        me.Carrier        = me.TgtsFiles.getNode("carrier", 1);
-        me.EcmSignal      = me.TgtsFiles.getNode("ecm-signal", 1);
-        me.EcmSignalNorm  = me.TgtsFiles.getNode("ecm-signal-norm", 1);
-        me.EcmTypeNum     = me.TgtsFiles.getNode("ecm_type_num", 1);
-        me.Display        = me.TgtsFiles.getNode("display", 1);
-        me.Fading         = me.TgtsFiles.getNode("ddd-echo-fading", 1);
-        me.DddDrawRangeNm = me.TgtsFiles.getNode("ddd-draw-range-nm", 1);
-        me.TidDrawRangeNm = me.TgtsFiles.getNode("tid-draw-range-nm", 1);
-        me.RoundedAlt     = me.TgtsFiles.getNode("rounded-alt-ft", 1);
-        me.TimeLast       = me.TgtsFiles.getNode("closure-last-time", 1);
-        me.RangeLast      = me.TgtsFiles.getNode("closure-last-range-nm", 1);
-        me.ClosureRate    = me.TgtsFiles.getNode("closure-rate-kts", 1);
-        
-        me.TimeLast.setDoubleValue(ElapsedSec.getValue());
-        me.RangeLast.setValue(me.get_range_from_Coord(MyAircraftCoord));
-        me.Carrier.setBoolValue(0);
-        
-        #Create essential tree
-        var altTree =me.TgtsFiles.getNode("position/altitude-ft",1);
-        var latTree =me.TgtsFiles.getNode("position/latitude-deg",1);
-        var lonTree =me.TgtsFiles.getNode("position/longitude-deg",1);
-        me.validTree =me.TgtsFiles.getNode("valid",1);
-        var radarBearing =me.TgtsFiles.getNode("radar/bearing-deg",1);
-        var radarRange =me.TgtsFiles.getNode("radar/range-nm",1);
-        var elevation =me.TgtsFiles.getNode("radar/elevation-deg",1);
-        var deviation =me.TgtsFiles.getNode("radar/deviation-deg",1);
-        var velocities =me.TgtsFiles.getNode("velocities/true-airspeed-kt",1);
-        var transpondeur =me.TgtsFiles.getNode("instrumentation/transponder/transmitted-id",1);
-        var heading =me.TgtsFiles.getNode("orientation/true-heading-deg",1);
-        var myDeviation = me.get_deviation(MyAircraftHeading,MyAircraftCoord);
-
-        altTree.setValue(me.Alt.getValue());
-        latTree.setValue(me.lat.getValue());
-        lonTree.setValue(me.lon.getValue());
-        me.validTree.setValue(me.Valid.getValue());
-        radarBearing.setValue(me.Bearing.getValue());
-        radarRange.setValue(me.Range.getValue());
-        elevation.setValue(me.Elevation.getValue());
-        deviation.setValue(myDeviation);
-        velocities.setValue(me.Speed.getValue());
-        if(me.TransponderID != nil)
-        {
-            if(me.TransponderID.getValue() != nil)
-            {
-                transpondeur.setValue(me.TransponderID.getValue());
-            }
-        }
-        heading.setValue(me.Heading.getValue());
-    },
-
-    set_all: func(myAircraftCoord){
-        me.RdrProp.getNode("in-range",1).setBoolValue(1);
-        me.MyCallsign.setValue(me.get_Callsign());
-        me.BHeading.setValue(me.Heading.getValue());
-        me.BBearing.setValue(me.get_bearing_from_Coord(myAircraftCoord));
-    },
-
-    remove: func(){
-        #me.validTree = 0;
-        if(me.validTree != 0){me.validTree.setValue(0);}
-        me.InstrTgts.removeChild(me.type, me.index);
-    },
-
-    set_nill: func(){
-        # Suppression of the HUD display :
-        # The property is initialised when the target is in range of "instrumentation/radar/range"
-        # But nothing is done when "It's no more in range"
-        # So this is a little hack for HUD.
-        if(me.validTree != 0){me.validTree.setValue(0);}
-        #me.RdrProp.getNode("in-range").setValue("false");
-        
-        var Tempo_TgtsFiles = me.InstrTgts.getNode(me.shortstring, 1);
-        var Property_list   = Tempo_TgtsFiles.getChildren();
-        foreach(var myProperty ; Property_list)
-        {
-            #print(myProperty.getName());
-            if(myProperty.getName() != "closure-last-time")
-            {
-                myProperty.setValue("");
-            }
-        }
-    },
-
-    get_Validity: func(){
-        var n = 0;
-        if(getprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-last-time") != nil)
-        {
-            n = 1;
-        }
-        return n;
-    },
-
-    get_TimeLast: func(){
-        var n = 0;
-        if(getprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-last-time") != nil )
-        {
-            #print(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-last-time");
-            #print(getprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-last-time"));
-            n = getprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-last-time");
-        }
-        return n;
-    },
-
-    get_Coord: func(){
-        TgTCoord  = geo.Coord.new();
-        TgTCoord.set_latlon(me.lat.getValue(), me.lon.getValue(), me.Alt.getValue() * FT2M);
-        me.set_latlon(me.lat.getValue(), me.lon.getValue(), me.Alt.getValue() * FT2M);
-        return TgTCoord;
-    },
-
-    get_Callsign: func(){
-        var n = me.Callsign.getValue();
-        if(size(n) < 1)
-        {
-            n = me.name.getValue();
-        }
-        if(n == nil or size(n) < 1)
-        {
-            n = "UFO";
-        }
-        return n;
-    },
-
-    get_Speed: func(){
-        var n = me.Speed.getValue();
-        #var alt = me.Alt.getValue();
-        #n = n / (0.632 ^ (-(alt / 25066))); # Calcul of Air Speed based on ground speed. the function ^ doesn't work !!
-        return n;
-    },
-
-    get_Longitude: func(){
-        var n = me.lon.getValue();
-        return n;
-    },
-
-    get_Latitude: func(){
-        var n = me.lat.getValue();
-        return n;
-    },
-
-    get_Pitch: func(){
-        var n = me.pitch.getValue();
-        return n;
-    },
-
-    get_Roll: func(){
-        var n = me.roll.getValue();
-        return n;
-    },
-
-    get_heading : func(){
-        var n = me.Heading.getValue();
-        if(n == nil)
-        {
-            n = 0;
-        }
-        return n;
-    },
-
-    get_bearing: func(){
-        var n = 0;
-        n = me.Bearing.getValue();
-        if(n == nil)
-        {
-            n = 0;
-        }
-        return n;
-    },
-
-    get_bearing_from_Coord: func(MyAircraftCoord){
-        var myCoord = me.get_Coord();
-        var myBearing = 0;
-        if(myCoord.is_defined())
-        {
-            myBearing = MyAircraftCoord.course_to(myCoord);
-        }
-        #print("get_bearing_from_Coord :" ~ myBearing);
-        return myBearing;
-    },
-
-    set_relative_bearing: func(n){
-        if(n == nil)
-        {
-            n = 0;
-        }
-        me.RelBearing.setValue(n);
-    },
-
-    get_reciprocal_bearing: func(){
-        return geo.normdeg(me.get_bearing() + 180);
-    },
-
-    get_deviation: func(true_heading_ref, coord){
-        me.deviation =  - deviation_normdeg(true_heading_ref, me.get_bearing_from_Coord(coord));
-        #print(me.deviation);
-        return me.deviation;
-    },
-
-    get_altitude: func(){
-        #Return Alt in feet
-        return me.Alt.getValue();
-    },
-
-    get_Elevation_from_Coord: func(MyAircraftCoord){
-        var myCoord = me.get_Coord();
-        var myPitch = math.asin((myCoord.alt() - MyAircraftCoord.alt()) / myCoord.direct_distance_to(MyAircraftCoord)) * R2D;
-        return myPitch;
-    },
-
-    get_total_elevation_from_Coord: func(own_pitch, MyAircraftCoord){
-        var myTotalElevation =  - deviation_normdeg(own_pitch, me.get_Elevation_from_Coord(MyAircraftCoord));
-        return myTotalElevation;
-    },
-    
-    get_total_elevation: func(own_pitch){
-        me.myTotalElevation =  - deviation_normdeg(own_pitch, me.Elevation.getValue());
-        return me.myTotalElevation;
-    },
-
-    get_range: func(){
-        #print("me.Range.getValue() :" ~ me.Range.getValue());
-        return me.Range.getValue();
-    },
-
-    get_range_from_Coord: func(MyAircraftCoord){
-        var myCoord = me.get_Coord();
-        var myDistance = 0;
-        if(myCoord.is_defined())
-        {
-            myDistance = MyAircraftCoord.direct_distance_to(myCoord) * M2NM;
-        }
-        #print("get_range_from_Coord :" ~ myDistance);
-        return myDistance;
-    },
-
-    get_horizon: func(own_alt){
-    # Own alt in meters
-        var tgt_alt = me.get_altitude();#It's in feet
-        if(debug.isnan(tgt_alt))
-        {
-            return(0);
-        }
-        if(tgt_alt < 0 or tgt_alt == nil)
-        {
-            tgt_alt = 0;
-        }
-        if(own_alt < 0 or own_alt == nil)
-        {
-            own_alt = 0;
-        }
-        # Return the Horizon in NM
-        return(2.2 * ( math.sqrt(own_alt) + math.sqrt(tgt_alt * FT2M)));
-    },
-
-    get_engineTree: func(){
-        return me.engineTree;
-    },
-
-    check_carrier_type: func(){
-        var type = "none";
-        var carrier = 0;
-        if(me.AcType != nil)
-        {
-            type = me.AcType.getValue();
-        }
-        if(type == "MP-Nimitz"
-            or type == "MP-Eisenhower"
-            or type == "MP-Vinson"
-            or type == "Nimitz"
-            or type == "Eisenhower"
-            or type == "Vinson"
-        )
-        {
-            carrier = 1;
-        }
-        if(me.type == "carrier")
-        {
-            carrier = 1;
-        }
-        # This works only after the mp-carrier model has been loaded. Before that it is seen like a common aircraft.
-        if(me.get_Validity())
-        {
-            setprop(me.InstrString ~ "/" ~ me.shortstring ~ "/carrier", carrier);
-        }
-        return carrier;
-    },
-
-    get_rdr_standby: func(){
-        var s = 0;
-        if(me.RadarStandby != nil)
-        {
-            s = me.RadarStandby.getValue();
-            if(s == nil)
-            {
-                s = 0;
-            }
-            elsif(s != 1)
-            {
-                s = 0;
-            }
-        }
-        return s;
-    },
-
-    get_display: func(){
-        return me.Display.getValue();
-    },
-
-    set_display: func(n){
-        me.Display.setBoolValue(n);
-    },
-
-    get_fading: func(){
-        var fading = me.Fading.getValue();
-        if(fading == nil)
-        {
-            fading = 0;
-        }
-        return fading;
-    },
-
-    set_fading: func(n){
-        me.Fading.setValue(n);
-    },
-
-    set_ddd_draw_range_nm: func(n){
-        me.DddDrawRangeNm.setValue(n);
-    },
-
-    set_hud_draw_horiz_dev: func(n){
-        me.HudDrawHorizDev.setValue(n);
-    },
-
-    set_tid_draw_range_nm: func(n){
-        me.TidDrawRangeNm.setValue(n);
-    },
-
-    set_rounded_alt: func(n){
-        me.RoundedAlt.setValue(n);
-    },
-
-    get_closure_rate: func(){
-        var dt = ElapsedSec.getValue() - me.TimeLast.getValue();
-        var rng = me.Range.getValue();
-        var lrng = me.RangeLast.getValue();
-        if(debug.isnan(rng) or debug.isnan(lrng))
-        {
-            print("####### get_closure_rate(): rng or lrng = nan ########");
-            me.ClosureRate.setValue(0);
-            me.RangeLast.setValue(0);
-            return(0);
-        }
-        var t_distance = lrng - rng;
-        var cr = (dt > 0) ? t_distance / dt * 3600 : 0;
-        me.ClosureRate.setValue(cr);
-        me.RangeLast.setValue(rng);
-        return(cr);
-    },
-
-    get_closure_rate_from_Coord: func(MyAircraftCoord) {
-        # First step : find the target heading.
-        var myHeading = me.Heading.getValue();
-        
-        # Second What would be the aircraft heading to go to us
-        var myCoord = me.get_Coord();
-        var projectionHeading = myCoord.course_to(MyAircraftCoord);
-        
-        # Calculate the angle difference
-        var myAngle = myHeading - projectionHeading; #Should work even with negative values
-        
-        # take the "ground speed"
-        # velocities/true-air-speed-kt
-        var mySpeed = me.Speed.getValue();
-        var myProjetedHorizontalSpeed = mySpeed*math.cos(myAngle*D2R); #in KTS
-        
-        #print("Projetted Horizontal Speed:"~ myProjetedHorizontalSpeed);
-        
-        # Now getting the pitch deviation
-        var myPitchToAircraft = - me.Elevation.getValue();
-        #print("My pitch to Aircraft:"~myPitchToAircraft);
-        
-        # Get V speed
-        if(me.VSpeed.getValue() == nil)
-        {
-            return 0;
-        }
-        var myVspeed = me.VSpeed.getValue()*FPS2KT;
-        # This speed is absolutely vertical. So need to remove pi/2
-        
-        var myProjetedVerticalSpeed = myVspeed * math.cos(myPitchToAircraft-90*D2R);
-        
-        # Control Print
-        #print("myVspeed = " ~myVspeed);
-        #print("Total Closure Rate:" ~ (myProjetedHorizontalSpeed+myProjetedVerticalSpeed));
-        
-        # Total Calculation
-        var cr = myProjetedHorizontalSpeed+myProjetedVerticalSpeed;
-        
-        # Setting Essential properties
-        var rng = me. get_range_from_Coord(MyAircraftCoord);
-        var newTime= ElapsedSec.getValue();
-        if(me.get_Validity())
-        {
-            setprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-last-range-nm", rng);
-            setprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-rate-kts", cr);
-        }
-        
-        return cr;
-    },
-
-    get_shortring:func(){
-        return me.shortstring;
-    },
-
-    get_type: func(){
-        return me.type;
-    },
-
-    setType: func(typ) {
-        me.type = typ;
-    },
-
-    getUnique: func () {
-        return rand();
-    },
-
-    isValid: func() {
-        return me.Valid.getValue();
-        #return me.validTree.getValue();
-    },
-
-    getElevation: func () {
-        return me.get_Elevation_from_Coord(geo.aircraft_position());
-    },
-
-    getFlareNode: func(){
-        return me.flareNode;
-    },
-
-    getChaffNode: func(){
-        return me.chaffNode;
-    },
-
-    isPainted: func() {
-        return 1;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
-    },
-
-    list : [],
-};
-
 # Utilities.
 var deviation_normdeg = func(our_heading, target_bearing){
     var dev_norm = our_heading - target_bearing;
@@ -1624,5 +1114,3 @@ var rounding1000 = func(n){
     n = (n >= l) ? ((a + 1) * 1000) : (a * 1000);
     return(n);
 }
-
-
