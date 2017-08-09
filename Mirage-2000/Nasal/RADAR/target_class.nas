@@ -114,6 +114,8 @@ var Target = {
         if (obj.get_Callsign() == "GROUND_TARGET") {
             obj.type = missile.SURFACE;
         }
+
+        obj.model = "";
         
         return obj;
     },
@@ -603,6 +605,14 @@ var Target = {
 
     isPainted: func() {
         return 1;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
+    },
+
+    get_model: func {
+        return me.model;
+    },
+ 
+    set_model: func (mdl) {
+        me.model = mdl;
     },
 
     list : [],
