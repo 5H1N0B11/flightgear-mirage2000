@@ -71,14 +71,12 @@ print("*** LOADING missiles.nas ... ***");
 # Future features:
 #
 # Make ground hitting weapons hit all nearby targets, not just what its locked on.
-# Chaff interaction for radar guided weapons.
 # ECM disturbance of getting radar lock.
 # Lock on jam. (advanced feature)
 # After FG gets HLA: stop using MP chat for hit messages.
 # Allow firing only if certain conditions are met. Like not being inverted when firing dropped weapons.
 # Remote controlled guidance (advanced feature and probably not very practical in FG..yet)
 # Ground launched rails/tubes that rotate towards target before firing.
-# Make weapon unreliable by design, to simulate weapons which were unreliable, like Phoenix.
 # Sub munitions that have their own guidance/FDM. (advanced)
 # GPS guided munitions could have waypoints added.
 # Specify terminal manouvres and preferred impact aspect.
@@ -88,6 +86,10 @@ print("*** LOADING missiles.nas ... ***");
 # Drag coeff reduction due to exhaust plume.
 # Proportional navigation should use vector math instead decomposition horizontal/vertical navigation.
 # If closing speed is negative, consider to switch to pure pursuit from proportional navigation, the target might turn back into missile.
+# Bleeding speed due to high G turning should depend on drag-area, with AIM-120s as reference. (that would mean recalibrate all cruise-missiles so they don't crash)
+# Rename drag-area to cross-section-sqft. Drag area is actually drag coefficient multiplied by cross-section.
+# Make semi-self-radar guided weapons that is semi guided until terminal phase where they switch on own radar. (AIM-120, AIM-54)
+# Make anti-radiation guided feature. (HARM)
 #
 #
 # Please report bugs and features to Nikolai V. Chr. | ForumUser: Necolatis | Callsign: Leto
@@ -238,7 +240,8 @@ var AIM = {
         m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");                   # what the pilot will call out over the comm when he fires this weapon
         m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");        # Interpolation hit: max distance from target it report it exploded, not passed. Trig hit: Distance where it will trigger.
         m.data                  = getprop("payload/armament/"~m.type_lc~"/telemetry");                  # Boolean. Data link back to aircraft when missile is flying.
-        m.chaffResistance       = getprop("payload/armament/"~m.type_lc~"/chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.85.
+        m.chaffResistance       = getprop("payload/armament/"~m.type_lc~"/chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950.
+        m.flareResistance       = getprop("payload/armament/"~m.type_lc~"/flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.850.
 
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
         # three variables used for trigonometry hit calc:
@@ -249,8 +252,11 @@ var AIM = {
         if (m.data == nil) {
             m.data = FALSE;
         }
+        if (m.flareResistance == nil) {
+            m.flareResistance = 0.95;
+        }
         if (m.chaffResistance == nil) {
-            m.chaffResistance = 0.85;
+            m.chaffResistance = 0.95;
         }
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
@@ -335,7 +341,7 @@ var AIM = {
         m.coord               = geo.Coord.new().set_latlon(0, 0, 0);
         m.last_coord          = nil;
         m.before_last_coord   = nil;
-        m.t_coord             = geo.Coord.new().set_latlon(0, 0, 0);
+        m.t_coord             = nil;
         m.last_t_coord        = m.t_coord;
         m.before_last_t_coord = nil;
 
@@ -371,6 +377,9 @@ var AIM = {
         m.dist_curr_direct       = 0;
         m.t_elev_deg             = 0;
         m.t_course               = 0;
+        m.t_heading              = nil;
+        m.t_pitch                = nil;
+        m.t_speed_fps            = nil;
         m.dist_last              = nil;
         m.dist_direct_last       = nil;
         m.last_t_course          = nil;
@@ -408,13 +417,14 @@ var AIM = {
         m.maxMach3     = 0;#stage 2 end
         m.energyBleedKt = 0;
 
-        m.lastFlare = 0;
+        m.flareLast = 0;
         m.flareTime = 0;
+        m.flareLock = FALSE;
         m.chaffLast = 0;
         m.chaffTime = 0;
-        m.chaffDelay = 1;
-        m.chaffFooled = FALSE;
-        m.fooled = FALSE;
+        m.chaffLock = FALSE;
+        m.flarespeed_fps = nil;
+        
         m.explodeSound = TRUE;
         m.first = FALSE;
 
@@ -582,6 +592,10 @@ var AIM = {
         me.rollN.setDoubleValue(0);
 
         me.coord = geo.Coord.new(init_coord);
+        # Get target position.
+        if (me.Tgt != nil) {
+            me.t_coord = me.Tgt.get_Coord();
+        }
 
         me.model.getNode("latitude-deg-prop", 1).setValue(me.latN.getPath());
         me.model.getNode("longitude-deg-prop", 1).setValue(me.lonN.getPath());
@@ -656,21 +670,29 @@ var AIM = {
         if (me.weight_fuel_lbm == nil) {
             me.weight_fuel_lbm = 0;
         }
-        var energy1 = me.force_lbf_1 * me.stage_1_duration;
-        var energy2 = me.force_lbf_2 * me.stage_2_duration;
-        var energyT = energy1 + energy2;
-        var fuel_per_energy = me.weight_fuel_lbm / energyT;
-        me.fuel_per_sec_1  = (fuel_per_energy * energy1) / me.stage_1_duration;
-        me.fuel_per_sec_2  = (fuel_per_energy * energy2) / me.stage_2_duration;
+        var impulse1 = me.force_lbf_1 * me.stage_1_duration; # lbf*s
+        var impulse2 = me.force_lbf_2 * me.stage_2_duration; # lbf*s
+        var impulseT = impulse1 + impulse2;                  # lbf*s
+        var fuel_per_impulse = me.weight_fuel_lbm / impulseT;# lbm/(lbf*s)
+        me.fuel_per_sec_1  = (fuel_per_impulse * impulse1) / me.stage_1_duration;# lbm/s
+        me.fuel_per_sec_2  = (fuel_per_impulse * impulse2) / me.stage_2_duration;# lbm/s
+
+        # uncomment this line to see how much energy/fuel the missile have.
+        #printf("Impulse per fuel: %s has %0.2f (lbf*s)/lbm.", me.type, 1/fuel_per_impulse);
 
         # find the sun:
         if(me.guidance == "heat") {
             var sun_x = getprop("ephemeris/sun/local/x");
-            var sun_y = getprop("ephemeris/sun/local/x");
-            var sun_z = getprop("ephemeris/sun/local/x");
-            me.sun_power = getprop("/rendering/scene/diffuse/red");
-            me.sun = geo.Coord.new(me.ac_init);
-            me.sun.set_xyz(me.sun.x()+sun_x*200000, me.sun.y()+sun_y*200000, me.sun.z()+sun_z*200000);#heat seeking missiles don't fly far, so setting it 200Km away is fine.
+            var sun_y = getprop("ephemeris/sun/local/y");# unit vector pointing to sun in geocentric coords
+            var sun_z = getprop("ephemeris/sun/local/z");
+            if (sun_x != nil) {
+                me.sun_enabled = TRUE;
+                me.sun = geo.Coord.new();
+                me.sun.set_xyz(me.ac_init.x()+sun_x*200000, me.ac_init.y()+sun_y*200000, me.ac_init.z()+sun_z*200000);#heat seeking missiles don't fly far, so setting it 200Km away is fine.
+            } else {
+                # old FG versions does not supply location of sun. So this feature gets disabled.
+                me.sun_enabled = FALSE;
+            }
         }
         me.lock_on_sun = FALSE;
 
@@ -886,7 +908,7 @@ var AIM = {
 
         # Get target position.
         if (me.Tgt != nil) {
-            me.t_coord = me.Tgt.get_Coord();
+#           me.t_coord = me.Tgt.get_Coord();
         }
 
         ###################
@@ -999,6 +1021,35 @@ var AIM = {
         if (me.alt_ft > me.maxAlt) {
             me.maxAlt = me.alt_ft;
         }
+        # Get target position.
+        if (me.Tgt != nil) {
+            if (me.flareLock == FALSE and me.chaffLock == FALSE) {
+                me.t_coord = me.Tgt.get_Coord();
+            } else {
+                # we are chasing a flare, lets update the flares position.
+                if (me.flareLock == TRUE) {
+                    me.flarespeed_fps = me.flarespeed_fps - (25 * me.dt);#flare deacc. 15 kt per second.
+                } else {
+                    me.flarespeed_fps = me.flarespeed_fps - (50 * me.dt);#chaff deacc. 30 kt per second.
+                }
+                if (me.flarespeed_fps < 0) {
+                    me.flarespeed_fps = 0;
+                }
+                me.flare_speed_down_fps       = -math.sin(me.flare_pitch * D2R) * me.flarespeed_fps;
+                me.flare_speed_horizontal_fps = math.cos(me.flare_pitch * D2R) * me.flarespeed_fps;
+                me.flare_alt_ft = me.t_coord.alt()*M2FT - (me.flare_speed_down_fps * me.dt);
+                me.flare_dist_h_m = me.flare_speed_horizontal_fps * me.dt * FT2M;
+                me.t_coord.apply_course_distance(me.flare_hdg, me.flare_dist_h_m);
+                me.t_coord.set_alt(me.flare_alt_ft * FT2M);
+            }
+        }
+        # record coords so we can give the latest nearest position for impact.
+        me.before_last_coord   = geo.Coord.new(me.last_coord);
+        me.last_coord          = geo.Coord.new(me.coord);
+        if (me.Tgt != nil) {
+            me.before_last_t_coord = geo.Coord.new(me.last_t_coord);
+            me.last_t_coord        = geo.Coord.new(me.t_coord);
+        }
 
         # performance logging:
         #
@@ -1068,13 +1119,6 @@ var AIM = {
         } else {
             me.g = 0;
         }
-        # record coords so we can give the latest nearest position for impact.
-        me.before_last_coord   = geo.Coord.new(me.last_coord);
-        me.last_coord          = geo.Coord.new(me.coord);
-        if (me.Tgt != nil) {
-            me.before_last_t_coord = geo.Coord.new(me.last_t_coord);
-            me.last_t_coord        = geo.Coord.new(me.t_coord);
-        }
 
         if (me.rail_passed == FALSE and (me.rail == FALSE or me.rail_pos > me.rail_dist_m * M2FT)) {
             me.rail_passed = TRUE;
@@ -1114,9 +1158,9 @@ var AIM = {
                 # penalty for target being off-bore
                 me.hit -= math.abs(me.curr_deviation_h)/2.5;
             }
-            if (me.guiding == TRUE and me.old_speed_fps > me.t_speed and me.t_speed != 0) {
+            if (me.guiding == TRUE and me.old_speed_fps > me.t_speed_fps and me.t_speed_fps != 0) {
                 # bonus for traveling faster than target
-                me.hit += me.clamp((me.old_speed_fps / me.t_speed)*15,-25,50);
+                me.hit += me.clamp((me.old_speed_fps / me.t_speed_fps)*15,-25,50);
             }           
             if (me.free == TRUE) {
                 # penalty for not longer guiding
@@ -1298,7 +1342,7 @@ var AIM = {
         #
         # Check for being fooled by flare.
         #
-        if (me.guidance == "heat" and getprop("sim/time/elapsed-sec")-me.flareTime > 1) {
+        if (me.guidance == "heat" and me.flareLock == FALSE and (getprop("sim/time/elapsed-sec")-me.flareTime) > 1) {
             #
             # TODO: Use Richards Emissary for this.
             #
@@ -1306,19 +1350,21 @@ var AIM = {
             if (me.flareNode != nil) {
                 me.flareNumber = me.flareNode.getValue();
                 if (me.flareNumber != nil and me.flareNumber != 0) {
-                    if (me.flareNumber != me.lastFlare) {
+                    if (me.flareNumber != me.flareLast) {
                         # target has released a new flare, lets check if it fools us
                         me.flareTime = getprop("sim/time/elapsed-sec");
-                        me.lastFlare = me.flareNumber;
+                        me.flareLast = me.flareNumber;
                         me.aspectDeg = me.aspectToExhaust() / 180;
-                        me.fooled = rand() < (0.15 + 0.15 * me.aspectDeg);
-                        # 15% chance to be fooled, extra up till 15% chance added if front aspect
-                        if (me.fooled == TRUE) {
+                        me.flareLock = rand() < (1-me.flareResistance + ((1-me.flareResistance) * 0.5 * me.aspectDeg));# 50% extra chance to be fooled if front aspect
+                        #printf("Lock on flare probability: %d%%", (1-me.flareResistance + ((1-me.flareResistance) * 0.5 * me.aspectDeg))*100);
+                        if (me.flareLock == TRUE) {
                             # fooled by the flare
-                            print(me.type~": Missile fooled by flare");
-                            me.free = TRUE;
+                            print(me.type~": Missile locked on flare from "~me.callsign);
+                            me.flarespeed_fps = me.Tgt.get_Speed()*KT2FPS;
+                            me.flare_hdg      = me.Tgt.get_heading();
+                            me.flare_pitch    = me.Tgt.get_Pitch();
                         } else {
-                            print(me.type~": Missile ignored flare");
+                            print(me.type~": Missile ignored flare from "~me.callsign);
                         }
                     }
                 }
@@ -1330,7 +1376,7 @@ var AIM = {
         #
         # Check for being fooled by chaff.
         #
-        if ((me.guidance == "radar" or me.guidance == "semi-radar") and getprop("sim/time/elapsed-sec")-me.chaffTime > me.chaffDelay) {#
+        if ((me.guidance == "radar" or me.guidance == "semi-radar") and me.chaffLock == FALSE and (getprop("sim/time/elapsed-sec")-me.chaffTime) > 1) {
             #
             # TODO: Use Richards Emissary for this.
             #
@@ -1342,35 +1388,30 @@ var AIM = {
                         # target has released a new chaff, lets check if it blinds us
                         me.chaffLast = me.chaffNumber;
                         me.chaffTime = getprop("sim/time/elapsed-sec");
-                        me.aspectNorm = math.abs(geo.normdeg180(me.aspectToExhaust() * 2))/180;# 0 = viewing engine or front, 1 = viewing side, belly or top.
+                        #me.aspectNorm = math.abs(geo.normdeg180(me.aspectToExhaust() * 2))/180;# 0 = viewing engine or front, 1 = viewing side, belly or top.
                         
-                        # chance to be blinded when viewing engine or nose, less if viewing other aspects
-                        me.chaffFooled = rand() > (me.chaffResistance + (1-me.chaffResistance) * 0.5 * me.aspectNorm);
-                        
-                        if (me.chaffFooled == TRUE and rand() > me.chaffResistance) {
-                            # will not regain lock
-                            print(me.type~": Missile blinded by chaff and wont regain lock");
-                            me.free = TRUE;
-                        } elsif (me.chaffFooled == TRUE) {
-                            print(me.type~": Missile temporary blinded by chaff");
-                            me.chaffDelay = 3;
+                        # chance to lock on chaff when viewing engine or nose, less if viewing other aspects
+                        #me.chaffLock = rand() > (me.chaffResistance + (1-me.chaffResistance) * 0.5 * me.aspectNorm);
+
+                        me.chaffLock = rand() > me.chaffResistance;
+                        #printf("Lock on chaff probability: %d%%", (1-me.chaffResistance)*100);
+
+                        if (me.chaffLock == TRUE) {
+                            print(me.type~": Missile locked on chaff from "~me.callsign);
+                            me.flarespeed_fps = me.Tgt.get_Speed()*KT2FPS;
+                            me.flare_hdg      = me.Tgt.get_heading();
+                            me.flare_pitch    = me.Tgt.get_Pitch();
                         } else {
-                            print(me.type~": Missile ignored chaff");
-                            me.chaffDelay = 1;
+                            print(me.type~": Missile ignored chaff from "~me.callsign);
                         }
-                    } else {
-                        me.chaffDelay = 1;
                     }
-                    return;
                 }
             }
-            me.chaffFooled = FALSE;
-            me.chaffDelay = 1;
         }
     },
 
     checkForSun: func () {
-        if (me.guidance == "heat" and me.sun_power > 0.6) {
+        if (me.guidance == "heat" and me.sun_enabled == TRUE and getprop("/rendering/scene/diffuse/red") > 0.6) {
             # test for heat seeker locked on to sun
             me.sun_dev_e = me.getPitch(me.coord, me.sun) - me.pitch;
             me.sun_dev_h = me.coord.course_to(me.sun) - me.hdg;
@@ -1474,7 +1515,7 @@ var AIM = {
         } elsif (me.tooLowSpeed == TRUE) {
             print(me.type~": Gained speed and started guiding.");
             me.tooLowSpeed = FALSE;
-        } elsif (me.chaffFooled == TRUE) {
+        } elsif (me.chaffLock == TRUE) {
             #print(me.type~": Chaff disrupt view.");
             me.guiding = FALSE;
         }
@@ -1666,15 +1707,9 @@ var AIM = {
             #printf("Horz closing rate: %5d ft/sec", me.horz_closing_rate_fps);
             me.proportionality_constant = 3;
 
-            me.c_dv = me.t_course-me.last_t_course;
-            while(me.c_dv < -180) {
-                me.c_dv += 360;
-            }
-            while(me.c_dv > 180) {
-                me.c_dv -= 360;
-            }
-
-            me.line_of_sight_rate_rps = (D2R*me.c_dv)/me.dt;
+            me.c_dv = geo.normdeg180(me.t_course-me.last_t_course);
+            
+            me.line_of_sight_rate_rps = (D2R*me.c_dv)/me.dt;#positive clockwise
 
             #printf("LOS rate: %.4f rad/s", line_of_sight_rate_rps);
 
@@ -1696,11 +1731,14 @@ var AIM = {
             
             #var t_pitch      = math.atan2(t_climb,t_dist)*R2D;
             
-
             # calculate target acc as normal to LOS line:
-            me.t_heading        = me.Tgt.get_heading();
-            me.t_pitch          = me.Tgt.get_Pitch();
-            me.t_speed          = me.Tgt.get_Speed()*KT2FPS;#true airspeed
+            if ((me.flareLock == FALSE and me.chaffLock == FALSE) or me.t_heading == nil) {
+                me.t_heading        = me.Tgt.get_heading();
+                me.t_pitch          = me.Tgt.get_Pitch();
+                me.t_speed_fps      = me.Tgt.get_Speed()*KT2FPS;#true airspeed
+            } elsif (me.flarespeed_fps != nil) {
+                me.t_speed_fps      = me.flarespeed_fps;#true airspeed
+            }
 
             #if (me.last_t_coord.direct_distance_to(me.t_coord) != 0) {
             #   # taking sideslip and AoA into consideration:
@@ -1718,31 +1756,34 @@ var AIM = {
 
 
             
-            me.t_horz_speed     = math.abs(math.cos(me.t_pitch*D2R)*me.t_speed);
-            me.t_LOS_norm_head  = me.t_course + 90;
-            me.t_LOS_norm_speed = math.cos((me.t_LOS_norm_head - me.t_heading)*D2R)*me.t_horz_speed;
+            me.t_horz_speed_fps     = math.abs(math.cos(me.t_pitch*D2R)*me.t_speed_fps);#flawed due to AoA is not taken into account, but dont have that info.
+            me.t_LOS_norm_head_deg  = me.t_course + 90;#when looking at target this direction will be 90 deg right of target
+            me.t_LOS_norm_speed_fps = math.cos((me.t_LOS_norm_head_deg - me.t_heading)*D2R)*me.t_horz_speed_fps;
 
             if (me.last_t_norm_speed == nil) {
-                me.last_t_norm_speed = me.t_LOS_norm_speed;
+                me.last_t_norm_speed = me.t_LOS_norm_speed_fps;
             }
 
-            me.t_LOS_norm_acc   = (me.t_LOS_norm_speed - me.last_t_norm_speed)/me.dt;
+            me.t_LOS_norm_acc_fps2  = (me.t_LOS_norm_speed_fps - me.last_t_norm_speed)/me.dt;
 
-            me.last_t_norm_speed = me.t_LOS_norm_speed;
+            me.last_t_norm_speed = me.t_LOS_norm_speed_fps;
 
             # acceleration perpendicular to instantaneous line of sight in feet/sec^2
-            me.acc_sideways_ftps2 = me.proportionality_constant*me.line_of_sight_rate_rps*me.horz_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_norm_acc/2;
+            me.acc_lateral_fps2 = me.proportionality_constant*me.line_of_sight_rate_rps*me.horz_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_norm_acc_fps2/2;
             #printf("horz acc = %.1f + %.1f", proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps, proportionality_constant*t_LOS_norm_acc/2);
 
             # now translate that sideways acc to an angle:
-            me.velocity_vector_length_fps = me.old_speed_horz_fps;
-            me.commanded_sideways_vector_length_fps = me.acc_sideways_ftps2*me.dt;
-            me.raw_steer_signal_head = math.atan2(me.commanded_sideways_vector_length_fps, me.velocity_vector_length_fps)*R2D;
+            me.velocity_vector_length_fps = me.clamp(me.old_speed_horz_fps, 0.0001, 1000000);
+            me.commanded_lateral_vector_length_fps = me.acc_lateral_fps2*me.dt;
+
+            #isosceles triangle:
+            me.raw_steer_signal_head = math.asin(me.clamp((me.commanded_lateral_vector_length_fps*0.5)/me.velocity_vector_length_fps,-1,1))*R2D*2;
+            #me.raw_steer_signal_head = math.atan2(me.commanded_lateral_vector_length_fps, me.velocity_vector_length_fps)*R2D; # flawed, its not a right triangle
 
             #printf("Proportional lead: %0.1f deg horz", -(me.curr_deviation_h-me.raw_steer_signal_head));
 
             #print(sprintf("LOS-rate=%.2f rad/s - closing-rate=%.1f ft/s",line_of_sight_rate_rps,horz_closing_rate_fps));
-            #print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_sideways_ftps2));
+            #print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_lateral_fps2));
             #print(sprintf("horz leading by %.1f deg, commanding %.1f deg", me.curr_deviation_h, me.raw_steer_signal_head));
 
             if (me.cruise_or_loft == FALSE) {# and me.last_cruise_or_loft == FALSE
@@ -1758,7 +1799,7 @@ var AIM = {
                 
 
                 # used to do this with trigonometry, but vector math is simpler to understand: (they give same result though)
-                me.t_LOS_elev_norm_speed     = me.scalarProj(me.t_heading,me.t_pitch,me.t_speed,me.t_approach_bearing,me.t_elev_deg*-1 +90);
+                me.t_LOS_elev_norm_speed     = me.scalarProj(me.t_heading,me.t_pitch,me.t_speed_fps,me.t_approach_bearing,me.t_elev_deg*-1 +90);
 
                 if (me.last_t_elev_norm_speed == nil) {
                     me.last_t_elev_norm_speed = me.t_LOS_elev_norm_speed;
@@ -1767,11 +1808,12 @@ var AIM = {
                 me.t_LOS_elev_norm_acc            = (me.t_LOS_elev_norm_speed - me.last_t_elev_norm_speed)/me.dt;
                 me.last_t_elev_norm_speed          = me.t_LOS_elev_norm_speed;
 
-                me.acc_upwards_ftps2 = me.proportionality_constant*me.line_of_sight_rate_up_rps*me.vert_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_elev_norm_acc/2;
-                me.velocity_vector_length_fps = me.old_speed_fps;
-                me.commanded_upwards_vector_length_fps = me.acc_upwards_ftps2*me.dt;
+                me.acc_upwards_fps2 = me.proportionality_constant*me.line_of_sight_rate_up_rps*me.vert_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_elev_norm_acc/2;
+                me.velocity_vector_length_fps = me.clamp(me.old_speed_fps, 0.0001, 1000000);
+                me.commanded_upwards_vector_length_fps = me.acc_upwards_fps2*me.dt;
 
-                me.raw_steer_signal_elev = math.atan2(me.commanded_upwards_vector_length_fps, me.velocity_vector_length_fps)*R2D;
+                me.raw_steer_signal_elev = math.asin(me.clamp((me.commanded_upwards_vector_length_fps*0.5)/me.velocity_vector_length_fps,-1,1))*R2D*2;
+                #me.raw_steer_signal_elev = math.atan2(me.commanded_upwards_vector_length_fps, me.velocity_vector_length_fps)*R2D;
 
                 # now compensate for the predicted gravity drop of attitude:                
                 me.attitudePN = math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) * R2D;
@@ -1925,10 +1967,10 @@ var AIM = {
 
         if (me.lock_on_sun == TRUE) {
             reason = "Locked onto sun.";
-        } elsif (me.fooled == TRUE) {
-            reason = "Fooled by flare.";
-        } elsif (me.chaffFooled == TRUE) {
-            reason = "blinded by chaff.";
+        } elsif (me.flareLock == TRUE) {
+            reason = "Locked onto flare.";
+        } elsif (me.chaffLock == TRUE) {
+            reason = "Locked onto chaff.";
         }
         
         var explosion_coord = me.last_coord;
@@ -1962,7 +2004,7 @@ var AIM = {
         impact_report(me.coord, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);
 
         if (me.Tgt != nil) {
-            var phrase = sprintf( me.type~" "~event~": %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
+            var phrase = sprintf( me.type~" "~event~": %01.1f", min_distance) ~ " meters from: " ~ (me.flareLock == FALSE?(me.chaffLock == FALSE?me.callsign:(me.callsign ~ "'s chaff")):me.callsign ~ "'s flare");
             print(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
             if (min_distance < me.reportDist) {
                 me.sendMessage(phrase);
@@ -1997,14 +2039,14 @@ var AIM = {
 
         if (me.lock_on_sun == TRUE) {
             reason = "Locked onto sun.";
-        } elsif (me.fooled == TRUE) {
-            reason = "Fooled by flare.";
-        } elsif (me.chaffFooled == TRUE) {
-            reason = "blinded by chaff.";
+        } elsif (me.flareLock == TRUE) {
+            reason = "Locked onto flare.";
+        } elsif (me.chaffLock == TRUE) {
+            reason = "Locked onto chaff.";
         }
         
         if (me.Tgt != nil) {
-            var phrase = sprintf( me.type~" "~event~": %01.1f", me.direct_dist_m) ~ " meters from: " ~ me.callsign;
+            var phrase = sprintf( me.type~" "~event~": %01.1f", me.direct_dist_m) ~ " meters from: " ~ (me.flareLock == FALSE?(me.chaffLock == FALSE?me.callsign:(me.callsign ~ "'s chaff")):me.callsign ~ "'s flare");
             print(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
             me.sendMessage(phrase);
         }
@@ -2040,21 +2082,8 @@ var AIM = {
     },
 
     getPitch: func (coord1, coord2) {#GCD
-        #pitch from c1 to c2
-          me.coord3 = geo.Coord.new(coord1);
-          me.coord3.set_alt(coord2.alt());
-          me.d12 = coord1.direct_distance_to(coord2);
-          me.d32 = me.coord3.direct_distance_to(coord2);
-          if (me.d12 > 0.1 and coord1.alt() != coord2.alt()) {
-            me.altDi = coord1.alt()-me.coord3.alt();
-            me.yyy = R2D * math.acos((math.pow(me.d12, 2)+math.pow(me.altDi,2)-math.pow(me.d32, 2))/(2 * me.d12 * me.altDi));
-            me.pitchC = -1* (90 - me.yyy);
-            return me.pitchC;
-        } else{
-            # arccos wont like if the coord are the same
-            return 0;
-        }
-          
+        #pitch from coord1 to coord2 in degrees (takes curvature of earth into effect.)
+        return vector.Math.getPitch(coord1, coord2);
     },
 
     # aircraft searching for lock
