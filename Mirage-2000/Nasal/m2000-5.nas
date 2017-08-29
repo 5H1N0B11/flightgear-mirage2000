@@ -152,7 +152,7 @@ var updatefunction = func()
     if(AbsoluteTime - myFramerate.d > 1)
     {
         call(mirage2000.fuel_managment,nil,nil,nil, myErr);
-        if(getprop("/autopilot/locks/AP-status") == "AP1"){
+        if(getprop("/autopilot/locks/AP-status") != "AP1"){
           call(mirage2000.update_fd,nil,nil,nil, myErr);
         }
         myFramerate.d = AbsoluteTime;
