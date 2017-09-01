@@ -957,8 +957,8 @@
     <property>gear/gear[0]/position-norm</property>
     <interpolation>
       <entry><ind> 0.00 </ind><dep>   0 </dep></entry>
-      <entry><ind> 0.45 </ind><dep> 100 </dep></entry>
-      <entry><ind> 0.85 </ind><dep> 100 </dep></entry>
+      <entry><ind> 0.10 </ind><dep> 100 </dep></entry>
+      <entry><ind> 0.90 </ind><dep> 100 </dep></entry>
       <entry><ind> 1.00 </ind><dep>   0 </dep></entry>
     </interpolation>
     <axis>
@@ -978,8 +978,8 @@
     <property>gear/gear[1]/position-norm</property>
     <interpolation>
       <entry><ind> 0.00 </ind><dep>   0 </dep></entry>
-      <entry><ind> 0.45 </ind><dep> 110 </dep></entry>
-      <entry><ind> 0.85 </ind><dep> 110 </dep></entry>
+      <entry><ind> 0.10 </ind><dep> 110 </dep></entry>
+      <entry><ind> 0.90 </ind><dep> 110 </dep></entry>
       <entry><ind> 1.00 </ind><dep>   0 </dep></entry>
     </interpolation>
     <axis>
@@ -998,7 +998,7 @@
     <property>gear/gear[1]/position-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep>   0 </dep></entry>
-      <entry><ind> 0.6 </ind><dep>   0 </dep></entry>
+      <entry><ind> 0.3 </ind><dep>   0 </dep></entry>
       <entry><ind> 1.0 </ind><dep> -94 </dep></entry>
     </interpolation>
     <axis>
@@ -1018,8 +1018,8 @@
     <property>gear/gear[2]/position-norm</property>
     <interpolation>
       <entry><ind> 0.00 </ind><dep>   0 </dep></entry>
-      <entry><ind> 0.45 </ind><dep> 110 </dep></entry>
-      <entry><ind> 0.85 </ind><dep> 110 </dep></entry>
+      <entry><ind> 0.10 </ind><dep> 110 </dep></entry>
+      <entry><ind> 0.90 </ind><dep> 110 </dep></entry>
       <entry><ind> 1.00 </ind><dep>   0 </dep></entry>
     </interpolation>
     <axis>
@@ -1038,7 +1038,7 @@
     <property>gear/gear[2]/position-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep>   0 </dep></entry>
-      <entry><ind> 0.6 </ind><dep>   0 </dep></entry>
+      <entry><ind> 0.3 </ind><dep>   0 </dep></entry>
       <entry><ind> 1.0 </ind><dep> -94 </dep></entry>
     </interpolation>
     <axis>
@@ -1071,7 +1071,7 @@
     <property>gear/gear[0]/position-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep> -95 </dep></entry>
-      <entry><ind> 0.6 </ind><dep> -95 </dep></entry>
+      <entry><ind> 0.3 </ind><dep> -95 </dep></entry>
       <entry><ind> 1.0 </ind><dep>   0 </dep></entry>
     </interpolation>
     <center>
@@ -1126,7 +1126,7 @@
     <property>gear/gear[1]/position-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep> 94 </dep></entry>
-      <entry><ind> 0.6 </ind><dep> 94 </dep></entry>
+      <entry><ind> 0.3 </ind><dep> 94 </dep></entry>
       <entry><ind> 1.0 </ind><dep>  0 </dep></entry>
     </interpolation>
     <axis>
@@ -1151,7 +1151,7 @@
     <property>gear/gear[1]/position-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep> 100 </dep></entry>
-      <entry><ind> 0.6 </ind><dep> 100 </dep></entry>
+      <entry><ind> 0.3 </ind><dep> 100 </dep></entry>
       <entry><ind> 1.0 </ind><dep>   0 </dep></entry>
     </interpolation>
     <axis>
@@ -1182,7 +1182,7 @@
     <property>gear/gear[2]/position-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep> 94 </dep></entry>
-      <entry><ind> 0.6 </ind><dep> 94 </dep></entry>
+      <entry><ind> 0.3 </ind><dep> 94 </dep></entry>
       <entry><ind> 1.0 </ind><dep>  0 </dep></entry>
     </interpolation>
     <axis>
@@ -1208,7 +1208,7 @@
     <property>gear/gear[2]/position-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep> 100 </dep></entry>
-      <entry><ind> 0.6 </ind><dep> 100 </dep></entry>
+      <entry><ind> 0.3 </ind><dep> 100 </dep></entry>
       <entry><ind> 1.0 </ind><dep>   0 </dep></entry>
     </interpolation>
     <axis>
