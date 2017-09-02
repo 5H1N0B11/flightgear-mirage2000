@@ -530,7 +530,7 @@ ________________________________________________________________________________
     <pre-stall>
       <name>pre-stall</name>
       <mode>looped</mode>
-      <path>Aircraft/Mirage-2000/Sounds/stall-600-chopped.wav</path>
+      <path>Aircraft/Mirage-2000/Sounds/Mirage2000-Stall_Alert_choppedv2.wav</path>
       <condition>
         <equals>
           <property>/sim/alarms/stall-warning</property>
@@ -545,7 +545,7 @@ ________________________________________________________________________________
     <stall>
       <name>stall</name>
       <mode>looped</mode>
-      <path>Aircraft/Mirage-2000/Sounds/stall-600-continue.wav</path>
+      <path>Aircraft/Mirage-2000/Sounds/Mirage2000-Stall_Alert_continuev2.wav</path>
       <condition>
         <equals>
           <property>/sim/alarms/stall-warning</property>
@@ -582,6 +582,60 @@ ________________________________________________________________________________
         <factor>1.0</factor>
       </volume>
     </click>
+    
+    <!--
+          AICRAFT CRAKING
+    -->
+    
+    <aircraft-crack>
+        <name>aircraft-crack</name>
+        <path>Sounds/aircraft-crack.wav</path>
+        <mode>once</mode>
+        <condition>
+            <property>sim/current-view/internal</property>
+            <equals>
+                <property>controls/cabin/shaking</property>
+                <value>1</value>
+            </equals>
+        </condition>
+        <position>
+            <x>0.01</x>
+            <y>0.01</y>
+            <z>0.01</z>
+        </position>
+        <volume>
+            <property>controls/cabin/shaking</property>
+            <factor>1</factor>
+            <offset>5</offset>
+        </volume>
+    </aircraft-crack>
+
+        <aircraft-creaking>
+            <name>aircraft-creaking</name>
+            <path>Sounds/aircraft-creaking.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <property>sim/current-view/internal</property>
+                <equals>
+                    <property>controls/cabin/shaking</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <position>
+                <x>0.01</x>
+                <y>0.01</y>
+                <z>0.01</z>
+            </position>
+            <volume>
+                <property>controls/cabin/shaking</property>
+                <factor>1</factor>
+                <offset>5</offset>
+            </volume>
+        </aircraft-creaking>
+    
+    
+    
+    
 
     <!--
 ________________________________________________________________________________
