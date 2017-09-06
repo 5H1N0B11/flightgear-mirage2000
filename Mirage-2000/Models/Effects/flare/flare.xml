@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- sweat by maggse -->
 <PropertyList>
-  
-  
   <nasal>
     <load>
       #print("Gun splash");
@@ -11,91 +8,79 @@
       guns.flare();
     </load>
   </nasal>
+  
+  <path>puff-impact.ac</path>
 
-  <particlesystem>
-<!--     <type>trail</type>-->
-    <name>flare</name>
-    <texture>puff.png</texture>
-    <emissive>true</emissive>
-    <lighting>false</lighting>
-    <offsets>
-      <pitch-deg> 90 </pitch-deg>
-    </offsets>
+  <animation>
+    <type>billboard</type>
+    <spherical>true</spherical>
+  </animation>
 
-    <attach>world</attach>
+  <animation>
+    <type>scale</type>
+    <object-name>puff</object-name>
+    <use-personality>true</use-personality>
+    <property>sim/time/elapsed-sec</property>
+    <x-min>0.3</x-min>
+    <y-min>0.3</y-min>
+    <z-min>0.3</z-min>
+    <x-factor>0.05</x-factor>
+    <y-factor>0.05</y-factor>
+    <z-factor>0.05</z-factor>
+  </animation>
 
-    <placer>
-      <type>point</type>
-    </placer>
+  <animation>
+    <type>blend</type>
+    <object-name>puff</object-name>
+    <use-personality>true</use-personality>
+    <property>sim/time/elapsed-sec</property>
+    <factor>0.035</factor>
+    <min>0.05</min>
+    <max>1.0</max>
+  </animation>
 
-    <shooter>
-      <theta-min-deg> 0 </theta-min-deg>
-      <theta-max-deg> 0 </theta-max-deg>
-      <phi-min-deg>   0 </phi-min-deg>
-      <phi-max-deg>   0 </phi-max-deg>
-      <speed>
-        <value> 11 </value>
-        <spread> 1 </spread>
-      </speed>
-      <rotation-speed>
-        <x-min-deg-sec>  0 </x-min-deg-sec>
-        <y-min-deg-sec>  0 </y-min-deg-sec>
-        <z-min-deg-sec> 10 </z-min-deg-sec>
-        <x-max-deg-sec>  0 </x-max-deg-sec>
-        <y-max-deg-sec> 10 </y-max-deg-sec>
-        <z-max-deg-sec> 20 </z-max-deg-sec>
-      </rotation-speed>
-    </shooter>
+  <animation>
+    <type>dist-scale</type>
+    <object-name>disk</object-name>
+    <use-personality>true</use-personality>
+    <interpolation>
+      <entry><ind>0</ind><dep>1</dep></entry>
+      <entry><ind>500</ind><dep>2</dep></entry>
+      <entry><ind>1000</ind><dep>4</dep></entry>
+      <entry><ind>3000</ind><dep>10</dep></entry>
+    </interpolation>
+  </animation>
 
-    <counter>
-      <particles-per-sec>
-        <value> 5 </value>
-        <spread> 0 </spread>
-      </particles-per-sec>
-    </counter>
+  <animation>
+    <type>blend</type>
+    <object-name>disk</object-name>
+    <use-personality>true</use-personality>
+    <property>sim/time/elapsed-sec</property>
+    <factor>3</factor>
+    <min>0.05</min>
+    <max>1.0</max>
+  </animation>
 
-    <align>billboard</align>
+  <animation>
+    <type>material</type>
+    <object-name>puff</object-name>
+    <use-personality>true</use-personality>
+    <emission>
+      <red>0.60</red>
+      <green>0.39</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
 
-    <particle>
-
-      <start>
-        <color>
-          <red><value>   0.9 </value></red>
-          <green><value> 0.6 </value></green>
-          <blue><value>  0.5 </value></blue>
-          <alpha><value> 0.4 </value></alpha>
-        </color>
-        <size>
-          <value> 1.6 </value>
-        </size>
-      </start>
-
-      <end>
-        <color>
-          <red><value>   0.65 </value></red>
-          <green><value> 0.45 </value></green>
-          <blue><value>  0.35 </value></blue>
-          <alpha><value> 0.20 </value></alpha>
-        </color>
-        <size>
-          <value> 0.4 </value>
-        </size>
-      </end>
-
-      <life-sec>
-        <value>1</value>
-      </life-sec>
-      
-      <mass-kg>  0.5 </mass-kg>
-      <radius-m> 0.1 </radius-m>
-    </particle>
-
-    <program>
-      <fluid>              air </fluid>
-      <gravity type="bool">true</gravity>
-      <wind type="bool">   false</wind>
-    </program>
-
-  </particlesystem>
+  <animation>
+    <type>material</type>
+    <object-name>disk</object-name>
+    <use-personality>true</use-personality>
+    <emission>
+      <red>1</red>
+      <green>1</green>
+      <blue>0.6</blue>
+    </emission>
+  </animation>
 
 </PropertyList>
