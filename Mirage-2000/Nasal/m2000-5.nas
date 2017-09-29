@@ -322,7 +322,7 @@ var theShakeEffect = func() {
     #sf = ((rSpeed / 500000 + G / 25000 + alpha / 20000 ) / 3) ;
     # I want to find a way to improve vibration amplitude with sf, but to tired actually to make it.
     
-    if(shakeEffect2000.getBoolValue() and (((G > 7 or alpha > 20) and rSpeed > 30) or (mach > 0.99 and mach < 1.01) or (wow and rSpeed > 100) or gun))
+    if(shakeEffect2000.getBoolValue() and (((G > 9 or alpha > 25) and rSpeed > 30) or (mach > 0.99 and mach < 1.01) or (wow and rSpeed > 100) or gun))
     {
         #print("it is working.");
         setprop("controls/cabin/shaking", math.sin(48 * myTime) / 333.333);

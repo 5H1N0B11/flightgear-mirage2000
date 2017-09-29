@@ -161,23 +161,25 @@ Buckaroo's note
   Airbrakes (spoilers) may be a little too effective, but I didn't adjust
   them.
   -->
+  
+  
+  <!-- tan 58 = 4.5/chord   <=> chord * tan 58 =  4.5   <=>  chord = 4.5 / tan 58-->
   <wing x="-0.9" y="0.247" z="-0.933"
-        chord="7.823"
-        length="5.5"
+        chord="7.223"
+        length="4.5"
         taper="0.08"
-        sweep="38"
+        sweep="58"
         dihedral="-4"
         incidence="0"
-        twist = "-2"
         camber="0.03">
-        <stall aoa="26" width="8" peak="1.7" />
-        <slat    start="0.20"  end="0.80"  aoa="4"     drag=" 2.0" />
-        <flap0   start="0.1"  end="0.90"  lift="1.2" drag=" 1.2" />
-        <spoiler start="0"  end="0.05"  lift="1"    drag="150" />
+        <stall aoa="22" width="6" peak="1.7" />
+        <slat    start="0.20"  end="0.80"  aoa="6"     drag=" 2.0" />
+        <flap0   start="0.2"  end="0.80"  lift="1.2" drag=" 1.2" />
+        <spoiler start="0"  end="0.10"  lift="1"    drag="200" />
 
         <control-input axis="/controls/flight/SAS-roll"     control="FLAP0" split="true" />
         <control-input axis="/controls/flight/aileron-trim" control="FLAP0" split="true" />
-        <control-input axis="/controls/flight/flaps"        control="SLAT" />
+        <!--<control-input axis="/controls/flight/flaps"        control="SLAT" />-->
         <control-input axis="/controls/flight/spoilers"     control="SPOILER" />
         <control-input axis="/controls/flight/slats"        control="SLAT" />
 
@@ -205,7 +207,7 @@ Buckaroo's note
   than the wing. This method greatly reduces the drag/lift spread. It's very
   close to the wing though, so the stabilizer moment arm is pretty short and
   I'm guessing it may result in instability issues at some speeds/attitudes.
-
+  
   Current elevator lift settings won't quite allow a full power-off stall. Any
   more and the auto-pilot can't tune results at higher airspeeds. This could
   be refined after the plane gets its own custom auto-pilot or other automatic
@@ -218,13 +220,13 @@ Buckaroo's note
   -->
   <hstab x="-5" y="0.5" z="-0.933"
     chord="1"
-    length="4"
+    length="4.5"
     taper="1"
     sweep="0"
     camber="0.07"
     dihedral="-4">
-    <stall aoa="26" width="4" peak="1.5" />
-    <flap0   start="0.1" end="0.9" lift="1.80" drag="1.35" /> <!-- lift 1.48-->  <!-- <flap0 start="0.28" end="0.90" lift="1.48" drag="1.35" />--> <!-- lift 1.48-->
+    <stall aoa="30" width="13" peak="1.5" />
+    <flap0   start="0.01" end="0.99" lift="1.9" drag="1.35" /> <!-- lift 1.48-->  <!-- <flap0 start="0.28" end="0.90" lift="1.48" drag="1.35" />--> <!-- lift 1.48-->
     <spoiler start="0.00" end="0.9" lift="0.00" drag="200" />
 
     <control-input  control="FLAP0"   axis="controls/flight/SAS-pitch" />
@@ -239,13 +241,14 @@ Buckaroo's note
   I reduced rudder effectiveness and made stall characteristics a bit less
   extreme.
   -->
+  <!-- total high of the mirage 2000 5.3 : vertical wing is aound the half. so 2.65 ... and the rudder is around 80% of the vertical wing : 2.12 m-->
   <vstab x="-4.646" y="0" z="0.151"
     chord="3.6"
     length="4.1"
     taper="0.22"
-    sweep="38">
-    <stall aoa="16" width="4" peak="1.5" />
-    <flap0 start="0.06" end="0.67" lift="1.4" drag="1.3" />
+    sweep="53.5">
+    <stall aoa="30" width="4" peak="1.5" />
+    <flap0 start="0.20" end="0.57" lift="1.5" drag="1.3" />
 
     <control-input axis="/controls/flight/SAS-yaw" control="FLAP0" invert="false" />
 
@@ -253,6 +256,7 @@ Buckaroo's note
 
     <!-- <control-speed control="FLAP0" transition-time="0.5" />-->
   </vstab>
+
 
   <!-- Buckaroo's notes
   The big addition here is exhaust-speed. The default value is 1555 kts.
@@ -286,7 +290,7 @@ Buckaroo's note
 
   1123 K = 850'C
   -->
-  <jet x="-2.5" y="0" z="-0.480"
+  <jet x="-2" y="0" z="-0.480"
     mass="3340"
     thrust="14500"
     afterburner="21400"

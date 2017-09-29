@@ -23,14 +23,14 @@ var max_e               = 1;
 var min_e               = 0.55;
 var maxG                = 9; # mirage 2000 max everyday 8.5G; overload 11G and 12G will damage the aircraft 9G is for airshow. 5.5 for Heavy loads
 var minG                = -3; # -3.5
-var maxAoa              = 24;
+var maxAoa              = 27;
 var minAoa              = -10;
-var maxRoll             = 270; # in degre/sec but when heavy loaded : 150 
+var maxRoll             = 290; # in degre/sec but when heavy loaded : 150 
 var last_e_tab          = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 var last_a_tab          = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 var tabG                = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
-var maxRollCat          = [270, 150];
+var maxRollCat          = [290, 150];
 var MaxGCat             = [9, 5.5];
 
 
@@ -45,11 +45,11 @@ var last_e_tabGnegInit      = [0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0
 
 # Values for aoa leading the pitch aroud 150 kts
 #var aoaposInit              = [9,9,9,9,9,9,9,9,9,9];
-var aoaposInit              = [18,18,18];#Test
-var aoanegInit              = [-4.92,-4.92,-4.92];
+var aoaposInit              = [18,18,18,18,18,18,18,18,18,18];#Test
+var aoanegInit              = [-4.92,-4.92,-4.92,-4.92,-4.92,-4.92,-4.92,-4.92,-4.92,-4.92];
 #var last_e_tabaoaposInit    = [-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86,-0.86];
-var last_e_tabaoaposInit    = [-0.52,-0.52,-0.52];
-var last_e_tabaoanegInit    =  [0.24,0.24,0.24];
+var last_e_tabaoaposInit    = [-0.52,-0.52,-0.52,-0.52,-0.52,-0.52,-0.52,-0.52,-0.52,-0.52];
+var last_e_tabaoanegInit    =  [0.24,0.24,0.24,0.24,0.24,0.24,0.24,0.24,0.24,0.24];
 
 # Values around 300 kts for Gload leading the pitch
 var Gpos                = GposInit;
@@ -78,9 +78,6 @@ var mach             = props.globals.getNode("velocities/mach");
 var slideDeg         = props.globals.getNode("orientation/side-slip-deg");
 var OrientationRoll  = props.globals.getNode("orientation/roll-deg");
 var OrientationPitch = props.globals.getNode("orientation/pitch-deg");
-var AngleOfAttack    = props.globals.getNode("orientation/alpha-deg");
-var alpha            = 0;
-var gload           = getprop("/accelerations/pilot-g");
 
 # SAS and Autopilot Controls
 var SasPitchOn   = props.globals.getNode("controls/SAS/pitch");
@@ -92,8 +89,8 @@ var activated    = props.globals.getNode("controls/SAS/activated");
 
 
 
-#var DeadZPitch   = props.globals.getNode("controls/SAS/dead-zone-pitch");
-#var DeadZRoll    = props.globals.getNode("controls/SAS/dead-zone-roll");
+var DeadZPitch   = props.globals.getNode("controls/SAS/dead-zone-pitch");
+var DeadZRoll    = props.globals.getNode("controls/SAS/dead-zone-roll");
 
 # Autopilot Locks
 var ap_alt_lock  = props.globals.getNode("autopilot/locks/altitude");
@@ -109,11 +106,8 @@ var ElevatorTrim = props.globals.getNode("controls/flight/elevator-trim", 1);
 var Dlc          = props.globals.getNode("controls/flight/DLC", 1);
 var Flaps        = props.globals.getNode("surface-positions/aux-flap-pos-norm", 1);
 var Brakes       = props.globals.getNode("surface-positions/spoiler-pos-norm", 1);
-var raw_e        = RawElev.getValue();
-var wow          = getprop ("/gear/gear/wow");
-var upsidedown   = abs(OrientationRoll.getValue()) < 90 ;
-var Gfactor      = 1;
-var AoaFactor    = 1;
+
+#var WSweep       = props.globals.getNode("surface-positions/wing-pos-norm", 1);
 
 # Outputs
 var SasRoll      = props.globals.getNode("controls/flight/SAS-roll", 1);
@@ -135,9 +129,29 @@ var steering       = 0;
 var dt_mva_vec     = [0, 0, 0, 0, 0, 0, 0];
 var dt_Roll_vec    = [0, 0, 0, 0, 0, 0, 0];
 
-# Array for Gload, speed, input and raw_e
-#var G_array = [[0][0][0],[0][0][0]];
+# wlevator Trim
+if(ElevatorTrim.getValue() != nil)
+{
+    e_trim = ElevatorTrim.getValue();
+}
 
+var trimUp = func() {
+    e_trim += (airspeed < 120.0) ? t_increment : t_increment * 14400 / airspeed_sqr;
+    if(e_trim > 1)
+    {
+        e_trim = 1;
+    }
+    ElevatorTrim.setValue(e_trim);
+}
+
+var trimDown = func() {
+    e_trim -= (airspeed < 120.0) ? t_increment : t_increment * 14400 / airspeed_sqr;
+    if(e_trim < -1)
+    {
+        e_trim = -1;
+    }
+    ElevatorTrim.setValue(e_trim);
+}
 
 # SAS initialisation
 var init_SAS = func() {
@@ -153,167 +167,6 @@ var Update_SAS = func() {
         SAS_Loop_running = 1;
         call(computeSAS,[]);
     }
-}
-
-
-
-var Intake_pelles = func(){
-        # Little try to make the "trappes" intake move : They move by depression
-        # Formula is : q = (rho.V²)/2
-        # with  : 
-        #  - rho in kg/m³
-        #  - V in m/s
-        #  - q in pascal
-        var densitykgm3 = getprop("environment/density-slugft3")*515.378818393;
-        var speedms = airspeed * KT2MPS;
-        var q =  (densitykgm3*speedms*speedms)/2;
-        
-        #print("Pression Dynamique: q:"~q~ " Pa = rho:"~densitykgm3~"kg/m³ *(V:"~speedms~"m/s) ² /2");
-        
-        var myRpm = getprop("engines/engine/rpm");
-        var myKgCoeff = myRpm/9000*96>96?0:96-(myRpm/9000*96)+40; #This is to simulate a bias of the débit value when rpm are low
-        var DebitModified = (1/2*densitykgm3 * math.sin((90-alpha)*D2R)* math.sin((90-alpha)*D2R) * 3.14*0.796*0.796 *speedms)+myKgCoeff;
-        
-        #print("Débit Massique : qm = " ~1/2*densitykgm3 * math.sin((90-alpha)*D2R)* math.sin((90-alpha)*D2R) * 3.14*0.796*0.796 *speedms ~ "kg/s = rho:"~densitykgm3~"kg/m³ *Section:"~math.sin((90-alpha)*D2R)* math.sin((90-alpha)*D2R)*3.14*0.796*0.796~" m²* V:"~speedms~"m.s-¹*2/3 (to take off the cones)");
-        
-        setprop("engines/engine[0]/massic-debit_div2",DebitModified);
-        
-        #For pelles/ecoppes movement
-        myalt = getprop("/position/altitude-ft");
-        if(myalt > 25000 and myMach > 0.6 and myMach < 1.2 and airspeed < 400 and alpha > 12)
-        {
-            interpolate("engines/engine[0]/pelle", alpha, 0.5);
-        }
-        else
-        {
-            interpolate("engines/engine[0]/pelle", 0, 0.5);
-        }
-}
-
-
-var Pitch_Gload_Computing = func (){
-  #average pitch input position with average G
-  #print("gload :"~ gload ~ " Airspeed:"~ airspeed);
-              if(raw_e < 0)
-            {
-                # Tab G pos and last_e_tabGpos ================================================================================================================================================
-                if(last_e < 0.1
-                    and gload > 0
-                    and (abs(last_e) > 0.4
-                        or abs(p_input) == 1
-                        or gload > maxG * 0.2
-                    )
-                    and abs(last_e_tab[0] - last_e_tab[1]) > 0
-                    and airspeed > 10
-                    #and myBrakes == 0
-                    and wow == 0
-                    and upsidedown
-                    and alpha < maxAoa)
-                {
-                    shiftTab(Gpos, gload);
-                    shiftTab(last_e_tabGpos, last_e);
-                    
-                    Gpos[0] = averageTab(Gpos);
-                    last_e_tabGpos[0] = averageTab(last_e_tabGpos);
-                }
-                
-                var Mygload = Gpos[0];
-                last_e = last_e_tabGpos[0];
-
-                # Calculate the G factor
-                Gfactor = abs(last_e / Mygload);
-            }
-            else
-            {
-                #print("Descent:");
-                # Tab Gneg and last_e_tabGneg ================================================================================================================================================
-                if(last_e > 0.1
-                    and gload < 0
-                    and (abs(last_e) > 0.4
-                        or abs(p_input) == 1
-                        or gload < minG * 0.2
-                    )
-                    and abs(last_e_tab[0] - last_e_tab[1]) > 0
-                    and airspeed > 10
-                    #and myBrakes == 0
-                    and wow == 0
-                    and upsidedown) 
-                {
-                    shiftTab(Gneg, gload);
-                    shiftTab(last_e_tabGneg, last_e);
-                    
-                    Gneg[0] = averageTab(Gneg);
-                    last_e_tabGneg[0] = averageTab(last_e_tabGneg);
-                }
-                
-                var Mygload = Gneg[0];
-                last_e = last_e_tabGneg[0];
-
-                #   Calculate the G factor
-                Gfactor = abs(last_e / Mygload);
-            }
-    return Mygload;
-}
-
-var Pitch_aoa_Computing = func (){
-  if(raw_e < 0)
-  {
-    # Tab aoa pos and Tab last_e_tabaoapos =======================================================================================================================================
-    if(last_e < 0.1
-      and alpha > 0
-      and (abs(last_e) > 0.9
-      or abs(p_input) == 1
-      or alpha > maxAoa * 0.5
-    )
-      and abs(last_e_tab[0] - last_e_tab[1]) > 0
-      and airspeed > 10
-      #and myBrakes == 0
-      and wow == 0
-      and upsidedown
-      and alpha < maxAoa)
-    {
-        shiftTab(aoapos, alpha);
-        shiftTab(last_e_tabaoapos, last_e);
-
-        aoapos[0] = averageTab(aoapos);
-        last_e_tabaoapos[0] = averageTab(last_e_tabaoapos);
-    }
-
-        var Myalpha = aoapos[0];
-        last_e = last_e_tabaoapos[0];
-
-    # Calculate the AoaFactor
-    AoaFactor = abs(last_e / Myalpha);
-  }
-  else
-  {
-    # Tab aoaneg and last_e_tabaoaneg ================================================================================================================================================
-    if(last_e > 0.1
-      and alpha < 0
-      and (abs(last_e) > 0.9
-      or abs(p_input) == 1
-      or alpha < minAoa * 0.5
-      )
-      and abs(last_e_tab[0] - last_e_tab[1]) > 0
-      and airspeed > 10
-      #and myBrakes == 0
-      and wow == 0
-      and upsidedown)
-    {
-        shiftTab(aoaneg, alpha);
-        shiftTab(last_e_tabaoaneg, last_e);
-
-        aoaneg[0] = averageTab(aoaneg);
-        last_e_tabaoaneg[0] = averageTab(last_e_tabaoaneg);
-    }
-
-    var Myalpha = aoaneg[0];  
-    last_e = last_e_tabaoaneg[0];
-
-    # Calculate the AoaFactor
-    AoaFactor = abs(last_e / Myalpha);
-  }
-  return Myalpha;
 }
 
 # Stability Augmentation System
@@ -361,20 +214,19 @@ var computeSAS = func() {
     var roll_rad    = roll * 0.017453293;
     airspeed        = AirSpeed.getValue();
     airspeed_sqr    = airspeed * airspeed;
-    raw_e           = RawElev.getValue();
+    var raw_e       = RawElev.getValue();
     var raw_a       = RawAileron.getValue();
     var e_trim      = ElevatorTrim.getValue();
     var a_trim      = AileronTrim.getValue();
-    alpha           = AngleOfAttack.getValue();
-    gload           = getprop("/accelerations/pilot-g");
+    var alpha       = getprop("/orientation/alpha-deg");
+    var  gload      = getprop("/accelerations/pilot-g");
     var raw_r       = RawRudder.getValue();
     var pitch_r     = PitchRate.getValue();
     var myMach      = mach.getValue();
     var myBrakes    = Brakes.getValue();
     var refuelling  = getprop("/systems/refuel/contact");
     var gear        = getprop("/gear/gear/position-norm");
-    wow             = getprop ("/gear/gear/wow");
-    upsidedown      = abs(OrientationRoll.getValue()) < 120 ;
+    var wow         = getprop ("/gear/gear/wow");
     var myCat       = cat.getValue();
     
     maxG = MaxGCat[myCat];
@@ -420,7 +272,33 @@ var computeSAS = func() {
             # airbrakes should here "Not work" coz not enough pressure
         }
         
-        Intake_pelles();
+        # Little try to make the "trappes" intake move : They move by depression
+        # Formula is : q = (rho.V²)/2
+        # with  : 
+        #  - rho in kg/m³
+        #  - V in m/s
+        #  - q in pascal
+        var densitykgm3 = getprop("environment/density-slugft3")*515.378818393;
+        var speedms = airspeed * KT2MPS;
+        var q =  (densitykgm3*speedms*speedms)/2;
+        #print("Pression Dynamique: q:"~q~ " Pa = rho:"~densitykgm3~"kg/m³ *(V:"~speedms~"m/s) ² /2");
+        var myRpm = getprop("engines/engine/rpm");
+        var myKgCoeff = myRpm/9000*96>96?0:96-(myRpm/9000*96)+40; #This is to simulate a bias of the débit value when rpm are low
+        var DebitModified = (1/2*densitykgm3 * math.sin((90-alpha)*D2R)* math.sin((90-alpha)*D2R) * 3.14*0.796*0.796 *speedms)+myKgCoeff;
+        
+        #print("Débit Massique : qm = " ~1/2*densitykgm3 * math.sin((90-alpha)*D2R)* math.sin((90-alpha)*D2R) * 3.14*0.796*0.796 *speedms ~ "kg/s = rho:"~densitykgm3~"kg/m³ *Section:"~math.sin((90-alpha)*D2R)* math.sin((90-alpha)*D2R)*3.14*0.796*0.796~" m²* V:"~speedms~"m.s-¹*2/3 (to take off the cones)");
+        setprop("engines/engine[0]/massic-debit_div2",DebitModified);
+        
+        #For pelles/ecoppes movement
+        myalt = getprop("/position/altitude-ft");
+        if(myalt > 25000 and myMach > 0.6 and myMach < 1.2 and airspeed < 400 and alpha > 12)
+        {
+            interpolate("engines/engine[0]/pelle", alpha, 0.5);
+        }
+        else
+        {
+            interpolate("engines/engine[0]/pelle", 0, 0.5);
+        }
         
         # Pitch Channel
         var pitch_rate = PitchRate.getValue();
@@ -459,34 +337,143 @@ var computeSAS = func() {
         # Take only a third of the order if refuelling
         #p_input = (p_input != 0 and refuelling and abs(p_input) > 0.30) ? 0.30 * abs(p_input) / p_input : p_input;
 
-        Gfactor = 1;
-        AoaFactor = 1;
+        var Gfactor = 1;
+        var AoaFactor = 1;
         # Gpos Gneg last_e_tabGpos last_e_tabGneg
         # G factor and Aoa Factor will be calculated in every speed
         #we need here to add a condition when upside down
         
-        
+        var upsidedown = abs(OrientationRoll.getValue()) < 90 ;
         #if(upsidedown){print("Upside down");}
         
-        
-        var Mygload = Pitch_Gload_Computing();
-        var Myalpha = Pitch_aoa_Computing();
-        
-        
+            if(raw_e < 0)
+            {
+                # Tab G pos and last_e_tabGpos ================================================================================================================================================
+                if(last_e < 0.1
+                    and gload > 0
+                    and (abs(last_e) > 0.4
+                        or abs(p_input) == 1
+                        or gload > maxG * 0.2
+                    )
+                    and abs(last_e_tab[0] - last_e_tab[1]) > 0
+                    and airspeed > 10
+                    #and myBrakes == 0
+                    and wow == 0
+                    and upsidedown
+                    and alpha < maxAoa)
+                {
+                    shiftTab(Gpos, gload);
+                    shiftTab(last_e_tabGpos, last_e);
+                    
+                    Gpos[0] = averageTab(Gpos);
+                    last_e_tabGpos[0] = averageTab(last_e_tabGpos);
+                }
+                
+                var Mygload = Gpos[0];
+                last_e = last_e_tabGpos[0];
+
+                # Calculate the G factor
+                Gfactor = abs(last_e / Mygload);
+                
+                # Tab aoa pos and Tab last_e_tabaoapos =======================================================================================================================================
+                if(last_e < 0.1
+                    and alpha > 0
+                    and (abs(last_e) > 0.9
+                        or abs(p_input) == 1
+                        or alpha > maxAoa * 0.5
+                    )
+                    and abs(last_e_tab[0] - last_e_tab[1]) > 0
+                    and airspeed > 10
+                    #and myBrakes == 0
+                    and wow == 0
+                    and upsidedown
+                    and alpha < maxAoa)
+                {
+                    shiftTab(aoapos, alpha);
+                    shiftTab(last_e_tabaoapos, last_e);
+                    
+                    aoapos[0] = averageTab(aoapos);
+                    last_e_tabaoapos[0] = averageTab(last_e_tabaoapos);
+                }
+                
+                var Myalpha = aoapos[0];
+                last_e = last_e_tabaoapos[0];
+                
+                # Calculate the AoaFactor
+                AoaFactor = abs(last_e / Myalpha);
+            }
+            else
+            {
+                #print("Descent:");
+                # Tab Gneg and last_e_tabGneg ================================================================================================================================================
+                if(last_e > 0.1
+                    and gload < 0
+                    and (abs(last_e) > 0.4
+                        or abs(p_input) == 1
+                        or gload < minG * 0.2
+                    )
+                    and abs(last_e_tab[0] - last_e_tab[1]) > 0
+                    and airspeed > 10
+                    #and myBrakes == 0
+                    and wow == 0
+                    and upsidedown) 
+                {
+                    shiftTab(Gneg, gload);
+                    shiftTab(last_e_tabGneg, last_e);
+                    
+                    Gneg[0] = averageTab(Gneg);
+                    last_e_tabGneg[0] = averageTab(last_e_tabGneg);
+                }
+                
+                var Mygload = Gneg[0];
+                last_e = last_e_tabGneg[0];
+
+                #   Calculate the G factor
+                Gfactor = abs(last_e / Mygload);
+
+                 # Tab aoaneg and last_e_tabaoaneg ================================================================================================================================================
+                if(last_e > 0.1
+                    and alpha < 0
+                    and (abs(last_e) > 0.9
+                        or abs(p_input) == 1
+                        or alpha < minAoa * 0.5
+                    )
+                    and abs(last_e_tab[0] - last_e_tab[1]) > 0
+                    and airspeed > 10
+                    #and myBrakes == 0
+                    and wow == 0
+                    and upsidedown)
+                {
+                    shiftTab(aoaneg, alpha);
+                    shiftTab(last_e_tabaoaneg, last_e);
+                    
+                    aoaneg[0] = averageTab(aoaneg);
+                    last_e_tabaoaneg[0] = averageTab(last_e_tabaoaneg);
+                }
+                
+                var Myalpha = aoaneg[0];  
+                last_e = last_e_tabaoaneg[0];
+
+                # Calculate the AoaFactor
+                AoaFactor = abs(last_e / Myalpha);
+            }
 
         #This is to calculate a kind of border between aoa driving and G driving
         var myCoeef = (airspeed - 280) / 40 > 1 ? 1 : (airspeed - 280) / 40 < 0 ? 0 : (airspeed - 280) / 40;
-        myCoeef = Mygload > maxG ? 1 : myCoeef;
         
+        #print("Gfactor*p_input : " ~ Gfactor*p_input);
+        #print("AoaFactor*p_input : " ~ AoaFactor*p_input);
+        #if(Mygload>maxG){print("Over G");}
+        myCoeef = Mygload > maxG ? 1 : myCoeef;
         
         # This calculation is done and produce a "Gfactor" which is a part of the precedent Gfactor claculation and aoa calculation
         # If over G, then Gfactor take it over
-        var Pitch_factor = myCoeef * Gfactor + (1 - myCoeef) * AoaFactor;
+        Gfactor = myCoeef * Gfactor + (1 - myCoeef) * AoaFactor;
         
         #print("My test :"~ myCoeef);
         # Avoid strange thing that could lead to an oscillation
-        Pitch_factor = (Pitch_factor < 0.002) ? 0.002 : Pitch_factor;
-        Pitch_factor = (airspeed < 10 and wow) ? 1 : Pitch_factor;
+        Gfactor = (Gfactor < 0.002) ? 0.002 : Gfactor;
+        Gfactor = (airspeed < 10 and wow) ? 1 : Gfactor;
 
         # If airspeed > 300 Mach the stick drive the G  at airspeed < 300 the stick drive the aoa
         if(raw_e < 0)
@@ -496,10 +483,10 @@ var computeSAS = func() {
             
             # New new method :
             var IdealG =  myCoeef * abs(p_input * maxG) + (1 - myCoeef) * abs(p_input * myMaxAoa);
-            p_input = -IdealG * Pitch_factor;
+            p_input = -IdealG * Gfactor;
             if(getprop("/controls/bugs/command-bug"))
             {
-                print("p_input:" ~ p_input ~ " gload:" ~ gload  ~ " raw_e:" ~ raw_e ~" maxG:" ~ maxG ~" myMach:"~myMach ~ " IdealG:" ~raw_e * maxG ~ " Ideal Aoa" ~raw_e * maxAoa~" Pitch_factor:"~ Pitch_factor);
+                print("p_input:" ~ p_input ~ " gload:" ~ gload  ~ " raw_e:" ~ raw_e ~" maxG:" ~ maxG ~" myMach:"~myMach ~ " IdealG:" ~raw_e * maxG ~ " Ideal Aoa" ~raw_e * maxAoa~" Gfactor:"~ Gfactor);
                 print("Speed:"~ airspeed ~ " | Aoa:" ~ alpha ~ " | GLoad:"~ gload ~ " | Commande raw_e:" ~ raw_e ~ " | IdealG:" ~raw_e * maxG);
             }
         }
@@ -507,16 +494,16 @@ var computeSAS = func() {
         {
             # New new method :
             var IdealG =  myCoeef * abs(p_input * minG) + (1-myCoeef) * abs(p_input * (upsidedown?minAoa:minAoa*2));
-            p_input = IdealG * Pitch_factor;
+            p_input = IdealG * Gfactor;
             if(getprop("/controls/bugs/command-bug"))
             {
-                #print("p_input:" ~ p_input ~ " gload:" ~ gload  ~ " raw_e:" ~ raw_e ~" minG:" ~ minG ~" myMach:"~myMach ~ " IdealG:" ~raw_e * minG ~" Pitch_factor:"~ Pitch_factor);
+                #print("p_input:" ~ p_input ~ " gload:" ~ gload  ~ " raw_e:" ~ raw_e ~" minG:" ~ minG ~" myMach:"~myMach ~ " IdealG:" ~raw_e * minG ~" Gfactor:"~ Gfactor);
                 print("Speed:"~ airspeed ~ " | Aoa:" ~ alpha ~ " | GLoad:"~ gload ~ " | Commande raw_e:"~raw_e ~ " | IdealG:" ~raw_e * minG);
             }
         }
         
         # Remove Calculation anomalies
-        p_biasTemp = airspeed > 340                     ? p_bias * Pitch_factor  : p_bias;
+        p_biasTemp = airspeed > 340                     ? p_bias * Gfactor  : p_bias;
         p_input += (airspeed < 340 or abs(raw_e) < 0.5) and upsidedown   ? p_biasTemp        : 0;
         p_input = (p_input <= 0 and raw_e >= 0)         ?  0                : p_input;
         p_input = (p_input >= 0 and raw_e <= 0)         ?  0                : p_input;
@@ -531,9 +518,9 @@ var computeSAS = func() {
         if(1) #myBrakes == 0)
         {
             shiftTab(last_e_tab, p_input);
+            #if(airspeed<300){shiftTab(last_e_tab, p_input);}
             last_e_tab[0] = averageTab(last_e_tab);
             p_input = last_e_tab[0];
-            
         }
 
         #print("Moyenne p_input:" ~ p_input ~ " Futur G  = p_input * gload / last_e :" ~ p_input * gload / last_e);
@@ -548,7 +535,7 @@ var computeSAS = func() {
             # here is to limit to 0
             #p_input = (raw_e == 0 and p_input != 0) ? 0 : p_input * p_input / p_input;
         }
-        #if(airspeed<299){p_input=raw_e;}
+        
         last_e = p_input;
         SasPitch.setValue(p_input);
         # Autotrim
@@ -612,19 +599,19 @@ var computeSAS = func() {
         ############### decrease sas_roll with low speed and high aoa
         if(alpha > 5 and myMach < 0.36)
         {
-            myMaxRoll = myMaxRoll / 2;
+            myMaxRoll = myMaxRoll / 4;
         }
-        if(alpha > 10 and myMach < 0.36)
+        if(alpha > 10 and myMach < 0.26)
         {
-            myMaxRoll = myMaxRoll / 2;
+            myMaxRoll = myMaxRoll / 4;
         }
-        if(alpha > 15 and myMach < 0.36)
+        if(alpha > 15 and myMach < 0.26)
         {
-            #myMaxRoll = myMaxRoll / 2;
+            myMaxRoll = myMaxRoll / 4;
         }
-        if(alpha > 20 and myMach < 0.36)
+        if(alpha > 20 and myMach < 0.26)
         {
-            #myMaxRoll = myMaxRoll / 2;
+            myMaxRoll = myMaxRoll / 4;
         }
         
         # decrease sas_roll with airbrakes
