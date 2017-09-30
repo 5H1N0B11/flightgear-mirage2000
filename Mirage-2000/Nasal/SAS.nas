@@ -80,7 +80,8 @@ var OrientationRoll  = props.globals.getNode("orientation/roll-deg");
 var OrientationPitch = props.globals.getNode("orientation/pitch-deg");
 var AngleOfAttack    = props.globals.getNode("orientation/alpha-deg");
 var alpha            = 0;
-var gload           = getprop("/accelerations/pilot-g");
+var gload            = getprop("/accelerations/pilot-g");
+var myMach           = mach.getValue();
 
 # SAS and Autopilot Controls
 var SasPitchOn   = props.globals.getNode("controls/SAS/pitch");
@@ -369,7 +370,7 @@ var computeSAS = func() {
     gload           = getprop("/accelerations/pilot-g");
     var raw_r       = RawRudder.getValue();
     var pitch_r     = PitchRate.getValue();
-    var myMach      = mach.getValue();
+    myMach          = mach.getValue();
     var myBrakes    = Brakes.getValue();
     var refuelling  = getprop("/systems/refuel/contact");
     var gear        = getprop("/gear/gear/position-norm");
