@@ -132,6 +132,8 @@ var last_a         = 0;
 var last_r         = 0;
 var w_sweep        = 0;
 #var e_trim         = 0;
+var etrim_indice   =0;
+var atrim_indice   =0;
 var steering       = 0;
 var dt_mva_vec     = [0, 0, 0, 0, 0, 0, 0];
 var dt_Roll_vec    = [0, 0, 0, 0, 0, 0, 0];
@@ -566,19 +568,19 @@ var computeSAS = func() {
                 and myBrakes == 0
                 and gear == 0)
             {
-                var indice = abs(pitch_rate) > 2 ? 0.05 : 0.001;
+                etrim_indice = abs(pitch_rate)/16;
                 if(pitch_rate > 0)
                 {
-                    interpolate("controls/flight/elevator-trim", e_trim + indice, 0.2);
-                    #ElevatorTrim.setValue(e_trim+indice);
+                    interpolate("controls/flight/elevator-trim", e_trim + etrim_indice, 0.4);
+                    #ElevatorTrim.setValue(e_trim+etrim_indice);
                 }
                 else
                 {
-                    interpolate("controls/flight/elevator-trim", e_trim - indice, 0.2);
-                    #ElevatorTrim.setValue(e_trim-indice);
+                    interpolate("controls/flight/elevator-trim", e_trim - etrim_indice, 0.4);
+                    #ElevatorTrim.setValue(e_trim-etrim_indice);
                 }
             }
-            if(abs(raw_e) > 0.5 and airspeed > 150 and gear == 1)
+            else #if(abs(raw_e) > 0.5 and airspeed > 150 and gear == 1)
             {
                 if(abs(e_trim)>0.01)
                 {
@@ -702,20 +704,24 @@ var computeSAS = func() {
         # Only if not verticle
         if(AutoTrim.getValue())
         {
-            if(abs(raw_a)<0.01 and wow==0 and abs(OrientationPitch.getValue())<45 and abs(OrientationRoll.getValue())<45)
+            if(abs(raw_a)<0.01  and abs(OrientationPitch.getValue())<50 and abs(OrientationRoll.getValue())<50 )#and wow==0)
             {
-                var indice = abs(roll) > 1 ? 0.005 : 0.001;
-                if(roll < 0)
+                #atrim_indice = abs(roll) > 1 ? 0.005 : 0.001;
+                atrim_indice = abs(roll)/32;
+                if(roll < 0)                  
                 {
-                    AileronTrim.setValue(a_trim + indice);
+                    interpolate("controls/flight/aileron-trim", a_trim + atrim_indice, 4);
+                    #AileronTrim.setValue(a_trim + atrim_indice);
                 }
                 else
                 {
-                    AileronTrim.setValue(a_trim - indice);
+                    interpolate("controls/flight/aileron-trim", a_trim - atrim_indice, 4);
+                    #AileronTrim.setValue(a_trim - atrim_indice);
                 }
             }
-            if(abs(raw_a) > 0.5)
+            else #if(abs(raw_a) > 0.5)
             {
+                interpolate("controls/flight/aileron-trim",0 , 0.2);
                 AileronTrim.setValue(0);
             }
         }
