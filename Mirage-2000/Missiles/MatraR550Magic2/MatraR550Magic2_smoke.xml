@@ -7,12 +7,8 @@
        Diameter : 0.157 m
        Weight   : 89 kg (196.21 lb)
   -->
-  <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.xml</path>
   <animation>
-    <!-- Objets opaques -->
-    <object-name>R550</object-name>
-    <object-name>Magic2Ailettes</object-name>
-    <!-- Objets transparents -->
   </animation>
   <animation>
     <enable-hot type="bool">false</enable-hot>

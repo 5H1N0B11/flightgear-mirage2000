@@ -116,6 +116,7 @@
       <sound-on-off type="bool">false</sound-on-off>
       <sound-fire-on-off type="bool">false</sound-fire-on-off>
       <sound-volume type="double"> 0.0 </sound-volume>
+      <vector-thrust type="bool">true</vector-thrust>
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
@@ -155,6 +156,7 @@
       <sound-on-off type="bool">false</sound-on-off>
       <sound-fire-on-off type="bool">false</sound-fire-on-off>
       <sound-volume type="double"> 0.0 </sound-volume>
+      <vector-thrust type="bool">true</vector-thrust>
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>

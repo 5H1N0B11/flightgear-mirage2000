@@ -580,17 +580,17 @@ var computeSAS = func() {
                     #ElevatorTrim.setValue(e_trim-etrim_indice);
                 }
             }
-            else #if(abs(raw_e) > 0.5 and airspeed > 150 and gear == 1)
+            else   #if(abs(raw_e) > 0.5 )#and airspeed > 150 and gear == 1)
             {
-                if(abs(e_trim)>0.01)
-                {
-                    interpolate("controls/flight/elevator-trim", 0, 0.2);
-                }
-                else
-                {
-                    interpolate("controls/flight/elevator-trim",0 , 0.2);
+                #if(abs(e_trim)>0.01)
+                #{
+                    interpolate("controls/flight/elevator-trim", 0, 0.5);
+                #}
+                #else
+                #{
+                #    interpolate("controls/flight/elevator-trim",0 , 0.2);
                     #ElevatorTrim.setValue(0);
-                }
+                #}
             }
         }
 

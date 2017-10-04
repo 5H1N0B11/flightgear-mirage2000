@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PropertyList>
-  <path>MatraR550Magic2.ac</path>
+  <path>MatraR550Magic2.xml</path>
   <animation>
     <type>select</type>
     <object-name>R550</object-name>
