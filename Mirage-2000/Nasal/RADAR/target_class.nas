@@ -101,7 +101,8 @@ var Target = {
         obj.TimeLast        = 0;
         obj.lifetime        = 3; #Not implemented yet : should represent the life time in sec of a target. (simpler than actually)
         obj.RangeLast       = 0; 
-        obj.ClosureRate     = 0; 
+        obj.ClosureRate     = 0;
+        obj.ispainted       = 0;
         
         #obj.TimeLast.setValue(ElapsedSec.getValue());
         
@@ -603,8 +604,15 @@ var Target = {
         return me.chaffNode;
     },
 
+    setPainted: func(mypainting){
+        #print("Painting : " ~ mypainting);
+        me.ispainted = mypainting;
+    },
+
     isPainted: func() {
-        return 1;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
+        if(me.Display == 0){me.setPainted(0);}
+        #print("Paiting : " ~ me.ispainted);
+        return me.ispainted;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
     },
 
     get_model: func {

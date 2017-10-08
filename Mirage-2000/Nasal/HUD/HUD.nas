@@ -371,11 +371,16 @@ var HUD = {
 
 
         displayIt = c.objectDisplay;
+        #var myTest = c.isPainted();
+        
         #print("Display it : %d",displayIt);
+        
         if(displayIt==1){
 
 
           target_callsign = c.get_Callsign();
+          #print("Paint : " ~ target_callsign ~ " : "~ myTest);
+          
           target_altitude = c.get_altitude();
           target_heading_deg = c.get_heading();
           target_Distance = c.get_range();

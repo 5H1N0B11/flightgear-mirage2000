@@ -109,7 +109,7 @@ var Radar = {
         m.HaveDoppler       = (NewHaveDoppler == nil) ? 1 : NewHaveDoppler;
         m.DopplerSpeedLimit = (newDopplerSpeedLimit == nil) ? 50 : newDopplerSpeedLimit; # in Knot
         m.MyTimeLimit       = (NewMyTimeLimit == nil) ? 2 : NewMyTimeLimit; # in seconds
-        m.janitorTime       = (NewJanitorTime == nil) ? 5 : NewJanitorTime;
+        m.janitorTime       = (NewJanitorTime == nil) ? 30 : NewJanitorTime;
         m.haveSweep         = (NewhaveSweep == nil) ? 1 : NewhaveSweep;
         m.typeTarget        = (NewTypeTarget == nil) ? listOfAIRadarEchoes : NewTypeTarget;
         m.showAI            = (NewshowAI == nil) ? 1 : NewshowAI;
@@ -383,6 +383,10 @@ var Radar = {
                     if(type != "missile" and !contains(weaponRadarNames, type))
                     {
                         me.TargetList_AddingTarget(u);
+                        if(u.get_Callsign() == me.tgts_list[me.Target_Index].get_Callsign() and u.get_Callsign() == me.Target_Callsign){
+                          #print("Picasso painting");
+                          u.setPainted(1);
+                        }
                     }
                     me.displayTarget();
                 }
@@ -743,9 +747,11 @@ var Radar = {
                 if(TempTarget.get_shortring() != SelectedObject.get_shortring())
                 {
                     append(TempoTgts_list, TempTarget);
+                }else{
+                  TempTarget.setPainted(0);
                 }
             }
-            me.tgts_list = TempoTgts_list;
+            #me.tgts_list = TempoTgts_list;
         }
     },
 
@@ -934,7 +940,7 @@ var Radar = {
             me.az_fld=me.focused_az_fld;
             me.vt_az_fld=me.focused_az_fld;
             me.swp_diplay_width = 0.0422;
-            me.tgts_list = [];
+            #me.tgts_list = [];
         }
         elsif(wcs_mode == "tws-auto")
         {
@@ -950,6 +956,8 @@ var Radar = {
     },
 
     next_Target_Index: func(){
+        if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
+        print("Bitocul Next" ~ me.Target_Index);
         me.Target_Index = me.Target_Index + 1;
         if(me.Target_Index > (size(me.tgts_list)-1))
         {
@@ -957,12 +965,14 @@ var Radar = {
         }
         if (size(me.tgts_list) > 0) {
           me.Target_Callsign = me.tgts_list[me.Target_Index].get_Callsign();
+          me.tgts_list[me.Target_Index].setPainted(1);
         } else {
           me.Target_Callsign = nil;
         }
     },
 
     previous_Target_Index: func(){
+        if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         me.Target_Index = me.Target_Index - 1;
         if(me.Target_Index < 0)
         {
@@ -970,9 +980,11 @@ var Radar = {
         }
         if (size(me.tgts_list) > 0) {
           me.Target_Callsign = me.tgts_list[me.Target_Index].get_Callsign();
+          me.tgts_list[me.Target_Index].setPainted(1);
         } else {
           me.Target_Callsign = nil;
         }
+
     },
 
     displayTarget: func(){
@@ -988,7 +1000,6 @@ var Radar = {
                  me.Target_Callsign = nil;
                  setprop("/ai/closest/range", 0);
                  return;#me.Target_Index = size(me.tgts_list) - 1;
-                 
             }
             if( me.Target_Index > size(me.tgts_list) - 1)
             {
@@ -1005,6 +1016,7 @@ var Radar = {
              }
             
             var MyTarget = me.tgts_list[ me.Target_Index];
+            me.tgts_list[ me.Target_Index].setPainted(1);
             closeRange   = me.targetRange(MyTarget);
             heading      = MyTarget.get_heading();
             altitude     = MyTarget.get_altitude();
@@ -1026,6 +1038,9 @@ var Radar = {
             setprop("/ai/closest/longitude", longitude);
             setprop("/ai/closest/latitude", latitude);
         }else{
+            if(me.az_fld != me.focused_az_fld){
+              if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
+            }
             setprop("/ai/closest/range", 0);
         }
     },
@@ -1062,6 +1077,7 @@ var Radar = {
         contact.life = contact.life - me.LoopElapsed;
         if(contact.life<1){
           contact.set_display(0);
+          contact.setPainted(1);
         }
       }
     },
@@ -1085,6 +1101,7 @@ var Radar = {
             return nil;#me.Target_Index = 0;
         }
         if (me.Target_Callsign == me.tgts_list[me.Target_Index].get_Callsign()) {
+          me.tgts_list[me.Target_Index].setPainted(1);
           return me.tgts_list[me.Target_Index];
         } else {
           me.Target_Callsign = nil;
