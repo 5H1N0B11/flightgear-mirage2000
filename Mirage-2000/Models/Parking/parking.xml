@@ -24,10 +24,27 @@
     <object-name>fuel-truck.base</object-name>
     <object-name>fuel-truck.pipe</object-name>
     <object-name>fuel-truck.tank</object-name>
+    <condition>
+      <and>
+        <property>controls/ground-equipment</property>
+        <property>gear/gear[0]/wow</property>
+        <less-than>
+          <property>gear/gear[0]/rollspeed-ms</property>
+          <value>0.2</value>
+        </less-than>
+        <property>/controls/gear/brake-parking</property>    
+      </and>
+    </condition>
+  </animation>
+  
+  
+    <animation>
+    <type>select</type>
     <object-name>parking</object-name>
     <condition>
       <and>
         <property>controls/ground-equipment</property>
+        <property>gear/gear[0]/wow</property>
         <property>controls/engines/engine[0]/cutoff</property>
       </and>
     </condition>
