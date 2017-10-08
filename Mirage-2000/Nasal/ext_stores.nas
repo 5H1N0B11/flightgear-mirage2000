@@ -41,7 +41,8 @@ var Encode_Load = func() {
         "ASMP",
         "PDLCT",
         "Matra MICA IR",
-        "Exocet"
+        "Exocet",
+        "Matra Super 530D"
     ];
     var compiled = "";
     
@@ -102,7 +103,8 @@ var Decode_Load = {
             "ASMP",
             "PDLCT",
             "Matra MICA IR",
-            "Exocet"
+            "Exocet",
+            "Matra Super 530D"
         ];
         return m;
     },
@@ -223,6 +225,49 @@ var Po = func() {
     }
 }
 
+var FoxOldYears = func() {
+    if(getprop("/gear/gear[2]/wow") == 1)
+    {
+        # pylon 0
+        setprop("/sim/weight[0]/selected",                   "none");
+        
+        # pylon 1
+        setprop("/sim/weight[1]/selected",                   "Matra R550 Magic 2");
+        
+        # pylon 2
+        setprop("/sim/weight[2]/selected",                   "Matra Super 530D");
+        setprop("/consumables/fuel/tank[2]/selected",        0);
+        setprop("/consumables/fuel/tank[2]/capacity-gal_us", 0);
+        setprop("/consumables/fuel/tank[2]/level-gal_us",    0);
+        
+        # pylon 3
+        setprop("/sim/weight[3]/selected",                   "1300 l Droptank");
+        setprop("/consumables/fuel/tank[3]/selected",        1);
+        setprop("/consumables/fuel/tank[3]/capacity-gal_us", 343);
+        setprop("/consumables/fuel/tank[3]/level-gal_us",    342);
+        
+        # pylon 4
+        setprop("/sim/weight[4]/selected",                   "Matra Super 530D");
+        setprop("/consumables/fuel/tank[4]/selected",        0);
+        setprop("/consumables/fuel/tank[4]/capacity-gal_us", 0);
+        setprop("/consumables/fuel/tank[4]/level-gal_us",    0);
+        
+        # pylon 5
+        setprop("/sim/weight[5]/selected",                   "Matra R550 Magic 2");
+        
+        # pylon 6
+        setprop("/sim/weight[6]/selected",                   "none");
+        
+        # pylon 7
+        setprop("/sim/weight[7]/selected",                   "none");
+        
+        # pylon 8
+        setprop("/sim/weight[8]/selected",                   "none");
+        
+        FireableAgain();
+    }
+}
+
 var Fox = func() {
     if(getprop("/gear/gear[2]/wow") == 1)
     {
@@ -252,6 +297,49 @@ var Fox = func() {
         
         # pylon 5
         setprop("/sim/weight[5]/selected",                   "Matra R550 Magic 2");
+        
+        # pylon 6
+        setprop("/sim/weight[6]/selected",                   "Matra MICA");
+        
+        # pylon 7
+        setprop("/sim/weight[7]/selected",                   "Matra MICA");
+        
+        # pylon 8
+        setprop("/sim/weight[8]/selected",                   "Matra MICA");
+        
+        FireableAgain();
+    }
+}
+
+var FoxFullMica = func() {
+    if(getprop("/gear/gear[2]/wow") == 1)
+    {
+        # pylon 0
+        setprop("/sim/weight[0]/selected",                   "Matra MICA");
+        
+        # pylon 1
+        setprop("/sim/weight[1]/selected",                   "Matra MICA IR");
+        
+        # pylon 2
+        setprop("/sim/weight[2]/selected",                   "none");
+        setprop("/consumables/fuel/tank[2]/selected",        0);
+        setprop("/consumables/fuel/tank[2]/capacity-gal_us", 0);
+        setprop("/consumables/fuel/tank[2]/level-gal_us",    0);
+        
+        # pylon 3
+        setprop("/sim/weight[3]/selected",                   "1300 l Droptank");
+        setprop("/consumables/fuel/tank[3]/selected",        1);
+        setprop("/consumables/fuel/tank[3]/capacity-gal_us", 343);
+        setprop("/consumables/fuel/tank[3]/level-gal_us",    342);
+        
+        # pylon 4
+        setprop("/sim/weight[4]/selected",                   "none");
+        setprop("/consumables/fuel/tank[4]/selected",        0);
+        setprop("/consumables/fuel/tank[4]/capacity-gal_us", 0);
+        setprop("/consumables/fuel/tank[4]/level-gal_us",    0);
+        
+        # pylon 5
+        setprop("/sim/weight[5]/selected",                   "Matra MICA IR");
         
         # pylon 6
         setprop("/sim/weight[6]/selected",                   "Matra MICA");
@@ -525,6 +613,10 @@ var FireableAgain = func() {
         {
             setprop("/sim/weight["~ i ~"]/weight-lb", 220);
         }
+        elsif(select == "Matra Super 530D")
+        {
+            setprop("/sim/weight["~ i ~"]/weight-lb", 595.2);
+        }
     }
     setprop("controls/armament/name", getprop("sim/weight[0]/selected"));
 }
@@ -533,6 +625,7 @@ var FireableAgain = func() {
 # It has to be simplified and generic made
 # Need to know how to make a table
 dropLoad = func(number) {
+    print("func DropLoad OK");
     var select = getprop("/sim/weight["~ number ~"]/selected");
     if(select != "none")
     {
@@ -589,11 +682,12 @@ var weaponNames = {
     "SCALP":                "SCALP",
     "Sea Eagle":            "SeaEagle",
     "Exocet":               "Exocet",
+    "Matra Super 530D":     "Matra-super530d" #Nmae of the Folder : Aircraft/Mirage-2000/Missiles/Matra-super530d/
 };
 
 dropMissile = func(number)
 {
-    #print("Drop Function launched");
+    print("Function dropMissile OK");
     var target = mirage2000.myRadar3.GetTarget();
     var typeMissile = getprop("/sim/weight["~ number ~"]/selected");
     
@@ -604,6 +698,7 @@ dropMissile = func(number)
         return;
     }
     missile.contact = target;
+    print("typeMissile:"~typeMissile);
     var Current_missile = missile.AIM.new(number, typeMissile, typeMissile);
     if (Current_missile != -1) {
         Current_missile.status = 0;
@@ -616,6 +711,7 @@ dropMissile = func(number)
 
 dropMissile2 = func(Current_missile, number)
 {
+    print("Function dropMissile2 OK");
     if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
         dropMissile3(Current_missile, number);
     } else {
@@ -625,6 +721,7 @@ dropMissile2 = func(Current_missile, number)
 
 dropMissile3 = func(Current_missile, number)
 {
+    print("Function dropMissile3 OK");
     if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
         Current_missile.release();
     } else {

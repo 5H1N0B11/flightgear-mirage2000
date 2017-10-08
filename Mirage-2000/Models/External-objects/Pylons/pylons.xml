@@ -75,14 +75,44 @@
     </condition>
   </animation>
 
+
+<!-- TODO : afficher si tank selectionne :-->
+  <animation>
+    <type>select</type>
+    <object-name>pylon3.tank.L</object-name>
+    <condition>
+      <or>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>1700 l Droptank</value>
+        </equals>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+           <value>1300 l Droptank</value>
+        </equals>
+      </or>
+    </condition>
+  </animation>
+
+<!-- TODO : afficher si missile selectionne :-->
   <animation>
     <type>select</type>
     <object-name>pylon3.L</object-name>
     <condition>
-      <not-equals>
-        <property>sim/weight[2]/selected</property>
-        <value>none</value>
-      </not-equals>
+      <and>
+        <not-equals>
+          <property>sim/weight[2]/selected</property>
+          <value>none</value>
+        </not-equals>
+        <not-equals>
+          <property>sim/weight[2]/selected</property>
+          <value>1700 l Droptank</value>
+        </not-equals>
+        <not-equals>
+          <property>sim/weight[2]/selected</property>
+          <value>1300 l Droptank</value>
+        </not-equals>
+    </and>
     </condition>
   </animation>
 
@@ -130,14 +160,44 @@
     </condition>
   </animation>
 
+
+<!-- TODO : afficher si tank selectionne :-->
+  <animation>
+    <type>select</type>
+    <object-name>pylon3.tank.R</object-name>
+    <condition>
+      <or>
+       <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>1700 l Droptank</value>
+        </equals>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+           <value>1300 l Droptank</value>
+         </equals>
+        </or>
+    </condition>
+  </animation>
+
+<!-- TODO : afficher si missile selectionne :-->
   <animation>
     <type>select</type>
     <object-name>pylon3.R</object-name>
     <condition>
-      <not-equals>
-        <property>sim/weight[4]/selected</property>
-        <value>none</value>
-      </not-equals>
+      <and>
+        <not-equals>
+          <property>sim/weight[4]/selected</property>
+          <value>none</value>
+        </not-equals>
+        <not-equals>
+          <property>sim/weight[2]/selected</property>
+          <value>1700 l Droptank</value>
+        </not-equals>
+        <not-equals>
+          <property>sim/weight[2]/selected</property>
+           <value>1300 l Droptank</value>
+         </not-equals>
+        </and>
     </condition>
   </animation>
 

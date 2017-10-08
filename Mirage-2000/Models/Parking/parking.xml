@@ -9,12 +9,21 @@
   <path>parking.ac</path>
 
   <animation>
+    <object-name>external-power-unit.box</object-name>
+    <object-name>external-power-unit.wire</object-name>
+    <object-name>fuel-truck.base</object-name>
+    <object-name>fuel-truck.pipe</object-name>
+    <object-name>fuel-truck.tank</object-name>
     <object-name>parking</object-name>
-
   </animation>
   
   <animation>
     <type>select</type>
+    <object-name>external-power-unit.box</object-name>
+    <object-name>external-power-unit.wire</object-name>
+    <object-name>fuel-truck.base</object-name>
+    <object-name>fuel-truck.pipe</object-name>
+    <object-name>fuel-truck.tank</object-name>
     <object-name>parking</object-name>
     <condition>
       <and>
@@ -25,3 +34,4 @@
   </animation>
 
 </PropertyList>
+

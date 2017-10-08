@@ -255,14 +255,6 @@
     <object-name>verriereArriere-BIPLACE</object-name>
   </effect>
   
-<!--  <model>
-    <path>Models/Aircraft/marker.xml</path>
-  </model>-->
-
-  <model>
-    <path>Aircraft/Mirage-2000/Models/Logos/logos.xml</path>
-  </model>
-
   <!-- ~~~~~~~~~~~~~~~~~~ externals objects -->
   <model>
     <path>Aircraft/Mirage-2000/Models/External-objects/loads.xml</path>

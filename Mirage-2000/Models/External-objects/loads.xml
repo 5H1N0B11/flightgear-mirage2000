@@ -317,6 +317,23 @@
       </and>
     </condition>
   </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>S530D_Left</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>Matra Super 530D</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[2]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
 
   <!-- Sea Eagle -->
   <animation>
@@ -679,6 +696,23 @@
         <equals>
           <property>sim/weight[4]/selected</property>
           <value>Matra MICA IR</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[4]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>S530D_Right</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>Matra Super 530D</value>
         </equals>
         <equals>
           <property>controls/armament/station[4]/release</property>

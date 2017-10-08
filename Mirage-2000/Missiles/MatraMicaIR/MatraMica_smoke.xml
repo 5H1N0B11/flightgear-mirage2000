@@ -11,7 +11,7 @@
        Wingspan : 0.560 m
        Weight   : 112 kg (246.91 lb)
   -->
-  <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/mica_ir.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml</path>
   <!--  <animation>-->
   <!-- Objets opaques -->
   <!--    <object-name>Mica</object-name>

@@ -154,10 +154,24 @@
     </binding>
   </button>
   <button>
+    <legend>Fox Old Years</legend>
+    <binding>
+      <command>nasal</command>
+      <script>m2000_load.FoxOldYears()</script>
+    </binding>
+  </button>
+  <button>
     <legend>Fox</legend>
     <binding>
       <command>nasal</command>
       <script>m2000_load.Fox()</script>
+    </binding>
+  </button>
+  <button>
+    <legend>Fox Full Mica</legend>
+    <binding>
+      <command>nasal</command>
+      <script>m2000_load.FoxFullMica()</script>
     </binding>
   </button>
   <button>

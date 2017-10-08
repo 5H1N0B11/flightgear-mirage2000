@@ -88,7 +88,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m>-3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
 
@@ -98,7 +98,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m>-3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
 
@@ -108,7 +108,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m>-3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
   
@@ -118,7 +118,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m>-3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
 
@@ -128,7 +128,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m>-3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
 
@@ -138,7 +138,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m>-3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
 
@@ -173,8 +173,6 @@
     </offsets>
   </model>
   
-  
-
   <model>
     <name>left-magic-2</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.xml</path>
@@ -204,6 +202,17 @@
       <z-m>-1.556</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>S530D_Left</name>
+    <path>Aircraft/Mirage-2000/Missiles/Matra-super530d/s530d.xml</path>
+    <offsets>
+      <x-m> 1.047</x-m>
+      <y-m>-2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
+
 
   <model>
     <name>Sea_EagleL</name>
@@ -418,6 +427,16 @@
       <z-m>-1.556</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>S530D_Right</name>
+    <path>Aircraft/Mirage-2000/Missiles/Matra-super530d/s530d.xml</path>
+    <offsets>
+      <x-m> 1.047</x-m>
+      <y-m> 2.359</y-m>
+      <z-m>-1.556</z-m>
+    </offsets>
+  </model>
 
   <model>
     <name>Sea_EagleR</name>
@@ -456,7 +475,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m> 3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
 
@@ -466,7 +485,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m> 3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
 
@@ -476,7 +495,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m> 3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
 
@@ -486,7 +505,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m> 3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
   
@@ -496,7 +515,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m> 3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
   
@@ -506,7 +525,7 @@
     <offsets>
       <x-m> 2.373</x-m>
       <y-m> 3.278</y-m>
-      <z-m>-1.494</z-m>
+      <z-m>-1.534</z-m>
     </offsets>
   </model>
 
