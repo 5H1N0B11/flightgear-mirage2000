@@ -554,12 +554,12 @@
     <y>-80</y>
     <width>15</width>
     <height>6</height>
-    <condition>
+<!--    <condition>
       <equals>
         <property>controls/armament/stick-selector</property>
         <value>2</value>
       </equals>
-    </condition>
+    </condition>-->
     <input>
       <property>controls/armament/name</property>
     </input>
@@ -568,7 +568,7 @@
   </label>
 
   <!-- ~~~~~~~~~~~~~~~~~~ missiles ag -->
-  <label>
+<!--  <label>
     <name>Missiles ag</name>
     <x>-58</x>
     <y>-80</y>
@@ -582,7 +582,7 @@
     </condition>
     <format>A/G</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <aiming-reticle>
     <x>-20</x>

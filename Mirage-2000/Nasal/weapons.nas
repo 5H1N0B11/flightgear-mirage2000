@@ -25,8 +25,8 @@ fire_MG = func(b) {
         setprop("/controls/armament/Gun_trigger", 1);
         settimer(stopFiring, 0.5);
     }
-    if(getprop("/controls/armament/stick-selector") == 2)
-    {
+    print("m2000_load.weaponARRAY_Index : "~ m2000_load.weaponARRAY_Index);
+    if(m2000_load.weaponARRAY_Index > 1){
         if(b == 1)
         {
             # To limit: one missile/second
