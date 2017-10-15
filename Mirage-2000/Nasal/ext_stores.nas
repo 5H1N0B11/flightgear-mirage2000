@@ -947,6 +947,32 @@ var weaponGuidance = {
     "vision":               "GND",
 };
 
+var areFirable = {
+            "none"            : 0,
+            "1300 l Droptank" : 0,
+            "1700 l Droptank" : 0,
+            "AGM65"           : 1,
+            "AIM-54"          : 1,
+            "aim-9"           : 1,
+            "AIM120"          : 1,
+            "GBU12"           : 1,
+            "GBU16"           : 1,
+            "Matra MICA"      : 1,
+            "MATRA-R530"      : 1,
+            "Matra R550 Magic 2": 1,
+            "Meteor"          : 1,
+            "R74"             : 1,
+            "R77"             : 1,
+            "SCALP"           : 1,
+            "Sea Eagle"       : 1,
+            "SmokePod"        : 0,
+            "ASMP"            : 0,
+            "PDLCT"           : 0,
+            "Matra MICA IR"   : 1,
+            "Exocet"          : 1,
+            "Matra Super 530D": 1,
+
+};
 
 #####   New weapons selector system  #########################
 
@@ -982,7 +1008,7 @@ var init_weaponSytem = func() {
     var select   = getprop("/sim/weight["~ i ~"]/selected");
     var myweight = getprop("/sim/weight["~ i ~"]/weight-lb");
     
-    if(select != "1300 l Droptank" and select!="1700 l Droptank" and select!="none" and myweight>1){
+    if(areFirable[select] ==1 and myweight>1){
       var actual_kind = getprop("/payload/armament/"~ string.lc(weaponNames[select]) ~ "/guidance");
       #print(string.lc(weaponNames[select]));
       #print(actual_kind);
