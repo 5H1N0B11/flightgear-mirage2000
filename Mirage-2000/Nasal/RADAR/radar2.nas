@@ -109,7 +109,7 @@ var Radar = {
         m.HaveDoppler       = (NewHaveDoppler == nil) ? 1 : NewHaveDoppler;
         m.DopplerSpeedLimit = (newDopplerSpeedLimit == nil) ? 50 : newDopplerSpeedLimit; # in Knot
         m.MyTimeLimit       = (NewMyTimeLimit == nil) ? 2 : NewMyTimeLimit; # in seconds
-        m.janitorTime       = (NewJanitorTime == nil) ? 30 : NewJanitorTime;
+        m.janitorTime       = (NewJanitorTime == nil) ? 5 : NewJanitorTime;
         m.haveSweep         = (NewhaveSweep == nil) ? 1 : NewhaveSweep;
         m.typeTarget        = (NewTypeTarget == nil) ? listOfAIRadarEchoes : NewTypeTarget;
         m.showAI            = (NewshowAI == nil) ? 1 : NewshowAI;
@@ -241,6 +241,39 @@ var Radar = {
     ############
     #  UPDATE  #
     ############
+    
+    
+    ## How the radar should work : 
+    ## 1 - use the tree via getNode
+    ## 2 - ARRAY1 : Stock contact in an array. This array should never be deleted and contact never be removed from it.
+    ## 3 - ARRAY1 : Update this array (new coord etc all data of the contact), and above all, update if "Display" or not.
+    ## 4 - ARRAY2 : Stock only "Display" Contact. This array can be tempo and contact can/have to be REMOVED once it is not "Display"
+    ## 5 - ARRAY3 : Stock Contact contact that can be targeted. Contact must not be deleted. (in case of a firing missile, the contact stocked here is the 
+    #       one that is updated. If we lose this contact, we cannont have action on the missile anymore (lost of the contact or anything else)
+    ## 6 - ARRAY3 : Update this array (new coord etc all data of the contact), and above all, update if "Display" or not.
+    ## 7 - ARRAY4 : Stock and update array with "Display" target. <-This is for target selection. Unavailable Target => must be REMOVED
+    ## 8 - ARRAY5 : Stock and update selected Target. Put the tag Painted on it. (Use an array here allow multiple selection and firing all the target in the same time)
+    
+    ## Schematic : 
+    ##   PROPERTY TREE                "Display"
+    ##        =============> ARRAY1  =========> ARRAY2
+    ##                          |
+    ##                          | Target stock          "Display"
+    ##                            =============>ARRAY3 ==========> ARRAY4
+    ##                                            |
+    ##                                            |   Painted/selected
+    ##                                             ====================> ARRAY5
+    
+    ## STOCRAGE ARRAY :     functions : add, update
+    ##  ARRAY1, ARRAY3
+    ##
+    ## DIPLAY ARRAY :       functions : add, update, remove
+    ##  ARRAY2, ARRAY4, ARRAY5
+    
+    ## Simplification : Only use ARRAY1, ARRAY2 and ARRAY5
+    
+    
+    
     update: func(tempCoord = nil, tempHeading = nil, tempPitch = nil) {
     
         # First update Coord, Alt, heeading and Pitch. 
@@ -311,11 +344,12 @@ var Radar = {
             #    or type == "carrier"
             #    or type == "ship"
             #    or (type == "missile" and HaveRadarNode != nil))
-            #{
+            #
             if(me.check_selected_type(c))
             {
                 # creation of the tempo object Target
                 var u = Target.new(c,me.myTree.getPath());
+               
 
                 folderName = c.getName();
 
@@ -361,6 +395,7 @@ var Radar = {
                 }
                 #print("Testing "~ u.get_Callsign()~"Type: " ~ type);
                 
+                              
                 # set Check_List to void
                 me.Check_List = [];
                 # this function do all the checks and put all result of each
@@ -370,24 +405,41 @@ var Radar = {
                 # then a function just check it all
                 if(me.get_check(u))
                 {
+                                        
+                    #Is in Range : Should be added to the main ARRAY1 (Here : ContactsList)
                     var HaveRadarNode = c.getNode("radar");
                     if(me.UseATree){
                       u.create_tree(me.MyCoord, me.OurHdg);
                       u.set_all(me.MyCoord);
                       me.calculateScreen(u);
                     }
-                    me.update_array(u);
+                    #Update ContactList : Only updated when target is valid
+                    #Should return an Index, in order to take the object from the table and not the property tree
+                    var indexTempo = me.update_array(u);
+                    if(indexTempo != nil){ u = me.ContactsList[indexTempo];}
+                    
+                    
                     # for Target Selection
                     # here we disable the capacity of targeting a missile. But 's possible.
-                    append(CANVASARRAY, u);
+                    # CANVASARRAY => ARRAY2
+                    
+                    
                     if(type != "missile" and !contains(weaponRadarNames, type))
                     {
+                        #tgts_list => ARRAY4
+                        
+                        me.TargetList_Update(u);
                         me.TargetList_AddingTarget(u);
+                        
+                        #We should UPDATE tgts_list here
+                        
+                        #This shouldn't be here. See how to delet it
                         if(u.get_Callsign() == me.tgts_list[me.Target_Index].get_Callsign() and u.get_Callsign() == me.Target_Callsign){
                           #print("Picasso painting");
                           u.setPainted(1);
                         }
                     }
+                    append(CANVASARRAY, u); 
                     me.displayTarget();
                 }
                 else
@@ -406,6 +458,7 @@ var Radar = {
 
         me.decrease_life();
         me.Global_janitor();
+        #print("Side in RADAR : "~ size(me.ContactsList));
         return CANVASARRAY;
     },
     
@@ -728,6 +781,17 @@ var Radar = {
         return myBearing;
     },
 
+    TargetList_Update: func(SelectedObject){
+      forindex(i; me.tgts_list){
+        if(me.tgts_list[i].get_Callsign()==SelectedObject.get_Callsign()){
+          me.tgts_list[i].update(SelectedObject);
+          return i;
+        }
+      }
+      return nil;
+    },
+    
+    
     TargetList_AddingTarget: func(SelectedObject){
         # This is selectioned target management.
         if(me.TargetList_LookingForATarget(SelectedObject) == 0)
@@ -957,18 +1021,39 @@ var Radar = {
 
     next_Target_Index: func(){
         if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
-        print("Bitocul Next" ~ me.Target_Index);
         me.Target_Index = me.Target_Index + 1;
         if(me.Target_Index > (size(me.tgts_list)-1))
         {
             me.Target_Index = 0;
         }
         if (size(me.tgts_list) > 0) {
+        
+          ###  Verification of each valid elements
+          var tempo = 0;
+          foreach(tgts;me.tgts_list){
+            tempo = tgts.get_display()==1?tempo+1:tempo;
+          }
+          if(tempo ==0){
+            me.Target_Index = 0;
+            me.Target_Callsign = nil;
+            setprop("/ai/closest/range", 0);
+            return;
+          }
+          
+          if(me.tgts_list[me.Target_Index].get_display()!=1){
+            me.next_Target_Index();
+          }
+          
           me.Target_Callsign = me.tgts_list[me.Target_Index].get_Callsign();
           me.tgts_list[me.Target_Index].setPainted(1);
         } else {
           me.Target_Callsign = nil;
+          return
         }
+        #if(me.tgts_list[me.Target_Index].get_display()!=1){
+          #me.Target_Index = me.Target_Index==0?size(me.tgts_list)-1:me.Target_Index - 1; 
+          #me.next_Target_Index();
+        #}
     },
 
     previous_Target_Index: func(){
@@ -1045,30 +1130,40 @@ var Radar = {
         }
     },
     
-
-    #Update element of the actual diplayed array
+    
+    
+    ###########################################################################
+    ###   Update element of the actual diplayed array
     update_Element_of_array: func(SelectedObject){
       forindex(i; me.ContactsList){
         if(me.ContactsList[i].get_Callsign()==SelectedObject.get_Callsign()){
-          me.ContactsList[i] = SelectedObject;
-          return 1;
+          me.ContactsList[i].update(SelectedObject);
+          return i;
         }
       }
-      return 0
+      return nil;
     },
     
-    #add element to the array
+    ###   add element to the array
     add_Element_to_Array: func(SelectedObject){
       append(me.ContactsList,SelectedObject);
+      return size(me.ContactsList)-1;
     },   
     
-    #update array : update element, or add it if there aren't present
+    ###   update array : update element, or add it if there aren't present
     update_array: func(SelectedObject){
-      if(me.update_Element_of_array(SelectedObject)==0){
-        me.add_Element_to_Array(SelectedObject);
+      var tempo = me.update_Element_of_array(SelectedObject);
+      
+      if(tempo == nil){
+        tempo = me.add_Element_to_Array(SelectedObject);
       }
+      return tempo;
       #print("My Array  Size = %d ",size(me.ContactsList));
     },
+    
+    
+    #############################################################################
+    
     
     #decrease life of element. < 0 then it's not displayed anymore
     #should call a remove_element function to remove element from array

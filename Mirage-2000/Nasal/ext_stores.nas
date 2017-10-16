@@ -5,6 +5,12 @@ print("*** LOADING ext_stores.nas ... ***");
 #
 ################################################################################
 
+var weaponARRAY = ["","GUN","IR","EM","GND"];
+var weaponARRAY_Index = 0;
+var PayloadARRAY = [];
+
+
+
 # check then drop
 var dropTanks = func() {
     for(var i = 2 ; i < 5 ; i += 1)
@@ -568,6 +574,20 @@ var m2000N = func() {
     }
 }
 
+var weaponWeight = {
+      "none":                 0,
+      "GBU16":                1000,
+      "Matra MICA":           246.91,
+      "Matra MICA IR":        246.91,
+      "Matra R550 Magic 2":   196.21,
+      "ASMP":                 1850,
+      "SCALP":                2866,
+      "Exocet":               1460,
+      "Matra Super 530D":     595.2,
+      "1700 l Droptank":      280,
+      "1300 l Droptank":      220
+};
+
 var FireableAgain = func() {
     for(var i = 0 ; i < 9 ; i += 1)
     {
@@ -576,49 +596,10 @@ var FireableAgain = func() {
         
         # To add weight to pylons
         var select = getprop("/sim/weight["~ i ~"]/selected");
-        
-        if(select == "Matra MICA")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 246.91);
-        }
-        elsif(select == "Matra MICA IR")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 246.91);
-        }
-        elsif(select == "Matra R550 Magic 2")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 196.21);
-        }
-        elsif(select == "GBU16")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 1000);
-        }
-        elsif(select == "SCALP")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 2866);
-        }
-        elsif(select == "Exocet")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 1460);
-        }
-        elsif(select == "ASMP")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 1850);
-        }
-        elsif(select == "1700 l Droptank")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 280);
-        }
-        elsif(select == "1300 l Droptank")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 220);
-        }
-        elsif(select == "Matra Super 530D")
-        {
-            setprop("/sim/weight["~ i ~"]/weight-lb", 595.2);
-        }
+        #print("select" ~ select);
+        setprop("/sim/weight["~ i ~"]/weight-lb", weaponWeight[select]);        
     }
-    setprop("controls/armament/name", getprop("sim/weight[0]/selected"));
+    init_weaponSytem();
 }
 
 # Begining of the dropable function.
@@ -660,29 +641,29 @@ dropLoad_stop = func(n) {
     #setprop("/controls/armament/station["~ n ~"]/release", 0);
 }
 
-var weaponNames = {
-    # translate weapon names used in stores dialog into names used in missile code:
-    #
-    # Notice that names used in missile code are without space, and case is important.
-    # They also match the folder names. Lowercase of missile code names are used to get xml stats and name of xml.
-    #
-    "AGM65":                "AGM65",
-    "AIM-54":               "AIM-54",
-    "?":                    "aim-7",
-    "aim-9":                "aim-9",
-    "AIM120":               "AIM120",
-    "GBU12":                "GBU12",
-    "GBU16":                "GBU16",
-    "MATRA-R530":           "MATRA-R530",
-    "Matra MICA":           "MatraMica",
-    "Matra MICA IR":        "MatraMicaIR",
-    "Matra R550 Magic 2":   "MatraR550Magic2",
-    "Meteor":               "Meteor",
-    "R74":                  "R74",
-    "SCALP":                "SCALP",
-    "Sea Eagle":            "SeaEagle",
-    "Exocet":               "Exocet",
-    "Matra Super 530D":     "Matra-super530d" #Nmae of the Folder : Aircraft/Mirage-2000/Missiles/Matra-super530d/
+  var weaponNames = {
+      # translate weapon names used in stores dialog into names used in missile code:
+      #
+      # Notice that names used in missile code are without space, and case is important.
+      # They also match the folder names. Lowercase of missile code names are used to get xml stats and name of xml.
+      #
+      "AGM65":                "AGM65",
+      "AIM-54":               "AIM-54",
+      "?":                    "aim-7",
+      "aim-9":                "aim-9",
+      "AIM120":               "AIM120",
+      "GBU12":                "GBU12",
+      "GBU16":                "GBU16",
+      "MATRA-R530":           "MATRA-R530",
+      "Matra MICA":           "MatraMica",
+      "Matra MICA IR":        "MatraMicaIR",
+      "Matra R550 Magic 2":   "MatraR550Magic2",
+      "Meteor":               "Meteor",
+      "R74":                  "R74",
+      "SCALP":                "SCALP",
+      "Sea Eagle":            "SeaEagle",
+      "Exocet":               "Exocet",
+      "Matra Super 530D":     "Matra-super530d" #Nmae of the Folder : Aircraft/Mirage-2000/Missiles/Matra-super530d/
 };
 
 dropMissile = func(number)
@@ -859,7 +840,7 @@ var loadsmaxi = func()
 }
 
 # next missile after fire
-var after_fire_next = func()
+var after_fire_next2 = func()
 {
     var SelectedPylon = getprop("/controls/armament/missile/current-pylon");
 #    if(SelectedPylon == "nil")
@@ -950,6 +931,104 @@ var view_firing_missile = func(myMissile)
     # We feed the handler
     view.missile_view_handler.setup(data);
 }
+
+var weaponGuidance = {
+    # translate weapon names used in stores dialog into names used in missile code:
+    #
+    # Notice that names used in missile code are without space, and case is important.
+    # They also match the folder names. Lowercase of missile code names are used to get xml stats and name of xml.
+    #
+    "heat":                 "IR",
+    "radar":                "EM",
+    "semi-radar":           "EM",
+    "laser":                "GND",
+    "gps":                  "GND",
+    "vision":               "GND",
+    "vision":               "GND",
+};
+
+var areFirable = {
+            "none"            : 0,
+            "1300 l Droptank" : 0,
+            "1700 l Droptank" : 0,
+            "AGM65"           : 1,
+            "AIM-54"          : 1,
+            "aim-9"           : 1,
+            "AIM120"          : 1,
+            "GBU12"           : 1,
+            "GBU16"           : 1,
+            "Matra MICA"      : 1,
+            "MATRA-R530"      : 1,
+            "Matra R550 Magic 2": 1,
+            "Meteor"          : 1,
+            "R74"             : 1,
+            "R77"             : 1,
+            "SCALP"           : 1,
+            "Sea Eagle"       : 1,
+            "SmokePod"        : 0,
+            "ASMP"            : 0,
+            "PDLCT"           : 0,
+            "Matra MICA IR"   : 1,
+            "Exocet"          : 1,
+            "Matra Super 530D": 1,
+
+};
+
+#####   New weapons selector system  #########################
+
+var after_fire_next = func(){
+  init_weaponSytem();
+}
+
+
+var weaponSelector = func (){
+  weaponARRAY_Index = weaponARRAY_Index + 1>size(weaponARRAY)-1?0:weaponARRAY_Index+1;
+  if(weaponARRAY[weaponARRAY_Index] == "GUN"){
+      setprop("controls/armament/stick-selector",1);
+    }else{
+      setprop("controls/armament/stick-selector",0);
+      setprop("/controls/armament/name",weaponARRAY[weaponARRAY_Index]);
+    }
+  init_weaponSytem();
+}
+
+
+var init_weaponSytem = func() {
+  #heat/radar/semi-radar/laser/gps/vision/unguided
+  
+  #var weaponARRAY = ["","GUN","IR","EM","GND"];
+  #weaponARRAY_Index = 1;
+  PayloadARRAY = [];
+  
+  setprop("/controls/armament/missile/current-pylon", "");
+  if(weaponARRAY[weaponARRAY_Index] !="GUN"){setprop("/controls/armament/name",weaponARRAY[weaponARRAY_Index]);}
+  
+  for(var i = 1 ; i < 9 ; i += 1)
+  {
+    var select   = getprop("/sim/weight["~ i ~"]/selected");
+    var myweight = getprop("/sim/weight["~ i ~"]/weight-lb");
+    
+    if(areFirable[select] ==1 and myweight>1){
+      var actual_kind = getprop("/payload/armament/"~ string.lc(weaponNames[select]) ~ "/guidance");
+      #print(string.lc(weaponNames[select]));
+      #print(actual_kind);
+      if(weaponGuidance[actual_kind] == weaponARRAY[weaponARRAY_Index]){
+        append(PayloadARRAY,i);
+        
+        select = getprop("/sim/weight["~ PayloadARRAY[0] ~"]/selected");
+        #print("Name : " ~ string.lc(weaponNames[select]) ~ "Kind : " ~ actual_kind, " PayloadARRAY[0] : " ~ select);
+
+        setprop("/controls/armament/missile/current-pylon", PayloadARRAY[0]);
+        setprop("/controls/armament/name",select);
+      }
+    }
+  }
+  
+}
+init_weaponSytem();
+
+
+####################################################################
 
 ##
 # nuc switch

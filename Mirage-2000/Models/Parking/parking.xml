@@ -32,7 +32,11 @@
           <property>gear/gear[0]/rollspeed-ms</property>
           <value>0.2</value>
         </less-than>
-        <property>/controls/gear/brake-parking</property>    
+        <less-than>
+          <property>engines/engine/n1</property>
+          <value>40</value>
+        </less-than>
+        <property>/controls/gear/brake-parking</property> 
       </and>
     </condition>
   </animation>

@@ -102,6 +102,7 @@ var Target = {
         obj.lifetime        = 3; #Not implemented yet : should represent the life time in sec of a target. (simpler than actually)
         obj.RangeLast       = 0; 
         obj.ClosureRate     = 0;
+        
         obj.ispainted       = 0;
         
         #obj.TimeLast.setValue(ElapsedSec.getValue());
@@ -119,6 +120,77 @@ var Target = {
         obj.model = "";
         
         return obj;
+    },
+    
+    update:func(c){
+        me.RdrProp         = c.RdrProp;
+        me.Heading         = c.Heading;
+        
+        me.Alt             = c.Alt;
+        me.lat             = c.lat;
+        me.lon             = c.lon;
+        
+        me.set_latlon(me.lat.getValue(), me.lon.getValue(), me.Alt.getValue() * FT2M);
+        
+        me.pitch           = c.pitch;
+        me.roll            = c.roll;
+        me.Speed           = c.Speed;
+        me.VSpeed          = c.VSpeed;
+        me.Callsign        = c.Callsign;
+        me.name            = c.name;
+        me.Valid            = c.Valid;
+        me.validTree       = c.validTree;
+        me.TransponderID   = c.TransponderID;
+        
+        me.engineTree      = c.engineTree;
+        
+        me.AcType          = c.AcType;
+        me.type            = c.type;
+        me.index           = c.index;
+        me.flareNode       = c.flareNode;
+        me.chaffNode       = c.chaffNode;
+        me.RadarStandby    = c.RadarStandby;
+        
+        
+        
+        me.InstrTgts       = props.globals.getNode(me.InstrString, 1);
+        
+        me.TgtsFiles       =   0; #me.InstrTgts.getNode(me.shortstring, 1);
+        
+        me.Range           = c.Range;
+        me.Bearing         = c.Bearing;
+        me.Elevation       = c.Elevation;
+        me.InRangeProperty = c.InRangeProperty;
+        
+        me.MyCallsign      = c.MyCallsign;
+        me.BBearing        = c.BBearing; 
+        me.BBearing        = c.BBearing; 
+        me.RangeScore      = c.RangeScore; 
+        me.RelBearing      = c.RelBearing; 
+        me.Carrier         = c.Carrier; 
+        me.EcmSignal       = c.EcmSignal; 
+        me.EcmSignalNorm   = c.EcmSignalNorm; 
+        me.EcmTypeNum      = c.EcmTypeNum; 
+        me.Display         = c.Display; 
+        me.Fading          = c.Fading; 
+        me.DddDrawRangeNm  = c.DddDrawRangeNm; 
+        me.TidDrawRangeNm  = c.TidDrawRangeNm; 
+        me.RoundedAlt      = c.RoundedAlt; 
+        me.TimeLast        = 0;
+        me.lifetime        = 3; # We reinit the lifetime
+        me.RangeLast       = c.RangeLast; 
+        me.ClosureRate     = c.ClosureRate;
+        me.ispainted       = c.ispainted;
+        
+        me.life = 5; 
+        me.objectDeviationDeg = c.objectDeviationDeg;
+        me.objectElevationDeg = c.objectElevationDeg;
+        me.objectDisplay       = c.objectDisplay;
+        
+        
+        me.string          = c.string;
+        me.shortstring     = c.shortstring;
+    
     },
 
     create_tree: func(MyAircraftCoord,MyAircraftHeading = nil) {
@@ -589,7 +661,6 @@ var Target = {
 
     isValid: func() {
         return me.Valid.getValue();
-        #return me.validTree.getValue();
     },
 
     getElevation: func () {

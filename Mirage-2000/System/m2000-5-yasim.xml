@@ -92,7 +92,7 @@ Buckaroo's note
 
 <airplane mass="16350" version="YASIM_VERSION_CURRENT">
   
-  <approach speed="135" aoa="12" fuel="0.3">
+  <approach speed="135" aoa="10" fuel="0.3">
     <control-setting axis="/controls/engines/engine[0]/SAS_throttle" value="0.3" />
     <control-setting axis="/controls/engines/engine[0]/reheat"       value="0" />
     <control-setting axis="/controls/gear/gear-down"                 value="1" />

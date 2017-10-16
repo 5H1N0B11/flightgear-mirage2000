@@ -361,10 +361,10 @@ var HUD = {
 
     #myarrayofTarget = mirage2000.myRadar3.update();
     raw_list = mirage2000.myRadar3.ContactsList;
-      
     #print("Size:" ~ size(raw_list));
-    i=0;
     
+    i=0;
+
     foreach(var c; raw_list){
       
       if(i<size(me.targetArray)){
