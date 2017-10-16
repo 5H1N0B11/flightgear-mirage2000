@@ -79,6 +79,7 @@ var slideDeg         = props.globals.getNode("orientation/side-slip-deg");
 var OrientationRoll  = props.globals.getNode("orientation/roll-deg");
 var OrientationPitch = props.globals.getNode("orientation/pitch-deg");
 var AngleOfAttack    = props.globals.getNode("orientation/alpha-deg");
+
 var alpha            = 0;
 var gload            = getprop("/accelerations/pilot-g");
 var myMach           = mach.getValue();
@@ -107,6 +108,7 @@ var RawRudder    = props.globals.getNode("controls/flight/rudder");
 var RawThrottle  = props.globals.getNode("/controls/engines/engine[0]/throttle");
 var AileronTrim  = props.globals.getNode("controls/flight/aileron-trim", 1);
 var ElevatorTrim = props.globals.getNode("controls/flight/elevator-trim", 1);
+var RudderTrim   = props.globals.getNode("controls/flight/rudder-trim", 1);
 var Dlc          = props.globals.getNode("controls/flight/DLC", 1);
 var Flaps        = props.globals.getNode("surface-positions/aux-flap-pos-norm", 1);
 var Brakes       = props.globals.getNode("surface-positions/spoiler-pos-norm", 1);
@@ -368,6 +370,7 @@ var computeSAS = func() {
     var raw_a       = RawAileron.getValue();
     var e_trim      = ElevatorTrim.getValue();
     var a_trim      = AileronTrim.getValue();
+    var r_trim      = RudderTrim.getValue();
     alpha           = AngleOfAttack.getValue();
     gload           = getprop("/accelerations/pilot-g");
     var raw_r       = RawRudder.getValue();
@@ -550,7 +553,7 @@ var computeSAS = func() {
             init_matrix();
             # here is to limit to 0
             #p_input = (raw_e == 0 and p_input != 0) ? 0 : p_input * p_input / p_input;
-        }
+        } 
         #if(airspeed<299){p_input=raw_e;}
         last_e = p_input;
         SasPitch.setValue(p_input);
@@ -735,7 +738,19 @@ var computeSAS = func() {
             last_r = smooth_r;
         }
         SasYaw.setValue(smooth_r);
+        
+        #if(smooth_r != 0){
+        #  var rtrim_indice = abs(yaw_rate)/16;
+        #  if(yaw_rate > 0)
+        #  { 
+        #    interpolate("controls/flight/rudder-trim", r_trim + rtrim_indice, 0.01);
+        #  }else{
+        #    interpolate("controls/flight/rudder-trim", r_trim - rtrim_indice, 0.01);
+        #  }
+        #}
+        
 
+        
         # Gear Channel
         # Appli Quadratic law from low speed
         # Actually, this is working in the good way with gear.
@@ -746,6 +761,8 @@ var computeSAS = func() {
             gear_input *= gear_lo_speed_sqr / (GroundSpeed.getValue() * GroundSpeed.getValue());
         }
         SasGear.setValue(gear_input);
+        
+        
     }
     
     # To calculate the best slats position

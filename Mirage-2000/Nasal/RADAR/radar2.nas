@@ -135,10 +135,11 @@ var Radar = {
         #m.vt_az_fld     = m.az_fld;
 
         # for Target Selection
-        m.tgts_list     = [];
-        m.ContactsList = [];
-        m.Target_Index  = -1 ; # for Target Selection
-        m.Target_Callsign   = nil;
+        m.tgts_list       = [];
+        m.ContactsList    = [];
+        m.Target_Index    = -1 ; # for Target Selection
+        m.Target_Callsign = nil;
+        m.radarMaxSize    = 20;
         
         # source behavior
         m.OurHdg        = 0;
@@ -457,7 +458,10 @@ var Radar = {
         }
 
         me.decrease_life();
-        me.Global_janitor();
+        #print("Test");
+        me.sorting_and_suppr();
+        me.ContactsList = me.cut_array(me.radarMaxSize,me.ContactsList);
+        #me.Global_janitor();
         #print("Side in RADAR : "~ size(me.ContactsList));
         return CANVASARRAY;
     },
@@ -1177,6 +1181,33 @@ var Radar = {
       }
     },
  
+ 
+    #This function should sort and suppr
+    sorting_and_suppr: func(){
+    #print("Test2 : size : " ~ size(me.ContactsList));
+      for(var i=0;i<size(me.ContactsList)-1;i = i + 1){
+        #print("Test3");
+        for(var j=0;j<size(me.ContactsList)-1;j = j + 1){
+          #print(me.ContactsList[i].get_Callsign() ~ " : " ~ me.ContactsList[i].life ~ " vs " ~ me.ContactsList[j].get_Callsign() ~ " : " ~ me.ContactsList[j].life);
+          if(me.ContactsList[i].life<me.ContactsList[j].life){
+            var u = me.ContactsList[i];
+            me.ContactsList[i] = me.ContactsList[j];
+            me.ContactsList[j] = u; 
+          }
+        }
+      }
+    },
+    
+    cut_array : func(ChoosenSize, Myarray){
+      var tempArray = [];
+      for(var i=0;i<size(Myarray)-1;i = i + 1){
+        if(i>ChoosenSize){
+          append(tempArray, Myarray[i]);
+        }
+      }
+      return tempArray;
+    },
+    
  
     GetTarget: func(){
         if(me.tgts_list == nil)

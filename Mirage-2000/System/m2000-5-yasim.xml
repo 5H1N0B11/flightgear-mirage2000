@@ -162,17 +162,17 @@ Buckaroo's note
   them.
   -->
   <wing x="-0.9" y="0.247" z="-0.933"
-        chord="7.823"
-        length="5.5"
+        chord="7.423"
+        length="4.65"
         taper="0.08"
-        sweep="38"
+        sweep="58"
         dihedral="-4"
         incidence="0"
         twist = "-2"
         camber="0.03">
-        <stall aoa="26" width="8" peak="1.7" />
-        <slat    start="0.20"  end="0.80"  aoa="4"     drag=" 2.0" />
-        <flap0   start="0.1"  end="0.90"  lift="1.2" drag=" 1.2" />
+        <stall aoa="23" width="8" peak="1.7" />
+        <slat    start="0.20"  end="0.80"  aoa="4"     drag="1.05" />
+        <flap0   start="0.1"  end="0.70"  lift="1.5" drag=" 1.2" />
         <spoiler start="0"  end="0.05"  lift="1"    drag="150" />
 
         <control-input axis="/controls/flight/SAS-roll"     control="FLAP0" split="true" />
@@ -224,7 +224,7 @@ Buckaroo's note
     camber="0.07"
     dihedral="-4">
     <stall aoa="26" width="4" peak="1.5" />
-    <flap0   start="0.1" end="0.9" lift="1.80" drag="1.35" /> <!-- lift 1.48-->  <!-- <flap0 start="0.28" end="0.90" lift="1.48" drag="1.35" />--> <!-- lift 1.48-->
+    <flap0   start="0.1" end="0.9" lift="2.2" drag="0.7" /> <!-- lift 1.48-->  <!-- <flap0 start="0.28" end="0.90" lift="1.48" drag="1.35" />--> <!-- lift 1.48-->
     <spoiler start="0.00" end="0.9" lift="0.00" drag="200" />
 
     <control-input  control="FLAP0"   axis="controls/flight/SAS-pitch" />
@@ -240,14 +240,15 @@ Buckaroo's note
   extreme.
   -->
   <vstab x="-4.646" y="0" z="0.151"
-    chord="3.6"
-    length="4.1"
+    chord="3.78"
+    length="2.65"
     taper="0.22"
     sweep="38">
     <stall aoa="16" width="4" peak="1.5" />
-    <flap0 start="0.06" end="0.67" lift="1.4" drag="1.3" />
+    <flap0 start="0.06" end="0.35" lift="1.6" drag="1.3" />
 
     <control-input axis="/controls/flight/SAS-yaw" control="FLAP0" invert="false" />
+    <control-input  control="FLAP0"   axis="/controls/flight/rudder-trim" />
 
     <control-output control="FLAP0" prop="/surface-positions/rudder-pos-norm" />
 
@@ -329,7 +330,7 @@ Buckaroo's note
     retract-time="7"
     compression="0.4"
     spring="1.4"
-    damp="2.6"
+    damp="1.6"
     sfric="0.8"
     dfric="0.7">
     <control-input axis="/controls/flight/SAS-gear" control="STEER" src0="-1.0" src1="1.0" dst0="-0.45" dst1="0.45" />
@@ -344,10 +345,10 @@ Buckaroo's note
   <!-- ~~~~~~~~~~~~~~~~~~ left main gear -->
   <gear x="-1.948" y="1.673" z="-2.595"
     retract-time="7"
-    compression="0.6"
+    compression="0.2"
     spring="1.0"
     damp="1.8"
-    sfric="0.8"
+    sfric="0.9"
     dfric="1.3">
     <control-input axis="/controls/gear/brake-left" control="BRAKE" />
     <control-input axis="/controls/gear/brake-parking" control="BRAKE" />
@@ -361,10 +362,10 @@ Buckaroo's note
   <!-- ~~~~~~~~~~~~~~~~~~ right main gear -->
   <gear x="-1.948" y="-1.673" z="-2.595"
     retract-time="7"
-    compression="0.6"
-    spring="1.0"
-    damp="1.8"
-    sfric="0.8"
+    compression="0.2"
+    spring="2.0"
+    damp="2.8"
+    sfric="0.9"
     dfric="1.3">
     <control-input axis="/controls/gear/brake-right" control="BRAKE" />
     <control-input axis="/controls/gear/brake-parking" control="BRAKE" />
@@ -397,7 +398,7 @@ Buckaroo's note
   Buckaroo's notes :
   Modest changes to keep the CG around -1.8. x="3.5" y="0" z="-1"
   -->
-  <ballast x="3.2" y="0" z="-1" mass="1700" />
+  <ballast x="3.6" y="0" z="-1" mass="1700" />
 
   <!-- Helijah's notes [28-04-2012] Added weapons system -->
 
