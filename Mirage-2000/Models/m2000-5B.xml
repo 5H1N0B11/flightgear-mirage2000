@@ -2,9 +2,10 @@
 
 <!-- changelog 26/06/2017 Updated by Helijah -->
 <PropertyList>
-  
+
    <nasal>
-    <load><![CDATA[
+    <load>
+    <![CDATA[
       var self = cmdarg();
       
       # start missile over MP
@@ -126,8 +127,6 @@
       var crew_door = self.getNode("sim/model/door-positions/crew/position-norm", 1);
       var passenger_door = self.getNode("sim/model/door-positions/passenger/position-norm", 1);
       
-
-      
       # Update Time
       #print("Creating the Decodeur");
       var myDecodeur = m2000_mp.Decode_Load.new(self,myLoadString,0.5);
@@ -143,6 +142,7 @@
       ]]>
     </load>
     <unload>
+    <![CDATA[
       myDecodeur.stop();
       myBoolDecodeur.stop();
       #livery_update.stop();
@@ -150,9 +150,10 @@
       crew_door.unalias();
       passenger_door.unalias();
       #MP.loads(0);
+      ]]>
     </unload>
   </nasal>
-  
+
   <model>
     <path>Aircraft/Mirage-2000/Models/main.xml</path>
   </model>
@@ -198,21 +199,7 @@
     <object-name>canopeAvant-BIPLACE</object-name>
     <object-name>verriereAvant-BIPLACE</object-name>
   </animation>
-  
-  <!-- <animation>
-    <type>pick</type>
-    <object-name>EnsembleCanopeAvant</object-name>
-    <visible>true</visible>
-    <action>
-      <button>0</button>
-      <repeatable>false</repeatable>
-      <binding>
-        <command>nasal</command>
-        <script>doors.move_canopy();</script>
-      </binding>
-    </action>
-  </animation> -->
-  
+
   <animation>
     <type>rotate</type>
     <object-name>EnsembleCanopeAvant</object-name>
@@ -239,21 +226,7 @@
     <object-name>canopeArriere-BIPLACE</object-name>
     <object-name>verriereArriere-BIPLACE</object-name>
   </animation>
-  
-  <!-- <animation>
-    <type>pick</type>
-    <object-name>EnsembleCanopeArriere</object-name>
-    <visible>true</visible>
-    <action>
-      <button>0</button>
-      <repeatable>false</repeatable>
-      <binding>
-        <command>nasal</command>
-        <script>doors.move_canopy();</script>
-      </binding>
-    </action>
-  </animation> -->
-  
+
   <animation>
     <type>rotate</type>
     <object-name>EnsembleCanopeArriere</object-name>
@@ -273,5 +246,5 @@
       <z> 0 </z>
     </axis>
   </animation>
-  
+
 </PropertyList>
