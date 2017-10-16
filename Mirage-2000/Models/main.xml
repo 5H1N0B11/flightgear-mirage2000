@@ -6,7 +6,7 @@
        26/06/2016 Updated by Helijah
 -->
 <PropertyList>
-  
+
   <path>m2000-5.ac</path>
 
   <offsets>
@@ -16,8 +16,6 @@
   <sound>
     <path>Aircraft/Mirage-2000/Sounds/mp-sound.xml</path>
   </sound>
-  
- 
 
   <animation>
     <!-- ~~~~~~~~~~~~~~~~~~ opaque objects -->
@@ -68,7 +66,6 @@
     <object-name>tmp1</object-name>
     <object-name>anneau</object-name>
     <object-name>spirales</object-name>
-    
     <object-name>guns</object-name>
     <object-name>trous</object-name>
     <object-name>axeAH</object-name>
@@ -103,7 +100,7 @@
     <object-name>verriereAvant-BIPLACE</object-name>
     <object-name>verriereArriere-BIPLACE</object-name>
   </animation>
-  
+
   <animation>
     <type>material</type>
     <object-name>fuselage</object-name>
@@ -153,7 +150,6 @@
     <object-name>tmp1</object-name>
     <object-name>anneau</object-name>
     <object-name>spirales</object-name>
-    
     <object-name>guns</object-name>
     <object-name>trous</object-name>
     <object-name>axeAH</object-name>

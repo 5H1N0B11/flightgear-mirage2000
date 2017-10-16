@@ -111,7 +111,7 @@
       <z-m>-1.534</z-m>
     </offsets>
   </model>
-  
+
   <model>
     <name>left-pos-2-MICA_IR</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml</path>
@@ -147,7 +147,7 @@
     <name>left-large-tank</name>
     <path>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.5</x-m>
       <y-m>-2.359</y-m>
       <z-m>-1.556</z-m>
     </offsets>
@@ -162,24 +162,30 @@
       <z-m>-1.556</z-m>
     </offsets>
   </model>
-  
+
   <model>
     <name>left-exocet</name>
     <path>Aircraft/Mirage-2000/Missiles/Exocet/Exocet.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.2</x-m>
       <y-m>-2.259</y-m>
-      <z-m>-1.556</z-m>
+      <z-m>-1.6</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-1</pitch-deg>
     </offsets>
   </model>
-  
+
   <model>
     <name>left-magic-2</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.3</x-m>
       <y-m>-2.359</y-m>
-      <z-m>-1.556</z-m>
+      <z-m>-1.5</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-1</pitch-deg>
     </offsets>
   </model>
 
@@ -187,9 +193,12 @@
     <name>left-MICA</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.3</x-m>
       <y-m>-2.359</y-m>
-      <z-m>-1.556</z-m>
+      <z-m>-1.5</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-1</pitch-deg>
     </offsets>
   </model>
   
@@ -197,9 +206,12 @@
     <name>left-MICA-IR</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.3</x-m>
       <y-m>-2.359</y-m>
-      <z-m>-1.556</z-m>
+      <z-m>-1.5</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-1</pitch-deg>
     </offsets>
   </model>
   
@@ -213,7 +225,6 @@
     </offsets>
   </model>
 
-
   <model>
     <name>Sea_EagleL</name>
     <path>Aircraft/Mirage-2000/Missiles/SeaEagle/seaeagle.xml</path>
@@ -224,7 +235,7 @@
     </offsets>
   </model>
   
-    <model>
+  <model>
     <name>P3L-GBU16</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU16/gbu16.xml</path>
     <offsets>
@@ -265,8 +276,6 @@
     </offsets>
   </model>
   
-  
-
   <model>
     <name>Center-GBU16</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU16/gbu16.xml</path>
@@ -372,7 +381,7 @@
     <name>right-large-tank</name>
     <path>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.5</x-m>
       <y-m> 2.359</y-m>
       <z-m>-1.556</z-m>
     </offsets>
@@ -387,14 +396,17 @@
       <z-m>-1.556</z-m>
     </offsets>
   </model>
-  
+
   <model>
     <name>right-exocet</name>
     <path>Aircraft/Mirage-2000/Missiles/Exocet/Exocet.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
-      <y-m> 2.459</y-m>
-      <z-m>-1.556</z-m>
+      <x-m> 1.2</x-m>
+      <y-m> 2.259</y-m>
+      <z-m>-1.6</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-1</pitch-deg>
     </offsets>
   </model>
 
@@ -402,9 +414,12 @@
     <name>right-magic-2</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.3</x-m>
       <y-m> 2.359</y-m>
-      <z-m>-1.556</z-m>
+      <z-m>-1.5</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-1</pitch-deg>
     </offsets>
   </model>
 
@@ -412,9 +427,12 @@
     <name>right-MICA</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.3</x-m>
       <y-m> 2.359</y-m>
-      <z-m>-1.556</z-m>
+      <z-m>-1.5</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-1</pitch-deg>
     </offsets>
   </model>
   
@@ -422,9 +440,12 @@
     <name>right-MICA-IR</name>
     <path>Aircraft/Mirage-2000/Missiles/MatraMicaIR/MicaIR.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.3</x-m>
       <y-m> 2.359</y-m>
-      <z-m>-1.556</z-m>
+      <z-m>-1.5</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-1</pitch-deg>
     </offsets>
   </model>
   
@@ -508,7 +529,7 @@
       <z-m>-1.534</z-m>
     </offsets>
   </model>
-  
+
   <model>
     <name>right-pos-2-R74</name>
     <path>Aircraft/Mirage-2000/Missiles/R74/R-74.xml</path>
@@ -518,7 +539,7 @@
       <z-m>-1.534</z-m>
     </offsets>
   </model>
-  
+
   <model>
     <name>right-pos-2-SmokePod</name>
     <path>Aircraft/Mirage-2000/Missiles/SmokePod/SmokePod.xml</path>
@@ -659,7 +680,6 @@
       <y-m> 0.920</y-m>
       <z-m>-1.404</z-m>
     </offsets>
-
   </model>
 
 </PropertyList>
