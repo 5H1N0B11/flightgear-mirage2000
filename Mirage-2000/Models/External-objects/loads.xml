@@ -445,6 +445,48 @@
       </and>
     </condition>
   </animation>
+  
+  
+    <!-- Center Double GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>Center-Right-GBU12</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[3]/selected</property>
+          <value>Double GBU12</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[3]/release</property>
+          <value>false</value>
+        </equals>
+        <equals>
+          <property>sim/weight[3]/weight-lb</property>
+          <value>1600</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+    <animation>
+    <type>select</type>
+    <object-name>Center-Left-GBU12</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[3]/selected</property>
+          <value>Double GBU12</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[3]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+  
 
   <!-- Center SCALP -->
   <animation>
