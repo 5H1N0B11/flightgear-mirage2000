@@ -460,7 +460,7 @@ var Radar = {
         me.decrease_life();
         #print("Test");
         me.sorting_and_suppr();
-        me.ContactsList = me.cut_array(me.radarMaxSize,me.ContactsList);
+        #me.ContactsList = me.cut_array(me.radarMaxSize,me.ContactsList);
         #me.Global_janitor();
         #print("Side in RADAR : "~ size(me.ContactsList));
         return CANVASARRAY;
