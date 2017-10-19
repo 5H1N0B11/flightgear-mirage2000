@@ -498,22 +498,22 @@ var AirToGround = func() {
         setprop("/sim/weight[1]/selected",                   "Matra MICA IR");
         
         # pylon 2
-        setprop("/sim/weight[2]/selected",                   "GBU16");
-        setprop("/consumables/fuel/tank[2]/selected",        0);
-        setprop("/consumables/fuel/tank[2]/capacity-gal_us", 0);
-        setprop("/consumables/fuel/tank[2]/level-gal_us",    0);
+        setprop("/sim/weight[2]/selected",                   "1700 l Droptank");
+        setprop("/consumables/fuel/tank[2]/selected",        1);
+        setprop("/consumables/fuel/tank[2]/capacity-gal_us", 448.50);
+        setprop("/consumables/fuel/tank[2]/level-gal_us",    447);
         
         # pylon 3
-        setprop("/sim/weight[3]/selected",                   "1300 l Droptank");
-        setprop("/consumables/fuel/tank[3]/selected",        1);
-        setprop("/consumables/fuel/tank[3]/capacity-gal_us", 343);
-        setprop("/consumables/fuel/tank[3]/level-gal_us",    342);
+        setprop("/sim/weight[3]/selected",                   "Double GBU12");
+        setprop("/consumables/fuel/tank[3]/selected",        0);
+        setprop("/consumables/fuel/tank[3]/capacity-gal_us", 0);
+        setprop("/consumables/fuel/tank[3]/level-gal_us",    0);
         
         # pylon 4
-        setprop("/sim/weight[4]/selected",                   "GBU16");
-        setprop("/consumables/fuel/tank[4]/selected",        0);
-        setprop("/consumables/fuel/tank[4]/capacity-gal_us", 0);
-        setprop("/consumables/fuel/tank[4]/level-gal_us",    0);
+        setprop("/sim/weight[4]/selected",                   "1700 l Droptank");
+        setprop("/consumables/fuel/tank[4]/selected",        1);
+        setprop("/consumables/fuel/tank[4]/capacity-gal_us", 448.50);
+        setprop("/consumables/fuel/tank[4]/level-gal_us",    447);
         
         # pylon 5
         setprop("/sim/weight[5]/selected",                   "Matra MICA IR");
@@ -577,6 +577,9 @@ var m2000N = func() {
 var weaponWeight = {
       "none":                 0,
       "GBU16":                1000,
+      "GBU12":                800,
+      "Double GBU12":         1600,
+      "PDLCT":                280,
       "Matra MICA":           246.91,
       "Matra MICA IR":        246.91,
       "Matra R550 Magic 2":   196.21,
@@ -654,6 +657,7 @@ dropLoad_stop = func(n) {
       "AIM120":               "AIM120",
       "GBU12":                "GBU12",
       "GBU16":                "GBU16",
+      "Double GBU12":          "GBU12",
       "MATRA-R530":           "MATRA-R530",
       "Matra MICA":           "MatraMica",
       "Matra MICA IR":        "MatraMicaIR",
@@ -717,7 +721,14 @@ dropMissile3 = func(Current_missile, number)
       setprop("/sim/messages/atc", phrase);
     }
     print(phrase);
-    setprop("/sim/weight["~ number ~"]/weight-lb", 0);
+    var typeMissile = getprop("/sim/weight["~ number ~"]/selected");
+    if(getprop("/sim/weight["~ number ~"]/weight-lb") == weaponWeight[typeMissile] and typeMissile =="Double GBU12"){
+      setprop("/sim/weight["~ number ~"]/weight-lb", 800);
+    }else{
+      setprop("/sim/weight["~ number ~"]/weight-lb", 0);
+      setprop("/controls/armament/station["~ number ~"]/release", 1);
+    }
+    
     
     #If auto focus on missile is activated the we call the function
     if(getprop("/controls/armament/automissileview"))
@@ -725,7 +736,7 @@ dropMissile3 = func(Current_missile, number)
       view_firing_missile(Current_missile);
     }        
       
-    setprop("/controls/armament/station["~ number ~"]/release", 1);
+    
     after_fire_next();
 }
 
@@ -956,6 +967,7 @@ var areFirable = {
             "aim-9"           : 1,
             "AIM120"          : 1,
             "GBU12"           : 1,
+            "Double GBU12"    : 1,
             "GBU16"           : 1,
             "Matra MICA"      : 1,
             "MATRA-R530"      : 1,
@@ -1016,6 +1028,7 @@ var init_weaponSytem = func() {
         append(PayloadARRAY,i);
         
         select = getprop("/sim/weight["~ PayloadARRAY[0] ~"]/selected");
+        if(select=="Double GBU12"){select="GBU12";}
         #print("Name : " ~ string.lc(weaponNames[select]) ~ "Kind : " ~ actual_kind, " PayloadARRAY[0] : " ~ select);
 
         setprop("/controls/armament/missile/current-pylon", PayloadARRAY[0]);

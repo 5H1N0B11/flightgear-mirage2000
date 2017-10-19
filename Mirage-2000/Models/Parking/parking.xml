@@ -27,13 +27,13 @@
     <condition>
       <and>
         <property>controls/ground-equipment</property>
-        <property>gear/gear[0]/wow</property>
+        <property>gear/gear[1]/wow</property>
         <less-than>
           <property>gear/gear[0]/rollspeed-ms</property>
           <value>0.2</value>
         </less-than>
         <less-than>
-          <property>engines/engine/n1</property>
+          <property>controls/engines/engine/n1</property>
           <value>40</value>
         </less-than>
         <property>/controls/gear/brake-parking</property> 

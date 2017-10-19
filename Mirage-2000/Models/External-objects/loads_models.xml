@@ -295,6 +295,26 @@
       <z-m>-1.656</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>Center-Right-GBU12</name>
+    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <offsets>
+      <x-m> 1.082</x-m>
+      <y-m> -0.200</y-m>
+      <z-m>-1.756</z-m>
+    </offsets>
+  </model>
+  
+  <model>
+    <name>Center-Left-GBU12</name>
+    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <offsets>
+      <x-m> 1.082</x-m>
+      <y-m> 0.200</y-m>
+      <z-m>-1.756</z-m>
+    </offsets>
+  </model>
 
   <model>
     <name>SCALP</name>

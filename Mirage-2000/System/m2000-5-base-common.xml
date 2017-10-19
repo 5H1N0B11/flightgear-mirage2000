@@ -186,6 +186,7 @@
     <opt><name>1300 l Droptank</name>   <lbs type="double">  220.00 </lbs><gals>343.00</gals></opt>
     <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
     <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
+    <opt><name>Double GBU12</name>      <lbs type="double">  1600.00 </lbs></opt>
     <opt><name>SCALP</name>             <lbs type="double"> 2866.00 </lbs></opt>
     <opt><name>AIM-54</name>            <lbs type="double"> 1040.00 </lbs></opt>
     <opt><name>Sea Eagle</name>         <lbs type="double"> 1825.00 </lbs></opt>
