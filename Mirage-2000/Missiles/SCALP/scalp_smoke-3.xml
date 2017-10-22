@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<PropertyList>
+<PropertyList>  
   <particlesystem>
     <name>smoke</name>
     <texture>smoke.png</texture>
@@ -32,7 +32,7 @@
     </shooter>
     <counter>
       <particles-per-sec>
-        <value>300</value>
+        <value>0</value>
         <spread>0</spread>
       </particles-per-sec>
     </counter>
@@ -54,7 +54,7 @@
           </alpha>
         </color>
         <size>
-          <value>1.5</value>
+          <value>0.25</value>
         </size>
       </start>
       <end>
@@ -73,11 +73,11 @@
           </alpha>
         </color>
         <size>
-          <value>3</value>
+          <value>0.25</value>
         </size>
       </end>
       <life-sec>
-        <value>30</value>
+        <value>3</value>
       </life-sec>
       <mass-kg>0.5</mass-kg>
       <radius-m>0.5</radius-m>

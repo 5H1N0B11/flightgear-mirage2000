@@ -62,7 +62,7 @@ listOfGroundTargetNames = ["groundvehicle"];
 listOfShipNames      = ["carrier", "ship"];
 listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle"];
 listOfAIRadarEchoes2 = keys(weaponRadarNames);
-listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1"];
+listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
 listOfShipModels          = ["frigate", "missile_frigate", "USS-LakeChamplain", "USS-NORMANDY", "USS-OliverPerry", "USS-SanAntonio"];
 foreach(var addMe ; listOfAIRadarEchoes2) {
     append(listOfAIRadarEchoes, addMe);
@@ -182,7 +182,7 @@ var Radar = {
         m.myTree = forcePath==nil?n.getChild("targets", i, 1):props.globals.getNode(forcePath, 1);
         m.UseATree = 1;
 
-        print(m.myTree.getPath());
+        #print(m.myTree.getPath());
         
         # update interval for engine init() functions
         m.UPDATE_PERIOD = 0.05; 
@@ -394,7 +394,7 @@ var Radar = {
                         }
                     }
                 }
-                #print("Testing "~ u.get_Callsign()~"Type: " ~ type);
+                #print("Start Testing "~ u.get_Callsign()~"Type: " ~ type);
                 
                               
                 # set Check_List to void
@@ -403,8 +403,13 @@ var Radar = {
                 # test on an array[] named Check_List
                 me.go_check(u, me.skipDoppler);
                 
+                #Displaying Check
+                #print("Testing "~ u.get_Callsign()~"Check: " ~ me.get_check());
+                
+                #print("End Testing "~ u.get_Callsign());
+                
                 # then a function just check it all
-                if(me.get_check(u))
+                if(me.get_check())
                 {
                                         
                     #Is in Range : Should be added to the main ARRAY1 (Here : ContactsList)
@@ -508,7 +513,7 @@ var Radar = {
         isVisible = 0;
         
         # As the script is relatively ressource consuming, then, we do a maximum of test before doing it
-        if(me.get_check(SelectedObject))
+        if(me.get_check())
         {
             SelectCoord = SelectedObject.get_Coord();
             # Because there is no terrain on earth that can be between these 2
@@ -839,11 +844,15 @@ var Radar = {
     get_check: func(){
         # This function allow to display multi check
         var checked = 1;
-        var CheckTable = ["InRange:", "inAzimuth:", "inElevation:", "Horizon:", "Doppler:", "NotBtBehindTerrain:"];
+        var CheckTable = ["InRange:", "inAzimuth:", "inElevation:", "Horizon:", "RCS","Doppler:", "NotBtBehindTerrain:"];
         var i = 0;
         foreach(myCheck ; me.Check_List)
         {
-            #print(CheckTable[i] ~ " " ~ myCheck);
+            if(i<size(CheckTable)){
+              #print("i : "~ i ~"|" ~ CheckTable[i] ~ " " ~ myCheck);
+            }else{
+              #print("i : "~ i ~"|myCheck : " ~ myCheck);
+            }
             i +=1;
             checked = (myCheck and checked);
         }
@@ -967,7 +976,7 @@ var Radar = {
                     var Property_list = Tempo_TgtsFiles.getChildren();
                     foreach(var myProperty ; Property_list )
                     {
-                        # print(myProperty.getName());
+                        #print(myProperty.getName());
                         if(myProperty.getName() != "closure-last-time")
                         {
                             myProperty.setValue("");

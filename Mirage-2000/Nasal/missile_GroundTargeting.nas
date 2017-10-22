@@ -86,7 +86,7 @@ var groud_target = {
         if(me.coord==nil){
           me.coord = geo.Coord.new(geo.aircraft_position());
           me.coord.apply_course_distance(getprop("orientation/heading-deg"),15000);
-          me.coord.set_alt(geo.elevation(me.coord.lat(),me.coord.lon()));  
+          me.coord.set_alt(geo.elevation(me.coord.lat(),me.coord.lon())+0.1);  
           #print("lat:"~me.coord.lat()~" lon:"~me.coord.lon()~" alt:"~me.coord.alt());
         }
         var tempLat = me.coord.lat();
@@ -135,7 +135,7 @@ var groud_target = {
         # update Position of the Object
         var tempLat = me.coord.lat();
         var tempLon = me.coord.lon();
-        var tempAlt = me.coord.alt();
+        var tempAlt = me.coord.alt()+0.1;
         me.lat.setValue(tempLat);
         me.long.setValue(tempLon);
         me.alt.setValue(tempAlt*M2FT);

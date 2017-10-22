@@ -314,11 +314,11 @@ var Target = {
     get_Callsign: func(){
         var n = me.Callsign.getValue();
         
-        if(size(n) > 1 and me.name != nil)
+        if(size(n) < 1)
         {
             n = me.name.getValue();
         }
-        if(n == nil or size(n) < 1)
+        if(size(n) < 1)
         {
             n = "UFO";
         }

@@ -63,6 +63,8 @@ var missile_view_handler = {
     me.current = data.callsign;
     me.legendN.setValue(ident);
     setprop("/sim/current-view/z-offset-m", zoffset);
+    setprop("/sim/current-view/heading-offset-deg", 110);
+    setprop("/sim/current-view/pitch-offset-deg", 30);
     
     #print(me.current);
 
@@ -77,6 +79,7 @@ var missile_view_handler = {
       "target-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
       "target-pitch-deg-path": data.root ~ "/orientation/pitch-deg",
       "target-roll-deg-path": data.root ~ "/orientation/roll-deg",
+      "heading-offset-deg":180
     });
   },
 };
