@@ -45,7 +45,12 @@
 
   <button>
     <legend>Sniping mode</legend>
-    <enable><property>sim/rendering/rembrandt/enabled</property></enable>
+    <enable>
+        <equals>
+          <property>sim/weight[6]/selected</property>
+          <value>PDLCT</value>
+        </equals>
+    </enable>
     <binding>
       <command>nasal</command>
       <script>missile.sniping()</script>
@@ -69,16 +74,6 @@
    <label>Lon</label>
    <property>/sim/dialog/groundtTargeting/target-longitude-deg</property>
   </input>
-  
-<!--
-Will be calculated autmatically
-  <input>
-
-   <width>75</width>
-   <height>25</height>
-   <label>Alt</label>
-   <property>/sim/dialog/groundtTargeting/target-alt-feet</property>
-  </input>-->
 
 
   <hrule />
