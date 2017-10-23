@@ -509,7 +509,8 @@ var Radar = {
         SelectedObject.set_fading(u_fading, me.UseATree);
     },
 
-    isNotBehindTerrain: func(SelectedObject){    
+    isNotBehindTerrain: func(SelectedObject){
+        if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
         isVisible = 0;
         
         # As the script is relatively ressource consuming, then, we do a maximum of test before doing it
@@ -635,6 +636,7 @@ var Radar = {
     },
 
     NotBeyondHorizon: func(SelectedObject){
+        if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
         # if distance is beyond the earth curve
         var horizon = SelectedObject.get_horizon(me.our_alt);
         var u_rng = me.targetRange(SelectedObject);
@@ -706,6 +708,7 @@ var Radar = {
     },
 
     inElevation: func(SelectedObject){
+        if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
         # Moving the center of this field will be ne next option
         var tempAz = me.vt_az_fld;
         var myElevation = SelectedObject.get_total_elevation_from_Coord(me.OurPitch, me.MyCoord);

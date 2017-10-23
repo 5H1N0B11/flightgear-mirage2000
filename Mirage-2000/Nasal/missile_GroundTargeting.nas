@@ -7,11 +7,12 @@ print("*** LOADING missile_GroundTargeting.nas ... ***");
 
 var dt       = 0;
 var isFiring = 0;
+var myGroundTarget = nil;
 
-var targetingGround = func()
+var targetingGround = func(Given_lat = nil,Given_long = nil, Given_alt = nil)
 {
-    var myGroundTarget = groud_target.new();
-    myGroundTarget.init();
+    myGroundTarget = myGroundTarget == nil ? groud_target.new():myGroundTarget;
+    myGroundTarget.init(Given_lat,Given_long,Given_alt);
 }
 
 # this object create an AI object where is the last click
@@ -79,16 +80,23 @@ var groud_target = {
         me.model.remove();
         me.ai.remove();
     },
-    init: func()
+    init: func(Given_lat = nil,Given_long = nil, Given_alt = nil)
     {
         me.coord = geo.click_position();
+        if(Given_lat!=nil){
+          me.coord = geo.Coord.new();
+          me.coord.set_latlon(Given_lat,Given_long,geo.elevation(Given_lat,Given_long));
+          
+        }
         
         if(me.coord==nil){
+        return;
           me.coord = geo.Coord.new(geo.aircraft_position());
           me.coord.apply_course_distance(getprop("orientation/heading-deg"),15000);
           me.coord.set_alt(geo.elevation(me.coord.lat(),me.coord.lon())+0.1);  
           #print("lat:"~me.coord.lat()~" lon:"~me.coord.lon()~" alt:"~me.coord.alt());
         }
+        
         var tempLat = me.coord.lat();
         var tempLon = me.coord.lon();
         var tempAlt = me.coord.alt();
@@ -127,15 +135,15 @@ var groud_target = {
 #        settimer(func me.del(), me.life_time);
         settimer(func(){ me.del(); }, me.life_time);
     },
-    update: func()
+    update: func(Given_lat = nil,Given_long = nil, Given_alt = nil)
     {
         # update me.coord : Could be a selectionnable option. The goal should to select multiple ground target
         me.coord = geo.click_position()==nil?me.coord:geo.click_position();
      
         # update Position of the Object
-        var tempLat = me.coord.lat();
-        var tempLon = me.coord.lon();
-        var tempAlt = me.coord.alt()+0.1;
+        var tempLat = Given_lat ==nil ?    me.coord.lat()     :Given_lat;
+        var tempLon = Given_long == nil ?  me.coord.lon()     :passed_long;
+        var tempAlt = Given_alt == nil ?  me.coord.alt()+0.1 :Given_alt;
         me.lat.setValue(tempLat);
         me.long.setValue(tempLon);
         me.alt.setValue(tempAlt*M2FT);
@@ -161,7 +169,19 @@ var groud_target = {
         me.hOffsetN.setDoubleValue(view.normdeg(me.bearing - ac_hdg));
         me.vOffsetN.setDoubleValue(view.normdeg(elev - ac_pitch));
         
-#        settimer(func me.update(), 0);
-        settimer(func(){ me.update(); }, 0);
+##        settimer(func me.update(), 0);
+ #       settimer(func(){ me.update(); }, 0);
     }
 };
+
+var sniping = func(){
+  var coord = geo.click_position();
+  #var myDialog = gui.Dialog.new("/sim/gui/dialogs/Ground_targeting","Aircraft/Mirage-2000/gui/dialogs/Ground_targeting.xml");
+  
+  setprop("/sim/dialog/groundtTargeting/target-latitude-deg",coord.lat());
+  setprop("/sim/dialog/groundtTargeting/target-longitude-deg",coord.lon());
+  #setprop("/sim/dialog/groundtTargeting/target-alt-feet",coord.alt()*M2FT);
+  
+  gui.dialog_update("Ground_Targeting");
+
+}
