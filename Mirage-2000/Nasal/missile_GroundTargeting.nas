@@ -8,12 +8,54 @@ print("*** LOADING missile_GroundTargeting.nas ... ***");
 var dt       = 0;
 var isFiring = 0;
 var myGroundTarget = nil;
+var Mp = props.globals.getNode("ai/models");
 
-var targetingGround = func(Given_lat = nil,Given_long = nil, Given_alt = nil)
+var listOfGroundOrShipVehicleModels = {
+                                        "buk-m2":1, 
+                                        "depot":1, 
+                                        "truck":1, 
+                                        "tower":1, 
+                                        "germansemidetached1":1,
+                                        "frigate":1, "missile_frigate":1, 
+                                        "USS-LakeChamplain":1, 
+                                        "USS-NORMANDY":1, 
+                                        "USS-OliverPerry":1, 
+                                        "USS-SanAntonio":1,
+                                        "ship":1,
+                                        "carrier":1,
+                                      };
+
+
+var targetingGround = func()
 {
+
+    
     myGroundTarget = myGroundTarget == nil ? groud_target.new():myGroundTarget;
-    myGroundTarget.init(Given_lat,Given_long,Given_alt);
+    myGroundTarget.init();
+    myGroundTarget.following = 0;
+    
+    var oldView = view_GPS_target(myGroundTarget);
+    
+    var timer = maketimer(10,func(){
+      setprop("/sim/current-view/view-number", oldView);
+    });
+    timer.singleShot = 1; # timer will only be run once
+    timer.start();
+    
 }
+
+var follow_AI_MP=func(){
+
+  if(myGroundTarget!= nil and myGroundTarget.following == 0){
+    myGroundTarget.following = 1;
+    myGroundTarget.targetedPath = nil;
+  }
+  else{
+    myGroundTarget.following = 0;
+    myGroundTarget.targetedPath = nil;
+  }
+}
+
 
 # this object create an AI object where is the last click
 var groud_target = {
@@ -49,15 +91,16 @@ var groud_target = {
         #m.model.getNode("path", 1).setValue(m.id_model);
         m.life_time = 0;
         
-        m.life_time = 600;
+        m.life_time = 900;
         
         m.id = m.ai.getNode("id", 1);
         m.callsign = m.ai.getNode("callsign", 1);
         
+        #coordinate tree
         m.lat = m.ai.getNode("position/latitude-deg", 1);
         m.long = m.ai.getNode("position/longitude-deg", 1);
         m.alt = m.ai.getNode("position/altitude-ft", 1);
-        
+                
         m.hdgN   = m.ai.getNode("orientation/true-heading-deg", 1);
         m.pitchN = m.ai.getNode("orientation/pitch-deg", 1);
         m.rollN  = m.ai.getNode("orientation/roll-deg", 1);
@@ -73,6 +116,19 @@ var groud_target = {
         m.ktasN = m.ai.getNode("velocities/true-airspeed-kt", 1);
         m.vertN = m.ai.getNode("velocities/vertical-speed-fps", 1);
         
+        #Data comming from the dialog box
+        m.dialog_lat = props.globals.getNode("/sim/dialog/groundtTargeting/target-latitude-deg");
+        m.dialog_lon = props.globals.getNode("/sim/dialog/groundtTargeting/target-longitude-deg");
+        
+        m.coord.set_latlon(m.dialog_lat.getValue(),m.dialog_lon.getValue());    
+        #m.coord.dump();
+        var tempAlt = geo.elevation(m.dialog_lat.getValue(), m.dialog_lon.getValue(),10000);
+        
+        m.alt.setValue(tempAlt==nil?0:tempAlt);
+        
+        m.following = 0;
+        m.TargetedPath = nil;
+        
         return m;
     },
     del: func()
@@ -80,26 +136,30 @@ var groud_target = {
         me.model.remove();
         me.ai.remove();
     },
-    init: func(Given_lat = nil,Given_long = nil, Given_alt = nil)
+    init: func()
     {
-        me.coord = geo.click_position();
-        if(Given_lat!=nil){
-          me.coord = geo.Coord.new();
-          me.coord.set_latlon(Given_lat,Given_long,geo.elevation(Given_lat,Given_long));
-          
+        if(me.dialog_lat.getValue()==nil){
+          return;
         }
         
-        if(me.coord==nil){
-        return;
-          me.coord = geo.Coord.new(geo.aircraft_position());
-          me.coord.apply_course_distance(getprop("orientation/heading-deg"),15000);
-          me.coord.set_alt(geo.elevation(me.coord.lat(),me.coord.lon())+0.1);  
-          #print("lat:"~me.coord.lat()~" lon:"~me.coord.lon()~" alt:"~me.coord.alt());
-        }
+        
+        me.coord.set_latlon(me.dialog_lat.getValue(),me.dialog_lon.getValue());   
+        #me.coord.dump();
+        
         
         var tempLat = me.coord.lat();
         var tempLon = me.coord.lon();
+        
+        var test = geo.elevation(tempLat, tempLon,10000);
+        test = test ==nil?0:test;
+        me.coord.set_alt(test);
+        
+        #printf("Init Altitude test =%f",test);
+        
         var tempAlt = me.coord.alt();
+          
+        
+        #print("Init tempLat:" ~ tempLat ~ "tempLon:" ~ tempLon ~ "tempAlt:" ~ tempAlt);
         
         # there must be value in it
         me.lat.setValue(tempLat);
@@ -132,21 +192,43 @@ var groud_target = {
         me.model.getNode("load", 1).remove();
         
         me.update();
-#        settimer(func me.del(), me.life_time);
         settimer(func(){ me.del(); }, me.life_time);
     },
-    update: func(Given_lat = nil,Given_long = nil, Given_alt = nil)
+    update: func(CaclAlt=0)
     {
+        if(me.dialog_lat.getValue()==nil){
+          return;
+        }
+        
         # update me.coord : Could be a selectionnable option. The goal should to select multiple ground target
-        me.coord = geo.click_position()==nil?me.coord:geo.click_position();
+        
+        
+        me.coord.set_lat(me.dialog_lat.getValue());
+        me.coord.set_lon(me.dialog_lon.getValue());   
+        
+        #Altidude can't be recaclculated each time.
+        #So now it is recalculated only when tiles are loaded, on demand (CalcAlt have to be :  1)
+        var tempGeo = geo.elevation(me.coord.lat(),me.coord.lon());
+        if(tempGeo != nil and tempGeo!=0){
+          me.coord.set_alt(tempGeo);
+          #print("============================= ALT UPDATED =================================");
+        }
+        
+        #me.coord.dump();
+        var test = geo.elevation(me.coord.lat(),me.coord.lon());
+        #printf("Update Altitude test =%f",test);
+        #printf("Update Altitude zero =%f", me.coord.alt()+0.1);
      
         # update Position of the Object
-        var tempLat = Given_lat ==nil ?    me.coord.lat()     :Given_lat;
-        var tempLon = Given_long == nil ?  me.coord.lon()     :passed_long;
-        var tempAlt = Given_alt == nil ?  me.coord.alt()+0.1 :Given_alt;
+        var tempLat = me.coord.lat();
+        var tempLon = me.coord.lon();
+        var tempAlt = me.coord.alt()+0.1;
         me.lat.setValue(tempLat);
         me.long.setValue(tempLon);
         me.alt.setValue(tempAlt*M2FT);
+        
+        var test = geo.elevation(me.lat.getValue(), me.long.getValue(),10000);
+        #printf("Update Altitude test2 =%f",test);
         
         # update Distance to aircaft
         me.ac = geo.aircraft_position();
@@ -169,8 +251,85 @@ var groud_target = {
         me.hOffsetN.setDoubleValue(view.normdeg(me.bearing - ac_hdg));
         me.vOffsetN.setDoubleValue(view.normdeg(elev - ac_pitch));
         
-##        settimer(func me.update(), 0);
- #       settimer(func(){ me.update(); }, 0);
+        if(me.following==1){me.focus_on_closest_AI_MP();}
+        settimer(func(){ me.update(); }, 0);
+    },
+    
+    focus_on_closest_AI_MP: func(){
+        #Distance variable and closest_c in order to select the contact object
+        #The first limitation is to limit in an AI/MP in a circle around target
+        var closest_Distance = 300;
+        var tempDistance = 0;
+
+        var type = nil;
+        var raw_list = nil;
+        var c = nil;
+        var C_Alt = nil;
+        var C_lat = nil;
+        var C_lon = nil;
+        var Ccoord = geo.Coord.new();
+        var ClosestCoord = geo.Coord.new();
+        var index = nil;
+        var path = nil;
+        
+        
+        
+        raw_list = Mp.getChildren();
+        foreach(c ; raw_list)
+        {
+            type = c.getName();
+            index = c.getIndex();
+            path = c.getPath();
+            
+            #print("Index:"~index);
+            #print("Path:"~path); 
+            
+            if(! c.getNode("valid", 1).getValue())
+            {
+                continue;
+            }
+            if(listOfGroundOrShipVehicleModels[type] ==1){
+              C_Alt = c.getNode("position/altitude-ft");
+              C_lat = c.getNode("position/latitude-deg");
+              C_lon = c.getNode("position/longitude-deg");
+              
+              if(C_Alt!=nil){
+                Ccoord.set_latlon(C_lat.getValue(),C_lon.getValue(),C_Alt.getValue()*FT2M);
+                #Ccoord.dump();
+                tempDistance = me.coord.direct_distance_to(Ccoord);
+                
+                #If we already are following a target, we do not want our focus to change to another one.
+                if(me.TargetedPath == nil){
+                  #Updating coordinates
+                  if(tempDistance<closest_Distance){
+                    #print(type ~ " : Distance:"~tempDistance);
+                    closest_Distance = tempDistance;
+                    ClosestCoord.set(Ccoord);
+                  }elsif(me.TargetedPath == path ){
+                    closest_Distance = tempDistance;
+                    ClosestCoord.set(Ccoord);
+                  }
+                }
+              }
+            }
+        }
+        
+        if(closest_Distance<299){
+          me.setCoord(ClosestCoord);
+        }
+    
+    },
+    setCoord:func(new_coord){
+      me.coord.set(new_coord);
+      # there must be value in it
+      me.lat.setValue(me.coord.lat());
+      me.long.setValue(me.coord.lon());
+      me.alt.setValue(me.coord.alt()*M2FT);
+      
+      me.dialog_lat.setValue(me.coord.lat());
+      me.dialog_lon.setValue(me.coord.lon());
+      
+    
     }
 };
 
@@ -183,5 +342,29 @@ var sniping = func(){
   #setprop("/sim/dialog/groundtTargeting/target-alt-feet",coord.alt()*M2FT);
   
   gui.dialog_update("Ground_Targeting");
+
+}
+
+#In order to have the right terrain elevation, we have to load the tile.
+#For that, we focus the view on the target
+var view_GPS_target = func(target)
+{
+
+    # We select the missile name
+    var targetName = string.replace(target.ai.getPath(), "/ai/models/", "");
+
+    # We memorize the initial view number
+    var actualView = getprop("/sim/current-view/view-number");
+
+    # We recreate the data vector to feed the missile_view_handler  
+    var data = { node: target.ai, callsign: targetName, root: target.ai.getPath()};
+
+    # We activate the AI view (on this aircraft it is the number 9)
+    setprop("/sim/current-view/view-number",9);
+
+    # We feed the handler
+    view.missile_view_handler.setup(data);
+    
+    return actualView;
 
 }

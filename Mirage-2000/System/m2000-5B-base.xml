@@ -30,7 +30,12 @@
         <default-field-of-view-deg type="double">82</default-field-of-view-deg>
       </config>
     </view>
-    
+    <dialog>
+      <groundtTargeting>
+        <target-latitude-deg type="double">0</target-latitude-deg>
+        <target-longitude-deg type="double">0</target-longitude-deg>
+      </groundtTargeting>
+    </dialog>
     <model>
       <path>Aircraft/Mirage-2000/Models/m2000-5B.xml</path>
       <livery>

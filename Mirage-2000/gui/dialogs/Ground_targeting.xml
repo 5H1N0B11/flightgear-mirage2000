@@ -81,8 +81,22 @@
   <button>
     <legend>Acquisition</legend>
     <binding>
+     <command>dialog-apply</command>
+    </binding>
+    <binding>
       <command>nasal</command>
       <script>missile.targetingGround()</script>
+    </binding>
+  </button>
+  
+  <button>
+    <legend>Follow closest GND AI/MP</legend>
+    <binding>
+     <command>dialog-apply</command>
+    </binding>
+    <binding>
+      <command>nasal</command>
+      <script>missile.follow_AI_MP()</script>
     </binding>
   </button>
   
