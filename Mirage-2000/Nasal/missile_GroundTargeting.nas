@@ -33,8 +33,10 @@ var targetingGround = func()
     myGroundTarget = myGroundTarget == nil ? groud_target.new():myGroundTarget;
     myGroundTarget.init();
     myGroundTarget.following = 0;
+    myGroundTarget.life_time = 900;
     
     var oldView = view_GPS_target(myGroundTarget);
+    
     
     var timer = maketimer(10,func(){
       setprop("/sim/current-view/view-number", oldView);
@@ -89,7 +91,7 @@ var groud_target = {
         
         m.id_model = "Models/Military/humvee-pickup-odrab-low-poly.xml";
         #m.model.getNode("path", 1).setValue(m.id_model);
-        m.life_time = 0;
+        #m.life_time = 0;
         
         m.life_time = 900;
         
@@ -135,6 +137,8 @@ var groud_target = {
     {
         me.model.remove();
         me.ai.remove();
+        del_target();
+        
     },
     init: func()
     {
@@ -367,4 +371,8 @@ var view_GPS_target = func(target)
     
     return actualView;
 
+}
+
+var del_target = func(){
+  myGroundTarget = nil;
 }

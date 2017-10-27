@@ -270,14 +270,14 @@
   </model>
 
   <!-- shadow for osg -->
-  <model>
+<!--  <model>
     <path>Aircraft/Mirage-2000/Models/shadow.xml</path>
     <offsets>
       <x-m> -0.062 </x-m>
       <y-m>  0.000 </y-m>
       <z-m> -2.400 </z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/Mirage-2000/Models/Effects/chute/parachute.xml</path>
