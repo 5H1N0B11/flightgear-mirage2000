@@ -26,8 +26,25 @@
     <heading-offset-deg>180</heading-offset-deg>
     <pitch-offset-deg>10</pitch-offset-deg>
   </view>
-
+  
   <view n="102">
+    <name>Sniping cam</name>
+    <enable>false</enable>
+    <internal archive="y">true</internal>
+    <config>
+      <from-model type="bool">true</from-model>
+      <from-model-idx type="int">0</from-model-idx>
+      <x-offset-m archive="y">0.8536</x-offset-m>
+      <y-offset-m archive="y">-1.4121</y-offset-m>
+      <z-offset-m archive="y">-2.5856</z-offset-m>
+      <pitch-offset-deg> 0 </pitch-offset-deg>
+      <heading-offset-deg>0</heading-offset-deg>
+      <default-field-of-view-deg>20</default-field-of-view-deg>
+    </config>
+  </view>
+  
+  
+  <view n="103">
     <name>Pilot cam</name>
     <internal archive="y">true</internal>
     <config>

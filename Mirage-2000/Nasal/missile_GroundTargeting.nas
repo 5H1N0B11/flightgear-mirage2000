@@ -256,6 +256,7 @@ var groud_target = {
         me.vOffsetN.setDoubleValue(view.normdeg(elev - ac_pitch));
         
         if(me.following==1){me.focus_on_closest_AI_MP();}
+        me.setView();
         settimer(func(){ me.update(); }, 0);
     },
     
@@ -332,9 +333,28 @@ var groud_target = {
       
       me.dialog_lat.setValue(me.coord.lat());
       me.dialog_lon.setValue(me.coord.lon());
+    },
+    setView:func(){
+      var MyAircraftCoord = geo.aircraft_position();
+      var ViewName = getprop("/sim/current-view/name");
+      var aircraftHeading = getprop("orientation/heading-deg");
+      var aircraftPitch = getprop("orientation/pitch-deg");
       
-    
-    }
+      
+      #pitch calcultation
+      var pitch = - deviation_normdeg(aircraftPitch, math.asin(( me.coord.alt() - MyAircraftCoord.alt()) / me.coord.direct_distance_to(MyAircraftCoord)) * R2D);
+      setprop("/sim/view[102]/config/pitch-offset-deg",pitch);
+      
+      #heading calculation
+      var heading = deviation_normdeg(aircraftHeading, MyAircraftCoord.course_to(me.coord));
+      setprop("/sim/view[102]/config/heading-offset-deg",heading);
+      
+      if(ViewName == "Sniping cam"){
+        setprop("/sim/current-view/pitch-offset-deg",pitch);
+        setprop("/sim/current-view/heading-offset-deg",heading);
+      }
+      
+    } 
 };
 
 var sniping = func(){

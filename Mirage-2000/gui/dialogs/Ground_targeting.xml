@@ -41,6 +41,18 @@
 
   <hrule />
 
+  <group>
+    <layout>hbox</layout>
+    <text><label>Activate Auto Sniping view</label></text>
+    <checkbox>
+      <property>/sim/view[102]/enabled</property>
+      <live>false</live>
+        <binding>
+          <command>property-toggle</command>
+          <property>/sim/view[102]/enabled</property>
+        </binding>
+    </checkbox>
+  </group>
 
 
   <button>
