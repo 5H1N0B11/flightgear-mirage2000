@@ -2,7 +2,9 @@
 
 <!-- data/Docs/keyboard/map.pdf -->
 <PropertyList>
-  
+
+  <mice include="m2000-5-mice.xml"/>
+
   <keyboard>
     
     <key n="101">
