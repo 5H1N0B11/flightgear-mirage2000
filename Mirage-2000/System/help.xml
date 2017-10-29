@@ -86,6 +86,11 @@
     <desc>Parachute</desc>
   </key>
 
+  <key>
+    <name>F6</name>
+    <desc>Enable automatic tracking by FLIR camera</desc>
+  </key>
+
   <line> === Take Off === </line>
   <line>Start the Engine (use autostart or follow the procedure (in tutorial)</line>
   <line>Around 170/190 kts : Take off</line>

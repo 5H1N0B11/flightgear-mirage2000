@@ -279,7 +279,19 @@
         </script>
       </binding>
     </key>
-    
+
+    <key n="262">
+        <name>F6</name>
+        <desc>Enable automatic tracking by FLIR camera</desc>
+        <binding>
+            <condition>
+                <property>/aircraft/flir/target/view-enabled</property>
+            </condition>
+            <command>property-toggle</command>
+            <property>/aircraft/flir/locks/auto-track</property>
+        </binding>
+    </key>
+
   </keyboard>
   
 </PropertyList>

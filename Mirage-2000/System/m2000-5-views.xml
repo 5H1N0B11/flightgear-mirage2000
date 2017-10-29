@@ -19,6 +19,71 @@
 
 <PropertyList>
 
+    <logic>
+        <name>View Enable FLIR</name>
+        <input>
+            <equals>
+                <property>/sim/current-view/name</property>
+                <value>Sniping cam</value>
+            </equals>
+        </input>
+        <output>
+            <property>/aircraft/flir/target/view-enabled</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>View Enable ALS IR</name>
+        <input>
+           <property>/aircraft/flir/target/view-enabled</property>
+        </input>
+        <output>
+            <property>/sim/rendering/als-filters/use-filtering</property>
+        </output>
+        <output>
+            <property>/sim/rendering/als-filters/use-IR-vision</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>View FLIR Track Yaw</name>
+        <type>gain</type>
+        <gain>-1.0</gain>
+        <enable>
+            <condition>
+                <and>
+                    <property>/aircraft/flir/target/auto-track</property>
+                    <property>/aircraft/flir/target/view-enabled</property>
+                </and>
+            </condition>
+        </enable>
+        <input>
+            <property>/aircraft/flir/target/yaw-deg</property>
+        </input>
+        <output>
+            <property>/sim/current-view/goal-heading-offset-deg</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>View FLIR Track Pitch</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <and>
+                    <property>/aircraft/flir/target/auto-track</property>
+                    <property>/aircraft/flir/target/view-enabled</property>
+                </and>
+            </condition>
+        </enable>
+        <input>
+            <property>/aircraft/flir/target/pitch-deg</property>
+        </input>
+        <output>
+            <property>/sim/current-view/goal-pitch-offset-deg</property>
+        </output>
+    </filter>
+
     <!-- ================================================================== -->
     <!-- Scroll Wheel Zooming                                               -->
     <!-- ================================================================== -->
