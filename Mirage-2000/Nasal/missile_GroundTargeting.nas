@@ -30,7 +30,7 @@ var targetingGround = func()
 {
 
     
-    myGroundTarget = myGroundTarget == nil ? groud_target.new():myGroundTarget;
+    myGroundTarget = myGroundTarget == nil ? ground_target.new():myGroundTarget;
     myGroundTarget.init();
     myGroundTarget.following = 0;
     myGroundTarget.life_time = 900;
@@ -49,7 +49,7 @@ var targetingGround = func()
 var follow_AI_MP=func(){
 
   if(myGroundTarget!= nil and myGroundTarget.following == 0){
-    myGroundTarget.following = 1;
+#    myGroundTarget.following = 1;
     myGroundTarget.targetedPath = nil;
   }
   else{
@@ -60,10 +60,10 @@ var follow_AI_MP=func(){
 
 
 # this object create an AI object where is the last click
-var groud_target = {
+var ground_target = {
     new: func()
     {
-        var m = { parents : [groud_target]};
+        var m = { parents : [ground_target]};
         m.coord = geo.Coord.new();
         
         # Find the next index for "models/model" and create property node.
@@ -256,7 +256,7 @@ var groud_target = {
         me.vOffsetN.setDoubleValue(view.normdeg(elev - ac_pitch));
         
         if(me.following==1){me.focus_on_closest_AI_MP();}
-        me.setView();
+#        me.setView();
         settimer(func(){ me.update(); }, 0);
     },
     
