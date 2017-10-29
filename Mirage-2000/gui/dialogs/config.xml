@@ -80,10 +80,14 @@
   <hrule />
 
   <button>
-    <legend>Create a target</legend>
-    <binding>
+    <legend>Ground targeting</legend>
+<!--    <binding>
       <command>nasal</command>
       <script>missile.targetingGround()</script>
+    </binding>-->
+    <binding>
+      <command>dialog-show</command>
+      <dialog-name>Ground_Targeting</dialog-name>
     </binding>
   </button>
 

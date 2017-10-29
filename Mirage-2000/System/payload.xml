@@ -395,6 +395,8 @@
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
+      <drop-time type="double">2</drop-time>
+      <deploy-time>0.25</deploy-time>
     </scalp>
     <seaeagle>      <!-- Sea Eagle -->
       <fire-msg type="string">Bruiser</fire-msg>

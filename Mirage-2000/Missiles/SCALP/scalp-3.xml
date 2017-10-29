@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PropertyList>
-  <path>SCALP.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/SCALP/SCALP.xml</path>
   <animation>
     <type>select</type>
     <object-name>scalp</object-name>
@@ -27,6 +27,8 @@
   </model>
   <animation>
     <object-name>scalp</object-name>
+    <object-name>scalp.wingL</object-name>
+    <object-name>scalp.wingR</object-name>
     <enable-hot type="bool">false</enable-hot>
   </animation>
 </PropertyList>

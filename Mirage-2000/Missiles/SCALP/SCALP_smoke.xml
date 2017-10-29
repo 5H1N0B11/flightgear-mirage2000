@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PropertyList>
-  <path>Aircraft/Mirage-2000/Missiles/SCALP/SCALP.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/SCALP/SCALP.xml</path>
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>

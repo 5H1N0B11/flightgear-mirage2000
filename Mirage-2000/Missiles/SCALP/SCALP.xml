@@ -9,7 +9,6 @@
     <enable-hot type="bool">false</enable-hot>
   </animation>
 
-
 <!-- 
 pour les tests :
 - /scalp-pos-norm defini dans m2000-5B-set.xml
@@ -19,12 +18,14 @@ TODO:
 - deplacer la propriete /scalp-pos-norm
 - animer le deploiement sur un evenement donne
 
+5H1N0B1 : 
+Utiliser la variable qui déclenche la smoke et trouver la bonne interpolation.
 -->
 
   <animation>
     <type>rotate</type>
     <object-name>scalp.wingL</object-name>
-    <property>/scalp-pos-norm</property>
+    <property>payload/armament/scalp/flags/deploy-id-3</property>
     <factor>-75</factor>
     <center>
       <x-m>.19</x-m>
@@ -40,7 +41,7 @@ TODO:
   <animation>
     <type>rotate</type>
     <object-name>scalp.wingR</object-name>
-    <property>/scalp-pos-norm</property>
+    <property>payload/armament/scalp/flags/deploy-id-3</property>
     <factor>75</factor>
     <center>
       <x-m>.19</x-m>
@@ -52,6 +53,8 @@ TODO:
       <z>1</z>
     </axis>
   </animation>
+  
+  
 
   <animation>
     <type>pick</type>
@@ -61,7 +64,7 @@ TODO:
       <repeatable>false</repeatable>
       <binding>
         <command>nasal</command>
-        <script>interpolate("/scalp-pos-norm", 1, 2);</script>
+        <script>interpolate("payload/armament/scalp/flags/deploy-id-3", 1, 0.25);</script>
       </binding>
     </action>
   </animation>
@@ -73,7 +76,7 @@ TODO:
       <repeatable>false</repeatable>
       <binding>
         <command>nasal</command>
-        <script>interpolate("/scalp-pos-norm", 0, 2);</script>
+        <script>interpolate("payload/armament/scalp/flags/deploy-id-3", 0, 0.25);</script>
       </binding>
     </action>
   </animation>
