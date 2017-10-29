@@ -339,19 +339,22 @@ var groud_target = {
       var ViewName = getprop("/sim/current-view/name");
       var aircraftHeading = getprop("orientation/heading-deg");
       var aircraftPitch = getprop("orientation/pitch-deg");
+      var aircraftRoll = getprop("orientation/roll-deg");
       
       
       #pitch calcultation
       var pitch = - deviation_normdeg(aircraftPitch, math.asin(( me.coord.alt() - MyAircraftCoord.alt()) / me.coord.direct_distance_to(MyAircraftCoord)) * R2D);
-      setprop("/sim/view[102]/config/pitch-offset-deg",pitch);
+      #setprop("/sim/view[102]/config/pitch-offset-deg",pitch);
+      #print("pitch:"~pitch);
       
       #heading calculation
       var heading = deviation_normdeg(aircraftHeading, MyAircraftCoord.course_to(me.coord));
-      setprop("/sim/view[102]/config/heading-offset-deg",heading);
+      #setprop("/sim/view[102]/config/heading-offset-deg",heading);
       
       if(ViewName == "Sniping cam"){
-        setprop("/sim/current-view/pitch-offset-deg",pitch);
+        #setprop("/sim/current-view/pitch-offset-deg", pitch);
         setprop("/sim/current-view/heading-offset-deg",heading);
+        #setprop("/sim/current-view/roll-offset-deg", -aircraftRoll);
       }
       
     } 
