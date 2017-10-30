@@ -101,6 +101,17 @@
     </binding>
   </button>
   
+    <button>
+    <legend>Focus on target</legend>
+    <binding>
+     <command>dialog-apply</command>
+    </binding>
+    <binding>
+      <command>nasal</command>
+      <script>missile.focus_onTarget()</script>
+    </binding>
+  </button>
+  
   <button>
     <legend>Follow closest GND AI/MP</legend>
     <binding>
@@ -111,6 +122,7 @@
       <script>missile.follow_AI_MP()</script>
     </binding>
   </button>
+  
   
   
 

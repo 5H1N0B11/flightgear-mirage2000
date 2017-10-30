@@ -30,26 +30,37 @@ var targetingGround = func()
 {
 
     
-    myGroundTarget = myGroundTarget == nil ? ground_target.new():myGroundTarget;
-    myGroundTarget.init();
+    if(myGroundTarget == nil){
+      myGroundTarget = ground_target.new();
+      myGroundTarget.init();
+    }
+    
     myGroundTarget.following = 0;
     myGroundTarget.life_time = 900;
     
-    var oldView = view_GPS_target(myGroundTarget);
+    if( geo.elevation(myGroundTarget.lat.getValue(), myGroundTarget.long.getValue(),10000) == nil){
+      var oldView = view_GPS_target(myGroundTarget);
+      
+      
+      var timer = maketimer(10,func(){
+        setprop("/sim/current-view/view-number", oldView);
+      });
+      timer.singleShot = 1; # timer will only be run once
+      timer.start();
+    }
     
-    
-    var timer = maketimer(10,func(){
-      setprop("/sim/current-view/view-number", oldView);
-    });
-    timer.singleShot = 1; # timer will only be run once
-    timer.start();
-    
+}
+
+var focus_onTarget = func(){
+  if(myGroundTarget!= nil){
+    mirage2000.flir_updater.click_coord_cam = myGroundTarget.coord;
+  }
 }
 
 var follow_AI_MP=func(){
 
   if(myGroundTarget!= nil and myGroundTarget.following == 0){
-#    myGroundTarget.following = 1;
+    myGroundTarget.following = 1;
     myGroundTarget.targetedPath = nil;
   }
   else{
