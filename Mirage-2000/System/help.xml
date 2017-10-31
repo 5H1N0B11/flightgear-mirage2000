@@ -94,7 +94,7 @@
   <line> === Take Off === </line>
   <line>Start the Engine (use autostart or follow the procedure (in tutorial)</line>
   <line>Around 170/190 kts : Take off</line>
-  <line>195 kts : limit to down the gears</line>
+  <!--<line>195 kts : limit to down the gears</line>-->
   <line>280 kts : Never Exceed speed with gear out</line>
   <line>----------------------------------------------------</line>
   <line> === Cruise === </line>
@@ -123,9 +123,35 @@
   
   <line>Afterburners engage when</line>
   <line>throttle moves pass 85%</line>
-  <line>To fire a guided Missile, select A/A missile with "w",</line>
-  <line>activate "lock" with R, aim with the HUD and fire with "e"</line>
-  <line>Beware : The Airbrakes are tricky, due to yasim simulating only the upper part. The FBW are limiting it in order to prevent total lost of control</line>
-<!--  <line>Beware : it's a bad idea to fire a missile and have negative G...(Don't shoot yourself)</line>-->
+  
+  <line>----------------------------------------------------</line>
+  
+  <line>=== Terrain following ===</line>
+  <line>When flying lower that 1000 AGL, clic on ALT twice. The button should be blinking</line>
+  <line>AGL Altitude is set with the same knob than in normal ALT mode</line>
+  <line>If the pilot touch the stick, it pauses the AP</line>
+  <line>The smooth can be set, via Options, "AP TF Smooth (- +)" </line>
+  
+  
+  <line>----------------------------------------------------</line>
+  <line>=== Weapons ===</line>
+  <line> - "w" to select weapons cycle : "secure", "guns", "IR", "EM" and "GROUND"</line>
+  <line> - Guns : Select guns, shoot on target (No snakes available in HUD). Rate of fire editable in Fast config.</line>
+  <line> - IR : Heatseeking missiles : Select it, select your target via Radar lock, then fire it</line>
+  <line> - EM : Radar seeking missiles : Select it, select your target via Radar lock, then fire it</line>
+  <line> - GND : select it. select ground targeting.</line>
+  <line>   --To snipe :</line>
+  <line>   Activate Sniping view, then go to sniping view, F6 activate moving camera, click on your target, and then click on "Sniping mode". lat/lon should autofill</line>
+  <line>   -- Lat/lon</line>
+  <line>   For long range missile, you can directly enter lat/lon. Then click on acquistion.</line>
+  <line>   In case of moving target, you can make the aiming follow it via the button "Follow closest GND AI/MP"</line>
+  <line>   Once target is acquired, Select it in the radar, then shoot.</line>
+  <line>=== Radar ===</line>
+  <line>Activate "lock" with R</line>
+  <line>Select target with "n"</line>
+  <line> Radar is terrain sensitive and use doppler</line>
+
+  
+  
   
 </PropertyList>

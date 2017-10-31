@@ -116,8 +116,7 @@ var updatefunction = func()
     
     ########################### rate 0
     mirage2000.Update_SAS();
-    mirage2000.tfs_radar();
-    #call(mirage2000.tfs_radar,nil,nil,nil, myErr);
+    call(mirage2000.tfs_radar,nil,nil,nil, myErr);
     
     
     # Flight Director (autopilot)

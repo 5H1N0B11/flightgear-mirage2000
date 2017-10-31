@@ -179,8 +179,8 @@
         <name>APTF</name>
         <property>/autopilot/settings/tf-mode</property>
         <live>1</live>
-        <min>2</min>
-        <max>8</max>
+        <min>1</min>
+        <max>10</max>
         <step>1</step>
         <binding>
           <command>dialog-apply</command>
