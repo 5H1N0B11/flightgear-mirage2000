@@ -167,6 +167,29 @@
   </group>
 
   <hrule />
+  
+  <group>
+    <layout>hbox</layout>
+    <group><text><label>AP TF Smooth (- +)</label></text></group>
+
+    <group>
+    <layout>vbox</layout>
+    <halign>right</halign>
+      <slider>
+        <name>APTF</name>
+        <property>/autopilot/settings/tf-mode</property>
+        <live>1</live>
+        <min>2</min>
+        <max>8</max>
+        <step>1</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+      </slider>
+      </group>
+  </group>
+
+  <hrule />
 
   <group>
     <layout>hbox</layout>
