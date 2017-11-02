@@ -18,6 +18,20 @@
 -->
 
 <PropertyList>
+  
+    <logic>
+        <name>Enable Sniping Cam</name>
+        <input>
+            <equals>
+              <property>sim/weight[6]/selected</property>
+              <value>PDLCT</value>
+            </equals>
+        </input>
+        <output>
+            <property>/sim/view[102]/enabled</property>
+        </output>
+    </logic>
+  
 
     <logic>
         <name>View Enable FLIR</name>

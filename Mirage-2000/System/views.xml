@@ -29,7 +29,7 @@
   
   <view n="102">
     <name>Sniping cam</name>
-    <enable>false</enable>
+    <enabled>false</enabled>
     <internal archive="y">true</internal>
     <config>
       <from-model type="bool">true</from-model>

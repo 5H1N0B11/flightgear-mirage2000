@@ -39,7 +39,7 @@ var terrain = geo.Coord.new();
 
 
 
-setprop ("instrumentation/tfs/delay-sec", 1.5);
+setprop ("instrumentation/tfs/delay-sec", 4);
 
 var tfs_radar = func() {
     var speed_kt  = getprop("velocities/groundspeed-kt");
@@ -77,7 +77,7 @@ var tfs_radar = func() {
         target_pos.set_alt(target_altitude_m);
         while(check_terrain_avoiding(target_pos)!=nil){
           #print(target_altitude_m);
-          target_altitude_m = target_altitude_m + 10;
+          target_altitude_m = target_altitude_m + 15;
           target_pos.set_alt(target_altitude_m);   
         }
         
