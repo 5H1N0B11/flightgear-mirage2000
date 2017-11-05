@@ -1,0 +1,2059 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/JSBSim.xsl"?>
+<fdm_config name="Mirage2000" version="2.0" release="DEVELOPMENT"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
+
+    <fileheader>
+        <author>Richard Harrison</author>
+        <filecreationdate>2017-09-22</filecreationdate>
+        <version>1.0</version>
+        <copyright>Copyright (C) 2017 Richard Harrison, All rights reserved</copyright>
+        <description>Dassault Mirage2000 Aerodynamic data built from vspaero; CG (8.034, 0, 0.491)M, 2017-09-22 22:31</description>
+        <note>Built using VSPAERO. VSPAero control sub surfaces are used for the elevons, slats and rudder. These are all then processed and this data is built from the results (together with the -stab to get the derivatives)</note>
+        <note>Aircraft origin for measurements is the nose</note>
+        <note>VSPAERO notes: Rudder deflection is LE right. Elevator is TE down.</note>
+        <note>Cl max 1.6</note>
+        <note>Built with AeroTool 1.0.0.0: Options: AeroDetail=Minimal, WakeIterations=1</note>
+        <limitation></limitation>
+        <reference 
+            refID="ZDAT/AED/2017/09-08"
+            author="Richard Harrison, rjh@zaretto.com"
+            title="Mirage 2000 Aerodynamic data built from vspaero; CG (8.034, 0, 0.491)M"
+            date="September, 2017"
+            URL="http://www.zaretto.com/sites/zaretto.com/files/Mirage2000-data-data/rjh-zaretto-Mirage2000-aerodynamic-data-vspaero.pdf"
+        />
+        <reference 
+            refID="VSPAERO"
+            author="Brandon Litherland"
+            title="Using VSPAERO"
+            date=" 2015/07/01 06:56"
+            URL="http://www.openvsp.org/wiki/doku.php?id=vspaerotutorial"
+        />
+    </fileheader>
+<metrics>
+  <wingarea unit="M2">41.038</wingarea>
+  <wing_incidence unit="DEG">0</wing_incidence>
+  <wingspan unit="M">9.13</wingspan>
+  <chord unit="M">4.495</chord>
+  <location unit="IN" name="EYEPOINT">
+    <x>197</x>
+    <y>0</y>
+    <z>-3.94</z>
+  </location>
+  <location unit="IN" name="VRP">
+    <x>200</x>
+    <y>0</y>
+    <z>0</z>
+  </location>
+  <location unit="M" name="AERORP">
+    <x>8.034</x>
+    <y>0</y>
+    <z>0.491</z>
+  </location>
+</metrics>
+
+<mass_balance>
+  <location unit="M" name="CG">
+    <x>7.9</x>
+    <y>0</y>
+    <z>0.491</z>
+  </location>
+  <ixx unit="KG*M2">6262</ixx>
+  <iyy unit="KG*M2">75686</iyy>
+  <izz unit="KG*M2">78802</izz>
+  <ixz unit="KG*M2">2141</ixz>
+  <emptywt unit="LBS">28000</emptywt>
+</mass_balance>
+
+<ground_reactions>
+  <contact type="BOGEY" name="NOSE_LG">
+    <location unit="M">
+      <x>3.88</x>
+      <y>0</y>
+      <z>-2.15</z>
+    </location>
+    <static_friction>1.0</static_friction>
+    <dynamic_friction>0.5</dynamic_friction>
+    <rolling_friction>0.02</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">1400</damping_coeff>
+    <max_steer unit="DEG">35</max_steer>
+    <!--0: NOSE_LG-->
+    <brake_group>NOSE</brake_group>
+    <retractable>1</retractable>
+  </contact>
+  <contact type="BOGEY" name="LEFT_MLG">
+    <location unit="M">
+      <x>9.88</x>
+      <y>-2.02</y>
+      <z>-2.15</z>
+    </location>
+    <static_friction>1.0</static_friction>
+    <dynamic_friction>0.5</dynamic_friction>
+    <rolling_friction>0.02</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">1400</damping_coeff>
+    <max_steer unit="DEG">0</max_steer>
+    <!--1: LEFT_MLG-->
+    <brake_group>LEFT</brake_group>
+    <retractable>1</retractable>
+  </contact>
+  <contact type="BOGEY" name="RIGHT_MLG">
+    <location unit="M">
+      <x>9.88</x>
+      <y>2.02</y>
+      <z>-2.15</z>
+    </location>
+    <static_friction>1.0</static_friction>
+    <dynamic_friction>0.5</dynamic_friction>
+    <rolling_friction>0.02</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">1400</damping_coeff>
+    <max_steer unit="DEG">0</max_steer>
+    <!--2: RIGHT_MLG-->
+    <brake_group>RIGHT</brake_group>
+    <retractable>1</retractable>
+  </contact>
+  <contact type="STRUCTURE" name="LEFT_WING_TIP">
+    <!--3: LEFT_WING_TIP-->
+    <location unit="M">
+      <x>12.09</x>
+      <y>-6.9074</y>
+      <z>-0.405</z>
+    </location>
+    <static_friction>1.2</static_friction>
+    <dynamic_friction>1.212</dynamic_friction>
+    <rolling_friction>1.413</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">5600</damping_coeff>
+  </contact>
+  <contact type="STRUCTURE" name="RIGHT_WING_TIP">
+    <!--4: RIGHT_WING_TIP-->
+    <location unit="M">
+      <x>12.09</x>
+      <y>6.9074</y>
+      <z>-0.405</z>
+    </location>
+    <static_friction>1.2</static_friction>
+    <dynamic_friction>1.212</dynamic_friction>
+    <rolling_friction>1.413</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">5600</damping_coeff>
+  </contact>
+  <contact type="STRUCTURE" name="CANOPY">
+    <!--5: CANOPY-->
+    <location unit="M">
+      <x>5.08</x>
+      <y>0</y>
+      <z>1.321</z>
+    </location>
+    <static_friction>1.2</static_friction>
+    <dynamic_friction>1.212</dynamic_friction>
+    <rolling_friction>1.413</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">5600</damping_coeff>
+  </contact>
+  <contact type="STRUCTURE" name="RADOME_FRONT">
+    <!--6: RADOME_FRONT-->
+    <location unit="M">
+      <x>0</x>
+      <y>0</y>
+      <z>-0.491</z>
+    </location>
+    <static_friction>1.2</static_friction>
+    <dynamic_friction>1.212</dynamic_friction>
+    <rolling_friction>1.413</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">5600</damping_coeff>
+  </contact>
+  <contact type="STRUCTURE" name="VERTICAL_TAIL">
+    <!--7: VERTICAL_TAIL-->
+    <location unit="M">
+      <x>18</x>
+      <y>0</y>
+      <z>2.291</z>
+    </location>
+    <static_friction>1.2</static_friction>
+    <dynamic_friction>1.212</dynamic_friction>
+    <rolling_friction>1.413</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">5600</damping_coeff>
+  </contact>
+  <contact type="STRUCTURE" name="REAR_BODY_LEFT">
+    <!--8: REAR_BODY_LEFT-->
+    <location unit="M">
+      <x>16.53</x>
+      <y>0.94</y>
+      <z>-0.332</z>
+    </location>
+    <static_friction>1.2</static_friction>
+    <dynamic_friction>1.212</dynamic_friction>
+    <rolling_friction>1.413</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">5600</damping_coeff>
+  </contact>
+  <contact type="STRUCTURE" name="REAR_BODY_RIGHT">
+    <!--9: REAR_BODY_RIGHT-->
+    <location unit="M">
+      <x>16.53</x>
+      <y>0.94</y>
+      <z>-0.332</z>
+    </location>
+    <static_friction>1.2</static_friction>
+    <dynamic_friction>1.212</dynamic_friction>
+    <rolling_friction>1.413</rolling_friction>
+    <spring_coeff unit="LBS/FT">25200</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">5600</damping_coeff>
+  </contact>
+</ground_reactions>
+
+<propulsion>
+  <engine file="SNECMA_M53-P2">
+    <location unit="M">
+      <x>17.584</x>
+      <y>0</y>
+      <z>0.091</z>
+    </location>
+    <orient unit="DEG">
+      <roll>0</roll>
+      <pitch>0</pitch>
+      <yaw>0</yaw>
+    </orient>
+    <feed>0</feed>
+    <feed>1</feed>
+    <feed>2</feed>
+    <feed>3</feed>
+    <feed>4</feed>
+    <thruster file="direct">
+      <location unit="M">
+        <x>17.584</x>
+        <y>0</y>
+        <z>0.091</z>
+      </location>
+      <orient unit="DEG">
+        <roll>0</roll>
+        <pitch>0</pitch>
+        <yaw>0</yaw>
+      </orient>
+    </thruster>
+  </engine>
+  <tank number="0" type="FUEL">
+    <!--0: Main Tank-->
+    <location unit="M">
+      <x>8.034</x>
+      <y>0</y>
+      <z>0.491</z>
+    </location>
+    <capacity unit="KG">2128</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">2128</contents>
+    <priority>8</priority>
+  </tank>
+  <tank number="1" type="FUEL">
+    <!--1: Right Wing Tank-->
+    <location unit="M">
+      <x>8.034</x>
+      <y>4</y>
+      <z>0.491</z>
+    </location>
+    <capacity unit="LBS">385</capacity>
+    <standpipe unit="LBS">100</standpipe>
+    <contents unit="LBS">385</contents>
+    <priority>7</priority>
+  </tank>
+  <tank number="2" type="FUEL">
+    <!--2: Left Wing Tank-->
+    <location unit="M">
+      <x>8.034</x>
+      <y>-4</y>
+      <z>0.491</z>
+    </location>
+    <capacity unit="LBS">385</capacity>
+    <standpipe unit="LBS">100</standpipe>
+    <contents unit="LBS">385</contents>
+    <priority>7</priority>
+  </tank>
+  <tank number="3" type="FUEL">
+    <!--3: External Tank-->
+    <location unit="M">
+      <x>8.034</x>
+      <y>0</y>
+      <z>-0.00900000000000001</z>
+    </location>
+    <capacity unit="KG">1200</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">1200</contents>
+    <priority>3</priority>
+  </tank>
+  <tank number="4" type="FUEL">
+    <!--4: Feed line-->
+    <location unit="M">
+      <x>8.034</x>
+      <y>0</y>
+      <z>0.491</z>
+    </location>
+    <capacity unit="LBS">10</capacity>
+    <contents unit="LBS">10</contents>
+    <priority>2</priority>
+  </tank>
+</propulsion>
+
+<external_reactions>
+  <force name="catapult" frame="BODY">
+    <location unit="IN">
+      <x>667</x>
+      <y>0</y>
+      <z>0</z>
+    </location>
+    <direction>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </direction>
+  </force>
+  <force name="holdback" frame="BODY">
+    <location unit="IN">
+      <x>667</x>
+      <y>0</y>
+      <z>0</z>
+    </location>
+    <direction>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </direction>
+  </force>
+  <force name="hook" frame="BODY">
+    <location unit="IN">
+      <x>300</x>
+      <y>0</y>
+      <z>0</z>
+    </location>
+    <direction>
+      <x>-0.9995</x>
+      <y>0</y>
+      <z>0.01</z>
+    </direction>
+  
+</force>
+</external_reactions>
+
+<flight_control name="Mirage2000-FCS">
+    <property value="8.034">metrics/cg-x-m</property>
+    <property value="0.491">metrics/cg-z-m</property>
+    <channel name="extra-aero">
+            <!-- need %Cg in chord for moments [Xcg - Xref)/100] -->
+            <summer name="cg-x-offset-chord-in">
+                <input> inertia/cg-x-in</input>
+                <input> -metrics/aero-rp-x-in</input>
+                <output>inertia/cg-x-offset-chord-in</output>
+            </summer>
+            <!-- figure out the factor for the fuel tank aero -->
+            <pure_gain name="cg-x-chord-percent">
+                <description>Percent offset of the CoP from the CG</description>
+                <input>inertia/cg-x-offset-chord-in</input>
+                <gain> -0.01</gain>
+                <clipto>
+                    <min> -1 </min>
+                    <max> 1 </max>
+                </clipto>
+                <output> inertia/cg-x-mac-percent </output>
+            </pure_gain>
+
+            <fcs_function name="pb">
+                <description>PB Denormalization</description>
+                <function>
+                    <quotient>
+                        <product>
+                            <property>metrics/bw-ft</property>
+                            <property>velocities/p-aero-rad_sec</property>
+                        </product>
+                        <!-- over -->
+                        <product>
+                            <value>2</value>
+                            <property>velocities/vt-fps</property>
+                        </product>
+                    </quotient>
+                </function>
+                <clipto>
+                    <min> -1.00 </min>
+                    <max>  1.00 </max>
+                </clipto>
+                <output>aero/pb</output>
+            </fcs_function>
+
+            <fcs_function name="cbarq-2vo">
+                <description>For denormalization</description>
+                <function>
+                    <quotient>
+                        <product>
+                            <property>metrics/cbarw-ft</property>
+                            <property>velocities/q-aero-rad_sec</property>
+                        </product>
+                        <!-- over -->
+                        <product>
+                            <value>2</value>
+                            <property>velocities/vt-fps</property>
+                        </product>
+                    </quotient>
+                </function>
+                <clipto>
+                    <min> -2.01 </min>
+                    <max>  2.01 </max>
+                </clipto>
+                <output>aero/qb</output>
+            </fcs_function>
+            <fcs_function name="rb-2vo">
+                <description>For denormalization</description>
+                <function>
+                    <quotient>
+                        <product>
+                            <property>metrics/bw-ft</property>
+                            <property>velocities/r-aero-rad_sec</property>
+                        </product>
+                        <!-- over -->
+                        <product>
+                            <value>2</value>
+                            <property>velocities/vt-fps</property>
+                        </product>
+                    </quotient>
+                </function>
+                <clipto>
+                    <min> -1.00 </min>
+                    <max>  1.00 </max>
+                </clipto>
+                <output>aero/rb</output>
+            </fcs_function>
+
+
+            <fcs_function name="aero-cos-alpha">
+                <function>
+                    <product>
+                        <cos>
+                            <property>aero/alpha-rad</property>
+                        </cos>
+                    </product>
+                </function>
+                <output>aero/cos-alpha</output>
+            </fcs_function>
+
+            <fcs_function name="aero-sin-alpha">
+                <function>
+                    <product>
+                        <sin>
+                            <property>aero/alpha-rad</property>
+                        </sin>
+                    </product>
+                </function>
+                <output>aero/sin-alpha</output>
+            </fcs_function>
+           <pure_gain name="aero/alphadot-rad_sec-limited">
+               <input>aero/alphadot-rad_sec</input>
+               <output>aero/alphadot-rad_sec-limited</output>
+               <gain>1</gain>
+               <clipto>
+                   <min> -0.2</min>
+                   <max> 0.2</max>
+               </clipto>
+           </pure_gain>
+           <pure_gain name="aero/betadot-rad_sec-limited">
+               <input>aero/betadot-rad_sec</input>
+               <output>aero/betadot-rad_sec-limited</output>
+               <gain>1</gain>
+               <clipto>
+                   <min> -0.1</min>
+                   <max> 0.1</max>
+               </clipto>
+           </pure_gain>
+            
+        </channel>
+</flight_control>
+<system file="Mirage-2000-fbw"/>
+<aerodynamics>
+    <function name="aero/coefficients/CFXB">
+    <description>BASIC DRAG</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		 0.04694000	
+                      0		 0.01789000	
+                     10		 0.04701000	
+                     20		 0.12076000	
+                     30		 0.18547000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDED1L">
+    <description>DRAG DUE TO ELEVON 1L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00258000	 0.00540000	 0.00696000	 0.00857000	
+                      0	 0.00586000	 0.00379000	 0.00213000	 0.00094000	 0.00022000	 0.00000000	 0.00026000	 0.00100000	 0.00168000	 0.00253000	
+                     10	 0.01337000	 0.01062000	 0.00794000	 0.00535000	 0.00253000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.01130000	 0.00928000	 0.00712000	 0.00483000	 0.00242000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.00945000	 0.00790000	 0.00612000	 0.00418000	 0.00216000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDED1R">
+    <description>DRAG DUE TO ELEVON 1R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00258000	 0.00540000	 0.00696000	 0.00857000	
+                      0	 0.00586000	 0.00379000	 0.00213000	 0.00094000	 0.00022000	 0.00000000	 0.00026000	 0.00100000	 0.00168000	 0.00253000	
+                     10	 0.01337000	 0.01062000	 0.00794000	 0.00535000	 0.00253000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.01130000	 0.00928000	 0.00712000	 0.00483000	 0.00242000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.00945000	 0.00790000	 0.00612000	 0.00418000	 0.00216000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDED2L">
+    <description>DRAG DUE TO ELEVON 2L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00451000	 0.00978000	 0.01331000	 0.01692000	
+                      0	 0.01303000	 0.00841000	 0.00473000	 0.00207000	 0.00049000	 0.00000000	 0.00057000	 0.00223000	 0.00375000	 0.00566000	
+                     10	 0.02825000	 0.02155000	 0.01532000	 0.00949000	 0.00436000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.03406000	 0.02804000	 0.02073000	 0.01365000	 0.00673000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.02857000	 0.02384000	 0.01888000	 0.01297000	 0.00650000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDED2R">
+    <description>DRAG DUE TO ELEVON 2R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00451000	 0.00978000	 0.01331000	 0.01692000	
+                      0	 0.01303000	 0.00841000	 0.00473000	 0.00207000	 0.00049000	 0.00000000	 0.00057000	 0.00223000	 0.00375000	 0.00566000	
+                     10	 0.02825000	 0.02155000	 0.01532000	 0.00949000	 0.00436000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.03406000	 0.02804000	 0.02073000	 0.01365000	 0.00673000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.02857000	 0.02384000	 0.01888000	 0.01297000	 0.00650000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDSBL">
+    <description>DRAG DUE TO LOWER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-upper</independentVar>
+            <tableData>
+                                  0	          5	         10	         15	         20	         25	         30	         35	         40	         45	         50	         55	
+                    -10	 0.00038000	 0.00108000	 0.00158000	 0.00231000	 0.00386000	 0.00492000	 0.00664000	 0.00534000	 0.00604000	 0.00738000	 0.00956000	 0.01176000	
+                      0	 0.00007000	 0.00010000	 0.00021000	 0.00039000	 0.00056000	 0.00037000	 0.00031000	 0.00014000	 0.00010000	 0.00009000	 0.00000000	 0.00000000	
+                     10	 0.00000000	 0.00031000	 0.00073000	 0.00097000	 0.00106000	 0.00090000	 0.00052000	 0.00010000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.00025000	 0.00040000	 0.00062000	 0.00085000	 0.00096000	 0.00096000	 0.00080000	 0.00054000	 0.00017000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.00000000	 0.00000000	 0.00050000	 0.00118000	 0.00180000	 0.00230000	 0.00273000	 0.00301000	 0.00319000	 0.00330000	 0.00337000	 0.00340000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDSBU">
+    <description>DRAG DUE TO UPPER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-lower</independentVar>
+            <tableData>
+                                  0	          5	         11	         17	         22	         28	         34	         39	         45	         50	         56	         62	         67	
+                    -10	 0.00044000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                      0	 0.00007000	 0.00017000	 0.00326000	 0.01301000	 0.00672000	 0.00917000	 0.02244000	 0.00244000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     10	 0.00006000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.00005000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDSD1L">
+    <description>DRAG DUE TO LE SLAT 1L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00237000	 0.00509000	 0.00807000	 0.01125000	 0.01458000	
+                      0	 0.00403000	 0.00257000	 0.00143000	 0.00062000	 0.00014000	 0.00000000	 0.00018000	 0.00070000	 0.00156000	 0.00274000	 0.00424000	
+                     10	 0.01432000	 0.01103000	 0.00789000	 0.00500000	 0.00233000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.01573000	 0.01261000	 0.00946000	 0.00629000	 0.00308000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.01279000	 0.01044000	 0.00796000	 0.00541000	 0.00269000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDSD1R">
+    <description>DRAG DUE TO LE SLAT 1R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00237000	 0.00509000	 0.00807000	 0.01125000	 0.01458000	
+                      0	 0.00403000	 0.00257000	 0.00143000	 0.00062000	 0.00014000	 0.00000000	 0.00018000	 0.00070000	 0.00156000	 0.00274000	 0.00424000	
+                     10	 0.01432000	 0.01103000	 0.00789000	 0.00500000	 0.00233000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.01573000	 0.01261000	 0.00946000	 0.00629000	 0.00308000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.01279000	 0.01044000	 0.00796000	 0.00541000	 0.00269000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDSD2L">
+    <description>DRAG DUE TO LE SLAT 2L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00160000	 0.00344000	 0.00539000	 0.00746000	 0.00967000	
+                      0	 0.00276000	 0.00176000	 0.00098000	 0.00042000	 0.00010000	 0.00000000	 0.00013000	 0.00048000	 0.00107000	 0.00188000	 0.00291000	
+                     10	 0.00935000	 0.00722000	 0.00520000	 0.00332000	 0.00159000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.01321000	 0.01056000	 0.00791000	 0.00528000	 0.00258000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.01346000	 0.01113000	 0.00842000	 0.00562000	 0.00282000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFXDSD2R">
+    <description>DRAG DUE TO LE SLAT 2R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00160000	 0.00344000	 0.00539000	 0.00746000	 0.00967000	
+                      0	 0.00276000	 0.00176000	 0.00098000	 0.00042000	 0.00010000	 0.00000000	 0.00013000	 0.00048000	 0.00107000	 0.00188000	 0.00291000	
+                     10	 0.00935000	 0.00722000	 0.00520000	 0.00332000	 0.00159000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     20	 0.01321000	 0.01056000	 0.00791000	 0.00528000	 0.00258000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+                     30	 0.01346000	 0.01113000	 0.00842000	 0.00562000	 0.00282000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	 0.00000000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFZB">
+    <description>BASIC LIFT</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		-0.51363000	
+                      0		 0.00051000	
+                     10		 0.51350000	
+                     20		 1.01003000	
+                     30		 1.28211000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFZDE2L">
+    <description>LIFT DUE TO LE SLAT 2L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.06814000	 0.05431000	 0.04049000	 0.02677000	 0.01352000	 0.00000000	-0.01375000	-0.02782000	-0.04129000	-0.05450000	-0.06733000	
+                      0	 0.05844000	 0.04722000	 0.03565000	 0.02384000	 0.01194000	 0.00000000	-0.01208000	-0.02436000	-0.03678000	-0.04954000	-0.06241000	
+                     10	 0.06704000	 0.05407000	 0.04087000	 0.02746000	 0.01390000	 0.00000000	-0.01302000	-0.02637000	-0.03980000	-0.05325000	-0.06667000	
+                     20	 0.05216000	 0.04259000	 0.03274000	 0.02247000	 0.01124000	 0.00000000	-0.01068000	-0.02133000	-0.03299000	-0.04490000	-0.05702000	
+                     30	 0.03609000	 0.03150000	 0.02419000	 0.01641000	 0.00830000	 0.00000000	-0.00795000	-0.01600000	-0.02441000	-0.03314000	-0.04209000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFZDE2R">
+    <description>LIFT DUE TO LE SLAT 2R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.06814000	 0.05431000	 0.04049000	 0.02677000	 0.01352000	 0.00000000	-0.01375000	-0.02782000	-0.04129000	-0.05450000	-0.06733000	
+                      0	 0.05844000	 0.04722000	 0.03565000	 0.02384000	 0.01194000	 0.00000000	-0.01208000	-0.02436000	-0.03678000	-0.04954000	-0.06241000	
+                     10	 0.06704000	 0.05407000	 0.04087000	 0.02746000	 0.01390000	 0.00000000	-0.01302000	-0.02637000	-0.03980000	-0.05325000	-0.06667000	
+                     20	 0.05216000	 0.04259000	 0.03274000	 0.02247000	 0.01124000	 0.00000000	-0.01068000	-0.02133000	-0.03299000	-0.04490000	-0.05702000	
+                     30	 0.03609000	 0.03150000	 0.02419000	 0.01641000	 0.00830000	 0.00000000	-0.00795000	-0.01600000	-0.02441000	-0.03314000	-0.04209000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFZDED1L">
+    <description>LIFT DUE TO ELEVON 1L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.10059000	 0.08052000	 0.06034000	 0.04028000	 0.02040000	 0.00000000	-0.02048000	-0.03840000	-0.04612000	-0.05376000	
+                      0	 0.09654000	 0.07778000	 0.05856000	 0.03907000	 0.01943000	 0.00000000	-0.01972000	-0.03934000	-0.05121000	-0.06304000	
+                     10	 0.07545000	 0.06374000	 0.05160000	 0.03883000	 0.02047000	 0.00000000	-0.02040000	-0.04016000	-0.05223000	-0.06451000	
+                     20	 0.03275000	 0.02748000	 0.02167000	 0.01517000	 0.00780000	 0.00000000	-0.00754000	-0.01554000	-0.02087000	-0.02864000	
+                     30	 0.02389000	 0.02023000	 0.01587000	 0.01099000	 0.00578000	 0.00000000	-0.00591000	-0.01222000	-0.01619000	-0.02046000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFZDED1R">
+    <description>LIFT DUE TO ELEVON 1R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.10059000	 0.08052000	 0.06034000	 0.04028000	 0.02040000	 0.00000000	-0.02048000	-0.03840000	-0.04612000	-0.05376000	
+                      0	 0.09654000	 0.07778000	 0.05856000	 0.03907000	 0.01943000	 0.00000000	-0.01972000	-0.03934000	-0.05121000	-0.06304000	
+                     10	 0.07545000	 0.06374000	 0.05160000	 0.03883000	 0.02047000	 0.00000000	-0.02040000	-0.04016000	-0.05223000	-0.06451000	
+                     20	 0.03275000	 0.02748000	 0.02167000	 0.01517000	 0.00780000	 0.00000000	-0.00754000	-0.01554000	-0.02087000	-0.02864000	
+                     30	 0.02389000	 0.02023000	 0.01587000	 0.01099000	 0.00578000	 0.00000000	-0.00591000	-0.01222000	-0.01619000	-0.02046000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFZDEL">
+    <description>LIFT DUE TO LOWER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-upper</independentVar>
+            <tableData>
+                                  0	          5	         10	         15	         20	         25	         30	         35	         40	         45	         50	         55	
+                    -10	-0.00385000	-0.00932000	-0.01148000	-0.02032000	-0.01446000	-0.02852000	-0.03927000	-0.03292000	-0.04010000	-0.03559000	-0.03118000	-0.03320000	
+                      0	-0.00032000	-0.00813000	-0.01657000	-0.00990000	-0.02282000	-0.01886000	-0.01423000	-0.01466000	 0.00289000	 0.00834000	 0.00692000	 0.00526000	
+                     10	 0.00143000	-0.00299000	-0.00638000	-0.01107000	-0.01628000	-0.02224000	-0.02816000	-0.03357000	-0.03818000	-0.04214000	-0.04554000	-0.04834000	
+                     20	 0.00232000	 0.00010000	-0.00126000	-0.00222000	-0.00340000	-0.00483000	-0.00660000	-0.00848000	-0.01047000	-0.01219000	-0.01357000	-0.01460000	
+                     30	 0.00046000	-0.00009000	-0.00045000	-0.00024000	 0.00011000	 0.00040000	 0.00071000	 0.00075000	 0.00066000	 0.00050000	 0.00039000	 0.00032000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFZDSBU">
+    <description>LIFT DUE TO UPPER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-lower</independentVar>
+            <tableData>
+                                  0	          5	         11	         17	         22	         28	         34	         39	         45	         50	         56	         62	         67	
+                    -10	-0.00478000	 0.00740000	 0.02089000	 0.03958000	 0.06388000	 0.07495000	 0.08451000	 0.08873000	 0.10894000	 0.12456000	 0.12962000	 0.13351000	 0.13800000	
+                      0	-0.00034000	 0.02093000	 0.09814000	 0.20954000	 0.20411000	 0.25942000	 0.07448000	 0.15531000	 0.19192000	 0.24601000	 0.22580000	 0.21470000	 0.23923000	
+                     10	 0.00259000	 0.00809000	 0.01594000	 0.02544000	 0.03430000	 0.04556000	 0.05796000	 0.06857000	 0.08025000	 0.08799000	 0.09820000	 0.10644000	 0.11259000	
+                     20	 0.00229000	 0.00433000	 0.00722000	 0.01171000	 0.01660000	 0.02267000	 0.02853000	 0.03226000	 0.03732000	 0.04072000	 0.04419000	 0.04715000	 0.04947000	
+                     30	 0.00080000	 0.00146000	 0.00286000	 0.00577000	 0.00884000	 0.01267000	 0.01316000	 0.01346000	 0.01324000	 0.01362000	 0.01386000	 0.01395000	 0.01393000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFZDSD1L">
+    <description>LIFT DUE TO LE SLAT 1L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.09517000	 0.07603000	 0.05687000	 0.03775000	 0.01914000	 0.00000000	-0.01912000	-0.03878000	-0.05806000	-0.07693000	-0.09440000	
+                      0	 0.08845000	 0.07118000	 0.05355000	 0.03563000	 0.01771000	 0.00000000	-0.01808000	-0.03599000	-0.05430000	-0.07264000	-0.09099000	
+                     10	 0.09479000	 0.07693000	 0.05799000	 0.03885000	 0.01921000	 0.00000000	-0.01910000	-0.03775000	-0.05682000	-0.07588000	-0.09489000	
+                     20	 0.05200000	 0.04268000	 0.03282000	 0.02238000	 0.01121000	 0.00000000	-0.01092000	-0.02187000	-0.03592000	-0.05346000	-0.07147000	
+                     30	 0.02911000	 0.02416000	 0.01873000	 0.01296000	 0.00651000	 0.00000000	-0.00642000	-0.01310000	-0.02025000	-0.02786000	-0.03599000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFZDSD1R">
+    <description>LIFT DUE TO LE SLAT 1R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.09517000	 0.07603000	 0.05687000	 0.03775000	 0.01914000	 0.00000000	-0.01912000	-0.03878000	-0.05806000	-0.07693000	-0.09440000	
+                      0	 0.08845000	 0.07118000	 0.05355000	 0.03563000	 0.01771000	 0.00000000	-0.01808000	-0.03599000	-0.05430000	-0.07264000	-0.09099000	
+                     10	 0.09479000	 0.07693000	 0.05799000	 0.03885000	 0.01921000	 0.00000000	-0.01910000	-0.03775000	-0.05682000	-0.07588000	-0.09489000	
+                     20	 0.05200000	 0.04268000	 0.03282000	 0.02238000	 0.01121000	 0.00000000	-0.01092000	-0.02187000	-0.03592000	-0.05346000	-0.07147000	
+                     30	 0.02911000	 0.02416000	 0.01873000	 0.01296000	 0.00651000	 0.00000000	-0.00642000	-0.01310000	-0.02025000	-0.02786000	-0.03599000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMM1">
+    <description>BASIC PITCHING MOMENT</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -20		 0.00000000	
+                    -10		-0.00077000	
+                      0		 0.00
+                     10		 0.01299000	
+                     20		 0.02830000	
+                     30		 0.10650000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMALPHADOT">
+    <description>PITCH MOMENT DERIVATIVE FOR ALPHA DOT</description>
+    <product>
+        <v>-1</v>
+          <property>aero/alphadot-rad_sec-limited</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		 0.11123360	
+                      0		 0.37488520	
+                     10		 0.17295600	
+                     20		 0.53046710	
+                     30		 0.43047140	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMBETADOT">
+    <description>PITCH MOMENT DERIVATIVE FOR BETA DOT</description>
+    <product>
+        <v>-1</v>
+        <property>aero/betadot-rad_sec-limited</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		-0.75963730	
+                      0		-0.19045680	
+                     10		 0.73415030	
+                     20		 0.37742850	
+                     30		 0.01691960	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDED1L">
+    <description>PITCH MOMENT DUE TO ELEVON 1L</description>
+    <product>
+        <v>-1</v>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.04599000	-0.03685000	-0.02764000	-0.01849000	-0.00938000	 0.00000000	 0.00953000	 0.01774000	 0.02110000	 0.02442000	
+                      0	-0.04340000	-0.03491000	-0.02623000	-0.01746000	-0.00866000	 0.00000000	 0.00879000	 0.01757000	 0.02290000	 0.02822000	
+                     10	-0.03356000	-0.02851000	-0.02329000	-0.01776000	-0.00938000	 0.00000000	 0.00914000	 0.01790000	 0.02324000	 0.02864000	
+                     20	-0.01452000	-0.01226000	-0.00971000	-0.00685000	-0.00358000	 0.00000000	 0.00359000	 0.00753000	 0.01015000	 0.01334000	
+                     30	-0.00904000	-0.00762000	-0.00596000	-0.00410000	-0.00214000	 0.00000000	 0.00216000	 0.00444000	 0.00585000	 0.00736000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDED1R">
+    <description>PITCH MOMENT DUE TO ELEVON 1R</description>
+    <product>
+        <v>-1</v>
+        <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.04599000	-0.03685000	-0.02764000	-0.01849000	-0.00938000	 0.00000000	 0.00953000	 0.01774000	 0.02110000	 0.02442000	
+                      0	-0.04340000	-0.03491000	-0.02623000	-0.01746000	-0.00866000	 0.00000000	 0.00879000	 0.01757000	 0.02290000	 0.02822000	
+                     10	-0.03356000	-0.02851000	-0.02329000	-0.01776000	-0.00938000	 0.00000000	 0.00914000	 0.01790000	 0.02324000	 0.02864000	
+                     20	-0.01452000	-0.01226000	-0.00971000	-0.00685000	-0.00358000	 0.00000000	 0.00359000	 0.00753000	 0.01015000	 0.01334000	
+                     30	-0.00904000	-0.00762000	-0.00596000	-0.00410000	-0.00214000	 0.00000000	 0.00216000	 0.00444000	 0.00585000	 0.00736000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDED2L">
+    <description>PITCH MOMENT DUE TO ELEVON 2L</description>
+    <product>
+        <v>-1</v>
+        <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.07662000	-0.06059000	-0.04478000	-0.02941000	-0.01448000	 0.00000000	 0.01524000	 0.03012000	 0.03893000	 0.04717000	
+                      0	-0.05856000	-0.04959000	-0.03885000	-0.02671000	-0.01367000	 0.00000000	 0.01417000	 0.02932000	 0.03900000	 0.04911000	
+                     10	-0.07075000	-0.05766000	-0.04400000	-0.02943000	-0.01480000	 0.00000000	 0.01391000	 0.02813000	 0.03691000	 0.04559000	
+                     20	-0.04725000	-0.03992000	-0.03080000	-0.02117000	-0.01096000	 0.00000000	 0.01048000	 0.02183000	 0.02892000	 0.03702000	
+                     30	-0.03910000	-0.03248000	-0.02500000	-0.01687000	-0.00863000	 0.00000000	 0.00839000	 0.01711000	 0.02251000	 0.02804000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDED2R">
+    <description>PITCH MOMENT DUE TO ELEVON 2R</description>
+    <product>
+        <v>-1</v>
+        <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.07662000	-0.06059000	-0.04478000	-0.02941000	-0.01448000	 0.00000000	 0.01524000	 0.03012000	 0.03893000	 0.04717000	
+                      0	-0.05856000	-0.04959000	-0.03885000	-0.02671000	-0.01367000	 0.00000000	 0.01417000	 0.02932000	 0.03900000	 0.04911000	
+                     10	-0.07075000	-0.05766000	-0.04400000	-0.02943000	-0.01480000	 0.00000000	 0.01391000	 0.02813000	 0.03691000	 0.04559000	
+                     20	-0.04725000	-0.03992000	-0.03080000	-0.02117000	-0.01096000	 0.00000000	 0.01048000	 0.02183000	 0.02892000	 0.03702000	
+                     30	-0.03910000	-0.03248000	-0.02500000	-0.01687000	-0.00863000	 0.00000000	 0.00839000	 0.01711000	 0.02251000	 0.02804000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDSBL">
+    <description>PITCH MOMENT DUE TO LOWER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-upper</independentVar>
+            <tableData>
+                                  0	          5	         10	         15	         20	         25	         30	         35	         40	         45	         50	         55	
+                    -10	-0.00016000	 0.00469000	 0.01093000	-0.00803000	-0.00638000	-0.00050000	 0.00205000	-0.00437000	-0.00346000	-0.00198000	 0.00003000	 0.00320000	
+                      0	 0.00006000	 0.00097000	 0.00346000	 0.00069000	 0.00029000	-0.00348000	-0.00656000	-0.00691000	-0.01315000	-0.01423000	-0.01240000	-0.01151000	
+                     10	 0.00032000	-0.00047000	-0.00174000	-0.00219000	-0.00250000	-0.00289000	-0.00346000	-0.00395000	-0.00441000	-0.00478000	-0.00504000	-0.00525000	
+                     20	 0.00058000	-0.00039000	-0.00152000	-0.00271000	-0.00375000	-0.00472000	-0.00565000	-0.00652000	-0.00731000	-0.00799000	-0.00855000	-0.00899000	
+                     30	 0.00079000	 0.00009000	-0.00054000	-0.00133000	-0.00210000	-0.00279000	-0.00341000	-0.00398000	-0.00447000	-0.00486000	-0.00515000	-0.00532000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDSBU">
+    <description>PITCH MOMENT DUE TO UPPER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-lower</independentVar>
+            <tableData>
+                                  0	          5	         11	         17	         22	         28	         34	         39	         45	         50	         56	         62	         67	
+                    -10	-0.00003000	 0.00085000	 0.00376000	 0.00656000	 0.01220000	 0.01300000	 0.01897000	 0.02077000	 0.01922000	 0.01605000	 0.01877000	 0.02114000	 0.02245000	
+                      0	 0.00006000	-0.00489000	-0.02981000	-0.04905000	-0.03811000	-0.04478000	 0.08132000	 0.04475000	 0.04020000	 0.01884000	 0.02147000	 0.02286000	 0.01537000	
+                     10	 0.00022000	 0.00171000	 0.00395000	 0.00695000	 0.00962000	 0.01304000	 0.01609000	 0.01850000	 0.02117000	 0.02297000	 0.02524000	 0.02738000	 0.02891000	
+                     20	 0.00077000	 0.00219000	 0.00406000	 0.00616000	 0.00802000	 0.01031000	 0.01245000	 0.01454000	 0.01641000	 0.01766000	 0.01907000	 0.02036000	 0.02120000	
+                     30	 0.00119000	 0.00217000	 0.00337000	 0.00483000	 0.00614000	 0.00766000	 0.00840000	 0.00893000	 0.00988000	 0.01015000	 0.01051000	 0.01087000	 0.01114000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDSD1L">
+    <description>PITCH MOMENT DUE TO LE SLAT 1L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.04296000	-0.03431000	-0.02565000	-0.01704000	-0.00863000	 0.00000000	 0.00874000	 0.01774000	 0.02661000	 0.03531000	 0.04334000	
+                      0	-0.03943000	-0.03176000	-0.02391000	-0.01590000	-0.00789000	 0.00000000	 0.00809000	 0.01614000	 0.02443000	 0.03280000	 0.04122000	
+                     10	-0.04294000	-0.03476000	-0.02613000	-0.01746000	-0.00861000	 0.00000000	 0.00838000	 0.01653000	 0.02487000	 0.03319000	 0.04145000	
+                     20	-0.02390000	-0.01964000	-0.01512000	-0.01034000	-0.00522000	 0.00000000	 0.00518000	 0.01046000	 0.01658000	 0.02345000	 0.03046000	
+                     30	-0.01562000	-0.01290000	-0.00996000	-0.00685000	-0.00344000	 0.00000000	 0.00344000	 0.00698000	 0.01071000	 0.01460000	 0.01876000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDSD1R">
+    <description>PITCH MOMENT DUE TO LE SLAT 1R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.04296000	-0.03431000	-0.02565000	-0.01704000	-0.00863000	 0.00000000	 0.00874000	 0.01774000	 0.02661000	 0.03531000	 0.04334000	
+                      0	-0.03943000	-0.03176000	-0.02391000	-0.01590000	-0.00789000	 0.00000000	 0.00809000	 0.01614000	 0.02443000	 0.03280000	 0.04122000	
+                     10	-0.04294000	-0.03476000	-0.02613000	-0.01746000	-0.00861000	 0.00000000	 0.00838000	 0.01653000	 0.02487000	 0.03319000	 0.04145000	
+                     20	-0.02390000	-0.01964000	-0.01512000	-0.01034000	-0.00522000	 0.00000000	 0.00518000	 0.01046000	 0.01658000	 0.02345000	 0.03046000	
+                     30	-0.01562000	-0.01290000	-0.00996000	-0.00685000	-0.00344000	 0.00000000	 0.00344000	 0.00698000	 0.01071000	 0.01460000	 0.01876000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDSD2L">
+    <description>PITCH MOMENT DUE TO LE SLAT 2L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.02727000	-0.02172000	-0.01618000	-0.01068000	-0.00539000	 0.00000000	 0.00562000	 0.01139000	 0.01691000	 0.02234000	 0.02766000	
+                      0	-0.02471000	-0.02010000	-0.01526000	-0.01026000	-0.00515000	 0.00000000	 0.00527000	 0.01068000	 0.01625000	 0.02207000	 0.02805000	
+                     10	-0.02706000	-0.02176000	-0.01641000	-0.01102000	-0.00559000	 0.00000000	 0.00498000	 0.01016000	 0.01537000	 0.02056000	 0.02566000	
+                     20	-0.01980000	-0.01612000	-0.01234000	-0.00843000	-0.00420000	 0.00000000	 0.00400000	 0.00795000	 0.01226000	 0.01667000	 0.02117000	
+                     30	-0.01766000	-0.01416000	-0.01079000	-0.00724000	-0.00362000	 0.00000000	 0.00346000	 0.00690000	 0.01043000	 0.01402000	 0.01765000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMDSD2R">
+    <description>PITCH MOMENT DUE TO LE SLAT 2R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.02727000	-0.02172000	-0.01618000	-0.01068000	-0.00539000	 0.00000000	 0.00562000	 0.01139000	 0.01691000	 0.02234000	 0.02766000	
+                      0	-0.02471000	-0.02010000	-0.01526000	-0.01026000	-0.00515000	 0.00000000	 0.00527000	 0.01068000	 0.01625000	 0.02207000	 0.02805000	
+                     10	-0.02706000	-0.02176000	-0.01641000	-0.01102000	-0.00559000	 0.00000000	 0.00498000	 0.01016000	 0.01537000	 0.02056000	 0.02566000	
+                     20	-0.01980000	-0.01612000	-0.01234000	-0.00843000	-0.00420000	 0.00000000	 0.00400000	 0.00795000	 0.01226000	 0.01667000	 0.02117000	
+                     30	-0.01766000	-0.01416000	-0.01079000	-0.00724000	-0.00362000	 0.00000000	 0.00346000	 0.00690000	 0.01043000	 0.01402000	 0.01765000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMMQ">
+    <description>PITCH DAMPING DERIVATIVE</description>
+    <product>
+          <property>aero/qb</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		-1.24435730	
+                      0		-0.71194200	
+                     10		-1.24303880	
+                     20		-0.68073310	
+                     30		-0.60647720	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CML1">
+    <description>BASIC ROLLING MOMENT</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">aero/beta-deg</independentVar>
+            <tableData>
+                                -10	          0	         10	
+                    -10	-0.01896000	 0.00000000	 0.01896000	
+                      0	 0.00434000	 0.00000000	-0.00434000	
+                     10	 0.02422000	 0.00000000	-0.02422000	
+                     20	 0.02284000	 0.00000000	-0.02284000	
+                     30	 0.02113000	 0.00000000	-0.02113000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLBETADOT">
+    <description>ROLL MOMENT DERIVATIVE FOR BETA DOT</description>
+    <product>
+          <property>aero/betadot-rad_sec-limited</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		 0.10640980	
+                      0		-0.02643790	
+                     10		-0.14514790	
+                     20		-0.11544850	
+                     30		-0.09610070	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDED1L">
+    <description>ROLLING MOMENT DUE TO ELEVON 1L DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.02794000	 0.02247000	 0.01693000	 0.01133000	 0.00570000	 0.00000000	-0.00577000	-0.01039000	-0.01192000	-0.01343000	
+                      0	 0.02746000	 0.02204000	 0.01653000	 0.01098000	 0.00546000	 0.00000000	-0.00546000	-0.01100000	-0.01434000	-0.01768000	
+                     10	 0.01805000	 0.01568000	 0.01318000	 0.01064000	 0.00581000	 0.00000000	-0.00574000	-0.01146000	-0.01487000	-0.01829000	
+                     20	 0.00435000	 0.00365000	 0.00286000	 0.00198000	 0.00103000	 0.00000000	-0.00114000	-0.00243000	-0.00330000	-0.00496000	
+                     30	 0.00360000	 0.00303000	 0.00239000	 0.00170000	 0.00089000	 0.00000000	-0.00098000	-0.00204000	-0.00273000	-0.00345000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDED1R">
+    <description>ROLLING MOMENT DUE TO ELEVON 1R DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.02794000	-0.02247000	-0.01693000	-0.01133000	-0.00570000	 0.00000000	 0.00577000	 0.01039000	 0.01192000	 0.01343000	
+                      0	-0.02746000	-0.02204000	-0.01653000	-0.01098000	-0.00546000	 0.00000000	 0.00546000	 0.01100000	 0.01434000	 0.01768000	
+                     10	-0.01805000	-0.01568000	-0.01318000	-0.01064000	-0.00581000	 0.00000000	 0.00574000	 0.01146000	 0.01487000	 0.01829000	
+                     20	-0.00435000	-0.00365000	-0.00286000	-0.00198000	-0.00103000	 0.00000000	 0.00114000	 0.00243000	 0.00330000	 0.00496000	
+                     30	-0.00360000	-0.00303000	-0.00239000	-0.00170000	-0.00089000	 0.00000000	 0.00098000	 0.00204000	 0.00273000	 0.00345000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDED2L">
+    <description>ROLLING MOMENT DUE TO ELEVON 2L DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.02524000	 0.02044000	 0.01550000	 0.01042000	 0.00524000	 0.00000000	-0.00533000	-0.01072000	-0.01393000	-0.01714000	
+                      0	 0.02351000	 0.01893000	 0.01424000	 0.00949000	 0.00472000	 0.00000000	-0.00473000	-0.00950000	-0.01236000	-0.01521000	
+                     10	 0.02829000	 0.02313000	 0.01744000	 0.01166000	 0.00581000	 0.00000000	-0.00572000	-0.01139000	-0.01474000	-0.01808000	
+                     20	 0.01585000	 0.01437000	 0.01097000	 0.00740000	 0.00369000	 0.00000000	-0.00372000	-0.00752000	-0.00982000	-0.01325000	
+                     30	 0.00609000	 0.00555000	 0.00490000	 0.00374000	 0.00191000	 0.00000000	-0.00203000	-0.00415000	-0.00545000	-0.00678000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDED2R">
+    <description>ROLLING MOMENT DUE TO ELEVON 2R DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.02524000	-0.02044000	-0.01550000	-0.01042000	-0.00524000	 0.00000000	 0.00533000	 0.01072000	 0.01393000	 0.01714000	
+                      0	-0.02351000	-0.01893000	-0.01424000	-0.00949000	-0.00472000	 0.00000000	 0.00473000	 0.00950000	 0.01236000	 0.01521000	
+                     10	-0.02829000	-0.02313000	-0.01744000	-0.01166000	-0.00581000	 0.00000000	 0.00572000	 0.01139000	 0.01474000	 0.01808000	
+                     20	-0.01585000	-0.01437000	-0.01097000	-0.00740000	-0.00369000	 0.00000000	 0.00372000	 0.00752000	 0.00982000	 0.01325000	
+                     30	-0.00609000	-0.00555000	-0.00490000	-0.00374000	-0.00191000	 0.00000000	 0.00203000	 0.00415000	 0.00545000	 0.00678000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDRD">
+    <description>ROLLING MOMENT DUE TO RUDDER DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">aero/beta-deg</independentVar>
+            <independentVar lookup="table">fcs/rudder-pos-deg</independentVar>
+              <tableData breakPoint="-30">
+                                0	        10	
+                    -10	 0.01010000	 0.01139000	
+                      0	 0.00840000	 0.00948000	
+                     10	 0.00454000	 0.00812000	
+                     20	 0.00323000	 0.00462000	
+                     30	 0.00234000	 0.00347000	
+              </tableData>
+              <tableData breakPoint="-15">
+                                0	        10	
+                    -10	 0.00510000	 0.00623000	
+                      0	 0.00423000	 0.00508000	
+                     10	 0.00229000	 0.00420000	
+                     20	 0.00163000	 0.00238000	
+                     30	 0.00119000	 0.00182000	
+              </tableData>
+              <tableData breakPoint="-5">
+                                0	        10	
+                    -10	 0.00169000	 0.00206000	
+                      0	 0.00140000	 0.00170000	
+                     10	 0.00076000	 0.00137000	
+                     20	 0.00053000	 0.00077000	
+                     30	 0.00040000	 0.00061000	
+              </tableData>
+              <tableData breakPoint="0">
+                                0	        10	
+                    -10	 0.00000000	 0.00000000	
+                      0	 0.00000000	 0.00000000	
+                     10	 0.00000000	 0.00000000	
+                     20	 0.00000000	 0.00000000	
+                     30	 0.00000000	 0.00000000	
+              </tableData>
+              <tableData breakPoint="5">
+                                0	        10	
+                    -10	-0.00169000	-0.00205000	
+                      0	-0.00140000	-0.00164000	
+                     10	-0.00076000	-0.00132000	
+                     20	-0.00053000	-0.00078000	
+                     30	-0.00040000	-0.00062000	
+              </tableData>
+              <tableData breakPoint="15">
+                                0	        10	
+                    -10	-0.00510000	-0.00606000	
+                      0	-0.00423000	-0.00473000	
+                     10	-0.00229000	-0.00380000	
+                     20	-0.00163000	-0.00228000	
+                     30	-0.00119000	-0.00183000	
+              </tableData>
+              <tableData breakPoint="30">
+                                0	        10	
+                    -10	-0.01010000	-0.01161000	
+                      0	-0.00840000	-0.00883000	
+                     10	-0.00454000	-0.00704000	
+                     20	-0.00323000	-0.00429000	
+                     30	-0.00234000	-0.00354000	
+              </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDSBL">
+    <description>ROLLING MOMENT DUE TO LOWER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-upper</independentVar>
+            <tableData>
+                                  0	          5	         10	         15	         20	         25	         30	         35	         40	         45	         50	         55	
+                    -10	 0.00034000	 0.00097000	 0.00153000	 0.00271000	 0.00277000	 0.00450000	 0.00627000	 0.00675000	 0.00719000	 0.00693000	 0.00713000	 0.00751000	
+                      0	 0.00002000	 0.00076000	 0.00131000	 0.00032000	 0.00089000	-0.00051000	-0.00187000	-0.00200000	-0.00462000	-0.00569000	-0.00602000	-0.00599000	
+                     10	-0.00018000	 0.00034000	 0.00095000	 0.00153000	 0.00207000	 0.00272000	 0.00338000	 0.00402000	 0.00451000	 0.00490000	 0.00522000	 0.00547000	
+                     20	-0.00018000	 0.00007000	 0.00022000	 0.00037000	 0.00049000	 0.00062000	 0.00078000	 0.00096000	 0.00119000	 0.00138000	 0.00153000	 0.00164000	
+                     30	 0.00015000	 0.00010000	 0.00005000	-0.00002000	-0.00010000	-0.00019000	-0.00027000	-0.00031000	-0.00033000	-0.00033000	-0.00033000	-0.00033000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDSBU">
+    <description>ROLLING MOMENT DUE TO UPPER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-lower</independentVar>
+            <tableData>
+                                  0	          5	         11	         17	         22	         28	         34	         39	         45	         50	         56	         62	         67	
+                    -10	 0.00038000	-0.00060000	-0.00190000	-0.00359000	-0.00628000	-0.00774000	-0.00905000	-0.00949000	-0.01154000	-0.01280000	-0.01286000	-0.01298000	-0.01331000	
+                      0	 0.00002000	-0.00236000	-0.01182000	-0.02700000	-0.02688000	-0.03590000	-0.01127000	-0.02278000	-0.02870000	-0.03658000	-0.03427000	-0.03288000	-0.03572000	
+                     10	-0.00030000	-0.00112000	-0.00232000	-0.00387000	-0.00539000	-0.00723000	-0.00931000	-0.01111000	-0.01312000	-0.01457000	-0.01637000	-0.01784000	-0.01897000	
+                     20	-0.00015000	-0.00042000	-0.00082000	-0.00145000	-0.00209000	-0.00298000	-0.00389000	-0.00453000	-0.00522000	-0.00570000	-0.00618000	-0.00654000	-0.00681000	
+                     30	 0.00012000	 0.00015000	 0.00017000	-0.00004000	-0.00027000	-0.00055000	-0.00030000	-0.00010000	 0.00014000	 0.00035000	 0.00062000	 0.00092000	 0.00116000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDSD1L">
+    <description>ROLLING MOMENT DUE TO LE SLAT 1L DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.02081000	 0.01670000	 0.01256000	 0.00837000	 0.00418000	 0.00000000	-0.00423000	-0.00852000	-0.01285000	-0.01713000	-0.02089000	
+                      0	 0.01959000	 0.01566000	 0.01173000	 0.00780000	 0.00388000	 0.00000000	-0.00389000	-0.00780000	-0.01175000	-0.01569000	-0.01962000	
+                     10	 0.02163000	 0.01762000	 0.01322000	 0.00880000	 0.00433000	 0.00000000	-0.00428000	-0.00865000	-0.01295000	-0.01722000	-0.02146000	
+                     20	 0.00804000	 0.00653000	 0.00496000	 0.00333000	 0.00167000	 0.00000000	-0.00172000	-0.00351000	-0.00621000	-0.00999000	-0.01379000	
+                     30	 0.00382000	 0.00315000	 0.00244000	 0.00168000	 0.00086000	 0.00000000	-0.00091000	-0.00188000	-0.00290000	-0.00400000	-0.00517000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDSD1R">
+    <description>ROLLING MOMENT DUE TO LE SLAT 1R DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.02081000	-0.01670000	-0.01256000	-0.00837000	-0.00418000	 0.00000000	 0.00423000	 0.00852000	 0.01285000	 0.01713000	 0.02089000	
+                      0	-0.01959000	-0.01566000	-0.01173000	-0.00780000	-0.00388000	 0.00000000	 0.00389000	 0.00780000	 0.01175000	 0.01569000	 0.01962000	
+                     10	-0.02163000	-0.01762000	-0.01322000	-0.00880000	-0.00433000	 0.00000000	 0.00428000	 0.00865000	 0.01295000	 0.01722000	 0.02146000	
+                     20	-0.00804000	-0.00653000	-0.00496000	-0.00333000	-0.00167000	 0.00000000	 0.00172000	 0.00351000	 0.00621000	 0.00999000	 0.01379000	
+                     30	-0.00382000	-0.00315000	-0.00244000	-0.00168000	-0.00086000	 0.00000000	 0.00091000	 0.00188000	 0.00290000	 0.00400000	 0.00517000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDSD2L">
+    <description>ROLLING MOMENT DUE TO LE SLAT 2L DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.00784000	 0.00631000	 0.00476000	 0.00318000	 0.00157000	 0.00000000	-0.00158000	-0.00322000	-0.00484000	-0.00644000	-0.00801000	
+                      0	 0.00709000	 0.00569000	 0.00427000	 0.00285000	 0.00142000	 0.00000000	-0.00142000	-0.00285000	-0.00427000	-0.00569000	-0.00709000	
+                     10	 0.00913000	 0.00735000	 0.00553000	 0.00369000	 0.00183000	 0.00000000	-0.00182000	-0.00365000	-0.00547000	-0.00725000	-0.00900000	
+                     20	 0.00619000	 0.00501000	 0.00379000	 0.00252000	 0.00124000	 0.00000000	-0.00125000	-0.00258000	-0.00389000	-0.00520000	-0.00652000	
+                     30	 0.00375000	 0.00336000	 0.00257000	 0.00172000	 0.00090000	 0.00000000	-0.00091000	-0.00185000	-0.00280000	-0.00375000	-0.00470000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLDSD2R">
+    <description>ROLLING MOMENT DUE TO LE SLAT 2R DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.00784000	-0.00631000	-0.00476000	-0.00318000	-0.00157000	 0.00000000	 0.00158000	 0.00322000	 0.00484000	 0.00644000	 0.00801000	
+                      0	-0.00709000	-0.00569000	-0.00427000	-0.00285000	-0.00142000	 0.00000000	 0.00142000	 0.00285000	 0.00427000	 0.00569000	 0.00709000	
+                     10	-0.00913000	-0.00735000	-0.00553000	-0.00369000	-0.00183000	 0.00000000	 0.00182000	 0.00365000	 0.00547000	 0.00725000	 0.00900000	
+                     20	-0.00619000	-0.00501000	-0.00379000	-0.00252000	-0.00124000	 0.00000000	 0.00125000	 0.00258000	 0.00389000	 0.00520000	 0.00652000	
+                     30	-0.00375000	-0.00336000	-0.00257000	-0.00172000	-0.00090000	 0.00000000	 0.00091000	 0.00185000	 0.00280000	 0.00375000	 0.00470000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLP">
+    <description>ROLL DAMPING DERIVATIVE</description>
+    <product>
+          <property>aero/pb</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		-0.29279530	
+                      0		-0.17404180	
+                     10		-0.28667490	
+                     20		-0.04045870	
+                     30		 0.04351560	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMLR">
+    <description>ROLLING MOMENT DUE TO YAW RATE</description>
+    <product>
+          <property>aero/rb</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		-0.04085160	
+                      0		 0.04975450	
+                     10		 0.11688470	
+                     20		 0.05019380	
+                     30		 0.03784470	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYB">
+    <description>BASIC SIDE FORCE</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">aero/beta-deg</independentVar>
+            <tableData>
+                                -10	          0	         10	
+                    -10	 0.09237000	 0.00000000	-0.09237000	
+                      0	 0.07211000	 0.00000000	-0.07211000	
+                     10	 0.10002000	 0.00000000	-0.10002000	
+                     20	 0.13981000	 0.00000000	-0.13981000	
+                     30	 0.16615000	 0.00000000	-0.16615000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDED1L">
+    <description>SIDE FORCE DUE TO ELEVON 1L DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.01691000	 0.01367000	 0.01031000	 0.00686000	 0.00340000	 0.00000000	-0.00345000	-0.00742000	-0.01011000	-0.01270000	
+                      0	 0.00509000	 0.00428000	 0.00336000	 0.00236000	 0.00122000	 0.00000000	-0.00133000	-0.00284000	-0.00378000	-0.00477000	
+                     10	-0.00801000	-0.00644000	-0.00472000	-0.00269000	-0.00124000	 0.00000000	 0.00115000	 0.00201000	 0.00251000	 0.00292000	
+                     20	-0.02124000	-0.01801000	-0.01432000	-0.01015000	-0.00540000	 0.00000000	 0.00596000	 0.01241000	 0.01655000	 0.01986000	
+                     30	-0.01604000	-0.01375000	-0.01095000	-0.00771000	-0.00406000	 0.00000000	 0.00440000	 0.00907000	 0.01198000	 0.01501000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDED1R">
+    <description>SIDE FORCE DUE TO ELEVON 1R DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.01691000	-0.01367000	-0.01031000	-0.00686000	-0.00340000	 0.00000000	 0.00345000	 0.00742000	 0.01011000	 0.01270000	
+                      0	-0.00509000	-0.00428000	-0.00336000	-0.00236000	-0.00122000	 0.00000000	 0.00133000	 0.00284000	 0.00378000	 0.00477000	
+                     10	 0.00801000	 0.00644000	 0.00472000	 0.00269000	 0.00124000	 0.00000000	-0.00115000	-0.00201000	-0.00251000	-0.00292000	
+                     20	 0.02124000	 0.01801000	 0.01432000	 0.01015000	 0.00540000	 0.00000000	-0.00596000	-0.01241000	-0.01655000	-0.01986000	
+                     30	 0.01604000	 0.01375000	 0.01095000	 0.00771000	 0.00406000	 0.00000000	-0.00440000	-0.00907000	-0.01198000	-0.01501000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDED2L">
+    <description>SIDE FORCE DUE TO ELEVON 2L DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.03522000	 0.02740000	 0.02002000	 0.01296000	 0.00625000	 0.00000000	-0.00613000	-0.01248000	-0.01630000	-0.02021000	
+                      0	 0.02463000	 0.01937000	 0.01429000	 0.00923000	 0.00446000	 0.00000000	-0.00450000	-0.00924000	-0.01220000	-0.01524000	
+                     10	 0.01163000	 0.00910000	 0.00647000	 0.00410000	 0.00190000	 0.00000000	-0.00190000	-0.00415000	-0.00555000	-0.00716000	
+                     20	-0.00664000	-0.00480000	-0.00433000	-0.00343000	-0.00212000	 0.00000000	 0.00220000	 0.00392000	 0.00480000	 0.00420000	
+                     30	-0.01633000	-0.01386000	-0.01030000	-0.00693000	-0.00407000	 0.00000000	 0.00445000	 0.00851000	 0.01087000	 0.01314000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDED2R">
+    <description>SIDE FORCE DUE TO ELEVON 2R DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.03522000	-0.02740000	-0.02002000	-0.01296000	-0.00625000	 0.00000000	 0.00613000	 0.01248000	 0.01630000	 0.02021000	
+                      0	-0.02463000	-0.01937000	-0.01429000	-0.00923000	-0.00446000	 0.00000000	 0.00450000	 0.00924000	 0.01220000	 0.01524000	
+                     10	-0.01163000	-0.00910000	-0.00647000	-0.00410000	-0.00190000	 0.00000000	 0.00190000	 0.00415000	 0.00555000	 0.00716000	
+                     20	 0.00664000	 0.00480000	 0.00433000	 0.00343000	 0.00212000	 0.00000000	-0.00220000	-0.00392000	-0.00480000	-0.00420000	
+                     30	 0.01633000	 0.01386000	 0.01030000	 0.00693000	 0.00407000	 0.00000000	-0.00445000	-0.00851000	-0.01087000	-0.01314000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDRD">
+    <description>SIDE FORCE DUE TO RUDDER DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/rudder-pos-deg</independentVar>
+            <tableData>
+                                -30	        -15	         -5	          0	          5	         15	         30	
+                    -10	-0.05919000	-0.02966000	-0.00976000	 0.00000000	 0.00976000	 0.02966000	 0.05919000	
+                      0	-0.05512000	-0.02788000	-0.00921000	 0.00000000	 0.00921000	 0.02788000	 0.05512000	
+                     10	-0.05066000	-0.02571000	-0.00853000	 0.00000000	 0.00853000	 0.02571000	 0.05066000	
+                     20	-0.02615000	-0.01312000	-0.00432000	 0.00000000	 0.00432000	 0.01312000	 0.02615000	
+                     30	-0.01937000	-0.00980000	-0.00326000	 0.00000000	 0.00326000	 0.00980000	 0.01937000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDSBL">
+    <description>SIDE FORCE DUE TO LOWER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-upper</independentVar>
+            <tableData>
+                                  0	          5	         10	         15	         20	         25	         30	         35	         40	         45	         50	         55	
+                    -10	-0.00052000	-0.00202000	-0.00360000	-0.00480000	-0.00941000	-0.01033000	-0.01338000	-0.01300000	-0.01286000	-0.01541000	-0.01981000	-0.02358000	
+                      0	-0.00003000	-0.00171000	-0.00349000	-0.00414000	-0.00522000	-0.00375000	-0.00343000	-0.00401000	-0.00261000	-0.00312000	-0.00387000	-0.00442000	
+                     10	 0.00018000	-0.00052000	-0.00126000	-0.00190000	-0.00227000	-0.00257000	-0.00264000	-0.00284000	-0.00279000	-0.00268000	-0.00253000	-0.00235000	
+                     20	-0.00015000	-0.00029000	-0.00021000	-0.00014000	 0.00000000	 0.00025000	 0.00056000	 0.00087000	 0.00109000	 0.00131000	 0.00150000	 0.00168000	
+                     30	 0.00110000	 0.00035000	-0.00029000	-0.00077000	-0.00119000	-0.00153000	-0.00181000	-0.00196000	-0.00207000	-0.00215000	-0.00220000	-0.00224000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDSBU">
+    <description>SIDE FORCE DUE TO UPPER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-lower</independentVar>
+            <tableData>
+                                  0	          5	         11	         17	         22	         28	         34	         39	         45	         50	         56	         62	         67	
+                    -10	-0.00077000	 0.00061000	 0.00192000	 0.00212000	 0.00341000	 0.00175000	-0.00027000	-0.00193000	-0.00288000	-0.00358000	-0.00498000	-0.00662000	-0.00748000	
+                      0	-0.00004000	 0.00353000	 0.01515000	 0.03583000	 0.03066000	 0.04459000	 0.01768000	 0.02589000	 0.03036000	 0.04828000	 0.05143000	 0.06579000	 0.07711000	
+                     10	 0.00035000	 0.00173000	 0.00398000	 0.00679000	 0.00961000	 0.01309000	 0.01733000	 0.02112000	 0.02579000	 0.02977000	 0.03458000	 0.03900000	 0.04248000	
+                     20	 0.00027000	 0.00103000	 0.00235000	 0.00401000	 0.00540000	 0.00763000	 0.01027000	 0.01219000	 0.01473000	 0.01695000	 0.01955000	 0.02184000	 0.02378000	
+                     30	 0.00162000	 0.00271000	 0.00424000	 0.00603000	 0.00771000	 0.01017000	 0.01112000	 0.01212000	 0.01337000	 0.01456000	 0.01614000	 0.01774000	 0.01908000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDSD1L">
+    <description>SIDE FORCE DUE TO LE SLAT 1L DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.01732000	 0.01377000	 0.01026000	 0.00672000	 0.00327000	 0.00000000	-0.00325000	-0.00658000	-0.01003000	-0.01338000	-0.01690000	
+                      0	 0.00788000	 0.00630000	 0.00473000	 0.00316000	 0.00155000	 0.00000000	-0.00162000	-0.00332000	-0.00507000	-0.00685000	-0.00866000	
+                     10	-0.00158000	-0.00119000	-0.00093000	-0.00066000	-0.00049000	 0.00000000	 0.00048000	 0.00062000	 0.00086000	 0.00105000	 0.00120000	
+                     20	-0.01615000	-0.01353000	-0.01062000	-0.00744000	-0.00391000	 0.00000000	 0.00417000	 0.00850000	 0.01196000	 0.01414000	 0.01627000	
+                     30	-0.01722000	-0.01447000	-0.01138000	-0.00793000	-0.00417000	 0.00000000	 0.00443000	 0.00900000	 0.01371000	 0.01859000	 0.02369000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDSD1R">
+    <description>SIDE FORCE DUE TO LE SLAT 1R DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.01732000	-0.01377000	-0.01026000	-0.00672000	-0.00327000	 0.00000000	 0.00325000	 0.00658000	 0.01003000	 0.01338000	 0.01690000	
+                      0	-0.00788000	-0.00630000	-0.00473000	-0.00316000	-0.00155000	 0.00000000	 0.00162000	 0.00332000	 0.00507000	 0.00685000	 0.00866000	
+                     10	 0.00158000	 0.00119000	 0.00093000	 0.00066000	 0.00049000	 0.00000000	-0.00048000	-0.00062000	-0.00086000	-0.00105000	-0.00120000	
+                     20	 0.01615000	 0.01353000	 0.01062000	 0.00744000	 0.00391000	 0.00000000	-0.00417000	-0.00850000	-0.01196000	-0.01414000	-0.01627000	
+                     30	 0.01722000	 0.01447000	 0.01138000	 0.00793000	 0.00417000	 0.00000000	-0.00443000	-0.00900000	-0.01371000	-0.01859000	-0.02369000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDSD2L">
+    <description>SIDE FORCE DUE TO LE SLAT 2L DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.01283000	 0.01010000	 0.00745000	 0.00486000	 0.00230000	 0.00000000	-0.00227000	-0.00472000	-0.00714000	-0.00957000	-0.01199000	
+                      0	 0.01062000	 0.00838000	 0.00621000	 0.00408000	 0.00202000	 0.00000000	-0.00203000	-0.00408000	-0.00617000	-0.00833000	-0.01051000	
+                     10	 0.00633000	 0.00501000	 0.00369000	 0.00239000	 0.00114000	 0.00000000	-0.00115000	-0.00242000	-0.00376000	-0.00516000	-0.00656000	
+                     20	 0.00032000	 0.00009000	-0.00006000	-0.00022000	-0.00023000	 0.00000000	 0.00024000	 0.00018000	 0.00012000	-0.00004000	-0.00039000	
+                     30	-0.00236000	-0.00141000	-0.00128000	-0.00109000	-0.00064000	 0.00000000	 0.00069000	 0.00116000	 0.00145000	 0.00166000	 0.00170000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYDSD2R">
+    <description>SIDE FORCE DUE TO LE SLAT 2R DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.01283000	-0.01010000	-0.00745000	-0.00486000	-0.00230000	 0.00000000	 0.00227000	 0.00472000	 0.00714000	 0.00957000	 0.01199000	
+                      0	-0.01062000	-0.00838000	-0.00621000	-0.00408000	-0.00202000	 0.00000000	 0.00203000	 0.00408000	 0.00617000	 0.00833000	 0.01051000	
+                     10	-0.00633000	-0.00501000	-0.00369000	-0.00239000	-0.00114000	 0.00000000	 0.00115000	 0.00242000	 0.00376000	 0.00516000	 0.00656000	
+                     20	-0.00032000	-0.00009000	 0.00006000	 0.00022000	 0.00023000	 0.00000000	-0.00024000	-0.00018000	-0.00012000	 0.00004000	 0.00039000	
+                     30	 0.00236000	 0.00141000	 0.00128000	 0.00109000	 0.00064000	 0.00000000	-0.00069000	-0.00116000	-0.00145000	-0.00166000	-0.00170000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYP">
+    <description>SIDE FORCE DUE TO ROLL RATE</description>
+    <product>
+          <property>aero/pb</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		-0.28627180	
+                      0		-0.05459330	
+                     10		 0.13247190	
+                     20		 0.15508530	
+                     30		-0.00021760	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CFYR">
+    <description>SIDE FORCE DUE TO YAW RATE</description>
+    <product>
+          <property>aero/rb</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		 0.34252470	
+                      0		 0.39752190	
+                     10		 0.32802500	
+                     20		 0.37454620	
+                     30		 0.48501920	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMN1">
+    <description>BASIC YAWING MOMENT</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">aero/beta-deg</independentVar>
+            <tableData>
+                                -10	          0	         10	
+                    -10	-0.01141000	 0.00000000	 0.01141000	
+                      0	 0.00242000	 0.00000000	-0.00242000	
+                     10	-0.00987000	 0.00000000	 0.00987000	
+                     20	-0.02556000	 0.00000000	 0.02556000	
+                     30	-0.04180000	 0.00000000	 0.04180000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNBETADOT">
+    <description>YAW MOMENT DERIVATIVE FOR BETADOT</description>
+    <product>
+          <property>aero/betadot-rad_sec-limited</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		-0.04559820	
+                      0		-0.02956450	
+                     10		-0.05254510	
+                     20		 0.04850530	
+                     30		 0.08019010	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDED1L">
+    <description>YAW MOMENT DUE TO ELEVON 1L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.00032000	 0.00016000	 0.00042000	 0.00048000	 0.00034000	 0.00000000	-0.00052000	-0.00143000	-0.00222000	-0.00299000	
+                      0	-0.00174000	-0.00100000	-0.00045000	-0.00010000	 0.00006000	 0.00000000	-0.00026000	-0.00073000	-0.00112000	-0.00159000	
+                     10	-0.00328000	-0.00241000	-0.00152000	-0.00061000	-0.00014000	 0.00000000	-0.00006000	-0.00034000	-0.00060000	-0.00096000	
+                     20	-0.00504000	-0.00421000	-0.00329000	-0.00229000	-0.00120000	 0.00000000	 0.00125000	 0.00251000	 0.00327000	 0.00370000	
+                     30	-0.00308000	-0.00263000	-0.00208000	-0.00150000	-0.00078000	 0.00000000	 0.00081000	 0.00162000	 0.00209000	 0.00257000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDED1R">
+    <description>YAW MOMENT DUE TO ELEVON 1R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-1R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.00032000	-0.00016000	-0.00042000	-0.00048000	-0.00034000	 0.00000000	 0.00052000	 0.00143000	 0.00222000	 0.00299000	
+                      0	 0.00174000	 0.00100000	 0.00045000	 0.00010000	-0.00006000	 0.00000000	 0.00026000	 0.00073000	 0.00112000	 0.00159000	
+                     10	 0.00328000	 0.00241000	 0.00152000	 0.00061000	 0.00014000	 0.00000000	 0.00006000	 0.00034000	 0.00060000	 0.00096000	
+                     20	 0.00504000	 0.00421000	 0.00329000	 0.00229000	 0.00120000	 0.00000000	-0.00125000	-0.00251000	-0.00327000	-0.00370000	
+                     30	 0.00308000	 0.00263000	 0.00208000	 0.00150000	 0.00078000	 0.00000000	-0.00081000	-0.00162000	-0.00209000	-0.00257000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDED2L">
+    <description>YAW MOMENT DUE TO ELEVON 2L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2L-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	-0.00099000	-0.00079000	-0.00058000	-0.00036000	-0.00016000	 0.00000000	 0.00005000	-0.00011000	-0.00030000	-0.00056000	
+                      0	 0.00049000	 0.00041000	 0.00033000	 0.00028000	 0.00018000	 0.00000000	-0.00028000	-0.00080000	-0.00122000	-0.00172000	
+                     10	 0.00406000	 0.00342000	 0.00263000	 0.00182000	 0.00093000	 0.00000000	-0.00105000	-0.00234000	-0.00319000	-0.00417000	
+                     20	 0.00214000	 0.00199000	 0.00146000	 0.00096000	 0.00042000	 0.00000000	-0.00054000	-0.00137000	-0.00201000	-0.00319000	
+                     30	 0.00101000	 0.00057000	 0.00031000	 0.00007000	-0.00007000	 0.00000000	 0.00005000	-0.00024000	-0.00056000	-0.00102000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDED2R">
+    <description>YAW MOMENT DUE TO ELEVON 2R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevon-2R-pos-deg</independentVar>
+            <tableData>
+                                -25	        -20	        -15	        -10	         -5	          0	          5	         10	         13	         16	
+                    -10	 0.00099000	 0.00079000	 0.00058000	 0.00036000	 0.00016000	 0.00000000	-0.00005000	 0.00011000	 0.00030000	 0.00056000	
+                      0	-0.00049000	-0.00041000	-0.00033000	-0.00028000	-0.00018000	 0.00000000	 0.00028000	 0.00080000	 0.00122000	 0.00172000	
+                     10	-0.00406000	-0.00342000	-0.00263000	-0.00182000	-0.00093000	 0.00000000	 0.00105000	 0.00234000	 0.00319000	 0.00417000	
+                     20	-0.00214000	-0.00199000	-0.00146000	-0.00096000	-0.00042000	 0.00000000	 0.00054000	 0.00137000	 0.00201000	 0.00319000	
+                     30	-0.00101000	-0.00057000	-0.00031000	-0.00007000	 0.00007000	 0.00000000	-0.00005000	 0.00024000	 0.00056000	 0.00102000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDRDr">
+    <description>YAWING MOMENT DUE TO RUDDER DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">aero/beta-deg</independentVar>
+            <independentVar lookup="table">fcs/rudder-pos-deg</independentVar>
+              <tableData breakPoint="-30">
+                                0	        10	
+                    -10	-0.03046000	-0.03106000	
+                      0	-0.02784000	-0.01693000	
+                     10	-0.02409000	-0.02603000	
+                     20	-0.01960000	-0.01931000	
+                     30	-0.01209000	-0.01274000	
+              </tableData>
+              <tableData breakPoint="-15">
+                                0	        10	
+                    -10	-0.01532000	-0.01692000	
+                      0	-0.01404000	-0.01062000	
+                     10	-0.01224000	-0.01439000	
+                     20	-0.00996000	-0.01067000	
+                     30	-0.00616000	-0.00680000	
+              </tableData>
+              <tableData breakPoint="-5">
+                                0	        10	
+                    -10	-0.00505000	-0.00572000	
+                      0	-0.00465000	-0.00372000	
+                     10	-0.00407000	-0.00487000	
+                     20	-0.00331000	-0.00370000	
+                     30	-0.00205000	-0.00232000	
+              </tableData>
+              <tableData breakPoint="0">
+                                0	        10	
+                    -10	 0.00000000	 0.00000000	
+                      0	 0.00000000	 0.00000000	
+                     10	 0.00000000	 0.00000000	
+                     20	 0.00000000	 0.00000000	
+                     30	 0.00000000	 0.00000000	
+              </tableData>
+              <tableData breakPoint="5">
+                                0	        10	
+                    -10	 0.00505000	 0.00572000	
+                      0	 0.00465000	 0.00367000	
+                     10	 0.00407000	 0.00486000	
+                     20	 0.00331000	 0.00374000	
+                     30	 0.00205000	 0.00233000	
+              </tableData>
+              <tableData breakPoint="15">
+                                0	        10	
+                    -10	 0.01532000	 0.01717000	
+                      0	 0.01404000	 0.01100000	
+                     10	 0.01224000	 0.01443000	
+                     20	 0.00996000	 0.01142000	
+                     30	 0.00616000	 0.00715000	
+              </tableData>
+              <tableData breakPoint="30">
+                                0	        10	
+                    -10	 0.03046000	 0.03344000	
+                      0	 0.02784000	 0.02140000	
+                     10	 0.02409000	 0.02792000	
+                     20	 0.01960000	 0.02289000	
+                     30	 0.01209000	 0.01431000	
+              </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDSBL">
+    <description>YAW MOMENT DUE TO LOWER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-upper</independentVar>
+            <tableData>
+                                  0	          5	         10	         15	         20	         25	         30	         35	         40	         45	         50	         55	
+                    -10	 0.00004000	-0.00005000	-0.00033000	-0.00030000	-0.00126000	-0.00103000	-0.00125000	-0.00106000	-0.00100000	-0.00187000	-0.00305000	-0.00397000	
+                      0	 0.00000000	 0.00020000	 0.00035000	 0.00047000	 0.00072000	 0.00084000	 0.00118000	 0.00110000	 0.00192000	 0.00208000	 0.00208000	 0.00221000	
+                     10	-0.00005000	 0.00005000	 0.00012000	 0.00016000	 0.00021000	 0.00025000	 0.00033000	 0.00041000	 0.00049000	 0.00058000	 0.00065000	 0.00072000	
+                     20	-0.00009000	-0.00004000	 0.00005000	 0.00014000	 0.00023000	 0.00033000	 0.00041000	 0.00049000	 0.00056000	 0.00064000	 0.00070000	 0.00076000	
+                     30	-0.00004000	-0.00007000	-0.00004000	-0.00001000	 0.00000000	 0.00001000	 0.00003000	 0.00004000	 0.00005000	 0.00005000	 0.00005000	 0.00005000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDSBU">
+    <description>YAW MOMENT DUE TO UPPER SPEEDBRAKE DEFLECTION</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/airbrake-lower</independentVar>
+            <tableData>
+                                  0	          5	         11	         17	         22	         28	         34	         39	         45	         50	         56	         62	         67	
+                    -10	 0.00003000	-0.00017000	-0.00054000	-0.00118000	-0.00156000	-0.00188000	-0.00211000	-0.00204000	-0.00274000	-0.00318000	-0.00331000	-0.00359000	-0.00373000	
+                      0	 0.00000000	-0.00014000	 0.00014000	 0.00071000	 0.00070000	 0.00287000	-0.00719000	-0.00409000	-0.00361000	-0.00007000	 0.00040000	 0.00231000	 0.00390000	
+                     10	-0.00005000	-0.00012000	-0.00018000	-0.00019000	-0.00010000	-0.00002000	 0.00017000	 0.00035000	 0.00057000	 0.00084000	 0.00132000	 0.00182000	 0.00220000	
+                     20	-0.00011000	-0.00013000	-0.00009000	 0.00008000	 0.00030000	 0.00072000	 0.00125000	 0.00165000	 0.00217000	 0.00262000	 0.00308000	 0.00347000	 0.00381000	
+                     30	 0.00003000	 0.00014000	 0.00031000	 0.00069000	 0.00110000	 0.00172000	 0.00234000	 0.00290000	 0.00352000	 0.00404000	 0.00454000	 0.00500000	 0.00533000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDSD1L">
+    <description>YAW MOMENT DUE TO LE SLAT 1L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.00002000	 0.00014000	 0.00022000	 0.00023000	 0.00016000	 0.00000000	-0.00024000	-0.00054000	-0.00091000	-0.00137000	-0.00203000	
+                      0	-0.00018000	 0.00002000	 0.00014000	 0.00016000	 0.00013000	 0.00000000	-0.00021000	-0.00052000	-0.00094000	-0.00146000	-0.00208000	
+                     10	 0.00036000	 0.00049000	 0.00047000	 0.00038000	 0.00020000	 0.00000000	-0.00028000	-0.00070000	-0.00120000	-0.00179000	-0.00249000	
+                     20	-0.00229000	-0.00188000	-0.00145000	-0.00100000	-0.00052000	 0.00000000	 0.00051000	 0.00097000	 0.00104000	 0.00060000	 0.00005000	
+                     30	-0.00226000	-0.00189000	-0.00149000	-0.00103000	-0.00055000	 0.00000000	 0.00056000	 0.00107000	 0.00154000	 0.00198000	 0.00244000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDSD1R">
+    <description>YAW MOMENT DUE TO LE SLAT 1R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-1R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.00002000	-0.00014000	-0.00022000	-0.00023000	-0.00016000	 0.00000000	 0.00024000	 0.00054000	 0.00091000	 0.00137000	 0.00203000	
+                      0	 0.00018000	-0.00002000	-0.00014000	-0.00016000	-0.00013000	 0.00000000	 0.00021000	 0.00052000	 0.00094000	 0.00146000	 0.00208000	
+                     10	-0.00036000	-0.00049000	-0.00047000	-0.00038000	-0.00020000	 0.00000000	 0.00028000	 0.00070000	 0.00120000	 0.00179000	 0.00249000	
+                     20	 0.00229000	 0.00188000	 0.00145000	 0.00100000	 0.00052000	 0.00000000	-0.00051000	-0.00097000	-0.00104000	-0.00060000	-0.00005000	
+                     30	 0.00226000	 0.00189000	 0.00149000	 0.00103000	 0.00055000	 0.00000000	-0.00056000	-0.00107000	-0.00154000	-0.00198000	-0.00244000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDSD2L">
+    <description>YAW MOMENT DUE TO LE SLAT 2L</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2L-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	-0.00062000	-0.00050000	-0.00037000	-0.00024000	-0.00010000	 0.00000000	 0.00009000	 0.00017000	 0.00020000	 0.00020000	 0.00015000	
+                      0	 0.00014000	 0.00013000	 0.00012000	 0.00006000	 0.00003000	 0.00000000	-0.00005000	-0.00014000	-0.00027000	-0.00045000	-0.00066000	
+                     10	 0.00203000	 0.00165000	 0.00125000	 0.00084000	 0.00042000	 0.00000000	-0.00044000	-0.00093000	-0.00146000	-0.00203000	-0.00262000	
+                     20	 0.00158000	 0.00127000	 0.00095000	 0.00061000	 0.00028000	 0.00000000	-0.00030000	-0.00071000	-0.00115000	-0.00165000	-0.00224000	
+                     30	 0.00102000	 0.00079000	 0.00055000	 0.00034000	 0.00009000	 0.00000000	-0.00011000	-0.00033000	-0.00064000	-0.00100000	-0.00145000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNDSD2R">
+    <description>YAW MOMENT DUE TO LE SLAT 2R</description>
+    <product>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/slat-2R-pos-deg</independentVar>
+            <tableData>
+                                -17	        -14	        -10	         -7	         -3	          0	          3	          7	         10	         14	         17	
+                    -10	 0.00062000	 0.00050000	 0.00037000	 0.00024000	 0.00010000	 0.00000000	-0.00009000	-0.00017000	-0.00020000	-0.00020000	-0.00015000	
+                      0	-0.00014000	-0.00013000	-0.00012000	-0.00006000	-0.00003000	 0.00000000	 0.00005000	 0.00014000	 0.00027000	 0.00045000	 0.00066000	
+                     10	-0.00203000	-0.00165000	-0.00125000	-0.00084000	-0.00042000	 0.00000000	 0.00044000	 0.00093000	 0.00146000	 0.00203000	 0.00262000	
+                     20	-0.00158000	-0.00127000	-0.00095000	-0.00061000	-0.00028000	 0.00000000	 0.00030000	 0.00071000	 0.00115000	 0.00165000	 0.00224000	
+                     30	-0.00102000	-0.00079000	-0.00055000	-0.00034000	-0.00009000	 0.00000000	 0.00011000	 0.00033000	 0.00064000	 0.00100000	 0.00145000	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNP">
+    <description>YAWING MOMENT DUE TO ROLL RATE</description>
+    <product>
+          <property>aero/pb</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		 0.14013060	
+                      0		 0.02905670	
+                     10		-0.05885450	
+                     20		-0.03178320	
+                     30		 0.00316950	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CMNR">
+    <description>YAW DAMPING DERIVATIVE</description>
+    <product>
+          <property>aero/rb</property>
+          <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                    -10		-0.11287770	
+                      0		-0.13923390	
+                     10		-0.11265670	
+                     20		-0.18276570	
+                     30		-0.16029220	
+            </tableData>
+          </table>
+       </product>
+    </function>
+    <function name="aero/coefficients/CLIFT">
+      <sum>
+          <property>aero/coefficients/CFZB</property>
+          <property>aero/coefficients/CFZDED1L</property>
+          <property>aero/coefficients/CFZDED1R</property>
+          <property>aero/coefficients/CFZDE2L</property>
+          <property>aero/coefficients/CFZDE2R</property>
+          <property>aero/coefficients/CFZDSD1L</property>
+          <property>aero/coefficients/CFZDSD1R</property>
+          <property>aero/coefficients/CFZDSBU</property>
+          <property>aero/coefficients/CFZDEL</property>
+       </sum>
+    </function>
+  <axis name="LIFT">
+    <function name="aero/force/LIFT">
+    <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>aero/coefficients/CLIFT</property>
+       </product>
+    </function>
+  </axis>
+    <function name="aero/coefficients/CDRAG">
+      <sum>
+          <property>aero/coefficients/CFXB</property>
+          <property>aero/coefficients/CFXDED1L</property>
+          <property>aero/coefficients/CFXDED1R</property>
+          <property>aero/coefficients/CFXDED2L</property>
+          <property>aero/coefficients/CFXDED2R</property>
+          <property>aero/coefficients/CFXDSD1L</property>
+          <property>aero/coefficients/CFXDSD1R</property>
+          <property>aero/coefficients/CFXDSD2L</property>
+          <property>aero/coefficients/CFXDSD2R</property>
+          <property>aero/coefficients/CFXDSBU</property>
+          <property>aero/coefficients/CFXDSBL</property>
+       </sum>
+    </function>
+  <axis name="DRAG">
+    <function name="aero/force/DRAG">
+    <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>aero/coefficients/CDRAG</property>
+       </product>
+    </function>
+  </axis>
+    <function name="aero/coefficients/CSIDE">
+      <sum>
+          <property>aero/coefficients/CFYB</property>
+          <property>aero/coefficients/CFYP</property>
+          <property>aero/coefficients/CFYR</property>
+          <property>aero/coefficients/CFYDED1L</property>
+          <property>aero/coefficients/CFYDED1R</property>
+          <property>aero/coefficients/CFYDED2L</property>
+          <property>aero/coefficients/CFYDED2R</property>
+          <property>aero/coefficients/CFYDRD</property>
+          <property>aero/coefficients/CFYDSD1L</property>
+          <property>aero/coefficients/CFYDSD1R</property>
+          <property>aero/coefficients/CFYDSD2L</property>
+          <property>aero/coefficients/CFYDSD2R</property>
+          <property>aero/coefficients/CFYDSBU</property>
+          <property>aero/coefficients/CFYDSBL</property>
+       </sum>
+    </function>
+  <axis name="SIDE">
+    <function name="aero/force/SIDE">
+    <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>aero/coefficients/CSIDE</property>
+       </product>
+    </function>
+  </axis>
+    <function name="aero/coefficients/CROLL">
+      <sum>
+          <property>aero/coefficients/CML1</property>
+          <property>aero/coefficients/CMLP</property>
+          <property>aero/coefficients/CMLR</property>
+          <property>aero/coefficients/CMLBETADOT</property>
+          <property>aero/coefficients/CMLDED1L</property>
+          <property>aero/coefficients/CMLDED1R</property>
+          <property>aero/coefficients/CMLDED2L</property>
+          <property>aero/coefficients/CMLDED2R</property>
+          <property>aero/coefficients/CMLDRD</property>
+          <property>aero/coefficients/CMLDSD1L</property>
+          <property>aero/coefficients/CMLDSD1R</property>
+          <property>aero/coefficients/CMLDSD2L</property>
+          <property>aero/coefficients/CMLDSD2R</property>
+          <property>aero/coefficients/CMLDSBU</property>
+          <property>aero/coefficients/CMLDSBL</property>
+       </sum>
+    </function>
+  <axis name="ROLL">
+    <function name="aero/force/ROLL">
+    <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/bw-ft</property>
+          <property>aero/coefficients/CROLL</property>
+       </product>
+    </function>
+  </axis>
+    <function name="aero/coefficients/CPITCH">
+      <sum>
+          <property>aero/coefficients/CMM1</property>
+          <property>aero/coefficients/CMMQ</property>
+          <property>aero/coefficients/CMMALPHADOT</property>
+          <property>aero/coefficients/CMMBETADOT</property>
+          <property>aero/coefficients/CMMDED1L</property>
+          <property>aero/coefficients/CMMDED1R</property>
+          <property>aero/coefficients/CMMDED2L</property>
+          <property>aero/coefficients/CMMDED2R</property>
+          <property>aero/coefficients/CMMDSD1L</property>
+          <property>aero/coefficients/CMMDSD1R</property>
+          <property>aero/coefficients/CMMDSD2L</property>
+          <property>aero/coefficients/CMMDSD2R</property>
+          <property>aero/coefficients/CMMDSBU</property>
+          <property>aero/coefficients/CMMDSBL</property>
+       </sum>
+    </function>
+  <axis name="PITCH">
+    <function name="aero/force/PITCH">
+    <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/cbarw-ft</property>
+          <property>aero/coefficients/CPITCH</property>
+       </product>
+    </function>
+  </axis>
+    <function name="aero/coefficients/CYAW">
+      <sum>
+          <property>aero/coefficients/CMN1</property>
+          <property>aero/coefficients/CMNBETADOT</property>
+          <property>aero/coefficients/CMNDED1L</property>
+          <property>aero/coefficients/CMNDED1R</property>
+          <property>aero/coefficients/CMNDED2L</property>
+          <property>aero/coefficients/CMNDED2R</property>
+          <property>aero/coefficients/CMNDSD1L</property>
+          <property>aero/coefficients/CMNDSD1R</property>
+          <property>aero/coefficients/CMNDSD2L</property>
+          <property>aero/coefficients/CMNDSD2R</property>
+          <property>aero/coefficients/CMNDSBU</property>
+          <property>aero/coefficients/CMNDSBL</property>
+          <property>aero/coefficients/CMNDRDr</property>
+          <property>aero/coefficients/CMNP</property>
+          <property>aero/coefficients/CMNR</property>
+       </sum>
+    </function>
+  <axis name="YAW">
+    <function name="aero/force/YAW">
+    <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/bw-ft</property>
+          <property>aero/coefficients/CYAW</property>
+       </product>
+    </function>
+  </axis>
+</aerodynamics>
+<output name="Aircraft/Mirage-2000/JSBOut.csv" type="CSV" rate="10">
+        <massprops> ON </massprops>
+        <aerosurfaces> ON </aerosurfaces>
+        <rates> ON </rates>
+        <velocities> ON </velocities>
+        <forces> ON </forces>
+        <position> ON </position>
+        <coefficients> ON </coefficients>
+        <fcs> ON </fcs>
+        <propulsion> ON </propulsion>
+    </output> 
+</fdm_config>
