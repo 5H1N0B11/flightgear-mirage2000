@@ -5,7 +5,7 @@
    xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
 
     <fileheader>
-        <author>Richard Harrison</author>
+        <author>Richard Harrison, Joshua Davidson (it0uchpods)</author>
         <filecreationdate>2017-09-22</filecreationdate>
         <version>1.0</version>
         <copyright>Copyright (C) 2017 Richard Harrison, All rights reserved</copyright>
@@ -469,7 +469,7 @@
             
         </channel>
 </flight_control>
-<system file="Mirage-2000-fbw"/>
+<system file="Mirage-2000-fcs"/>
 <aerodynamics>
     <function name="aero/coefficients/CFXB">
     <description>BASIC DRAG</description>
