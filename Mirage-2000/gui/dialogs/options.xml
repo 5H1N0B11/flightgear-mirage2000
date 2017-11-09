@@ -254,6 +254,14 @@
       <script>mirage2000.createMap()</script>
     </binding>
   </button>
+  
+  <button>
+    <legend>RWR (test)</legend>
+    <binding>
+      <command>nasal</command>
+      <script>mirage2000.createRWR()</script>
+    </binding>
+  </button>
 
 <!--
   <button>

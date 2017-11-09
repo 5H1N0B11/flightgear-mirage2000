@@ -77,7 +77,7 @@ var tfs_radar = func() {
         target_pos.set_alt(target_altitude_m);
         while(check_terrain_avoiding(target_pos)!=nil){
           #print(target_altitude_m);
-          target_altitude_m = target_altitude_m + 15;
+          target_altitude_m = target_altitude_m + 30;
           target_pos.set_alt(target_altitude_m);   
         }
         

@@ -146,17 +146,17 @@ var createMap = func {
     #    var tiles = use_front ? tiles_front : tiles_back;
     #    g_front.set("z-index", use_front + 2);
     #    g_back.set("z-index", !use_front + 2);
-        debug.dump(use_front);
+        #debug.dump(use_front);
 
         for (var x = 0; x < num_tiles[0]; x += 1) {
             for (var y = 0; y < num_tiles[1]; y += 1) {
                 if (use_front) {
                     tiles_back[x][y].setTranslation(int((ox + x) * tile_size + 0.5), int((oy + y) * tile_size + 0.5));
-                    debug.dump("updating back");
+                    #debug.dump("updating back");
                 }
                 else {
                     tiles_front[x][y].setTranslation(int((ox + x) * tile_size + 0.5), int((oy + y) * tile_size + 0.5));
-                    debug.dump("updating front");
+                    #debug.dump("updating front");
                 }
             }
         }
@@ -213,7 +213,7 @@ var createMap = func {
         }
     };
 
-    var update_timer = maketimer(2, updateTiles);
+    var update_timer = maketimer(0.2, updateTiles);
     update_timer.start();
 
     changeZoom(0);
