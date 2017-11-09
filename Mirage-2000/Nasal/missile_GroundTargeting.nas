@@ -9,6 +9,7 @@ var dt       = 0;
 var isFiring = 0;
 var myGroundTarget = nil;
 var Mp = props.globals.getNode("ai/models");
+var MyActualview = props.globals.getNode("/sim/current-view/view-number");
 
 var listOfGroundOrShipVehicleModels = {
                                         "buk-m2":1, 
@@ -267,6 +268,10 @@ var ground_target = {
         me.vOffsetN.setDoubleValue(view.normdeg(elev - ac_pitch));
         
         if(me.following==1){me.focus_on_closest_AI_MP();}
+        
+        if(MyActualview.getValue() == 10){
+          gui.popupTip(sprintf("Distance to target (nm): %.1f", me.radarRangeNM.getValue()));
+        }
 #        me.setView();
         settimer(func(){ me.update(); }, 0);
     },
