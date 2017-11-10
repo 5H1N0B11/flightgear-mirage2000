@@ -61,7 +61,14 @@
       </binding>
     </checkbox>
   </group>
-
+  
+  <group>
+    <layout>hbox</layout>
+    <text><label>Use Interpolation method</label></text>
+    <checkbox>
+      <property>payload/armament/hit-interpolation</property>
+    </checkbox>
+  </group>
   <hrule />
 
   <group>
