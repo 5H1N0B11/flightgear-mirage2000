@@ -13,7 +13,7 @@
     <target-speed-mach type="double"> 0.40 </target-speed-mach>
     <changeover type="bool"> 0 </changeover>
     <heading-bug-deg type="int"> 0 </heading-bug-deg>
-    <tf-mode type="int">2</tf-mode> <!-- Larger values give smoother results -->
+    <tf-mode type="int">8</tf-mode> <!-- Larger values give smoother results -->
   </settings>
   
   <locks>

@@ -35,6 +35,7 @@ var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:
 setprop("/instrumentation/radar/az-fieldCenter", 0);
 
 var hud_pilot = hud.HUD.new({"node": "canvasHUD", "texture": "hud.png"});
+var rwr = hud.HUD.new({"node": "canvasRWR", "texture": "hud.png"});
 
 #===============================
 

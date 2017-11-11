@@ -41,20 +41,6 @@
 
   <hrule />
 
-  <group>
-    <layout>hbox</layout>
-    <text><label>Activate Auto Sniping view</label></text>
-    <checkbox>
-      <property>/sim/view[102]/enabled</property>
-      <live>false</live>
-        <binding>
-          <command>property-toggle</command>
-          <property>/sim/view[102]/enabled</property>
-        </binding>
-    </checkbox>
-  </group>
-
-
   <button>
     <legend>Sniping mode</legend>
     <enable>
@@ -101,6 +87,17 @@
     </binding>
   </button>
   
+    <button>
+    <legend>Focus on target</legend>
+    <binding>
+     <command>dialog-apply</command>
+    </binding>
+    <binding>
+      <command>nasal</command>
+      <script>missile.focus_onTarget()</script>
+    </binding>
+  </button>
+  
   <button>
     <legend>Follow closest GND AI/MP</legend>
     <binding>
@@ -111,6 +108,7 @@
       <script>missile.follow_AI_MP()</script>
     </binding>
   </button>
+  
   
   
 

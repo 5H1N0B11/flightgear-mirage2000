@@ -9,6 +9,7 @@ var dt       = 0;
 var isFiring = 0;
 var myGroundTarget = nil;
 var Mp = props.globals.getNode("ai/models");
+var MyActualview = props.globals.getNode("/sim/current-view/view-number");
 
 var listOfGroundOrShipVehicleModels = {
                                         "buk-m2":1, 
@@ -30,20 +31,31 @@ var targetingGround = func()
 {
 
     
-    myGroundTarget = myGroundTarget == nil ? groud_target.new():myGroundTarget;
-    myGroundTarget.init();
+    if(myGroundTarget == nil){
+      myGroundTarget = ground_target.new();
+      myGroundTarget.init();
+    }
+    
     myGroundTarget.following = 0;
     myGroundTarget.life_time = 900;
     
-    var oldView = view_GPS_target(myGroundTarget);
+    if( geo.elevation(myGroundTarget.lat.getValue(), myGroundTarget.long.getValue(),10000) == nil){
+      var oldView = view_GPS_target(myGroundTarget);
+      
+      
+      var timer = maketimer(10,func(){
+        setprop("/sim/current-view/view-number", oldView);
+      });
+      timer.singleShot = 1; # timer will only be run once
+      timer.start();
+    }
     
-    
-    var timer = maketimer(10,func(){
-      setprop("/sim/current-view/view-number", oldView);
-    });
-    timer.singleShot = 1; # timer will only be run once
-    timer.start();
-    
+}
+
+var focus_onTarget = func(){
+  if(myGroundTarget!= nil){
+    mirage2000.flir_updater.click_coord_cam = myGroundTarget.coord;
+  }
 }
 
 var follow_AI_MP=func(){
@@ -60,10 +72,10 @@ var follow_AI_MP=func(){
 
 
 # this object create an AI object where is the last click
-var groud_target = {
+var ground_target = {
     new: func()
     {
-        var m = { parents : [groud_target]};
+        var m = { parents : [ground_target]};
         m.coord = geo.Coord.new();
         
         # Find the next index for "models/model" and create property node.
@@ -256,7 +268,11 @@ var groud_target = {
         me.vOffsetN.setDoubleValue(view.normdeg(elev - ac_pitch));
         
         if(me.following==1){me.focus_on_closest_AI_MP();}
-        me.setView();
+        
+        if(MyActualview.getValue() == 10){
+          gui.popupTip(sprintf("Distance to target (nm): %.1f", me.radarRangeNM.getValue()));
+        }
+#        me.setView();
         settimer(func(){ me.update(); }, 0);
     },
     

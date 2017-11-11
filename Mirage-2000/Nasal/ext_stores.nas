@@ -686,8 +686,7 @@ dropMissile = func(number)
     print("typeMissile:"~typeMissile);
     var Current_missile = missile.AIM.new(number, typeMissile, typeMissile);
     if (Current_missile != -1) {
-        Current_missile.status = 0;
-        Current_missile.search();
+        Current_missile.start();
     } else {
         return;
     }
@@ -697,7 +696,7 @@ dropMissile = func(number)
 dropMissile2 = func(Current_missile, number)
 {
     print("Function dropMissile2 OK");
-    if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
+    if (Current_missile.status == 1) {
         dropMissile3(Current_missile, number);
     } else {
         settimer(func dropMissile3(Current_missile, number), 0.2);
@@ -707,7 +706,7 @@ dropMissile2 = func(Current_missile, number)
 dropMissile3 = func(Current_missile, number)
 {
     print("Function dropMissile3 OK");
-    if (Current_missile.status = 1 and Current_missile.Tgt != nil) {
+    if (Current_missile.status == 1) {
         Current_missile.release();
     } else {
         print("Weapon got no lock on target (probably out of range, out of view or wrong target type), deleting weapon.");

@@ -167,6 +167,62 @@
   </group>
 
   <hrule />
+  
+    <group>
+    <layout>hbox</layout>
+    <group><text><label>AP TF Smooth (- +)</label></text></group>
+    <group>
+    <layout>vbox</layout>
+    <halign>right</halign>
+      <slider>
+        <name>APTF</name>
+        <property>/autopilot/settings/tf-mode</property>
+        <live>1</live>
+        <min>1</min>
+        <max>10</max>
+        <step>1</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>
+              gui.popupTip(sprintf("AP TF Smooth (- +) : %d", getprop("/autopilot/settings/tf-mode")));
+          </script>
+        </binding>
+      </slider>
+      </group>
+  </group>
+  
+  
+  
+  <group>
+    <layout>hbox</layout>
+    <group><text><label>Predictions (- +)</label></text></group>
+    <group>
+    <layout>vbox</layout>
+    <halign>right</halign>
+      <slider>
+        <name>APTF</name>
+        <property>/instrumentation/tfs/delay-sec</property>
+        <live>1</live>
+        <min>0.5</min>
+        <max>5</max>
+        <step>0.5</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>
+              gui.popupTip(sprintf("Predictions (- +) : %.1f", getprop("/instrumentation/tfs/delay-sec")));
+          </script>
+        </binding>
+      </slider>
+      </group>
+  </group>
+
+  <hrule />
 
   <group>
     <layout>hbox</layout>
@@ -196,6 +252,14 @@
     <binding>
       <command>nasal</command>
       <script>mirage2000.createMap()</script>
+    </binding>
+  </button>
+  
+  <button>
+    <legend>RWR (test)</legend>
+    <binding>
+      <command>nasal</command>
+      <script>mirage2000.createRWR()</script>
     </binding>
   </button>
 

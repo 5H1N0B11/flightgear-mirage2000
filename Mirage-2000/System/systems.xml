@@ -19,4 +19,8 @@
     <path>Aircraft/Mirage-2000/System/rain-drops.xml</path>
   </property-rule>
 
+  <property-rule n="102">
+    <path>Aircraft/Mirage-2000/System/m2000-5-views.xml</path>
+  </property-rule>
+
 </PropertyList>
