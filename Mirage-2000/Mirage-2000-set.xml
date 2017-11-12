@@ -6,11 +6,13 @@
     <sim>
 
         <description>Mirage 2000</description>
-        <author>BARANGER Emmanuel (3D/FDM), 5H1N0B1 (Weapons, system), F-Sig and hardball (3D, ssystems)</author>
+        <author>BARANGER Emmanuel (3D), 5H1N0B1 (Weapons, Systems), F-Sig and hardball (3D, Systems), Richard Harrison (FDM), Joshua Davidson/it0uchpods (FDM, FBW)</author>
 
         <aircraft-version>2015-09-16</aircraft-version>
         <status>alpha</status>
 
+
+        <flight-model>jsb</flight-model>
         <aero>Mirage2000-vsp</aero>
 
         <rating>
@@ -148,6 +150,31 @@
                 <target-z-offset-m archive="y" type="double"> 0 </target-z-offset-m>
             </config>
         </view>
+		
+		<menubar>
+			<default>
+				<menu n="100">
+					<label>Mirage 2000</label>
+					<enabled type="bool">true</enabled>
+					<item>
+						<label>Magic Startup</label>
+						<binding>
+							<command>nasal</command>
+							<script>
+							libraries.doMagicStartup();
+							</script>
+						</binding>
+					</item>
+				</menu>
+			</default>
+		</menubar>
+		
     </sim>
+	
+	<nasal>
+		<libraries>
+			<file>Aircraft/Mirage-2000/Nasal/libraries.nas</file>
+		</libraries>
+	</nasal>
 
 </PropertyList>

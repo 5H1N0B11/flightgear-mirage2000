@@ -1,0 +1,133 @@
+<!-- Mirage 2000 FCS -->
+<!-- Joshua Davidson (it0uchpods) -->
+
+<system name="Mirage-2000: FCS">
+
+	<property value="0">fcs/elevon-1L-pos-deg</property>
+	<property value="0">fcs/elevon-1R-pos-deg</property>
+	<property value="0">fcs/elevon-2L-pos-deg</property>
+	<property value="0">fcs/elevon-2R-pos-deg</property>
+	<property value="0">fcs/airbrake-upper</property>
+	<property value="0">fcs/airbrake-lower</property>
+	<property value="0">fcs/slat-1L-pos-deg</property>
+	<property value="0">fcs/slat-1R-pos-deg</property>
+	<property value="0">fcs/slat-2L-pos-deg</property>
+	<property value="0">fcs/slat-2R-pos-deg</property>
+
+	<channel name="Elevons">
+	
+		<summer name="Roll Trim Sum">
+			<input>/controls/flight/aileron</input>
+			<input>/controls/flight/aileron-trim</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
+		
+		<summer name="Pitch Trim Sum">
+			<input>/controls/flight/elevator</input>
+			<input>/controls/flight/elevator-trim</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
+		
+		<aerosurface_scale name="Elevon Roll Rad">
+			<input>fcs/roll-trim-sum</input>
+			<range>
+				<min>-0.21816616</min>
+				<max>0.21816616</max>
+			</range>
+			<output>fcs/roll-pos-rad</output>
+		</aerosurface_scale>
+		
+		<aerosurface_scale name="Elevon Roll Deg">
+			<input>fcs/roll-trim-sum</input>
+			<range>
+				<min>-12.5</min>
+				<max>12.5</max>
+			</range>
+			<output>fcs/roll-pos-deg</output>
+		</aerosurface_scale>
+		
+		<aerosurface_scale name="Elevon Pitch Rad">
+			<input>fcs/pitch-trim-sum</input>
+			<range>
+				<min>-0.436332</min>
+				<max>0.436332</max>
+			</range>
+			<output>fcs/pitch-pos-rad</output>
+		</aerosurface_scale>
+		
+		<aerosurface_scale name="Elevon Pitch Deg">
+			<input>fcs/pitch-trim-sum</input>
+			<range>
+				<min>-25</min>
+				<max>25</max>
+			</range>
+			<output>fcs/pitch-pos-deg</output>
+		</aerosurface_scale>
+		
+		<fcs_function name="fcs/elevon-1L-pos-deg">
+			<function>
+				<sum>
+					<product>
+						<property>fcs/roll-pos-deg</property>
+						<value>-1</value>
+					</product>
+					<property>fcs/pitch-pos-deg</property>
+				</sum>
+			</function>
+			<clipto>
+				<min>-25</min>
+				<max>25</max>
+			</clipto>
+		</fcs_function>
+		
+		<fcs_function name="fcs/elevon-1R-pos-deg">
+			<function>
+				<sum>
+					<property>fcs/roll-pos-deg</property>
+					<property>fcs/pitch-pos-deg</property>
+				</sum>
+			</function>
+			<clipto>
+				<min>-25</min>
+				<max>25</max>
+			</clipto>
+		</fcs_function>
+		
+		<fcs_function name="fcs/elevon-2L-pos-deg">
+			<function>
+				<sum>
+					<product>
+						<property>fcs/roll-pos-deg</property>
+						<value>-1</value>
+					</product>
+					<property>fcs/pitch-pos-deg</property>
+				</sum>
+			</function>
+			<clipto>
+				<min>-25</min>
+				<max>25</max>
+			</clipto>
+		</fcs_function>
+		
+		<fcs_function name="fcs/elevon-2R-pos-deg">
+			<function>
+				<sum>
+					<property>fcs/roll-pos-deg</property>
+					<property>fcs/pitch-pos-deg</property>
+				</sum>
+			</function>
+			<clipto>
+				<min>-25</min>
+				<max>25</max>
+			</clipto>
+		</fcs_function>
+		
+	</channel>
+
+</system>
