@@ -1,7 +1,7 @@
 print("*** LOADING MAP.nas ... ***");
 var zoom  = 10;
 var width = 768;
-var height = 512; 
+var height = 576; 
 
 var rightMFDcanvas = {
   canvas_settings: {
@@ -301,7 +301,7 @@ var createMap = func {
         }
     };
 
-    var update_timer = maketimer(0.2, updateTiles);
+    var update_timer = maketimer(0, updateTiles);
     update_timer.start();
 
     changeZoom(0);

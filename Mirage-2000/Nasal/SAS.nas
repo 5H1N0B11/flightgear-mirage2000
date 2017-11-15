@@ -388,7 +388,7 @@ var computeSAS = func() {
     
     if(getprop("/autopilot/locks/AP-status") == "AP1"or getprop("controls/SAS/activated") == 0)
     {
-        SasPitch.setValue(raw_e);
+        #SasPitch.setValue(raw_e);
         SasRoll.setValue(raw_a);
         SasYaw.setValue(raw_r);
         SasGear.setValue(raw_r);

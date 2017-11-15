@@ -31,6 +31,7 @@
     <object-name>pot-r2</object-name>
     <object-name>pot-r3</object-name>
     <object-name>pot-r4</object-name>
+    <object-name>canvasCadre</object-name>
     <!-- Objets transparents -->
     <object-name>vitre</object-name>
   </animation>
@@ -78,6 +79,7 @@
     <object-name>pot-r2</object-name>
     <object-name>pot-r3</object-name>
     <object-name>pot-r4</object-name>
+    <object-name>canvasCadre</object-name>
     <condition>
       <not>
         <property>sim/rendering/rembrandt/enabled</property>
@@ -113,6 +115,7 @@
     <object-name>pot-r2</object-name>
     <object-name>pot-r3</object-name>
     <object-name>pot-r4</object-name>
+    <object-name>canvasCadre</object-name>
     <condition>
       <property>sim/rendering/rembrandt/enabled</property>
     </condition>
