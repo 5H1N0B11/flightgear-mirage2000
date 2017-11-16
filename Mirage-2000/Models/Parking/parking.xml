@@ -34,7 +34,7 @@
         </less-than>
         <less-than>
           <property>engines/engine[0]/rpm</property>
-          <value>4000</value>
+          <value>3200</value>
         </less-than>
         <property>/controls/gear/brake-parking</property> 
       </and>
