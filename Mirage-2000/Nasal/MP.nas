@@ -32,7 +32,8 @@ var Decode_Load = {
             "ASMP",
             "PDLCT",
             "Matra MICA IR",
-            "Exocet"
+            "Exocet",
+            "Matra Super 530D"
         ];
         return m;
     },
