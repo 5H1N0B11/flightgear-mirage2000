@@ -33,7 +33,7 @@
           <value>0.2</value>
         </less-than>
         <less-than>
-          <property>sim/multiplay/generic/float[4]</property>
+          <property>/sim/multiplay/generic/float[4]</property>
           <value>40</value>
         </less-than>
         <property>/controls/gear/brake-parking</property> 
