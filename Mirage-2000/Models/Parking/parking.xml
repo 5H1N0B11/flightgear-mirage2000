@@ -34,7 +34,7 @@
         </less-than>
         <less-than>
           <property>engines/engine[0]/rpm</property>
-          <value>40</value>
+          <value>4000</value>
         </less-than>
         <property>/controls/gear/brake-parking</property> 
       </and>
@@ -49,7 +49,10 @@
       <and>
         <property>controls/ground-equipment</property>
         <property>gear/gear[0]/wow</property>
-        <property>controls/engines/engine[0]/cutoff</property>
+        <less-than>
+          <property>engines/engine[0]/rpm</property>
+          <value>10</value>
+        </less-than>
       </and>
     </condition>
   </animation>

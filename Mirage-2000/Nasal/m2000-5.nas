@@ -51,7 +51,6 @@ var InitListener = setlistener("/sim/signals/fdm-initialized", func() {
 # of "engine"
 var main_Init_Loop = func()
 {
-    test();  
   # Loop Updated inside
     print("Electrical ... Check");
     settimer(electrics.Electrical_init, 1.0);

@@ -157,9 +157,9 @@
     <m2000_load>
       <file>Aircraft/Mirage-2000/Nasal/ext_stores.nas</file>
     </m2000_load>
-<!--    <m2000_mp>
+    <m2000_mp>
       <file>Aircraft/Mirage-2000/Nasal/MP.nas</file>
-    </m2000_mp>-->
+    </m2000_mp>
     <missile>
       <file>Aircraft/Mirage-2000/Nasal/missile.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/missile_GroundTargeting.nas</file>
