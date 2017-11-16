@@ -29,11 +29,11 @@
         <property>controls/ground-equipment</property>
         <property>gear/gear[1]/wow</property>
         <less-than>
-          <property>/sim/multiplay/generic/float[11]</property>
+          <property>sim/multiplay/generic/float[11]</property>
           <value>0.2</value>
         </less-than>
         <less-than>
-          <property>/sim/multiplay/generic/float[4]</property>
+          <property>sim/multiplay/generic/float[4]</property>
           <value>40</value>
         </less-than>
         <property>/controls/gear/brake-parking</property> 
