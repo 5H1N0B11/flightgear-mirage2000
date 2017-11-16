@@ -33,7 +33,7 @@
           <value>0.2</value>
         </less-than>
         <less-than>
-          <property>engines/engine[0]/n1</property>
+          <property>engines/engine[0]/rpm</property>
           <value>40</value>
         </less-than>
         <property>/controls/gear/brake-parking</property> 
