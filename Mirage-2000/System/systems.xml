@@ -5,9 +5,6 @@
   <autopilot>
     <path>Aircraft/Mirage-2000/System/m2000-5_autopilot.xml</path>
   </autopilot>
-    <autopilot>
-    <path>Aircraft/Mirage-2000/System/mirage2000-5_yasimFBW.xml</path>
-  </autopilot>
   
   <electrical>
     <!-- note :

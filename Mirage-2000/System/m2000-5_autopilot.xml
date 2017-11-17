@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
+  <!-- Test -->
+  <filter>
+		<name>Control Input: Pitch</name>
+		<debug>false</debug>
+		<type>gain</type>
+    <enable>
+      <condition>
+        <equals>
+          <property>controls/SAS/activated</property>
+          <value></value>
+        </equals>
+      </condition>
+    </enable>
+		<input>
+			<property>controls/flight/elevator</property>
+		</input>
+		<output>
+			<property>controls/flight/SAS-pitch</property>
+		</output>
+		<gain>1</gain>
+		<u_min>-1.0</u_min>
+		<u_max>1.0</u_max>
+	</filter>
+  
+  
+  
+  
   <!-- There is a large flaw in FG's standard pid-controller which
        keeps it from working when the reference changes suddendly. The
        controllers below are implemented by combining a gain filter

@@ -99,15 +99,15 @@ var main_Init_Loop = func()
     print("HUD canvas...Check");
     hud_pilot.update();
     
-    #Should be replaced by an object creation
-    mirage2000.createMap();
-    
     print("MFD ... Check");
     settimer(mirage2000.setCentralMFD, 10);
     if(getprop("/instrumentation/efis/Mode"))
     {
         mirage2000.mdfselection();
     }
+    
+    #Should be replaced by an object creation
+    settimer(func(){mirage2000.createMap();},10);
 }
 
 var UpdateMain = func
