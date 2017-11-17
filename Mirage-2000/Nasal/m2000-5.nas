@@ -35,7 +35,9 @@ var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:
 setprop("/instrumentation/radar/az-fieldCenter", 0);
 
 var hud_pilot = hud.HUD.new({"node": "canvasHUD", "texture": "hud.png"});
-var rwr = hud.HUD.new({"node": "canvasRWR", "texture": "hud.png"});
+# var rwr = hud.HUD.new({"node": "canvasRWR", "texture": "hud.png"});
+
+
 
 #===============================
 
@@ -49,7 +51,7 @@ var InitListener = setlistener("/sim/signals/fdm-initialized", func() {
 # of "engine"
 var main_Init_Loop = func()
 {
-    # Loop Updated inside
+  # Loop Updated inside
     print("Electrical ... Check");
     settimer(electrics.Electrical_init, 1.0);
     
@@ -96,6 +98,9 @@ var main_Init_Loop = func()
         
     print("HUD canvas...Check");
     hud_pilot.update();
+    
+    #Should be replaced by an object creation
+    mirage2000.createMap();
     
     print("MFD ... Check");
     settimer(mirage2000.setCentralMFD, 10);
@@ -344,3 +349,39 @@ var setCentralMFD = func() {
 
 # to prevent dynamic view to act like helicopter due to defining <rotors>:
 dynamic_view.register(func {me.default_plane();});
+
+
+
+
+var test = func(){
+      if(! contains(globals, "m2000_mp"))
+      {
+        var err = [];
+        var myTree = props.globals.getNode("/sim");
+        var raw_list = myTree.getChildren();
+        foreach(var c ; raw_list)
+        {
+          if(c.getName() == "fg-aircraft"){
+            myAircraftTree = "/sim/" ~ c.getName()~"["~c.getIndex()~"]";
+            print(myAircraftTree);
+            var err = [];
+            var file = getprop(myAircraftTree) ~ "/Mirage-2000/Nasal/MP.nas";
+            print(file);
+            var code = call(func compile(io.readfile(file), file), nil, err);
+            print("Path 0. Error : " ~size(err));
+            if(size(err) == 0)
+            {
+              call(func {io.load_nasal(file, "m2000_mp");},nil, err);
+              if (size(err)) {
+                print("Path 0a. Error : ");
+                foreach(lin;err) print(lin);
+                }else{
+                  break;}
+            }else {
+              print("Path 0b. Error : ");
+              foreach(lin;err) print(lin);
+            }
+          }
+        }
+      }
+} 

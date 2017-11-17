@@ -314,7 +314,7 @@ var Target = {
     get_Callsign: func(){
         var n = me.Callsign.getValue();
         
-        if(size(n) < 1)
+        if(size(n) > 1 and n !=nil and me.name !=nil)
         {
             n = me.name.getValue();
         }

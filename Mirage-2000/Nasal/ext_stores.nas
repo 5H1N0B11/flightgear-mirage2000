@@ -35,6 +35,8 @@ var Encode_Load = func() {
         "AIM120",
         "GBU12",
         "GBU16",
+        "Double GBU12",
+        "Double GBU12_1",
         "Matra MICA",
         "MATRA-R530",
         "Matra R550 Magic 2",
@@ -56,6 +58,11 @@ var Encode_Load = func() {
     {
         # Load name
         var select = getprop("sim/weight["~ i ~"]/selected");
+        var weight = getprop("/sim/weight["~ i ~"]/weight-lb");
+        
+        #Case of double GBU
+        select = ((select =="Double GBU12") and (weight == 800))?"Double GBU12_1":select;
+        
         
         # fireable or not : may displays the pylons if there a weight but fire = 0
         var released = getprop("controls/armament/station["~ i ~"]/release");
@@ -73,9 +80,16 @@ var Encode_Load = func() {
         # now we select the index
         compiled = compiled ~"#"~ i ~ released ~ select_Index;
     }
+    var myGenericString = getprop("sim/multiplay/generic/string[1]");
     
-    # we put it in a multiplay string
-    setprop("sim/multiplay/generic/string[1]", compiled);
+    if( myGenericString != nil){
+      # we put it in a multiplay string
+      if(myGenericString != compiled){
+        setprop("sim/multiplay/generic/string[1]", compiled);
+      }
+    }else{
+      setprop("sim/multiplay/generic/string[1]", compiled);
+    }
 }
 
 ### Object decode
@@ -97,6 +111,8 @@ var Decode_Load = {
             "AIM120",
             "GBU12",
             "GBU16",
+            "Double GBU12",
+            "Double GBU12_1",
             "Matra MICA",
             "MATRA-R530",
             "Matra R550 Magic 2",

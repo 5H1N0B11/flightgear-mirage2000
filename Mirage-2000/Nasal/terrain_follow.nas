@@ -82,7 +82,7 @@ var tfs_radar = func() {
         }
         
         setprop("instrumentation/tfs/ground-altitude-ft",
-            target_altitude_m * M2FT);
+            (target_altitude_m+30) * M2FT);
         setprop("instrumentation/tfs/malfunction", 0);
     }
 
@@ -94,6 +94,9 @@ var check_terrain_avoiding = func(coord){
   if(pickingMethod != 1){return nil;}
   #We check that there is no terrain between our aircraft and our futur target altitude
   myPos = geo.aircraft_position();
+  #We took took down the aircraft by 30
+  if(myPos.alt()-40 > geo.elevation(myPos.lat(), myPos.lon())){ myPos.set_alt(myPos.alt()-30);}
+  
   xyz = {"x":myPos.x(),                  "y":myPos.y(),                 "z":myPos.z()};
   dir = {"x":coord.x()-myPos.x(),  "y":coord.y()-myPos.y(), "z":coord.z()-myPos.z()};
   

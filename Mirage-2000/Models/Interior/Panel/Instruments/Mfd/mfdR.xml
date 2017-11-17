@@ -31,6 +31,7 @@
     <object-name>pot-r2</object-name>
     <object-name>pot-r3</object-name>
     <object-name>pot-r4</object-name>
+    <object-name>canvasCadre</object-name>
     <!-- Objets transparents -->
     <object-name>vitre</object-name>
   </animation>
@@ -78,6 +79,7 @@
     <object-name>pot-r2</object-name>
     <object-name>pot-r3</object-name>
     <object-name>pot-r4</object-name>
+    <object-name>canvasCadre</object-name>
     <condition>
       <not>
         <property>sim/rendering/rembrandt/enabled</property>
@@ -113,6 +115,7 @@
     <object-name>pot-r2</object-name>
     <object-name>pot-r3</object-name>
     <object-name>pot-r4</object-name>
+    <object-name>canvasCadre</object-name>
     <condition>
       <property>sim/rendering/rembrandt/enabled</property>
     </condition>
@@ -345,6 +348,33 @@
       </binding>
     </action>
   </animation>
+  
+<!--  <animation>
+    <type>pick</type>
+    <object-name>pot-r1</object-name>
+    <action>
+      <button>4</button>
+
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.changeZoom(1)</script>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeR</property>
+            <value>2</value>
+          </equals>
+        </condition>
+      </binding>
+    </action>
+  </animation>-->
+  
+  
+  
 
   <animation>
     <type>pick</type>
@@ -369,6 +399,33 @@
       </binding>
     </action>
   </animation>
+  
+  
+<!--  <animation>
+    <type>pick</type>
+    <object-name>pot-r1</object-name>
+    <action>
+      <button>4</button>
+ 
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.changeZoom(-1)</script>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeR</property>
+            <value>2</value>
+          </equals>
+        </condition>
+      </binding>
+    </action>
+  </animation>-->
+  
+  
 
   <!--  R2  -->
   <animation>
@@ -633,6 +690,16 @@
           </and>
         </condition>
       </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.changeZoomMap(1)</script>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeR</property>
+            <value>2</value>
+          </equals>
+        </condition>
+      </binding>
     </action>
   </animation>
 
@@ -685,6 +752,16 @@
               <value>NAV2</value>
             </equals>
           </and>
+        </condition>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.changeZoomMap(-1)</script>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeR</property>
+            <value>2</value>
+          </equals>
         </condition>
       </binding>
     </action>

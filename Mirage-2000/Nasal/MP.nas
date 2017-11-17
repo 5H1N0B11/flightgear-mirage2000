@@ -9,7 +9,7 @@ var Decode_Load = {
         m.mySelf = mySelf;
         m.myString = myString;
         m.updateTime = updateTime;
-        m.running = 1;
+        m.running = 0;
         m.loadList = [
             "none",
             "1300 l Droptank",
@@ -20,6 +20,8 @@ var Decode_Load = {
             "AIM120",
             "GBU12",
             "GBU16",
+            "Double GBU12",
+            "Double GBU12_1",
             "Matra MICA",
             "MATRA-R530",
             "Matra R550 Magic 2",
@@ -32,8 +34,27 @@ var Decode_Load = {
             "ASMP",
             "PDLCT",
             "Matra MICA IR",
-            "Exocet"
+            "Exocet",
+            "Matra Super 530D"
         ];
+        m.weaponWeight = {
+          "none":                 0,
+          "GBU16":                1000,
+          "GBU12":                800,
+          "Double GBU12":         1600,
+          "Double GBU12_1":       800,
+          "PDLCT":                280,
+          "Matra MICA":           246.91,
+          "Matra MICA IR":        246.91,
+          "Matra R550 Magic 2":   196.21,
+          "ASMP":                 1850,
+          "SCALP":                2866,
+          "Exocet":               1460,
+          "Matra Super 530D":     595.2,
+          "1700 l Droptank":      280,
+          "1300 l Droptank":      220
+        };
+        m.decode();
         return m;
     },
     
@@ -76,12 +97,13 @@ var Decode_Load = {
                     
                     # what to put in weight[]/selected index
                     var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, (myIndexArray[i + 1] - 1) - (myIndexArray[i] + 2));
-                    var myWeight = me.loadList[myWeightOptIndex];
+                    var mySelection = me.loadList[myWeightOptIndex];
                     #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
-                    #print("myWeight: " ~ myWeight);
+                    #print("mySelection: " ~ mySelection);
                     
                     # rebuilt the property Tree
-                    me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(myWeight);
+                    me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
+                    if(myFired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh[mySelection]);}
                     me.mySelf.getNode("controls/armament/station["~ myWeightIndex ~"]/release", 1).setValue(myFired);
                 }
                 else
@@ -98,17 +120,18 @@ var Decode_Load = {
                     
                     # what to put in weight[]/selected
                     var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, size(myString) - (myIndexArray[i] + 2));
-                    var myWeight = me.loadList[myWeightOptIndex];
+                    var mySelection = me.loadList[myWeightOptIndex];
                     #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
-                    #print(myWeight);
+                    #print(mySelection);
                     
                     # rebuilt the property Tree
-                    me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(myWeight);
+                    me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
+                    if(myFired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh[mySelection]);}
                     me.mySelf.getNode("controls/armament/station["~ myWeightIndex ~"]/release", 1).setValue(myFired);
                     
                     if(me.running == 1)
                     {
-                        settimer(func(){ me.decode(); }, me.updateTime);
+                      #settimer(func(){ me.decode(); }, me.updateTime);
                     }
                 }
             }
@@ -190,7 +213,7 @@ var Decode_Bool = {
 
         if(me.running == 1)
         {
-            settimer(func(){ me.decode(); }, me.updateTime);
+            #settimer(func(){ me.decode(); }, me.updateTime);
         }
         
     },
@@ -241,4 +264,90 @@ var MP_light = {
     },
     init:func() {
     },
+  };
+  
+  var MP_missile = func(self){
+      # start missile over MP
+      #  
+      var skip = 0;
+      var lat = self.getNode("rotors/main/blade[0]/flap-deg");
+      var lon = self.getNode("rotors/main/blade[1]/flap-deg");
+      var alt = self.getNode("rotors/main/blade[2]/flap-deg");
+      if (alt == nil or alt.getValue() == nil) {
+        skip = 1;
+      }
+
+      var objs = {};
+
+      var loop = func () {
+
+        if(alt.getValue() != 0) {
+          var objModel = objs["first"];
+          if (objModel == nil) {
+            # create model
+            #print("creating missile");
+            var n = props.globals.getNode("models", 1);
+            var i = 0;
+            for (i = 0; 1==1; i += 1) {
+              if (n.getChild("model", i, 0) == nil) {
+                break;
+              }
+            }
+            objModel = n.getChild("model", i, 1);
+
+            objModel.getNode("elevation",1).setDoubleValue(0);
+            objModel.getNode("latitude",1).setDoubleValue(0);
+            objModel.getNode("longitude",1).setDoubleValue(0);
+            objModel.getNode("elevation-ft-prop",1).setValue(objModel.getPath()~"/elevation");
+            objModel.getNode("latitude-deg-prop",1).setValue(objModel.getPath()~"/latitude");
+            objModel.getNode("longitude-deg-prop",1).setValue(objModel.getPath()~"/longitude");
+            objModel.getNode("heading-deg",1).setDoubleValue(0);
+            objModel.getNode("pitch-deg",1).setDoubleValue(0);
+            objModel.getNode("roll-deg",1).setDoubleValue(0);
+            objModel.getNode("path",1).setValue("Aircraft/Mirage-2000/Missiles/MP_missile/mp_missile.xml");
+
+            var loadNode = objModel.getNode("load", 1);
+            loadNode.setBoolValue(1);
+
+            objs["first"] = objModel;
+            loadNode.remove();
+          }
+        }
+        var exist = 0;
+        if(alt.getValue() != 0) {
+          exist = 1;
+
+          var objModel = objs["first"];
+          if (objModel == nil) {
+            print("error: did not find mp missile.");
+            return;
+          }# else {
+          #  print("found a missile!");
+          #}
+          objModel.getNode("latitude").setDoubleValue(lat.getValue());
+          objModel.getNode("longitude").setDoubleValue(lon.getValue());
+          objModel.getNode("elevation").setDoubleValue(alt.getValue()*M2FT);
+
+        }
+        if (exist == 0) {
+          # remove model
+          var objModel = objs["first"];
+          if (objModel != nil) {
+            objModel.remove();
+            delete(objs, "first");
+          }
+        }
+
+        if (self.getNode("valid") == 0 or self.getNode("valid") == nil) {
+          return;
+        }
+        settimer(loop, 0.05);
+      }
+
+      if (skip == 0) {
+          loop();
+      }
+      #
+      # end missile over MP
+    
   }

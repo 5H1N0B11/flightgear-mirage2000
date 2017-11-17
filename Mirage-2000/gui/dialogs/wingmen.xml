@@ -73,16 +73,17 @@
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[0]/selected</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[1]/selected</property><value>Matra MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[2]/selected</property><value>1700 l Droptank</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[3]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[3]/selected</property><value>Double GBU12</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[3]/weight-lb</property><value>1600</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[4]/selected</property><value>1700 l Droptank</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[5]/selected</property><value>Matra MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[6]/selected</property><value>PDLCT</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[7]/selected</property><value>Matra MICA</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[7]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/sim/weight[8]/selected</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[0]/release</property><value>true</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[1]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[2]/release</property><value>false</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[3]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[3]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[4]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[5]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/controls/armament/station[6]/release</property><value>false</value></binding>
@@ -96,9 +97,11 @@
         <command>nasal</command>
         <script>
         <![CDATA[
-for(var i = 0; i < 8; i += 1)
+for(var i = 0; i <= 8; i += 1)
 {
+    #print("i:"~i~":"~getprop("sim/weight["~ i ~"]/selected"));
     setprop("/ai/models/wingman[0]/sim/weight["~ i ~"]/selected",                 getprop("sim/weight["~ i ~"]/selected"));
+    setprop("/ai/models/wingman[0]/sim/weight["~ i ~"]/weight-lb",                 getprop("sim/weight["~ i ~"]/weight-lb"));
     setprop("/ai/models/wingman[0]/controls/armament/station["~ i ~"]/release",   getprop("controls/armament/station["~ i ~"]/release"));
 }
         ]]>
@@ -146,9 +149,9 @@ for(var i = 0; i < 8; i += 1)
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[0]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[1]/release</property><value>false</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[2]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[2]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[3]/release</property><value>false</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[4]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[5]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[6]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[7]/release</property><value>false</value></binding>
@@ -160,17 +163,18 @@ for(var i = 0; i < 8; i += 1)
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[0]/selected</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[1]/selected</property><value>Matra MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[2]/selected</property><value>1700 l Droptank</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[3]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[3]/selected</property><value>Double GBU12</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[3]/weight-lb</property><value>1600</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[4]/selected</property><value>1700 l Droptank</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[5]/selected</property><value>Matra MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[6]/selected</property><value>PDLCT</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[7]/selected</property><value>Matra MICA</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[0]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[7]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/sim/weight[8]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[0]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[1]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[2]/release</property><value>false</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[3]/release</property><value>true</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[3]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[4]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[5]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[6]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/controls/armament/station[7]/release</property><value>false</value></binding>
@@ -183,9 +187,10 @@ for(var i = 0; i < 8; i += 1)
         <command>nasal</command>
         <script>
         <![CDATA[
-for(var i = 0; i < 8; i += 1)
+for(var i = 0; i <= 8; i += 1)
 {
     setprop("/ai/models/wingman[1]/sim/weight["~ i ~"]/selected",                 getprop("sim/weight["~ i ~"]/selected"));
+    setprop("/ai/models/wingman[1]/sim/weight["~ i ~"]/weight-lb",                 getprop("sim/weight["~ i ~"]/weight-lb"));
     setprop("/ai/models/wingman[1]/controls/armament/station["~ i ~"]/release",   getprop("controls/armament/station["~ i ~"]/release"));
 }
         ]]>
@@ -233,9 +238,9 @@ for(var i = 0; i < 8; i += 1)
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[0]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[1]/release</property><value>false</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[2]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[2]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[3]/release</property><value>false</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[4]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[5]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[6]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[7]/release</property><value>false</value></binding>
@@ -247,17 +252,18 @@ for(var i = 0; i < 8; i += 1)
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[0]/selected</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[1]/selected</property><value>Matra MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[2]/selected</property><value>1700 l Droptank</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[3]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[3]/selected</property><value>Double GBU12</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[3]/weight-lb</property><value>1600</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[4]/selected</property><value>1700 l Droptank</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[5]/selected</property><value>Matra MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[6]/selected</property><value>PDLCT</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[7]/selected</property><value>Matra MICA</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[8]/selected</property><value>Matra MICA</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[0]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[7]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/sim/weight[8]/selected</property><value>none</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[0]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[1]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[2]/release</property><value>false</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[3]/release</property><value>true</value></binding>
-      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[4]/release</property><value>true</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[3]/release</property><value>false</value></binding>
+      <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[4]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[5]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[6]/release</property><value>false</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/controls/armament/station[7]/release</property><value>false</value></binding>
@@ -270,9 +276,10 @@ for(var i = 0; i < 8; i += 1)
         <command>nasal</command>
         <script>
         <![CDATA[
-for(var i = 0; i < 8; i += 1)
+for(var i = 0; i <= 8; i += 1)
 {
     setprop("/ai/models/wingman[2]/sim/weight["~ i ~"]/selected",                 getprop("sim/weight["~ i ~"]/selected"));
+    setprop("/ai/models/wingman[2]/sim/weight["~ i ~"]/weight-lb",                 getprop("sim/weight["~ i ~"]/weight-lb"));
     setprop("/ai/models/wingman[2]/controls/armament/station["~ i ~"]/release",   getprop("controls/armament/station["~ i ~"]/release"));
 }
         ]]>

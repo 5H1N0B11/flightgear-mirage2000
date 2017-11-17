@@ -19,6 +19,7 @@
       <property>/velocities/airspeed-kt</property>
       <entry><ind>400</ind><dep>0.0</dep></entry>
       <entry><ind>600</ind><dep>1.0</dep></entry>
+      <entry><ind>900</ind><dep>0</dep></entry>
     </table></expression></input>
     <output>/autopilot/internal/speed-weight-high</output>
     <value>0.0</value>

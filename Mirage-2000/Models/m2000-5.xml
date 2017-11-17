@@ -5,90 +5,6 @@
 
    <nasal>
     <load><![CDATA[
-      var self = cmdarg();
-      
-      # start missile over MP
-      #  
-      var skip = 0;
-      var lat = self.getNode("rotors/main/blade[0]/flap-deg");
-      var lon = self.getNode("rotors/main/blade[1]/flap-deg");
-      var alt = self.getNode("rotors/main/blade[2]/flap-deg");
-      if (alt == nil or alt.getValue() == nil) {
-        skip = 1;
-      }
-
-      var objs = {};
-
-      var loop = func () {
-
-        if(alt.getValue() != 0) {
-          var objModel = objs["first"];
-          if (objModel == nil) {
-            # create model
-            #print("creating missile");
-            var n = props.globals.getNode("models", 1);
-            var i = 0;
-            for (i = 0; 1==1; i += 1) {
-              if (n.getChild("model", i, 0) == nil) {
-                break;
-              }
-            }
-            objModel = n.getChild("model", i, 1);
-
-            objModel.getNode("elevation",1).setDoubleValue(0);
-            objModel.getNode("latitude",1).setDoubleValue(0);
-            objModel.getNode("longitude",1).setDoubleValue(0);
-            objModel.getNode("elevation-ft-prop",1).setValue(objModel.getPath()~"/elevation");
-            objModel.getNode("latitude-deg-prop",1).setValue(objModel.getPath()~"/latitude");
-            objModel.getNode("longitude-deg-prop",1).setValue(objModel.getPath()~"/longitude");
-            objModel.getNode("heading-deg",1).setDoubleValue(0);
-            objModel.getNode("pitch-deg",1).setDoubleValue(0);
-            objModel.getNode("roll-deg",1).setDoubleValue(0);
-            objModel.getNode("path",1).setValue("Aircraft/Mirage-2000/Missiles/MP_missile/mp_missile.xml");
-
-            var loadNode = objModel.getNode("load", 1);
-            loadNode.setBoolValue(1);
-
-            objs["first"] = objModel;
-            loadNode.remove();
-          }
-        }
-        var exist = 0;
-        if(alt.getValue() != 0) {
-          exist = 1;
-
-          var objModel = objs["first"];
-          if (objModel == nil) {
-            print("error: did not find mp missile.");
-            return;
-          }# else {
-          #  print("found a missile!");
-          #}
-          objModel.getNode("latitude").setDoubleValue(lat.getValue());
-          objModel.getNode("longitude").setDoubleValue(lon.getValue());
-          objModel.getNode("elevation").setDoubleValue(alt.getValue()*M2FT);
-
-        }
-        if (exist == 0) {
-          # remove model
-          var objModel = objs["first"];
-          if (objModel != nil) {
-            objModel.remove();
-            delete(objs, "first");
-          }
-        }
-
-        if (self.getNode("valid") == 0 or self.getNode("valid") == nil) {
-          return;
-        }
-        settimer(loop, 0.05);
-      }
-
-      if (skip == 0) {
-          loop();
-      }
-      #
-      # end missile over MP
 
       ########################################################################################
       # WARNING : The on-load Nasal is not executed when this file is loaded as the
@@ -99,13 +15,13 @@
       #   - external load set.
       if(! contains(globals, "m2000_mp"))
       {
-          var file = call(func "Aircraft/Mirage-2000/Nasal/MP.nas", nil, var err = []);
-          var code = call(func compile(io.readfile(file), file), nil, err);
-          print("Path 0. Error : " ~size(err));
-          if(size(err) == 0)
-          {
-              io.load_nasal(file, "m2000_mp");
-          }
+          var import = func (file, module) {
+              file = string.normpath(file);
+              var local_file = globals.io.dirname(caller()[2]) ~ file;
+              var path = (globals.io.stat(local_file) != nil) ? local_file : resolvepath(file);
+              globals.io.load_nasal(path, module);
+          };
+          import("Aircraft/Mirage-2000/Nasal/MP.nas", "m2000_mp");
       }
 
       var update = aircraft.overlay_update.new();
@@ -117,6 +33,9 @@
       #update.add("Aircraft/F4U/Models/Logos", "sim/multiplay/generic/string");
       
       var self = cmdarg();
+      
+      m2000_mp.MP_missile(self);
+      
       var float_0 = self.getNode("sim/multiplay/generic/float[0]", 1);
       var float_1 = self.getNode("sim/multiplay/generic/float[1]", 1);
       
@@ -131,10 +50,19 @@
       # Update Time
       #print("Creating the Decodeur");
       var myDecodeur = m2000_mp.Decode_Load.new(self,myLoadString,0.5);
+      var LoadListening = setlistener("sim/multiplay/generic/string[1]", func {
+          #We have to use a timer, otherwwise, this is too fast and the new changed variable isn't loaded yet
+          settimer(func(){myDecodeur.decode();},1,1);
+      });
+      
+      
       var myBoolDecodeur = m2000_mp.Decode_Bool.new(self,myLoadInt,0.5);
+      var BoolListening = setlistener("sim/multiplay/generic/int[8]", func {
+          myBoolDecodeur.decode();
+      });
       var myMP_light = m2000_mp.MP_light.new(self);
-      myDecodeur.decode();
-      myBoolDecodeur.start();
+      
+
       
       crew_door.alias(float_0);
       passenger_door.alias(float_1);
@@ -143,13 +71,18 @@
       ]]>
     </load>
     <unload>
-      myDecodeur.stop();
-      myBoolDecodeur.stop();
+    <![CDATA[
+      #myDecodeur.stop();
+      #myBoolDecodeur.stop();
+      removelistener(LoadListening);
+      removelistener(BoolListening);
+      
       #livery_update.stop();
       update.stop();
       crew_door.unalias();
       passenger_door.unalias();
       #MP.loads(0);
+      ]]>
     </unload>
   </nasal>
   

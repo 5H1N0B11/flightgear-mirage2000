@@ -17,7 +17,7 @@
   <animation>
     <type>rotate</type>
     <object-name>tuyere01</object-name>
-    <property>/engines/engine/n2</property>
+    <property>engines/engine[0]/n2</property>
     <interpolation>
       <entry><ind>  80 </ind><dep> -6 </dep></entry>
       <entry><ind>  98 </ind><dep>  8 </dep></entry>
@@ -35,7 +35,7 @@
   <animation>
     <type>rotate</type>
     <object-name>tuyere02</object-name>
-    <property>/engines/engine/n1</property>
+    <property>engines/engine[0]/n1</property>
     <interpolation>
       <entry><ind>  60 </ind><dep> -10 </dep></entry>
       <entry><ind>  88 </ind><dep>  18 </dep></entry>
