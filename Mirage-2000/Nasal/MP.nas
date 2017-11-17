@@ -20,6 +20,7 @@ var Decode_Load = {
             "AIM120",
             "GBU12",
             "GBU16",
+            "Double GBU12",
             "Matra MICA",
             "MATRA-R530",
             "Matra R550 Magic 2",
