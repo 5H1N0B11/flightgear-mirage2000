@@ -9,7 +9,7 @@ var Decode_Load = {
         m.mySelf = mySelf;
         m.myString = myString;
         m.updateTime = updateTime;
-        m.running = 1;
+        m.running = 0;
         m.loadList = [
             "none",
             "1300 l Droptank",
@@ -54,6 +54,7 @@ var Decode_Load = {
           "1700 l Droptank":      280,
           "1300 l Droptank":      220
         };
+        m.decode();
         return m;
     },
     
@@ -98,11 +99,11 @@ var Decode_Load = {
                     var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, (myIndexArray[i + 1] - 1) - (myIndexArray[i] + 2));
                     var mySelection = me.loadList[myWeightOptIndex];
                     #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
-                    #print("myWeight: " ~ myWeight);
+                    #print("mySelection: " ~ mySelection);
                     
                     # rebuilt the property Tree
                     me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
-                    if(fired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh(mySelection));}
+                    if(myFired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh[mySelection]);}
                     me.mySelf.getNode("controls/armament/station["~ myWeightIndex ~"]/release", 1).setValue(myFired);
                 }
                 else
@@ -121,11 +122,11 @@ var Decode_Load = {
                     var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, size(myString) - (myIndexArray[i] + 2));
                     var mySelection = me.loadList[myWeightOptIndex];
                     #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
-                    #print(myWeight);
+                    #print(mySelection);
                     
                     # rebuilt the property Tree
                     me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
-                    if(fired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh(mySelection));}
+                    if(myFired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh[mySelection]);}
                     me.mySelf.getNode("controls/armament/station["~ myWeightIndex ~"]/release", 1).setValue(myFired);
                     
                     if(me.running == 1)

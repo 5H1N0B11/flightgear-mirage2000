@@ -58,10 +58,10 @@ var Encode_Load = func() {
     {
         # Load name
         var select = getprop("sim/weight["~ i ~"]/selected");
-        var weight = getprop("/sim/weight["~ number ~"]/weight-lb");
+        var weight = getprop("/sim/weight["~ i ~"]/weight-lb");
         
         #Case of double GBU
-        select = (select =="Double GBU12") and (weight == 800)?"Double GBU12_1":select;
+        select = ((select =="Double GBU12") and (weight == 800))?"Double GBU12_1":select;
         
         
         # fireable or not : may displays the pylons if there a weight but fire = 0
@@ -80,9 +80,16 @@ var Encode_Load = func() {
         # now we select the index
         compiled = compiled ~"#"~ i ~ released ~ select_Index;
     }
+    var myGenericString = getprop("sim/multiplay/generic/string[1]");
     
-    # we put it in a multiplay string
-    setprop("sim/multiplay/generic/string[1]", compiled);
+    if( myGenericString != nil){
+      # we put it in a multiplay string
+      if(myGenericString != compiled){
+        setprop("sim/multiplay/generic/string[1]", compiled);
+      }
+    }else{
+      setprop("sim/multiplay/generic/string[1]", compiled);
+    }
 }
 
 ### Object decode

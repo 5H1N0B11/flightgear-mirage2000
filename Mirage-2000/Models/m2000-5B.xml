@@ -50,16 +50,15 @@
       #print("Creating the Decodeur");
       var myDecodeur = m2000_mp.Decode_Load.new(self,myLoadString,0.5);
       var LoadListening = setlistener("sim/multiplay/generic/string[1]", func {
-          myDecodeur.decode();
+          #We have to use a timer, otherwwise, this is too fast and the new changed variable isn't loaded yet
+          settimer(func(){myDecodeur.decode();},1,1);
       });
       
       
       var myBoolDecodeur = m2000_mp.Decode_Bool.new(self,myLoadInt,0.5);
       var BoolListening = setlistener("sim/multiplay/generic/int[8]", func {
-          myBoolDecodeur.start();
-      });
-      
-
+          myBoolDecodeur.decode();
+      }); 
       var myMP_light = m2000_mp.MP_light.new(self);
       
       crew_door.alias(float_0);
