@@ -251,7 +251,7 @@
     <legend>MAP (test)</legend>
     <binding>
       <command>nasal</command>
-      <script>mirage2000.createMap()</script>
+      <script>mirage2000.mydisplay()</script>
     </binding>
   </button>
   

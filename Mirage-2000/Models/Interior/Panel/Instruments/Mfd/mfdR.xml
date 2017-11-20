@@ -692,7 +692,7 @@
       </binding>
       <binding>
         <command>nasal</command>
-        <script>mirage2000.changeZoomMap(1)</script>
+        <script>mirage2000.myRightMfd.changeZoomMap(1)</script>
         <condition>
           <equals>
             <property>/instrumentation/mfd/modeR</property>
@@ -756,7 +756,7 @@
       </binding>
       <binding>
         <command>nasal</command>
-        <script>mirage2000.changeZoomMap(-1)</script>
+        <script>mirage2000.myRightMfd.changeZoomMap(-1)</script>
         <condition>
           <equals>
             <property>/instrumentation/mfd/modeR</property>

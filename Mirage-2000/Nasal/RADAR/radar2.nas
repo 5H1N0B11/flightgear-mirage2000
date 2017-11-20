@@ -122,7 +122,7 @@ var Radar = {
         m.ElectricalPath    = (NewElectricalPath == nil) ? "/systems/electrical/outputs/radar" : NewElectricalPath;
         m.detectionTypetab  = (NewRadarType == nil) ? "radar" : NewRadarType; # old : m.detectionTypetab = ["radar","laser"];
         m.source            = (NewSourcePath == nil) ? "ai/models" : NewSourcePath;
-        me.Mp               = props.globals.getNode(m.source);
+        m.Mp               = props.globals.getNode(m.source);
         
         #m.detectionTypeIndex = 0;
         

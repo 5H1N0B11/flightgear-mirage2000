@@ -107,7 +107,7 @@ var main_Init_Loop = func()
     }
     
     #Should be replaced by an object creation
-    settimer(func(){mirage2000.createMap();},10);
+    #settimer(func(){mirage2000.createMap();},10);
 }
 
 var UpdateMain = func
