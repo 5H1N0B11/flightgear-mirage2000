@@ -202,9 +202,9 @@ var incoming_listener = func() {
                     }
                 }
             }
-            elsif(getprop("/controls/armament/mp-messaging") == 1)
+            elsif(getprop("/payload/armament/msg") == 1)
             {
-                # mirage: getprop("/controls/armament/mp-messaging")
+                # mirage: getprop("/payload/armament/msg")
                 # latest version of failure manager and taking damage enabled
                 #print("damage enabled");
                 var last1 = split(" ", last_vector[1]);
@@ -509,7 +509,7 @@ var code_ct = func() {
         rf = 0;
     }
     lf = (cf == nil) ? 0 : cf;
-    var dm = ! getprop("/controls/armament/mp-messaging");
+    var dm = ! getprop("/payload/armament/msg");
     if(dm == nil or dm != 1)
     {
         dm = 0;
@@ -545,7 +545,7 @@ var code_ct = func() {
 }
 
 var not = func() {
-    if(getprop("/controls/armament/mp-messaging") == TRUE and getprop("gear/gear[0]/wow") != TRUE)
+    if(getprop("/payload/armament/msg") == TRUE and getprop("gear/gear[0]/wow") != TRUE)
     {
         var ct = getprop("sim/multiplay/generic/string[15]");
         var msg = "I might be chea"~"ting..";
@@ -586,7 +586,7 @@ var not = func() {
                 {
                     msg = msg ~"Used timewarp..";
                 }
-                if(getprop("/controls/armament/mp-messaging") == FALSE and substr(bits, 6, 1) == "1")
+                if(getprop("/payload/armament/msg") == FALSE and substr(bits, 6, 1) == "1")
                 {
                     msg = msg ~"Have damage off..";
                 }
