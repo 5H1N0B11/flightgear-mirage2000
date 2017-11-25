@@ -730,7 +730,7 @@ dropMissile3 = func(Current_missile, number)
         return;
     }
     var phrase = Current_missile.brevity ~ " at: " ~ Current_missile.Tgt.get_Callsign();# change this to what you want Shinobi
-    if (getprop("/controls/armament/mp-messaging")) {
+    if (getprop("/payload/armament/msg")) {
       missile.defeatSpamFilter(phrase);
     } else {
       setprop("/sim/messages/atc", phrase);
@@ -1062,7 +1062,7 @@ init_weaponSytem();
 # nuc switch
 ##
 var nuc = func {
-    var mpmessaging = getprop("/controls/armament/mp-messaging");
+    var mpmessaging = getprop("/payload/armament/msg");
     if(mpmessaging == 0)
     {
         ltext = "Sorry, Nuke will never be available on this plane(t)!";
@@ -1084,7 +1084,7 @@ var setMessage = func(msg) {
     setprop("/sim/multiplay/chat",msg);
 }
 
-var MPMessaging = props.globals.getNode("/controls/armament/mp-messaging", 1);
+var MPMessaging = props.globals.getNode("/payload/armament/msg", 1);
 MPMessaging.setBoolValue(0);
 
 var MPReport = func() {

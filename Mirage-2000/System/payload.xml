@@ -12,7 +12,7 @@
     <pylon-offset type="int">0</pylon-offset>
     <pylon-stations type="string">sim</pylon-stations>
     <station-name type="string">weight</station-name>
-    <msg alias="/controls/armament/mp-messaging" />
+    <msg>0</msg>
     <!--<damage type="bool">false</damage>-->
     <aim-9>       <!-- aim-9L -->
       <vol-search type="double">0.075</vol-search>

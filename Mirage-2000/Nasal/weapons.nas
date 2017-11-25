@@ -10,7 +10,7 @@ var isFiring = 0;
 var splashdt = 0;
 var tokenFlare = 0;
 var tokenMessageFlare = 0;
-var MPMessaging = props.globals.getNode("/controls/armament/mp-messaging", 1);
+var MPMessaging = props.globals.getNode("/payload/armament/msg", 1);
 
 fire_MG = func(b) {
     var time = getprop("/sim/time/elapsed-sec");

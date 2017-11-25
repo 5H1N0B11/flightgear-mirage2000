@@ -38,8 +38,17 @@ var hud_pilot = hud.HUD.new({"node": "canvasHUD", "texture": "hud.png"});
 # var rwr = hud.HUD.new({"node": "canvasRWR", "texture": "hud.png"});
 
 
+############################################################
+# Global loop function
+# If you need to run nasal as loop, add it in this function
+############################################################
+var global_system_loop = func{
+    mirage2000.weather_effects_loop();
+}
 
 #===============================
+
+
 
 var InitListener = setlistener("/sim/signals/fdm-initialized", func() {
     settimer(main_Init_Loop, 5.0);
@@ -99,15 +108,15 @@ var main_Init_Loop = func()
     print("HUD canvas...Check");
     hud_pilot.update();
     
-    #Should be replaced by an object creation
-    mirage2000.createMap();
-    
     print("MFD ... Check");
     settimer(mirage2000.setCentralMFD, 10);
     if(getprop("/instrumentation/efis/Mode"))
     {
         mirage2000.mdfselection();
     }
+    
+    #Should be replaced by an object creation
+    #settimer(func(){mirage2000.createMap();},10);
 }
 
 var UpdateMain = func
@@ -150,6 +159,7 @@ var updatefunction = func()
         call(m2000_load.Encode_Load,nil,nil,nil, myErr);
         call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
         myFramerate.b = AbsoluteTime;
+        mirage2000.weather_effects_loop();
     }
     
 

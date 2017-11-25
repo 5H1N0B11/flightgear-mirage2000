@@ -45,6 +45,128 @@
     </emission>
   </animation>
 
+    <!-- Objets Lights -->
+  <animation>
+    <type>material</type>
+    <object-name>texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+    </emission>
+  </animation>
+  
+  
+    <animation>
+    <type>material</type>
+    <object-name>base</object-name>
+    <object-name>visses</object-name>
+    <object-name>visses</object-name>
+    <object-name>switch0</object-name>
+    <object-name>switch1</object-name>
+    <object-name>switch2</object-name>
+    <object-name>switch3</object-name>
+    <object-name>molette</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+  
+  
+  
+  
+  <animation>
+    <type>pick</type>
+    <object-name>switch2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/environment/aircraft-effects/cabin-heat-set</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>ac</tooltip-id>
+        <label>AC</label>
+      </binding>
+    </hovered>
+  </animation>
+  
+  
+  
+    <animation>
+    <type>rotate</type>
+    <object-name>switch2</object-name>
+    <property>/environment/aircraft-effects/cabin-heat-set</property>
+    <offset-deg>50</offset-deg>
+    <factor>-50</factor>
+    <center>
+      <x-m>0.00127</x-m>
+      <y-m>-0.00820</y-m>
+      <z-m>0.00885</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  
+  
+  
+    <animation>
+    <type>pick</type>
+    <object-name>switch3</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/environment/aircraft-effects/cabin-air-set</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>ac</tooltip-id>
+        <label>FOG</label>
+      </binding>
+    </hovered>
+  </animation>
+  
+  
+  
+    <animation>
+    <type>rotate</type>
+    <object-name>switch3</object-name>
+    <property>/environment/aircraft-effects/cabin-air-set</property>
+    <offset-deg>50</offset-deg>
+    <factor>-50</factor>
+    <center>
+      <x-m>0.00127</x-m>
+      <y-m>-0.00820</y-m>
+      <z-m>0.00885</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  
+  
+  
+  
+  
   <!--
   Centre de rotation de molette
   
