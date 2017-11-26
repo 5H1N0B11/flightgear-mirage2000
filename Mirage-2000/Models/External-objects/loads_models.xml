@@ -292,7 +292,7 @@
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> 0.000</y-m>
-      <z-m>-1.656</z-m>
+      <z-m>-1.756</z-m>
     </offsets>
   </model>
   
@@ -302,7 +302,7 @@
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> -0.200</y-m>
-      <z-m>-1.756</z-m>
+      <z-m>-1.895</z-m>
     </offsets>
   </model>
   
@@ -312,7 +312,7 @@
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> 0.200</y-m>
-      <z-m>-1.756</z-m>
+      <z-m>-1.895</z-m>
     </offsets>
   </model>
 

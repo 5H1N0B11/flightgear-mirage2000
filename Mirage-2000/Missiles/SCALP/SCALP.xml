@@ -53,8 +53,6 @@ Utiliser la variable qui déclenche la smoke et trouver la bonne interpolation.
       <z>1</z>
     </axis>
   </animation>
-  
-  
 
   <animation>
     <type>pick</type>

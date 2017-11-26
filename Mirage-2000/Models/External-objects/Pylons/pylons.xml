@@ -10,6 +10,7 @@
     <object-name>pylon3.L</object-name>
     <object-name>pylon4.L</object-name>
     <object-name>pylon.C</object-name>
+    <object-name>pylon.C.double_gbu</object-name>
     <object-name>pylon4.R</object-name>
     <object-name>pylon3.R</object-name>
     <object-name>pylon2.R</object-name>
@@ -23,6 +24,7 @@
     <object-name>pylon3.L</object-name>
     <object-name>pylon4.L</object-name>
     <object-name>pylon.C</object-name>
+    <object-name>pylon.C.double_gbu</object-name>
     <object-name>pylon4.R</object-name>
     <object-name>pylon3.R</object-name>
     <object-name>pylon2.R</object-name>
@@ -135,6 +137,17 @@
         <property>sim/weight[3]/selected</property>
         <value>none</value>
       </not-equals>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>pylon.C.double_gbu</object-name>
+    <condition>
+      <equals>
+        <property>sim/weight[3]/selected</property>
+        <value>Double GBU12</value>
+      </equals>
     </condition>
   </animation>
 
