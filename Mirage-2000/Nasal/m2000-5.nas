@@ -115,6 +115,8 @@ var main_Init_Loop = func()
         mirage2000.mdfselection();
     }
     
+    
+    settimer(environment.environment, 20);
     #Should be replaced by an object creation
     #settimer(func(){mirage2000.createMap();},10);
 }
