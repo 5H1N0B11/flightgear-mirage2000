@@ -45,7 +45,7 @@
     </emission>
   </animation>
 
-    <!-- Objets Lights -->
+  <!-- Objets Lights -->
   <animation>
     <type>material</type>
     <object-name>texte</object-name>
@@ -56,9 +56,8 @@
       <blue>  0.25 </blue>
     </emission>
   </animation>
-  
-  
-    <animation>
+
+  <animation>
     <type>material</type>
     <object-name>base</object-name>
     <object-name>visses</object-name>
@@ -79,10 +78,7 @@
       <blue>  0.13 </blue>
     </emission>
   </animation>
-  
-  
-  
-  
+
   <animation>
     <type>pick</type>
     <object-name>switch2</object-name>
@@ -101,10 +97,8 @@
       </binding>
     </hovered>
   </animation>
-  
-  
-  
-    <animation>
+
+  <animation>
     <type>rotate</type>
     <object-name>switch2</object-name>
     <property>/environment/aircraft-effects/cabin-heat-set</property>
@@ -121,10 +115,8 @@
       <z>0</z>
     </axis>
   </animation>
-  
-  
-  
-    <animation>
+
+  <animation>
     <type>pick</type>
     <object-name>switch3</object-name>
     <action>
@@ -142,10 +134,8 @@
       </binding>
     </hovered>
   </animation>
-  
-  
-  
-    <animation>
+
+  <animation>
     <type>rotate</type>
     <object-name>switch3</object-name>
     <property>/environment/aircraft-effects/cabin-air-set</property>
@@ -162,11 +152,7 @@
       <z>0</z>
     </axis>
   </animation>
-  
-  
-  
-  
-  
+
   <!--
   Centre de rotation de molette
   

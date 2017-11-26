@@ -445,9 +445,8 @@
       </and>
     </condition>
   </animation>
-  
-  
-    <!-- Center Double GBU12 -->
+
+  <!-- Center Double GBU12 -->
   <animation>
     <type>select</type>
     <object-name>Center-Right-GBU12</object-name>
@@ -469,7 +468,7 @@
     </condition>
   </animation>
   
-    <animation>
+  <animation>
     <type>select</type>
     <object-name>Center-Left-GBU12</object-name>
     <condition>
@@ -485,8 +484,6 @@
       </and>
     </condition>
   </animation>
-  
-  
 
   <!-- Center SCALP -->
   <animation>

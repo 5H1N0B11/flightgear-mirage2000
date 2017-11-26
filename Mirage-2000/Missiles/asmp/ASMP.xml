@@ -4,4 +4,11 @@
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>
+
+  <effect>
+    <name>metallic</name>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/metal/metal</inherits-from>
+    <object-name>ASMP</object-name>
+  </effect>
+
 </PropertyList>

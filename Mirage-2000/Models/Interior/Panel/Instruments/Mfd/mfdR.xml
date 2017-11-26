@@ -372,9 +372,6 @@
       </binding>
     </action>
   </animation>-->
-  
-  
-  
 
   <animation>
     <type>pick</type>
@@ -399,8 +396,7 @@
       </binding>
     </action>
   </animation>
-  
-  
+
 <!--  <animation>
     <type>pick</type>
     <object-name>pot-r1</object-name>
@@ -424,8 +420,6 @@
       </binding>
     </action>
   </animation>-->
-  
-  
 
   <!--  R2  -->
   <animation>
