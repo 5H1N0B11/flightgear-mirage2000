@@ -58,7 +58,9 @@ input = {
   apLockHead:       "autopilot/locks/heading",
   apLockSpeed:      "autopilot/locks/speed",
   augmentation:     "/controls/engines/engine[0]/augmentation",
-  dcVolt:           "systems/electrical/outputs/dc-voltage",
+  dcVolt:           "systems/electrical/volts",
+  
+  
   dme:              "instrumentation/dme/KDI572-574/nm",
   dmeDist:          "instrumentation/dme/indicated-distance-nm",
   downFps:          "/velocities/down-relground-fps",
@@ -144,21 +146,22 @@ input = {
   viewYOffset:      "sim/current-view/y-offset-m",
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   
-  airconditioningtype: "controls/ventilation/airconditioning-type",
-  airconditioningtemperature: "controls/ventilation/airconditioning-temperature",
-  airconditioningenabled: "controls/ventilation/airconditioning-enabled",
-  windshieldhotairknob: "controls/ventilation/windshield-hot-air-knob",
+  airconditioningtype:        "/controls/ventilation/airconditioning-type",
+  airconditioningtemperature: "/controls/ventilation/airconditioning-temperature",
+  airconditioningenabled:     "/controls/ventilation/airconditioning-enabled",
+  windshieldhotairknob:       "/controls/ventilation/windshield-hot-air-knob",
+  airConditionKnob:           "/controls/ventilation/knob",
   canopyPos:        "sim/model/door-positions/crew/position-norm",
-  glasstempIndex:  "/environment/aircraft-effects/glass-temperature-index",
-  fogNormInside:  "/environment/aircraft-effects/fog-inside",
-  fogNormOutside: "/environment/aircraft-effects/fog-outside",
-  frostNormInside:"/environment/aircraft-effects/frost-inside",
-  frostNormOutside:"/environment/aircraft-effects/frost-outside",
+  glasstempIndex:   "/environment/aircraft-effects/glass-temperature-index",
+  fogNormInside:    "/environment/aircraft-effects/fog-inside",
+  fogNormOutside:   "/environment/aircraft-effects/fog-outside",
+  frostNormInside:  "/environment/aircraft-effects/frost-inside",
+  frostNormOutside: "/environment/aircraft-effects/frost-outside",
 };
 
 var FALSE = 0;
 var TRUE = 1;
-
+var LOOP_SLOW_RATE     = 1.50;
 
   foreach(var name; keys(input)) {
       input[name] = props.globals.getNode(input[name], 1);
@@ -169,6 +172,25 @@ input.fogNormInside.setValue(0);
 input.fogNormOutside.setValue(0);
 input.frostNormInside.setValue(0);
 input.frostNormOutside.setValue(0);
+input.airConditionKnob.setValue(0);
+input.airconditioningenabled.setValue(0);
+input.windshieldhotairknob.setValue(0);
+input.airconditioningtemperature.setValue(22);
+input.airconditioningtype.setValue(0);
+
+
+
+#airConditionKnob is middle at 0 in auto mode.180 middle in manual mode
+#90 Max Hot.91 => going to manual d
+# 
+#    30 -------------   22 ------------- 15     Temp deg C
+#                   Automatic
+#    90  ------------   0  ------------- 270    Knob deg
+#    |                                    | 
+#    91  ------------- 180 ------------- 269    Knob deg
+#                   Manual
+#    30  ------------- 22 ---------------15     Temp deg C
+                  
 
 var acSetting = 0;
 var acTimer = 0;
@@ -221,6 +243,7 @@ var mask=0;
 # controls/ventilation/airconditioning-temperature
 # controls/ventilation/airconditioning-enabled
 # controls/ventilation/windshield-hot-air-knob
+#/controls/ventilation/knob
 
 
 #From the Viggen. Has to be converted
@@ -232,23 +255,23 @@ var environment =  func (){
 
     # If AC is set to warm or cold, then it will put warm/cold air into the cockpit for 12 seconds, and then revert to auto setting.
 
-    acSetting = getprop("controls/ventilation/airconditioning-type");
-    if (acSetting != 0) {
+     acSetting = getprop("controls/ventilation/airconditioning-type");
+#     if (acSetting != 0) {
       # 12 second of cold or hot air has been selected.
-      if (acPrev != acSetting) {
-        acTimer = input.elapsed.getValue();
-      } elsif (acTimer+12 < input.elapsed.getValue()) {
-        setprop("controls/ventilation/airconditioning-type", 0);
-        acSetting = 0;
-      }
-    }
-    acPrev = acSetting;
-    tempAC = getprop("controls/ventilation/airconditioning-temperature");
-    if (acSetting == -1) {
-      tempAC = -200;
-    } elsif (acSetting == 1) {
-      tempAC = 200;
-    }
+#       if (acPrev != acSetting) {
+#         acTimer = input.elapsed.getValue();
+#       } elsif (acTimer+12 < input.elapsed.getValue()) {
+#         setprop("controls/ventilation/airconditioning-type", 0);
+#         acSetting = 0;
+#       }
+#     }
+#     acPrev = acSetting;
+     tempAC = getprop("controls/ventilation/airconditioning-temperature");
+#     if (acSetting == -1) {
+#       tempAC = -200;
+#     } elsif (acSetting == 1) {
+#       tempAC = 200;
+#     }
 
     # Here is calculated how raindrop move over the surface of the glass
 
@@ -283,13 +306,16 @@ var environment =  func (){
     pilot_deg_min  = 0.2;
     knob = getprop("controls/ventilation/windshield-hot-air-knob");
     hotAirOnWindshield = input.dcVolt.getValue() > 23?knob:0;
-    if (input.canopyPos.getValue() > 0 or input.canopyHinge.getValue() == FALSE) {
+    
+    
+    if (input.canopyPos.getValue() > 0 ){ #or input.canopyHinge.getValue() == FALSE) {
       tempInside = tempOutside;
     } else {
-      tempInside = tempInside + hotAirOnWindshield * (hotAir_deg_min/(60/LOOP_SLOW_RATE)); # having hot air on windshield will also heat cockpit (10 degs/5 mins).
+        tempInside = tempInside + hotAirOnWindshield * (hotAir_deg_min/(60/LOOP_SLOW_RATE)); # having hot air on windshield will also heat cockpit (10 degs/5 mins).
       if (tempInside < 37) {
         tempInside = tempInside + (pilot_deg_min/(60/LOOP_SLOW_RATE)); # pilot will also heat cockpit with 1 deg per 5 mins
       }
+      
       # outside temp will influence inside temp:
       coolingFactor = clamp(abs(tempInside - tempOutside)*0.005, 0, 0.10);# 20 degrees difference will cool/warm with 0.10 Deg C every 1.5 second
       if (tempInside < tempOutside) {
@@ -306,13 +332,13 @@ var environment =  func (){
         }
       }
     }
-
+    # print("tempInside:"~tempInside);
     # calc temp of glass itself
     tempIndex = getprop("/environment/aircraft-effects/glass-temperature-index"); # 0.80 = good window   0.45 = bad window
     tempGlass = tempIndex*(tempInside - tempOutside)+tempOutside;
     
     # calc dewpoint inside
-    if (input.canopyPos.getValue() > 0 or input.canopyHinge.getValue() == FALSE) {
+    if (input.canopyPos.getValue() > 0){ # or input.canopyHinge.getValue() == FALSE) {
       # canopy is open, inside dewpoint aligns to outside dewpoint instead
       tempInsideDew = tempOutsideDew;
     } else {
@@ -395,3 +421,21 @@ var environment =  func (){
   var clamp = func(v, min, max) {
    v < min ? min : v > max ? max : v
   };
+  
+var TempInterpolation = func(){
+  #airConditionKnob is middle at 0 in auto mode.180 middle in manual mode
+#90 Max Hot.91 => going to manual d
+# 
+#    30 -------------   22 ------------- 15     Temp deg C
+#                   Automatic
+#    90  ------------   0  ------------- 270    Knob deg
+#    |                                    | 
+#    91  ------------- 180 ------------- 269    Knob deg
+#                   Manual
+#    30  ------------- 22 ---------------15     Temp deg C
+  
+# input.airConditionKnob.setValue(0);
+# controls/ventilation/airconditioning-temperature
+  input.airconditioningtemperature.setValue(8*math.sin(input.airConditionKnob.getValue()*D2R)+22);
+  input.airconditioningtype.setValue(math.cos(input.airConditionKnob.getValue()*D2R)<0?1:0);
+}

@@ -18,7 +18,7 @@ var LastTime              = 0;
 # Elapsed for time > 0.25 sec
 var Elapsed               = 0;
 var myErr                 = [];
-var myFramerate           = {a:0,b:0,c:0,d:0};#a = 0.1, b=0.2, c = 0.5, d=1
+var myFramerate           = {a:0,b:0,c:0,d:0,e:0};#a = 0.1, b=0.2, c = 0.5, d=1, e=1.5
 
 #======   OBJECT CREATION =======
 
@@ -161,7 +161,8 @@ var updatefunction = func()
         call(m2000_load.Encode_Load,nil,nil,nil, myErr);
         call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
         myFramerate.b = AbsoluteTime;
-        mirage2000.weather_effects_loop();
+        #mirage2000.weather_effects_loop();
+        #environment.environment();
     }
     
 
@@ -175,6 +176,16 @@ var updatefunction = func()
         }
         myFramerate.d = AbsoluteTime;
     }
+    
+    ###################### rate 1.5 ###########################
+    if(AbsoluteTime - myFramerate.e > 1.5)
+    {
+        environment.environment();
+        myFramerate.e = AbsoluteTime;
+    }
+    
+    
+    
 
     # Update at the end
     call(mirage2000.UpdateMain,nil,nil,nil, myErr);

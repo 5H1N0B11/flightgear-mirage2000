@@ -140,7 +140,7 @@
       <file>Aircraft/Mirage-2000/Nasal/MFD/viewTargeting.nas</file>      
       <file>Aircraft/Mirage-2000/Nasal/flir.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/weather.nas</file>
+<!--      <file>Aircraft/Mirage-2000/Nasal/weather.nas</file>-->
     </mirage2000>
     <m2000_controls>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-controls.nas</file>
