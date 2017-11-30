@@ -8,7 +8,7 @@
   <effect>
     <name>metallic</name>
     <inherits-from>Aircraft/Mirage-2000/Models/Effects/metal/metal</inherits-from>
-    <object-name>ASMP</object-name>
+    <object-name>ASMP-pointe</object-name>
   </effect>
 
 </PropertyList>
