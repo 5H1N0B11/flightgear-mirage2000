@@ -1,3 +1,4 @@
+print("*** LOADING weather.nas ... ***");
 var start = 1;
 var moisture = 0;
 var foglevel = 0;

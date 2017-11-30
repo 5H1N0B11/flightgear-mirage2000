@@ -88,6 +88,10 @@
         <command>property-toggle</command>
         <property>/environment/aircraft-effects/cabin-heat-set</property>
       </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/ventilation/airconditioning-enabled</property>
+      </binding>  
     </action>
     <hovered>
       <binding>
@@ -125,6 +129,10 @@
         <command>property-toggle</command>
         <property>/environment/aircraft-effects/cabin-air-set</property>
       </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/ventilation/windshield-hot-air-knob</property>
+      </binding>
     </action>
     <hovered>
       <binding>
@@ -153,6 +161,50 @@
     </axis>
   </animation>
 
+  
+  <animation>
+    <type>knob</type>
+    <object-name>molette</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-adjust</command>
+        <property>/controls/ventilation/knob</property>
+        <factor>10</factor>
+        <min>0</min>
+        <max>360</max>                
+        <wrap>true</wrap>
+      </binding>
+      <binding>
+          <command>nasal</command>
+          <script>
+              #gui.popupTip(sprintf("Knob : %.1f", getprop("/controls/ventilation/knob")));
+              environment.TempInterpolation();
+              gui.popupTip(sprintf("Temp : %.1f, Manual %d", getprop("/controls/ventilation/airconditioning-temperature"),getprop("/controls/ventilation/airconditioning-type")));
+          </script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molette</object-name>
+    <property>/controls/ventilation/knob</property>
+    <factor>1</factor>
+    <center>
+      <x-m>0.00162</x-m>
+      <y-m>0.01128</y-m>
+      <z-m>0.00068</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  
+  
+  
   <!--
   Centre de rotation de molette
   
