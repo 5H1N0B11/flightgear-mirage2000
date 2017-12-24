@@ -1,7 +1,124 @@
 print("*** LOADING MAP.nas ... ***");
 var zoom  = 10;
 var width = 768;
-var height = 576; 
+var height = 576;
+
+
+#------------------------------------------------------------------------------- thanks to Harbal1
+#===============================================================================
+#                                                                      FUNCTIONS
+
+#-------------------------------------------------------------------------------
+#                                                                       draw_arc
+# this function draws an arc
+# params :
+# - element     : canvas object created by createChild()
+# - center_x    : coord x of the center of the arc in px
+# - center_y    : coord y of the center of the arc in px
+# - radius      : radius
+# - start_angle : start angle in deg ()
+# - end_angle   : end angle in deg ()
+# - color       : color
+# - line_width  : line_width
+#
+var draw_arc = func(element, center_x, center_y, radius, start_angle, end_angle, color, line_width)
+{
+    var coord_start_x = center_x + (radius * math.cos(start_angle * D2R));
+    var coord_start_y = center_y - (radius * math.sin(start_angle * D2R));
+
+    var to_x = -(radius * math.cos(start_angle * D2R)) + (radius * math.cos(end_angle * D2R));
+    var to_y = (radius * math.sin(start_angle * D2R)) - (radius * math.sin(end_angle * D2R));
+
+    element.setStrokeLineWidth(line_width)
+        .set("stroke", color)
+        .moveTo(coord_start_x, coord_start_y)
+        .arcSmallCCW(radius, radius, 0, to_x, to_y);
+        
+    print("coord_start_x:"~coord_start_x~"| coord_start_y:"~coord_start_y~"| radius:"~ radius ~"| to_x:"~to_x~"| to_y:"~ to_y);
+}
+
+#-------------------------------------------------------------------------------
+#                                                                     draw_piste
+# this function creates a piste
+#   
+# params :
+# - element  : canvas object created by createChild()
+#
+var draw_piste = func(element)
+{
+    element.setStrokeLineWidth(5)
+        .set("stroke", "rgba(40, 240, 40, 1)")
+        .moveTo(-13, 13)
+        .lineTo(-13, -13)
+        .moveTo(13, 13)
+        .lineTo(13, -13);
+
+    # creation du vecteur vitesse+cap de la cible
+    element.setStrokeLineWidth(4)
+        .set("stroke", "rgba(40, 240, 40, 1)")
+        .moveTo(0, 0)
+        .lineTo(0, 0);
+
+    element.setStrokeLineWidth(4)
+        .set("stroke", "rgba(40, 240, 40, 1)")
+        .moveTo(-12, 11)
+        .lineTo(12, 11)
+        .moveTo(-12, -11)
+        .lineTo(12, -11);
+}
+
+#-------------------------------------------------------------------------------
+#                                                                   update_piste
+# this function updates piste - length of vector = distance in 15s
+#   
+# params :
+# - element  : canvas object created by createChild()
+# - FIXME ...
+#
+var update_piste = func(element, my_heading, my_alt, target_heading, target_alt, target_speed, pixel_range, radar_range)
+{
+    var vector_x = ((target_speed * pixel_range / radar_range) / 240) * math.sin((target_heading - my_heading) * D2R);
+    var vector_y = ((target_speed * pixel_range / radar_range) / 240) * math.cos((target_heading - my_heading) * D2R);
+
+    if((target_alt - 1000 ) < my_alt)
+    {
+        element._node.getNode("coord[12]", 1).setValue(-12);
+    }
+    else
+    {
+        element._node.getNode("coord[12]", 1).setValue(12);
+    }
+    if((target_alt + 1000 ) > my_alt)
+    {
+        element._node.getNode("coord[16]", 1).setValue(-12);
+    }
+    else
+    {
+        element._node.getNode("coord[16]", 1).setValue(12);
+    }
+    element._node.getNode("coord[8]", 1).setValue(vector_x);
+    element._node.getNode("coord[9]", 1).setValue(-vector_y);
+}
+
+#-------------------------------------------------------------------------------
+#                                                                update_piste_fl
+# this function updates flight level piste label position
+#   
+# params :
+# - element  : canvas object created by createChild()
+# - FIXME ...
+#
+var update_piste_fl = func(element, my_heading, target_heading)
+{
+    var vector_x = -30 * math.sin((target_heading - my_heading) * D2R);
+    var vector_y =  30 * math.cos((target_heading - my_heading) * D2R);
+
+    element.setTranslation(vector_x, vector_y);
+}
+
+
+
+
 
 var rightMFDcanvas = {
   canvas_settings: {
@@ -17,13 +134,16 @@ var rightMFDcanvas = {
         parents: [rightMFDcanvas],
         canvas: canvas.new(rightMFDcanvas.canvas_settings)
       };
-      ##
+      ## Base for the canvas
       m.canvas.addPlacement(placement);
       m.root = m.canvas.createGroup();
+      m.mapStuff = m.root.createChild("group");
+      m.radarStuff = m.root.createChild("group"); #Should be replaced by rwr
+      
       
       #MAP stuff
-      m.g_front = m.root.createChild("group");
-      m.g_back = m.root.createChild("group");
+      m.g_front = m.mapStuff.createChild("group");
+      m.g_back = m.mapStuff.createChild("group");
       
       #Aircraft orientation/position stuff
       m.myHeadingProp = props.globals.getNode("orientation/heading-deg");
@@ -99,6 +219,23 @@ var rightMFDcanvas = {
       ##ETC all needed for MAP and RWR canvas  
       m.zoom = 10;
       m.update_timer = nil;
+      
+      ## RADAR STUFF ##
+      m.MapToggle = 1;
+      
+      # creation des arcs "range"
+      m.arc_range1 = m.radarStuff.createChild("path", "arc_range1");
+      #m.arc_range1.moveTo(334,256).arcSmallCCW(50, 50, 0,  434, 256);
+      m.arc_range1.setStrokeLineWidth(3)
+      .moveTo(484, 256)
+      .set("stroke", "rgba(100, 100, 100, 1)")
+      .arcSmallCCW(100, 100, 0, -200, 0)
+      .arcSmallCCW(100, 100, 0, 200, 0);
+      
+#        draw_arc(m.arc_range1, 384,256 , 100 , 0, 180, "rgba(100, 100, 100, 1)", 3);
+      
+      
+      
       
       return m;
     },
@@ -199,6 +336,28 @@ var rightMFDcanvas = {
               me.last_type = me.type;
           }
       },
+      updateRadar:func(){
+        #Rotating aircraft to the front.
+         me.svg_symbol.setRotation(0*D2R);
+        
+      },
+      
+      
+      
+      changeMfD_Displaying:func(){
+        
+        #Temporary function : we change the displaying called : mirage2000.changeMfD_Displaying()
+        if(me.MapToggle){
+          me.mapStuff.hide();
+          me.radarStuff.show();
+          me.MapToggle = 0;
+        }else{
+          me.mapStuff.show();
+          me.radarStuff.hide();
+          me.MapToggle = 1;
+        }
+        
+      },
     
     
     
@@ -208,7 +367,12 @@ var rightMFDcanvas = {
       #Whatever need to be updated
       var update_timer = maketimer(0, func(){
           #print("Hello World");
-          me.updateTiles();});
+          if(me.MapToggle){
+            me.updateTiles();
+          }else{
+            me.updateRadar()
+          }
+      });
       update_timer.start();
       
     },

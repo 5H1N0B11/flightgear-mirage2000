@@ -180,7 +180,12 @@ var updatefunction = func()
     ###################### rate 1.5 ###########################
     if(AbsoluteTime - myFramerate.e > 1.5)
     {
-        environment.environment();
+        call(environment.environment,nil,nil,nil, myErr);
+        if(size(myErr)>0){
+          debug.printerror(myErr);
+        }
+          
+        
         myFramerate.e = AbsoluteTime;
     }
     

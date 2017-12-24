@@ -144,6 +144,7 @@ input = {
   fogNormOutside:   "/environment/aircraft-effects/fog-outside",
   frostNormInside:  "/environment/aircraft-effects/frost-inside",
   frostNormOutside: "/environment/aircraft-effects/frost-outside",
+  tempInside :      "/environment/aircraft-effects/temperature-inside-degC",
 };
 
 var FALSE = 0;

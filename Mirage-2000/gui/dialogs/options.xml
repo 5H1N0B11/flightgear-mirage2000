@@ -248,10 +248,10 @@
   <hrule />
 
   <button>
-    <legend>MAP (test)</legend>
+    <legend>MAP (toggleing display)</legend>
     <binding>
       <command>nasal</command>
-      <script>mirage2000.mydisplay()</script>
+      <script>mirage2000.myRightMfd.changeMfD_Displaying()</script>
     </binding>
   </button>
   
@@ -259,17 +259,17 @@
   
   
   
-  <button>
+<!--  <button>
     <legend>RWR (test)</legend>
     <binding>
       <command>nasal</command>
       <script>mirage2000.createRWR()</script>
     </binding>
-  </button>
+  </button>-->
 
 <!--
   <button>
-    <legend>Type</legend>
+    <legend></legend>
     <binding>
       <command>nasal</command>
       <script>mirage2000.changeindex()</script>
