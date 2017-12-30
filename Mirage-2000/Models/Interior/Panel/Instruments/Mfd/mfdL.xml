@@ -415,7 +415,7 @@
   <!-- Select missile -->
   <animation>
     <type>pick</type>
-    <object-name>pot-l1</object-name>
+    <object-name>bt-h1</object-name>
     <action>
       <button>0</button>
       <repeatable>false</repeatable>
