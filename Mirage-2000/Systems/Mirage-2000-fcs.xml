@@ -14,7 +14,110 @@
 	<property value="0">fcs/slat-2L-pos-deg</property>
 	<property value="0">fcs/slat-2R-pos-deg</property>
 
-	<channel name="Elevons">
+    <property value="2.2"> systems/fbw/theta-pid-kp </property>
+    <property value="0.002"> systems/fbw/theta-pid-ki</property>
+    <property value="0.0034"> systems/fbw/theta-pid-kd </property>
+    <property value="1">systems/fbw/theta-active</property>
+    <property value="0">systems/fbw/theta-target</property>
+    <property value="0.47">systems/fbw/theta-max</property>
+    <property value="1.6">systems/fbw/theta-gain</property>
+    <property value="2331.12">systems/fbw/theta-lag-constant</property>
+    <property value="0">systems/fbw/q-demand</property>
+    <channel name="Theta Control Laws">
+        <switch name="position/aircraft-on-ground">
+            <description>Aircraft on ground</description>
+            <default value="0"/>
+            <test value="1" logic="OR">
+                gear/unit[0]/WOW ne 0
+                gear/unit[1]/WOW ne 0
+                gear/unit[2]/WOW ne 0
+            </test>
+        </switch>
+        <switch name="systems/fbw/theta-trigger">
+            <default value="0.0"/>
+
+            <test value="1.0">
+                <and>
+                    propulsion/engine[0]/set-running ne 0
+                    systems/fbw/theta-active ne 0
+                    position/aircraft-on-ground eq 0
+                </and>
+            </test>
+
+        </switch>
+
+        <scheduled_gain name="Theta control Q Rate">
+            <input>velocities/q-aero-rad_sec</input>
+            <table>
+                <independentVar lookup="row">velocities/ve-kts</independentVar>
+                <tableData>
+                    30     0.00
+                    60     1
+                </tableData>
+            </table>
+            <gain>fcs/pitch-damper-active</gain>
+            <min> -0.2857142857142857 </min>
+            <max>  0.2857142857142857 </max>
+            <output>systems/fbw/theta-q-control</output>
+        </scheduled_gain>
+
+        <!-- here we adjust the q expected based on stick position -->
+
+        <summer name="systems/fbw/theta-divergence">
+            <input> velocities/q-aero-rad_sec </input>
+            <input> -systems/fbw/q-demand </input>
+            <clipto>
+                <min>-systems/fbw/theta-max</min>
+                <max> systems/fbw/theta-max</max>
+            </clipto>
+        </summer>
+
+        <lag_filter name="systems/fbw/theta-divergence-lag">
+            <input> systems/fbw/theta-divergence </input>
+            <c1> systems/fbw/theta-lag-constant </c1>
+        </lag_filter>
+
+        <switch name="systems/fbw/theta-switch">
+            <default value="0.0"/>
+            <test value="systems/fbw/theta-divergence-lag">
+                systems/fbw/theta-active == 1
+            </test>
+        </switch>
+
+        <pid name="systems/fbw/theta-divergence-pid">
+            <input>systems/fbw/theta-switch</input>
+            <kp> systems/fbw/theta-pid-kp </kp>
+            <ki> systems/fbw/theta-pid-ki </ki>
+            <kd> systems/fbw/theta-pid-kd </kd>
+            <trigger> systems/fbw/theta-trigger </trigger>
+        </pid>
+
+        <pure_gain name="systems/fbw/theta-divergence-pid-contents">
+            <input> systems/fbw/theta-divergence-pid </input>
+            <gain> 1.0 </gain>
+            <output>systems/fbw/theta-divergence-pid-contents</output>
+        </pure_gain>
+
+        <pure_gain name="Theta Command">
+            <input> systems/fbw/theta-divergence-pid </input>
+            <gain> systems/fbw/theta-gain </gain>
+            <clipto>
+                <min> -0.8</min>
+                <max> 0.8</max>
+            </clipto>
+            <output>systems/fbw/theta-cmd</output>
+        </pure_gain>
+        <switch name="systems/fbw/theta-cmd-delta">
+            <default value="0.0"/>
+            <test value="systems/fbw/theta-cmd">
+                systems/fbw/theta-trigger == 1
+            </test>
+        </switch>
+
+
+    </channel>
+    
+    <channel name="Elevons">
 	
 		<summer name="Roll Trim Sum">
 			<input>/controls/flight/aileron</input>
@@ -28,6 +131,7 @@
 		<summer name="Pitch Trim Sum">
 			<input>/controls/flight/elevator</input>
 			<input>/controls/flight/elevator-trim</input>
+            <input>systems/fbw/theta-cmd</input>
 			<clipto>
 				<min>-1</min>
 				<max>1</max>
@@ -46,8 +150,8 @@
 		<aerosurface_scale name="Elevon Roll Deg">
 			<input>fcs/roll-trim-sum</input>
 			<range>
-				<min>-12.5</min>
-				<max>12.5</max>
+				<min>12.5</min>
+				<max>-12.5</max>
 			</range>
 			<output>fcs/roll-pos-deg</output>
 		</aerosurface_scale>
