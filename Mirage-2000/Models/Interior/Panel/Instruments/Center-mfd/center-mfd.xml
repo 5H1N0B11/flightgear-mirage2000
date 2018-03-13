@@ -187,8 +187,7 @@
       <binding>
         <command>set-tooltip</command>
         <tooltip-id>Center_ND_modes</tooltip-id>
-        <label>Center ND modes : %s</label>
-        <property>/instrumentation/efis/inputs/nd-centered</property>
+        <label>Toggle center ND</label>
       </binding>
     </hovered>
   </animation>
@@ -332,6 +331,7 @@
         <value>80</value>
         <value>160</value>
         <value>320</value>
+        <wrap>0</wrap>
       </binding>
       <binding>
         <command>property-assign</command>
@@ -344,8 +344,15 @@
         <property>/instrumentation/efis/inputs/range-nm</property>
       </binding>
     </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>Center_ND_range</tooltip-id>
+        <label>Range : %s</label>
+        <property>/instrumentation/efis/inputs/range-nm</property>
+      </binding>
+    </hovered>
   </animation>
-
   <animation>
     <type>pick</type>
     <object-name>trim1</object-name>
@@ -362,6 +369,7 @@
         <value>40</value>
         <value>20</value>
         <value>10</value>
+        <wrap>0</wrap>
       </binding>
       <binding>
         <command>property-assign</command>
@@ -383,70 +391,20 @@
     <action>
       <button>0</button>
       <binding>
-        <command>property-toggle</command>
-        <property>/instrumentation/efis/serviceable</property>
-      </binding>
-    </action>
-  </animation>
-
-  <animation>
-    <type>pick</type>
-    <object-name>trim2</object-name>
-    <action>
-      <button>3</button>
-      <!--  scroll up -->
-      <repeatable>false</repeatable>
-      <binding>
         <command>property-cycle</command>
         <property>/instrumentation/efis/on</property>
         <value>1</value>
         <value>0</value>
       </binding>
     </action>
-  </animation>
-
-  <animation>
-    <type>pick</type>
-    <object-name>trim2</object-name>
-    <action>
-      <button>4</button>
-      <!--  scroll down -->
-      <repeatable>false</repeatable>
-      <binding>
-        <command>property-cycle</command>
-        <property>/instrumentation/efis/on</property>
-        <value>0</value>
-        <value>1</value>
-      </binding>
-    </action>
-  </animation>
-
-  <!--######################Tooltips###########################-->
-<!--  <animation>
-    <type>pick</type>
-    <object-name>trim2</object-name>
     <hovered>
       <binding>
         <command>set-tooltip</command>
-        <tooltip-id>mode-mfd</tooltip-id>
-        <label>Mode : %s</label>
-        <property>/instrumentation/efis/on</property>
+        <tooltip-id>center-mfd-on-off</tooltip-id>
+        <label>On/Off</label>
       </binding>
     </hovered>
-  </animation>-->
-
-<!--  <animation>
-    <type>pick</type>
-    <object-name>trim1</object-name>
-    <hovered>
-      <binding>
-        <command>set-tooltip</command>
-        <tooltip-id>range-nm</tooltip-id>
-        <label>Range : %3d nm</label>
-        <property>/instrumentation/efis/inputs/range-nm</property>
-      </binding>
-    </hovered>
-  </animation>-->
+  </animation>
 
   <animation>
     <type>pick</type>
@@ -519,4 +477,49 @@
     <z-offset>0.87</z-offset>
   </animation>
 
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Center MFD</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>.02</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
 </PropertyList>
