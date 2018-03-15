@@ -55,6 +55,18 @@
     </condition>
   </model-->
 
+
+  <model>
+    <name>Stick</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/stick/stick.xml</path>
+    <offsets>
+      <x-m> -3.0 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m> -0.65 </z-m>
+    </offsets>
+  </model>
+
+
   <!-- Tableau de bord pilote -->
   <model>
     <name>Panel</name>

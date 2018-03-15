@@ -26,9 +26,20 @@
   </animation>
 
   <animation>
-    <name>AnimeTete</name>
+    <name>bloc_tete</name>
     <object-name>lunettes</object-name>
     <object-name>tete</object-name>
+  </animation>
+  <animation>
+    <name>bloc_pilote</name>
+    <object-name>tete</object-name>
+    <object-name>lunettes</object-name>
+    <object-name>corps</object-name>
+    <object-name>bras</object-name>
+    <object-name>avantbras</object-name>
+    <object-name>main</object-name>
+    <object-name>avantbrasD</object-name>
+    <object-name>mainD</object-name>
   </animation>
 
   <animation>
@@ -37,9 +48,6 @@
     <property>sim/model/door-positions/crew/position-norm</property>
     <factor> 45 </factor>
     <center>
-      <!--x-m> 0.080 </x-m>
-      <y-m> 0.000 </y-m>
-      <z-m> 0.486 </z-m-->
       <x-m> 0.045 </x-m>
       <y-m> 0.000 </y-m>
       <z-m> 0.486 </z-m>
@@ -51,15 +59,13 @@
     </axis>
   </animation>
 
+<!--
   <animation>
     <type>rotate</type>
-    <object-name>AnimeTete</object-name>
+    <object-name>bloc_tete</object-name>
     <property>controls/flight/elevator</property>
     <factor> -15 </factor>
     <center>
-      <!--x-m> 0.074 </x-m>
-      <y-m> 0.000 </y-m>
-      <z-m> 0.359 </z-m-->
       <x-m> 0.049 </x-m>
       <y-m> 0.000 </y-m>
       <z-m> 0.359 </z-m>
@@ -73,13 +79,10 @@
 
   <animation>
     <type>rotate</type>
-    <object-name>AnimeTete</object-name>
+    <object-name>bloc_tete</object-name>
     <property>controls/flight/rudder</property>
     <factor> -25 </factor>
     <center>
-      <!--x-m> 0.074 </x-m>
-      <y-m> 0.000 </y-m>
-      <z-m> 0.359 </z-m-->
       <x-m> 0.049 </x-m>
       <y-m> 0.000 </y-m>
       <z-m> 0.359 </z-m>
@@ -93,13 +96,10 @@
 
   <animation>
     <type>rotate</type>
-    <object-name>AnimeTete</object-name>
+    <object-name>bloc_tete</object-name>
     <property>surface-positions/left-aileron-pos-norm</property>
     <factor> -10 </factor>
     <center>
-      <!--x-m> 0.074 </x-m>
-      <y-m> 0.000 </y-m>
-      <z-m> 0.359 </z-m-->
       <x-m> 0.049 </x-m>
       <y-m> 0.000 </y-m>
       <z-m> 0.359 </z-m>
@@ -110,6 +110,7 @@
       <z> 0 </z>
     </axis>
   </animation>
+-->
 
   <!-- Animation du bras gauche en fonction du throttle -->
   <animation>
@@ -129,9 +130,6 @@
       <entry><ind> 1.0 </ind><dep> 50 </dep></entry>
     </interpolation>
     <center>
-      <!--x-m>  0.055 </x-m>
-      <y-m> -0.111 </y-m>
-      <z-m>  0.248 </z-m-->
       <x-m>  0.03 </x-m>
       <y-m> -0.09 </y-m>
       <z-m>  0.25 </z-m>
@@ -159,9 +157,6 @@
       <entry><ind> 1.0 </ind><dep> -62 </dep></entry>
     </interpolation>
     <center>
-      <!--x-m>  0.148 </x-m>
-      <y-m> -0.319 </y-m>
-      <z-m>  0.033 </z-m-->
       <x-m>  0.01 </x-m>
       <y-m> -0.32 </y-m>
       <z-m>  0.01 </z-m>
@@ -172,5 +167,279 @@
       <z> 0 </z>
     </axis>
   </animation>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--
+________________________________________________________________________________
+                                                                 FORCES ON PILOT
+  -->
+
+
+  <!-- ~~~~~~~~~~~~~~~~~~ roll effects -->
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_pilote</object-name>
+    <property>/fdm/yasim/accelerations/a-y</property>
+    <interpolation>
+      <entry><ind>-12</ind><dep>3</dep></entry>
+      <entry><ind>-10</ind><dep>2</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>10</ind><dep>-2</dep></entry>
+      <entry><ind>12</ind><dep>-3</dep></entry>
+    </interpolation>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_tete</object-name>
+    <property>/fdm/yasim/accelerations/a-y</property>
+    <interpolation>
+      <entry><ind>-12</ind><dep>4</dep></entry>
+      <entry><ind>-10</ind><dep>2</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>10</ind><dep>-2</dep></entry>
+      <entry><ind>12</ind><dep>-4</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> 0.049 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.359 </z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ acceleration effects -->
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_pilote</object-name>
+    <property>/fdm/yasim/accelerations/a-x</property>
+    <interpolation>
+      <entry><ind>-30</ind><dep>-3</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>30</ind><dep>2</dep></entry>
+    </interpolation>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_tete</object-name>
+    <property>/fdm/yasim/accelerations/a-x</property>
+    <interpolation>
+      <entry><ind>-30</ind><dep>-5</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>30</ind><dep>4</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> 0.049 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.359 </z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ Gs effects -->
+  <animation>
+    <type>translate</type>
+    <object-name>bloc_pilote</object-name>
+    <property>/fdm/yasim/accelerations/a-z</property>
+    <interpolation>
+      <entry><ind>-150</ind><dep>.08</dep></entry>
+      <entry><ind>-100</ind><dep>.07</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>100</ind><dep>-.07</dep></entry>
+      <entry><ind>150</ind><dep>-.08</dep></entry>
+    </interpolation>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+    <axis>
+      <x>.5</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!--
+________________________________________________________________________________
+                                                                HUMAN HEAD MOVES
+  -->
+
+  <!-- ~~~~~~~~~~~~~~~~~~ look at direction/rudder on ground -->
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_tete</object-name>
+    <property>/controls/flight/rudder</property>
+    <condition>
+      <property>/gear/gear[0]/wow</property>
+    </condition>
+    <interpolation>
+      <entry><ind>-1</ind><dep>35</dep></entry>
+      <entry><ind>-.5</ind><dep>10</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>.5</ind><dep>-10</dep></entry>
+      <entry><ind>1</ind><dep>-35</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> 0.049 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.359 </z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ compensate roll on air -->
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_tete</object-name>
+    <property>/orientation/roll-deg</property>
+    <condition>
+      <not><property>/gear/gear[0]/wow</property></not>
+    </condition>
+    <interpolation>
+      <entry><ind>-180</ind><dep>0</dep></entry>
+      <entry><ind>-170</ind><dep>-10</dep></entry>
+      <entry><ind>-90</ind><dep>-10</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>90</ind><dep>10</dep></entry>
+      <entry><ind>170</ind><dep>10</dep></entry>
+      <entry><ind>180</ind><dep>0</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> 0.049 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.359 </z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ look at turn right on air -->
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_tete</object-name>
+    <property>/instrumentation/turn-indicator/indicated-turn-rate</property>
+    <condition>
+      <not><property>/gear/gear[0]/wow</property></not>
+      <greater-than>
+        <property>/instrumentation/turn-indicator/indicated-turn-rate</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+    <interpolation>
+      <entry><ind>2</ind><dep>-20</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> 0.049 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.359 </z-m>
+    </center>
+    <axis>
+      <x>-1</x>
+      <y>-1</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ look at turn left on air -->
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_tete</object-name>
+    <property>/instrumentation/turn-indicator/indicated-turn-rate</property>
+    <condition>
+      <not><property>/gear/gear[0]/wow</property></not>
+      <less-than>
+        <property>/instrumentation/turn-indicator/indicated-turn-rate</property>
+        <value>0</value>
+      </less-than>
+    </condition>
+    <interpolation>
+      <entry><ind>-2</ind><dep>20</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> 0.049 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.359 </z-m>
+    </center>
+    <axis>
+      <x>-1</x>
+      <y>1</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </PropertyList>
