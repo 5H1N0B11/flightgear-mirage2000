@@ -46,6 +46,31 @@ var rho_sndspeed = func(altitude)
     return [rho, snd_speed];
 }
 
+var max_cloud_layer = func() {
+  #Generate a property that give the max cloud layer  
+  
+  #Creating property in tree
+  var maxCloudLayer = props.globals.getNode("/environment/maxCloudLayer",1);
+  
+  #Taking the tree for the loop
+  var layerTree = props.globals.getNode("/environment/clouds/");
+    
+  #Variable for the max alt
+  var cloudlayerAlt = 0 ; 
+  var raw_list = layerTree.getChildren();
+  
+  #The loop
+  foreach(var c ; raw_list)
+  {
+    if(c.getName()=="layer"){
+      var elevation = c.getNode("elevation-ft").getValue();
+      cloudlayerAlt = elevation > cloudlayerAlt?elevation:cloudlayerAlt;
+    }
+  }
+  #Writing the max value
+  maxCloudLayer.setValue(cloudlayerAlt);
+}
+
 
 
 input = {

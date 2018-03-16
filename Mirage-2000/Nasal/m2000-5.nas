@@ -184,7 +184,11 @@ var updatefunction = func()
         if(size(myErr)>0){
           debug.printerror(myErr);
         }
-          
+        call(environment.max_cloud_layer,nil,nil,nil, myErr);
+        if(size(myErr)>0){
+          debug.printerror(myErr);
+        }
+        
         
         myFramerate.e = AbsoluteTime;
     }

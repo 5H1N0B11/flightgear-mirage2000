@@ -8,10 +8,16 @@
     <gain>1.0</gain>
     <input>
       <condition>
-        <greater-than>
-          <property>/environment/rain-norm</property>
-          <value>0.1</value>
-        </greater-than>
+        <and>
+          <greater-than>
+            <property>/environment/rain-norm</property>
+            <value>0.1</value>
+          </greater-than>
+          <greater-than>
+            <property>/environment/maxCloudLayer</property>
+            <property>/position/altitude-ft</property>
+          </greater-than>
+        </and>
       </condition>
       <expression>
         <table>
@@ -36,10 +42,16 @@
     <gain>1.0</gain>
     <input>
       <condition>
-        <greater-than>
-          <property>/environment/rain-norm</property>
-          <value>0.1</value>
-        </greater-than>
+        <and>
+          <greater-than>
+            <property>/environment/rain-norm</property>
+            <value>0.1</value>
+          </greater-than>       
+          <greater-than>
+            <property>/environment/maxCloudLayer</property>
+            <property>/position/altitude-ft</property>
+          </greater-than>
+        </and>
       </condition>
       <expression>
         <table>
@@ -64,10 +76,16 @@
     <gain>1.0</gain>
     <input>
       <condition>
-        <greater-than>
-          <property>/environment/rain-norm</property>
-          <value>0.1</value>
-        </greater-than>
+        <and>
+          <greater-than>
+            <property>/environment/rain-norm</property>
+            <value>0.1</value>
+          </greater-than>          
+          <greater-than>
+            <property>/environment/maxCloudLayer</property>
+            <property>/position/altitude-ft</property>
+          </greater-than>
+        </and>
       </condition>
       <expression>
         <table>
