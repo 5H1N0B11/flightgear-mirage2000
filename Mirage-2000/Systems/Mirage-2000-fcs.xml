@@ -37,15 +37,20 @@
 				position/wow eq 1
 				fbw/enable eq 1
 			</test>
+			<test value="2">
+				fbw/enable eq 0
+			</test>
 		</switch>
 		
 		<fcs_function name="fbw/roll/p-gain">
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/enable</independentVar>
 					<tableData>
-						0.3 -4.5
-						0.7 -1.9
+						     0    1
+						0.3  0.0 -4.5
+						0.7  0.0 -1.9
 					</tableData>
 				</table>
 			</function>
@@ -71,9 +76,9 @@
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0     1
-						0.3  0.35  0.10
-						0.7  0.15  0.02
+						     0     1     2
+						0.3  0.35  0.10  0.00
+						0.7  0.15  0.02  0.00
 					</tableData>
 				</table>
 			</function>
