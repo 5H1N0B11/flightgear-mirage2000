@@ -6,7 +6,7 @@
     <sim>
 
         <description>Mirage 2000</description>
-        <author>BARANGER Emmanuel (3D), 5H1N0B1 (Weapons, Systems), F-Sig and hardball (3D, Systems), Richard Harrison (FDM), Joshua Davidson/it0uchpods (FDM, FBW)</author>
+        <author>BARANGER Emmanuel (3D), 5H1N0B1 (Weapons, Systems), F-Sig and hardball (3D, Systems), Richard Harrison (FDM), Joshua Davidson/it0uchpods (FCS/FBW)</author>
 
         <aircraft-version>2015-09-16</aircraft-version>
         <status>alpha</status>
@@ -168,6 +168,12 @@
 				</menu>
 			</default>
 		</menubar>
+		
+		<systems>
+			<autopilot n="0"> <!-- for easier dev/testing, will convert to JSB FCS file -->
+				<path>Systems/fbw.xml</path>
+			</autopilot>
+		</systems>
 		
     </sim>
 	

@@ -49,7 +49,7 @@
   <location unit="M" name="AERORP">
     <x>7.5</x>
     <y>0</y>
-    <z>0.508</z>
+    <z>0.108</z>
   </location>
 </metrics>
 
@@ -213,7 +213,7 @@
     <location unit="M">
       <x>17.05</x>
       <y>0</y>
-      <z>0.108</z>
+      <z>0.508</z>
     </location>
     <orient unit="DEG">
       <roll>0</roll>
@@ -229,7 +229,7 @@
       <location unit="M">
         <x>17.05</x>
         <y>0</y>
-        <z>0.108</z>
+        <z>0.508</z>
       </location>
       <orient unit="DEG">
         <roll>0</roll>
@@ -255,7 +255,7 @@
     <location unit="M">
       <x>7.5</x>
       <y>4</y>
-      <z>0.508</z>
+      <z>0.108</z>
     </location>
     <capacity unit="LBS">385</capacity>
     <standpipe unit="LBS">100</standpipe>
@@ -267,7 +267,7 @@
     <location unit="M">
       <x>7.5</x>
       <y>-4</y>
-      <z>0.508</z>
+      <z>0.108</z>
     </location>
     <capacity unit="LBS">385</capacity>
     <standpipe unit="LBS">100</standpipe>
@@ -364,66 +364,33 @@
         <fcs_function name="pb">
             <description>PB Denormalization</description>
             <function>
-                <quotient>
                     <product>
-                        <property>metrics/bw-ft</property>
+                        <property>aero/bi2vel</property>
                         <property>velocities/p-aero-rad_sec</property>
                     </product>
-                    <!-- over -->
-                    <product>
-                        <value>2</value>
-                        <property>velocities/vt-fps</property>
-                    </product>
-                </quotient>
             </function>
-            <clipto>
-                <min> -1.00 </min>
-                <max>  1.00 </max>
-            </clipto>
             <output>aero/pb</output>
         </fcs_function>
 
         <fcs_function name="cbarq-2vo">
             <description>For denormalization</description>
             <function>
-                <quotient>
                     <product>
-                        <property>metrics/cbarw-ft</property>
+                        <property>aero/ci2vel</property>
                         <property>velocities/q-aero-rad_sec</property>
                     </product>
-                    <!-- over -->
-                    <product>
-                        <value>2</value>
-                        <property>velocities/vt-fps</property>
-                    </product>
-                </quotient>
             </function>
-            <clipto>
-                <min> -2.01 </min>
-                <max>  2.01 </max>
-            </clipto>
             <output>aero/qb</output>
         </fcs_function>
 
         <fcs_function name="rb-2vo">
             <description>For denormalization</description>
             <function>
-                <quotient>
-                    <product>
-                        <property>metrics/bw-ft</property>
+                <product>
+                        <property>aero/bi2vel</property>
                         <property>velocities/r-aero-rad_sec</property>
                     </product>
-                    <!-- over -->
-                    <product>
-                        <value>2</value>
-                        <property>velocities/vt-fps</property>
-                    </product>
-                </quotient>
             </function>
-            <clipto>
-                <min> -1.00 </min>
-                <max>  1.00 </max>
-            </clipto>
             <output>aero/rb</output>
         </fcs_function>
 
@@ -453,19 +420,11 @@
                <input>aero/alphadot-rad_sec</input>
                <output>aero/alphadot-rad_sec-limited</output>
                <gain>1</gain>
-               <clipto>
-                   <min> -0.2</min>
-                   <max> 0.2</max>
-               </clipto>
            </pure_gain>
            <pure_gain name="aero/betadot-rad_sec-limited">
                <input>aero/betadot-rad_sec</input>
                <output>aero/betadot-rad_sec-limited</output>
                <gain>1</gain>
-               <clipto>
-                   <min> -0.1</min>
-                   <max> 0.1</max>
-               </clipto>
            </pure_gain>
        </channel>
 </flight_control>
@@ -1568,6 +1527,7 @@
     <description>PITCH MOMENT DERIVATIVE FOR ALPHA DOT</description>
     <product>
           <property>aero/alphadot-rad_sec-limited</property>
+          <property>aero/ci2vel</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1612,6 +1572,7 @@
     <function name="aero/c/CMMBETADOT">
     <description>PITCH MOMENT DERIVATIVE FOR BETA DOT</description>
     <product>
+          <property>aero/ci2vel</property>
           <property>aero/betadot-rad_sec-limited</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
@@ -2250,6 +2211,7 @@
     <description>ROLL MOMENT DERIVATIVE FOR BETA DOT</description>
     <product>
           <property>aero/betadot-rad_sec-limited</property>
+          <property>aero/bi2vel</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -3884,6 +3846,7 @@
     <description>YAW MOMENT DERIVATIVE FOR BETADOT</description>
     <product>
           <property>aero/betadot-rad_sec-limited</property>
+          <property>aero/bi2vel</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>

@@ -1,5 +1,6 @@
 <!-- Mirage 2000 FCS -->
 <!-- Joshua Davidson (it0uchpods) -->
+<!-- Note: This is a WIP, and is missing several components -->
 
 <system name="Mirage-2000: FCS">
 
@@ -13,19 +14,15 @@
 	<property value="0">fcs/slat-1R-pos-deg</property>
 	<property value="0">fcs/slat-2L-pos-deg</property>
 	<property value="0">fcs/slat-2R-pos-deg</property>
-
-	<property value="2.2"> systems/fbw/theta-pid-kp </property>
-	<property value="0.002"> systems/fbw/theta-pid-ki</property>
-	<property value="0.0034"> systems/fbw/theta-pid-kd </property>
-	<property value="1">systems/fbw/theta-active</property>
-	<property value="0">systems/fbw/theta-target</property>
-	<property value="0.47">systems/fbw/theta-max</property>
-	<property value="1.6">systems/fbw/theta-gain</property>
-	<property value="2331.12">systems/fbw/theta-lag-constant</property>
-	<property value="0">systems/fbw/q-demand</property>
-	<channel name="Theta Control Laws">
-		<switch name="position/aircraft-on-ground">
-			<description>Aircraft on ground</description>
+	
+	<property value="-2.1">fbw/roll/p-gain</property>
+	<property value="10.5">fbw/roll/i-gain</property>
+	<property value="0.25">fbw/pitch/p-gain</property>
+	<property value="15.5">fbw/pitch/i-gain</property>
+	
+	<channel name="Libraries">
+		
+		<switch name="position/not-wow">
 			<default value="0"/>
 			<test value="1" logic="OR">
 				gear/unit[0]/WOW ne 0
@@ -33,143 +30,394 @@
 				gear/unit[2]/WOW ne 0
 			</test>
 		</switch>
-		<switch name="systems/fbw/theta-trigger">
-			<default value="0.0"/>
-			<test value="1.0">
-				<and>
-					propulsion/engine[0]/set-running ne 0
-					systems/fbw/theta-active ne 0
-					position/aircraft-on-ground eq 0
-				</and>
-			</test>
-		</switch>
-
-		<scheduled_gain name="Theta control Q Rate">
-			<input>velocities/q-aero-rad_sec</input>
-			<table>
-				<independentVar lookup="row">velocities/ve-kts</independentVar>
-				<tableData>
-					30     0.00
-					60     1
-				</tableData>
-			</table>
-			<gain>fcs/pitch-damper-active</gain>
-			<min> -0.2857142857142857 </min>
-			<max>  0.2857142857142857 </max>
-			<output>systems/fbw/theta-q-control</output>
-		</scheduled_gain>
-
-		<!-- here we adjust the q expected based on stick position -->
-
-		<summer name="systems/fbw/theta-divergence">
-			<input> velocities/q-aero-rad_sec </input>
-			<input> -systems/fbw/q-demand </input>
-			<clipto>
-				<min>-systems/fbw/theta-max</min>
-				<max> systems/fbw/theta-max</max>
-			</clipto>
-		</summer>
-
-		<lag_filter name="systems/fbw/theta-divergence-lag">
-			<input> systems/fbw/theta-divergence </input>
-			<c1> systems/fbw/theta-lag-constant </c1>
-		</lag_filter>
-
-		<switch name="systems/fbw/theta-switch">
-			<default value="0.0"/>
-			<test value="systems/fbw/theta-divergence-lag">
-				systems/fbw/theta-active == 1
-			</test>
-		</switch>
-
-		<pid name="systems/fbw/theta-divergence-pid">
-			<input>systems/fbw/theta-switch</input>
-			<kp> systems/fbw/theta-pid-kp </kp>
-			<ki> systems/fbw/theta-pid-ki </ki>
-			<kd> systems/fbw/theta-pid-kd </kd>
-			<trigger> systems/fbw/theta-trigger </trigger>
-		</pid>
-
-		<pure_gain name="systems/fbw/theta-divergence-pid-contents">
-			<input> systems/fbw/theta-divergence-pid </input>
-			<gain> 1.0 </gain>
-			<output>systems/fbw/theta-divergence-pid-contents</output>
-		</pure_gain>
-
-		<pure_gain name="Theta Command">
-			<input> systems/fbw/theta-divergence-pid </input>
-			<gain> systems/fbw/theta-gain </gain>
-			<clipto>
-				<min> -0.8</min>
-				<max> 0.8</max>
-			</clipto>
-			<output>systems/fbw/theta-cmd</output>
-		</pure_gain>
-		<switch name="systems/fbw/theta-cmd-delta">
-			<default value="0.0"/>
-			<test value="systems/fbw/theta-cmd">
-				systems/fbw/theta-trigger == 1
-			</test>
-		</switch>
-
-
+		<!-- This stuff is for adjusting FBW gains in different mach speeds, I didn't do it yet -->
+		<!--fcs_function name="fbw/roll/p-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<tableData>
+						
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/roll/i-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<tableData>
+						
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/p-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<tableData>
+						
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/i-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<tableData>
+						
+					</tableData>
+				</table>
+			</function>
+		</fcs_function-->
+	
 	</channel>
 	
-	<channel name="Elevons">
-	
-		<summer name="Roll Trim Sum">
+	<channel name="FBW: Roll">
+		
+		<kinematic name="fbw/roll/aileron-lag">
 			<input>/controls/flight/aileron</input>
-			<input>/controls/flight/aileron-trim</input>
+			<traverse>
+				<setting>
+					<position>-1.0</position>
+					<time>2.5</time>
+				</setting>
+				<setting>
+					<position>1.0</position>
+					<time>2.5</time>
+				</setting>
+			</traverse>
+		</kinematic>
+		
+		<fcs_function name="fbw/roll/aileron-modified">
+			<function>
+				<product>
+					<property>fbw/roll/aileron-lag</property>
+					<table>
+						<independentVar lookup="row">/controls/flight/aileron</independentVar>
+						<tableData>
+							-1  20
+							 0   1
+							 1  20
+						</tableData>
+					</table>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/roll/rate-demand"> <!-- 270 deg/4.71239 rad per sec -->
+			<function>
+				<table>
+					<independentVar lookup="row">fbw/roll/aileron-modified</independentVar>
+					<tableData>
+						-20.000 -4.71239
+						  0.000  0.00000
+						 20.000  4.71239
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/roll/rate-error">
+			<function>
+				<difference>
+					<property>velocities/p-rad_sec</property>
+					<property>fbw/roll/rate-demand</property>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fbw/roll/p">
+			<input>fbw/roll/rate-error</input>
+			<gain>fbw/roll/p-gain</gain>
 			<clipto>
 				<min>-1</min>
 				<max>1</max>
 			</clipto>
-		</summer>
+		</pure_gain>
 		
-		<summer name="Pitch Trim Sum">
+		<integrator name="fbw/roll/i">
+			<input>fbw/roll/i-input</input>
+			<trigger>position/not-wow</trigger>
+			<c1>fbw/roll/i-gain</c1>
+		</integrator>
+		
+		<summer name="fbw/roll-output">
+			<input>fbw/roll/p</input>
+			<input>fbw/roll/i</input>
+		</summer>
+
+		<deadband name="fbw/roll/i-feedback">
+		  <input>fbw/roll-output</input>
+		  <width>1.0</width>
+		</deadband>
+
+		<summer name="fbw/roll/i-input">
+			<input>fbw/roll/p</input>
+			<input>-fbw/roll/i-feedback</input>
+		</summer>
+	
+	</channel>
+	
+	<property value="0">fbw/pitch/i-input</property>
+	
+	<channel name="FBW: Pitch"> <!-- Adapted from Necolatis' work -->
+		
+		<kinematic name="fbw/pitch/elevator-lag">
 			<input>/controls/flight/elevator</input>
-			<input>/controls/flight/elevator-trim</input>
-			<input>systems/fbw/theta-cmd</input>
+			<traverse>
+				<setting>
+					<position>-1.0</position>
+					<time>2.5</time>
+				</setting>
+				<setting>
+					<position>1.0</position>
+					<time>2.5</time>
+				</setting>
+			</traverse>
+		</kinematic>
+		
+		<fcs_function name="fbw/pitch/elevator-modified">
+			<function>
+				<product>
+					<property>fbw/pitch/elevator-lag</property>
+					<table>
+						<independentVar lookup="row">/controls/flight/elevator</independentVar>
+						<tableData>
+							-1.0  10
+							 0.0   1
+						</tableData>
+					</table>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/elevator-trim-modified"> <!-- This way, the trim can be reset and not affect the G when the pilot tries to center it -->
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/elevator-trim</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.01  0.0
+						 0.00  0.0
+						 0.01  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/command-g">
+			<function>
+				<sum>
+					<table>
+						<independentVar lookup="row">fbw/pitch/elevator-modified</independentVar>
+						<tableData>
+							-10.000  7.5 <!-- Equals 8.5 G -->
+							  0.000  0.0
+							  1.000 -1.5 <!-- Equals -0.5 G -->
+						</tableData>
+					</table>
+					<product>
+						<property>fbw/pitch/elevator-trim-modified</property>
+						<value>-1.5</value>
+					</product>
+				</sum>
+			</function>
+			<clipto>
+				<min>-0.5</min>
+				<max>8.5</max>
+			</clipto>
+		</fcs_function>
+		
+		<lag_filter name="fbw/pitch/command-lag-g">
+			<input>fbw/pitch/command-g</input>
+			<c1>8.3</c1>
+		</lag_filter>
+		
+		<fcs_function name="fbw/pitch/a_n">
+			<function>
+				<difference>
+					<quotient>
+						<sum>
+							<product>
+								<property>velocities/q-rad_sec</property>
+								<property>velocities/u-fps</property>
+							</product>
+							<product>
+								<value>-1</value>
+								<property>velocities/p-rad_sec</property>
+								<property>velocities/v-fps</property>
+							</product>
+							<product>
+								<value>32.174</value>
+								<cos>
+									<property>attitude/theta-rad</property>
+								</cos>
+								<cos>
+									<property>attitude/phi-rad</property>
+								</cos>
+							</product>
+							<product>
+								<value>-1</value>
+								<property>accelerations/wdot-ft_sec2</property>
+							</product>
+						</sum>
+						<value>32.174</value>
+					</quotient>
+					<value>1</value>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<switch name="fbw/pitch/a_n_IaN">
+			<default value="0"/>
+			<test logic="AND" value="fbw/pitch/a_n">
+				fbw/pitch/a_n lt  30
+				fbw/pitch/a_n gt -30
+			</test>
+		</switch>
+		
+		<pure_gain name="velocities/q-aero-deg_sec">
+			<input>velocities/q-rad_sec</input>
+			<gain>57.2957795</gain>
+		</pure_gain>
+
+		<washout_filter name="fbw/pitch/q-washout">
+			<input>velocities/q-aero-deg_sec</input>
+			<c1>1</c1>
+		</washout_filter>
+		
+		<pure_gain name="fbw/pitch/q-gain">
+			<input>fbw/pitch/q-washout</input>
+			<gain>0.334</gain>
+		</pure_gain>
+		
+		<summer name="fbw/pitch/normal-feed">
+			<input>fbw/pitch/q-gain</input>
+			<input>fbw/pitch/a_n_IaN</input>
+		</summer>
+		
+		<lead_lag_filter name="fbw/pitch/normal-lead">
+			<input>fbw/pitch/normal-feed</input>
+			<c1>3</c1>
+			<c2>12</c2>
+			<c3>1</c3>
+			<c4>12</c4>
+		</lead_lag_filter>
+		
+		<switch name="fbw/pitch/alpha-max">
+			<default value="29"/>
+			<test value="27">
+				/velocities/airspeed-kt lt 100
+			</test>
+		</switch>
+		
+		<lag_filter name="fbw/pitch/alpha-max-lag">
+			<input>fbw/pitch/alpha-max</input>
+			<c1>10</c1>
+		</lag_filter>
+		
+		<summer name="fbw/pitch/alpha">
+			<input>aero/alpha-deg</input> <!-- Should really be indicated -->
+			<clipto>
+				<min>-5</min>
+				<max>fbw/pitch/alpha-max-lag</max> <!-- Max allowed alpha -->
+			</clipto>
+		</summer>
+		
+		<lag_filter name="fbw/pitch/alpha-lag">
+			<input>fbw/pitch/alpha</input>
+			<c1>10</c1>
+		</lag_filter>
+		
+		<fcs_function name="fbw/pitch/alpha-sum">
+			<function>
+				<difference>
+					<property>fbw/pitch/alpha-lag</property>
+					<difference>
+						<property>fbw/pitch/alpha-max-lag</property> <!-- Max allowed alpha -->
+						<value>7.5</value> <!-- Max allowed G - 1 -->
+					</difference>
+				</difference>
+			</function>
+			<clipto>
+				<min>0</min>
+				<max>10000</max>
+			</clipto>
+		</fcs_function>
+		
+		<summer name="fbw/pitch/raw-delta">
+			<input>fbw/pitch/alpha-sum</input>
+			<input>-fbw/pitch/command-lag-g</input>
+			<input>fbw/pitch/normal-lead</input>
+		</summer>
+		
+		<pure_gain name="fbw/pitch/p">
+			<input>fbw/pitch/raw-delta</input>
+			<gain>fbw/pitch/p-gain</gain>
+		</pure_gain>
+		
+		<integrator name="fbw/pitch/i">
+			<input>fbw/pitch/i-input</input>
+			<c1>fbw/pitch/i-gain</c1>
+		</integrator>
+		
+		<summer name="fbw/pitch-output">
+			<input>fbw/pitch/p</input>
+			<input>fbw/pitch/i</input>
+		</summer>
+		
+		<deadband name="fbw/pitch/i-feedback">
+		  <input>fbw/pitch-output</input>
+		  <width>1</width>
+		</deadband>
+		
+		<summer name="fbw/pitch/i-input">
+			<input>fbw/pitch/p</input>
+			<input>-fbw/pitch/i-feedback</input>
+		</summer>
+	
+	</channel>	
+	
+	<channel name="Elevons">
+		
+		<pure_gain name="fcs/roll-input">
+			<input>fbw/roll-output</input>
+			<gain>1.0</gain>
 			<clipto>
 				<min>-1</min>
 				<max>1</max>
 			</clipto>
-		</summer>
+		</pure_gain>
 		
-		<aerosurface_scale name="Elevon Roll Rad">
-			<input>fcs/roll-trim-sum</input>
+		<pure_gain name="fcs/pitch-input">
+			<input>fbw/pitch-output</input>
+			<gain>1.0</gain>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</pure_gain>
+		
+		<aerosurface_scale name="fcs/roll-pos-deg">
+			<input>fcs/roll-input</input>
 			<range>
-				<min>-0.349066</min>
-				<max>0.349066</max>
+				<min>25</min>
+				<max>-25</max>
 			</range>
-			<output>fcs/roll-pos-rad</output>
 		</aerosurface_scale>
 		
-		<aerosurface_scale name="Elevon Roll Deg">
-			<input>fcs/roll-trim-sum</input>
+		<aerosurface_scale name="fcs/pitch-pos-deg">
+			<input>fcs/pitch-input</input>
 			<range>
-				<min>20</min>
-				<max>-20</max>
+				<min>-25</min>
+				<max>16</max>
 			</range>
-			<output>fcs/roll-pos-deg</output>
-		</aerosurface_scale>
-		
-		<aerosurface_scale name="Elevon Pitch Rad">
-			<input>fcs/pitch-trim-sum</input>
-			<range>
-				<min>-0.21816616</min>
-				<max>0.21816616</max>
-			</range>
-			<output>fcs/pitch-pos-rad</output>
-		</aerosurface_scale>
-		
-		<aerosurface_scale name="Elevon Pitch Deg">
-			<input>fcs/pitch-trim-sum</input>
-			<range>
-				<min>-10.0</min>
-				<max>10.0</max>
-			</range>
-			<output>fcs/pitch-pos-deg</output>
 		</aerosurface_scale>
 		
 		<fcs_function name="fcs/elevon-1L-pos-deg">
@@ -183,8 +431,8 @@
 				</sum>
 			</function>
 			<clipto>
-				<min>-30</min>
-				<max>30</max>
+				<min>-25</min>
+				<max>16</max>
 			</clipto>
 		</fcs_function>
 		
@@ -196,8 +444,8 @@
 				</sum>
 			</function>
 			<clipto>
-				<min>-30</min>
-				<max>30</max>
+				<min>-25</min>
+				<max>16</max>
 			</clipto>
 		</fcs_function>
 		
@@ -205,8 +453,8 @@
 			<input>fcs/pitch-pos-deg</input>
 			<gain>1.0</gain>
 			<clipto>
-				<min>-30</min>
-				<max>30</max>
+				<min>-25</min>
+				<max>16</max>
 			</clipto>
 		</pure_gain>
 		
@@ -214,11 +462,42 @@
 			<input>fcs/pitch-pos-deg</input>
 			<gain>1.0</gain>
 			<clipto>
-				<min>-30</min>
-				<max>30</max>
+				<min>-25</min>
+				<max>16</max>
 			</clipto>
 		</pure_gain>
+	
+	</channel>
+	
+	<channel name="Rudder">
 		
+		<aerosurface_scale name="rubbish/rudder-pos-deg">
+			<input>/controls/flight/rudder</input> <!-- The FBW don't do anything yet with Yaw -->
+			<range>
+				<min>-25</min>
+				<max>25</max>
+			</range>
+			<output>fcs/rudder-pos-deg</output>
+		</aerosurface_scale>
+	
+	</channel>
+	
+	<channel name="Nose Wheel">
+		
+		<aerosurface_scale name="hydraulics/tiller/scale">
+			<input>/controls/flight/rudder</input> <!-- Drive the nose wheel with the rudder -->
+			<range>
+				<min>-46</min>
+				<max>46</max>
+			</range>
+		</aerosurface_scale>
+		
+		<actuator name="fcs/steer-deg">
+			<input>hydraulics/tiller/scale</input>
+			<rate_limit>140</rate_limit>
+			<output>fcs/steer-pos-deg[0]</output>
+		</actuator>
+	
 	</channel>
 
 </system>
