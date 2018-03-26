@@ -97,6 +97,24 @@
 				</table>
 			</function>
 		</fcs_function>
+		
+		<summer name="fcs/aileron-sum">
+			<input>/controls/flight/aileron</input>
+			<input>/controls/flight/aileron-trim</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
+		
+		<summer name="fcs/elevator-sum">
+			<input>/controls/flight/elevator</input>
+			<input>/controls/flight/elevator-trim</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
 	
 	</channel>
 	
@@ -443,23 +461,27 @@
 	
 	<channel name="Elevons">
 		
-		<pure_gain name="fcs/roll-input">
-			<input>fbw/roll-output</input>
-			<gain>1.0</gain>
+		<switch name="fcs/roll-input">
+			<default value="fbw/roll-output"/>
+			<test logic="OR" value="fcs/aileron-sum">
+				fbw/enable eq 0
+			</test>
 			<clipto>
 				<min>-1</min>
 				<max>1</max>
 			</clipto>
-		</pure_gain>
+		</switch>
 		
-		<pure_gain name="fcs/pitch-input">
-			<input>fbw/pitch-output</input>
-			<gain>1.0</gain>
+		<switch name="fcs/pitch-input">
+			<default value="fbw/pitch-output"/>
+			<test logic="OR" value="fcs/elevator-sum">
+				fbw/enable eq 0
+			</test>
 			<clipto>
 				<min>-1</min>
 				<max>1</max>
 			</clipto>
-		</pure_gain>
+		</switch>
 		
 		<aerosurface_scale name="fcs/roll-pos-deg">
 			<input>fcs/roll-input</input>
