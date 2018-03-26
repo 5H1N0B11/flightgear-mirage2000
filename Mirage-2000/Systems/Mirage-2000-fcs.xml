@@ -8,6 +8,8 @@
 	<property value="0">fcs/elevon-1R-pos-deg</property>
 	<property value="0">fcs/elevon-2L-pos-deg</property>
 	<property value="0">fcs/elevon-2R-pos-deg</property>
+	<property value="0">fcs/airbrake-upper-cmd</property>
+	<property value="0">fcs/airbrake-lower-cmd</property>
 	<property value="0">fcs/airbrake-upper</property>
 	<property value="0">fcs/airbrake-lower</property>
 	<property value="0">fcs/slat-1L-pos-deg</property>
@@ -15,28 +17,35 @@
 	<property value="0">fcs/slat-2L-pos-deg</property>
 	<property value="0">fcs/slat-2R-pos-deg</property>
 	
-	<property value="-2.1">fbw/roll/p-gain</property>
-	<property value="10.5">fbw/roll/i-gain</property>
-	<property value="0.25">fbw/pitch/p-gain</property>
-	<property value="15.5">fbw/pitch/i-gain</property>
+	<property value="1">fbw/enable</property>
+	<property value="1">fbw/man-slat</property> <!-- Set to 0 to enable auto-slat -->
 	
 	<channel name="Libraries">
 		
-		<switch name="position/not-wow">
+		<switch name="position/wow">
 			<default value="0"/>
-			<test value="1" logic="OR">
-				gear/unit[0]/WOW ne 0
-				gear/unit[1]/WOW ne 0
-				gear/unit[2]/WOW ne 0
+			<test logic="OR" value="1">
+				gear/unit[0]/WOW eq 1
+				gear/unit[1]/WOW eq 1
+				gear/unit[2]/WOW eq 1
 			</test>
 		</switch>
-		<!-- This stuff is for adjusting FBW gains in different mach speeds, I didn't do it yet -->
-		<!--fcs_function name="fbw/roll/p-gain">
+		
+		<switch name="fbw/gain-switch">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				position/wow eq 1
+				fbw/enable eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="fbw/roll/p-gain">
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<tableData>
-						
+						0.3 -4.5
+						0.7 -1.9
 					</tableData>
 				</table>
 			</function>
@@ -46,8 +55,11 @@
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						
+						     0     1
+						0.3  13.5  0.0
+						0.7  10.2  0.0
 					</tableData>
 				</table>
 			</function>
@@ -57,8 +69,11 @@
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						
+						     0     1
+						0.3  0.35  0.10
+						0.7  0.15  0.02
 					</tableData>
 				</table>
 			</function>
@@ -68,18 +83,21 @@
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						
+						     0    1
+						0.3  7.5  0.0
+						0.7  4.5  0.0
 					</tableData>
 				</table>
 			</function>
-		</fcs_function-->
+		</fcs_function>
 	
 	</channel>
 	
 	<channel name="FBW: Roll">
 		
-		<kinematic name="fbw/roll/aileron-lag">
+		<kinematic name="fbw/roll/aileron-k">
 			<input>/controls/flight/aileron</input>
 			<traverse>
 				<setting>
@@ -96,7 +114,7 @@
 		<fcs_function name="fbw/roll/aileron-modified">
 			<function>
 				<product>
-					<property>fbw/roll/aileron-lag</property>
+					<property>fbw/roll/aileron-k</property>
 					<table>
 						<independentVar lookup="row">/controls/flight/aileron</independentVar>
 						<tableData>
@@ -142,7 +160,7 @@
 		
 		<integrator name="fbw/roll/i">
 			<input>fbw/roll/i-input</input>
-			<trigger>position/not-wow</trigger>
+			<trigger>position/wow</trigger>
 			<c1>fbw/roll/i-gain</c1>
 		</integrator>
 		
@@ -163,11 +181,9 @@
 	
 	</channel>
 	
-	<property value="0">fbw/pitch/i-input</property>
-	
 	<channel name="FBW: Pitch"> <!-- Adapted from Necolatis' work -->
 		
-		<kinematic name="fbw/pitch/elevator-lag">
+		<kinematic name="fbw/pitch/elevator-k">
 			<input>/controls/flight/elevator</input>
 			<traverse>
 				<setting>
@@ -184,7 +200,7 @@
 		<fcs_function name="fbw/pitch/elevator-modified">
 			<function>
 				<product>
-					<property>fbw/pitch/elevator-lag</property>
+					<property>fbw/pitch/elevator-k</property>
 					<table>
 						<independentVar lookup="row">/controls/flight/elevator</independentVar>
 						<tableData>
@@ -236,7 +252,7 @@
 		
 		<lag_filter name="fbw/pitch/command-lag-g">
 			<input>fbw/pitch/command-g</input>
-			<c1>8.3</c1>
+			<c1>7.7</c1>
 		</lag_filter>
 		
 		<fcs_function name="fbw/pitch/a_n">
@@ -322,8 +338,15 @@
 			<c1>10</c1>
 		</lag_filter>
 		
+		<switch name="fbw/pitch/alpha-switched">
+			<default value="aero/alpha-deg"/> <!-- Should really be indicated -->
+			<test value="0">
+				position/wow eq 1
+			</test>
+		</switch>
+		
 		<summer name="fbw/pitch/alpha">
-			<input>aero/alpha-deg</input> <!-- Should really be indicated -->
+			<input>fbw/pitch/alpha-switched</input>
 			<clipto>
 				<min>-5</min>
 				<max>fbw/pitch/alpha-max-lag</max> <!-- Max allowed alpha -->
@@ -351,19 +374,24 @@
 			</clipto>
 		</fcs_function>
 		
-		<summer name="fbw/pitch/raw-delta">
+		<summer name="fbw/pitch/error">
 			<input>fbw/pitch/alpha-sum</input>
 			<input>-fbw/pitch/command-lag-g</input>
 			<input>fbw/pitch/normal-lead</input>
 		</summer>
 		
 		<pure_gain name="fbw/pitch/p">
-			<input>fbw/pitch/raw-delta</input>
+			<input>fbw/pitch/error</input>
 			<gain>fbw/pitch/p-gain</gain>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
 		</pure_gain>
 		
 		<integrator name="fbw/pitch/i">
 			<input>fbw/pitch/i-input</input>
+			<trigger>position/wow</trigger>
 			<c1>fbw/pitch/i-gain</c1>
 		</integrator>
 		
@@ -382,7 +410,31 @@
 			<input>-fbw/pitch/i-feedback</input>
 		</summer>
 	
-	</channel>	
+	</channel>
+	
+	<channel name="FBW: Slats">
+		
+		<fcs_function name="fbw/slat/function">
+			<function>
+				<table>
+					<independentVar lookup="row">aero/alpha-deg</independentVar> <!-- Should really be indicated -->
+					<tableData>
+						 4  0
+						10  1
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<switch name="fbw/slat-output">
+			<default value="fbw/slat/function"/>
+			<test logic="OR" value="/controls/flight/flaps">
+				gear/gear-pos-norm eq 1
+				fbw/man-slat eq 1
+			</test>
+		</switch>
+	
+	</channel>
 	
 	<channel name="Elevons">
 		
@@ -497,6 +549,99 @@
 			<rate_limit>140</rate_limit>
 			<output>fcs/steer-pos-deg[0]</output>
 		</actuator>
+	
+	</channel>
+	
+	<channel name="Slats">
+		
+		<kinematic name="fcs/slat-k">
+			<input>fbw/slat-output</input>
+			<traverse>
+				<setting>
+					<position>0</position>
+					<time>0</time>
+				</setting>
+				<setting>
+					<position>1</position>
+					<time>2.6</time>
+				</setting>
+			</traverse>
+		</kinematic>
+		
+		<pure_gain name="fcs/slat-outer">
+			<input>fcs/slat-k</input>
+			<gain>30</gain>
+			<output>fcs/slat-1L-pos-deg</output>
+			<output>fcs/slat-1R-pos-deg</output>
+		</pure_gain>
+		
+		<pure_gain name="fcs/slat-inner">
+			<input>fcs/slat-k</input>
+			<gain>17.5</gain>
+			<output>fcs/slat-2L-pos-deg</output>
+			<output>fcs/slat-2R-pos-deg</output>
+		</pure_gain>
+	
+	</channel>
+	
+	<channel name="Landing Gear">
+		
+		<kinematic name="rubbish/gear-pos-norm">
+			<input>gear/gear-cmd-norm</input>
+			<traverse>
+				<setting>
+					<position>0</position>
+					<time>0</time>
+				</setting>
+				<setting>
+					<position>1</position>
+					<time>2.5</time>
+				</setting>
+			</traverse>
+			<output>gear/gear-pos-norm</output>
+		</kinematic>
+	
+	</channel>
+	
+	<channel name="Airbrake">
+		
+		<kinematic name="fcs/airbrake-upper-k">
+			<input>fcs/airbrake-upper-cmd</input>
+			<traverse>
+				<setting>
+					<position>0</position>
+					<time>0</time>
+				</setting>
+				<setting>
+					<position>1</position>
+					<time>3</time>
+				</setting>
+			</traverse>
+		</kinematic>
+		
+		<pure_gain name="fcs/airbrake-upper">
+			<input>fcs/airbrake-upper-k</input>
+			<gain>55</gain>
+		</pure_gain>
+		
+		<kinematic name="fcs/airbrake-lower-k">
+			<input>fcs/airbrake-lower-cmd</input>
+			<traverse>
+				<setting>
+					<position>0</position>
+					<time>0</time>
+				</setting>
+				<setting>
+					<position>1</position>
+					<time>2</time>
+				</setting>
+			</traverse>
+		</kinematic>
+		
+		<pure_gain name="fcs/airbrake-lower">
+			<input>fcs/airbrake-lower-k</input>
+			<gain>68</gain>
+		</pure_gain>
 	
 	</channel>
 
