@@ -18,7 +18,7 @@
 	<property value="0">fcs/slat-2R-pos-deg</property>
 	
 	<property value="1">fbw/enable</property>
-	<property value="1">fbw/man-slat</property> <!-- Set to 0 to enable auto-slat -->
+	<property value="0">fbw/man-slat</property> <!-- Set to 0 to enable auto-slat -->
 	
 	<channel name="Libraries">
 		
@@ -50,7 +50,7 @@
 					<tableData>
 						     0    1
 						0.3  0.0 -4.5
-						0.7  0.0 -1.9
+						0.8  0.0 -1.9
 					</tableData>
 				</table>
 			</function>
@@ -64,7 +64,7 @@
 					<tableData>
 						     0     1
 						0.3  13.5  0.0
-						0.7  10.2  0.0
+						0.8  10.2  0.0
 					</tableData>
 				</table>
 			</function>
@@ -78,7 +78,7 @@
 					<tableData>
 						     0     1     2
 						0.3  0.35  0.10  0.00
-						0.7  0.15  0.02  0.00
+						0.8  0.15  0.02  0.00
 					</tableData>
 				</table>
 			</function>
@@ -92,7 +92,7 @@
 					<tableData>
 						     0    1
 						0.3  7.5  0.0
-						0.7  4.5  0.0
+						0.8  4.5  0.0
 					</tableData>
 				</table>
 			</function>
@@ -193,8 +193,8 @@
 		</summer>
 
 		<deadband name="fbw/roll/i-feedback">
-		  <input>fbw/roll-output</input>
-		  <width>1.0</width>
+			<input>fbw/roll-output</input>
+			<width>1.0</width>
 		</deadband>
 
 		<summer name="fbw/roll/i-input">
@@ -425,8 +425,8 @@
 		</summer>
 		
 		<deadband name="fbw/pitch/i-feedback">
-		  <input>fbw/pitch-output</input>
-		  <width>1</width>
+			<input>fbw/pitch-output</input>
+			<width>1</width>
 		</deadband>
 		
 		<summer name="fbw/pitch/i-input">
