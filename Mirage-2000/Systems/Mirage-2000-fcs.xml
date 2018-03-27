@@ -229,6 +229,7 @@
 						<tableData>
 							-1.0  10
 							 0.0   1
+							 1.0  10
 						</tableData>
 					</table>
 				</product>
@@ -258,7 +259,7 @@
 						<tableData>
 							-10.000  7.5 <!-- Equals 8.5 G -->
 							  0.000  0.0
-							  1.000 -1.5 <!-- Equals -0.5 G -->
+							 10.000 -4.5 <!-- Equals -3.5 G -->
 						</tableData>
 					</table>
 					<product>
@@ -268,8 +269,8 @@
 				</sum>
 			</function>
 			<clipto>
-				<min>-0.5</min>
-				<max>8.5</max>
+				<min>-4.5</min>
+				<max>7.5</max>
 			</clipto>
 		</fcs_function>
 		
