@@ -46,11 +46,11 @@
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/mach</independentVar>
-					<independentVar lookup="column">fbw/enable</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0    1
-						0.3  0.0 -4.5
-						0.8  0.0 -1.9
+						     0    1    2
+						0.3 -3.3 -0.2  0.0
+						0.8 -1.4 -0.1  0.0
 					</tableData>
 				</table>
 			</function>
@@ -120,24 +120,10 @@
 	
 	<channel name="FBW: Roll">
 		
-		<kinematic name="fbw/roll/aileron-k">
-			<input>/controls/flight/aileron</input>
-			<traverse>
-				<setting>
-					<position>-1.0</position>
-					<time>2.5</time>
-				</setting>
-				<setting>
-					<position>1.0</position>
-					<time>2.5</time>
-				</setting>
-			</traverse>
-		</kinematic>
-		
 		<fcs_function name="fbw/roll/aileron-modified">
 			<function>
 				<product>
-					<property>fbw/roll/aileron-k</property>
+					<property>/controls/flight/aileron</property>
 					<table>
 						<independentVar lookup="row">/controls/flight/aileron</independentVar>
 						<tableData>
@@ -163,6 +149,18 @@
 			</function>
 		</fcs_function>
 		
+		<lag_filter name="fbw/roll/rate-demand-lag">
+			<input>fbw/roll/rate-demand</input>
+			<c1>6.3</c1>
+		</lag_filter>
+		
+		<switch name="fbw/roll/p-rad_sec-switched">
+			<default value="velocities/p-rad_sec"/>
+			<test value="0">
+				position/wow eq 1
+			</test>
+		</switch>
+		
 		<fcs_function name="fbw/roll/rate-error">
 			<function>
 				<difference>
@@ -187,9 +185,16 @@
 			<c1>fbw/roll/i-gain</c1>
 		</integrator>
 		
+		<switch name="fbw/roll/i-switched">
+			<default value="fbw/roll/i"/>
+			<test value="0">
+				position/wow eq 1
+			</test>
+		</switch>
+		
 		<summer name="fbw/roll-output">
 			<input>fbw/roll/p</input>
-			<input>fbw/roll/i</input>
+			<input>fbw/roll/i-switched</input>
 		</summer>
 
 		<deadband name="fbw/roll/i-feedback">
@@ -206,24 +211,10 @@
 	
 	<channel name="FBW: Pitch"> <!-- Adapted from Necolatis' work -->
 		
-		<kinematic name="fbw/pitch/elevator-k">
-			<input>/controls/flight/elevator</input>
-			<traverse>
-				<setting>
-					<position>-1.0</position>
-					<time>2.5</time>
-				</setting>
-				<setting>
-					<position>1.0</position>
-					<time>2.5</time>
-				</setting>
-			</traverse>
-		</kinematic>
-		
 		<fcs_function name="fbw/pitch/elevator-modified">
 			<function>
 				<product>
-					<property>fbw/pitch/elevator-k</property>
+					<property>/controls/flight/elevator</property>
 					<table>
 						<independentVar lookup="row">/controls/flight/elevator</independentVar>
 						<tableData>
@@ -242,9 +233,9 @@
 					<independentVar lookup="row">/controls/flight/elevator-trim</independentVar>
 					<tableData>
 						-1.00 -1.0
-						-0.01  0.0
+						-0.02  0.0
 						 0.00  0.0
-						 0.01  0.0
+						 0.02  0.0
 						 1.00  1.0
 					</tableData>
 				</table>
@@ -319,6 +310,7 @@
 			<test logic="AND" value="fbw/pitch/a_n">
 				fbw/pitch/a_n lt  30
 				fbw/pitch/a_n gt -30
+				position/wow ne 1
 			</test>
 		</switch>
 		
@@ -419,9 +411,16 @@
 			<c1>fbw/pitch/i-gain</c1>
 		</integrator>
 		
+		<switch name="fbw/pitch/i-switched">
+			<default value="fbw/pitch/i"/>
+			<test value="0">
+				position/wow eq 1
+			</test>
+		</switch>
+		
 		<summer name="fbw/pitch-output">
 			<input>fbw/pitch/p</input>
-			<input>fbw/pitch/i</input>
+			<input>fbw/pitch/i-switched</input>
 		</summer>
 		
 		<deadband name="fbw/pitch/i-feedback">
@@ -500,7 +499,7 @@
 			</range>
 		</aerosurface_scale>
 		
-		<fcs_function name="fcs/elevon-1L-pos-deg">
+		<fcs_function name="fcs/elevon-1L-cmd-deg">
 			<function>
 				<sum>
 					<product>
@@ -516,7 +515,22 @@
 			</clipto>
 		</fcs_function>
 		
-		<fcs_function name="fcs/elevon-1R-pos-deg">
+		<kinematic name="fcs/elevon-1L-pos-deg">
+			<input>fcs/elevon-1L-cmd-deg</input>
+			<noscale/>
+			<traverse>
+				<setting>
+					<position>-25</position>
+					<time>0.41</time>
+				</setting>
+				<setting>
+					<position>16</position>
+					<time>0.26</time>
+				</setting>
+			</traverse>
+		</kinematic>
+		
+		<fcs_function name="fcs/elevon-1R-cmd-deg">
 			<function>
 				<sum>
 					<property>fcs/roll-pos-deg</property>
@@ -529,7 +543,22 @@
 			</clipto>
 		</fcs_function>
 		
-		<pure_gain name="fcs/elevon-2L-pos-deg">
+		<kinematic name="fcs/elevon-1R-pos-deg">
+			<input>fcs/elevon-1R-cmd-deg</input>
+			<noscale/>
+			<traverse>
+				<setting>
+					<position>-25</position>
+					<time>0.41</time>
+				</setting>
+				<setting>
+					<position>16</position>
+					<time>0.26</time>
+				</setting>
+			</traverse>
+		</kinematic>
+		
+		<pure_gain name="fcs/elevon-2L-cmd-deg">
 			<input>fcs/pitch-pos-deg</input>
 			<gain>1.0</gain>
 			<clipto>
@@ -538,7 +567,22 @@
 			</clipto>
 		</pure_gain>
 		
-		<pure_gain name="fcs/elevon-2R-pos-deg">
+		<kinematic name="fcs/elevon-2L-pos-deg">
+			<input>fcs/elevon-2L-cmd-deg</input>
+			<noscale/>
+			<traverse>
+				<setting>
+					<position>-25</position>
+					<time>0.41</time>
+				</setting>
+				<setting>
+					<position>16</position>
+					<time>0.26</time>
+				</setting>
+			</traverse>
+		</kinematic>
+		
+		<pure_gain name="fcs/elevon-2R-cmd-deg">
 			<input>fcs/pitch-pos-deg</input>
 			<gain>1.0</gain>
 			<clipto>
@@ -546,13 +590,43 @@
 				<max>16</max>
 			</clipto>
 		</pure_gain>
+		
+		<kinematic name="fcs/elevon-2R-pos-deg">
+			<input>fcs/elevon-2R-cmd-deg</input>
+			<noscale/>
+			<traverse>
+				<setting>
+					<position>-25</position>
+					<time>0.41</time>
+				</setting>
+				<setting>
+					<position>16</position>
+					<time>0.26</time>
+				</setting>
+			</traverse>
+		</kinematic>
 	
 	</channel>
 	
 	<channel name="Rudder">
 		
-		<aerosurface_scale name="rubbish/rudder-pos-deg">
+		<kinematic name="rubbish/rudder-cmd-deg">
 			<input>/controls/flight/rudder</input> <!-- The FBW don't do anything yet with Yaw -->
+			<traverse>
+				<setting>
+					<position>-1</position>
+					<time>0.55</time>
+				</setting>
+				<setting>
+					<position>1</position>
+					<time>0.55</time>
+				</setting>
+			</traverse>
+			<output>fcs/rudder-cmd-deg</output>
+		</kinematic>
+		
+		<aerosurface_scale name="rubbish/rudder-pos-deg">
+			<input>fcs/rudder-cmd-deg</input>
 			<range>
 				<min>-25</min>
 				<max>25</max>
