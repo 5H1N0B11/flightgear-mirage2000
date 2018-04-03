@@ -19,6 +19,121 @@
 	
 	<property value="1">fbw/enable</property>
 	<property value="0">fbw/man-slat</property> <!-- Set to 0 to enable auto-slat -->
+	<property value="0">fbw/roll/pid</property>
+	
+	<!-- Default gains for tuning -->
+	<property value="0">fbw/roll/p-gain</property>
+	<property value="0">fbw/roll/i-gain</property>
+	<property value="0">fbw/roll/d-gain</property>
+	<property value="0">fbw/roll/rad-p-gain</property>
+	<property value="0">fbw/pitch/p-gain</property>
+	<property value="0">fbw/pitch/i-gain</property>
+	
+	<channel name="Control Inputs">
+	
+		<fcs_function name="fbw/roll/aileron-nul">
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/aileron</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/elevator-nul">
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/elevator</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/elevator-trim-nul"> <!-- This way, the trim can be reset and not affect the G when the pilot tries to center it -->
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/elevator-trim</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/yaw/rudder-nul">
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/rudder</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/yaw/rudder-trim-nul"> <!-- This way, the trim can be reset and not affect the Yaw when the pilot tries to center it -->
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/rudder-trim</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<summer name="fcs/aileron-sum">
+			<input>fbw/roll/aileron-nul</input>
+			<!--input>fbw/roll/aileron-nul-trim</input--> <!-- FIXME: Does Mirage have aileron trim? -->
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
+		
+		<summer name="fcs/elevator-sum">
+			<input>fbw/pitch/elevator-nul</input>
+			<input>fbw/pitch/elevator-trim-nul</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
+		
+		<summer name="fcs/rudder-sum">
+			<input>fbw/yaw/rudder-nul</input>
+			<input>fbw/yaw/rudder-trim-nul</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
+	
+	</channel>
 	
 	<channel name="Libraries">
 		
@@ -49,8 +164,8 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0    1    2
-						0.3 -3.3 -0.2  0.0
-						0.8 -1.4 -0.1  0.0
+						0.3 -3.1 -0.2  0.0
+						0.7 -0.5 -0.1  0.0
 					</tableData>
 				</table>
 			</function>
@@ -62,9 +177,23 @@
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0     1
-						0.3  13.5  0.0
-						0.8  10.2  0.0
+						     0    1
+						0.3 -3.1  0.0
+						0.7 -2.5  0.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/roll/d-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
+					<tableData>
+						     0      1
+						0.3  0.0045  0.0000
+						0.7  0.0030  0.0000
 					</tableData>
 				</table>
 			</function>
@@ -78,7 +207,7 @@
 					<tableData>
 						     0     1     2
 						0.3  0.35  0.10  0.00
-						0.8  0.15  0.02  0.00
+						0.7  0.10  0.02  0.00
 					</tableData>
 				</table>
 			</function>
@@ -92,29 +221,11 @@
 					<tableData>
 						     0    1
 						0.3  7.5  0.0
-						0.8  4.5  0.0
+						0.7  4.5  0.0
 					</tableData>
 				</table>
 			</function>
 		</fcs_function>
-		
-		<summer name="fcs/aileron-sum">
-			<input>/controls/flight/aileron</input>
-			<input>/controls/flight/aileron-trim</input>
-			<clipto>
-				<min>-1</min>
-				<max>1</max>
-			</clipto>
-		</summer>
-		
-		<summer name="fcs/elevator-sum">
-			<input>/controls/flight/elevator</input>
-			<input>/controls/flight/elevator-trim</input>
-			<clipto>
-				<min>-1</min>
-				<max>1</max>
-			</clipto>
-		</summer>
 	
 	</channel>
 	
@@ -123,9 +234,9 @@
 		<fcs_function name="fbw/roll/aileron-modified">
 			<function>
 				<product>
-					<property>/controls/flight/aileron</property>
+					<property>fbw/roll/aileron-nul</property>
 					<table>
-						<independentVar lookup="row">/controls/flight/aileron</independentVar>
+						<independentVar lookup="row">fbw/roll/aileron-nul</independentVar>
 						<tableData>
 							-1  20
 							 0   1
@@ -136,7 +247,7 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="fbw/roll/rate-demand"> <!-- 270 deg/4.71239 rad per sec -->
+		<fcs_function name="fbw/roll/rate-stick"> <!-- 270 deg/4.71239 rad per sec -->
 			<function>
 				<table>
 					<independentVar lookup="row">fbw/roll/aileron-modified</independentVar>
@@ -149,10 +260,54 @@
 			</function>
 		</fcs_function>
 		
-		<lag_filter name="fbw/roll/rate-demand-lag">
-			<input>fbw/roll/rate-demand</input>
-			<c1>6.3</c1>
+		<lag_filter name="fbw/roll/rate-stick-lag">
+			<input>fbw/roll/rate-stick</input>
+			<c1>15.4</c1>
 		</lag_filter>
+		
+		<switch name="fbw/roll/rad-hold">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				fbw/roll/rate-stick-lag lt 0.02
+				fbw/roll/rate-stick-lag gt -0.02
+			</test>
+		</switch>
+		
+		<fcs_function name="fbw/roll/rad">
+			<function>
+				<ifthen>
+					<eq>
+						<property>fbw/roll/rad-hold</property>
+						<value>0</value>
+					</eq>
+					<property>attitude/roll-rad</property>
+					<property>fbw/roll/rad</property>
+				</ifthen>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/roll/rad-error">
+			<function>
+				<difference>
+					<property>attitude/roll-rad</property>
+					<property>fbw/roll/rad</property>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fbw/roll/rad-rate">
+			<input>fbw/roll/rad-error</input>
+			<gain>fbw/roll/rad-p-gain</gain>
+			<clipto>
+				<min>-0.0872665</min>
+				<max>0.0872665</max>
+			</clipto>
+		</pure_gain>
+		
+		<summer name="fbw/roll/rate-demand">
+			<input>fbw/roll/rate-stick-lag</input>
+			<input>fbw/roll/rad-rate</input>
+		</summer>
 		
 		<switch name="fbw/roll/p-rad_sec-switched">
 			<default value="velocities/p-rad_sec"/>
@@ -170,7 +325,29 @@
 			</function>
 		</fcs_function>
 		
-		<pure_gain name="fbw/roll/p">
+		<switch name="fbw/roll/trigger">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fbw/gain-switch gt 0
+				fbw/roll/pid le -0.999
+				fbw/roll/pid ge 0.999
+			</test>
+		</switch>
+		
+		<pid name="fbw/roll/pid-v">
+			<input>fbw/roll/rate-error</input>
+			<kp>fbw/roll/p-gain</kp>
+			<ki>fbw/roll/i-gain</ki>
+			<kd>fbw/roll/d-gain</kd>
+			<trigger>fbw/roll/trigger</trigger>
+			<clipto>
+				<min>-1.0</min>
+				<max>1.0</max>
+			</clipto>
+			<output>fbw/roll/pid</output>
+		</pid>
+		
+		<pure_gain name="fbw/roll/p-g">
 			<input>fbw/roll/rate-error</input>
 			<gain>fbw/roll/p-gain</gain>
 			<clipto>
@@ -179,33 +356,12 @@
 			</clipto>
 		</pure_gain>
 		
-		<integrator name="fbw/roll/i">
-			<input>fbw/roll/i-input</input>
-			<trigger>position/wow</trigger>
-			<c1>fbw/roll/i-gain</c1>
-		</integrator>
-		
-		<switch name="fbw/roll/i-switched">
-			<default value="fbw/roll/i"/>
-			<test value="0">
+		<switch name="fbw/roll-output">
+			<default value="fbw/roll/pid"/>
+			<test value="fbw/roll/p-g">
 				position/wow eq 1
 			</test>
 		</switch>
-		
-		<summer name="fbw/roll-output">
-			<input>fbw/roll/p</input>
-			<input>fbw/roll/i-switched</input>
-		</summer>
-
-		<deadband name="fbw/roll/i-feedback">
-			<input>fbw/roll-output</input>
-			<width>1.0</width>
-		</deadband>
-
-		<summer name="fbw/roll/i-input">
-			<input>fbw/roll/p</input>
-			<input>-fbw/roll/i-feedback</input>
-		</summer>
 	
 	</channel>
 	
@@ -214,9 +370,9 @@
 		<fcs_function name="fbw/pitch/elevator-modified">
 			<function>
 				<product>
-					<property>/controls/flight/elevator</property>
+					<property>fbw/pitch/elevator-nul</property>
 					<table>
-						<independentVar lookup="row">/controls/flight/elevator</independentVar>
+						<independentVar lookup="row">fbw/pitch/elevator-nul</independentVar>
 						<tableData>
 							-1.0  10
 							 0.0   1
@@ -224,21 +380,6 @@
 						</tableData>
 					</table>
 				</product>
-			</function>
-		</fcs_function>
-		
-		<fcs_function name="fbw/pitch/elevator-trim-modified"> <!-- This way, the trim can be reset and not affect the G when the pilot tries to center it -->
-			<function>
-				<table>
-					<independentVar lookup="row">/controls/flight/elevator-trim</independentVar>
-					<tableData>
-						-1.00 -1.0
-						-0.02  0.0
-						 0.00  0.0
-						 0.02  0.0
-						 1.00  1.0
-					</tableData>
-				</table>
 			</function>
 		</fcs_function>
 		
@@ -254,7 +395,7 @@
 						</tableData>
 					</table>
 					<product>
-						<property>fbw/pitch/elevator-trim-modified</property>
+						<property>fbw/pitch/elevator-trim-nul</property>
 						<value>-1.5</value>
 					</product>
 				</sum>
@@ -521,11 +662,11 @@
 			<traverse>
 				<setting>
 					<position>-25</position>
-					<time>0.41</time>
+					<time>0.205</time>
 				</setting>
 				<setting>
 					<position>16</position>
-					<time>0.26</time>
+					<time>0.13</time>
 				</setting>
 			</traverse>
 		</kinematic>
@@ -549,11 +690,11 @@
 			<traverse>
 				<setting>
 					<position>-25</position>
-					<time>0.41</time>
+					<time>0.205</time>
 				</setting>
 				<setting>
 					<position>16</position>
-					<time>0.26</time>
+					<time>0.13</time>
 				</setting>
 			</traverse>
 		</kinematic>
@@ -573,11 +714,11 @@
 			<traverse>
 				<setting>
 					<position>-25</position>
-					<time>0.41</time>
+					<time>0.205</time>
 				</setting>
 				<setting>
 					<position>16</position>
-					<time>0.26</time>
+					<time>0.13</time>
 				</setting>
 			</traverse>
 		</kinematic>
@@ -597,11 +738,11 @@
 			<traverse>
 				<setting>
 					<position>-25</position>
-					<time>0.41</time>
+					<time>0.205</time>
 				</setting>
 				<setting>
 					<position>16</position>
-					<time>0.26</time>
+					<time>0.13</time>
 				</setting>
 			</traverse>
 		</kinematic>
@@ -610,29 +751,20 @@
 	
 	<channel name="Rudder">
 		
-		<kinematic name="rubbish/rudder-cmd-deg">
-			<input>/controls/flight/rudder</input> <!-- The FBW don't do anything yet with Yaw -->
+		<kinematic name="rubbish/rudder-pos-deg">
+			<input>fcs/rudder-sum</input>
 			<traverse>
 				<setting>
-					<position>-1</position>
-					<time>0.55</time>
+					<position>-25</position>
+					<time>0.19</time>
 				</setting>
 				<setting>
-					<position>1</position>
-					<time>0.55</time>
+					<position>25</position>
+					<time>0.19</time>
 				</setting>
 			</traverse>
-			<output>fcs/rudder-cmd-deg</output>
-		</kinematic>
-		
-		<aerosurface_scale name="rubbish/rudder-pos-deg">
-			<input>fcs/rudder-cmd-deg</input>
-			<range>
-				<min>-25</min>
-				<max>25</max>
-			</range>
 			<output>fcs/rudder-pos-deg</output>
-		</aerosurface_scale>
+		</kinematic>
 	
 	</channel>
 	
