@@ -3,7 +3,7 @@
 <PropertyList>
 	
  <pid-controller>
-    <name>Auto Throttle (5 sec lookahead)</name>
+    <name>Auto Throttle</name>
     <debug>false</debug>
     <enable>
       <prop>/autopilot/locks/speed</prop>
@@ -39,7 +39,7 @@
   </pid-controller>
   
   <pid-controller>
-    <name>Auto Mach Throttle (5 sec lookahead)</name>
+    <name>Auto Mach Throttle</name>
     <debug>false</debug>
     <enable>
       <prop>/autopilot/locks/speed</prop>
