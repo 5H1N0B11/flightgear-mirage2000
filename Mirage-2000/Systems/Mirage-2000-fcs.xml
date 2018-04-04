@@ -636,12 +636,12 @@
 					<independentVar lookup="column">fcs/rudder-sum</independentVar>
 					<independentVar lookup="table">fbw/yaw/gear</independentVar>
 					<tableData breakPoint="0">
-							-1.0    0.0    1.0
+						    -1.0    0.0    1.0
 						0.3 -0.250  0.000  0.250
 						0.7 -0.150  0.000  0.150
 					</tableData>
 					<tableData breakPoint="1">
-							-1.0    0.0    1.0
+						    -1.0    0.0    1.0
 						0.3 -0.325  0.000  0.325
 						0.7 -0.200  0.000  0.200
 					</tableData>
