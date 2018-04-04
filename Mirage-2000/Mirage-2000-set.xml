@@ -175,6 +175,10 @@
 			</default>
 		</menubar>
 		
+		<instrumentation>
+			<path>Aircraft/Mirage-2000/Systems/instrumentation.xml</path>
+		</instrumentation>
+		
 		<systems>
 			<autopilot n="0"> <!-- for easier dev/testing, will convert to JSB FCS file -->
 				<path>Systems/fbw.xml</path>

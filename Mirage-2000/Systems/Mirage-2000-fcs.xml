@@ -1,6 +1,5 @@
 <!-- Mirage 2000 FCS -->
 <!-- Joshua Davidson (it0uchpods) -->
-<!-- Note: This is a WIP, and is missing several components -->
 
 <system name="Mirage-2000: FCS">
 
@@ -18,16 +17,18 @@
 	<property value="0">fcs/slat-2R-pos-deg</property>
 	
 	<property value="1">fbw/enable</property>
-	<property value="0">fbw/man-slat</property> <!-- Set to 0 to enable auto-slat -->
+	<property value="0">fbw/man-slat</property>
 	<property value="0">fbw/roll/pid</property>
 	
 	<!-- Default gains for tuning -->
 	<property value="0">fbw/roll/p-gain</property>
 	<property value="0">fbw/roll/i-gain</property>
 	<property value="0">fbw/roll/d-gain</property>
-	<property value="0">fbw/roll/rad-p-gain</property>
 	<property value="0">fbw/pitch/p-gain</property>
 	<property value="0">fbw/pitch/i-gain</property>
+	<property value="0">fbw/yaw/yd-p-gain</property>
+	<property value="0">fbw/yaw/p-gain</property>
+	<property value="0">fbw/yaw/i-gain</property>
 	
 	<channel name="Control Inputs">
 	
@@ -191,7 +192,7 @@
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0      1
+						     0       1
 						0.3  0.0045  0.0000
 						0.7  0.0030  0.0000
 					</tableData>
@@ -222,6 +223,48 @@
 						     0    1
 						0.3  7.5  0.0
 						0.7  4.5  0.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/yaw/yd-p-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
+					<tableData>
+						     0    1
+						0.3 -2.5  0.0
+						0.7 -1.9  0.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/yaw/p-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
+					<tableData>
+						     0     1
+						0.3  0.08  0.00
+						0.7  0.05  0.00
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/yaw/i-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
+					<tableData>
+						     0    1
+						0.3  0.4  0.0
+						0.7  0.3  0.0
 					</tableData>
 				</table>
 			</function>
@@ -270,6 +313,7 @@
 			<test logic="AND" value="1">
 				fbw/roll/rate-stick-lag lt 0.02
 				fbw/roll/rate-stick-lag gt -0.02
+				position/wow eq 0
 			</test>
 		</switch>
 		
@@ -297,7 +341,7 @@
 		
 		<pure_gain name="fbw/roll/rad-rate">
 			<input>fbw/roll/rad-error</input>
-			<gain>fbw/roll/rad-p-gain</gain>
+			<gain>-2.5</gain>
 			<clipto>
 				<min>-0.0872665</min>
 				<max>0.0872665</max>
@@ -309,7 +353,7 @@
 			<input>fbw/roll/rad-rate</input>
 		</summer>
 		
-		<switch name="fbw/roll/p-rad_sec-switched">
+		<switch name="fbw/roll/p-r_s-s">
 			<default value="velocities/p-rad_sec"/>
 			<test value="0">
 				position/wow eq 1
@@ -319,7 +363,7 @@
 		<fcs_function name="fbw/roll/rate-error">
 			<function>
 				<difference>
-					<property>velocities/p-rad_sec</property>
+					<property>fbw/roll/p-r_s-s</property>
 					<property>fbw/roll/rate-demand</property>
 				</difference>
 			</function>
@@ -576,11 +620,136 @@
 	
 	</channel>
 	
-	<channel name="FBW: Slats">
+	<channel name="FBW: Yaw">
 		
-		<fcs_function name="fbw/slat/function">
+		<switch name="fbw/yaw/gear">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				gear/gear-pos-norm eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="fbw/yaw/r-l">
 			<function>
 				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fcs/rudder-sum</independentVar>
+					<independentVar lookup="table">fbw/yaw/gear</independentVar>
+					<tableData breakPoint="0">
+							-1.0    0.0    1.0
+						0.3 -0.250  0.000  0.250
+						0.7 -0.150  0.000  0.150
+					</tableData>
+					<tableData breakPoint="1">
+							-1.0    0.0    1.0
+						0.3 -0.325  0.000  0.325
+						0.7 -0.200  0.000  0.200
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/yaw/l-f">
+			<function>
+				<product>
+					<table>
+						<independentVar lookup="row">velocities/r-rad_sec</independentVar>
+						<tableData>
+							-0.2094390  1.0
+							-0.1396260  0.4
+							-0.1047195  0.0
+							 0.0000000  0.0
+							 0.1047195  0.0
+							 0.1396260 -0.4
+							 0.2094390 -1.0
+						</tableData>
+					</table>
+					<table>
+						<independentVar lookup="row">velocities/mach</independentVar>
+						<tableData>
+							0.5  0.075
+							1.0  0.040
+							1.5  0.020
+							2.0  0.010
+						</tableData>
+					</table>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<summer name="fbw/yaw/cmd">
+			<input>fbw/yaw/r-l</input>
+			<input>fbw/yaw/l-f</input>
+		</summer>
+		
+		<pure_gain name="fbw/yaw/yd-f">
+			<input>velocities/r-rad_sec</input>
+			<gain>fbw/yaw/yd-p-gain</gain>
+			<clipto>
+				<min>-0.1</min>
+				<max>0.1</max>
+			</clipto>
+		</pure_gain>
+		
+		<pure_gain name="fbw/yaw/p">
+			<input>/instrumentation/slip-skid-ball/indicated-slip-skid</input>
+			<gain>fbw/yaw/p-gain</gain>
+			<clipto>
+				<min>-0.2</min>
+				<max>0.2</max>
+			</clipto>
+		</pure_gain>
+		
+		<switch name="fbw/yaw/i-switch">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fbw/gain-switch eq 1
+				fbw/yaw/rudder-nul ne 0
+			</test>
+		</switch>
+		
+		<integrator name="fbw/yaw/i">
+			<input>fbw/yaw/i-input</input>
+			<trigger>fbw/yaw/i-switch</trigger>
+			<c1>fbw/yaw/i-gain</c1>
+		</integrator>
+		
+		<switch name="fbw/yaw/i-switched">
+			<default value="fbw/yaw/i"/>
+			<test value="0">
+				fbw/yaw/i-switch eq 1
+			</test>
+		</switch>
+		
+		<summer name="fbw/yaw-output">
+			<input>fbw/yaw/cmd</input>
+			<input>fbw/yaw/yd-f</input>
+			<input>fbw/yaw/p</input>
+			<input>fbw/yaw/i-switched</input>
+		</summer>
+		
+		<summer name="fbw/i-yaw-output">
+			<input>fbw/yaw/p</input>
+			<input>fbw/yaw/i-switched</input>
+		</summer>
+
+		<deadband name="fbw/yaw/i-feedback">
+			<input>fbw/i-yaw-output</input>
+			<width>0.2</width>
+		</deadband>
+
+		<summer name="fbw/yaw/i-input">
+			<input>fbw/yaw/p</input>
+			<input>-fbw/yaw/i-feedback</input>
+		</summer>
+	
+	</channel>
+	
+	<channel name="FBW: Slats">
+		
+		<fcs_function>
+			<function>
+				<table name="fbw/slat/function">
 					<independentVar lookup="row">aero/alpha-deg</independentVar> <!-- Should really be indicated -->
 					<tableData>
 						 4  0
@@ -595,6 +764,7 @@
 			<test logic="OR" value="/controls/flight/flaps">
 				gear/gear-pos-norm eq 1
 				fbw/man-slat eq 1
+				fbw/enable eq 0
 			</test>
 		</switch>
 	
@@ -751,8 +921,19 @@
 	
 	<channel name="Rudder">
 		
+		<switch name="fcs/yaw-input">
+			<default value="fbw/yaw-output"/>
+			<test logic="OR" value="fcs/rudder-sum">
+				fbw/enable eq 0
+			</test>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</switch>
+		
 		<kinematic name="rubbish/rudder-pos-deg">
-			<input>fcs/rudder-sum</input>
+			<input>fcs/yaw-input</input>
 			<traverse>
 				<setting>
 					<position>-25</position>
