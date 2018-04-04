@@ -167,6 +167,7 @@
 						     0    1    2
 						0.3 -3.1 -0.2  0.0
 						0.7 -0.5 -0.1  0.0
+						1.0 -0.4 -0.1  0.0
 					</tableData>
 				</table>
 			</function>
@@ -181,6 +182,7 @@
 						     0    1
 						0.3 -3.1  0.0
 						0.7 -2.5  0.0
+						1.0 -2.2  0.0
 					</tableData>
 				</table>
 			</function>
@@ -193,8 +195,9 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0       1
-						0.3  0.0045  0.0000
-						0.7  0.0030  0.0000
+						0.3 -0.0045  0.0000
+						0.7 -0.0035  0.0000
+						1.0 -0.0030  0.0000
 					</tableData>
 				</table>
 			</function>
@@ -209,6 +212,7 @@
 						     0     1     2
 						0.3  0.35  0.10  0.00
 						0.7  0.10  0.02  0.00
+						1.0  0.05  0.01  0.00
 					</tableData>
 				</table>
 			</function>
@@ -223,6 +227,7 @@
 						     0    1
 						0.3  7.5  0.0
 						0.7  4.5  0.0
+						1.0  3.8  0.0
 					</tableData>
 				</table>
 			</function>
@@ -235,8 +240,9 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0    1
-						0.3 -2.5  0.0
-						0.7 -1.9  0.0
+						0.3 -2.1  0.0
+						0.7 -0.9  0.0
+						1.0 -0.5  0.0
 					</tableData>
 				</table>
 			</function>
@@ -250,7 +256,8 @@
 					<tableData>
 						     0     1
 						0.3  0.08  0.00
-						0.7  0.05  0.00
+						0.7  0.03  0.00
+						1.0  0.02  0.00
 					</tableData>
 				</table>
 			</function>
@@ -265,6 +272,7 @@
 						     0    1
 						0.3  0.4  0.0
 						0.7  0.3  0.0
+						1.0  0.2  0.0
 					</tableData>
 				</table>
 			</function>
@@ -639,6 +647,8 @@
 						    -1.0    0.0    1.0
 						0.3 -0.250  0.000  0.250
 						0.7 -0.150  0.000  0.150
+						1.0 -0.140  0.000  0.140
+						2.0 -0.100  0.000  0.100
 					</tableData>
 					<tableData breakPoint="1">
 						    -1.0    0.0    1.0
@@ -649,37 +659,9 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="fbw/yaw/l-f">
-			<function>
-				<product>
-					<table>
-						<independentVar lookup="row">velocities/r-rad_sec</independentVar>
-						<tableData>
-							-0.2094390  1.0
-							-0.1396260  0.4
-							-0.1047195  0.0
-							 0.0000000  0.0
-							 0.1047195  0.0
-							 0.1396260 -0.4
-							 0.2094390 -1.0
-						</tableData>
-					</table>
-					<table>
-						<independentVar lookup="row">velocities/mach</independentVar>
-						<tableData>
-							0.5  0.075
-							1.0  0.040
-							1.5  0.020
-							2.0  0.010
-						</tableData>
-					</table>
-				</product>
-			</function>
-		</fcs_function>
-		
 		<summer name="fbw/yaw/cmd">
 			<input>fbw/yaw/r-l</input>
-			<input>fbw/yaw/l-f</input>
+			<!--input>fbw/yaw/l-f</input--> <!-- Needs to be redesigned -->
 		</summer>
 		
 		<pure_gain name="fbw/yaw/yd-f">
@@ -691,16 +673,7 @@
 			</clipto>
 		</pure_gain>
 		
-		<pure_gain name="fbw/yaw/p">
-			<input>/instrumentation/slip-skid-ball/indicated-slip-skid</input>
-			<gain>fbw/yaw/p-gain</gain>
-			<clipto>
-				<min>-0.2</min>
-				<max>0.2</max>
-			</clipto>
-		</pure_gain>
-		
-		<switch name="fbw/yaw/i-switch">
+		<switch name="fbw/yaw/tc-switch">
 			<default value="0"/>
 			<test logic="OR" value="1">
 				fbw/gain-switch gt 0
@@ -708,16 +681,32 @@
 			</test>
 		</switch>
 		
+		<switch name="fbw/yaw/tc-error">
+			<default value="/instrumentation/slip-skid-ball/indicated-slip-skid"/>
+			<test value="0">
+				fbw/yaw/tc-switch eq 1
+			</test>
+		</switch>
+		
+		<pure_gain name="fbw/yaw/p">
+			<input>fbw/yaw/tc-error</input>
+			<gain>fbw/yaw/p-gain</gain>
+			<clipto>
+				<min>-0.1</min>
+				<max>0.1</max>
+			</clipto>
+		</pure_gain>
+		
 		<integrator name="fbw/yaw/i">
 			<input>fbw/yaw/i-input</input>
-			<trigger>fbw/yaw/i-switch</trigger>
+			<trigger>fbw/yaw/tc-switch</trigger>
 			<c1>fbw/yaw/i-gain</c1>
 		</integrator>
 		
 		<switch name="fbw/yaw/i-switched">
 			<default value="fbw/yaw/i"/>
 			<test value="0">
-				fbw/yaw/i-switch eq 1
+				fbw/yaw/tc-switch eq 1
 			</test>
 		</switch>
 		
@@ -735,7 +724,7 @@
 
 		<deadband name="fbw/yaw/i-feedback">
 			<input>fbw/i-yaw-output</input>
-			<width>0.2</width>
+			<width>0.1</width>
 		</deadband>
 
 		<summer name="fbw/yaw/i-input">
@@ -937,11 +926,11 @@
 			<traverse>
 				<setting>
 					<position>-25</position>
-					<time>0.19</time>
+					<time>0.29</time>
 				</setting>
 				<setting>
 					<position>25</position>
-					<time>0.19</time>
+					<time>0.29</time>
 				</setting>
 			</traverse>
 			<output>fcs/rudder-pos-deg</output>
