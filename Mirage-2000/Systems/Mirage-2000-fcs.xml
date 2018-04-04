@@ -703,7 +703,7 @@
 		<switch name="fbw/yaw/i-switch">
 			<default value="0"/>
 			<test logic="OR" value="1">
-				fbw/gain-switch eq 1
+				fbw/gain-switch gt 0
 				fbw/yaw/rudder-nul ne 0
 			</test>
 		</switch>
