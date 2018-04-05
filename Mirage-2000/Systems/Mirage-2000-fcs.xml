@@ -168,6 +168,8 @@
 						0.3 -3.1 -0.2  0.0
 						0.7 -0.5 -0.1  0.0
 						1.0 -0.4 -0.1  0.0
+						1.5 -0.3 -0.1  0.0
+						2.5 -0.2 -0.1  0.0
 					</tableData>
 				</table>
 			</function>
@@ -181,8 +183,10 @@
 					<tableData>
 						     0    1
 						0.3 -3.1  0.0
-						0.7 -2.5  0.0
-						1.0 -2.2  0.0
+						0.7 -2.6  0.0
+						1.0 -2.5  0.0
+						1.5 -2.3  0.0
+						2.5 -2.1  0.0
 					</tableData>
 				</table>
 			</function>
@@ -198,6 +202,8 @@
 						0.3 -0.0045  0.0000
 						0.7 -0.0035  0.0000
 						1.0 -0.0030  0.0000
+						1.5 -0.0025  0.0000
+						2.5 -0.0023  0.0000
 					</tableData>
 				</table>
 			</function>
@@ -209,10 +215,12 @@
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0     1     2
-						0.3  0.35  0.10  0.00
-						0.7  0.10  0.02  0.00
-						1.0  0.05  0.01  0.00
+						     0      1      2
+						0.3  0.350  0.100  0.000
+						0.7  0.090  0.020  0.000
+						1.0  0.030  0.010  0.000
+						1.5  0.020  0.010  0.000
+						2.5  0.008  0.000  0.000
 					</tableData>
 				</table>
 			</function>
@@ -228,6 +236,8 @@
 						0.3  7.5  0.0
 						0.7  4.5  0.0
 						1.0  3.8  0.0
+						1.5  2.9  0.0
+						2.5  2.7  0.0
 					</tableData>
 				</table>
 			</function>
@@ -243,6 +253,8 @@
 						0.3 -2.1  0.0
 						0.7 -0.9  0.0
 						1.0 -0.5  0.0
+						1.5 -0.3  0.0
+						2.5 -0.2  0.0
 					</tableData>
 				</table>
 			</function>
@@ -254,10 +266,12 @@
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0     1
-						0.3  0.08  0.00
-						0.7  0.03  0.00
-						1.0  0.02  0.00
+						     0      1
+						0.3  0.080  0.000
+						0.7  0.030  0.000
+						1.0  0.015  0.000
+						1.5  0.005  0.000
+						2.5  0.004  0.000
 					</tableData>
 				</table>
 			</function>
@@ -269,10 +283,12 @@
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0    1
-						0.3  0.4  0.0
-						0.7  0.3  0.0
-						1.0  0.2  0.0
+						     0     1
+						0.3  0.40  0.00
+						0.7  0.30  0.00
+						1.0  0.20  0.00
+						1.5  0.17  0.00
+						2.5  0.14  0.00
 					</tableData>
 				</table>
 			</function>
