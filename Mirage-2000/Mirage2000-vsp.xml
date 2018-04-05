@@ -6,10 +6,10 @@
 
     <fileheader>
         <author>Richard Harrison</author>
-        <filecreationdate>2018-04-04</filecreationdate>
+        <filecreationdate>2018-04-05</filecreationdate>
         <version>1.0</version>
         <copyright>Copyright (C) 2017 Richard Harrison, All rights reserved</copyright>
-        <description>Dassault Mirage2000 Aerodynamic data built from vspaero; CG (7.898, 0, 0.508)M, 2018-04-04 07:11</description>
+        <description>Dassault Mirage2000 Aerodynamic data built from vspaero; CG (7.898, 0, 0.508)M, 2018-04-05 20:30</description>
         <note>Built using VSPAERO. VSPAero control sub surfaces are used for the elevons, slats and rudder. These are all then processed and this data is built from the results (together with the -stab to get the derivatives)</note>
         <note>Aircraft origin for measurements is the nose</note>
         <note>VSPAERO notes: Rudder deflection is LE right. Elevator is TE down.</note>
@@ -248,7 +248,7 @@
     <capacity unit="KG">2128</capacity>
     <standpipe unit="KG">50</standpipe>
     <contents unit="KG">2128</contents>
-    <priority>8</priority>
+    <priority>4</priority>
   </tank>
   <tank number="1" type="FUEL">
     <!--1: Right Wing Tank-->
@@ -260,7 +260,7 @@
     <capacity unit="LBS">385</capacity>
     <standpipe unit="LBS">100</standpipe>
     <contents unit="LBS">385</contents>
-    <priority>7</priority>
+    <priority>3</priority>
   </tank>
   <tank number="2" type="FUEL">
     <!--2: Left Wing Tank-->
@@ -272,7 +272,7 @@
     <capacity unit="LBS">385</capacity>
     <standpipe unit="LBS">100</standpipe>
     <contents unit="LBS">385</contents>
-    <priority>7</priority>
+    <priority>3</priority>
   </tank>
   <tank number="3" type="FUEL">
     <!--3: External Tank-->
@@ -284,7 +284,7 @@
     <capacity unit="KG">1200</capacity>
     <standpipe unit="KG">50</standpipe>
     <contents unit="KG">1200</contents>
-    <priority>3</priority>
+    <priority>2</priority>
   </tank>
   <tank number="4" type="FUEL">
     <!--4: Feed line-->
@@ -295,7 +295,7 @@
     </location>
     <capacity unit="LBS">10</capacity>
     <contents unit="LBS">10</contents>
-    <priority>2</priority>
+    <priority>1</priority>
   </tank>
 </propulsion>
 
