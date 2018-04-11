@@ -17,8 +17,16 @@
 	<property value="0">fcs/slat-2R-pos-deg</property>
 	
 	<property value="1">fbw/enable</property>
+	<property value="0">fbw/mode</property> <!-- 0: Air/Air (default), 1: Charges -->
 	<property value="0">fbw/man-slat</property>
 	<property value="0">fbw/roll/pid</property>
+	<property value="0">fbw/roll/inner-ctrl</property> <!-- Not used yet, enable/disable inner elevon roll control -->
+	
+	<!-- Autopilot stuff -->
+	<property value="0">fbw/ap/roll-enabled</property>
+	<property value="0">fbw/ap/pitch-enabled</property>
+	<property value="0">fbw/ap/roll-cmd</property>
+	<property value="0">fbw/ap/g-cmd</property>
 	
 	<!-- Default gains for tuning -->
 	<property value="0">fbw/roll/p-gain</property>
@@ -109,7 +117,7 @@
 		
 		<summer name="fcs/aileron-sum">
 			<input>fbw/roll/aileron-nul</input>
-			<!--input>fbw/roll/aileron-nul-trim</input--> <!-- FIXME: Does Mirage have aileron trim? -->
+			<!--input>fbw/roll/aileron-nul-trim</input--> <!-- FIXME: Does Mirage 2000 have aileron trim? -->
 			<clipto>
 				<min>-1</min>
 				<max>1</max>
@@ -314,14 +322,16 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="fbw/roll/rate-stick"> <!-- 270 deg/4.71239 rad per sec -->
+		<fcs_function name="fbw/roll/rate-stick"> <!-- Air/Air: 270 deg/4.71239 rad, Charges: 150 deg/2.61799 rad per sec -->
 			<function>
 				<table>
 					<independentVar lookup="row">fbw/roll/aileron-modified</independentVar>
+					<independentVar lookup="column">fbw/mode</independentVar>
 					<tableData>
-						-20.000 -4.71239
-						  0.000  0.00000
-						 20.000  4.71239
+						         0        1
+						-20.000 -4.71239 -2.61799
+						  0.000  0.00000  0.00000
+						 20.000  4.71239  2.61799
 					</tableData>
 				</table>
 			</function>
@@ -338,6 +348,7 @@
 				fbw/roll/rate-stick-lag lt 0.02
 				fbw/roll/rate-stick-lag gt -0.02
 				position/wow eq 0
+				fbw/ap/roll-enabled eq 0
 			</test>
 		</switch>
 		
@@ -372,7 +383,7 @@
 			</clipto>
 		</pure_gain>
 		
-		<summer name="fbw/roll/rate-demand">
+		<summer name="fbw/roll/rate-command">
 			<input>fbw/roll/rate-stick-lag</input>
 			<input>fbw/roll/rad-rate</input>
 		</summer>
@@ -381,6 +392,13 @@
 			<default value="velocities/p-rad_sec"/>
 			<test value="0">
 				position/wow eq 1
+			</test>
+		</switch>
+		
+		<switch name="fbw/roll/rate-demand">
+			<default value="fbw/roll/rate-command"/>
+			<test value="fbw/ap/roll-cmd">
+				fbw/ap/roll-enabled eq 1
 			</test>
 		</switch>
 		
@@ -430,6 +448,14 @@
 				position/wow eq 1
 			</test>
 		</switch>
+		
+		<switch name="fbw/roll-inner-output">
+			<default value="0"/>
+			<test logic="OR" value="fbw/roll-output">
+				fbw/roll/inner-ctrl eq 1
+				position/wow eq 1
+			</test>
+		</switch>
 	
 	</channel>
 	
@@ -451,15 +477,24 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="fbw/pitch/command-g">
+		<switch name="fbw/pitch/g-max">
+			<default value="7.5"/>
+			<test logic="AND" value="4.5">
+				fbw/mode eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="fbw/pitch/g-command">
 			<function>
 				<sum>
 					<table>
 						<independentVar lookup="row">fbw/pitch/elevator-modified</independentVar>
+						<independentVar lookup="column">fbw/mode</independentVar>
 						<tableData>
-							-10.000  7.5 <!-- Equals 8.5 G -->
-							  0.000  0.0
-							 10.000 -4.5 <!-- Equals -3.5 G -->
+							         0    1
+							-10.000  7.5  4.5 <!-- Equals 8.5/5.5 G -->
+							  0.000  0.0  0.0
+							 10.000 -4.5 -4.5 <!-- Equals -3.5 G -->
 						</tableData>
 					</table>
 					<product>
@@ -470,14 +505,21 @@
 			</function>
 			<clipto>
 				<min>-4.5</min>
-				<max>7.5</max>
+				<max>fbw/pitch/g-max</max>
 			</clipto>
 		</fcs_function>
 		
-		<lag_filter name="fbw/pitch/command-lag-g">
-			<input>fbw/pitch/command-g</input>
+		<lag_filter name="fbw/pitch/g-command-lag">
+			<input>fbw/pitch/g-command</input>
 			<c1>7.7</c1>
 		</lag_filter>
+		
+		<switch name="fbw/pitch/g-demand">
+			<default value="fbw/pitch/g-command-lag"/>
+			<test value="fbw/ap/g-cmd">
+				fbw/ap/pitch-enabled eq 1
+			</test>
+		</switch>
 		
 		<fcs_function name="fbw/pitch/a_n">
 			<function>
@@ -589,7 +631,7 @@
 					<property>fbw/pitch/alpha-lag</property>
 					<difference>
 						<property>fbw/pitch/alpha-max-lag</property> <!-- Max allowed alpha -->
-						<value>7.5</value> <!-- Max allowed G - 1 -->
+						<property>fbw/pitch/g-max</property> <!-- Max allowed G - 1 -->
 					</difference>
 				</difference>
 			</function>
@@ -601,7 +643,7 @@
 		
 		<summer name="fbw/pitch/error">
 			<input>fbw/pitch/alpha-sum</input>
-			<input>-fbw/pitch/command-lag-g</input>
+			<input>-fbw/pitch/g-demand</input>
 			<input>fbw/pitch/normal-lead</input>
 		</summer>
 		
@@ -779,7 +821,18 @@
 		
 		<switch name="fcs/roll-input">
 			<default value="fbw/roll-output"/>
-			<test logic="OR" value="fcs/aileron-sum">
+			<test value="fcs/aileron-sum">
+				fbw/enable eq 0
+			</test>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</switch>
+		
+		<switch name="fcs/roll-inner-input">
+			<default value="fbw/roll-inner-output"/>
+			<test value="fcs/aileron-sum">
 				fbw/enable eq 0
 			</test>
 			<clipto>
@@ -790,7 +843,7 @@
 		
 		<switch name="fcs/pitch-input">
 			<default value="fbw/pitch-output"/>
-			<test logic="OR" value="fcs/elevator-sum">
+			<test value="fcs/elevator-sum">
 				fbw/enable eq 0
 			</test>
 			<clipto>
@@ -801,6 +854,14 @@
 		
 		<aerosurface_scale name="fcs/roll-pos-deg">
 			<input>fcs/roll-input</input>
+			<range>
+				<min>25</min>
+				<max>-25</max>
+			</range>
+		</aerosurface_scale>
+		
+		<aerosurface_scale name="fcs/roll-inner-pos-deg">
+			<input>fcs/roll-inner-input</input>
 			<range>
 				<min>25</min>
 				<max>-25</max>
@@ -874,14 +935,21 @@
 			</traverse>
 		</kinematic>
 		
-		<pure_gain name="fcs/elevon-2L-cmd-deg">
-			<input>fcs/pitch-pos-deg</input>
-			<gain>1.0</gain>
+		<fcs_function name="fcs/elevon-2L-cmd-deg">
+			<function>
+				<sum>
+					<product>
+						<property>fcs/roll-inner-pos-deg</property>
+						<value>-1</value>
+					</product>
+					<property>fcs/pitch-pos-deg</property>
+				</sum>
+			</function>
 			<clipto>
 				<min>-25</min>
 				<max>16</max>
 			</clipto>
-		</pure_gain>
+		</fcs_function>
 		
 		<kinematic name="fcs/elevon-2L-pos-deg">
 			<input>fcs/elevon-2L-cmd-deg</input>
@@ -898,14 +966,18 @@
 			</traverse>
 		</kinematic>
 		
-		<pure_gain name="fcs/elevon-2R-cmd-deg">
-			<input>fcs/pitch-pos-deg</input>
-			<gain>1.0</gain>
+		<fcs_function name="fcs/elevon-2R-cmd-deg">
+			<function>
+				<sum>
+					<property>fcs/roll-inner-pos-deg</property>
+					<property>fcs/pitch-pos-deg</property>
+				</sum>
+			</function>
 			<clipto>
 				<min>-25</min>
 				<max>16</max>
 			</clipto>
-		</pure_gain>
+		</fcs_function>
 		
 		<kinematic name="fcs/elevon-2R-pos-deg">
 			<input>fcs/elevon-2R-cmd-deg</input>
@@ -928,7 +1000,7 @@
 		
 		<switch name="fcs/yaw-input">
 			<default value="fbw/yaw-output"/>
-			<test logic="OR" value="fcs/rudder-sum">
+			<test value="fcs/rudder-sum">
 				fbw/enable eq 0
 			</test>
 			<clipto>
