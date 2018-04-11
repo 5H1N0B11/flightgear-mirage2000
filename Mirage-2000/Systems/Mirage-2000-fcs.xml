@@ -38,112 +38,6 @@
 	<property value="0">fbw/yaw/p-gain</property>
 	<property value="0">fbw/yaw/i-gain</property>
 	
-	<channel name="Control Inputs">
-	
-		<fcs_function name="fbw/roll/aileron-nul">
-			<function>
-				<table>
-					<independentVar lookup="row">/controls/flight/aileron</independentVar>
-					<tableData>
-						-1.00 -1.0
-						-0.02  0.0
-						 0.00  0.0
-						 0.02  0.0
-						 1.00  1.0
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
-		<fcs_function name="fbw/pitch/elevator-nul">
-			<function>
-				<table>
-					<independentVar lookup="row">/controls/flight/elevator</independentVar>
-					<tableData>
-						-1.00 -1.0
-						-0.02  0.0
-						 0.00  0.0
-						 0.02  0.0
-						 1.00  1.0
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
-		<fcs_function name="fbw/pitch/elevator-trim-nul"> <!-- This way, the trim can be reset and not affect the G when the pilot tries to center it -->
-			<function>
-				<table>
-					<independentVar lookup="row">/controls/flight/elevator-trim</independentVar>
-					<tableData>
-						-1.00 -1.0
-						-0.02  0.0
-						 0.00  0.0
-						 0.02  0.0
-						 1.00  1.0
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
-		<fcs_function name="fbw/yaw/rudder-nul">
-			<function>
-				<table>
-					<independentVar lookup="row">/controls/flight/rudder</independentVar>
-					<tableData>
-						-1.00 -1.0
-						-0.02  0.0
-						 0.00  0.0
-						 0.02  0.0
-						 1.00  1.0
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
-		<fcs_function name="fbw/yaw/rudder-trim-nul"> <!-- This way, the trim can be reset and not affect the Yaw when the pilot tries to center it -->
-			<function>
-				<table>
-					<independentVar lookup="row">/controls/flight/rudder-trim</independentVar>
-					<tableData>
-						-1.00 -1.0
-						-0.02  0.0
-						 0.00  0.0
-						 0.02  0.0
-						 1.00  1.0
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
-		<summer name="fcs/aileron-sum">
-			<input>fbw/roll/aileron-nul</input>
-			<!--input>fbw/roll/aileron-nul-trim</input--> <!-- FIXME: Does Mirage 2000 have aileron trim? -->
-			<clipto>
-				<min>-1</min>
-				<max>1</max>
-			</clipto>
-		</summer>
-		
-		<summer name="fcs/elevator-sum">
-			<input>fbw/pitch/elevator-nul</input>
-			<input>fbw/pitch/elevator-trim-nul</input>
-			<clipto>
-				<min>-1</min>
-				<max>1</max>
-			</clipto>
-		</summer>
-		
-		<summer name="fcs/rudder-sum">
-			<input>fbw/yaw/rudder-nul</input>
-			<input>fbw/yaw/rudder-trim-nul</input>
-			<clipto>
-				<min>-1</min>
-				<max>1</max>
-			</clipto>
-		</summer>
-	
-	</channel>
-	
 	<channel name="Libraries">
 		
 		<switch name="position/wow">
@@ -259,44 +153,10 @@
 					<tableData>
 						     0    1
 						0.3 -2.1  0.0
-						0.7 -0.9  0.0
-						1.0 -0.5  0.0
+						0.7 -1.0  0.0
+						1.0 -0.6  0.0
 						1.5 -0.3  0.0
 						2.5 -0.2  0.0
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
-		<fcs_function name="fbw/yaw/p-gain">
-			<function>
-				<table>
-					<independentVar lookup="row">velocities/mach</independentVar>
-					<independentVar lookup="column">fbw/gain-switch</independentVar>
-					<tableData>
-						     0      1
-						0.3  0.080  0.000
-						0.7  0.030  0.000
-						1.0  0.015  0.000
-						1.5  0.005  0.000
-						2.5  0.004  0.000
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
-		<fcs_function name="fbw/yaw/i-gain">
-			<function>
-				<table>
-					<independentVar lookup="row">velocities/mach</independentVar>
-					<independentVar lookup="column">fbw/gain-switch</independentVar>
-					<tableData>
-						     0     1
-						0.3  0.40  0.00
-						0.7  0.30  0.00
-						1.0  0.20  0.00
-						1.5  0.17  0.00
-						2.5  0.14  0.00
 					</tableData>
 				</table>
 			</function>
@@ -305,6 +165,30 @@
 	</channel>
 	
 	<channel name="FBW: Roll">
+		
+		<fcs_function name="fbw/roll/aileron-nul">
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/aileron</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<summer name="fcs/aileron-sum">
+			<input>fbw/roll/aileron-nul</input>
+			<!--input>fbw/roll/aileron-nul-trim</input--> <!-- FIXME: Does Mirage 2000 have aileron trim? -->
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
 		
 		<fcs_function name="fbw/roll/aileron-modified">
 			<function>
@@ -465,6 +349,91 @@
 	
 	<channel name="FBW: Pitch"> <!-- Adapted from Necolatis' work -->
 		
+		<fcs_function name="fbw/pitch/elevator-nul">
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/elevator</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/elevator-trim-nul"> <!-- This way, the trim can be reset and not affect the G when the pilot tries to center it -->
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/elevator-trim</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<summer name="fcs/elevator-sum">
+			<input>fbw/pitch/elevator-nul</input>
+			<input>fbw/pitch/elevator-trim-nul</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
+		
+		<fcs_function name="fbw/pitch/deadzone">
+			<function>
+				<table>
+					<independentVar lookup="row">fbw/roll/aileron-nul</independentVar>
+					<tableData>
+						-1.0  0.15
+						-0.5  0.00
+						 0.5  0.00
+						 1.0  0.15
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/elevator-modified">
+			<function>
+				<product>
+					<quotient>
+						<property>fbw/pitch/elevator-nul</property>
+						<pow>
+							<value>1</value>
+							<property>fbw/pitch/elevator-nul</property>
+						</pow>
+					</quotient>
+					<product>
+						<max>
+							<value>0</value>
+							<difference>
+								<abs>
+									<property>fbw/pitch/elevator-nul</property>
+								</abs>
+								<property>fbw/pitch/deadzone</property>
+							</difference>
+						</max>
+						<quotient>
+							<value>1.0</value>
+							<difference>
+								<value>1.0</value>
+								<property>fbw/pitch/deadzone</property>
+							</difference>
+						</quotient>
+					</product>
+				</product>
+			</function>
+		</fcs_function>
+		
 		<switch name="fbw/pitch/g-max">
 			<default value="9.5"/>
 			<test logic="AND" value="6.5">
@@ -476,7 +445,7 @@
 			<function>
 				<sum>
 					<table>
-						<independentVar lookup="row">fbw/pitch/elevator-nul</independentVar>
+						<independentVar lookup="row">fbw/pitch/elevator-modified</independentVar>
 						<independentVar lookup="column">fbw/mode</independentVar>
 						<tableData>
 							        0    1
@@ -677,6 +646,45 @@
 	</channel>
 	
 	<channel name="FBW: Yaw">
+		
+		<fcs_function name="fbw/yaw/rudder-nul">
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/rudder</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/yaw/rudder-trim-nul"> <!-- This way, the trim can be reset and not affect the Yaw when the pilot tries to center it -->
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/rudder-trim</independentVar>
+					<tableData>
+						-1.00 -1.0
+						-0.02  0.0
+						 0.00  0.0
+						 0.02  0.0
+						 1.00  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<summer name="fcs/rudder-sum">
+			<input>fbw/yaw/rudder-nul</input>
+			<input>fbw/yaw/rudder-trim-nul</input>
+			<clipto>
+				<min>-1</min>
+				<max>1</max>
+			</clipto>
+		</summer>
 		
 		<switch name="fbw/yaw/gear">
 			<default value="0"/>
