@@ -20,7 +20,7 @@
 	<property value="0">fbw/mode</property> <!-- 0: Air/Air (default), 1: Charges -->
 	<property value="0">fbw/man-slat</property>
 	<property value="0">fbw/roll/pid</property>
-	<property value="0">fbw/roll/inner-ctrl</property> <!-- Not used yet, enable/disable inner elevon roll control -->
+	<property value="0">fbw/pitch/a_n_IaN</property>
 	
 	<!-- Autopilot stuff -->
 	<property value="0">fbw/ap/roll-enabled</property>
@@ -173,8 +173,8 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0    1    2
-						0.3 -3.1 -0.2  0.0
-						0.7 -0.5 -0.1  0.0
+						0.3 -2.4 -0.2  0.0
+						0.7 -0.6 -0.1  0.0
 						1.0 -0.4 -0.1  0.0
 						1.5 -0.3 -0.1  0.0
 						2.5 -0.2 -0.1  0.0
@@ -210,8 +210,8 @@
 						0.3 -0.0045  0.0000
 						0.7 -0.0035  0.0000
 						1.0 -0.0030  0.0000
-						1.5 -0.0025  0.0000
-						2.5 -0.0023  0.0000
+						1.5 -0.0015  0.0000
+						2.5 -0.0005  0.0000
 					</tableData>
 				</table>
 			</function>
@@ -327,11 +327,18 @@
 				<table>
 					<independentVar lookup="row">fbw/roll/aileron-modified</independentVar>
 					<independentVar lookup="column">fbw/mode</independentVar>
-					<tableData>
+					<independentVar lookup="table">fbw/pitch/a_n_IaN</independentVar>
+					<tableData breakPoint="1"> <!-- 2 G, breakPoint is guess -->
 						         0        1
 						-20.000 -4.71239 -2.61799
 						  0.000  0.00000  0.00000
 						 20.000  4.71239  2.61799
+					</tableData>
+					<tableData breakPoint="4"> <!-- 5 G, breakPoint is guess -->
+						         0        1
+						-20.000 -4.71239 -1.48353
+						  0.000  0.00000  0.00000
+						 20.000  4.71239  1.48353
 					</tableData>
 				</table>
 			</function>
@@ -449,13 +456,10 @@
 			</test>
 		</switch>
 		
-		<switch name="fbw/roll-inner-output">
-			<default value="0"/>
-			<test logic="OR" value="fbw/roll-output">
-				fbw/roll/inner-ctrl eq 1
-				position/wow eq 1
-			</test>
-		</switch>
+		<pure_gain name="fbw/roll-inner-output"> <!-- Change to switch once the inner elevon roll control can be disabled -->
+			<input>fbw/roll-output</input>
+			<gain>1.0</gain>
+		</pure_gain>
 	
 	</channel>
 	
@@ -731,63 +735,9 @@
 			</clipto>
 		</pure_gain>
 		
-		<switch name="fbw/yaw/tc-switch">
-			<default value="0"/>
-			<test logic="OR" value="1">
-				fbw/gain-switch gt 0
-				fbw/yaw/rudder-nul ne 0
-			</test>
-		</switch>
-		
-		<switch name="fbw/yaw/tc-error">
-			<default value="/instrumentation/slip-skid-ball/indicated-slip-skid"/>
-			<test value="0">
-				fbw/yaw/tc-switch eq 1
-			</test>
-		</switch>
-		
-		<pure_gain name="fbw/yaw/p">
-			<input>fbw/yaw/tc-error</input>
-			<gain>fbw/yaw/p-gain</gain>
-			<clipto>
-				<min>-0.1</min>
-				<max>0.1</max>
-			</clipto>
-		</pure_gain>
-		
-		<integrator name="fbw/yaw/i">
-			<input>fbw/yaw/i-input</input>
-			<trigger>fbw/yaw/tc-switch</trigger>
-			<c1>fbw/yaw/i-gain</c1>
-		</integrator>
-		
-		<switch name="fbw/yaw/i-switched">
-			<default value="fbw/yaw/i"/>
-			<test value="0">
-				fbw/yaw/tc-switch eq 1
-			</test>
-		</switch>
-		
 		<summer name="fbw/yaw-output">
 			<input>fbw/yaw/cmd</input>
 			<input>fbw/yaw/yd-f</input>
-			<input>fbw/yaw/p</input>
-			<input>fbw/yaw/i-switched</input>
-		</summer>
-		
-		<summer name="fbw/i-yaw-output">
-			<input>fbw/yaw/p</input>
-			<input>fbw/yaw/i-switched</input>
-		</summer>
-
-		<deadband name="fbw/yaw/i-feedback">
-			<input>fbw/i-yaw-output</input>
-			<width>0.1</width>
-		</deadband>
-
-		<summer name="fbw/yaw/i-input">
-			<input>fbw/yaw/p</input>
-			<input>-fbw/yaw/i-feedback</input>
 		</summer>
 	
 	</channel>
