@@ -615,16 +615,24 @@
 			</clipto>
 		</pure_gain>
 		
+		<switch name="fbw/pitch/trigger">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fbw/gain-switch gt 0
+				gear/unit[0]/WOW eq 1
+			</test>
+		</switch>
+		
 		<integrator name="fbw/pitch/i">
 			<input>fbw/pitch/i-input</input>
-			<trigger>position/wow</trigger>
+			<trigger>fbw/pitch/trigger</trigger>
 			<c1>fbw/pitch/i-gain</c1>
 		</integrator>
 		
 		<switch name="fbw/pitch/i-switched">
 			<default value="fbw/pitch/i"/>
 			<test value="0">
-				position/wow eq 1
+				gear/unit[0]/WOW eq 1
 			</test>
 		</switch>
 		
@@ -642,6 +650,21 @@
 			<input>fbw/pitch/p</input>
 			<input>-fbw/pitch/i-feedback</input>
 		</summer>
+		
+		<fcs_function name="fbw/pitch-output-offset">
+			<function>
+				<sum>
+					<property>fbw/pitch-output</property>
+					<table>
+						<independentVar lookup="row">velocities/mach</independentVar>
+						<tableData>
+							0.3  0.15
+							0.7  0.03
+						</tableData>
+					</table>
+				</sum>
+			</function>
+		</fcs_function>
 	
 	</channel>
 	
@@ -786,7 +809,7 @@
 		</switch>
 		
 		<switch name="fcs/pitch-input">
-			<default value="fbw/pitch-output"/>
+			<default value="fbw/pitch-output-offset"/>
 			<test value="fcs/elevator-sum">
 				fbw/enable eq 0
 			</test>
@@ -1011,12 +1034,41 @@
 			<output>fcs/slat-1R-pos-deg</output>
 		</pure_gain>
 		
+		<aerosurface_scale name="fcs/slat-outer-norm">
+			<input>fcs/slat-outer</input>
+			<domain>
+				<min>0</min>
+				<max>30</max>
+			</domain>
+			<range>
+				<min>0</min>
+				<max>1</max>
+			</range>
+		</aerosurface_scale>
+		
 		<pure_gain name="fcs/slat-inner">
 			<input>fcs/slat-k</input>
 			<gain>17.5</gain>
 			<output>fcs/slat-2L-pos-deg</output>
 			<output>fcs/slat-2R-pos-deg</output>
 		</pure_gain>
+		
+		<aerosurface_scale name="fcs/slat-inner-norm">
+			<input>fcs/slat-inner</input>
+			<domain>
+				<min>0</min>
+				<max>17.5</max>
+			</domain>
+			<range>
+				<min>0</min>
+				<max>1</max>
+			</range>
+		</aerosurface_scale>
+		
+		<summer name="fcs/slat-norm-sum">
+			<input>fcs/slat-outer-norm</input>
+			<input>fcs/slat-inner-norm</input>
+		</summer>
 	
 	</channel>
 	
@@ -1060,6 +1112,18 @@
 			<gain>55</gain>
 		</pure_gain>
 		
+		<aerosurface_scale name="fcs/airbrake-upper-norm">
+			<input>fcs/airbrake-upper</input>
+			<domain>
+				<min>0</min>
+				<max>55</max>
+			</domain>
+			<range>
+				<min>0</min>
+				<max>1</max>
+			</range>
+		</aerosurface_scale>
+		
 		<kinematic name="fcs/airbrake-lower-k">
 			<input>fcs/airbrake-lower-cmd</input>
 			<traverse>
@@ -1078,6 +1142,23 @@
 			<input>fcs/airbrake-lower-k</input>
 			<gain>68</gain>
 		</pure_gain>
+		
+		<aerosurface_scale name="fcs/airbrake-lower-norm">
+			<input>fcs/airbrake-lower</input>
+			<domain>
+				<min>0</min>
+				<max>68</max>
+			</domain>
+			<range>
+				<min>0</min>
+				<max>1</max>
+			</range>
+		</aerosurface_scale>
+		
+		<summer name="fcs/airbrake-norm-sum">
+			<input>fcs/airbrake-upper-norm</input>
+			<input>fcs/airbrake-lower-norm</input>
+		</summer>
 	
 	</channel>
 
