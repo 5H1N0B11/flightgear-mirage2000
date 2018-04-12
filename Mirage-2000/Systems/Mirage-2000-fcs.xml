@@ -619,7 +619,7 @@
 			<default value="0"/>
 			<test logic="OR" value="1">
 				fbw/gain-switch gt 0
-				gear/unit[0]/WOW eq 1
+				position/wow eq 1
 			</test>
 		</switch>
 		
@@ -632,7 +632,7 @@
 		<switch name="fbw/pitch/i-switched">
 			<default value="fbw/pitch/i"/>
 			<test value="0">
-				gear/unit[0]/WOW eq 1
+				position/wow eq 1
 			</test>
 		</switch>
 		
