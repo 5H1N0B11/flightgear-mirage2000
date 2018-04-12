@@ -610,8 +610,8 @@
 			<input>fbw/pitch/error</input>
 			<gain>fbw/pitch/p-gain</gain>
 			<clipto>
-				<min>-1</min>
-				<max>1</max>
+				<min>-2</min>
+				<max>2</max>
 			</clipto>
 		</pure_gain>
 		
