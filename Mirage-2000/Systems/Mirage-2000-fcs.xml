@@ -865,7 +865,7 @@
 			<traverse>
 				<setting>
 					<position>-25</position>
-					<time>0.205</time>
+					<time>0.0</time>
 				</setting>
 				<setting>
 					<position>16</position>
@@ -893,7 +893,7 @@
 			<traverse>
 				<setting>
 					<position>-25</position>
-					<time>0.205</time>
+					<time>0.0</time>
 				</setting>
 				<setting>
 					<position>16</position>
@@ -924,7 +924,7 @@
 			<traverse>
 				<setting>
 					<position>-25</position>
-					<time>0.205</time>
+					<time>0.0</time>
 				</setting>
 				<setting>
 					<position>16</position>
@@ -952,7 +952,7 @@
 			<traverse>
 				<setting>
 					<position>-25</position>
-					<time>0.205</time>
+					<time>0.0</time>
 				</setting>
 				<setting>
 					<position>16</position>
