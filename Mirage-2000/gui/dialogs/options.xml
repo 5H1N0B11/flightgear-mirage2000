@@ -293,4 +293,31 @@
     </binding>
   </button>
 
+  <hrule />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ assistance -->
+  <group>
+    <layout>table</layout>
+    <halign>left</halign>
+    <button>
+      <row>0</row><col>0</col>
+      <legend>need assistance</legend>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/assistance</property>
+        <value>1</value>
+      </binding>
+    </button>
+    <button>
+      <row>0</row><col>1</col>
+      <legend>it is ok</legend>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/assistance</property>
+        <value>0</value>
+      </binding>
+    </button>
+  </group>
+
+
 </PropertyList>
