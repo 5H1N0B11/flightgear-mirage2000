@@ -180,6 +180,9 @@
     <formation>
       <file>Aircraft/Generic/formation.nas</file>
     </formation>
+    <assistance>
+      <file>Aircraft/Mirage-2000/Nasal/assistance.nas</file>
+    </assistance>
   </nasal>
 
 </PropertyList>
