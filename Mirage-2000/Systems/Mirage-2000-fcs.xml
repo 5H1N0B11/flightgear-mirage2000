@@ -998,8 +998,8 @@
 		<aerosurface_scale name="hydraulics/tiller/scale">
 			<input>/controls/flight/rudder</input> <!-- Drive the nose wheel with the rudder -->
 			<range>
-				<min>-46</min>
-				<max>46</max>
+				<min>-6</min>
+				<max>6</max>
 			</range>
 		</aerosurface_scale>
 		
