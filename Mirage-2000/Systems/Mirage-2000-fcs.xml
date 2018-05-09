@@ -553,8 +553,8 @@
 		</lead_lag_filter>
 		
 		<switch name="fbw/pitch/alpha-max">
-			<default value="29"/>
-			<test value="27">
+			<default value="23"/>
+			<test value="21">
 				/velocities/airspeed-kt lt 100
 			</test>
 		</switch>
