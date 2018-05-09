@@ -78,15 +78,15 @@
     <rolling_friction>0.02</rolling_friction>
     <spring_coeff unit="LBS/FT">48000</spring_coeff>
     <damping_coeff unit="LBS/FT/SEC">4800</damping_coeff>
-    <max_steer unit="DEG">5</max_steer>
+    <max_steer unit="DEG">1</max_steer>
     <!--0: NOSE_LG-->
     <brake_group>NOSE</brake_group>
     <retractable>1</retractable>
   </contact>
   <contact type="BOGEY" name="LEFT_MLG">
     <location unit="M">
-      <x>8.9</x>
-      <y>-1.72</y>
+      <x>8.2</x>
+      <y>-1.8</y>
       <z>-2.65</z>
     </location>
     <static_friction>1.0</static_friction>
@@ -101,8 +101,8 @@
   </contact>
   <contact type="BOGEY" name="RIGHT_MLG">
     <location unit="M">
-      <x>8.9</x>
-      <y>1.72</y>
+      <x>8.2</x>
+      <y>1.8</y>
       <z>-2.65</z>
     </location>
     <static_friction>1.0</static_friction>
@@ -119,8 +119,8 @@
     <!--3: LEFT_WING_TIP-->
     <location unit="M">
       <x>12.09</x>
-      <y>-6.9074</y>
-      <z>0.6</z>
+      <y>-4.5</y>
+      <z>-1.86</z>
     </location>
     <static_friction>1.2</static_friction>
     <dynamic_friction>1.212</dynamic_friction>
@@ -132,8 +132,8 @@
     <!--4: RIGHT_WING_TIP-->
     <location unit="M">
       <x>12.09</x>
-      <y>6.9074</y>
-      <z>0.6</z>
+        <y>-4.5</y>
+        <z>-1.86</z>
     </location>
     <static_friction>1.2</static_friction>
     <dynamic_friction>1.212</dynamic_friction>
@@ -146,7 +146,7 @@
     <location unit="M">
       <x>5.08</x>
       <y>0</y>
-      <z>1.83</z>
+      <z>0.63</z>
     </location>
     <static_friction>1.2</static_friction>
     <dynamic_friction>1.212</dynamic_friction>
@@ -159,7 +159,7 @@
     <location unit="M">
       <x>0</x>
       <y>0</y>
-      <z>0</z>
+      <z>-1.2</z>
     </location>
     <static_friction>1.2</static_friction>
     <dynamic_friction>1.212</dynamic_friction>
@@ -170,9 +170,9 @@
   <contact type="STRUCTURE" name="VERTICAL_TAIL">
     <!--7: VERTICAL_TAIL-->
     <location unit="M">
-      <x>18</x>
+      <x>13.1</x>
       <y>0</y>
-      <z>1.8</z>
+      <z>2.3</z>
     </location>
     <static_friction>1.2</static_friction>
     <dynamic_friction>1.212</dynamic_friction>
@@ -183,9 +183,9 @@
   <contact type="STRUCTURE" name="REAR_BODY_LEFT">
     <!--8: REAR_BODY_LEFT-->
     <location unit="M">
-      <x>16.53</x>
+      <x>11.53</x>
       <y>0.94</y>
-      <z>-0.823</z>
+      <z>-1.66</z>
     </location>
     <static_friction>1.2</static_friction>
     <dynamic_friction>1.212</dynamic_friction>
@@ -196,9 +196,9 @@
   <contact type="STRUCTURE" name="REAR_BODY_RIGHT">
     <!--9: REAR_BODY_RIGHT-->
     <location unit="M">
-      <x>16.53</x>
-      <y>0.94</y>
-      <z>-0.823</z>
+        <x>11.53</x>
+        <y>0.94</y>
+        <z>-1.66</z>
     </location>
     <static_friction>1.2</static_friction>
     <dynamic_friction>1.212</dynamic_friction>
