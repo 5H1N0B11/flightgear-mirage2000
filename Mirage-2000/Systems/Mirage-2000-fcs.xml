@@ -2,7 +2,8 @@
 <!-- Joshua Davidson (it0uchpods) -->
 
 <system name="Mirage-2000: FCS">
-
+	
+	<property value="0">/velocities/groundspeed-kt</property> <!-- Isn't initialized by FGFS before this loads for some reason -->
 	<property value="0">fcs/elevon-1L-pos-deg</property>
 	<property value="0">fcs/elevon-1R-pos-deg</property>
 	<property value="0">fcs/elevon-2L-pos-deg</property>
@@ -66,12 +67,12 @@
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0    1    2
-						0.3 -2.4 -0.2  0.0
-						0.7 -0.6 -0.1  0.0
-						1.0 -0.4 -0.1  0.0
-						1.5 -0.3 -0.1  0.0
-						2.5 -0.2 -0.1  0.0
+						     0     1     2
+						0.3 -0.90 -0.20  0.00
+						0.7 -0.30 -0.10  0.00
+						1.0 -0.16 -0.10  0.00
+						1.5 -0.14 -0.10  0.00
+						2.5 -0.11 -0.10  0.00
 					</tableData>
 				</table>
 			</function>
@@ -84,11 +85,11 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0    1
-						0.3 -3.1  0.0
-						0.7 -2.6  0.0
-						1.0 -2.5  0.0
-						1.5 -2.3  0.0
-						2.5 -2.1  0.0
+						0.3 -2.7  0.0
+						0.7 -1.9  0.0
+						1.0 -1.7  0.0
+						1.5 -1.6  0.0
+						2.5 -1.5  0.0
 					</tableData>
 				</table>
 			</function>
@@ -105,7 +106,7 @@
 						0.7 -0.0035  0.0000
 						1.0 -0.0030  0.0000
 						1.5 -0.0015  0.0000
-						2.5 -0.0005  0.0000
+						2.5 -0.0010  0.0000
 					</tableData>
 				</table>
 			</function>
@@ -118,11 +119,11 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0      1      2
-						0.3  0.350  0.100  0.000
-						0.7  0.090  0.020  0.000
-						1.0  0.030  0.010  0.000
-						1.5  0.020  0.010  0.000
-						2.5  0.008  0.000  0.000
+						0.3  0.340  0.100  0.000
+						0.7  0.270  0.020  0.000
+						1.0  0.240  0.010  0.000
+						1.5  0.190  0.010  0.000
+						2.5  0.055  0.000  0.000
 					</tableData>
 				</table>
 			</function>
@@ -136,10 +137,10 @@
 					<tableData>
 						     0    1
 						0.3  7.5  0.0
-						0.7  4.5  0.0
-						1.0  3.8  0.0
-						1.5  2.9  0.0
-						2.5  2.7  0.0
+						0.7  3.7  0.0
+						1.0  3.5  0.0
+						1.5  3.1  0.0
+						2.5  2.5  0.0
 					</tableData>
 				</table>
 			</function>
@@ -230,7 +231,7 @@
 		
 		<lag_filter name="fbw/roll/rate-stick-lag">
 			<input>fbw/roll/rate-stick</input>
-			<c1>15.4</c1>
+			<c1>8.4</c1>
 		</lag_filter>
 		
 		<switch name="fbw/roll/rad-hold">
@@ -279,13 +280,6 @@
 			<input>fbw/roll/rad-rate</input>
 		</summer>
 		
-		<switch name="fbw/roll/p-r_s-s">
-			<default value="velocities/p-rad_sec"/>
-			<test value="0">
-				position/wow eq 1
-			</test>
-		</switch>
-		
 		<switch name="fbw/roll/rate-demand">
 			<default value="fbw/roll/rate-command"/>
 			<test value="fbw/ap/roll-cmd">
@@ -296,7 +290,7 @@
 		<fcs_function name="fbw/roll/rate-error">
 			<function>
 				<difference>
-					<property>fbw/roll/p-r_s-s</property>
+					<property>velocities/p-rad_sec</property>
 					<property>fbw/roll/rate-demand</property>
 				</difference>
 			</function>
@@ -347,7 +341,7 @@
 	
 	</channel>
 	
-	<channel name="FBW: Pitch"> <!-- Adapted from Necolatis' work -->
+	<channel name="FBW: Pitch"> <!-- Some componets are adapted from Necolatis, thank you! -->
 		
 		<fcs_function name="fbw/pitch/elevator-nul">
 			<function>
@@ -470,7 +464,7 @@
 		
 		<lag_filter name="fbw/pitch/g-command-lag">
 			<input>fbw/pitch/g-command</input>
-			<c1>7.7</c1>
+			<c1>7.4</c1>
 		</lag_filter>
 		
 		<switch name="fbw/pitch/g-demand">
@@ -553,15 +547,15 @@
 		</lead_lag_filter>
 		
 		<switch name="fbw/pitch/alpha-max">
-			<default value="23"/>
-			<test value="21">
+			<default value="25"/>
+			<test value="23">
 				/velocities/airspeed-kt lt 100
 			</test>
 		</switch>
 		
 		<lag_filter name="fbw/pitch/alpha-max-lag">
 			<input>fbw/pitch/alpha-max</input>
-			<c1>10</c1>
+			<c1>13</c1>
 		</lag_filter>
 		
 		<switch name="fbw/pitch/alpha-switched">
@@ -581,7 +575,7 @@
 		
 		<lag_filter name="fbw/pitch/alpha-lag">
 			<input>fbw/pitch/alpha</input>
-			<c1>10</c1>
+			<c1>13</c1>
 		</lag_filter>
 		
 		<fcs_function name="fbw/pitch/alpha-sum">
@@ -859,20 +853,10 @@
 			</clipto>
 		</fcs_function>
 		
-		<kinematic name="fcs/elevon-1L-pos-deg">
+		<lag_filter name="fcs/elevon-1L-pos-deg">
 			<input>fcs/elevon-1L-cmd-deg</input>
-			<noscale/>
-			<traverse>
-				<setting>
-					<position>-25</position>
-					<time>0.0</time>
-				</setting>
-				<setting>
-					<position>16</position>
-					<time>0.13</time>
-				</setting>
-			</traverse>
-		</kinematic>
+			<c1>22.4</c1>
+		</lag_filter>
 		
 		<fcs_function name="fcs/elevon-1R-cmd-deg">
 			<function>
@@ -887,20 +871,10 @@
 			</clipto>
 		</fcs_function>
 		
-		<kinematic name="fcs/elevon-1R-pos-deg">
+		<lag_filter name="fcs/elevon-1R-pos-deg">
 			<input>fcs/elevon-1R-cmd-deg</input>
-			<noscale/>
-			<traverse>
-				<setting>
-					<position>-25</position>
-					<time>0.0</time>
-				</setting>
-				<setting>
-					<position>16</position>
-					<time>0.13</time>
-				</setting>
-			</traverse>
-		</kinematic>
+			<c1>22.4</c1>
+		</lag_filter>
 		
 		<fcs_function name="fcs/elevon-2L-cmd-deg">
 			<function>
@@ -918,20 +892,10 @@
 			</clipto>
 		</fcs_function>
 		
-		<kinematic name="fcs/elevon-2L-pos-deg">
+		<lag_filter name="fcs/elevon-2L-pos-deg">
 			<input>fcs/elevon-2L-cmd-deg</input>
-			<noscale/>
-			<traverse>
-				<setting>
-					<position>-25</position>
-					<time>0.0</time>
-				</setting>
-				<setting>
-					<position>16</position>
-					<time>0.13</time>
-				</setting>
-			</traverse>
-		</kinematic>
+			<c1>22.4</c1>
+		</lag_filter>
 		
 		<fcs_function name="fcs/elevon-2R-cmd-deg">
 			<function>
@@ -946,20 +910,10 @@
 			</clipto>
 		</fcs_function>
 		
-		<kinematic name="fcs/elevon-2R-pos-deg">
+		<lag_filter name="fcs/elevon-2R-pos-deg">
 			<input>fcs/elevon-2R-cmd-deg</input>
-			<noscale/>
-			<traverse>
-				<setting>
-					<position>-25</position>
-					<time>0.0</time>
-				</setting>
-				<setting>
-					<position>16</position>
-					<time>0.13</time>
-				</setting>
-			</traverse>
-		</kinematic>
+			<c1>22.4</c1>
+		</lag_filter>
 	
 	</channel>
 	
@@ -976,35 +930,40 @@
 			</clipto>
 		</switch>
 		
-		<kinematic name="rubbish/rudder-pos-deg">
+		<aerosurface_scale name="fcs/yaw-input-deg">
 			<input>fcs/yaw-input</input>
-			<traverse>
-				<setting>
-					<position>-25</position>
-					<time>0.29</time>
-				</setting>
-				<setting>
-					<position>25</position>
-					<time>0.29</time>
-				</setting>
-			</traverse>
+			<range>
+				<min>-25</min>
+				<max>25</max>
+			</range>
+		</aerosurface_scale>
+		
+		<lag_filter name="rubbish/rudder-pos-deg">
+			<input>fcs/yaw-input-deg</input>
+			<c1>26.4</c1>
 			<output>fcs/rudder-pos-deg</output>
-		</kinematic>
+		</lag_filter>
 	
 	</channel>
 	
 	<channel name="Nose Wheel">
 		
-		<aerosurface_scale name="hydraulics/tiller/scale">
-			<input>/controls/flight/rudder</input> <!-- Drive the nose wheel with the rudder -->
-			<range>
-				<min>-6</min>
-				<max>6</max>
-			</range>
-		</aerosurface_scale>
+		<fcs_function name="fcs/tiller/function"> <!-- Drive the nose wheel with the rudder -->
+			<function>
+				<table>
+					<independentVar lookup="row">/velocities/groundspeed-kt</independentVar>
+					<independentVar lookup="column">/controls/flight/rudder</independentVar>
+					<tableData>
+						       -1     0  1
+						30.000 -46.0  0  46.0
+						30.001  -6.0  0   6.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
 		
 		<actuator name="fcs/steer-deg">
-			<input>hydraulics/tiller/scale</input>
+			<input>fcs/tiller/function</input>
 			<rate_limit>140</rate_limit>
 			<output>fcs/steer-pos-deg[0]</output>
 		</actuator>
