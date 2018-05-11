@@ -54,11 +54,11 @@
     <tsfc>            0.9 </tsfc>
     <atsfc>           2.1 </atsfc>
     <idlen1>         30.0 </idlen1>
-    <idlen2>         60.0 </idlen2>
+    <idlen2>         55.0 </idlen2>
     <maxn1>         100.0 </maxn1>
     <maxn2>         100.0 </maxn2>
     <augmented>         1 </augmented>
-    <augmethod>         1 </augmethod>
+    <augmethod>         2 </augmethod>
     <!-- acceleration from 0 -> 15% (at which point the start logic takes over in FGTurbine using 1.2 and 2.0 for N1/N2 acceleration rate) -->
     <n1spinup>1</n1spinup>
     <n2spinup>3</n2spinup>
@@ -70,7 +70,7 @@
             <independentVar lookup="row">velocities/mach</independentVar>
             <independentVar lookup="column">atmosphere/density-altitude</independentVar>
             <tableData>
-                0	5000	10000	15000	20000	25000	30000	35000	40000	45000	50000	55000	60000	65000	70000	75000
+                           0	5000	10000	15000	20000	25000	30000	35000	40000	45000	50000	55000	60000	65000	70000	75000
                 0.000	0.029	0.025	0.021	0.018	0.015	0.013	0.011	0.009	0.007	0.005	0.004	0.003	0.003	0.002	0.002	0.001
                 0.282	0.029	0.025	0.021	0.018	0.015	0.013	0.011	0.009	0.007	0.005	0.004	0.003	0.003	0.002	0.002	0.001
                 0.300	0.029	0.025	0.021	0.018	0.015	0.013	0.010	0.009	0.007	0.005	0.004	0.003	0.003	0.002	0.002	0.001
@@ -94,7 +94,7 @@
             <independentVar lookup="row">velocities/mach</independentVar>
             <independentVar lookup="column">atmosphere/density-altitude</independentVar>
             <tableData>
-                0	10000	20000	30000	40000	50000	80000
+                       0	10000	20000	30000	40000	50000	80000
                 0.0	1.00000	0.75951	0.50991	0.33466	0.19497	0.12160	0
                 0.2	1.10213	0.84269	0.58015	0.37485	0.21731	0.13398	0
                 0.4	1.17612	0.92587	0.64213	0.41503	0.24078	0.14636	0
@@ -118,7 +118,7 @@
             <independentVar lookup="row">velocities/mach</independentVar>
             <independentVar lookup="column">atmosphere/density-altitude</independentVar>
             <tableData>
-                0	10000	20000	30000	40000	50000	80000
+                        0	10000	20000	30000	40000	50000	80000
                 0.0	1.00000	0.75951	0.50991	0.33466	0.19497	0.12160	0
                 0.2	1.10213	0.84269	0.58015	0.37485	0.21731	0.13398	0
                 0.4	1.17612	0.92587	0.64213	0.41503	0.24078	0.14636	0
@@ -136,6 +136,4 @@
             </tableData>
         </table>
     </function>
-
-
 </turbine_engine>

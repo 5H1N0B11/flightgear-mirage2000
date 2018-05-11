@@ -379,5 +379,15 @@
                 </setting>
             </traverse>
         </kinematic>
+        <fcs_function name="propulsion/engine[0]/alt/augmentation-normalized">
+            <function>
+                <description>Augmentation normalized 0..1 </description>
+                <quotient>
+                    <p>propulsion/engine[0]/augmentation-alight</p>
+                    <v>5</v>
+                </quotient>>
+            </function>
+            <output>/sim/multiplay/generic/float[14]</output>
+        </fcs_function>
     </channel>
 </system>
