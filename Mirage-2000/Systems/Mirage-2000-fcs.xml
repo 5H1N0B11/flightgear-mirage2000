@@ -21,6 +21,7 @@
 	<property value="0">fbw/mode</property> <!-- 0: Air/Air (default), 1: Charges -->
 	<property value="0">fbw/man-slat</property>
 	<property value="0">fbw/roll/pid</property>
+	<property value="0">fbw/pitch/pid</property>
 	<property value="0">fbw/pitch/a_n_IaN</property>
 	
 	<!-- Autopilot stuff -->
@@ -35,10 +36,9 @@
 	<property value="0">fbw/roll/d-gain</property>
 	<property value="0">fbw/pitch/p-gain</property>
 	<property value="0">fbw/pitch/i-gain</property>
+	<property value="0">fbw/pitch/d-gain</property>
 	<property value="0">fbw/yaw/yd-p-gain</property>
 	<property value="0">fbw/yaw/beta-p-gain</property>
-	<property value="0">fbw/yaw/p-gain</property>
-	<property value="0">fbw/yaw/i-gain</property>
 	
 	<channel name="Libraries">
 		
@@ -121,9 +121,9 @@
 					<tableData>
 						     0      1      2
 						0.3  0.340  0.100  0.000
-						0.7  0.270  0.020  0.000
-						1.0  0.240  0.010  0.000
-						1.5  0.190  0.010  0.000
+						0.7  0.250  0.020  0.000
+						1.0  0.230  0.010  0.000
+						1.5  0.110  0.010  0.000
 						2.5  0.055  0.000  0.000
 					</tableData>
 				</table>
@@ -137,11 +137,28 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0    1
-						0.3  7.5  0.0
-						0.7  3.7  0.0
-						1.0  3.5  0.0
-						1.5  3.1  0.0
-						2.5  2.5  0.0
+						0.3  6.3  0.0
+						0.7  3.3  0.0
+						1.0  3.1  0.0
+						1.5  2.8  0.0
+						2.5  2.3  0.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/d-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
+					<tableData>
+						     0       1
+						0.3  0.0012  0.0000
+						0.7  0.0009  0.0000
+						1.0  0.0005  0.0000
+						1.5  0.0004  0.0000
+						2.5  0.0002  0.0000
 					</tableData>
 				</table>
 			</function>
@@ -340,15 +357,15 @@
 			<input>fbw/roll/rate-error</input>
 			<gain>fbw/roll/p-gain</gain>
 			<clipto>
-				<min>-1</min>
-				<max>1</max>
+				<min>-1.0</min>
+				<max>1.0</max>
 			</clipto>
 		</pure_gain>
 		
 		<switch name="fbw/roll-output">
 			<default value="fbw/roll/pid"/>
 			<test value="fbw/roll/p-g">
-				position/wow eq 1
+				fbw/gain-switch gt 0
 			</test>
 		</switch>
 		
@@ -482,7 +499,7 @@
 		
 		<lag_filter name="fbw/pitch/g-command-lag">
 			<input>fbw/pitch/g-command</input>
-			<c1>7.4</c1>
+			<c1>9.4</c1>
 		</lag_filter>
 		
 		<switch name="fbw/pitch/g-demand">
@@ -536,19 +553,19 @@
 			</test>
 		</switch>
 		
-		<pure_gain name="velocities/q-aero-deg_sec">
+		<pure_gain name="velocities/q-deg_sec">
 			<input>velocities/q-rad_sec</input>
 			<gain>57.2957795</gain>
 		</pure_gain>
 
 		<washout_filter name="fbw/pitch/q-washout">
-			<input>velocities/q-aero-deg_sec</input>
+			<input>velocities/q-deg_sec</input>
 			<c1>1</c1>
 		</washout_filter>
 		
 		<pure_gain name="fbw/pitch/q-gain">
 			<input>fbw/pitch/q-washout</input>
-			<gain>0.334</gain>
+			<gain>0.274</gain>
 		</pure_gain>
 		
 		<summer name="fbw/pitch/normal-feed">
@@ -618,50 +635,43 @@
 			<input>fbw/pitch/normal-lead</input>
 		</summer>
 		
-		<pure_gain name="fbw/pitch/p">
-			<input>fbw/pitch/error</input>
-			<gain>fbw/pitch/p-gain</gain>
-			<clipto>
-				<min>-2</min>
-				<max>2</max>
-			</clipto>
-		</pure_gain>
-		
 		<switch name="fbw/pitch/trigger">
 			<default value="0"/>
 			<test logic="OR" value="1">
 				fbw/gain-switch gt 0
-				position/wow eq 1
+				fbw/pitch/pid le -0.999
+				fbw/pitch/pid ge 0.999
 			</test>
 		</switch>
 		
-		<integrator name="fbw/pitch/i">
-			<input>fbw/pitch/i-input</input>
+		<pid name="fbw/pitch/pid-v">
+			<input>fbw/pitch/error</input>
+			<kp>fbw/pitch/p-gain</kp>
+			<ki>fbw/pitch/i-gain</ki>
+			<kd>fbw/pitch/d-gain</kd>
 			<trigger>fbw/pitch/trigger</trigger>
-			<c1>fbw/pitch/i-gain</c1>
-		</integrator>
+			<clipto>
+				<min>-1.0</min>
+				<max>1.0</max>
+			</clipto>
+			<output>fbw/pitch/pid</output>
+		</pid>
 		
-		<switch name="fbw/pitch/i-switched">
-			<default value="fbw/pitch/i"/>
-			<test value="0">
-				position/wow eq 1
+		<pure_gain name="fbw/pitch/p-g">
+			<input>fbw/pitch/error</input>
+			<gain>fbw/pitch/p-gain</gain>
+			<clipto>
+				<min>-1.0</min>
+				<max>1.0</max>
+			</clipto>
+		</pure_gain>
+		
+		<switch name="fbw/pitch-output">
+			<default value="fbw/pitch/pid"/>
+			<test value="fbw/pitch/p-g">
+				fbw/gain-switch gt 0
 			</test>
 		</switch>
-		
-		<summer name="fbw/pitch-output">
-			<input>fbw/pitch/p</input>
-			<input>fbw/pitch/i-switched</input>
-		</summer>
-		
-		<deadband name="fbw/pitch/i-feedback">
-			<input>fbw/pitch-output</input>
-			<width>1</width>
-		</deadband>
-		
-		<summer name="fbw/pitch/i-input">
-			<input>fbw/pitch/p</input>
-			<input>-fbw/pitch/i-feedback</input>
-		</summer>
 		
 		<fcs_function name="fbw/pitch-output-offset">
 			<function>
