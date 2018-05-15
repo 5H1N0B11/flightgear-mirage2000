@@ -36,6 +36,7 @@
 	<property value="0">fbw/pitch/p-gain</property>
 	<property value="0">fbw/pitch/i-gain</property>
 	<property value="0">fbw/yaw/yd-p-gain</property>
+	<property value="0">fbw/yaw/beta-p-gain</property>
 	<property value="0">fbw/yaw/p-gain</property>
 	<property value="0">fbw/yaw/i-gain</property>
 	
@@ -158,6 +159,23 @@
 						1.0 -0.6  0.0
 						1.5 -0.3  0.0
 						2.5 -0.2  0.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/yaw/beta-p-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<independentVar lookup="column">fbw/gain-switch</independentVar>
+					<tableData>
+						     0    1
+						0.3  4.5  0.0
+						0.7  2.5  0.0
+						1.0  2.0  0.0
+						1.5  1.5  0.0
+						2.5  1.0  0.0
 					</tableData>
 				</table>
 			</function>
@@ -732,9 +750,39 @@
 			</function>
 		</fcs_function>
 		
+		<fcs_function name="fbw/yaw/l-f">
+			<function>
+				<product>
+					<table>
+						<independentVar lookup="row">velocities/r-rad_sec</independentVar>
+						<independentVar lookup="column">attitude/roll-rad</independentVar>
+						<tableData>
+							           -3.141590 -2.356190 -0.785398  0.000000  0.785398  2.356190  3.141590
+							-0.2094390  1.0       0.0       0.0       1.0       0.0       0.0       1.0
+							-0.1396260  0.4       0.0       0.0       0.4       0.0       0.0       0.4
+							-0.1047195  0.0       0.0       0.0       0.0       0.0       0.0       0.0
+							 0.0000000  0.0       0.0       0.0       0.0       0.0       0.0       0.0
+							 0.1047195  0.0       0.0       0.0       0.0       0.0       0.0       0.0
+							 0.1396260 -0.4       0.0       0.0      -0.4       0.0       0.0      -0.4
+							 0.2094390 -1.0       0.0       0.0      -1.0       0.0       0.0      -1.0
+						</tableData>
+					</table>
+					<table>
+						<independentVar lookup="row">velocities/mach</independentVar>
+						<tableData>
+							0.5  0.950
+							1.0  0.450
+							1.5  0.250
+							2.0  0.150
+						</tableData>
+					</table>
+				</product>
+			</function>
+		</fcs_function>
+		
 		<summer name="fbw/yaw/cmd">
 			<input>fbw/yaw/r-l</input>
-			<!--input>fbw/yaw/l-f</input--> <!-- Needs to be redesigned -->
+			<input>fbw/yaw/l-f</input>
 		</summer>
 		
 		<pure_gain name="fbw/yaw/yd-f">
@@ -746,9 +794,31 @@
 			</clipto>
 		</pure_gain>
 		
+		<pure_gain name="fbw/yaw/beta-p-gain-g">
+			<input>fbw/yaw/beta-p-gain</input>
+			<gain>0.1</gain>
+		</pure_gain>
+		
+		<switch name="fbw/yaw/beta-p-gain-s">
+			<default value="fbw/yaw/beta-p-gain"/>
+			<test logic="OR" value="fbw/yaw/beta-p-gain-g">
+				fbw/yaw/rudder-nul ne 0
+			</test>
+		</switch>
+		
+		<pure_gain name="fbw/yaw/beta-f">
+			<input>aero/beta-rad</input>
+			<gain>fbw/yaw/beta-p-gain-s</gain>
+			<clipto>
+				<min>-0.15</min>
+				<max>0.15</max>
+			</clipto>
+		</pure_gain>
+		
 		<summer name="fbw/yaw-output">
 			<input>fbw/yaw/cmd</input>
 			<input>fbw/yaw/yd-f</input>
+			<input>fbw/yaw/beta-f</input>
 		</summer>
 	
 	</channel>
