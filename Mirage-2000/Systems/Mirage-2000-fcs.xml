@@ -4,6 +4,7 @@
 <system name="Mirage-2000: FCS">
 	
 	<property value="0">/velocities/groundspeed-kt</property> <!-- Isn't initialized by FGFS before this loads for some reason -->
+	<property value="0">/instrumentation/airspeed-indicator/indicated-speed-kt</property> <!-- Isn't initialized by FGFS before this loads for some reason -->
 	<property value="0">fcs/elevon-1L-pos-deg</property>
 	<property value="0">fcs/elevon-1R-pos-deg</property>
 	<property value="0">fcs/elevon-2L-pos-deg</property>
@@ -217,14 +218,14 @@
 			</function>
 		</fcs_function>
 		
-		<summer name="fcs/aileron-sum">
+		<pure_gain name="fcs/aileron-sum">
 			<input>fbw/roll/aileron-nul</input>
-			<!--input>fbw/roll/aileron-nul-trim</input--> <!-- FIXME: Does Mirage 2000 have aileron trim? -->
+			<gain>1.0</gain>
 			<clipto>
 				<min>-1</min>
 				<max>1</max>
 			</clipto>
-		</summer>
+		</pure_gain>
 		
 		<fcs_function name="fbw/roll/aileron-modified">
 			<function>
@@ -431,6 +432,60 @@
 			</function>
 		</fcs_function>
 		
+		<fcs_function name="fbw/pitch/alpha-modified">
+			<function>
+				<ifthen>
+					<lt>
+						<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+						<value>100</value>
+					</lt>
+					<sum>
+						<property>aero/alpha-deg</property> <!-- Should really be indicated -->
+						<value>2</value>
+					</sum>
+					<property>aero/alpha-deg</property> <!-- Should really be indicated -->
+				</ifthen>
+			</function>
+		</fcs_function>
+		
+		<switch name="fbw/pitch/alpha-switched">
+			<default value="fbw/pitch/alpha-modified"/>
+			<test value="0">
+				position/wow eq 1
+			</test>
+		</switch>
+		
+		<lag_filter name="fbw/pitch/alpha-lag">
+			<input>fbw/pitch/alpha-switched</input>
+			<c1>8.5</c1>
+		</lag_filter>
+		
+		<fcs_function name="fbw/pitch/alpha-pitch-feed">
+			<function>
+				<table>
+					<independentVar lookup="row">fbw/pitch/alpha-lag</independentVar>
+					<tableData>
+						20  0.0
+						26  0.5
+						29  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/pitch/elevator-modified-min">
+			<function>
+				<table>
+					<independentVar lookup="row">fbw/pitch/alpha-lag</independentVar>
+					<tableData>
+						18 -1.00
+						20 -0.85
+						28  0.00
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
 		<fcs_function name="fbw/pitch/elevator-modified">
 			<function>
 				<product>
@@ -461,7 +516,16 @@
 					</product>
 				</product>
 			</function>
+			<clipto>
+				<min>fbw/pitch/elevator-modified-min</min>
+				<max>1.0</max>
+			</clipto>
 		</fcs_function>
+		
+		<summer name="fbw/pitch/g-command-input">
+			<input>fbw/pitch/elevator-modified</input>
+			<input>fbw/pitch/alpha-pitch-feed</input>
+		</summer>
 		
 		<switch name="fbw/pitch/g-max">
 			<default value="9.5"/>
@@ -470,11 +534,20 @@
 			</test>
 		</switch>
 		
+		<pure_gain name="fbw/pitch/thetadot-feed">
+			<input>velocities/thetadot-rad_sec</input>
+			<gain>-40</gain>
+			<clipto>
+				<min>-0.05</min>
+				<max>0.05</max>
+			</clipto>
+		</pure_gain>
+		
 		<fcs_function name="fbw/pitch/g-command">
 			<function>
 				<sum>
 					<table>
-						<independentVar lookup="row">fbw/pitch/elevator-modified</independentVar>
+						<independentVar lookup="row">fbw/pitch/g-command-input</independentVar>
 						<independentVar lookup="column">fbw/mode</independentVar>
 						<tableData>
 							        0    1
@@ -489,6 +562,7 @@
 						<property>fbw/pitch/elevator-trim-nul</property>
 						<value>-1.5</value>
 					</product>
+					<property>fbw/pitch/thetadot-feed</property>
 				</sum>
 			</function>
 			<clipto>
@@ -581,56 +655,7 @@
 			<c4>12</c4>
 		</lead_lag_filter>
 		
-		<switch name="fbw/pitch/alpha-max">
-			<default value="25"/>
-			<test value="23">
-				/velocities/airspeed-kt lt 100
-			</test>
-		</switch>
-		
-		<lag_filter name="fbw/pitch/alpha-max-lag">
-			<input>fbw/pitch/alpha-max</input>
-			<c1>13</c1>
-		</lag_filter>
-		
-		<switch name="fbw/pitch/alpha-switched">
-			<default value="aero/alpha-deg"/> <!-- Should really be indicated -->
-			<test value="0">
-				position/wow eq 1
-			</test>
-		</switch>
-		
-		<summer name="fbw/pitch/alpha">
-			<input>fbw/pitch/alpha-switched</input>
-			<clipto>
-				<min>-5</min>
-				<max>fbw/pitch/alpha-max-lag</max> <!-- Max allowed alpha -->
-			</clipto>
-		</summer>
-		
-		<lag_filter name="fbw/pitch/alpha-lag">
-			<input>fbw/pitch/alpha</input>
-			<c1>13</c1>
-		</lag_filter>
-		
-		<fcs_function name="fbw/pitch/alpha-sum">
-			<function>
-				<difference>
-					<property>fbw/pitch/alpha-lag</property>
-					<difference>
-						<property>fbw/pitch/alpha-max-lag</property> <!-- Max allowed alpha -->
-						<property>fbw/pitch/g-max</property> <!-- Max allowed G - 1 -->
-					</difference>
-				</difference>
-			</function>
-			<clipto>
-				<min>0</min>
-				<max>10000</max>
-			</clipto>
-		</fcs_function>
-		
 		<summer name="fbw/pitch/error">
-			<input>fbw/pitch/alpha-sum</input>
 			<input>-fbw/pitch/g-demand</input>
 			<input>fbw/pitch/normal-lead</input>
 		</summer>
