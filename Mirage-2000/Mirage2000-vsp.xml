@@ -565,6 +565,7 @@
 <system file="Mirage-2000-electrics"/>
 <system file="Mirage-2000-avionics"/>
 <system file="Mirage-2000-ecs"/>
+<system file="Mirage-2000-fadec"/>
 <system file="Mirage-2000-engines-Snecma-M53"/>
 <system file="Mirage-2000-fcs"/>
 <aerodynamics>

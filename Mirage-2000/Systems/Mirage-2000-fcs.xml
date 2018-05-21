@@ -756,6 +756,43 @@
 			</clipto>
 		</summer>
 		
+		<fcs_function name="fbw/yaw/rudder-min">
+			<function>
+				<table>
+					<independentVar lookup="row">fbw/pitch/alpha-lag</independentVar>
+					<independentVar lookup="column">attitude/roll-rad</independentVar>
+					<tableData>
+						    0.000000  0.174533
+						22 -1.0      -1.0
+						26 -1.0       0.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fbw/yaw/rudder-max">
+			<function>
+				<table>
+					<independentVar lookup="row">fbw/pitch/alpha-lag</independentVar>
+					<independentVar lookup="column">attitude/roll-rad</independentVar>
+					<tableData>
+						   -0.174533  0.000000
+						22  1.0       1.0
+						26  0.0       1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fbw/yaw/rudder-cmd">
+			<input>fcs/rudder-sum</input>
+			<gain>1.0</gain>
+			<clipto>
+				<min>fbw/yaw/rudder-min</min>
+				<max>fbw/yaw/rudder-max</max>
+			</clipto>
+		</pure_gain>
+		
 		<switch name="fbw/yaw/gear">
 			<default value="0"/>
 			<test logic="OR" value="1">
@@ -767,7 +804,7 @@
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/mach</independentVar>
-					<independentVar lookup="column">fcs/rudder-sum</independentVar>
+					<independentVar lookup="column">fbw/yaw/rudder-cmd</independentVar>
 					<independentVar lookup="table">fbw/yaw/gear</independentVar>
 					<tableData breakPoint="0">
 						    -1.0    0.0    1.0

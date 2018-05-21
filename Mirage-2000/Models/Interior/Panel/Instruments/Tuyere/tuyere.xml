@@ -79,7 +79,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>num3-0</object-name>
-    <property>engines/engine/n2</property>
+    <property>engines/engine[0]/n2-actual</property>
     <factor>0.001</factor>
     <step>100</step>
     <axis>
@@ -92,7 +92,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>num3-1</object-name>
-    <property>engines/engine/n2</property>
+    <property>engines/engine[0]/n2-actual</property>
     <factor>0.01</factor>
     <step>10</step>
     <axis>
@@ -105,7 +105,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>num3-2</object-name>
-    <property>engines/engine/n2</property>
+    <property>engines/engine[0]/n2-actual</property>
     <factor>0.1</factor>
     <step>1</step>
     <axis>
@@ -118,7 +118,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>num3-3</object-name>
-    <property>engines/engine/n2</property>
+    <property>engines/engine[0]/n2-actual</property>
     <factor>1</factor>
     <step>0.1</step>
     <axis>
@@ -224,7 +224,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>needle</object-name>
-    <property>engines/engine/n2</property>
+    <property>engines/engine[0]/n2-actual</property>
     <factor>0.004804</factor>
     <step>0.001</step>
     <axis>
