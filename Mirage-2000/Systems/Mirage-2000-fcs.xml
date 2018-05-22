@@ -218,15 +218,6 @@
 			</function>
 		</fcs_function>
 		
-		<pure_gain name="fcs/aileron-sum">
-			<input>fbw/roll/aileron-nul</input>
-			<gain>1.0</gain>
-			<clipto>
-				<min>-1</min>
-				<max>1</max>
-			</clipto>
-		</pure_gain>
-		
 		<fcs_function name="fbw/roll/aileron-modified">
 			<function>
 				<product>
@@ -534,9 +525,17 @@
 			</test>
 		</switch>
 		
+		<switch name="fbw/pitch/thetadot-gain">
+			<default value="-40"/>
+			<test logic="OR" value="40">
+				attitude/roll-rad lt -1.5708
+				attitude/roll-rad gt 1.5708
+			</test>
+		</switch>
+		
 		<pure_gain name="fbw/pitch/thetadot-feed">
 			<input>velocities/thetadot-rad_sec</input>
-			<gain>-40</gain>
+			<gain>fbw/pitch/thetadot-gain</gain>
 			<clipto>
 				<min>-0.05</min>
 				<max>0.05</max>
@@ -552,7 +551,7 @@
 						<tableData>
 							        0    1
 							-1.000  9.5  6.5 <!-- Equals 10.5/7.5 G -->
-							-0.875  7.5  4.5 <!-- A slight null zone for the elastic stop -->
+							-0.900  7.5  4.5 <!-- A slight null zone for the elastic stop -->
 							-0.850  7.5  4.5 <!-- Equals 8.5/5.5 G -->
 							 0.000  0.0  0.0
 							 1.000 -4.5 -4.5 <!-- Equals -3.5 G -->
@@ -560,7 +559,7 @@
 					</table>
 					<product>
 						<property>fbw/pitch/elevator-trim-nul</property>
-						<value>-1.5</value>
+						<value>-1.5</value> <!-- Equals +/-1.5G -->
 					</product>
 					<property>fbw/pitch/thetadot-feed</property>
 				</sum>
@@ -924,7 +923,7 @@
 		
 		<switch name="fcs/roll-input">
 			<default value="fbw/roll-output"/>
-			<test value="fcs/aileron-sum">
+			<test value="fcs/aileron-nul">
 				fbw/enable eq 0
 			</test>
 			<clipto>
