@@ -923,7 +923,7 @@
 		
 		<switch name="fcs/roll-input">
 			<default value="fbw/roll-output"/>
-			<test value="fcs/aileron-nul">
+			<test value="fbw/roll/aileron-nul">
 				fbw/enable eq 0
 			</test>
 			<clipto>
@@ -934,7 +934,7 @@
 		
 		<switch name="fcs/roll-inner-input">
 			<default value="fbw/roll-inner-output"/>
-			<test value="fcs/aileron-sum">
+			<test value="fbw/roll/aileron-nul">
 				fbw/enable eq 0
 			</test>
 			<clipto>
