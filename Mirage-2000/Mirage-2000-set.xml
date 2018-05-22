@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
-	<!--include="System/m2000-5-base.xml">-->
-
+	
 	<sim>
-
+		
 		<description>Mirage 2000</description>
 		<author>BARANGER Emmanuel (3D), 5H1N0B1 (Weapons, Systems), F-Sig and hardball (3D, Systems), Richard Harrison (FDM), Joshua Davidson/it0uchpods (FCS/FBW)</author>
-
+		
 		<aircraft-version>2015-09-16</aircraft-version>
 		<status>alpha</status>
-
+		
 		<flight-model>jsb</flight-model>
 		<aero>Mirage2000-vsp</aero>
-
+		
 		<rating>
 			<FDM     type="int"> 0 </FDM>
 			<systems type="int"> 4 </systems>
@@ -27,7 +26,7 @@
 			<setting>0.666</setting>
 			<setting>1.000</setting>
 		</flaps>
-
+		
 		<model>
 			<path>Aircraft/Mirage-2000/Models/m2000-5B.xml</path>
 			<livery>
@@ -43,9 +42,13 @@
 				</crew>
 			</doors>
 		</model>
-
+		
+		<sound>
+			<path>Aircraft/Mirage-2000/Sounds/m2000-5-sound.xml</path>
+		</sound>
+		
 		<chase-distance-m type="double" archive="y"> -20 </chase-distance-m>
-
+		
 		<view n="100">
 			<name>Tail Camera View</name>
 			<type>lookfrom</type>
@@ -64,14 +67,14 @@
 				<default-field-of-view-deg type="double">30</default-field-of-view-deg>
 			</config>
 		</view>
-
+		
 		<view n="101">
 			<name>Missile view</name>
 			<type>lookat</type>
 			<heading-offset-deg>180</heading-offset-deg>
 			<pitch-offset-deg>10</pitch-offset-deg>
 		</view>
-
+		
 		<view n="102">
 			<name>Sniping cam</name>
 			<enabled>false</enabled>
@@ -90,8 +93,7 @@
 				<default-field-of-view-deg>20</default-field-of-view-deg>
 			</config>
 		</view>
-
-
+		
 		<view n="103">
 			<name>Pilot cam</name>
 			<internal archive="y">true</internal>
@@ -106,7 +108,7 @@
 				<default-field-of-view-deg>95</default-field-of-view-deg>
 			</config>
 		</view>
-
+		
 		<view n="0">
 			<internal archive="y">true</internal>
 			<config>
@@ -120,37 +122,37 @@
 				<default-field-of-view-deg>83</default-field-of-view-deg>
 			</config>
 		</view>
-
+		
 		<view n="1">
 			<config>
 				<target-z-offset-m archive="y" type="double"> 0 </target-z-offset-m>
 			</config>
 		</view>
-
+		
 		<view n="2">
 			<config>
 				<target-z-offset-m archive="y" type="double"> 0 </target-z-offset-m>
 			</config>
 		</view>
-
+		
 		<view n="3">
 			<config>
 				<target-z-offset-m archive="y" type="double"> 0 </target-z-offset-m>
 			</config>
 		</view>
-
+		
 		<view n="4">
 			<config>
 				<target-z-offset-m archive="y" type="double"> 0 </target-z-offset-m>
 			</config>
 		</view>
-
+		
 		<view n="5">
 			<config>
 				<target-z-offset-m archive="y" type="double"> 0 </target-z-offset-m>
 			</config>
 		</view>
-
+		
 		<view n="6">
 			<config>
 				<target-z-offset-m archive="y" type="double"> 0 </target-z-offset-m>
@@ -180,14 +182,89 @@
 		</instrumentation>
 		
 		<systems>
-			<autopilot n="0"> <!-- for easier dev/testing, will convert to JSB FCS file -->
-				<path>Systems/fbw.xml</path>
+			<autopilot n="2"> <!-- Stupid things that will be deleted later -->
+				<path>Aircraft/Mirage-2000/Systems/fbw.xml</path>
 			</autopilot>
+			<property-rule n="100">
+				<path>Aircraft/Mirage-2000/Systems/zoom-views.xml</path>
+			</property-rule>
 		</systems>
 		
+		<current-view>
+			<z-offset-dec-step type="double">0.0</z-offset-dec-step>
+			<z-offset-inc-step type="double">0.0</z-offset-inc-step>
+			<can-change-z-offset type="bool">false</can-change-z-offset>
+			
+			<z-offset-default type="float">20.0</z-offset-default>
+			<z-offset-min-m type="float">10.0</z-offset-min-m>
+			<z-offset-max-m type="float">200.0</z-offset-max-m>
+		</current-view>
+	
 	</sim>
 	
 	<input>
+		<mice n="0">
+			<mouse n="0">
+				<mode n="0">
+					<button n="3">
+						<binding n="0">
+							<script></script>
+						</binding>
+						<binding n="1">
+							<condition>
+								<and>
+									<property>/devices/status/mice/mouse[0]/button[2]</property>
+									<not><property>/sim/mouse/right-button-mode-cycle-enabled</property></not>
+								</and>
+							</condition>
+							<command>nasal</command>
+							<script>
+							if (getprop("/sim/current-view/can-change-z-offset")) {
+								var distance = getprop("/sim/current-view/z-offset-m");
+								var multiple = getprop("/sim/current-view/z-offset-inc-step");
+								var min_dist = getprop("/sim/current-view/z-offset-min-m");
+
+								distance = math.round(std.min(-min_dist, distance + multiple) / multiple) * multiple;
+								setprop("/sim/current-view/z-offset-m", distance);
+
+								gui.popupTip(sprintf("%d meters", abs(distance)));
+							} else {
+								view.decrease();
+							}
+							</script>
+						</binding>
+					</button>
+					<button n="4">
+						<binding n="0">
+							<script></script>
+						</binding>
+						<binding n="1">
+							<condition>
+								<and>
+									<property>/devices/status/mice/mouse[0]/button[2]</property>
+									<not><property>/sim/mouse/right-button-mode-cycle-enabled</property></not>
+								</and>
+							</condition>
+							<command>nasal</command>
+							<script>
+								if (getprop("/sim/current-view/can-change-z-offset")) {
+									var distance = getprop("/sim/current-view/z-offset-m");
+									var multiple = getprop("/sim/current-view/z-offset-dec-step");
+									var max_dist = getprop("/sim/current-view/z-offset-max-m");
+
+									distance = math.round(std.max(-max_dist, distance + multiple) / multiple) * multiple;
+									setprop("/sim/current-view/z-offset-m", distance);
+
+									gui.popupTip(sprintf("%d meters", abs(distance)));
+								} else {
+									view.increase();
+								}
+							</script>
+						</binding>
+					</button>
+				</mode>
+			</mouse>
+		</mice>
 		<keyboard>
 			<key n="2">
 				<name>Ctrl-b</name>
@@ -202,6 +279,66 @@
 						setprop("/fdm/jsbsim/fcs/airbrake-upper-cmd", 1);
 						setprop("/fdm/jsbsim/fcs/airbrake-lower-cmd", 1);
 					}
+					</script>
+				</binding>
+			</key>
+			<key n="24">
+				<name>Ctrl-x</name>
+				<desc>Reset zoom to default</desc>
+				<binding>
+					<command>nasal</command>
+					<script>
+						if (getprop("/sim/current-view/can-change-z-offset")) {
+							setprop("/sim/current-view/z-offset-m", getprop("/sim/current-view/z-offset-default") * -1);
+
+							gui.popupTip(sprintf("%d meters", getprop("/sim/current-view/z-offset-default")));
+						} else {
+							setprop("/sim/current-view/field-of-view", getprop("/sim/view/config/default-field-of-view-deg"));
+						}
+					</script>
+				</binding>
+			</key>
+			<key n="88">
+				<name>X</name>
+				<desc>Increase field of view</desc>
+				<repeatable type="bool">true</repeatable>
+				<binding>
+				<command>nasal</command>
+				<script>
+					if (getprop("/sim/current-view/can-change-z-offset")) {
+						var distance = getprop("/sim/current-view/z-offset-m");
+						var multiple = getprop("/sim/current-view/z-offset-dec-step");
+						var max_dist = getprop("/sim/current-view/z-offset-max-m");
+
+						distance = math.round(std.max(-max_dist, distance + multiple) / multiple) * multiple;
+						setprop("/sim/current-view/z-offset-m", distance);
+
+						gui.popupTip(sprintf("%d meters", abs(distance)));
+					} else {
+						view.increase();
+					}
+				</script>
+				</binding>
+			</key>
+			<key n="120">
+				<name>x</name>
+				<desc>Decrease field of view</desc>
+				<repeatable type="bool">true</repeatable>
+				<binding>
+					<command>nasal</command>
+					<script>
+						if (getprop("/sim/current-view/can-change-z-offset")) {
+							var distance = getprop("/sim/current-view/z-offset-m");
+							var multiple = getprop("/sim/current-view/z-offset-inc-step");
+							var min_dist = getprop("/sim/current-view/z-offset-min-m");
+
+							distance = math.round(std.min(-min_dist, distance + multiple) / multiple) * multiple;
+							setprop("/sim/current-view/z-offset-m", distance);
+
+							gui.popupTip(sprintf("%d meters", abs(distance)));
+						} else {
+							view.decrease();
+						}
 					</script>
 				</binding>
 			</key>
