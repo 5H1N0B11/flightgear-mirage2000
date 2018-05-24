@@ -11,7 +11,7 @@
 			<output>fcs/throttle-cmd-norm[0]</output>
 		</lag_filter>
 		
-		<scheduled_gain name="fcs/throttle-pos1"> <!-- 5 stage non linear augmentation-->
+		<scheduled_gain name="fcs/throttle-pos1"> <!-- 5 stage non linear augmentation -->
 			<input>fcs/throttle-cmd-norm[0]</input>
 			<table>
 				<independentVar>fcs/throttle-cmd-norm[0]</independentVar>

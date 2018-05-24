@@ -1,7 +1,7 @@
-<!-- Mirage 2000 FCS -->
+<!-- Mirage 2000 FCS/FBW -->
 <!-- Joshua Davidson (it0uchpods) -->
 
-<system name="Mirage-2000: FCS">
+<system name="Mirage-2000: FCS/FBW">
 	
 	<property value="0">/velocities/groundspeed-kt</property> <!-- Isn't initialized by FGFS before this loads for some reason -->
 	<property value="0">/instrumentation/airspeed-indicator/indicated-speed-kt</property> <!-- Isn't initialized by FGFS before this loads for some reason -->
@@ -24,6 +24,7 @@
 	<property value="0">fbw/roll/pid</property>
 	<property value="0">fbw/pitch/pid</property>
 	<property value="0">fbw/pitch/a_n_IaN</property>
+	<property value="0">fbw/pitch/rotate-mode</property>
 	
 	<!-- Autopilot stuff -->
 	<property value="0">fbw/ap/roll-enabled</property>
@@ -121,11 +122,12 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0      1      2
-						0.3  0.340  0.100  0.000
-						0.7  0.250  0.020  0.000
-						1.0  0.230  0.010  0.000
-						1.5  0.110  0.010  0.000
-						2.5  0.055  0.000  0.000
+						0.2  0.410  0.170  0.000
+						0.3  0.370  0.150  0.000
+						0.7  0.250  0.040  0.000
+						1.0  0.230  0.020  0.000
+						1.5  0.110  0.020  0.000
+						2.5  0.055  0.010  0.000
 					</tableData>
 				</table>
 			</function>
@@ -138,7 +140,8 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0    1
-						0.3  6.3  0.0
+						0.2  8.5  0.0
+						0.3  7.1  0.0
 						0.7  3.3  0.0
 						1.0  3.1  0.0
 						1.5  2.8  0.0
@@ -155,6 +158,7 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0       1
+						0.2  0.0014  0.0000
 						0.3  0.0012  0.0000
 						0.7  0.0009  0.0000
 						1.0  0.0005  0.0000
