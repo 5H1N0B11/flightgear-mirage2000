@@ -121,11 +121,11 @@
 		<name>ITT</name>
 		<type>rotate</type>
 		<object-name>EICAS-itt</object-name>
-		<property>fdm/jsbsim/propulsion/engine[0]/EGT-C-dmd</property>
+		<property>engines/engine[0]/itt-degc</property>
 		<interpolation>
 			<entry><ind>  0</ind><dep>   1</dep></entry>
-			<entry><ind>800</ind><dep>-181</dep></entry>
-			<entry><ind>850</ind><dep>-192</dep></entry>
+			<entry><ind>1200</ind><dep>-181</dep></entry>
+			<entry><ind>1400</ind><dep>-192</dep></entry>
 		</interpolation>
 		<center>
 			<x-m>0.0</x-m>
@@ -140,14 +140,14 @@
 	</animation>
 
 	<!-- Oil temp -->
-	<!--animation>
+	<animation>
 		<name>Oil-temp</name>
 		<type>rotate</type>
 		<object-name>EICAS-oil-temp</object-name>
-		<property>engines/engine[0]/oilt-norm</property>
+		<property>engines/engine[0]/oil-temperature-degc</property>
 		<interpolation>
 			<entry><ind>0.0</ind><dep>   0</dep></entry>
-			<entry><ind>1.2</ind><dep>-245</dep></entry>
+			<entry><ind>150</ind><dep>-245</dep></entry>
 		</interpolation>
 		<center>
 			<x-m>0.0</x-m>
@@ -159,20 +159,20 @@
 			<y>0</y>
 			<z>0</z>
 		</axis>
-	</animation-->
+	</animation>
 
 	<!-- Oil psi -->
-	<!--animation>
+	<animation>
 		<name>Oil-psi</name>
 		<type>rotate</type>
 		<object-name>EICAS-oil-psi</object-name>
-		<property>engines/engine[0]/oilpsi-norm</property>
+		<property>engines/engine[0]/oil-pressure-psi</property>
 		<interpolation>
 			<entry><ind>    0</ind><dep>   0</dep></entry>
-			<entry><ind> 3000</ind><dep>-120</dep></entry>
-			<entry><ind> 5000</ind><dep>-135</dep></entry>
-			<entry><ind> 8000</ind><dep>-155</dep></entry>
-			<entry><ind>10000</ind><dep>-160</dep></entry>
+			<entry><ind> 20</ind><dep>-120</dep></entry>
+			<entry><ind> 29</ind><dep>-135</dep></entry>
+			<entry><ind> 60</ind><dep>-155</dep></entry>
+			<entry><ind>100</ind><dep>-160</dep></entry>
 		</interpolation>
 		<center>
 			<x-m>0.0</x-m>
@@ -184,20 +184,17 @@
 			<y>0</y>
 			<z>0</z>
 		</axis>
-	</animation-->
+	</animation>
 
 	<!-- hydraulic psi -->
-	<!--animation>
+	<animation>
 		<name>Hyd-psi</name>
 		<type>rotate</type>
 		<object-name>EICAS-hyd-psi</object-name>
-		<property>engines/engine[0]/hydpsi-norm</property>
+		<property>systems/hydraulics/indicated-system-pressure-psi</property>
 		<interpolation>
 			<entry><ind>  0</ind><dep>   0</dep></entry>
-			<entry><ind> 30</ind><dep>-180</dep></entry>
-			<entry><ind> 50</ind><dep>-188</dep></entry>
-			<entry><ind> 80</ind><dep>-195</dep></entry>
-			<entry><ind>100</ind><dep>-200</dep></entry>
+			<entry><ind>3100</ind><dep>-200</dep></entry>
 		</interpolation>
 		<center>
 			<x-m>0.0</x-m>
@@ -209,7 +206,7 @@
 			<y>0</y>
 			<z>0</z>
 		</axis>
-	</animation-->
+	</animation>
 
 	<!--Fuel-flow-->
 	<animation>
