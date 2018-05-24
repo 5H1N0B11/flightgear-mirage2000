@@ -182,6 +182,9 @@
 		</instrumentation>
 		
 		<systems>
+			<autopilot n="0">
+				<path>Aircraft/Mirage-2000/Systems/libraries.xml</path>
+			</autopilot>
 			<autopilot n="2"> <!-- Stupid things that will be deleted later -->
 				<path>Aircraft/Mirage-2000/Systems/fbw.xml</path>
 			</autopilot>
@@ -202,7 +205,7 @@
 	
 	</sim>
 	
-	<input>
+	<input n="0">
 		<mice n="0">
 			<mouse n="0">
 				<mode n="0">
@@ -344,6 +347,11 @@
 			</key>
 		</keyboard>
 	</input>
+	
+	<position n="0">
+		<gear-agl-ft type="double">0</gear-agl-ft>
+		<gear-agl-m type="double">0</gear-agl-m>
+	</position>
 	
 	<nasal>
 		<libraries>

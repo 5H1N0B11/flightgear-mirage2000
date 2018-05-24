@@ -3,6 +3,8 @@
 
 <system name="Mirage-2000: FADEC">
 	
+	<property value="0">/engines/engine[0]/fuel-flow_pph</property> <!-- Isn't initialized by FGFS before this loads for some reason -->
+	
 	<channel name="Engine">
 		
 		<lag_filter name="fcs/throttle1"> <!-- Make a nice smooth throttle input -->
@@ -41,6 +43,12 @@
 			<output>/engines/engine[0]/n2-actual</output>
 			<output>/engines/engine[3]/n2</output>
 		</lag_filter>
+		
+		<pure_gain name="fcs/ff-kg-min">
+			<input>/engines/engine[0]/fuel-flow_pph</input>
+			<gain>0.007559873</gain>
+			<output>/engines/engine[0]/fuel-flow-kg-min</output>
+		</pure_gain>
 	
 	</channel>
 
