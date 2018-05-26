@@ -10,6 +10,7 @@
     <property value="0">systems/hydraulics/number1-system-pump-failed</property>
     <property value="0">systems/hydraulics/number2-system-pump-failed</property>
     <property value="0">systems/hydraulics/landing-gear-standby-accumulator-psi</property>
+    <property value="0">systems/hydraulics/selected-system</property>
 
     <channel name="Hyds">
         <scheduled_gain name="systems/hydraulics/number1-system-pump-psi">
@@ -39,7 +40,7 @@
                 <tableData>
                     0      1
                     0       0      0
-                    18    130      0
+                    18    129      0
                 </tableData>
             </table>
             <clipto>
@@ -78,6 +79,13 @@
                 systems/hydraulics/number1-system-pump-psi ge 1800
                 systems/hydraulics/number2-system-pump-psi ge 1800
             </test>
+        </switch>
+        <switch name="systems/hydraulics/indicated-system-pressure">
+            <default value="systems/hydraulics/number1-system-pressure"/>
+            <test  logic="AND" value="systems/hydraulics/number2-system-pressure">
+                systems/hydraulics/selected-system ne 0
+            </test>
+
         </switch>
     </channel>
 
