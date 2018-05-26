@@ -122,12 +122,12 @@
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
 						     0      1      2
-						0.2  0.410  0.170  0.000
-						0.3  0.370  0.150  0.000
-						0.7  0.250  0.040  0.000
-						1.0  0.230  0.020  0.000
-						1.5  0.110  0.020  0.000
-						2.5  0.055  0.010  0.000
+						0.2  0.410  0.270  0.000
+						0.3  0.370  0.250  0.000
+						0.7  0.250  0.140  0.000
+						1.0  0.230  0.075  0.000
+						1.5  0.110  0.050  0.000
+						2.5  0.055  0.025  0.000
 					</tableData>
 				</table>
 			</function>
@@ -262,14 +262,14 @@
 		
 		<lag_filter name="fbw/roll/rate-stick-lag">
 			<input>fbw/roll/rate-stick</input>
-			<c1>8.4</c1>
+			<c1>9.6</c1>
 		</lag_filter>
 		
 		<switch name="fbw/roll/rad-hold">
 			<default value="0"/>
 			<test logic="AND" value="1">
-				fbw/roll/rate-stick-lag lt 0.02
-				fbw/roll/rate-stick-lag gt -0.02
+				fbw/roll/rate-stick-lag lt 0.01
+				fbw/roll/rate-stick-lag gt -0.01
 				position/wow eq 0
 				fbw/ap/roll-enabled eq 0
 			</test>
@@ -452,7 +452,7 @@
 		
 		<lag_filter name="fbw/pitch/alpha-lag">
 			<input>fbw/pitch/alpha-switched</input>
-			<c1>8.5</c1>
+			<c1>10</c1>
 		</lag_filter>
 		
 		<fcs_function name="fbw/pitch/alpha-pitch-feed">
@@ -576,7 +576,7 @@
 		
 		<lag_filter name="fbw/pitch/g-command-lag">
 			<input>fbw/pitch/g-command</input>
-			<c1>9.4</c1>
+			<c1>8.3</c1>
 		</lag_filter>
 		
 		<switch name="fbw/pitch/g-demand">
@@ -642,7 +642,7 @@
 		
 		<pure_gain name="fbw/pitch/q-gain">
 			<input>fbw/pitch/q-washout</input>
-			<gain>0.274</gain>
+			<gain>0.334</gain>
 		</pure_gain>
 		
 		<summer name="fbw/pitch/normal-feed">
