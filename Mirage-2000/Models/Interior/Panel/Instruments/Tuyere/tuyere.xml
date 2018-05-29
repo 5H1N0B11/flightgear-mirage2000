@@ -225,7 +225,7 @@
     <type>textranslate</type>
     <object-name>needle</object-name>
     <property>engines/engine[0]/n1-actual</property>
-    <factor>0.0049</factor>
+    <factor>0.004804</factor>
     <step>0.001</step>
     <axis>
       <x>0</x>
