@@ -53,9 +53,9 @@
     <bypassratio>    0.36 </bypassratio>
     <tsfc>            0.9 </tsfc>
     <atsfc>           2.1 </atsfc>
-    <idlen1>         26.0 </idlen1>
+    <idlen1>         47.0 </idlen1> <!-- We think N1 and N2 are the same due to single spool engine -->
     <idlen2>         47.0 </idlen2>
-    <maxn1>          99.0 </maxn1>
+    <maxn1>         102.0 </maxn1>
     <maxn2>         102.0 </maxn2>
     <augmented>         1 </augmented>
     <augmethod>         2 </augmethod>
