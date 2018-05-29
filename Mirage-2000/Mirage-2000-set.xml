@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
-    <engines>
-        <engine>
-            <oil-temperature-degc alias="/fdm/jsbsim/propulsion/engine/oil-temperature-C"/>
-            <oil-pressure-psi alias="/fdm/jsbsim/propulsion/engine/oil-pressure-psi"/>
-            <fuel-flow-kg-min alias="/fdm/jsbsim/propulsion/engine/fuel-flow-rate-kgmin"/>
-            <itt-degc alias="/fdm/jsbsim/propulsion/engine/EGT-C"/>
-        </engine>
-    </engines>
-    <systems>
-        <hydraulics>
-            <system-pressure1-psi alias="/fdm/jsbsim/systems/hydraulics/number1-system-pressure"/>
-            <system-pressure2-psi alias="/fdm/jsbsim/systems/hydraulics/number2-system-pressure"/>
-            <indicated-system-pressure-psi alias="/fdm/jsbsim/systems/hydraulics/indicated-system-pressure"/>
-            <selected-system-psi alias="/fdm/jsbsim/systems/hydraulics/selected-system"/>
-
-        </hydraulics>
-    </systems>
 	<sim>
 		
 		<description>Mirage 2000</description>
@@ -364,10 +347,37 @@
 		</keyboard>
 	</input>
 	
+	<fdm n="0">
+		<jsbsim n="0">
+			<systems>
+				<hydraulics>
+					<selected-system type="int">0</selected-system>
+				</hydraulics>
+			</systems>
+		</jsbsim>
+	</fdm>
+	
 	<position n="0">
 		<gear-agl-ft type="double">0</gear-agl-ft>
 		<gear-agl-m type="double">0</gear-agl-m>
 	</position>
+	
+	<engines>
+		<engine>
+			<oil-temperature-degc alias="/fdm/jsbsim/propulsion/engine/oil-temperature-C"/>
+			<oil-pressure-psi alias="/fdm/jsbsim/propulsion/engine/oil-pressure-psi"/>
+			<fuel-flow-kg-min alias="/fdm/jsbsim/propulsion/engine/fuel-flow-rate-kgmin"/>
+			<itt-degc alias="/fdm/jsbsim/propulsion/engine/EGT-C"/>
+		</engine>
+	</engines>
+	<systems>
+		<hydraulics>
+			<system-pressure1-psi alias="/fdm/jsbsim/systems/hydraulics/number1-system-pressure"/>
+			<system-pressure2-psi alias="/fdm/jsbsim/systems/hydraulics/number2-system-pressure"/>
+			<indicated-system-pressure-psi alias="/fdm/jsbsim/systems/hydraulics/indicated-system-pressure"/>
+			<selected-system-psi alias="/fdm/jsbsim/systems/hydraulics/selected-system"/>
+		</hydraulics>
+	</systems>
 	
 	<nasal>
 		<libraries>

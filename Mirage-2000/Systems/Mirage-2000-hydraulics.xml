@@ -10,7 +10,6 @@
     <property value="0">systems/hydraulics/number1-system-pump-failed</property>
     <property value="0">systems/hydraulics/number2-system-pump-failed</property>
     <property value="0">systems/hydraulics/landing-gear-standby-accumulator-psi</property>
-    <property value="0">systems/hydraulics/selected-system</property>
 
     <channel name="Hyds">
         <scheduled_gain name="systems/hydraulics/number1-system-pump-psi">
