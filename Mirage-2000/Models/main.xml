@@ -485,74 +485,44 @@
     </offsets>
   </model>
 
-  <!-- ~~~~~~~~~~~~~~~~~~ left ailerons animation -->
-  <animation>
-    <type>rotate</type>
-    <object-name>aileronG</object-name>
-    <property>surface-positions/left-aileron-pos-norm</property>
-    <factor> 16 </factor>
-    <axis>
-      <x1-m>  4.321 </x1-m>
-      <y1-m> -4.290 </y1-m>
-      <z1-m> -1.250 </z1-m>
-      <x2-m>  4.309 </x2-m>
-      <y2-m> -2.324 </y2-m>
-      <z2-m> -1.093 </z2-m>
-    </axis>
-  </animation>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>aileronG</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor> 16 </factor>
-    <axis>
-      <x1-m>  4.321 </x1-m>
-      <y1-m> -4.290 </y1-m>
-      <z1-m> -1.250 </z1-m>
-      <x2-m>  4.309 </x2-m>
-      <y2-m> -2.324 </y2-m>
-      <z2-m> -1.093 </z2-m>
-    </axis>
-  </animation>
-
-  <!-- ~~~~~~~~~~~~~~~~~~ right ailerons animation -->
-  <animation>
-    <type>rotate</type>
-    <object-name>aileronD</object-name>
-    <property>surface-positions/right-aileron-pos-norm</property>
-    <factor> 16 </factor>
-    <axis>
-      <x1-m>  4.309 </x1-m>
-      <y1-m>  2.324 </y1-m>
-      <z1-m> -1.093 </z1-m>
-      <x2-m>  4.321 </x2-m>
-      <y2-m>  4.290 </y2-m>
-      <z2-m> -1.250 </z2-m>
-    </axis>
-  </animation>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>aileronD</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor> 16 </factor>
-    <axis>
-      <x1-m>  4.309 </x1-m>
-      <y1-m>  2.324 </y1-m>
-      <z1-m> -1.093 </z1-m>
-      <x2-m>  4.321 </x2-m>
-      <y2-m>  4.290 </y2-m>
-      <z2-m> -1.250 </z2-m>
-    </axis>
-  </animation>
-
   <!-- ~~~~~~~~~~~~~~~~~~ left elevons animation -->
   <animation>
     <type>rotate</type>
+    <object-name>aileronG</object-name>
+    <property>fdm/jsbsim/fcs/elevon-1L-pos-deg</property>
+    <factor> 1 </factor>
+    <axis>
+      <x1-m>  4.321 </x1-m>
+      <y1-m> -4.290 </y1-m>
+      <z1-m> -1.250 </z1-m>
+      <x2-m>  4.309 </x2-m>
+      <y2-m> -2.324 </y2-m>
+      <z2-m> -1.093 </z2-m>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ right elevons animation -->
+  <animation>
+    <type>rotate</type>
+    <object-name>aileronD</object-name>
+    <property>fdm/jsbsim/fcs/elevon-1R-pos-deg</property>
+    <factor> 1 </factor>
+    <axis>
+      <x1-m>  4.309 </x1-m>
+      <y1-m>  2.324 </y1-m>
+      <z1-m> -1.093 </z1-m>
+      <x2-m>  4.321 </x2-m>
+      <y2-m>  4.290 </y2-m>
+      <z2-m> -1.250 </z2-m>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ left elevons inner animation -->
+  <animation>
+    <type>rotate</type>
     <object-name>elevonG</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor> 16 </factor>
+    <property>fdm/jsbsim/fcs/elevon-2L-pos-deg</property>
+    <factor> 1 </factor>
     <axis>
       <x1-m>  4.309 </x1-m>
       <y1-m> -2.322 </y1-m>
@@ -563,12 +533,12 @@
     </axis>
   </animation>
 
-  <!-- ~~~~~~~~~~~~~~~~~~ right elevons animation -->
+  <!-- ~~~~~~~~~~~~~~~~~~ right elevons inner animation -->
   <animation>
     <type>rotate</type>
     <object-name>elevonD</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor> 16 </factor>
+    <property>fdm/jsbsim/fcs/elevon-2R-pos-deg</property>
+    <factor> 1 </factor>
     <axis>
       <x1-m>  4.308 </x1-m>
       <y1-m>  0.873 </y1-m>
@@ -583,8 +553,8 @@
   <animation>
     <type>rotate</type>
     <object-name>direction</object-name>
-    <property>surface-positions/rudder-pos-norm</property>
-    <factor> -14 </factor>
+    <property>fdm/jsbsim/fcs/rudder-pos-deg</property>
+    <factor> 1 </factor>
     <axis>
       <x1-m> 5.895 </x1-m>
       <y1-m> 0.000 </y1-m>
@@ -599,7 +569,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatG1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-inner-norm</property>
     <factor> -0.15 </factor>
     <axis>
       <x> 1 </x>
@@ -611,7 +581,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatG1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-inner-norm</property>
     <factor> -0.1 </factor>
     <axis>
       <x> 0 </x>
@@ -623,7 +593,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatG1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-inner-norm</property>
     <factor> -5 </factor>
     <axis>
       <x1-m>  1.377 </x1-m>
@@ -639,7 +609,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatD1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-inner-norm</property>
     <factor> -0.15 </factor>
     <axis>
       <x> 1 </x>
@@ -651,7 +621,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatD1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-inner-norm</property>
     <factor> 0.1 </factor>
     <axis>
       <x> 0 </x>
@@ -663,7 +633,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatD1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-inner-norm</property>
     <factor> -5 </factor>
     <axis>
       <x1-m> -0.700 </x1-m>
@@ -679,7 +649,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatG2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-outer-norm</property>
     <factor> -0.15 </factor>
     <axis>
       <x> 1 </x>
@@ -691,7 +661,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatG2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-outer-norm</property>
     <factor> -0.1 </factor>
     <axis>
       <x> 0 </x>
@@ -703,7 +673,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatG2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-outer-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep>  0 </dep></entry>
       <entry><ind> 0.3 </ind><dep>  0 </dep></entry>
@@ -722,7 +692,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatG2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-outer-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep>   0 </dep></entry>
       <entry><ind> 0.3 </ind><dep>   0 </dep></entry>
@@ -742,7 +712,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatD2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-outer-norm</property>
     <factor> -0.15 </factor>
     <axis>
       <x> 1 </x>
@@ -754,7 +724,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatD2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-outer-norm</property>
     <factor> 0.1 </factor>
     <axis>
       <x> 0 </x>
@@ -766,7 +736,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatD2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-outer-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep> 0 </dep></entry>
       <entry><ind> 0.3 </ind><dep> 0 </dep></entry>
@@ -785,7 +755,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatD2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-outer-norm</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep>   0 </dep></entry>
       <entry><ind> 0.3 </ind><dep>   0 </dep></entry>
@@ -805,7 +775,7 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerGH</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>fdm/jsbsim/fcs/airbrake-upper-norm</property>
     <interpolation>
       <entry><ind> 0 </ind><dep>   0 </dep></entry>
       <entry><ind> 1 </ind><dep> -80 </dep></entry>
@@ -824,7 +794,7 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerGB</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>fdm/jsbsim/fcs/airbrake-lower-norm</property>
     <interpolation>
       <entry><ind> 0 </ind><dep>  0 </dep></entry>
       <entry><ind> 1 </ind><dep> 80 </dep></entry>
@@ -843,7 +813,7 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerDH</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>fdm/jsbsim/fcs/airbrake-upper-norm</property>
     <interpolation>
       <entry><ind> 0 </ind><dep>   0 </dep></entry>
       <entry><ind> 1 </ind><dep> -80 </dep></entry>
@@ -862,7 +832,7 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerDB</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>fdm/jsbsim/fcs/airbrake-lower-norm</property>
     <interpolation>
       <entry><ind> 0 </ind><dep>  0 </dep></entry>
       <entry><ind> 1 </ind><dep> 80 </dep></entry>

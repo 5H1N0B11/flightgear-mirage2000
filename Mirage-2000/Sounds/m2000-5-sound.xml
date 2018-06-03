@@ -84,8 +84,8 @@ ________________________________________________________________________________
       <condition>
         <and>
           <greater-than>
-            <property>engines/engine[0]/rpm</property>
-            <value>30</value>
+            <property>engines/engine[0]/n2</property>
+            <value>3</value>
           </greater-than>
           <or>
             <not>
@@ -96,9 +96,7 @@ ________________________________________________________________________________
               <value>0</value>
             </greater-than>
           </or>
-          <not>
-            <property>engines/engine[0]/out-of-fuel</property>
-          </not>
+          <property>engines/engine[0]/running</property>
         </and>
       </condition>
       <orientation>
@@ -129,15 +127,13 @@ ________________________________________________________________________________
       <mode>looped</mode>
       <condition>
         <greater-than>
-          <property>engines/engine[0]/rpm</property>
-          <value>30</value>
+          <property>engines/engine[0]/n2</property>
+          <value>3</value>
         </greater-than>
         <not>
           <property>sim/current-view/internal</property>
         </not>
-        <not>
-          <property>engines/engine[0]/out-of-fuel</property>
-        </not>
+        <property>engines/engine[0]/running</property>
         <less-than>
           <property>/velocities/airspeed-kt</property>
           <value>90</value>
@@ -171,15 +167,13 @@ ________________________________________________________________________________
       <mode>looped</mode>
       <condition>
         <greater-than>
-          <property>engines/engine[0]/rpm</property>
-          <value>30</value>
+          <property>engines/engine[0]/n2</property>
+          <value>3</value>
         </greater-than>
         <not>
           <property>sim/current-view/internal</property>
         </not>
-        <not>
-          <property>engines/engine[0]/out-of-fuel</property>
-        </not>
+        <property>engines/engine[0]/running</property>
         <greater-than>
           <property>/velocities/airspeed-kt</property>
           <value>89</value>
@@ -216,8 +210,8 @@ ________________________________________________________________________________
       <condition>
         <and>
           <greater-than>
-            <property>engines/engine[0]/rpm</property>
-            <value>4200</value>
+            <property>engines/engine[0]/n2</property>
+            <value>42</value>
           </greater-than>
           <or>
             <not>
@@ -228,9 +222,7 @@ ________________________________________________________________________________
               <value>0</value>
             </greater-than>
           </or>
-          <not>
-            <property>engines/engine[0]/out-of-fuel</property>
-          </not>
+          <property>engines/engine[0]/running</property>
         </and>
       </condition>
       <orientation>
@@ -266,13 +258,11 @@ ________________________________________________________________________________
       <mode>looped</mode>
       <condition>
         <greater-than>
-          <property>engines/engine[0]/rpm</property>
-          <value>4200</value>
+          <property>engines/engine[0]/n2</property>
+          <value>42</value>
         </greater-than>
         <property>sim/current-view/internal</property>
-        <not>
-          <property>engines/engine[0]/out-of-fuel</property>
-        </not>
+        <property>engines/engine[0]/running</property>>
       </condition>
 <!--      <orientation>
         <x>1.0</x>
@@ -304,13 +294,11 @@ ________________________________________________________________________________
       <mode>looped</mode>
       <condition>
         <greater-than>
-          <property>engines/engine[0]/rpm</property>
-          <value>30</value>
+          <property>engines/engine[0]/n2</property>
+          <value>3</value>
         </greater-than>
         <property>sim/current-view/internal</property>
-        <not>
-          <property>engines/engine[0]/out-of-fuel</property>
-        </not>
+        <property>engines/engine[0]/running</property>
       </condition>
       <property>engines/engine[0]/afterburner</property>
 <!--      <orientation>
@@ -340,13 +328,11 @@ ________________________________________________________________________________
       <mode>looped</mode>
       <condition>
         <greater-than>
-          <property>engines/engine[0]/rpm</property>
-          <value>30</value>
+          <property>engines/engine[0]/n2</property>
+          <value>3</value>
         </greater-than>
         <property>sim/current-view/internal</property>
-        <not>
-          <property>engines/engine[0]/out-of-fuel</property>
-        </not>
+        <property>engines/engine[0]/running</property>
       </condition>
       <pitch>
         <property>engines/engine[0]/n1</property>

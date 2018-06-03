@@ -83,13 +83,13 @@
   <animation>
     <type>translate</type>
     <object-name>rep-airbrake</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>fdm/jsbsim/fcs/airbrake-norm-sum</property>
     <interpolation>
       <entry><ind>0.00</ind><dep>0.0000</dep></entry>
-      <entry><ind>0.25</ind><dep>0.0077</dep></entry>
-      <entry><ind>0.50</ind><dep>0.0210</dep></entry>
-      <entry><ind>0.75</ind><dep>0.0345</dep></entry>
-      <entry><ind>1.00</ind><dep>0.0480</dep></entry>
+      <entry><ind>0.50</ind><dep>0.0077</dep></entry>
+      <entry><ind>1.00</ind><dep>0.0210</dep></entry>
+      <entry><ind>1.50</ind><dep>0.0345</dep></entry>
+      <entry><ind>2.00</ind><dep>0.0480</dep></entry>
     </interpolation>
     <axis>
       <x>0</x>
@@ -101,10 +101,10 @@
   <animation>
     <type>translate</type>
     <object-name>rep-airbrake</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>fdm/jsbsim/fcs/airbrake-norm-sum</property>
     <interpolation>
       <entry><ind>0</ind><dep>0.0000</dep></entry>
-      <entry><ind>1</ind><dep>0.0006</dep></entry>
+      <entry><ind>2</ind><dep>0.0006</dep></entry>
     </interpolation>
     <axis>
       <x>1</x>
@@ -117,12 +117,12 @@
   <animation>
     <type>translate</type>
     <object-name>rep-slats</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-norm-sum</property>
     <interpolation>
       <entry><ind>0.000</ind><dep>0.000</dep></entry>
-      <entry><ind>0.333</ind><dep>0.012</dep></entry>
-      <entry><ind>0.666</ind><dep>0.030</dep></entry>
-      <entry><ind>1.000</ind><dep>0.048</dep></entry>
+      <entry><ind>0.666</ind><dep>0.012</dep></entry>
+      <entry><ind>1.333</ind><dep>0.030</dep></entry>
+      <entry><ind>2.000</ind><dep>0.048</dep></entry>
     </interpolation>
     <axis>
       <x>0</x>
@@ -134,10 +134,10 @@
   <animation>
     <type>translate</type>
     <object-name>rep-slats</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat-norm-sum</property>
     <interpolation>
       <entry><ind>0</ind><dep>0.00000</dep></entry>
-      <entry><ind>1</ind><dep>0.00047</dep></entry>
+      <entry><ind>2</ind><dep>0.00047</dep></entry>
     </interpolation>
     <axis>
       <x>1</x>
