@@ -311,7 +311,7 @@
             <c3>propulsion/engine[0]/delta</c3>
             <c4>propulsion/engine[0]/c-egt-lead</c4>
         </lead_lag_filter >
-        <fcs_function>
+        <fcs_function name="func/rankine_convert">
             <function>
                 <description>Convert Rankine into Celsuis (T(°R) - 491.67) × 5/9</description>
                 <product>
@@ -387,7 +387,7 @@
     </channel>
 
     <channel name="Oil SNECMA M53">
-        <fcs_function>
+        <fcs_function name="func/oil-temperature-delta-R-dmd">
             <function>
                 <description>Oil temperature increment from ambient based on N1</description>
                 <product>
@@ -417,7 +417,7 @@
             <input>atmosphere/T-R</input>
             <output>propulsion/engine[0]/oil-temperature-R</output>
         </summer>
-        <fcs_function>
+        <fcs_function name="funcs/engine[0]/oil-temperature-C">
             <function>
                 <description>Convert Rankine into Celsuis (T(°R) - 491.67) × 5/9</description>
                 <product>
@@ -430,7 +430,7 @@
             </function>
             <output>propulsion/engine[0]/oil-temperature-C</output>
         </fcs_function>
-        <fcs_function>
+        <fcs_function name="funcs/engine[0]/oil-pressure-psi">
             <function>
                 <description>OIL pressure </description>
                 <product>
