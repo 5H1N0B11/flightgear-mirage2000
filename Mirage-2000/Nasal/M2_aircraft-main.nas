@@ -55,7 +55,7 @@ var init = func(v) {
     setprop("/autopilot/locks/speed","");
 
     # now allow the subsystems to intialize
-    emesary.GlobalTransmitter.NotifyAll(InitNotification.new(v));
+    emesary.GlobalTransmitter.NotifyAll(notifications.InitNotification.new(v));
 #	ext_loads_init();
 #	init_fuel_system();
 #	aircraft.data.load();
@@ -84,8 +84,9 @@ var AircraftMain_System =
         var new_class = emesary.Recipient.new(_ident~".RtExec");
 
         # request framenotification to monitor new properties that we use
-        emesary.GloableTransmitter.NotifyAll(new FrameNotificationAddProperty("engine_n2", "engines/engine[0]/n2"));
-        emesary.GloableTransmitter.NotifyAll(new FrameNotificationAddProperty("view_internal", "sim/current-view/internal"));
+        emesary.GlobalTransmitter.NotifyAll(notifications.FrameNotificationAddProperty.new("engine_n2", "engines/engine[0]/n2"));
+        emesary.GlobalTransmitter.NotifyAll(notifications.FrameNotificationAddProperty.new("wow", "fdm/jsbsim/gear/wow"));
+        emesary.GlobalTransmitter.NotifyAll(notifications.FrameNotificationAddProperty.new("view_internal", "sim/current-view/internal"));
 
         new_class.Receive = func(notification)
         {
@@ -99,6 +100,7 @@ var AircraftMain_System =
             {
                 me.updateVolume(notification);
                 wow = notification.wow;
+                notification.ContactsList = []; #mirage2000.myRadar3
                 return emesary.Transmitter.ReceiptStatus_OK;
             }
             return emesary.Transmitter.ReceiptStatus_NotProcessed;

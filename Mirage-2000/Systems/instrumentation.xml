@@ -2,24 +2,7 @@
 
 <!--
 **********************************************************************
-generic-instrumentation.xml
-
-Generic instrumentation configuration. This file selects the
-instrumentation modules that should be available.
-
-You can have several instances of the same instrument type.
-The value inside the name tag becomes the node in the property tree.
-If two instruments have the same name you must use the number tag
-to separate them. They become name[number] in the property tree.
-Some instruments have additional configuration tags like static-port
-and pitot-port. The static- and pitot-ports (and any other system that
-an instrument depend on) have to be configured in the systems
-configuration file: generic-systems.xml
-
-The values in this file are the default values. If any configuration
-tags are omitted in an aircraft specific version of this configuration
-file, these values will be used (they are hardcoded).
-
+Mirage 2000 instrument defintions
 **********************************************************************
 -->
 
@@ -44,6 +27,7 @@ file, these values will be used (they are hardcoded).
 	<altimeter>
 		<name>altimeter</name>
 		<number>0</number>
+        <suction>fdm/jsbsim/systems/electrics/ac-left-main-bus</suction>
 		<static-pressure>/systems/static/pressure-inhg</static-pressure>
 		<quantum>0</quantum>
 		<tau>0</tau>
@@ -52,7 +36,7 @@ file, these values will be used (they are hardcoded).
 	<attitude-indicator>
 		<name>attitude-indicator</name>
 		<number>0</number>
-		<suction>/systems/vacuum/suction-inhg</suction>
+        <suction>fdm/jsbsim/systems/electrics/ac-left-main-bus</suction>
 	</attitude-indicator>
 
 	<clock>
@@ -176,7 +160,13 @@ file, these values will be used (they are hardcoded).
 		<number>0</number>
 	</radar>
 
-	<tacan>
+    <radar-altimeter>
+        <name>radar-altimeter</name>
+        <number>0</number>
+        <update-interval-sec>0.1</update-interval-sec>
+    </radar-altimeter>
+
+    <tacan>
 		<name>tacan</name>
 		<number>0</number>
 	</tacan>

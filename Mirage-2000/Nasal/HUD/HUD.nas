@@ -5,31 +5,6 @@ print("*** LOADING HUD.nas ... ***");
 #
 ################################################################################
 
-var target_marker = func()
-{
-    # draw hud markers on top of each AI/MP target
-    #SGPropertyNode * models = globals->get_props()->getNode("/ai/models", true);
-    #for(int i = 0 ; i < models->nChildren() ; i += 1)
-    #{
-        # @TODO: hardball : I don't understand this line :
-       # SGPropertyNode * chld = models->getChild(i);
-        #string name;
-        #name = chld->getName();
-        #if(name == "aircraft" || name == "multiplayer" || type == "tanker" || type == "carrier")
-        #{
-          #  string callsign = chld->getStringValue("callsign");
-            #if(callsign != "")
-            #{
-             #   float h_deg = chld->getFloatValue("radar/h-offset");
-             #   float v_deg = chld->getFloatValue("radar/v-offset");
-              #  float pos_x = (h_deg * cos(roll_value) - v_deg * sin(roll_value)) * _compression;
-                #float pos_y = (v_deg * cos(roll_value) + h_deg * sin(roll_value)) * _compression;
-               # draw_circle(pos_x, pos_y, 8);
-           # }
-        #}
-    #}
-}
-
 var x_view = props.globals.getNode("sim/current-view/x-offset-m");
 var y_view = props.globals.getNode("sim/current-view/y-offset-m");
 var z_view = props.globals.getNode("sim/current-view/z-offset-m");
@@ -50,7 +25,6 @@ var target_altitude = 0;
 var target_closureRate = 0;
 var target_heading_deg = 0;
 var target_Distance = 0;
-var raw_list = [];
 
 
 #verre2
@@ -115,8 +89,6 @@ var wideMeters = math.abs(-0.02038 - (-0.15438));
 #Pilotx = getprop("sim/view[0]/config/z-offset-m");
 #Piloty = getprop("sim/view[0]/config/x-offset-m");
 
-#var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
-#print("Size:" ~ size(raw_list));
 var MaxTarget = 15;
 
 
@@ -239,7 +211,7 @@ var HUD = {
          
     m.TriangleGroupe.hide();
 
-    m.input = {
+    input = {
       pitch:      "/orientation/pitch-deg",
       roll:       "/orientation/roll-deg",
       hdg:        "/orientation/heading-deg",
@@ -258,28 +230,29 @@ var HUD = {
       acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2"
     };
     
-    foreach(var name; keys(m.input))
-      m.input[name] = props.globals.getNode(m.input[name], 1);
+    foreach(var name; keys(input)){
+#        print("HUD Monitor => ",name," :: ",input[name]);
+        emesary.GlobalTransmitter.NotifyAll(notifications.FrameNotificationAddProperty.new(name, input[name]));
+    }
     
     return m;
   },
-  update: func()
+  update: func(frame_notification)
   {
-    #me.airspeed.setText(sprintf("%d", me.input.ias.getValue()));
-    #me.groundspeed.setText(sprintf("G %3d", me.input.gs.getValue()));
-    #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
-    
-    var rad_alt = me.input.rad_alt.getValue();
-    if( rad_alt and rad_alt < 5000 ) # Only show below 5000AGL
-      rad_alt = sprintf("R %4d", rad_alt);
+    #me.airspeed.setText(sprintf("%d", frame_notification.ias.getValue()));
+    #me.groundspeed.setText(sprintf("G %3d", frame_notification.gs.getValue()));
+    #me.vertical_speed.setText(sprintf("%.1f", frame_notification.vs.getValue() * 60.0 / 1000));
+    #debug.dump(frame_notification);
+
+    if(frame_notification.rad_alt < 4900 ) # Only show below 5000AGL
+      me.rad_alt.setText(sprintf("R %4d", frame_notification.rad_alt));
     else
-      rad_alt = nil;
-    me.rad_alt.setText(rad_alt);
+      me.rad_alt.setText("");
     
-    #me.hdg.setText(sprintf("%03d", me.input.hdg.getValue()));
-    me.h_trans.setTranslation(0, 18 * me.input.pitch.getValue());
+    #me.hdg.setText(sprintf("%03d", frame_notification.hdg));
+    me.h_trans.setTranslation(0, 18 * frame_notification.pitch);
     
-    var rot = -me.input.roll.getValue() * math.pi / 180.0;
+    var rot = -frame_notification.roll * math.pi / 180.0;
     me.h_rot.setRotation(rot);
     me.targetrot.setRotation(rot);
     me.Textrot.setRotation(rot);
@@ -288,13 +261,13 @@ var HUD = {
     
     
     # flight path vector (FPV)
-    var vel_gx = me.input.speed_n.getValue();
-    var vel_gy = me.input.speed_e.getValue();
-    var vel_gz = me.input.speed_d.getValue();
+    var vel_gx = frame_notification.speed_n;
+    var vel_gy = frame_notification.speed_e;
+    var vel_gz = frame_notification.speed_d;
     
-    var yaw = me.input.hdg.getValue() * math.pi / 180.0;
-    var roll = me.input.roll.getValue() * math.pi / 180.0;
-    var pitch = me.input.pitch.getValue() * math.pi / 180.0;
+    var yaw = frame_notification.hdg * math.pi / 180.0;
+    var roll = frame_notification.roll * math.pi / 180.0;
+    var pitch = frame_notification.pitch * math.pi / 180.0;
     
     var sy = math.sin(yaw);   var cy = math.cos(yaw);
     var sr = math.sin(roll);  var cr = math.cos(roll);
@@ -316,9 +289,9 @@ var HUD = {
     #me.fpv.setTranslation(dir_x * 18, dir_y * 18);
 
     var speed_error = 0;
-    if( me.input.target_spd.getValue() != nil )
+    if( frame_notification.target_spd != nil )
       speed_error = 4 * clamp(
-        me.input.target_spd.getValue() - me.input.airspeed.getValue(),
+        frame_notification.target_spd - frame_notification.airspeed,
         -15, 15
       );
       
@@ -360,12 +333,10 @@ var HUD = {
     
 
     #myarrayofTarget = mirage2000.myRadar3.update();
-    raw_list = mirage2000.myRadar3.ContactsList;
-    #print("Size:" ~ size(raw_list));
     
     i=0;
 
-    foreach(var c; raw_list){
+    foreach(var c; frame_notification.ContactsList){
       
       if(i<size(me.targetArray)){
 
@@ -389,7 +360,7 @@ var HUD = {
           mydeviation = c.objectDeviationDeg;
           myelevation = c.objectElevationDeg;
           
-          myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
+          myelevation = radar.deviation_normdeg(notification.pitch, myelevation);
       
           myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
           myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
@@ -430,27 +401,30 @@ var HUD = {
       me.targetArray[y].hide();
       me.TextInfoArray[y].hide();
     }
-    
-
-
-    #settimer(func me.update(), 0.1);
   }
 };
 
 
+var MirageHudRecipient = 
+{
+    new: func(_ident)
+    {
+        var new_class = emesary.Recipient.new("HUD-"~_ident);
+        new_class.HUD = HUD.new({"node": "canvasHUD", "texture": "hud.png"});
+#        new_class.HUDbackseat = HUD.new({"node": "verre2"});
 
-#var init = setlistener("/sim/signals/fdm-initialized", func() {
-#  removelistener(init); # only call once
-#  var hud_pilot = HUD.new({"node": "canvasHUD", "texture": "hud.png"});
-#  hud_pilot.update();
-#  var hud_copilot = HUD.new({"node": "verre2"});
-#  hud_copilot.update();
-#});
-
-#var initcanvas = func() {
-#  var hud_pilot = HUD.new({"node": "canvasHUD", "texture": "hud.png"});
-#  hud_pilot.update();
-  #var hud_copilot = HUD.new({"node": "verre2"});
-  #hud_copilot.update()
-#};
+        new_class.Receive = func(notification)
+        {
+            if (notification.NotificationType == "FrameNotification")
+            {
+                me.HUD.update(notification);
+                return emesary.Transmitter.ReceiptStatus_OK;
+            }
+            return emesary.Transmitter.ReceiptStatus_NotProcessed;
+        };
+        return new_class;
+    },
+};
+mirage_hud_recipient = MirageHudRecipient.new("Pilot");
+emesary.GlobalTransmitter.Register(mirage_hud_recipient);
 

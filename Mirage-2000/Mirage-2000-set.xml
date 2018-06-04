@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
+    <canopy>
+        <position-norm type="double">0.0</position-norm>
+    </canopy>
+    <controls>
+        <seat>
+            <pilot-helmet-volume-attenuation type="bool">false</pilot-helmet-volume-attenuation>
+            <pilot-helmet-volume-attenuation type="double">0</pilot-helmet-volume-attenuation>
+        </seat>
+    </controls>
+
     <engines>
         <engine>
             <oil-temperature-degc alias="/fdm/jsbsim/propulsion/engine/oil-temperature-C"/>
@@ -9,6 +19,19 @@
             <itt-degc alias="/fdm/jsbsim/propulsion/engine/EGT-C"/>
         </engine>
     </engines>
+    <instrumentation>
+        <radar-altimeter>
+            <!--<serviceable alias="/fdm/jsbsim/systems/electrics/left-main-bus-powered"/>-->
+            <serviceable type="bool">true</serviceable>
+            <radar-altitude-ft type="double">4999</radar-altitude-ft>"
+            <antenna>
+                <x-offset-m type="double">-16</x-offset-m>
+                <y-offset-m type="double">0</y-offset-m>
+                <z-offset-m type="double">2.41</z-offset-m>
+            </antenna>
+        </radar-altimeter>
+    </instrumentation>
+
     <systems>
         <hydraulics>
             <system-pressure1-psi alias="/fdm/jsbsim/systems/hydraulics/number1-system-pressure"/>
@@ -373,16 +396,19 @@
 		<libraries>
 			<file>Aircraft/Mirage-2000/Nasal/libraries.nas</file>
 		</libraries>
-		<aircraft>
+		<notifications>
 			<file>Aircraft/Mirage-2000/Nasal/M2_notification_init.nas</file>
+			<file>Aircraft/Mirage-2000/Nasal/M2_notification_frames.nas</file>
+		</notifications>
+		<aircraft>
 			<file>Aircraft/Mirage-2000/Nasal/M2_exec.nas</file>
-			<file>Aircraft/Mirage-2000/Nasal/M2_aircraft.nas</file>
+			<file>Aircraft/Mirage-2000/Nasal/M2_aircraft-main.nas</file>
 		</aircraft>
-   <hud>
-      <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/MiscRwr.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/mini-hud.nas</file>
-    </hud>
+        <hud>
+            <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>
+            <file>Aircraft/Mirage-2000/Nasal/MiscRwr.nas</file>
+            <file>Aircraft/Mirage-2000/Nasal/mini-hud.nas</file>
+        </hud>
 	</nasal>
 
 </PropertyList>
