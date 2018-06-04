@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <name>debug-module</name>
+    <layout>vbox</layout>
+    <default-padding>0</default-padding>
+    <modal>false</modal>
+    <width>750</width>
+    <valign>top</valign>
+
+
+    <group>
+        <layout>vbox</layout>
+        <slider>
+            <name>tuning1</name>
+            <property>/fdm/jsbsim/tuning1</property>
+            <min>-1</min>
+            <max>1</max>
+            <live>1</live>
+            <binding>
+                <command>dialog-apply</command>
+                <object-name>tuning1</object-name>
+            </binding>
+        </slider>
+        <slider>
+            <name>tuning2</name>
+            <property>/fdm/jsbsim/tuning2</property>
+            <min>-1</min>
+            <max>1</max>
+            <live>1</live>
+            <binding>
+                <command>dialog-apply</command>
+                <object-name>tuning2</object-name>
+            </binding>
+        </slider>
+        <slider>
+            <name>tuning3</name>
+            <property>/fdm/jsbsim/tuning3</property>
+            <min>-1</min>
+            <max>1</max>
+            <live>1</live>
+
+            <binding>
+                <command>dialog-apply</command>
+                <object-name>tuning3</object-name>
+            </binding>
+        </slider>
+        <slider>
+            <name>tuning3</name>
+            <property>/fdm/jsbsim/tuning4</property>
+            <min>0</min>
+            <max>1</max>
+            <live>1</live>
+
+            <binding>
+                <command>dialog-apply</command>
+                <object-name>tuning3</object-name>
+            </binding>
+        </slider>
+
+    </group>
+    <hrule/>
+    <button>
+        <legend>Reset</legend>
+        <binding>
+            <command>nasal</command>
+            <script>setprop("/fdm/jsbsim/tuning1",0);setprop("/fdm/jsbsim/tuning2",0);setprop("/fdm/jsbsim/tuning3",0);</script>
+        </binding>
+    </button>    <group>
+        <layout>hbox</layout>
+        <button>
+            <legend>Close</legend>
+            <default>true</default>
+            <key>Esc</key>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+</PropertyList>

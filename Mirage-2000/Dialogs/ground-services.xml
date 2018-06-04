@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <name>ground-services</name>
+    <layout>vbox</layout>
+    <default-padding>0</default-padding>
+    <modal>false</modal>
+    <width>450</width>
+    <valign>top</valign>
+
+    <group>
+        <layout>hbox</layout>
+        <default-padding>0</default-padding>
+
+        <group>
+            <layout>vbox</layout>
+            <default-padding>1</default-padding>
+
+            <empty>
+                <pref-height>2</pref-height>
+            </empty>
+
+            <group>
+                <layout>hbox</layout>
+
+                <text>
+                    <label>Ground Power Unit</label>
+                </text>
+
+                <checkbox>
+                    <property>fdm/jsbsim/systems/electrics/ground-power-gpu</property>
+                    <live>true</live>
+                    <binding>
+                        <command>property-toggle</command>
+                        <property>fdm/jsbsim/systems/electrics/ground-power-gpu</property>
+                    </binding>
+                </checkbox>
+            </group>
+            <group>
+                <layout>hbox</layout>
+
+                <text>
+                    <label>External Electrical Power Connected</label>
+                </text>
+
+                <checkbox>
+                    <property>fdm/jsbsim/systems/electrics/ground-power</property>
+                    <live>true</live>
+                    <binding>
+                        <command>property-toggle</command>
+                        <property>fdm/jsbsim/systems/electrics/ground-power</property>
+                    </binding>
+                </checkbox>
+            </group>
+
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>External Air Connected</label>
+                </text>
+
+                <checkbox>
+                    <property>fdm/jsbsim/systems/electrics/ground-air</property>
+                    <live>true</live>
+                    <binding>
+                        <command>property-toggle</command>
+                        <property>fdm/jsbsim/systems/electrics/ground-air</property>
+                    </binding>
+                </checkbox>
+            </group>
+            <hrule/>
+            <group>
+                <layout>hbox</layout>
+
+                <text>
+                    <label>Smoke generator</label>
+                </text>
+
+                <checkbox>
+                    <property>sim/model/bae-hawk/fx/smoke</property>
+                    <live>true</live>
+                    <binding>
+                        <command>property-toggle</command>
+                        <property>/sim/model/bae-hawk/fx/smoke</property>
+                    </binding>
+                </checkbox>
+            </group>
+
+            <group>
+                <layout>hbox</layout>
+
+                <text>
+                    <label>Pilot Helment Sound Proofing</label>
+                </text>
+
+                <slider>
+                    <name>PilotHelmentSoundProofing</name>
+                    <property>/controls/seat/pilot-helmet-volume-attenuation</property>
+                    <live>1</live>
+                    <min>0</min>
+                    <max>0.3</max>
+                    <binding>
+                        <command>dialog-apply</command>
+                        <object-name>PilotHelmentSoundProofing</object-name>
+                    </binding>
+                </slider>
+            </group>
+        </group>
+
+
+    </group>
+
+    <hrule/>
+    <group>
+        <layout>hbox</layout>
+        <button>
+            <legend>Close</legend>
+            <default>true</default>
+            <key>Esc</key>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+</PropertyList>
