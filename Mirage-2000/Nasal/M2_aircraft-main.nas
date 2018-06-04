@@ -101,6 +101,29 @@ var AircraftMain_System =
                 me.updateVolume(notification);
                 wow = notification.wow;
                 notification.ContactsList = []; #mirage2000.myRadar3
+
+                if (notification.FrameCount == 0){ # slowest rate
+                    if (getprop("autopilot/route-manager/active")) {
+                        var rng = getprop("autopilot/route-manager/wp/dist");
+                        var eta_s = getprop("autopilot/route-manager/wp/eta-seconds");
+                        if (rng != nil) {
+                            notification.hud_window5 = sprintf("%2d MIN",rng);
+                            notification.nav_range = sprintf("N %4.1f", rng);
+                        } else {
+                            notification.hud_window5 = "XXX";
+                            notification.nav_range = "N XXX";
+                        }
+
+                        if (eta_s != nil)
+                          notification.hud_window5 = sprintf("%2d MIN",eta_s/60);
+                        else
+                          notification.hud_window5 = "XX MIN";
+                    } else {
+                        notification.nav_range = "";
+                        notification.hud_window5 = sprintf("M %1.3f",notification.mach);
+                    }
+                }
+
                 return emesary.Transmitter.ReceiptStatus_OK;
             }
             return emesary.Transmitter.ReceiptStatus_NotProcessed;

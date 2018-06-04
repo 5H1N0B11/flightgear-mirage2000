@@ -12,27 +12,62 @@
     <object-name>verre1</object-name>
     <object-name>verre2</object-name>
     <object-name>verre3</object-name>
-    <object-name>canvasHUD</object-name>
   </animation>
 
-  <!--  REMBRANDT support for transparent objects-->
+    <animation>
+        <type>select</type>
+        <object-name>verre3</object-name>
+        <condition>
+            <greater-than>
+                <property>/fdm/jsbsim/systems/electrics/ac-left-main-bus</property>
+                <value>0</value>
+            </greater-than>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>verre3</object-name>
+        <condition>
+            <greater-than>
+                <property>/fdm/jsbsim/systems/electrics/ac-left-main-bus</property>
+                <value>0</value>
+            </greater-than>
+            <greater-than>
+                <property>controls/avionics/HUD-brightness</property>
+                <value>0</value>
+            </greater-than>
+        </condition>
+    </animation>
+    <effect>
+        <inherits-from>hud</inherits-from>
+        <object-name>verre3</object-name>
+    </effect>
+    <animation>
+        <object-name>verre3</object-name>
+        <type>material</type>
+        <condition>
+            <greater-than>
+                <property>/fdm/jsbsim/systems/electrics/ac-essential-bus1</property>
+                <value>0</value>
+            </greater-than>
+            <not>
+                <property>/sim/rendering/rembrandt/enabled</property>
+            </not>
+        </condition>
+        <emission>
+            <factor-prop>controls/avionics/HUD-brightness</factor-prop>
+            <red>  1</red>
+            <green>1</green>
+            <blue> 1</blue>
+        </emission>
+    </animation>
+
+    <!--  REMBRANDT support for transparent objects-->
   <effect>
     <inherits-from>Effects/model-transparent</inherits-from>
     <object-name>verre1</object-name>
     <object-name>verre2</object-name>
-    <object-name>verre3</object-name>
-    <object-name>canvasHUD</object-name>
   </effect>
-
-  <animation>
-    <type>material</type>
-    <object-name>canvasHUD</object-name>
-    <emission>
-      <red> 1 </red>
-      <green> 1 </green>
-      <blue> 1 </blue>
-    </emission>
-  </animation>
 
   <animation>
     <type>material</type>

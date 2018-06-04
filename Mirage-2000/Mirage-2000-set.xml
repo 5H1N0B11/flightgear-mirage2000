@@ -5,6 +5,9 @@
         <position-norm type="double">0.0</position-norm>
     </canopy>
     <controls>
+        <avionics>
+            <HUD-brightness type="double">1</HUD-brightness>
+        </avionics>
         <seat>
             <pilot-helmet-volume-attenuation type="bool">false</pilot-helmet-volume-attenuation>
             <pilot-helmet-volume-attenuation type="double">0</pilot-helmet-volume-attenuation>
@@ -20,6 +23,9 @@
         </engine>
     </engines>
     <instrumentation>
+        <g-meter>
+            <instrumented-g alias="/fdm/jsbsim/systems/adc/instrumented-g"/>
+        </g-meter>
         <radar-altimeter>
             <!--<serviceable alias="/fdm/jsbsim/systems/electrics/left-main-bus-powered"/>-->
             <serviceable type="bool">true</serviceable>
@@ -405,9 +411,7 @@
 			<file>Aircraft/Mirage-2000/Nasal/M2_aircraft-main.nas</file>
 		</aircraft>
         <hud>
-            <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>
-            <file>Aircraft/Mirage-2000/Nasal/MiscRwr.nas</file>
-            <file>Aircraft/Mirage-2000/Nasal/mini-hud.nas</file>
+            <file>Aircraft/Mirage-2000/Nasal/HUD/HUD_main.nas</file>
         </hud>
 	</nasal>
 

@@ -44,9 +44,9 @@ var FrameNotification =
             {
                 if (new_class.monitored_properties[notification.variable] != nil and 
                     new_class.monitored_properties[notification.variable].getPath() != notification.property)
-                  print("[WARNING]: FrameNotification: Add Property, already have variable ",notification.variable,"=",new_class.monitored_properties[notification.variable].getPath(), " using different property ",notification.property);
+                  print("[WARNING]: FrameNotification: already have variable ",notification.variable,"=",new_class.monitored_properties[notification.variable].getPath(), " using different property ",notification.property);
                 else
-                  print("[INFO]: FrameNotification: Add Property ",notification.variable, "  ",notification.property);
+                  print("[INFO]: FrameNotification.",notification.variable, " = ",notification.property);
 
                 new_class.monitored_properties[notification.variable] = props.globals.getNode(notification.property,1);
 
