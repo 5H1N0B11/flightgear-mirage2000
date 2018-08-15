@@ -53,6 +53,7 @@
       <groundtTargeting>
         <target-latitude-deg type="double">0</target-latitude-deg>
         <target-longitude-deg type="double">0</target-longitude-deg>
+	<target-alt-feet type="double">0</target-alt-feet>
       </groundtTargeting>
     </dialog>
     <model>

@@ -30,7 +30,7 @@ if ((major == 2017 and minor == 2 and pica >= 1) or (major == 2017 and minor > 2
     pickingMethod = 1;
 }
 
-var myPos = nil;
+var myPos = geo.aircraft_position();
 var xyz = nil;
 var dir = nil;
 var v = nil;
@@ -75,7 +75,7 @@ var tfs_radar = func() {
     {
         #If there is terrain between target alt, we increase it by 100 feet. until there is no more terrain
         target_pos.set_alt(target_altitude_m);
-        while(check_terrain_avoiding(target_pos)!=nil){
+        while(check_terrain_avoiding(target_pos)!= 1){
           #print(target_altitude_m);
           target_altitude_m = target_altitude_m + 30;
           target_pos.set_alt(target_altitude_m);   
@@ -91,11 +91,16 @@ var tfs_radar = func() {
 #settimer (tfs_radar, 0.1);
 
 var check_terrain_avoiding = func(coord){
-  if(pickingMethod != 1){return nil;}
+  if(pickingMethod != 1){return 1;}
   #We check that there is no terrain between our aircraft and our futur target altitude
   myPos = geo.aircraft_position();
+  
+  if(myPos == nil){return 1;}
+  var Altitude = myPos.alt() - 40;
   #We took took down the aircraft by 30
-  if(myPos.alt()-40 > geo.elevation(myPos.lat(), myPos.lon())){ myPos.set_alt(myPos.alt()-30);}
+  if(Altitude > geo.elevation(myPos.lat(), myPos.lon())){ 
+      myPos.set_alt(myPos.alt()-30);
+  }
   
   xyz = {"x":myPos.x(),                  "y":myPos.y(),                 "z":myPos.z()};
   dir = {"x":coord.x()-myPos.x(),  "y":coord.y()-myPos.y(), "z":coord.z()-myPos.z()};
@@ -104,12 +109,12 @@ var check_terrain_avoiding = func(coord){
 
   # Check for terrain between own aircraft and other:
   v = get_cart_ground_intersection(xyz, dir);
-  if(v ==nil){return v;}
+  if(v == nil){return 1;}
 
   terrain.set_latlon(v.lat, v.lon, v.elevation);
   if(myPos.direct_distance_to(terrain)>distance_Target){
-      return nil;
-  }else{return 1;}    
+      return 1;
+  }else{return 0;}    
  
 }
 

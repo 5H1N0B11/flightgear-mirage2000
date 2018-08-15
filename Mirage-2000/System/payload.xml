@@ -251,7 +251,7 @@
       <terrain-follow type="bool">false</terrain-follow>
       <FCS-field-deg type="int"> 180 </FCS-field-deg>
       <seeker-field-deg type="int"> 200 </seeker-field-deg>
-      <max-g type="double"> 1.5 </max-g>
+      <max-g type="double"> 2.8 </max-g>
       <thrust-lbf-stage-1 type="double"> 0 </thrust-lbf-stage-1>
       <thrust-lbf-stage-2 type="double"> 0 </thrust-lbf-stage-2>
       <stage-1-duration-sec type="double"> 0 </stage-1-duration-sec>
@@ -278,6 +278,7 @@
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
+      <hit-everything-nearby type="bool">true</hit-everything-nearby>
     </gbu16>
     <gbu12>       <!-- GBU 12 -->
       <fire-msg type="string">Bombs away</fire-msg>
@@ -290,7 +291,7 @@
       <terrain-follow type="bool">false</terrain-follow>
       <FCS-field-deg type="int"> 180 </FCS-field-deg>
       <seeker-field-deg type="int"> 200 </seeker-field-deg>
-      <max-g type="double"> 1.5 </max-g>
+      <max-g type="double"> 2.8 </max-g>
       <thrust-lbf-stage-1 type="double"> 0 </thrust-lbf-stage-1>
       <thrust-lbf-stage-2 type="double"> 0 </thrust-lbf-stage-2>
       <stage-1-duration-sec type="double"> 0 </stage-1-duration-sec>
@@ -317,6 +318,7 @@
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
+      <hit-everything-nearby type="bool">true</hit-everything-nearby>
     </gbu12>
     <agm65>      <!-- AGM 65b -->
       <fire-msg type="string">Rifle</fire-msg>
@@ -356,6 +358,7 @@
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
+      <hit-everything-nearby type="bool">true</hit-everything-nearby>
     </agm65>
     <scalp>      <!-- Scalp -->
       <fire-msg type="string">Greyhound</fire-msg>
@@ -364,11 +367,11 @@
       <min-fire-range-nm type="double"> 0.5 </min-fire-range-nm>
       <guidance type="string">gps</guidance>
       <navigation type="string">APN</navigation>
-      <loft-altitude type="int"> 300 </loft-altitude>
+      <loft-altitude type="int"> 100 </loft-altitude>
       <terrain-follow type="bool">true</terrain-follow>
       <FCS-field-deg type="int"> 25 </FCS-field-deg>
       <seeker-field-deg type="int"> 180 </seeker-field-deg>
-      <max-g type="int"> 20 </max-g>
+      <max-g type="int"> 9 </max-g>
       <thrust-lbf-stage-1 type="double"> 2750 </thrust-lbf-stage-1>
       <thrust-lbf-stage-2 type="double"> 0 </thrust-lbf-stage-2>
       <stage-1-duration-sec type="double"> 1000 </stage-1-duration-sec>
@@ -397,6 +400,7 @@
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
       <drop-time type="double">2</drop-time>
       <deploy-time>0.25</deploy-time>
+      <hit-everything-nearby type="bool">true</hit-everything-nearby>
     </scalp>
     <seaeagle>      <!-- Sea Eagle -->
       <fire-msg type="string">Bruiser</fire-msg>
@@ -436,6 +440,7 @@
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
+      <hit-everything-nearby type="bool">true</hit-everything-nearby>
     </seaeagle>
     <exocet>      <!-- Exocet -->
       <fire-msg type="string">Bruiser</fire-msg>
@@ -475,6 +480,7 @@
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
+      <hit-everything-nearby type="bool">true</hit-everything-nearby>
     </exocet>
     <aim-54><!-- aim-54c Phoenix -->
       <sound-on-off type="bool">false</sound-on-off>

@@ -571,15 +571,15 @@ var computeSAS = func() {
                 and myBrakes == 0
                 and gear == 0)
             {
-                etrim_indice = abs(pitch_rate)/8;
+                etrim_indice = abs(pitch_rate)/16;
                 if(pitch_rate > 0)
                 {
-                    interpolate("controls/flight/elevator-trim", e_trim + etrim_indice, 0.2);
+                    interpolate("controls/flight/elevator-trim", e_trim + etrim_indice, 0.4);
                     #ElevatorTrim.setValue(e_trim+etrim_indice);
                 }
                 else
                 {
-                    interpolate("controls/flight/elevator-trim", e_trim - etrim_indice, 0.2);
+                    interpolate("controls/flight/elevator-trim", e_trim - etrim_indice, 0.4);
                     #ElevatorTrim.setValue(e_trim-etrim_indice);
                 }
             }

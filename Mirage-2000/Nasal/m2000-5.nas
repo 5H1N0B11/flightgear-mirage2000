@@ -182,11 +182,11 @@ var updatefunction = func()
     {
         call(environment.environment,nil,nil,nil, myErr);
         if(size(myErr)>0){
-          debug.printerror(myErr);
+          #debug.printerror(myErr);
         }
         call(environment.max_cloud_layer,nil,nil,nil, myErr);
         if(size(myErr)>0){
-          debug.printerror(myErr);
+          #debug.printerror(myErr);
         }
         
         

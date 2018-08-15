@@ -56,9 +56,12 @@
   </button>
 
   <hrule />
-  
-  <input>
 
+  <text><label>Sniped properties</label></text>
+
+  <hrule />
+
+  <input>
    <width>75</width>
    <height>25</height>
    <label>Lat</label>
@@ -66,12 +69,18 @@
   </input>
   
   <input>
-
    <width>75</width>
    <height>25</height>
    <label>Lon</label>
    <property>/sim/dialog/groundtTargeting/target-longitude-deg</property>
   </input>
+
+ <!--<input>
+   <width>75</width>
+   <height>25</height>
+   <label>Alt</label>
+   <property>/sim/dialog/groundtTargeting/target-alt-feet</property>
+  </input>-->
 
 
   <hrule />
@@ -98,6 +107,8 @@
     </binding>
   </button>
   
+
+
   <button>
     <legend>Follow closest GND AI/MP</legend>
     <binding>
