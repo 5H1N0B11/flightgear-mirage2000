@@ -53,6 +53,7 @@ var rcs_database = {
     "QF-4E":                    1,      #actual: 6
     "depot":                    170,    #estimated with blender
     "buk-m2":                   7,      #estimated with blender
+    "GROUND_TARGET":            1,      # 
     "truck":                    1.5,    #estimated with blender
     "missile_frigate":          450,    #estimated with blender
     "frigate":                  450,    #estimated with blender

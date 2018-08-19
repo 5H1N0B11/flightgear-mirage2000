@@ -214,13 +214,13 @@ var Radar = {
             radarWorking = (radarWorking == nil) ? 0 : radarWorking;
             if(radarWorking > 24 and me.AutoUpdate)
             {
-                me.update();
+                #me.update();
                 #These line bellow are error management.
                 var UpdateErr = [];
                 call(me.update,[],me,nil,UpdateErr);
                 if(size(UpdateErr) != 0)
                 {
-                    print("We have Radar update Errors");
+                    print("We have Radar update Errors, but radar still running");
                     foreach(var myErrors ; UpdateErr)
                     {
                         print(myErrors);
@@ -401,6 +401,7 @@ var Radar = {
                 me.Check_List = [];
                 # this function do all the checks and put all result of each
                 # test on an array[] named Check_List
+
                 me.go_check(u, me.skipDoppler);
                 
                 #Displaying Check
@@ -686,6 +687,7 @@ var Radar = {
     },
 
     inAzimuth: func(SelectedObject){
+        if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
         # Check if it's in Azimuth.
         # first we check our heading+ center az deviation + the sweep if the radar is mechanical
         tempAz = me.az_fld;
@@ -717,6 +719,7 @@ var Radar = {
     },
 
     InRange: func(SelectedObject){
+        if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
         # Check if it's in range
         IsInRange = 0;
         var myRange = me.targetRange(SelectedObject);

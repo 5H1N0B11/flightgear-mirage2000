@@ -3408,6 +3408,12 @@ var AIM = {
               TempCallsign = c.getNode("callsign", 1);
               TempName = c.getNode("name", 1);
               
+              #Eliminate itself
+              if(c.getNode("callsign", 1).getValue()=="GROUND_TARGET")
+              {
+                continue;
+              }
+              
               if(C_Alt!=nil){
                 CloseTargetcoord.set_latlon(C_lat.getValue(),C_lon.getValue(),C_Alt.getValue()*FT2M);
 
@@ -3418,7 +3424,7 @@ var AIM = {
                   if(tempDistance<closest_Distance){
                     #print(type ~ " : Distance:"~tempDistance);
                     closest_Distance = tempDistance;
-                    print("Callsign :" ~ TempCallsign.getValue() ~" and name : " ~ TempName.getValue());
+                    #print("Callsign :" ~ TempCallsign.getValue() ~" and name : " ~ TempName.getValue());
                     if(TempCallsign.getValue() == ""){
                         name = TempName.getValue();
                         
@@ -3430,8 +3436,10 @@ var AIM = {
             }
         }
         
-        if(closest_Distance<299){
+        if(closest_Distance<299 & name != nil){
             return name;
+        }else{
+            return "GROUND_TARGET";
         }
     
     },
@@ -3613,6 +3621,8 @@ var listOfGroundOrShipVehicleModels = {
                                         "USS-SanAntonio":1,
                                         "ship":1,
                                         "carrier":1,
+                                        "aircraft":1,
+                                        "multiplayer":1,
                                       };
 
 

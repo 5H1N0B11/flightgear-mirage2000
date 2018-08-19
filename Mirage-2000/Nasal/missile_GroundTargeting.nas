@@ -24,6 +24,8 @@ var listOfGroundOrShipVehicleModels = {
                                         "USS-SanAntonio":1,
                                         "ship":1,
                                         "carrier":1,
+                                        "aircraft":1,
+                                        "multiplayer":1,
                                       };
 
 #The function that create the ground target object when the dialog box is pressed
@@ -55,8 +57,8 @@ var targetingGround = func()
 var focus_onTarget = func(){
   if(myGroundTarget!= nil){
     mirage2000.flir_updater.click_coord_cam = myGroundTarget.coord;
-    print_coordinates("click_coord_cam before focus",mirage2000.flir_updater.click_coord_cam);
-    print_coordinates("myGroundTarget",myGroundTarget.coord);
+    #print_coordinates("click_coord_cam before focus",mirage2000.flir_updater.click_coord_cam);
+    #print_coordinates("myGroundTarget",myGroundTarget.coord);
   }
 }
 
@@ -108,7 +110,9 @@ var ground_target = {
         m.ai = n.getChild("aircraft", i, 1);
         m.ai.getNode("valid", 1).setBoolValue(1);
         
-        m.id_model = "Models/Military/humvee-pickup-odrab-low-poly.xml";
+        #We will replace it by a light that will modelize the laser spot
+        m.id_model = "Aircraft/Mirage-2000/Models/lights/WhiteLight_LaserSpot.xml";
+        #m.id_model = "Models/Military/humvee-pickup-odrab-low-poly.xml";
         #m.model.getNode("path", 1).setValue(m.id_model);
         #m.life_time = 0;
         
@@ -305,12 +309,13 @@ var ground_target = {
         var C_lat = nil;
         var C_lon = nil;
         var Ccoord = geo.Coord.new();
+        var Check_Alt = 0;
         var ClosestCoord = geo.Coord.new();
         var index = nil;
         var path = nil;
         var name = "";
         
-        
+#         
         #Going to the AI/MP tree
         raw_list = Mp.getChildren();
         foreach(c ; raw_list)
@@ -334,14 +339,28 @@ var ground_target = {
               C_lat = c.getNode("position/latitude-deg");
               C_lon = c.getNode("position/longitude-deg");
               
+              #Eliminate itself
+              if(c.getNode("callsign", 1).getValue()=="GROUND_TARGET")
+              {
+                continue;
+              }
+                
               if(C_Alt!=nil){
+                  
+                  
                 Ccoord.set_latlon(C_lat.getValue(),C_lon.getValue(),C_Alt.getValue()*FT2M);
+                
+                #Calculate ground altitude (to allow the following to lock on a rolling aircraft) in meters
+                Check_Alt = geo.elevation(Ccoord.lat(),Ccoord.lon(),10000);
+                Check_Alt = (Check_Alt != nil and Ccoord.alt() != nil)?(abs(Ccoord.alt() - Check_Alt)<50):0;
+                
 
+                
                 #Calculate distance
                 tempDistance = me.coord.direct_distance_to(Ccoord);
                 
                   #Updating coordinates
-                  if(tempDistance<closest_Distance){
+                  if(tempDistance<closest_Distance and Check_Alt){
                     #print(type ~ " : Distance:"~tempDistance);
                     closest_Distance = tempDistance;
                     ClosestCoord.set(Ccoord);

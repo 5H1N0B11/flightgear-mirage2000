@@ -314,14 +314,15 @@ var Target = {
     get_Callsign: func(){
         var n = me.Callsign.getValue();
         
+        if(n == nil){
+            return "UFO";
+        }
+        
         if(size(n) > 1 and n !=nil and me.name !=nil)
         {
             n = me.name.getValue();
         }
-        if(size(n) < 1)
-        {
-            n = "UFO";
-        }
+ 
         return n;
     },
 
