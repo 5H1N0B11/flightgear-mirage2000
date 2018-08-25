@@ -28,39 +28,6 @@
   -->
 
   <!-- station left 1 (Index 0) -->
-  <animation>
-    <type>select</type>
-    <object-name>left-pos-1</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[0]/selected</property>
-          <value>Matra R550 Magic 2</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[0]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>AIM120L</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[0]/selected</property>
-          <value>AIM120</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[0]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
 
   <animation>
     <type>select</type>
@@ -132,40 +99,6 @@
       </and>
     </condition>
   </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>aim-9L</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[1]/selected</property>
-          <value>aim-9</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[1]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>left-pos-2-MICA</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[1]/selected</property>
-          <value>Matra MICA</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[1]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
   
     <animation>
     <type>select</type>
@@ -184,22 +117,6 @@
     </condition>
   </animation>
 
-  <animation>
-    <type>select</type>
-    <object-name>left-pos-2-R74</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[1]/selected</property>
-          <value>R74</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[1]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
   
   <!-- station left 2 (Index 1) -->
   <animation>
@@ -266,57 +183,6 @@
       </and>
     </condition>
   </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>left-magic-2</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[2]/selected</property>
-          <value>Matra R550 Magic 2</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[2]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>left-MICA</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[2]/selected</property>
-          <value>Matra MICA</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[2]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-  
-    <animation>
-    <type>select</type>
-    <object-name>left-MICA-IR</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[2]/selected</property>
-          <value>Matra MICA IR</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[2]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
   
   <animation>
     <type>select</type>
@@ -334,62 +200,6 @@
       </and>
     </condition>
   </animation>
-
-  <!-- Sea Eagle -->
-  <animation>
-    <type>select</type>
-    <object-name>Sea_EagleL</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[2]/selected</property>
-          <value>Sea Eagle</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[2]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-  
-    <!-- Pylon3 GBU16 -->
-  <animation>
-    <type>select</type>
-    <object-name>P3L-GBU16</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[2]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[2]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <!-- Pylon3 GBU12 -->
-  <animation>
-    <type>select</type>
-    <object-name>P3L-GBU12</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[2]/selected</property>
-          <value>GBU12</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[2]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-  
-  
   
 
   <!-- center station (Index 3) -->
@@ -503,60 +313,6 @@
     </condition>
   </animation>
 
-  <!-- AIM-54 -->
-  <animation>
-    <type>select</type>
-    <object-name>AIM-54</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[3]/selected</property>
-          <value>AIM-54</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[3]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <!-- Sea Eagle -->
-  <animation>
-    <type>select</type>
-    <object-name>Sea_Eagle</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[3]/selected</property>
-          <value>Sea Eagle</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[3]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <!-- MATRA-R530 -->
-  <animation>
-    <type>select</type>
-    <object-name>MATRA-R530</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[3]/selected</property>
-          <value>MATRA-R530</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[3]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
   <!-- Meteor -->
   <animation>
     <type>select</type>
@@ -566,42 +322,6 @@
         <equals>
           <property>sim/weight[3]/selected</property>
           <value>Meteor</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[3]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <!-- AGM65 -->
-  <animation>
-    <type>select</type>
-    <object-name>AGM65</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[3]/selected</property>
-          <value>AGM65</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[3]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-  <!-- R77s -->
-
-  <animation>
-    <type>select</type>
-    <object-name>R77</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[3]/selected</property>
-          <value>R77</value>
         </equals>
         <equals>
           <property>controls/armament/station[3]/release</property>
@@ -695,57 +415,6 @@
 
   <animation>
     <type>select</type>
-    <object-name>right-magic-2</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[4]/selected</property>
-          <value>Matra R550 Magic 2</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[4]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>right-MICA</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[4]/selected</property>
-          <value>Matra MICA</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[4]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-  
-    <animation>
-    <type>select</type>
-    <object-name>right-MICA-IR</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[4]/selected</property>
-          <value>Matra MICA IR</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[4]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-  
-  <animation>
-    <type>select</type>
     <object-name>S530D_Right</object-name>
     <condition>
       <and>
@@ -761,62 +430,6 @@
     </condition>
   </animation>
 
-  <!-- Sea Eagle -->
-  <animation>
-    <type>select</type>
-    <object-name>Sea_EagleR</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[4]/selected</property>
-          <value>Sea Eagle</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[4]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-  
-    
-    <!-- Pylon3 GBU16 -->
-  <animation>
-    <type>select</type>
-    <object-name>P3R-GBU16</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[4]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[4]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <!-- Pylon3 GBU12 -->
-  <animation>
-    <type>select</type>
-    <object-name>P3R-GBU12</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[4]/selected</property>
-          <value>GBU12</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[4]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-  
-
   <!-- station right 2 (Index 5) -->
   <animation>
     <type>select</type>
@@ -826,57 +439,6 @@
         <equals>
           <property>sim/weight[5]/selected</property>
           <value>Matra R550 Magic 2</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[5]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>aim-9R</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[5]/selected</property>
-          <value>aim-9</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[5]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>right-pos-2-R74</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[5]/selected</property>
-          <value>R74</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[5]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>right-pos-2-MICA</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[5]/selected</property>
-          <value>Matra MICA</value>
         </equals>
         <equals>
           <property>controls/armament/station[5]/release</property>
@@ -917,40 +479,6 @@
   </animation>
 
   <!-- station right 1 (Index 6) -->
-  <animation>
-    <type>select</type>
-    <object-name>right-pos-1</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[6]/selected</property>
-          <value>Matra R550 Magic 2</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[6]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>AIM120R</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[6]/selected</property>
-          <value>AIM120</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[6]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
   <animation>
     <type>select</type>
     <object-name>right-pos-1-MICA</object-name>

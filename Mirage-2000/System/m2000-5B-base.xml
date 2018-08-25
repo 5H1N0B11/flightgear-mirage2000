@@ -189,6 +189,9 @@
       <file>Aircraft/Mirage-2000/Nasal/missile_GroundTargeting.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/damage.nas</file>
     </missile>
+    <stations>
+        <file>Aircraft/Mirage-2000/Nasal/station-manager.nas</file><!-- must be before fire-control and pylons -->
+    </stations>
     <tanker>
       <file>Aircraft/Mirage-2000/Nasal/tanker.nas</file>
     </tanker>

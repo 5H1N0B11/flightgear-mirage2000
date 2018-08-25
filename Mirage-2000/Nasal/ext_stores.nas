@@ -666,22 +666,14 @@ dropLoad_stop = func(n) {
       # Notice that names used in missile code are without space, and case is important.
       # They also match the folder names. Lowercase of missile code names are used to get xml stats and name of xml.
       #
-      "AGM65":                "AGM65",
-      "AIM-54":               "AIM-54",
-      "?":                    "aim-7",
-      "aim-9":                "aim-9",
-      "AIM120":               "AIM120",
       "GBU12":                "GBU12",
       "GBU16":                "GBU16",
       "Double GBU12":          "GBU12",
-      "MATRA-R530":           "MATRA-R530",
       "Matra MICA":           "MatraMica",
       "Matra MICA IR":        "MatraMicaIR",
       "Matra R550 Magic 2":   "MatraR550Magic2",
       "Meteor":               "Meteor",
-      "R74":                  "R74",
       "SCALP":                "SCALP",
-      "Sea Eagle":            "SeaEagle",
       "Exocet":               "Exocet",
       "Matra Super 530D":     "Matra-super530d" #Nmae of the Folder : Aircraft/Mirage-2000/Missiles/Matra-super530d/
 };
