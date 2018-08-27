@@ -202,17 +202,21 @@
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
     </matra-super530d>
     <matrar550magic2>       <!-- Matra R550 Magic 2 -->
-      <fire-msg type="string">Fox 2</fire-msg>
-      <class type="string">A</class>
-      <max-fire-range-nm type="double"> 8 </max-fire-range-nm>
-      <min-fire-range-nm type="double"> 1.2 </min-fire-range-nm>
-      <guidance type="string">heat</guidance>
+      <short-name type="string">MAGIC-2</short-name>
+      <long-name type="string">Matra R550 Magic 2</long-name>
+      <sound-on-off type="bool">false</sound-on-off>
+      <sound-fire-on-off type="bool">false</sound-fire-on-off>
+      <sound-volume type="double">0.0</sound-volume>
+      <vol-search type="double">0.075</vol-search>
+      <vol-track type="double">0.25</vol-track>
+      <vol-track-weak type="double">0.175</vol-track-weak>
+      <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
       <navigation type="string">APN</navigation>
-      <loft-altitude type="int"> 0 </loft-altitude>
-      <terrain-follow type="bool">false</terrain-follow>
+      <all-aspect type="bool">true</all-aspect>                     <!-- all or rear-only -->
+      <max-fire-range-nm type="double">9.32</max-fire-range-nm> <!-- source -->
       <FCS-field-deg type="int"> 25 </FCS-field-deg>
       <seeker-field-deg type="int"> 110 </seeker-field-deg>
-      <max-g type="int"> 27 </max-g>
+      <max-g type="int"> 50 </max-g>
       <thrust-lbf-stage-1 type="double"> 2500 </thrust-lbf-stage-1>
       <thrust-lbf-stage-2 type="double"> 0 </thrust-lbf-stage-2>
       <stage-1-duration-sec type="double"> 4.5 </stage-1-duration-sec>
@@ -225,20 +229,28 @@
       <arming-time-sec type="double"> 1.2 </arming-time-sec>
       <min-speed-for-guiding-mach type="double"> 0.8 </min-speed-for-guiding-mach>
       <self-destruct-time-sec type="double"> 45 </self-destruct-time-sec>
-      <all-aspect type="bool">true</all-aspect>
-      <lock-on-sun-deg type="double"> 5 </lock-on-sun-deg>
       <seeker-angular-speed-dps type="double"> 50 </seeker-angular-speed-dps>
+      <lock-on-sun-deg type="double"> 5 </lock-on-sun-deg>
+      <loft-altitude type="int"> 0 </loft-altitude>
+      <min-fire-range-nm type="double"> 0,2699 </min-fire-range-nm>
       <rail type="bool">true</rail>
       <rail-length-m type="double"> 2.667 </rail-length-m>
       <rail-point-forward type="bool">true</rail-point-forward>
       <rail-pitch-deg type="double"> 0 </rail-pitch-deg>
-      <max-report-distance type="double"> 11 </max-report-distance>
-      <sound-on-off type="bool">false</sound-on-off>
-      <sound-fire-on-off type="bool">false</sound-fire-on-off>
-      <sound-volume type="double"> 0.0 </sound-volume>
-      <vol-search type="double"> 0.075 </vol-search>
-      <vol-track type="double"> 0.25 </vol-track>
-      <vol-track-weak type="double"> 0.175 </vol-track-weak>
+      <max-report-distance type="double"> 65 </max-report-distance>
+      <class type="string">A</class>
+      <fire-msg type="string">Fox 2</fire-msg> 
+      <terrain-follow type="bool">false</terrain-follow>
+      
+      <DLZ type="bool">true</DLZ>
+      <DLZ-optimal-alt-feet type="double">25000</DLZ-optimal-alt-feet>
+      <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
+
+      <reaquire type="bool">true</reaquire>
+      <lock-on-after-launch type="bool">true</lock-on-after-launch>
+      <auto-switch-target-allowed type="bool">true</auto-switch-target-allowed>
+      <prowl-flight type="string">gyro-pitch</prowl-flight>
+      <switch-time-sec type="double">5</switch-time-sec>
     </matrar550magic2>
     <gbu16>       <!-- GBU 16 -->
       <fire-msg type="string">Bombs away</fire-msg>

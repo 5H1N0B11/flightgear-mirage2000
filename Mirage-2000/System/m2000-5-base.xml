@@ -182,7 +182,23 @@
     </formation>
     <assistance>
       <file>Aircraft/Mirage-2000/Nasal/assistance.nas</file>
+      
+      
     </assistance>
+    <!-- First attempt to standardise the weapons system -->
+    <armament>
+        <file>Aircraft/Mirage-2000/Nasal/missile-code.nas</file><!-- must be before station-manager -->
+    </armament>
+    <stations>
+        <file>Aircraft/Mirage-2000/Nasal/station-manager.nas</file><!-- must be before fire-control and pylons -->
+    </stations>
+    <fc>
+        <file>Aircraft/Mirage-2000/Nasal/fire-control.nas</file>
+    </fc>
+    <pylons>
+        <file>Aircraft/Mirage-2000/Nasal/pylons.nas</file>
+    </pylons>
+   
   </nasal>
 
 </PropertyList>

@@ -13,6 +13,7 @@ var tokenMessageFlare = 0;
 var MPMessaging = props.globals.getNode("/payload/armament/msg", 1);
 
 fire_MG = func(b) {
+    return 1;
     var time = getprop("/sim/time/elapsed-sec");
     
     # Here is the gun things : the firing should last 0,5 sec or 1 sec, and in

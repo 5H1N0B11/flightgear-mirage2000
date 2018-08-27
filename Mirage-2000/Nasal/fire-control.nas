@@ -26,6 +26,7 @@ var FireControl = {
 		fc.setupMFDObservers();
 		setlistener("controls/armament/trigger",func{fc.trigger();fc.updateCurrent()});
 		setlistener("controls/armament/master-arm",func{fc.updateCurrent()});
+        print("Pipalapalou");
 		return fc;
 	},
 
@@ -80,13 +81,13 @@ var FireControl = {
 		if (me.selWeapType == nil) {
 			me.selectedType = me.typeOrder[0];
 			if (me.nextWeapon(me.typeOrder[0]) != nil) {
-				printfDebug("FC: Selected first weapon: %s on pylon %d position %d",me.selectedType,me.selected[0],me.selected[1]);
+				printf("FC: Selected first weapon: %s on pylon %d position %d",me.selectedType,me.selected[0],me.selected[1]);
 			} else {
-				printfDebug("FC: Selected first weapon: %s, but none is loaded.", me.selectedType);
+				printf("FC: Selected first weapon: %s, but none is loaded.", me.selectedType);
 			}
 		} else {
 			me.selType = me.selectedType;
-			printfDebug("Already selected %s",me.selType);
+			printf("Already selected %s",me.selType);
 			me.selTypeIndex = me.vectorIndex(me.typeOrder, me.selType);
 			me.selTypeIndex += 1;
 			if (me.selTypeIndex >= size(me.typeOrder)) {
@@ -97,9 +98,9 @@ var FireControl = {
 			printfDebug(" Now selecting %s",me.selType);
 			me.wp = me.nextWeapon(me.selType);
 			if (me.wp != nil) {			
-				printfDebug("FC: Selected next weapon type: %s on pylon %d position %d",me.selectedType,me.selected[0],me.selected[1]);
+				printf("FC: Selected next weapon type: %s on pylon %d position %d",me.selectedType,me.selected[0],me.selected[1]);
 			} else {
-				printfDebug("FC: Selected next weapon type: %s, but none is loaded.", me.selectedType);
+				printf("FC: Selected next weapon type: %s, but none is loaded.", me.selectedType);
 			}
 		}
 		screen.log.write("Selected "~me.selectedType, 0.5, 0.5, 1);
@@ -432,13 +433,14 @@ var FireControl = {
 	trigger: func {
 		# trigger pressed down should go here, this will fire weapon
 		# cannon is fired in another way, but this method will print the brevity.
-		printfDebug("trigger called %d %d %d",getprop("controls/armament/master-arm"),getprop("controls/armament/trigger"),me.selected != nil);
+		#printfDebug("trigger called %d %d %d",getprop("controls/armament/master-arm"),getprop("controls/armament/trigger"),me.selected != nil);
+        printf("trigger called %d %d %d",getprop("controls/armament/master-arm"),getprop("controls/armament/trigger"),me.selected != nil);
 		if (getprop("controls/armament/master-arm") == 1 and getprop("controls/armament/trigger") > 0 and me.selected != nil) {
 			printDebug("trigger propagating");
 			me.aim = me.getSelectedWeapon();
 			#printfDebug(" to %d",me.aim != nil);
 			if (me.aim != nil and me.aim.parents[0] == armament.AIM and me.aim.status == armament.MISSILE_LOCK) {
-				me.aim = me.pylons[me.selected[0]].fireWeapon(me.selected[1], awg_9.completeList);
+				me.aim = me.pylons[me.selected[0]].fireWeapon(me.selected[1], radar.completeList);
 				me.aim.sendMessage(me.aim.brevity~" at: "~me.aim.callsign);
 				me.aimNext = me.nextWeapon(me.selectedType);
 				if (me.aimNext != nil) {
@@ -446,7 +448,7 @@ var FireControl = {
 				}
 				me.triggerTime = 0;
 			} elsif (me.aim != nil and me.aim.parents[0] == armament.AIM and me.aim.guidance=="unguided") {
-				me.aim = me.pylons[me.selected[0]].fireWeapon(me.selected[1], awg_9.completeList);
+				me.aim = me.pylons[me.selected[0]].fireWeapon(me.selected[1], radar.completeList);
 				me.aim.sendMessage(me.aim.brevity);
 				me.aimNext = me.nextWeapon(me.selectedType);
 				if (me.aimNext != nil) {
@@ -473,7 +475,7 @@ var FireControl = {
 		if (me.triggerTime == 0 or me.getSelectedWeapon() == nil or me.getSelectedWeapon().parents[0] != armament.AIM) {
 			return;
 		}
-		aimer = me.pylons[me.selected[0]].fireWeapon(me.selected[1], awg_9.completeList);
+		aimer = me.pylons[me.selected[0]].fireWeapon(me.selected[1], radar.completeList);
 		aimer.sendMessage(aimer.brevity~" Maddog released");
 		me.aimNext = me.nextWeapon(me.selectedType);
 		if (me.aimNext != nil) {

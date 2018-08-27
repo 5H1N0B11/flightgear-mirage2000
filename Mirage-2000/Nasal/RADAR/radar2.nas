@@ -20,6 +20,7 @@ var nearest_rng       = 0;
 var nearest_u         = nil;
 var missileIndex = 0;
 var MytargetVariable = nil;
+var completeList     = [];
 #var LoopElapsed =0;
 
 
@@ -404,6 +405,13 @@ var Radar = {
 
                 me.go_check(u, me.skipDoppler);
                 
+                #Temporary adding this in order to make the whole new firesystem work
+                #print("Complete liste before update : " ~ size(completeList));
+                me.update_array(u,completeList);
+                #print("Complete liste after update : " ~ size(completeList));
+                #me.decrease_life(completeList);
+                #me.sorting_and_suppr(completeList);
+                
                 #Displaying Check
                 #print("Testing "~ u.get_Callsign()~"Check: " ~ me.get_check());
                 
@@ -422,7 +430,7 @@ var Radar = {
                     }
                     #Update ContactList : Only updated when target is valid
                     #Should return an Index, in order to take the object from the table and not the property tree
-                    var indexTempo = me.update_array(u);
+                    var indexTempo = me.update_array(u,me.ContactsList);
                     if(indexTempo != nil){ u = me.ContactsList[indexTempo];}
                     
                     
@@ -463,9 +471,9 @@ var Radar = {
             }
         }
 
-        me.decrease_life();
+        me.decrease_life(me.ContactsList);
         #print("Test");
-        me.sorting_and_suppr();
+        me.sorting_and_suppr(me.ContactsList);
         #me.ContactsList = me.cut_array(me.radarMaxSize,me.ContactsList);
         #me.Global_janitor();
         #print("Side in RADAR : "~ size(me.ContactsList));
@@ -1069,6 +1077,7 @@ var Radar = {
           me.Target_Callsign = nil;
           return
         }
+        armament.contact = me.tgts_list[me.Target_Index];
         #if(me.tgts_list[me.Target_Index].get_display()!=1){
           #me.Target_Index = me.Target_Index==0?size(me.tgts_list)-1:me.Target_Index - 1; 
           #me.next_Target_Index();
@@ -1088,6 +1097,7 @@ var Radar = {
         } else {
           me.Target_Callsign = nil;
         }
+        armament.contact = me.tgts_list[me.Target_Index];
 
     },
 
@@ -1153,10 +1163,10 @@ var Radar = {
     
     ###########################################################################
     ###   Update element of the actual diplayed array
-    update_Element_of_array: func(SelectedObject){
-      forindex(i; me.ContactsList){
-        if(me.ContactsList[i].get_Callsign()==SelectedObject.get_Callsign()){
-          me.ContactsList[i].update(SelectedObject);
+    update_Element_of_array: func(SelectedObject,myArray){
+      forindex(i; myArray){
+        if(myArray[i].get_Callsign()==SelectedObject.get_Callsign()){
+          myArray[i].update(SelectedObject);
           return i;
         }
       }
@@ -1164,17 +1174,23 @@ var Radar = {
     },
     
     ###   add element to the array
-    add_Element_to_Array: func(SelectedObject){
-      append(me.ContactsList,SelectedObject);
-      return size(me.ContactsList)-1;
+    add_Element_to_Array: func(SelectedObject,myArray){
+      append(myArray,SelectedObject);
+      return size(myArray)-1;
     },   
     
     ###   update array : update element, or add it if there aren't present
-    update_array: func(SelectedObject){
-      var tempo = me.update_Element_of_array(SelectedObject);
+    update_array: func(SelectedObject,myArray){
+      var tempo = nil;
+      if(size(myArray) > 1){
+        var tempo = me.update_Element_of_array(SelectedObject,myArray);
+      }
       
       if(tempo == nil){
-        tempo = me.add_Element_to_Array(SelectedObject);
+        #print("New Element to add");
+        #print("Size Before:" ~ size(myArray));
+        tempo = me.add_Element_to_Array(SelectedObject,myArray);
+        #print("Size After:" ~ size(myArray));
       }
       return tempo;
       #print("My Array  Size = %d ",size(me.ContactsList));
@@ -1186,8 +1202,8 @@ var Radar = {
     
     #decrease life of element. < 0 then it's not displayed anymore
     #should call a remove_element function to remove element from array
-    decrease_life: func(){
-      foreach(contact;me.ContactsList){
+    decrease_life: func(myArray){
+      foreach(contact;myArray){
         contact.life = contact.life - me.LoopElapsed;
         if(contact.life<1){
           contact.set_display(0);
@@ -1198,16 +1214,16 @@ var Radar = {
  
  
     #This function should sort and suppr
-    sorting_and_suppr: func(){
+    sorting_and_suppr: func(myArray){
     #print("Test2 : size : " ~ size(me.ContactsList));
-      for(var i=0;i<size(me.ContactsList)-1;i = i + 1){
+      for(var i=0;i<size(myArray)-1;i = i + 1){
         #print("Test3");
-        for(var j=0;j<size(me.ContactsList)-1;j = j + 1){
-          #print(me.ContactsList[i].get_Callsign() ~ " : " ~ me.ContactsList[i].life ~ " vs " ~ me.ContactsList[j].get_Callsign() ~ " : " ~ me.ContactsList[j].life);
-          if(me.ContactsList[i].life<me.ContactsList[j].life){
-            var u = me.ContactsList[i];
-            me.ContactsList[i] = me.ContactsList[j];
-            me.ContactsList[j] = u; 
+        for(var j=0;j<size(myArray)-1;j = j + 1){
+          #print(myArray[i].get_Callsign() ~ " : " ~ myArray[i].life ~ " vs " ~ myArray[j].get_Callsign() ~ " : " ~ myArray[j].life);
+          if(myArray[i].life<myArray[j].life){
+            var u = myArray[i];
+            myArray[i] = myArray[j];
+            myArray[j] = u; 
           }
         }
       }
@@ -1278,3 +1294,4 @@ var rounding1000 = func(n){
     n = (n >= l) ? ((a + 1) * 1000) : (a * 1000);
     return(n);
 }
+
