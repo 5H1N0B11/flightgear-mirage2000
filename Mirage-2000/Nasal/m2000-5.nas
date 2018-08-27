@@ -37,6 +37,10 @@ setprop("/instrumentation/radar/az-fieldCenter", 0);
 var hud_pilot = hud.HUD.new({"node": "canvasHUD", "texture": "hud.png"});
 # var rwr = hud.HUD.new({"node": "canvasRWR", "texture": "hud.png"});
 
+var prop = "payload/armament/fire-control";
+var actuator_fc = compat_failure_modes.set_unserviceable(prop);
+FailureMgr.add_failure_mode(prop, "Fire control", actuator_fc);
+
 
 ############################################################
 # Global loop function

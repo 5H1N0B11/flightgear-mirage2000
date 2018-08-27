@@ -489,22 +489,26 @@ ________________________________________________________________________________
   -->
 
   <!-- ~~~~~~~~~~~~~~~~~~ external loads -->
-  <weight x="-1.900" y=" 1.800" z=" 0.250" size="0.25" mass-prop="sim/weight[0]/weight-lb" />
-  <weight x="-2.373" y=" 3.278" z="-1.494" size="0.45" mass-prop="sim/weight[1]/weight-lb" />
+  <weight x="-1.900" y=" 1.800" z=" 0.250" size="0.25" mass-prop="yasim/weight[0]" />
+  <weight x="-2.373" y=" 3.278" z="-1.494" size="0.45" mass-prop="yasim/weight[1]" />
 
   <!-- ~~~~~~~~~~~~~~~~~~ droptank -->
-  <weight x="-1.047" y=" 2.359" z="-1.556" size="0.70" mass-prop="sim/weight[2]/weight-lb" />
+  <weight x="-1.047" y=" 2.359" z="-1.556" size="0.70" mass-prop="yasim/weight[2]" />
 
   <!-- ~~~~~~~~~~~~~~~~~~ center -->
-  <weight x="-1.082" y=" 0.000" z="-1.656" size="0.60" mass-prop="sim/weight[3]/weight-lb" />
+  <weight x="-1.082" y=" 0.000" z="-1.656" size="0.60" mass-prop="yasim/weight[3]" />
 
   <!-- ~~~~~~~~~~~~~~~~~~ droptank -->
-  <weight x="-1.047" y="-2.359" z="-1.556" size="0.70" mass-prop="sim/weight[4]/weight-lb" />
+  <weight x="-1.047" y="-2.359" z="-1.556" size="0.70" mass-prop="yasim/weight[4]" />
 
   <!-- ~~~~~~~~~~~~~~~~~~ external loads -->
-  <weight x="-2.373" y="-3.278" z="-1.494" size="0.45" mass-prop="sim/weight[5]/weight-lb" />
+  <weight x="-2.373" y="-3.278" z="-1.494" size="0.45" mass-prop="yasim/weight[5]" />
 
   <!-- ~~~~~~~~~~~~~~~~~~ external loads -->
-  <weight x="-1.900" y="-1.800" z=" 0.250" size="0.25" mass-prop="sim/weight[6]/weight-lb" />
+  <weight x="-1.900" y="-1.800" z="0.250" size="0.25" mass-prop="yasim/weight[6]" />
+  
+  <weight x="0.195" y="1.800" z="0.250" size="0.25" mass-prop="yasim/weight[7]" />
+  
+  <weight x="0.195" y="-1.800" z="0.250" size="0.25" mass-prop="yasim/weight[8]" />
 
 </airplane>

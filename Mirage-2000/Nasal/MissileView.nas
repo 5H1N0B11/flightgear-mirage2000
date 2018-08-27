@@ -87,4 +87,23 @@ var missile_view_handler = {
 var myModel = ai.AImodel.new();
 myModel.init();
 
-view.manager.register("Missile view",missile_view_handler)
+view.manager.register("Missile view",missile_view_handler);
+
+var view_firing_missile = func(myMissile)
+{
+
+    # We select the missile name
+    var myMissileName = string.replace(myMissile.ai.getPath(), "/ai/models/", "");
+
+    # We memorize the initial view number
+    var actualView = getprop("/sim/current-view/view-number");
+
+    # We recreate the data vector to feed the missile_view_handler  
+    var data = { node: myMissile.ai, callsign: myMissileName, root: myMissile.ai.getPath()};
+
+    # We activate the AI view (on this aircraft it is the number 9)
+    setprop("/sim/current-view/view-number",9);
+
+    # We feed the handler
+    view.missile_view_handler.setup(data);
+}
