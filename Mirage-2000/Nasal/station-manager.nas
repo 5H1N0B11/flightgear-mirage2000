@@ -64,7 +64,7 @@ var Station = {
 			for(me.i = 0; me.i < size(set.content);me.i+=1) {
 				me.weaponName = set.content[me.i];
 				if (typeof(me.weaponName) == "scalar") {
-					#print("attempting to create weapon id="~(me.id*100+me.i));
+					print("attempting to create weapon id="~(me.id*100+me.i));
 					me.aim = armament.AIM.new(me.id*100+me.i, me.weaponName, "", nil, me.position);
 					if (me.aim == -1) {
 						print("Pylon could not create "~me.weaponName);
@@ -72,7 +72,7 @@ var Station = {
 					}
 					append(me.weapons, me.aim);
 				} else {
-					#print("Added submodel or fuel tank to Pylon");
+					print("Added submodel or fuel tank to Pylon");
 					me.weaponName.mount();
 					append(me.weapons, me.weaponName);
 				}
@@ -246,6 +246,9 @@ var Pylon = {
 #   GUI payload id number
 #   shared position for 3D release (from xml?)
 #   possible sets that can be loaded ("2 x AIM9L", "1 x GBU-82") At loadtime, this can be many, so store in Nasal :(
+  
+#On the f16, the path is "payload/weight"
+#On the mirage 2000 : sim/weight
 	new: func (name, id, position, sets, guiID, pointmassNode, dragareaNode, operableFunction = nil) {
 		var p = Station.new(name, id, position, sets, guiID, pointmassNode, operableFunction);
 		p.parents = [Pylon, Station];
@@ -260,14 +263,14 @@ var Pylon = {
 	guiChanged: func {
 		#print("GUI changed");
 		if(!me.changingGui) {
-			me.desiredSet = getprop("payload/weight["~me.guiID~"]/selected");
+			me.desiredSet = getprop("sim/weight["~me.guiID~"]/selected");
 			if (me.desiredSet != me.currentName) {
 				me.set = me.findSetFromName(me.desiredSet);
 				if (me.set != nil) {
-					#print("GUI wants set: "~me.set.name);
+					print("GUI wants set: "~me.set.name);
 					me.loadSet(me.set);
 				} else {
-					#print("GUI wants unknown set. Thats okay.");
+					print("GUI wants unknown set. Thats okay.");
 				}
 			}
 			if(me.myListener != nil) {
@@ -280,7 +283,7 @@ var Pylon = {
 		if (me.guiListener != nil) {
 			removelistener(me.guiListener);
 		}
-		me.guiNode = props.globals.getNode("payload/weight["~me.guiID~"]",1);
+		me.guiNode = props.globals.getNode("sim/weight["~me.guiID~"]",1);
 		me.guiNode.removeAllChildren();
 		me.guiNode.initNode("name",me.name,"STRING");
 		me.guiNode.initNode("selected","","STRING");
@@ -290,7 +293,7 @@ var Pylon = {
 			me.guiNode.initNode("opt["~me.i~"]/name",set.name,"STRING");
 			me.i += 1;
 		}
-		me.guiListener = setlistener("payload/weight["~me.guiID~"]/selected", func me.guiChanged());
+		me.guiListener = setlistener("sim/weight["~me.guiID~"]/selected", func me.guiChanged());
 	},
 
 	setGUI: func {
@@ -325,8 +328,8 @@ var Pylon = {
 		}
 		me.changingGui = 1;
 		me.currentName = me.nameGUI;
-		setprop("payload/weight["~me.guiID~"]/selected", me.nameGUI);
-		setprop("payload/weight["~me.guiID~"]/weight-lb", me.node_pointMass.getValue());
+		setprop("sim/weight["~me.guiID~"]/selected", me.nameGUI);
+		setprop("sim/weight["~me.guiID~"]/weight-lb", me.node_pointMass.getValue());
 		me.changingGui = 0;
 	},
 

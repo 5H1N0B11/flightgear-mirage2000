@@ -21,11 +21,11 @@ var fuelTank600Left = stations.FuelTank.new("Left 600 Gal Tank", "600Gal", 3, 60
 var fuelTank600Right = stations.FuelTank.new("Right 600 Gal Tank", "600Gal", 2, 600, "sim/model/f16/wingtankR");
 
 var pylonSets = {
-	empty: {name: "Empty", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
-	e: {name: "20mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-	f: {name: "300 Gal Fuel tank", content: [fuelTankCenter], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	g: {name: "1 x AIM-9", content: ["AIM-9"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},#wingtip
-	h: {name: "1 x AIM-120", content: ["AIM-120"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},#non wingtip
+	empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
+	e: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	f: {name: "1300 l Droptank", content: [fuelTankCenter], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	g: {name: "Matra R550 Magic 2", content: ["MAGIC-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},#wingtip
+	h: {name: "Matra Super 530D", content: ["S-530D"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},#non wingtip
 };
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
 #if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10){
@@ -75,24 +75,24 @@ if(1){
 	# pylons
 
     #Exterior wing Load
-	pylon2 = stations.Pylon.new("Left Outer Wing Pylon", 1, [0,0,0], ExteriorWingSet, 1, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-    pylon6 = stations.Pylon.new("Right Wingtip Pylon", 5, [0,0,0], ExteriorWingSet,5, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[5]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[5]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+	pylon2 = stations.Pylon.new("pylon2.L", 1, [0,0,0], ExteriorWingSet, 1, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+    pylon6 = stations.Pylon.new("pylon2.R", 5, [0,0,0], ExteriorWingSet,5, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[5]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[5]",1),func{return getprop("payload/armament/fire-control/serviceable")});
     
     #Interior Wing load
-    pylon3 = stations.Pylon.new("Left Inner Wing Pylon", 2, [0,0,0], InteriorWingSet, 2, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-	pylon5 = stations.Pylon.new("Center Pylon", 4, [0,0,0], InteriorWingSet, 4, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[4]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[4]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+    pylon3 = stations.Pylon.new("pylon3.L", 2, [0,0,0], InteriorWingSet, 2, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+	pylon5 = stations.Pylon.new("pylon3.R", 4, [0,0,0], InteriorWingSet, 4, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[4]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[4]",1),func{return getprop("payload/armament/fire-control/serviceable")});
         
     #Center Fuselage pylon
-	pylon4 = stations.Pylon.new("Left Wing Pylon", 3, [0,0,0], CenterSet,3, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[3]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[3]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+	pylon4 = stations.Pylon.new("pylon.C", 3, [0,0,0], CenterSet,3, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[3]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[3]",1),func{return getprop("payload/armament/fire-control/serviceable")});
     
 
     #Forward fuselage pylons
-    pylon1 = stations.Pylon.new("Left Wingtip Pylon", 0, [0,0,0], Forwardfuselagepylons, 0, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-	pylon7 = stations.Pylon.new("Right Inner Wing Pylon", 6, [0,0,0], Forwardfuselagepylons, 6, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[6]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[6]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+    pylon1 = stations.Pylon.new("pylon1.L", 0, [0,0,0], Forwardfuselagepylons, 0, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+	pylon7 = stations.Pylon.new("pylon1.R", 6, [0,0,0], Forwardfuselagepylons, 6, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[6]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[6]",1),func{return getprop("payload/armament/fire-control/serviceable")});
     
     #Rear fuselage pylons
-	pylon8 = stations.Pylon.new("Right Wing Pylon", 7, [0,0,0], Rearfuselagepylons, 7, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[7]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[7]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-	pylon9 = stations.Pylon.new("Right Outer Wing Pylon", 8, [0,0,0], Rearfuselagepylons, 8, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+	pylon8 = stations.Pylon.new("pylonB.L", 7, [0,0,0], Rearfuselagepylons, 7, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[7]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[7]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+	pylon9 = stations.Pylon.new("pylonB.R", 8, [0,0,0], Rearfuselagepylons, 8, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
     
 
     
@@ -100,7 +100,7 @@ if(1){
 
 	var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
 
-	fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon","MAGIC-2","AIM-120","AIM-7","AGM-65","GBU-12","AGM-84","MK-82","AGM-88", "B61-12", "B61-7", "GBU-31"]);
+	fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon","MAGIC-2","S-530D"]);
 
 	var aimListener = func (obj) {
 		#If auto focus on missile is activated the we call the function

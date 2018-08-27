@@ -162,6 +162,8 @@
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
     </matramicair>
     <matra-super530d>       <!-- Matra Super 530D     http://www.areamilitar.net/directorio/MIS.aspx?nm=205 -->  <!-- Name of the file matra-super530d-2.xml or matra-super530d-4.xml-->
+      <short-name type="string">S-530D</short-name>
+      <long-name type="string">Matra Super 530D</long-name>
       <fire-msg type="string">Fox 1</fire-msg>
       <class type="string">A</class>
       <max-fire-range-nm type="double"> 40 </max-fire-range-nm><!-- 60 Km -->
