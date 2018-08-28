@@ -14,7 +14,7 @@
     <type>select</type>
     <object-name>s530d-200</object-name>
     <condition>
-        <property>payload/armament/s530d/flags/msl-id-200</property>
+        <property>payload/armament/matra-super530d/flags/msl-id-200</property>
     </condition>
   </animation>
   
@@ -32,7 +32,7 @@
     <type>select</type>
     <object-name>Smoke_s530d-200</object-name>
     <condition>
-        <property>payload/armament/s530d/flags/smoke-id-200</property>
+        <property>payload/armament/matra-super530d/flags/smoke-id-200</property>
     </condition>
   </animation>
   
@@ -50,7 +50,7 @@
     <object-name>explosionFire_s530d-200</object-name>
     <object-name>explosionSmoke_s530d-200</object-name>
     <condition>
-        <property>payload/armament/s530d/flags/explode-id-200</property>
+        <property>payload/armament/matra-super530d/flags/explode-id-200</property>
     </condition>
   </animation>
   

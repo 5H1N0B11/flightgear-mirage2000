@@ -14,7 +14,7 @@
     <type>select</type>
     <object-name>MatraR550Magic2-500</object-name>
     <condition>
-        <property>payload/armament/MatraR550Magic2/flags/msl-id-500</property>
+        <property>payload/armament/matrar550magic2/flags/msl-id-500</property>
     </condition>
   </animation>
   
@@ -32,7 +32,7 @@
     <type>select</type>
     <object-name>Smoke_MatraR550Magic2-500</object-name>
     <condition>
-        <property>payload/armament/MatraR550Magic2/flags/smoke-id-500</property>
+        <property>payload/armament/matrar550magic2/flags/smoke-id-500</property>
     </condition>
   </animation>
   
@@ -50,7 +50,7 @@
     <object-name>explosionFire_MatraR550Magic2-500</object-name>
     <object-name>explosionSmoke_MatraR550Magic2-500</object-name>
     <condition>
-        <property>payload/armament/MatraR550Magic2/flags/explode-id-500</property>
+        <property>payload/armament/matrar550magic2/flags/explode-id-500</property>
     </condition>
   </animation>
   

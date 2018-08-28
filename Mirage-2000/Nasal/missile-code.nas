@@ -535,6 +535,7 @@ var AIM = {
 		if (m.useSingleFile == FALSE) {
 			var id_model = m.weapon_model ~ m.ID ~ ".xml";
 			m.model.getNode("path", 1).setValue(id_model);
+      print("Attempting to load "~id_model);
 		} else {
 			var id_model = m.weapon_model2~".xml";
 			m.model.getNode("path", 1).setValue(id_model);
