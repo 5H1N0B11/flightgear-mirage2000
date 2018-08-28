@@ -363,13 +363,13 @@ var Radar = {
                 # now we test the property folder name to guess what type it is:
                 foreach (var testMe ; listOfShipNames) {
                     if (testMe == folderName) {
-                        u.setType(missile.MARINE);
+                        u.setType(armament.MARINE);
                         me.skipDoppler = 1;
                     }
                 }
                 foreach (var testMe ; listOfGroundTargetNames) {
                     if (testMe == folderName) {
-                        u.setType(missile.SURFACE);
+                        u.setType(armament.SURFACE);
                         me.skipDoppler = 1;
                     }
                 }
@@ -383,14 +383,14 @@ var Radar = {
                     foreach (var testMe ; listOfShipModels) {
                         if (testMe == me.model) {
                            # Its a ship, Mirage ground radar will pick it up
-                           u.setType(missile.MARINE);
+                           u.setType(armament.MARINE);
                            me.skipDoppler = 1;
                         }
                     }
                     foreach (var testMe ; listOfGroundVehicleModels) {
                         if (testMe == me.model) {
                            # its a ground vehicle, Mirage ground radar will pick it up
-                           u.setType(missile.SURFACE);
+                           u.setType(armament.SURFACE);
                            me.skipDoppler = 1;
                         }
                     }
@@ -407,7 +407,8 @@ var Radar = {
                 
                 #Temporary adding this in order to make the whole new firesystem work
                 #print("Complete liste before update : " ~ size(completeList));
-                me.update_array(u,completeList);
+                completeList = me.update_array(u,completeList);
+                
                 #print("Complete liste after update : " ~ size(completeList));
                 #me.decrease_life(completeList);
                 #me.sorting_and_suppr(completeList);
@@ -430,7 +431,10 @@ var Radar = {
                     }
                     #Update ContactList : Only updated when target is valid
                     #Should return an Index, in order to take the object from the table and not the property tree
-                    var indexTempo = me.update_array(u,me.ContactsList);
+                    me.ContactsList = me.update_array(u,me.ContactsList);
+                    var indexTempo = me.find_index_inArray(u,me.ContactsList);
+                    
+                    
                     if(indexTempo != nil){ u = me.ContactsList[indexTempo];}
                     
                     
@@ -470,13 +474,17 @@ var Radar = {
                 }
             }
         }
+        
 
-        me.decrease_life(me.ContactsList);
+        me.ContactsList = me.decrease_life(me.ContactsList);
         #print("Test");
         me.sorting_and_suppr(me.ContactsList);
         #me.ContactsList = me.cut_array(me.radarMaxSize,me.ContactsList);
         #me.Global_janitor();
         #print("Side in RADAR : "~ size(me.ContactsList));
+        #foreach(contact;me.ContactsList){
+        #  print("Last Check : " ~ contact.get_Callsign() ~" 's life : "~ contact.life);
+        #}
         return CANVASARRAY;
     },
     
@@ -892,6 +900,7 @@ var Radar = {
       var result = 0;
       #Variable for the selection Type test
       var selectedType = SelectedObject.getName();
+      
 
       selectedType = me.type_selector(SelectedObject);
 
@@ -905,7 +914,7 @@ var Radar = {
       foreach(myType;me.typeTarget)
       {
         if(myType == selectedType){
-          result = 1;
+           result = 1;
         }
       }
 
@@ -1167,35 +1176,39 @@ var Radar = {
       forindex(i; myArray){
         if(myArray[i].get_Callsign()==SelectedObject.get_Callsign()){
           myArray[i].update(SelectedObject);
-          return i;
+          return myArray;
         }
       }
-      return nil;
+      return myArray;
     },
     
     ###   add element to the array
     add_Element_to_Array: func(SelectedObject,myArray){
       append(myArray,SelectedObject);
-      return size(myArray)-1;
+      return myArray;
     },   
     
     ###   update array : update element, or add it if there aren't present
     update_array: func(SelectedObject,myArray){
       var tempo = nil;
-      if(size(myArray) > 1){
-        var tempo = me.update_Element_of_array(SelectedObject,myArray);
+      if(size(myArray) > 0){
+        myArray = me.update_Element_of_array(SelectedObject,myArray);
+        tempo = me.find_index_inArray(SelectedObject,myArray);
       }
       
-      if(tempo == nil){
-        #print("New Element to add");
-        #print("Size Before:" ~ size(myArray));
-        tempo = me.add_Element_to_Array(SelectedObject,myArray);
-        #print("Size After:" ~ size(myArray));
+      if(tempo == nil){;
+        myArray = me.add_Element_to_Array(SelectedObject,myArray);
       }
-      return tempo;
-      #print("My Array  Size = %d ",size(me.ContactsList));
+      return myArray;
     },
     
+    find_index_inArray: func(SelectedObject,myArray){
+        forindex(i; myArray){
+          if(myArray[i].get_Callsign()==SelectedObject.get_Callsign()){return i;}
+        }
+        return nil;
+      
+    },
     
     #############################################################################
     
@@ -1203,6 +1216,7 @@ var Radar = {
     #decrease life of element. < 0 then it's not displayed anymore
     #should call a remove_element function to remove element from array
     decrease_life: func(myArray){
+      var i = 0;
       foreach(contact;myArray){
         contact.life = contact.life - me.LoopElapsed;
         if(contact.life<1){
@@ -1210,6 +1224,7 @@ var Radar = {
           contact.setPainted(1);
         }
       }
+      return myArray;
     },
  
  
