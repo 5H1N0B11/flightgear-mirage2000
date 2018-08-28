@@ -111,10 +111,10 @@ var Target = {
         
         obj.deviation       = nil;
 
-        obj.type = missile.AIR;
+        obj.type = armament.AIR;
 
         if (obj.get_Callsign() == "GROUND_TARGET") {
-            obj.type = missile.SURFACE;
+            obj.type = armament.SURFACE;
         }
 
         obj.model = "";
@@ -145,7 +145,7 @@ var Target = {
         me.engineTree      = c.engineTree;
         
         me.AcType          = c.AcType;
-        me.type            = c.type;
+        me.type            = armament.AIR;
         me.index           = c.index;
         me.flareNode       = c.flareNode;
         me.chaffNode       = c.chaffNode;
