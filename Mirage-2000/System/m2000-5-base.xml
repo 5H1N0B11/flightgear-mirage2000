@@ -108,7 +108,13 @@
     <rcs>
         <file>Aircraft/Mirage-2000/Nasal/rcs.nas</file>
     </rcs>
-
+    <!--The radar object is created is m2000-5.nas; the Script use this order to load everything.
+    So we have to load radar2.nas before m2000.nas -->
+    <radar>
+      <file>Aircraft/Mirage-2000/Nasal/RADAR/radar2.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/RADAR/target_class.nas</file>
+<!--      <file>Aircraft/Mirage-2000/Nasal/RADAR/radarPrototype.nas</file>-->
+    </radar>
     <fuel>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-fuel.nas</file>
     </fuel>
@@ -183,15 +189,6 @@
     <armament>
         <file>Aircraft/Mirage-2000/Nasal/missile-code.nas</file><!-- must be before station-manager -->
     </armament>
-    <!--The radar object is created is m2000-5.nas; the Script use this order to load everything.
-    So we have to load radar2.nas before m2000.nas -->
-    <radar>
-      <file>Aircraft/Mirage-2000/Nasal/RADAR/radar2.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/RADAR/target_class.nas</file>
-    <!--<file>Aircraft/Mirage-2000/Nasal/RADAR/radarPrototype.nas</file>-->
-    </radar>
-    
-    
     <stations>
         <file>Aircraft/Mirage-2000/Nasal/station-manager.nas</file><!-- must be before fire-control and pylons -->
     </stations>
