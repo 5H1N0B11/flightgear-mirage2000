@@ -3,9 +3,9 @@
   <particlesystem>
     <name>MissileExplosion</name>
     <texture>smoke.png</texture>
-    <condition>
+<!--    <condition>
       <property>payload/armament/exocet/flags/explode-id-2</property>
-    </condition>
+    </condition>-->
     <emissive type="bool">true</emissive>
     <lighting type="bool">false</lighting>
     <attach>world</attach>
