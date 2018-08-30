@@ -535,11 +535,15 @@
     <width>15</width>
     <height>6</height>
     <condition>
-      <equals>
-        <property>controls/armament/stick-selector</property>
-        <value>1</value>
-      </equals>
+      <and>
+        <property>controls/armament/master-arm</property>
+        <equals>
+          <property>controls/armament/name</property>
+          <value>30mm Cannon</value>
+        </equals>
+      </and>
     </condition>
+
     <input>
       <property>ai/submodels/submodel/count</property>
     </input>
@@ -554,12 +558,15 @@
     <y>-80</y>
     <width>15</width>
     <height>6</height>
-<!--    <condition>
-      <equals>
-        <property>controls/armament/stick-selector</property>
-        <value>2</value>
-      </equals>
-    </condition>-->
+    <condition>
+      <and>
+        <property>controls/armament/master-arm</property>
+        <not><equals>    
+          <property>controls/armament/name</property>
+          <value>30mm Cannon</value>
+        </equals></not>
+      </and>
+    </condition>
     <input>
       <property>controls/armament/name</property>
     </input>

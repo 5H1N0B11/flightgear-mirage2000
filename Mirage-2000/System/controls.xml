@@ -8,7 +8,9 @@
     <cat type="int">true</cat>
     <activated type="bool">true</activated>
   </SAS>
-  
+  <armament>
+    <master-arm type="bool">false</master-arm>
+  </armament>
   <lighting>
     <landing-lights n="0" type="bool">false</landing-lights>
     <landing-lights n="1" type="bool">false</landing-lights>

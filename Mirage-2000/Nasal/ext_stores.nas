@@ -1001,14 +1001,16 @@ var after_fire_next = func(){
 
 
 var weaponSelector = func (){
-  weaponARRAY_Index = weaponARRAY_Index + 1>size(weaponARRAY)-1?0:weaponARRAY_Index+1;
-  if(weaponARRAY[weaponARRAY_Index] == "GUN"){
-      setprop("controls/armament/stick-selector",1);
-    }else{
-      setprop("controls/armament/stick-selector",0);
-      setprop("/controls/armament/name",weaponARRAY[weaponARRAY_Index]);
-    }
-  init_weaponSytem();
+#  weaponARRAY_Index = weaponARRAY_Index + 1>size(weaponARRAY)-1?0:weaponARRAY_Index+1;
+#   if(weaponARRAY[weaponARRAY_Index] == "GUN"){
+#       setprop("controls/armament/stick-selector",1);
+#     }else{
+#       setprop("controls/armament/stick-selector",0);
+#       #setprop("/controls/armament/name",weaponARRAY[weaponARRAY_Index]);
+#       setprop("/controls/armament/name",fc.selType.type);
+#     }
+#   init_weaponSytem();
+  setprop("/controls/armament/name",pylons.fcs.selectedType);
 }
 
 

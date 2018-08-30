@@ -148,8 +148,8 @@
       <binding>
         <command>nasal</command>
         <script>
-            m2000_load.weaponSelector();
             pylons.fcs.cycleWeapon();
+            m2000_load.weaponSelector();
         </script>
       </binding>
     </key>
@@ -219,6 +219,19 @@
       <binding>
         <command>nasal</command>
         <script>mirage2000.myRadar3.previous_Target_Index()</script>
+      </binding>
+    </key>
+    
+    <key n="109">
+      <name>m</name>
+      <desc>Masterarm</desc>
+      <binding>
+          <command>property-toggle</command>
+          <property>controls/armament/master-arm</property>
+      </binding>
+      <binding>
+          <command>nasal</command>
+          <script>screen.log.write("Master-arm "~(getprop("controls/armament/master-arm")==0?"OFF":"ON"), 0.5, 0.5, 1);</script>
       </binding>
     </key>
     

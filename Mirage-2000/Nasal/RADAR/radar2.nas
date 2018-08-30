@@ -405,10 +405,6 @@ var Radar = {
 
                 me.go_check(u, me.skipDoppler);
                 
-                #Temporary adding this in order to make the whole new firesystem work
-                #print("Complete liste before update : " ~ size(completeList));
-                completeList = me.update_array(u,completeList);
-                
                 #print("Complete liste after update : " ~ size(completeList));
                 #me.decrease_life(completeList);
                 #me.sorting_and_suppr(completeList);
@@ -424,16 +420,21 @@ var Radar = {
                                         
                     #Is in Range : Should be added to the main ARRAY1 (Here : ContactsList)
                     var HaveRadarNode = c.getNode("radar");
+
+                    #Update ContactList : Only updated when target is valid
+                    #Should return an Index, in order to take the object from the table and not the property tree
+                    
                     if(me.UseATree){
                       u.create_tree(me.MyCoord, me.OurHdg);
                       u.set_all(me.MyCoord);
                       me.calculateScreen(u);
                     }
-                    #Update ContactList : Only updated when target is valid
-                    #Should return an Index, in order to take the object from the table and not the property tree
+                    
+                    #print("Update contactList");
                     me.ContactsList = me.update_array(u,me.ContactsList);
                     var indexTempo = me.find_index_inArray(u,me.ContactsList);
-                    
+                    me.ContactsList[indexTempo].set_display(1);
+                    u.set_display(1);
                     
                     if(indexTempo != nil){ u = me.ContactsList[indexTempo];}
                     
@@ -447,6 +448,7 @@ var Radar = {
                     {
                         #tgts_list => ARRAY4
                         
+                        #print("Update targetList");
                         me.TargetList_Update(u);
                         me.TargetList_AddingTarget(u);
                         
@@ -456,6 +458,7 @@ var Radar = {
                         if(u.get_Callsign() == me.tgts_list[me.Target_Index].get_Callsign() and u.get_Callsign() == me.Target_Callsign){
                           #print("Picasso painting");
                           u.setPainted(1);
+                          armament.contact = me.tgts_list[me.Target_Index];
                         }
                     }
                     append(CANVASARRAY, u); 
@@ -471,11 +474,21 @@ var Radar = {
                           me.Tempo_janitor(u);
                         }
                     }
-                }
+                    indexTempo = me.find_index_inArray(u,me.ContactsList);
+                    if(indexTempo != nil){
+                      #me.ContactsList[indexTempo].set_display(0);
+                      #me.ContactsList[indexTempo].setPainted(0);
+                    }
+                    
+                }    
+                
+                #Temporary adding this in order to make the whole new firesystem work
+                #print("Update completeList");
+                completeList = me.update_array_no_life_reset(u,completeList);
             }
         }
-        
-
+;
+                
         me.ContactsList = me.decrease_life(me.ContactsList);
         #print("Test");
         me.sorting_and_suppr(me.ContactsList);
@@ -814,6 +827,7 @@ var Radar = {
 
     TargetList_Update: func(SelectedObject){
       forindex(i; me.tgts_list){
+        #print("Target list update");
         if(me.tgts_list[i].get_Callsign()==SelectedObject.get_Callsign()){
           me.tgts_list[i].update(SelectedObject);
           return i;
@@ -843,7 +857,7 @@ var Radar = {
                 {
                     append(TempoTgts_list, TempTarget);
                 }else{
-                  TempTarget.setPainted(0);
+                  #TempTarget.setPainted(0);
                 }
             }
             #me.tgts_list = TempoTgts_list;
@@ -1056,7 +1070,8 @@ var Radar = {
     },
 
     next_Target_Index: func(){
-        if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
+      if(me.az_fld == me.focused_az_fld){  
+      if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         me.Target_Index = me.Target_Index + 1;
         if(me.Target_Index > (size(me.tgts_list)-1))
         {
@@ -1085,8 +1100,8 @@ var Radar = {
         } else {
           me.Target_Callsign = nil;
           return
-        }
-        armament.contact = me.tgts_list[me.Target_Index];
+        } 
+      }
         #if(me.tgts_list[me.Target_Index].get_display()!=1){
           #me.Target_Index = me.Target_Index==0?size(me.tgts_list)-1:me.Target_Index - 1; 
           #me.next_Target_Index();
@@ -1094,6 +1109,7 @@ var Radar = {
     },
 
     previous_Target_Index: func(){
+      if(me.az_fld == me.focused_az_fld){
         if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         me.Target_Index = me.Target_Index - 1;
         if(me.Target_Index < 0)
@@ -1106,7 +1122,7 @@ var Radar = {
         } else {
           me.Target_Callsign = nil;
         }
-        armament.contact = me.tgts_list[me.Target_Index];
+      }
 
     },
 
@@ -1173,6 +1189,7 @@ var Radar = {
     ###########################################################################
     ###   Update element of the actual diplayed array
     update_Element_of_array: func(SelectedObject,myArray){
+      #print("Normal Update bellow");
       forindex(i; myArray){
         if(myArray[i].get_Callsign()==SelectedObject.get_Callsign()){
           myArray[i].update(SelectedObject);
@@ -1203,10 +1220,33 @@ var Radar = {
     },
     
     find_index_inArray: func(SelectedObject,myArray){
-        forindex(i; myArray){
-          if(myArray[i].get_Callsign()==SelectedObject.get_Callsign()){return i;}
+          forindex(i; myArray){
+            if(myArray[i].get_Callsign()==SelectedObject.get_Callsign()){return i;}
+          }
+        return nil; 
+    },
+    
+    update_array_no_life_reset: func(SelectedObject,myArray){
+      var tempo = nil;
+      if(size(myArray) > 0){
+          #The idea is to keep the values of the variables
+          myIndex = me.find_index_inArray(SelectedObject,myArray);
+        
+        if(myIndex != nil){
+          var mypaint = myArray[myIndex].isPainted();
+          var myDisplay = myArray[myIndex].get_display();
+          var myLife = myArray[myIndex].life;
         }
-        return nil;
+        
+          me.update_array(SelectedObject,myArray);
+          
+        if(myIndex != nil){
+          myArray[myIndex].setpainted(mypaint);
+          myArray[myIndex].set_display(myDisplay);
+          myArray[myIndex].life = myLife;
+        }
+      }
+      return myArray;
       
     },
     
@@ -1219,9 +1259,12 @@ var Radar = {
       var i = 0;
       foreach(contact;myArray){
         contact.life = contact.life - me.LoopElapsed;
-        if(contact.life<1){
+        #print("Elapsed = " ~ me.LoopElapsed ~" Then " ~ contact.get_Callsign() ~ " 's life : "~ contact.life);
+        
+        if(contact.life<3){
+          #print("Elapsed = " ~ me.LoopElapsed ~" Then " ~ contact.get_Callsign() ~ " 's life : "~ contact.life);
           contact.set_display(0);
-          contact.setPainted(1);
+          contact.setPainted(0);
         }
       }
       return myArray;

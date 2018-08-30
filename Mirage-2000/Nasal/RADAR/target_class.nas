@@ -102,6 +102,7 @@ var Target = {
         obj.lifetime        = 3; #Not implemented yet : should represent the life time in sec of a target. (simpler than actually)
         obj.RangeLast       = 0; 
         obj.ClosureRate     = 0;
+        obj.Display_Node    = nil;
         
         obj.ispainted       = 0;
         
@@ -171,16 +172,22 @@ var Target = {
         me.EcmSignal       = c.EcmSignal; 
         me.EcmSignalNorm   = c.EcmSignalNorm; 
         me.EcmTypeNum      = c.EcmTypeNum; 
-        me.Display         = c.Display; 
         me.Fading          = c.Fading; 
         me.DddDrawRangeNm  = c.DddDrawRangeNm; 
         me.TidDrawRangeNm  = c.TidDrawRangeNm; 
         me.RoundedAlt      = c.RoundedAlt; 
         me.TimeLast        = 0;
+        if(me.life<1){
+          me.ispainted       = c.ispainted;
+          me.Display         = c.Display; 
+        }else{
+          #if(me.get_Callsign() != ""){print("Update Target :" ~ me.get_Callsign() ~ " Paiting : " ~ me.ispainted ~" and Display : " ~ me.Display);}
+        }
         me.lifetime        = 3; # We reinit the lifetime
         me.RangeLast       = c.RangeLast; 
         me.ClosureRate     = c.ClosureRate;
-        me.ispainted       = c.ispainted;
+        
+        
         
         me.life = 5; 
         me.objectDeviationDeg = c.objectDeviationDeg;
@@ -205,7 +212,7 @@ var Target = {
         me.EcmSignal      = me.TgtsFiles.getNode("ecm-signal", 1);
         me.EcmSignalNorm  = me.TgtsFiles.getNode("ecm-signal-norm", 1);
         me.EcmTypeNum     = me.TgtsFiles.getNode("ecm_type_num", 1);
-        me.Display        = me.TgtsFiles.getNode("display", 1);
+        me.Display_Node   = me.TgtsFiles.getNode("display", 1);
         me.Fading         = me.TgtsFiles.getNode("ddd-echo-fading", 1);
         me.DddDrawRangeNm = me.TgtsFiles.getNode("ddd-draw-range-nm", 1);
         me.TidDrawRangeNm = me.TgtsFiles.getNode("tid-draw-range-nm", 1);
@@ -500,14 +507,14 @@ var Target = {
     },
 
     get_display: func(){
-        return me.Display.getValue();
+        #print("Get display : " ~ me.get_Callsign() ~ " Paiting : " ~ me.ispainted ~" and Display : " ~ me.Display);
+        return me.Display;
     },
 
     set_display: func(n,writeTree = nil){
+        me.Display = n;
         if(writeTree == nil or writeTree==1){
-          me.Display.setBoolValue(n);
-        }else{
-          me.Display = n;
+          me.Display_Node.setBoolValue(n);
         }
         me.objectDisplay = n;
     },
@@ -683,8 +690,8 @@ var Target = {
     },
 
     isPainted: func() {
-        if(me.Display == 0){me.setPainted(0);}
-        #print("Paiting : " ~ me.ispainted);
+        #if(me.Display == 0){me.setPainted(0);}
+        #print(me.get_Callsign() ~ "Paiting : " ~ me.ispainted);
         return me.ispainted;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
     },
 
