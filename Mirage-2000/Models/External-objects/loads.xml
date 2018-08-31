@@ -33,16 +33,14 @@
     <type>select</type>
     <object-name>left-pos-1-MICA</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[0]/selected</property>
-          <value>Matra MICA</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[0]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-0-type</property>
+        <value>mica-em</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-0-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
   </animation>
 
@@ -102,16 +100,14 @@
     <type>select</type>
     <object-name>left-pos-2-MICA_IR</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[1]/selected</property>
-          <value>Matra MICA IR</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[1]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-1-type</property>
+        <value>mica-ir</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-1-count</property>
+          <value>0</value>
+      </greater-than>
     </condition>
   </animation>
 
@@ -445,16 +441,14 @@
     <type>select</type>
     <object-name>right-pos-2-MICA_IR</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[5]/selected</property>
-          <value>Matra MICA IR</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[5]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-5-type</property>
+        <value>mica-ir</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-5-count</property>
+          <value>0</value>
+      </greater-than>
     </condition>
   </animation>
   
@@ -476,16 +470,14 @@
     <type>select</type>
     <object-name>right-pos-1-MICA</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[6]/selected</property>
-          <value>Matra MICA</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[6]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-6-type</property>
+        <value>mica-em</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-6-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
   </animation>
 
@@ -541,16 +533,14 @@
     <type>select</type>
     <object-name>MICABL</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[7]/selected</property>
-          <value>Matra MICA</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[7]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-7-type</property>
+        <value>mica-em</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-7-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
   </animation>
 
@@ -595,16 +585,14 @@
     <type>select</type>
     <object-name>MICABR</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[8]/selected</property>
-          <value>Matra MICA</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[8]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-8-type</property>
+        <value>mica-em</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-8-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
   </animation>
   

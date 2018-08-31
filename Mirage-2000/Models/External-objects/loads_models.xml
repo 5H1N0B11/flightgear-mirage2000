@@ -31,7 +31,7 @@
 
   <model>
     <name>left-pos-1-MICA</name>
-    <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/mica-em/mica-em.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m>-0.824</y-m>
@@ -309,7 +309,7 @@
   <!-- station right 1 (Index 6) -->
   <model>
     <name>right-pos-1-MICA</name>
-    <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/mica-em/mica-em.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m> 0.824</y-m>
@@ -353,7 +353,7 @@
   <!-- station back left (Index 7) -->
   <model>
     <name>MICABL</name>
-    <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/mica-em/mica-em.xml</path>
     <offsets>
       <x-m> 3.360</x-m>
       <y-m>-0.920</y-m>
@@ -387,7 +387,7 @@
   <!-- station back right (Index 8) -->
   <model>
     <name>MICABR</name>
-    <path>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/mica-em/mica-em.xml</path>
     <offsets>
       <x-m> 3.360</x-m>
       <y-m> 0.920</y-m>

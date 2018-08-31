@@ -154,35 +154,35 @@
     <legend>No load</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.NoLoad()</script>
+      <script>pylons.lisse()</script>
     </binding>
   </button>
   <button>
     <legend>PO</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.Po()</script>
+      <script>pylons.a2a_po_old()</script>
     </binding>
   </button>
   <button>
     <legend>Fox Old Years</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.FoxOldYears()</script>
+      <script>pylons.a2a_fox_old()</script>
     </binding>
   </button>
   <button>
     <legend>Fox</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.Fox()</script>
+      <script>pylons.a2a_fox_mix()</script>
     </binding>
   </button>
   <button>
     <legend>Fox Full Mica</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.FoxFullMica()</script>
+      <script>pylons.a2a_fox_mica()</script>
     </binding>
   </button>
   <button>

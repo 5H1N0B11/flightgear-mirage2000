@@ -131,7 +131,7 @@
     <offsets>
       <x-m type="double"> -1.265 </x-m>
       <y-m type="double"> -0.824 </y-m>
-      <z-m type="double"> -1.404 </z-m>
+      <z-m type="double"> -1.370 </z-m>
     </offsets>
     <opt><name>none</name>              <lbs type="double">    0.00 </lbs></opt>
     <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
@@ -230,9 +230,9 @@
     <weight-lb type="double"> 0 </weight-lb>
     <selected>none</selected>
     <offsets>
-      <x-m type="double">  2.373 </x-m>
+      <x-m type="double">  -1.265 </x-m>
       <y-m type="double">  0.824 </y-m>
-      <z-m type="double"> -1.404 </z-m>
+      <z-m type="double"> -1.370 </z-m>
     </offsets>
     <opt><name>none</name>              <lbs type="double">    0.00 </lbs></opt>
     <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
@@ -246,24 +246,24 @@
     <weight-lb type="double"> 0 </weight-lb>
     <selected>none</selected>
     <offsets>
-      <x-m type="double">  2.373 </x-m>
-      <y-m type="double"> -0.824 </y-m>
-      <z-m type="double"> -1.404 </z-m>
+      <x-m type="double"> 3.360 </x-m>
+      <y-m type="double">  -0.920 </y-m>
+      <z-m type="double"> -1.380 </z-m>
     </offsets>
     <opt><name>none</name>              <lbs type="double">    0.00 </lbs></opt>
     <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
     <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
     <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
   </weight>
-
+  
   <weight n="8">
     <name>pylonB.R</name>
     <weight-lb type="double"> 0 </weight-lb>
     <selected>none</selected>
     <offsets>
-      <x-m type="double"> -1.265 </x-m>
-      <y-m type="double">  0.824 </y-m>
-      <z-m type="double"> -1.404 </z-m>
+      <x-m type="double"> 3.360 </x-m>
+      <y-m type="double">  0.920 </y-m>
+      <z-m type="double"> -1.380 </z-m>
     </offsets>
     <opt><name>none</name>              <lbs type="double">    0.00 </lbs></opt>
     <opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>

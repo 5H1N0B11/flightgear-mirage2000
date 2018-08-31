@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+  <path>mica_em.ac</path>
+  
+  <animation>
+    <object-name>mica_em</object-name>
+    <enable-hot type="bool">false</enable-hot>
+  </animation>
+</PropertyList>

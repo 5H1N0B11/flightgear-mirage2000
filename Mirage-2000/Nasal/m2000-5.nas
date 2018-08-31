@@ -20,6 +20,11 @@ var Elapsed               = 0;
 var myErr                 = [];
 var myFramerate           = {a:0,b:0,c:0,d:0,e:0};#a = 0.1, b=0.2, c = 0.5, d=1, e=1.5
 
+
+var msgB = "Please land before changing payload.";
+
+
+
 #======   OBJECT CREATION =======
 
 # Need some simplification in the way to manage the interval
