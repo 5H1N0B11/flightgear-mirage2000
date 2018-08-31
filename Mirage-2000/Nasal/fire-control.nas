@@ -26,7 +26,6 @@ var FireControl = {
 		fc.setupMFDObservers();
 		setlistener("controls/armament/trigger",func{fc.trigger();fc.updateCurrent()});
 		setlistener("controls/armament/master-arm",func{fc.updateCurrent()});
-        print("Pipalapalou");
 		return fc;
 	},
 

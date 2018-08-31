@@ -33,7 +33,11 @@ var Target = {
         
         obj.AcType          = c.getNode("sim/model/ac-type");
         obj.type            = c.getName();
+        obj.fname           = c.getName();
+        
         obj.index           = c.getIndex();
+        
+        #print(obj.fname);
         obj.flareNode       = c.getNode("rotors/main/blade[3]/flap-deg");
         obj.chaffNode       = c.getNode("rotors/main/blade[3]/position-deg");
         
@@ -54,6 +58,10 @@ var Target = {
           }
         }
 
+        
+
+        
+        
         obj.life = 5; #Have to be given in parameters, but now written in hard
         obj.objectDeviationDeg = 0;
         obj.objectElevationDeg = 0;
@@ -62,6 +70,20 @@ var Target = {
         
         obj.string          = "ai/models/" ~ obj.type ~ "[" ~ obj.index ~ "]";
         obj.shortstring     = obj.type ~ "[" ~ obj.index ~ "]";
+        
+        
+        
+        var TestID = c.getNode("unicId",1);
+        if(TestID.getValue() != nil) {
+          obj.ID = TestID.getValue();
+          #print("Id already exist:" ~ obj.ID);
+        }else{
+          obj.ID = int(1000000 * rand());
+          TestID.setValue(obj.ID);
+          #print("Id Creation" ~ obj.ID);
+        }
+
+        
         
         if(theTree == nil)
         {
@@ -665,7 +687,8 @@ var Target = {
     },
 
     getUnique: func () {
-        return rand();
+      #var myIndex = me.getIndex();
+      return me.get_Callsign()~me.get_type()~me.fname~me.ID;
     },
 
     isValid: func() {

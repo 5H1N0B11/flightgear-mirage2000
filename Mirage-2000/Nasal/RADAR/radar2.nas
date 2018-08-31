@@ -295,6 +295,7 @@ var Radar = {
         me.TimeWhenUpdate = getprop("sim/time/elapsed-sec");
         
         # Altitude update (in meters)
+
         me.our_alt = me.MyCoord.alt();
         
         # Heading Update (should be the airplane heading, not the radar look direction)
@@ -365,36 +366,47 @@ var Radar = {
                     if (testMe == folderName) {
                         u.setType(armament.MARINE);
                         me.skipDoppler = 1;
+                        break;
                     }
                 }
-                foreach (var testMe ; listOfGroundTargetNames) {
-                    if (testMe == folderName) {
-                        u.setType(armament.SURFACE);
-                        me.skipDoppler = 1;
+                if (me.skipDoppler == 0) {
+                    foreach (var testMe ; listOfGroundTargetNames) {
+                        if (testMe == folderName) {
+                            u.setType(armament.SURFACE);
+                            me.skipDoppler = 1;
+                            break;
+                        }
                     }
-                }
-                
+                } elsif (c.getNode("missile") != nil and c.getNode("missile").getValue()) {
+                    u.setType(armament.ORDNANCE);
+                    
+                 } else {   
                 # now we test the model name to guess what type it is:
-                me.pathNode = c.getNode("sim/model/path");
-                if (me.pathNode != nil) {
-                    me.path = me.pathNode.getValue();
-                    me.model = split(".", split("/", me.path)[-1])[0];
-                    u.set_model(me.model);#used for RCS
-                    foreach (var testMe ; listOfShipModels) {
-                        if (testMe == me.model) {
-                           # Its a ship, Mirage ground radar will pick it up
-                           u.setType(armament.MARINE);
-                           me.skipDoppler = 1;
-                        }
-                    }
-                    foreach (var testMe ; listOfGroundVehicleModels) {
-                        if (testMe == me.model) {
-                           # its a ground vehicle, Mirage ground radar will pick it up
-                           u.setType(armament.SURFACE);
-                           me.skipDoppler = 1;
-                        }
-                    }
-                }
+                      me.pathNode = c.getNode("sim/model/path");
+                      if (me.pathNode != nil) {
+                          me.path = me.pathNode.getValue();
+                          me.model = split(".", split("/", me.path)[-1])[0];
+                          u.set_model(me.model);#used for RCS
+                          foreach (var testMe ; listOfShipModels) {
+                              if (testMe == me.model) {
+                                # Its a ship, Mirage ground radar will pick it up
+                                u.setType(armament.MARINE);
+                                me.skipDoppler = 1;
+                                break;
+                              }
+                          }
+                          foreach (var testMe ; listOfGroundVehicleModels) {
+                              if (testMe == me.model) {
+                                # its a ground vehicle, Mirage ground radar will pick it up
+                                u.setType(armament.SURFACE);
+                                me.skipDoppler = 1;
+                                break;
+                              }
+                          }
+                      }
+                  }
+
+
                 #print("Start Testing "~ u.get_Callsign()~"Type: " ~ type);
                 
                               
@@ -455,7 +467,7 @@ var Radar = {
                         #We should UPDATE tgts_list here
                         
                         #This shouldn't be here. See how to delet it
-                        if(u.get_Callsign() == me.tgts_list[me.Target_Index].get_Callsign() and u.get_Callsign() == me.Target_Callsign){
+                        if(u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and u.get_Callsign() == me.Target_Callsign){
                           #print("Picasso painting");
                           u.setPainted(1);
                           armament.contact = me.tgts_list[me.Target_Index];
@@ -1191,7 +1203,7 @@ var Radar = {
     update_Element_of_array: func(SelectedObject,myArray){
       #print("Normal Update bellow");
       forindex(i; myArray){
-        if(myArray[i].get_Callsign()==SelectedObject.get_Callsign()){
+        if(myArray[i].getUnique()==SelectedObject.getUnique()){
           myArray[i].update(SelectedObject);
           return myArray;
         }
@@ -1221,7 +1233,7 @@ var Radar = {
     
     find_index_inArray: func(SelectedObject,myArray){
           forindex(i; myArray){
-            if(myArray[i].get_Callsign()==SelectedObject.get_Callsign()){return i;}
+            if(myArray[i].getUnique()==SelectedObject.getUnique()){return i;}
           }
         return nil; 
     },
@@ -1242,7 +1254,7 @@ var Radar = {
           
         if(myIndex != nil){
           myArray[myIndex].setpainted(mypaint);
-          myArray[myIndex].set_display(myDisplay);
+          myArray[myIndex].set_display(myDisplay, me.UseATree);
           myArray[myIndex].life = myLife;
         }
       }
@@ -1263,7 +1275,7 @@ var Radar = {
         
         if(contact.life<3){
           #print("Elapsed = " ~ me.LoopElapsed ~" Then " ~ contact.get_Callsign() ~ " 's life : "~ contact.life);
-          contact.set_display(0);
+          contact.set_display(0, me.UseATree);
           contact.setPainted(0);
         }
       }

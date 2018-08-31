@@ -14,6 +14,8 @@ var pylon9 = nil;
 var pylonI = nil;
 
 var cannon = stations.SubModelWeapon.new("30mm Cannon", 0.9369635, 120, 2, [1,2], props.globals.getNode("controls/armament/Gun_trigger",1), 0, func{return 1;});
+
+#To be changed
 var fuelTankCenter = stations.FuelTank.new("1300 l Droptank", "1300L", 3, 343, "mirage/center1300TankMounted");
 var fuelTank370Left = stations.FuelTank.new("Left 370 Gal Tank", "370Gal", 3, 370, "sim/model/f16/wingtankL");
 var fuelTank370Right = stations.FuelTank.new("Right 370 Gal Tank", "300Gal", 2, 370, "sim/model/f16/wingtankR");
