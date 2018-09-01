@@ -23,7 +23,7 @@
         <name>Enable Sniping Cam</name>
         <input>
             <equals>
-              <property>sim/weight[6]/selected</property>
+              <property>payload/armament/station/id-6-type</property>
               <value>PDLCT</value>
             </equals>
         </input>

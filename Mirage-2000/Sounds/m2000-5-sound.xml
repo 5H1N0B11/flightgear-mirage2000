@@ -1115,6 +1115,21 @@ ________________________________________________________________________________
                 <max>1</max>
             </volume>
         </missile1>
+        
+        <gbu-release>
+            <name>gbu-release</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/Mirage-2000/Sounds/gbu_release.wav</path>
+            <condition>
+                <property>payload/armament/gbu-12/sound-fire-on-off</property>
+            </condition>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+                <max>1</max>
+            </volume>
+        </gbu-release>
 
   </fx>
 

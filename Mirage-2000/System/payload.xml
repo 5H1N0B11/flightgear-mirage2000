@@ -361,7 +361,7 @@
 
 
       <reaquire type="bool">true</reaquire>
-      <release-limit-altitude type="double"> 16000 </release-limit-altitude>
+      <release-limit-altitude type="double"> 22000 </release-limit-altitude>
       <release-limit-g type="double"> 0 </release-limit-g><!-- no info on this -->
       <release-limit-mach type="double"> 1.2 </release-limit-mach>
       <release-limit-roll type="double"> 90 </release-limit-roll>

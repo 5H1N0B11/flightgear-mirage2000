@@ -168,7 +168,7 @@ var Target = {
         me.engineTree      = c.engineTree;
         
         me.AcType          = c.AcType;
-        me.type            = armament.AIR;
+        
         me.index           = c.index;
         me.flareNode       = c.flareNode;
         me.chaffNode       = c.chaffNode;
@@ -201,7 +201,8 @@ var Target = {
         me.TimeLast        = 0;
         if(me.life<1){
           me.ispainted       = c.ispainted;
-          me.Display         = c.Display; 
+          me.Display         = c.Display;
+          me.type            = c.type ;
         }else{
           #if(me.get_Callsign() != ""){print("Update Target :" ~ me.get_Callsign() ~ " Paiting : " ~ me.ispainted ~" and Display : " ~ me.Display);}
         }
@@ -688,7 +689,8 @@ var Target = {
 
     getUnique: func () {
       #var myIndex = me.getIndex();
-      return me.get_Callsign()~me.get_type()~me.fname~me.ID;
+      return me.get_Callsign()~me.fname~me.ID;
+        #return me.get_type()~me.fname~me.ID;
     },
 
     isValid: func() {

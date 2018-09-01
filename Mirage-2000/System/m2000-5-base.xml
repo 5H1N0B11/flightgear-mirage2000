@@ -12,23 +12,25 @@
   <!-- We use/ hack a mp variable -->
   <rotors include="rotors.xml" />
 
-    <aircraft>
-        <flir>
-            <input>
-                <yaw-deg type="double">0.0</yaw-deg>
-                <pitch-deg type="double">0.0</pitch-deg>
-            </input>
-            <target>
-                <yaw-deg type="double">0.0</yaw-deg>
-                <pitch-deg type="double">0.0</pitch-deg>
-                <auto-track type="bool">false</auto-track>
-            </target>
-            <locks>
-                <auto-track type="bool">false</auto-track>
-            </locks>
-        </flir>
-    </aircraft>
-
+  
+    <aircraft> 
+        <flir> 
+            <input> 
+                <yaw-deg type="double">0.0</yaw-deg> 
+                <pitch-deg type="double">0.0</pitch-deg> 
+            </input> 
+            <target> 
+                <yaw-deg type="double">0.0</yaw-deg> 
+                <pitch-deg type="double">0.0</pitch-deg> 
+                <auto-track type="bool">false</auto-track> 
+            </target> 
+            <locks> 
+                <auto-track type="bool">false</auto-track> 
+            </locks> 
+        </flir> 
+    </aircraft> 
+ 
+  
   <sim include="m2000-5-base-common.xml">
     
     <model>

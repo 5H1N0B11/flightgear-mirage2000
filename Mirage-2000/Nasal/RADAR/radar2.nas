@@ -158,6 +158,8 @@ var Radar = {
         m.swp_diplay_width  = 0;
         m.rng_diplay_width  = 0;
         m.ppi_diplay_radius = 0;
+        
+        m.tempo_Index = 0;
 
         if(m.haveSweep == 1)
         {
@@ -186,6 +188,7 @@ var Radar = {
         #print(m.myTree.getPath());
         
         # update interval for engine init() functions
+        m.updating_now = 0;
         m.UPDATE_PERIOD = 0.05; 
         
         # return our new object
@@ -218,6 +221,7 @@ var Radar = {
                 #me.update();
                 #These line bellow are error management.
                 var UpdateErr = [];
+#                 print("Calling radar");
                 call(me.update,[],me,nil,UpdateErr);
                 if(size(UpdateErr) != 0)
                 {
@@ -227,6 +231,7 @@ var Radar = {
                         print(myErrors);
                     }
                 }
+#                 print("Radar refreshing done");
             }
             #me.Global_janitor();
             settimer(loop_Update, me.UPDATE_PERIOD);
@@ -277,7 +282,14 @@ var Radar = {
     
     
     update: func(tempCoord = nil, tempHeading = nil, tempPitch = nil) {
-    
+      
+        if(me.updating_now == 1)
+        {
+          return;
+        }else{
+          me.updating_now = 1;
+        }
+
         # First update Coord, Alt, heeading and Pitch. 
         # The code pout the aircraft properties if nothing has been passed in parameters
         # Coord update ! Should be filled with altitude
@@ -293,6 +305,7 @@ var Radar = {
         me.LoopElapsed = getprop("sim/time/elapsed-sec") - me.TimeWhenUpdate;
         # This is to know when was the last time we called the update
         me.TimeWhenUpdate = getprop("sim/time/elapsed-sec");
+        
         
         # Altitude update (in meters)
 
@@ -444,11 +457,11 @@ var Radar = {
                     
                     #print("Update contactList");
                     me.ContactsList = me.update_array(u,me.ContactsList);
-                    var indexTempo = me.find_index_inArray(u,me.ContactsList);
-                    me.ContactsList[indexTempo].set_display(1);
+                    #me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
+                    #me.ContactsList[me.tempo_Index].set_display(1);
                     u.set_display(1);
                     
-                    if(indexTempo != nil){ u = me.ContactsList[indexTempo];}
+                    #if(me.tempo_Index != nil){ u = me.ContactsList[me.tempo_Index];}
                     
                     
                     # for Target Selection
@@ -467,10 +480,11 @@ var Radar = {
                         #We should UPDATE tgts_list here
                         
                         #This shouldn't be here. See how to delet it
-                        if(u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and u.get_Callsign() == me.Target_Callsign){
+                        if(u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and u.getUnique() == me.Target_Callsign){
                           #print("Picasso painting");
                           u.setPainted(1);
                           armament.contact = me.tgts_list[me.Target_Index];
+                          #print(armament.contact.get_type());
                         }
                     }
                     append(CANVASARRAY, u); 
@@ -485,11 +499,6 @@ var Radar = {
                         {
                           me.Tempo_janitor(u);
                         }
-                    }
-                    indexTempo = me.find_index_inArray(u,me.ContactsList);
-                    if(indexTempo != nil){
-                      #me.ContactsList[indexTempo].set_display(0);
-                      #me.ContactsList[indexTempo].setPainted(0);
                     }
                     
                 }    
@@ -510,6 +519,9 @@ var Radar = {
         #foreach(contact;me.ContactsList){
         #  print("Last Check : " ~ contact.get_Callsign() ~" 's life : "~ contact.life);
         #}
+
+        #print("size(completeList) : " ~size(completeList) ~ "; size(me.ContactsList) : " ~ size(me.ContactsList));
+        me.updating_now = 0;
         return CANVASARRAY;
     },
     
@@ -1107,7 +1119,7 @@ var Radar = {
             me.next_Target_Index();
           }
           
-          me.Target_Callsign = me.tgts_list[me.Target_Index].get_Callsign();
+          me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
           me.tgts_list[me.Target_Index].setPainted(1);
         } else {
           me.Target_Callsign = nil;
@@ -1129,7 +1141,7 @@ var Radar = {
             me.Target_Index = size(me.tgts_list)-1;
         }
         if (size(me.tgts_list) > 0) {
-          me.Target_Callsign = me.tgts_list[me.Target_Index].get_Callsign();
+          me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
           me.tgts_list[me.Target_Index].setPainted(1);
         } else {
           me.Target_Callsign = nil;
@@ -1159,7 +1171,7 @@ var Radar = {
                  setprop("/ai/closest/range", 0);
                  return;#me.Target_Index = 0;
             }
-            if (me.Target_Callsign != me.tgts_list[me.Target_Index].get_Callsign()) {
+            if (me.Target_Callsign != me.tgts_list[me.Target_Index].getUnique()) {
                 me.Target_Callsign = nil;
                 me.Target_Callsign = nil;
                 setprop("/ai/closest/range", 0);
@@ -1233,6 +1245,7 @@ var Radar = {
     
     find_index_inArray: func(SelectedObject,myArray){
           forindex(i; myArray){
+            #print("myArray[i].getUnique() : " ~ myArray[i].getUnique() ~" And SelectedObject.getUnique() : "~SelectedObject.getUnique());
             if(myArray[i].getUnique()==SelectedObject.getUnique()){return i;}
           }
         return nil; 
@@ -1327,7 +1340,7 @@ var Radar = {
         {
             return nil;#me.Target_Index = 0;
         }
-        if (me.Target_Callsign == me.tgts_list[me.Target_Index].get_Callsign()) {
+        if (me.Target_Callsign == me.tgts_list[me.Target_Index].getUnique()) {
           me.tgts_list[me.Target_Index].setPainted(1);
           return me.tgts_list[me.Target_Index];
         } else {
