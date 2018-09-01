@@ -189,28 +189,28 @@
     <legend>Bravo</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.Bravo()</script>
+      <script>pylons.a2a_bravo_mix()</script>
     </binding>
   </button>
   <button>
     <legend>Kilo</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.Kilo()</script>
+      <script>pylons.a2a_kilo_mica()</script>
     </binding>
   </button>
   <button>
     <legend>Air to Ground</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.AirToGround()</script>
+      <script>pylons.a2g_bravo_mix()</script>
     </binding>
   </button>
   <button>
     <legend>m2000N</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.m2000N()</script>
+      <script>pylons.nuke()</script>
     </binding>
   </button>
 

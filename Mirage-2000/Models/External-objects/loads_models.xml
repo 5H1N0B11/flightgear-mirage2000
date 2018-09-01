@@ -54,7 +54,7 @@
 
   <model>
     <name>left-GBU12</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m>-0.824</y-m>
@@ -65,7 +65,7 @@
   <!-- station left 2 (Index 1) -->
   <model>
     <name>left-pos-2</name>
-    <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/magic2/magic2.xml</path>
     <offsets>
       <x-m> 2.373</x-m>
       <y-m>-3.278</y-m>
@@ -130,7 +130,7 @@
 
   <model>
     <name>S530D_Left</name>
-    <path>Aircraft/Mirage-2000/Missiles/Matra-super530d/s530d.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/s530d/s530d.xml</path>
     <offsets>
       <x-m> 1.047</x-m>
       <y-m>-2.359</y-m>
@@ -173,7 +173,7 @@
 
   <model>
     <name>Center-GBU12</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> 0.000</y-m>
@@ -183,7 +183,7 @@
   
   <model>
     <name>Center-Right-GBU12</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> -0.200</y-m>
@@ -193,7 +193,7 @@
   
   <model>
     <name>Center-Left-GBU12</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> 0.200</y-m>
@@ -267,7 +267,7 @@
 
   <model>
     <name>S530D_Right</name>
-    <path>Aircraft/Mirage-2000/Missiles/Matra-super530d/s530d.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/s530d/s530d.xml</path>
     <offsets>
       <x-m> 1.047</x-m>
       <y-m> 2.359</y-m>
@@ -278,7 +278,7 @@
   <!-- station right 2 (Index 5) -->
   <model>
     <name>right-pos-2</name>
-    <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/magic2/magic2.xml</path>
     <offsets>
       <x-m> 2.373</x-m>
       <y-m> 3.278</y-m>
@@ -332,7 +332,7 @@
 
   <model>
     <name>right-GBU12</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m> 0.824</y-m>
@@ -376,7 +376,7 @@
 
   <model>
     <name>GBU12BL</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
       <x-m> 3.360</x-m>
       <y-m>-0.920</y-m>
@@ -410,7 +410,7 @@
 
   <model>
     <name>GBU12BR</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU12/GBU12.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
       <x-m> 3.360</x-m>
       <y-m> 0.920</y-m>

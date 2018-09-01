@@ -2,25 +2,25 @@
 <PropertyList>
     
   <model>
-    <name>MatraR550Magic2-500</name>
-    <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.xml</path>
+    <name>s530d-200</name>
+    <path>Aircraft/Mirage-2000/Missiles/s530d/s530d.xml</path>
   </model>
     
   <animation>
-    <object-name>MatraR550Magic2-500</object-name>
+    <object-name>s530d-200</object-name>
     <enable-hot type="bool">false</enable-hot>
   </animation>
   <animation>
     <type>select</type>
-    <object-name>MatraR550Magic2-500</object-name>
+    <object-name>s530d-200</object-name>
     <condition>
-        <property>payload/armament/matrar550magic2/flags/msl-id-500</property>
+        <property>payload/armament/s530d/flags/msl-id-200</property>
     </condition>
   </animation>
   
   
   <model>
-    <name>Smoke_MatraR550Magic2-500</name>
+    <name>Smoke_s530d-200</name>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/smoke.xml</path>
     <offsets>
       <x-m>3</x-m>
@@ -30,27 +30,27 @@
   </model>
   <animation>
     <type>select</type>
-    <object-name>Smoke_MatraR550Magic2-500</object-name>
+    <object-name>Smoke_s530d-200</object-name>
     <condition>
-        <property>payload/armament/matrar550magic2/flags/smoke-id-500</property>
+        <property>payload/armament/s530d/flags/smoke-id-200</property>
     </condition>
   </animation>
   
   <model>
-    <name>explosionFire_MatraR550Magic2-500</name>
+    <name>explosionFire_s530d-200</name>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionFire.xml</path>
   </model>
   <model>
-    <name>explosionSmoke_MatraR550Magic2-500</name>
+    <name>explosionSmoke_s530d-200</name>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionSmoke.xml</path>
   </model>
   
     <animation>
     <type>select</type>
-    <object-name>explosionFire_MatraR550Magic2-500</object-name>
-    <object-name>explosionSmoke_MatraR550Magic2-500</object-name>
+    <object-name>explosionFire_s530d-200</object-name>
+    <object-name>explosionSmoke_s530d-200</object-name>
     <condition>
-        <property>payload/armament/matrar550magic2/flags/explode-id-500</property>
+        <property>payload/armament/s530d/flags/explode-id-200</property>
     </condition>
   </animation>
   

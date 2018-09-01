@@ -146,7 +146,7 @@
     <condition>
       <equals>
         <property>payload/armament/station/id-3-set</property>
-        <value>Double GBU12</value>
+        <value>2 x GBU-12</value>
       </equals>
     </condition>
   </animation>

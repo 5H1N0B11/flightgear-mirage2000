@@ -9,7 +9,7 @@
        Wingspan : 
        Weight   : 
   -->
-  <path>Aircraft/Mirage-2000/Missiles/Matra-super530d/s530d.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/s530d/s530d.ac</path>
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>

@@ -17,24 +17,30 @@ var cannon = stations.SubModelWeapon.new("30mm Cannon", 0.9369635, 120, 2, [1,2]
 
 #To be changed
 var fuelTankCenter = stations.FuelTank.new("1300 l Droptank", "1300L", 3, 343, "mirage/center1300TankMounted");
+var fuelWingTankerRight = stations.FuelTank.new("1700 l Droptank", "1700L", 2, 448, "mirage/center1700TankMountedR");
+var fuelWingTankerLeft = stations.FuelTank.new("1700 l Droptank", "1700L", 4, 448, "mirage/center1700TankMountedL");
+
+var dummy1 = stations.Dummy.new("PDLCT", "PDLCT");
+var dummy2 = stations.Dummy.new("ASMP", "ASMP");
 
 
-var fuelTank370Left = stations.FuelTank.new("Left 370 Gal Tank", "370Gal", 3, 370, "sim/model/f16/wingtankL");
-var fuelTank370Right = stations.FuelTank.new("Right 370 Gal Tank", "300Gal", 2, 370, "sim/model/f16/wingtankR");
-var fuelTank600Left = stations.FuelTank.new("Left 600 Gal Tank", "600Gal", 3, 600, "sim/model/f16/wingtankL");
-var fuelTank600Right = stations.FuelTank.new("Right 600 Gal Tank", "600Gal", 2, 600, "sim/model/f16/wingtankR");
 
 var pylonSets = {
 	empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
 	e: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-	f: {name: "1300 l Droptank", content: [fuelTankCenter], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	g: {name: "Matra R550 Magic 2", content: ["MatraR550Magic2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#wingtip
+	t: {name: "1300 l Droptank", content: [fuelTankCenter], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+  t2: {name: "1700 l Droptank", content: [fuelWingTankerRight], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+  t4: {name: "1700 l Droptank", content: [fuelWingTankerLeft], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	g: {name: "Matra R550 Magic 2", content: ["magic2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#wingtip
 	g2: {name: "MICA IR", content: ["mica-ir"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 	
-	h: {name: "Matra Super 530D", content: ["Matra-super530d"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
+	h: {name: "Matra Super 530D", content: ["s530d"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
 	
   i: {name: "MICA EM", content: ["mica-em"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-	
+  
+  s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	b2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+  b10: {name: "ASMP", content: [dummy2], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
 };
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
 #if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10){
@@ -45,11 +51,15 @@ if(1){
 	# source for fuel tanks content, fuel type, jettisonable and drag: TO. GR1F-16CJ-1-1
 
 	# sets
-	var InteriorWingSet = [pylonSets.empty,pylonSets.h];
+	var InteriorWingSetR = [pylonSets.empty,pylonSets.h,pylonSets.t2];
+  var InteriorWingSetL = [pylonSets.empty,pylonSets.h,pylonSets.t4];
 	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g,pylonSets.g2];
-	var CenterSet   = [pylonSets.empty, pylonSets.f];
+	var CenterSet   = [pylonSets.empty, pylonSets.t,pylonSets.b2,pylonSets.b10];
     
-	var Forwardfuselagepylons = [pylonSets.empty,pylonSets.i];
+	var ForwardfuselagepylonsR = [pylonSets.empty,pylonSets.i,pylonSets.s];
+  var ForwardfuselagepylonsL = [pylonSets.empty,pylonSets.i,];
+  
+  
 	var Rearfuselagepylons = [pylonSets.empty,pylonSets.i];
 
 
@@ -108,16 +118,16 @@ if(1){
   pylon6 = stations.Pylon.new("pylon2.R", 5, [2.373,3.278,-1.494], ExteriorWingSet,5, props.globals.getNode("yasim/weight[5]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[5]",1),func{return getprop("payload/armament/fire-control/serviceable")});
     
   #Interior Wing load
-  pylon3 = stations.Pylon.new("pylon3.L", 2, [1.047,-2.359,-1.556], InteriorWingSet, 2, props.globals.getNode("yasim/weight[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-	pylon5 = stations.Pylon.new("pylon3.R", 4, [1.047,2.359,-1.556], InteriorWingSet, 4, props.globals.getNode("yasim/weight[4]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[4]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+  pylon3 = stations.Pylon.new("pylon3.L", 2, [1.047,-2.359,-1.556], InteriorWingSetR, 2, props.globals.getNode("yasim/weight[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+	pylon5 = stations.Pylon.new("pylon3.R", 4, [1.047,2.359,-1.556], InteriorWingSetL, 4, props.globals.getNode("yasim/weight[4]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[4]",1),func{return getprop("payload/armament/fire-control/serviceable")});
         
   #Center Fuselage pylon
 	pylon4 = stations.Pylon.new("pylon.C", 3, [1.082,0,-1.656], CenterSet,3, props.globals.getNode("yasim/weight[3]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[3]",1),func{return getprop("payload/armament/fire-control/serviceable")});
     
 
   #Forward fuselage pylons
-  pylon1 = stations.Pylon.new("pylon1.L", 0, [-1.265,-0.824,-1.370], Forwardfuselagepylons, 0, props.globals.getNode("yasim/weight[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-	pylon7 = stations.Pylon.new("pylon1.R", 6, [-1.265,0.824,-1.370], Forwardfuselagepylons, 6, props.globals.getNode("yasim/weight[6]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[6]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+  pylon1 = stations.Pylon.new("pylon1.L", 0, [-1.265,-0.824,-1.370], ForwardfuselagepylonsL, 0, props.globals.getNode("yasim/weight[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+	pylon7 = stations.Pylon.new("pylon1.R", 6, [-1.265,0.824,-1.370], ForwardfuselagepylonsR, 6, props.globals.getNode("yasim/weight[6]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[6]",1),func{return getprop("payload/armament/fire-control/serviceable")});
     
   #Rear fuselage pylons
 	pylon8 = stations.Pylon.new("pylonB.L", 7, [3.360,-0.920,-1.380], Rearfuselagepylons, 7, props.globals.getNode("yasim/weight[7]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[7]",1),func{return getprop("payload/armament/fire-control/serviceable")});
@@ -129,7 +139,7 @@ if(1){
 
 	var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
 
-	fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon","MatraR550Magic2","Matra-super530d","mica-ir","mica-em"]);
+	fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon","magic2","s530d","mica-ir","mica-em","gbu-12"]);
   
   
 
@@ -150,26 +160,7 @@ if(1){
     pylon8.setAIMListener(aimListener);
     pylon9.setAIMListener(aimListener);
 
-} else {
-	# YF-16 only get wingtip aim9 dummies:
-
-	# sets
-	var wingtipSet1yf  = [pylonSets.k,pylonSets.k2];# wingtips are normally not empty, so AN-T-17 dummy aim9 is loaded instead.
-	var wingtipSet9yf  = [pylonSets.k,pylonSets.k2];# wingtips are normally not empty, so AN-T-17 dummy aim9 is loaded instead.
-
-	# pylons
-	pylon1 = stations.Pylon.new("Left Wingtip Pylon", 0, [0,0,0], wingtipSet1yf, 0, props.globals.getNode("yasim/weight[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1));
-	pylon9 = stations.Pylon.new("Right Wingtip Pylon", 8, [0,0,0], wingtipSet9yf, 1, props.globals.getNode("yasim/weight[9]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[9]",1));
 }
-
-var update_fc_array = func {
-  var myArray = ["30mm Cannon"];
-  foreach(pyl;fcs.pylons){
-    print(pyl.getCurrentName());
-  }
-
-}
-
 
 #print("** Pylon & fire control system started. **");
 var getDLZ = func {
@@ -227,7 +218,7 @@ var a2a_po_old = func {
         pylon5.loadSet(pylonSets.empty);
         
         #Center Fuselage
-        pylon4.loadSet(pylonSets.f);
+        pylon4.loadSet(pylonSets.t);
         
         #Side fuselage forward
         pylon1.loadSet(pylonSets.empty);
@@ -254,7 +245,7 @@ var a2a_fox_old = func {
         pylon5.loadSet(pylonSets.h);
         
         #Center Fuselage
-        pylon4.loadSet(pylonSets.f);
+        pylon4.loadSet(pylonSets.t);
         
         #Side fuselage forward
         pylon1.loadSet(pylonSets.empty);
@@ -280,7 +271,7 @@ var a2a_fox_mix = func {
         pylon5.loadSet(pylonSets.empty);
         
         #Center Fuselage
-        pylon4.loadSet(pylonSets.f);
+        pylon4.loadSet(pylonSets.t);
         
         #Side fuselage forward
         pylon1.loadSet(pylonSets.i);
@@ -308,7 +299,7 @@ var a2a_fox_mica = func {
         pylon5.loadSet(pylonSets.empty);
         
         #Center Fuselage
-        pylon4.loadSet(pylonSets.f);
+        pylon4.loadSet(pylonSets.t);
         
         #Side fuselage forward
         pylon1.loadSet(pylonSets.i);
@@ -322,276 +313,110 @@ var a2a_fox_mica = func {
     }
   }
 
-
-
-
-#Air patrol configuration
-var a2a_patrol = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.q7);
-        pylon4.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.f);
-        pylon6.loadSet(pylonSets.empty);
-        pylon7.loadSet(pylonSets.q7);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# Air superiority configuration
-var a2a_super = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-    	pylon1.loadSet(pylonSets.h);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.h);
-        pylon4.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.f);
-        pylon6.loadSet(pylonSets.empty);
-        pylon7.loadSet(pylonSets.h);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.h);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# CAP configuration
-var a2a_cap = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.h);
-        pylon4.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.f);
-        pylon6.loadSet(pylonSets.empty);
-        pylon7.loadSet(pylonSets.h);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# CAP extended loiter configuration
-var a2a_capext = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.h);
-        pylon4.loadSet(pylonSets.l);
-        pylon5.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.m);
-        pylon7.loadSet(pylonSets.h);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-# CAS: 2 2XGBU and 2 AGM65
-var a2g_cas = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.a);
-        pylon4.loadSet(pylonSets.j);
-        pylon5.loadSet(pylonSets.f);
-        pylon6.loadSet(pylonSets.j);
-        pylon7.loadSet(pylonSets.a);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# CAS extended loiter: 2 3XGBU
-var a2g_casext = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.i);
-        pylon4.loadSet(pylonSets.l);
-        pylon5.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.m);
+  # Bravo Mix configuration : 2 wing tanks
+  var a2a_bravo_mix = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.t2);
+          pylon5.loadSet(pylonSets.t4);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.empty);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.i);
+          pylon7.loadSet(pylonSets.i);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.i);
+          pylon9.loadSet(pylonSets.i);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+  
+  # Kilo configuration : 1 center tank, 2 wing tanks +  Most recent missile configuration
+var a2a_kilo_mica = func { 
+  if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+        #External wings
+        pylon2.loadSet(pylonSets.g2);
+        pylon6.loadSet(pylonSets.g2);
+        
+        #Internal wing
+        pylon3.loadSet(pylonSets.t2);
+        pylon5.loadSet(pylonSets.t4);
+        
+        #Center Fuselage
+        pylon4.loadSet(pylonSets.t);
+        
+        #Side fuselage forward
+        pylon1.loadSet(pylonSets.i);
         pylon7.loadSet(pylonSets.i);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
+        
+        #Side fuselage backward
+        pylon8.loadSet(pylonSets.i);
+        pylon9.loadSet(pylonSets.i);
     } else {
-      screen.log.write(f16.msgB);
+      screen.log.write(mirage2000.msgB);
     }
-}
+  }
 
-# Air Strike : 2 3XGBU and 2 2XMK82
-var a2g_mix = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.i);
-        pylon4.loadSet(pylonSets.c);
-        pylon5.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.c);
-        pylon7.loadSet(pylonSets.i);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# Guided Air to Ground 1 : 2 JDAM and 2 2XGBU
-var a2g_guided1 = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.c3);
-        pylon4.loadSet(pylonSets.j);
-        pylon5.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.j);
-        pylon7.loadSet(pylonSets.c3);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# Guided Air to Ground 2 : 2 JDAM and 2 3XGBU
-var a2g_guided2 = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.i);
-        pylon4.loadSet(pylonSets.c3);
-        pylon5.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.c3);
-        pylon7.loadSet(pylonSets.i);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# Anti-ship: 2 2XGBU and 2 AGM84
-var a2s_antiship = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.b);
-        pylon4.loadSet(pylonSets.c3);
-        pylon5.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.c3);
-        pylon7.loadSet(pylonSets.b);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# Ferry configuration: 3 droptanks
-var a2a_ferry = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.empty);
-        pylon4.loadSet(pylonSets.l);
-        pylon5.loadSet(pylonSets.f);
-        pylon6.loadSet(pylonSets.m);
-        pylon7.loadSet(pylonSets.empty);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# Ferry configuration w/ cargo: 2 droptanks, 2 cargopods
-var a2a_ferrycargo = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.h);
-        pylon2.loadSet(pylonSets.g);
-        pylon3.loadSet(pylonSets.f3);
-        pylon4.loadSet(pylonSets.l);
-        pylon5.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.m);
-        pylon7.loadSet(pylonSets.f3);
-        pylon8.loadSet(pylonSets.g);
-        pylon9.loadSet(pylonSets.h);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# SEAD: 2 AGM88 and ECM pod
-var a2g_sead = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.h);
-        pylon2.loadSet(pylonSets.g);
-        pylon3.loadSet(pylonSets.b2);
-        pylon4.loadSet(pylonSets.l);
-        pylon5.loadSet(pylonSets.f2);
-        pylon6.loadSet(pylonSets.m);
-        pylon7.loadSet(pylonSets.b2);
-        pylon8.loadSet(pylonSets.g);
-        pylon9.loadSet(pylonSets.h);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# OCA: 4 AA missiles and 2 AGM65
-var a2g_oca = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.g);
-        pylon2.loadSet(pylonSets.h);
-        pylon3.loadSet(pylonSets.a);
-        pylon4.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.f);
-        pylon6.loadSet(pylonSets.empty);
-        pylon7.loadSet(pylonSets.a);
-        pylon8.loadSet(pylonSets.h);
-        pylon9.loadSet(pylonSets.g);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# Peacetime training configuration
-var a2a_training = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.k2);
-        pylon2.loadSet(pylonSets.k);
-        pylon3.loadSet(pylonSets.empty);
-        pylon4.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.empty);
-        pylon7.loadSet(pylonSets.empty);
-        pylon8.loadSet(pylonSets.k);
-        pylon9.loadSet(pylonSets.k2);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
-
-# Clean configuration
-var clean = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-        pylon1.loadSet(pylonSets.empty);
-        pylon2.loadSet(pylonSets.empty);
-        pylon3.loadSet(pylonSets.empty);
-        pylon4.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.empty);
-        pylon7.loadSet(pylonSets.empty);
-        pylon8.loadSet(pylonSets.empty);
-        pylon9.loadSet(pylonSets.empty);
-    } else {
-      screen.log.write(f16.msgB);
-    }
-}
+  
+  # Ground Attack configuration : 2 wing tanks, 2 x GBU-12, 2 magic2
+  var a2g_bravo_mix = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.t2);
+          pylon5.loadSet(pylonSets.t4);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.b2);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.empty);
+          pylon7.loadSet(pylonSets.s);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.empty);
+          pylon9.loadSet(pylonSets.empty);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+  
+    # Ground Attack configuration : 2 wing tanks, 2 x GBU-12, 2 magic2
+  var nuke = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.t2);
+          pylon5.loadSet(pylonSets.t4);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.b10);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.empty);
+          pylon7.loadSet(pylonSets.empty);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.empty);
+          pylon9.loadSet(pylonSets.empty);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+  
+  
+  

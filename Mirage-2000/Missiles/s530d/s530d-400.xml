@@ -3,7 +3,7 @@
     
   <model>
     <name>s530d-400</name>
-    <path>Aircraft/Mirage-2000/Missiles/Matra-super530d/s530d.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/s530d/s530d.xml</path>
   </model>
     
   <animation>
@@ -14,7 +14,7 @@
     <type>select</type>
     <object-name>s530d-400</object-name>
     <condition>
-        <property>payload/armament/matra-super530d/flags/msl-id-400</property>
+        <property>payload/armament/s530d/flags/msl-id-400</property>
     </condition>
   </animation>
   
@@ -32,7 +32,7 @@
     <type>select</type>
     <object-name>Smoke_s530d-400</object-name>
     <condition>
-        <property>payload/armament/matra-super530d/flags/smoke-id-400</property>
+        <property>payload/armament/s530d/flags/smoke-id-400</property>
     </condition>
   </animation>
   
@@ -50,7 +50,7 @@
     <object-name>explosionFire_s530d-400</object-name>
     <object-name>explosionSmoke_s530d-400</object-name>
     <condition>
-        <property>payload/armament/matra-super530d/flags/explode-id-400</property>
+        <property>payload/armament/s530d/flags/explode-id-400</property>
     </condition>
   </animation>
   

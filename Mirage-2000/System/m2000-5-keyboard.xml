@@ -148,7 +148,7 @@
       <binding>
         <command>nasal</command>
         <script>
-            pylons.fcs.cycleWeapon();
+            pylons.fcs.cycleLoadedWeapon();
             m2000_load.weaponSelector();
         </script>
       </binding>
