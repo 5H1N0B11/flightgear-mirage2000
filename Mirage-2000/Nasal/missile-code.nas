@@ -2438,37 +2438,52 @@ var AIM = {
 		
         if(me.loft_alt != 0 and me.snapUp == FALSE) {
         	# this is for Air to ground/sea cruise-missile (SCALP, Sea-Eagle, Taurus, Tomahawk, RB-15...)
-
+            
+            #Variable declaration
+            var No_terrain = 0;
+            var distance_Target = 0;
+            var xyz = nil;
+            var dir = nil;
+            var GroundIntersectCoord = geo.Coord.new();
+            var howmany = 0;
+            var altitude_step = 30;
+            
         	# detect terrain for use in terrain following
         	me.nextGroundElevationMem[1] -= 1;
-            me.geoPlus2 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*5);
-            me.geoPlus3 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*10);
+            #First we need origin coordinates we transorfm it in xyz        
+            xyz = {"x":me.coord.x(),                  "y":me.coord.y(),                 "z":me.coord.z()};
+            
+            #Then we need the coordinate of the future point at let say 20 dt
             me.geoPlus4 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*20);
-            me.e1 = geo.elevation(me.coord.lat(), me.coord.lon());# This is done, to make sure is does not decline before it has passed obstacle.
-            me.e2 = geo.elevation(me.geoPlus2.lat(), me.geoPlus2.lon());# This is the main one.
-            me.e3 = geo.elevation(me.geoPlus3.lat(), me.geoPlus3.lon());# This is an extra, just in case there is an high cliff it needs longer time to climb.
-            me.e4 = geo.elevation(me.geoPlus4.lat(), me.geoPlus4.lon());
-			if (me.e1 != nil) {
-            	me.nextGroundElevation = me.e1;
-            } else {
-            	me.printFlight(me.type~": nil terrain, blame terrasync! Cruise-missile keeping altitude.");
+            me.geoPlus4.set_alt(geo.elevation(me.geoPlus4.lat(),me.geoPlus4.lon()));
+            
+            #Loop
+            while(No_terrain != 1){
+                howmany = howmany + 1;
+                #We finalize the vector
+                dir = {"x":me.geoPlus4.x()-me.coord.x(),  "y":me.geoPlus4.y()-me.coord.y(), "z":me.geoPlus4.z()-me.coord.z()};
+                #We measure distance to be sure that the ground intersection is closer than geoPlus4 
+                distance_Target = me.coord.direct_distance_to(me.geoPlus4);
+                # Check for terrain between own aircraft and other:
+                GroundIntersectResult = get_cart_ground_intersection(xyz, dir);
+                if(GroundIntersectResult == nil){
+                    No_terrain = 1;
+                #Checking if the distance to the intersection is before or after geoPlus4
+                }else{
+                    GroundIntersectCoord.set_latlon(GroundIntersectResult.lat, GroundIntersectResult.lon, GroundIntersectResult.elevation);
+                    if(me.coord.direct_distance_to(GroundIntersectCoord)>distance_Target){
+                        No_terrain = 1;
+                    }else{
+                        #Raising geoPlus4 altitude by 100 meters
+                        me.geoPlus4.set_alt(me.geoPlus4.alt()+altitude_step);
+                        #print("Alt too low :" ~ me.geoPlus4.alt() ~ "; Raising alt by 30 meters (100 feet)");
+                    }
+                }
+                
             }
-            if (me.e2 != nil and me.e2 > me.nextGroundElevation) {
-            	me.nextGroundElevation = me.e2;
-            	if (me.e2 > me.nextGroundElevationMem[0] or me.nextGroundElevationMem[1] < 0) {
-            		me.nextGroundElevationMem[0] = me.e2;
-            		me.nextGroundElevationMem[1] = 5;
-            	}
-            }
-            if (me.nextGroundElevationMem[0] > me.nextGroundElevation) {
-            	me.nextGroundElevation = me.nextGroundElevationMem[0];
-            }
-            if (me.e3 != nil and me.e3 > me.nextGroundElevation) {
-            	me.nextGroundElevation = me.e3;
-            }
-            if (me.e4 != nil and me.e4 > me.nextGroundElevation) {
-            	me.nextGroundElevation = me.e4;
-            }
+            #print("There was : " ~ howmany ~ " iteration of the ground loop");
+            me.nextGroundElevation = me.geoPlus4.alt();
+            
 
             me.Daground = 0;# zero for sealevel in case target is ship. Don't shoot A/S missiles over terrain. :)
             if(me.Tgt.get_type() == SURFACE or me.follow == TRUE) {
@@ -2941,8 +2956,9 @@ var AIM = {
 		settimer(func {impact_report(me.coord, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);},0);
 
 		if (me.Tgt != nil) {
-			var phrase = sprintf( me.type~" "~event~": %.1f", min_distance) ~ " meters from: " ~ (me.flareLock == FALSE?(me.chaffLock == FALSE?me.callsign:(me.callsign ~ "'s chaff")):me.callsign ~ "'s flare");
-			me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
+			var phrase = sprintf( me.type~" "~event~": %.1f", min_distance) ~ " meters from: " ~ (me.flareLock == FALSE?(me.chaffLock == FALSE?
+			(me.callsign=="GROUND_TARGET"?me.closest_AI_MP():me.callsign):(me.callsign ~ "'s chaff")):me.callsign ~ "'s flare");
+			me.printStats(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
 			if (min_distance < me.reportDist) {
 				me.sendMessage(phrase);
 			} else {
@@ -2990,8 +3006,9 @@ var AIM = {
 		}
 		
 		if (me.Tgt != nil) {
-			var phrase = sprintf( me.type~" "~event~": %.1f", me.direct_dist_m) ~ " meters from: " ~ (me.flareLock == FALSE?(me.chaffLock == FALSE?me.callsign:(me.callsign ~ "'s chaff")):me.callsign ~ "'s flare");
-			me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
+			var phrase = sprintf( me.type~" "~event~": %.1f", me.direct_dist_m) ~ " meters from: " ~ (me.flareLock == FALSE?(me.chaffLock == FALSE?
+			(me.callsign=="GROUND_TARGET"?me.closest_AI_MP():me.callsign):(me.callsign ~ "'s chaff")):me.callsign ~ "'s flare");
+			me.printStats(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
 			me.sendMessage(phrase);
 		}
 		if (me.multiHit and me.arming_time != 5000) {
@@ -3852,6 +3869,81 @@ var AIM = {
 		return [me.rho, me.snd_speed];
 
 	},
+    
+    closest_AI_MP: func(){
+        #In order to make it follow AI/MP target each time we click on the button
+    
+        #Distance variable and closest_c in order to select the contact object
+        #The first limitation is to limit in an AI/MP in a circle around target
+        var closest_Distance = 300;
+        var tempDistance = 0;
+        var type = nil;
+        var raw_list = nil;
+        var c = nil;
+        var C_Alt = nil;
+        var C_lat = nil;
+        var C_lon = nil;
+        var TempCallsign =nil;
+        var TempName = nil;
+        var CloseTargetcoord = geo.Coord.new();
+        var name = "";
+        var Mp = props.globals.getNode("ai/models");
+        
+        #Going to the AI/MP tree
+        raw_list = Mp.getChildren();
+        foreach(c ; raw_list)
+        {
+            type = c.getName();
+            index = c.getIndex();
+            
+            #Looking if the AI MP is valid
+            if(! c.getNode("valid", 1).getValue())
+            {
+                continue;
+            }
+            #Looking if it fits with the vehicule type (ground) that is at the beguining of this file
+            if(listOfGroundOrShipVehicleModels[type] ==1){
+              C_Alt = c.getNode("position/altitude-ft");
+              C_lat = c.getNode("position/latitude-deg");
+              C_lon = c.getNode("position/longitude-deg");
+              TempCallsign = c.getNode("callsign", 1);
+              TempName = c.getNode("name", 1);
+              
+              #Eliminate itself
+              if(c.getNode("callsign", 1).getValue()=="GROUND_TARGET")
+              {
+                continue;
+              }
+              
+              if(C_Alt!=nil){
+                CloseTargetcoord.set_latlon(C_lat.getValue(),C_lon.getValue(),C_Alt.getValue()*FT2M);
+
+                #Calculate distance
+                tempDistance = me.coord.direct_distance_to(CloseTargetcoord);
+                
+                  #Updating coordinates
+                  if(tempDistance<closest_Distance){
+                    #print(type ~ " : Distance:"~tempDistance);
+                    closest_Distance = tempDistance;
+                    #print("Callsign :" ~ TempCallsign.getValue() ~" and name : " ~ TempName.getValue());
+                    if(TempCallsign.getValue() == ""){
+                        name = TempName.getValue();
+                        
+                    }else{
+                        name = TempCallsign.getValue();
+                    }
+                  }
+              }
+            }
+        }
+        
+        if(closest_Distance<299 & name != nil){
+            return name;
+        }else{
+            return "GROUND_TARGET";
+        }
+    
+    },
 
 	printFlight: func {
 		if (DEBUG_FLIGHT) {
@@ -3988,6 +4080,25 @@ var deviation_normdeg = func(our_heading, target_bearing) {
 	var dev_norm = geo.normdeg180(our_heading - target_bearing);
 	return dev_norm;
 }
+
+var listOfGroundOrShipVehicleModels = {
+    "buk-m2":1, 
+    "depot":1, 
+    "truck":1, 
+    "tower":1, 
+    "germansemidetached1":1,
+    "frigate":1, "missile_frigate":1, 
+    "USS-LakeChamplain":1, 
+    "USS-NORMANDY":1, 
+    "USS-OliverPerry":1, 
+    "USS-SanAntonio":1,
+    "ship":1,
+    "carrier":1,
+    "aircraft":1,
+    "multiplayer":1,
+  };
+
+
 
 #
 # this code make sure messages don't trigger the MP spam filter:

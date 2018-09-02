@@ -3386,7 +3386,7 @@ var AIM = {
         var TempName = nil;
         var CloseTargetcoord = geo.Coord.new();
         var name = "";
-        
+        var Mp = props.globals.getNode("ai/models");
         
         #Going to the AI/MP tree
         raw_list = Mp.getChildren();

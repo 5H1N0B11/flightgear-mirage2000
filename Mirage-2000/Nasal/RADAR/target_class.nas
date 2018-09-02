@@ -689,7 +689,7 @@ var Target = {
 
     getUnique: func () {
       #var myIndex = me.getIndex();
-      return me.get_Callsign()~me.fname~me.ID;
+      return me.fname~me.ID;
         #return me.get_type()~me.fname~me.ID;
     },
 
@@ -718,6 +718,9 @@ var Target = {
         #if(me.Display == 0){me.setPainted(0);}
         #print(me.get_Callsign() ~ "Paiting : " ~ me.ispainted);
         return me.ispainted;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
+    },
+    isLaserPainted: func() {
+        return me.ispainted; 
     },
 
     get_model: func {

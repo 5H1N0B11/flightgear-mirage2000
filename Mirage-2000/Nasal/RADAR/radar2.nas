@@ -492,6 +492,9 @@ var Radar = {
                 }
                 else
                 {
+                    me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
+                    if(me.tempo_Index != nil){me.ContactsList[me.tempo_Index].set_display(1,me.myTree);}
+                  
                  #Here we shouldn't see the target anymore. It should disapear. So this is calling the Tempo_Janitor      
                     if(u.get_Validity() == 1)
                     {
