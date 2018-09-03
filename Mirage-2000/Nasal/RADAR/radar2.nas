@@ -63,7 +63,8 @@ listOfGroundTargetNames = ["groundvehicle"];
 listOfShipNames      = ["carrier", "ship"];
 listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle"];
 listOfAIRadarEchoes2 = keys(weaponRadarNames);
-listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
+listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1"];
+#listOfGroundVehicleModels = ["GROUND_TARGET"];
 listOfShipModels          = ["frigate", "missile_frigate", "USS-LakeChamplain", "USS-NORMANDY", "USS-OliverPerry", "USS-SanAntonio"];
 foreach(var addMe ; listOfAIRadarEchoes2) {
     append(listOfAIRadarEchoes, addMe);
@@ -141,6 +142,7 @@ var Radar = {
         m.Target_Index    = -1 ; # for Target Selection
         m.Target_Callsign = nil;
         m.radarMaxSize    = 20;
+        m.selectedArmament= nil; #Actually useless : The idea is to allow the radar to occult everything that is not for the current loaded weapon
         
         # source behavior
         m.OurHdg        = 0;
@@ -377,16 +379,19 @@ var Radar = {
                 # now we test the property folder name to guess what type it is:
                 foreach (var testMe ; listOfShipNames) {
                     if (testMe == folderName) {
-                        u.setType(armament.MARINE);
-                        me.skipDoppler = 1;
+                        if(u.get_altitude()<100){
+                          u.setType(armament.MARINE);
+                          me.skipDoppler = 1;
+                        }
                         break;
+                          
                     }
                 }
                 if (me.skipDoppler == 0) {
                     foreach (var testMe ; listOfGroundTargetNames) {
                         if (testMe == folderName) {
                             u.setType(armament.SURFACE);
-                            me.skipDoppler = 1;
+                            me.skipDoppler = 0;
                             break;
                         }
                     }
@@ -403,8 +408,10 @@ var Radar = {
                           foreach (var testMe ; listOfShipModels) {
                               if (testMe == me.model) {
                                 # Its a ship, Mirage ground radar will pick it up
-                                u.setType(armament.MARINE);
-                                me.skipDoppler = 1;
+                                if(u.get_altitude()<100){
+                                  u.setType(armament.MARINE);
+                                  me.skipDoppler = 1;
+                                }
                                 break;
                               }
                           }
@@ -412,12 +419,13 @@ var Radar = {
                               if (testMe == me.model) {
                                 # its a ground vehicle, Mirage ground radar will pick it up
                                 u.setType(armament.SURFACE);
-                                me.skipDoppler = 1;
+                                me.skipDoppler = 0;
                                 break;
                               }
                           }
                       }
                   }
+ 
 
 
                 #print("Start Testing "~ u.get_Callsign()~"Type: " ~ type);

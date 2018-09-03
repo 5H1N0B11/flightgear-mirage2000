@@ -3,7 +3,7 @@
 <PropertyList>
   
   <autopilot>
-    <path>Aircraft/Mirage-2000/System/m2000-5_autopilot.xml</path>
+    <path>Aircraft/Mirage-2000/Systems/m2000-5_autopilot.xml</path>
   </autopilot>
   
   <electrical>
@@ -16,11 +16,11 @@
 
   <property-rule n="101">
     <name>rain-drops</name>
-    <path>Aircraft/Mirage-2000/System/rain-drops.xml</path>
+    <path>Aircraft/Mirage-2000/Systems/rain-drops.xml</path>
   </property-rule>
 
   <property-rule n="102">
-    <path>Aircraft/Mirage-2000/System/m2000-5-views.xml</path>
+    <path>Aircraft/Mirage-2000/Systems/m2000-5-views.xml</path>
   </property-rule>
 
 </PropertyList>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<PropertyList include="System/m2000-5B-base.xml">
+<PropertyList include="Systems/m2000-5B-base.xml">
 
 
   <scalp-pos-norm type="float">0</scalp-pos-norm>
@@ -18,7 +18,7 @@
     <variant-of>m2000-5</variant-of>
 
     <flight-model>yasim</flight-model>
-    <aero>System/m2000-5-yasim</aero>
+    <aero>Systems/m2000-5-yasim</aero>
 
     <rating>
       <FDM     type="int"> 4 </FDM>
