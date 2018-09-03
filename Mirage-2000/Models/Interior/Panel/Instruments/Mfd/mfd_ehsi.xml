@@ -104,7 +104,7 @@
     <object-name>EHSI-CRS-FROM</object-name>
     <object-name>EHSI-ptr2</object-name>
     <object-name>EHSI-ptr1</object-name>
-    <property>orientation/heading-magnetic-deg</property>
+    <property>orientation/heading-deg</property>
     <axis>
       <x>1</x>
       <y>0</y>
@@ -223,7 +223,7 @@
   <animation>
     <type>rotate</type>
     <object-name>EHSI-w-arrow</object-name>
-    <property>orientation/heading-magnetic-deg</property>
+    <property>orientation/heading-deg</property>
     <offset-deg>180</offset-deg>
     <center>
       <x-m>-0.010</x-m>

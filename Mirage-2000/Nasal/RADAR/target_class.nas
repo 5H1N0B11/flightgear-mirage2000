@@ -343,16 +343,8 @@ var Target = {
 
     get_Callsign: func(){
         var n = me.Callsign.getValue();
-        
-        if(n == nil){
-            return "UFO";
-        }
-        
-        if(size(n) > 1 and n !=nil and me.name !=nil)
-        {
-            n = me.name.getValue();
-        }
- 
+        if(n == nil){n = me.name.getValue();}
+        if(n == nil){n = "UFO";}
         return n;
     },
 
@@ -721,6 +713,9 @@ var Target = {
     },
     isLaserPainted: func() {
         return me.ispainted; 
+    },
+    isVirtual: func(){
+      if(me.get_Callsign() == "GROUND_TARGET"){return 1;}else{return 0;}
     },
 
     get_model: func {

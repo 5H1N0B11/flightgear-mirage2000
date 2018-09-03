@@ -412,6 +412,26 @@
     <visible>true</visible>
     <action></action>
   </animation>
+  
+    <animation>
+    <type>pick</type>
+    <object-name>bt-b4</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/efis/mfd/true-north</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>True_North_Toggle</tooltip-id>
+        <label>Toggle TRUE/MAG heading</label>
+      </binding>
+    </hovered>
+  </animation>
 
   <animation>
     <type>select</type>

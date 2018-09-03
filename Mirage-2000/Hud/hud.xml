@@ -71,7 +71,7 @@
     <width>18</width>
     <height>8</height>
     <input>
-      <property>/orientation/heading-magnetic-deg</property>
+      <property>/orientation/heading-deg</property>
     </input>
     <format>%3.0f</format>
     <halign>center</halign>
@@ -82,7 +82,7 @@
   <tape>
     <name>Gyrocompass</name>
     <input>
-      <property>/orientation/heading-magnetic-deg</property>
+      <property>/orientation/heading-deg</property>
       <factor>0.1</factor>
     </input>
     <x>-40</x>
