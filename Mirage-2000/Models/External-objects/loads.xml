@@ -34,8 +34,8 @@
     <object-name>left-pos-1-MICA</object-name>
     <condition>
       <equals>
-        <property>payload/armament/station/id-0-type</property>
-        <value>mica-em</value>
+        <property>payload/armament/station/id-0-set</property>
+        <value>MICA EM</value>
       </equals>
       <greater-than>
         <property>payload/armament/station/id-0-count</property>
@@ -86,8 +86,8 @@
     <object-name>left-pos-2</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-1-type</property>
-          <value>magic2</value>
+          <property>payload/armament/station/id-1-set</property>
+          <value>Matra R550 Magic 2</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-1-count</property>
@@ -101,8 +101,8 @@
     <object-name>left-pos-2-MICA_IR</object-name>
     <condition>
       <equals>
-        <property>payload/armament/station/id-1-type</property>
-        <value>mica-ir</value>
+        <property>payload/armament/station/id-1-set</property>
+        <value>MICA IR</value>
       </equals>
       <greater-than>
         <property>payload/armament/station/id-1-count</property>
@@ -132,7 +132,7 @@
     <object-name>left-large-tank</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-2-type</property>
+          <property>payload/armament/station/id-2-set</property>
           <value>1700 l Droptank</value>
         </equals>
         <greater-than>
@@ -147,7 +147,7 @@
     <object-name>left-tank</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-2-type</property>
+          <property>payload/armament/station/id-2-set</property>
           <value>1300 l Droptank</value>
         </equals>
         <greater-than>
@@ -179,8 +179,8 @@
     <object-name>S530D_Left</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-2-type</property>
-          <value>s530d</value>
+          <property>payload/armament/station/id-2-set</property>
+          <value>Matra Super 530D</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-2-count</property>
@@ -196,7 +196,7 @@
     <object-name>center-tank</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-3-type</property>
+          <property>payload/armament/station/id-3-set</property>
           <value>1300 l Droptank</value>
         </equals>
         <greater-than>
@@ -231,15 +231,9 @@
     <object-name>Center-GBU12</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-3-type</property>
+          <property>payload/armament/station/id-3-set</property>
           <value>GBU-12</value>
         </equals>
-        <not>
-          <equals>
-            <property>payload/armament/station/id-3-set</property>
-            <value>2 x GBU-12</value>
-          </equals>
-        </not>
         <greater-than>
           <property>payload/armament/station/id-3-count</property>
            <value>0</value>
@@ -252,10 +246,6 @@
     <type>select</type>
     <object-name>Center-Right-GBU12</object-name>
     <condition>
-        <equals>
-          <property>payload/armament/station/id-3-type</property>
-          <value>gbu-12</value>
-        </equals>
         <equals>
           <property>payload/armament/station/id-3-set</property>
           <value>2 x GBU-12</value>
@@ -271,10 +261,6 @@
     <type>select</type>
     <object-name>Center-Left-GBU12</object-name>
     <condition>
-        <equals>
-          <property>payload/armament/station/id-3-type</property>
-          <value>gbu-12</value>
-        </equals>
         <equals>
           <property>payload/armament/station/id-3-set</property>
           <value>2 x GBU-12</value>
@@ -328,7 +314,7 @@
     <object-name>ASMP</object-name>
     <condition>
       <equals>
-        <property>payload/armament/station/id-3-type</property>
+        <property>payload/armament/station/id-3-set</property>
         <value>ASMP</value>
       </equals>
     </condition>
@@ -360,7 +346,7 @@
     <object-name>right-large-tank</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-4-type</property>
+          <property>payload/armament/station/id-4-set</property>
           <value>1700 l Droptank</value>
         </equals>
         <greater-than>
@@ -375,7 +361,7 @@
     <object-name>right-tank</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-4-type</property>
+          <property>payload/armament/station/id-4-set</property>
           <value>1300 l Droptank</value>
         </equals>
         <greater-than>
@@ -407,8 +393,8 @@
     <object-name>S530D_Right</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-4-type</property>
-          <value>s530d</value>
+          <property>payload/armament/station/id-4-set</property>
+          <value>Matra Super 530D</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-4-count</property>
@@ -425,8 +411,8 @@
     <object-name>right-pos-2</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-5-type</property>
-          <value>magic2</value>
+          <property>payload/armament/station/id-5-set</property>
+          <value>Matra R550 Magic 2</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-5-count</property>
@@ -440,8 +426,8 @@
     <object-name>right-pos-2-MICA_IR</object-name>
     <condition>
       <equals>
-        <property>payload/armament/station/id-5-type</property>
-        <value>mica-ir</value>
+        <property>payload/armament/station/id-5-set</property>
+        <value>MICA IR</value>
       </equals>
       <greater-than>
         <property>payload/armament/station/id-5-count</property>
@@ -469,8 +455,8 @@
     <object-name>right-pos-1-MICA</object-name>
     <condition>
       <equals>
-        <property>payload/armament/station/id-6-type</property>
-        <value>mica-em</value>
+        <property>payload/armament/station/id-6-set</property>
+        <value>MICA EM</value>
       </equals>
       <greater-than>
         <property>payload/armament/station/id-6-count</property>
@@ -521,7 +507,7 @@
     <object-name>PDLCT</object-name>
     <condition>
       <equals>
-        <property>payload/armament/station/id-6-type</property>
+        <property>payload/armament/station/id-6-set</property>
         <value>PDLCT</value>
       </equals>
     </condition>
@@ -533,8 +519,8 @@
     <object-name>MICABL</object-name>
     <condition>
       <equals>
-        <property>payload/armament/station/id-7-type</property>
-        <value>mica-em</value>
+        <property>payload/armament/station/id-7-set</property>
+        <value>MICA EM</value>
       </equals>
       <greater-than>
         <property>payload/armament/station/id-7-count</property>
@@ -585,8 +571,8 @@
     <object-name>MICABR</object-name>
     <condition>
       <equals>
-        <property>payload/armament/station/id-8-type</property>
-        <value>mica-em</value>
+        <property>payload/armament/station/id-8-set</property>
+        <value>MICA EM</value>
       </equals>
       <greater-than>
         <property>payload/armament/station/id-8-count</property>

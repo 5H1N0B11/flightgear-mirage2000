@@ -47,7 +47,6 @@
       var passenger_door = self.getNode("sim/model/door-positions/passenger/position-norm", 1);
       
       # Update Time
-      #print("Creating the Decodeur");
       var myDecodeur = m2000_mp.Decode_Load.new(self,myLoadString,0.5);
       var LoadListening = setlistener("sim/multiplay/generic/string[1]", func {
           #We have to use a timer, otherwwise, this is too fast and the new changed variable isn't loaded yet

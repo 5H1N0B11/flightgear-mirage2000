@@ -522,7 +522,7 @@ var Radar = {
                     }
                     
                 }    
-                
+                completeList = me.update_array_no_life_reset(u,completeList);
             }
             #Temporary adding this in order to make the whole new firesystem work
             #print("Update completeList");
@@ -535,7 +535,7 @@ var Radar = {
 #               }
 #             }
             
-            completeList = me.update_array_no_life_reset(u,completeList);
+            
         }#For Each End
 ;
                 

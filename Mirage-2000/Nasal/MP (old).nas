@@ -11,19 +11,49 @@ var Decode_Load = {
         m.updateTime = updateTime;
         m.running = 0;
         m.loadList = [
-            "1700 l Droptank",
-            "2 x GBU-12",
-            "PDLCT",
-            "Matra Super 530D",
-            "30mm Cannon",
             "none",
             "1300 l Droptank",
-            "Matra R550 Magic 2",
             "1700 l Droptank",
-            "MICA EM",
+            "AGM65",
+            "AIM-54",
+            "aim-9",
+            "AIM120",
+            "GBU12",
+            "GBU16",
+            "Double GBU12",
+            "Double GBU12_1",
+            "Matra MICA",
+            "MATRA-R530",
+            "Matra R550 Magic 2",
+            "Meteor",
+            "R74",
+            "R77",
+            "SCALP",
+            "Sea Eagle",
+            "SmokePod",
             "ASMP",
-            "MICA IR"
+            "PDLCT",
+            "Matra MICA IR",
+            "Exocet",
+            "Matra Super 530D"
         ];
+        m.weaponWeight = {
+          "none":                 0,
+          "GBU16":                1000,
+          "GBU12":                800,
+          "Double GBU12":         1600,
+          "Double GBU12_1":       800,
+          "PDLCT":                280,
+          "Matra MICA":           246.91,
+          "Matra MICA IR":        246.91,
+          "Matra R550 Magic 2":   196.21,
+          "ASMP":                 1850,
+          "SCALP":                2866,
+          "Exocet":               1460,
+          "Matra Super 530D":     595.2,
+          "1700 l Droptank":      280,
+          "1300 l Droptank":      220
+        };
         m.decode();
         return m;
     },
@@ -31,53 +61,81 @@ var Decode_Load = {
     decode: func()
     {
         #print("Upload On going");
-        #var myInternalString = me.myString.getValue();
-        #print("myInternalString" ~ myInternalString);
-        
-        #Using getprop because it seems that the "myString.getValue()" does not work and I don't understand why.
-        var String = getprop("sim/multiplay/generic/string[1]");
+        var myString = me.myString.getValue();
         var myIndexArray = [];
         
-        #print("String "~String);
-        
-        if(String != nil)
+        if(myString != nil)
         {
-          #String = getprop("sim/multiplay/generic/string[1]");    
-          #Index of the beguining of each set string
-          var mySetIndexArray = [];
-          #Index of the beguining of each count string
-          var myCountIndexArray = [];
-          
-          for(i = 0 ; i < size(String) ; i += 1)
-          {
-              if(chr(String[i]) == '#'){append(mySetIndexArray, i);}
-              if(chr(String[i]) == 'C'){append(myCountIndexArray, i);}
-          }
-          
-          if(size(mySetIndexArray) != size(myCountIndexArray)){return;}
-          
-          var i = 0;
-          forindex(i; mySetIndexArray){
-            var mySet = substr(String, mySetIndexArray[i] + 1, myCountIndexArray[i]-mySetIndexArray[i]-1);
-            #print("myCountIndexArray[i]:"~myCountIndexArray[i]~ " size(String):"~ size(String));
-            if(i+1<size(mySetIndexArray)){
-              var myCount = substr(String, myCountIndexArray[i] + 1, mySetIndexArray[i+1] - myCountIndexArray[i]-1);
-            }else{
-              var myCount = substr(String, myCountIndexArray[i] + 1, size(String) - myCountIndexArray[i]-1);
+            #print("the string :"~ myString);
+            #print("test" ~ me.loadList[3]);
+            # Here to detect each substring index
+            for(i = 0 ; i < size(myString) ; i += 1)
+            {
+                #print(chr(myString[i]));
+                if(chr(myString[i]) == '#')
+                {
+                    #print("We got one : " ~ i );
+                    append(myIndexArray, i);
+                }
+                #print(size(myIndexArray));
             }
             
-            #print(mySet);
-            #print(myCount);
-            #print(me.loadList[mySet]);
-            #setprop("payload/armament/station/id-" ~ i ~ "-set",AllPossibleLoads.vector[mySet]);
-            #setprop("payload/armament/station/id-" ~ i ~ "-count",myCount);
-            me.mySelf.getNode("payload/armament/station/id-"~ i ~"-set", 1).setValue(me.loadList[mySet]);
-            me.mySelf.getNode("payload/armament/station/id-"~ i ~"-count", 1).setValue(myCount);
-            
-          }
+            # now we can split the substring
+            for(i = 0 ; i < size(myIndexArray) ; i += 1)
+            {
+                if(i < size(myIndexArray) - 1)
+                {
+                    #print(substr(myString, myIndexArray[i], myIndexArray[i + 1] - myIndexArray[i]));
+                    
+                    # index of weight :
+                    var myWeightIndex = substr(myString, myIndexArray[i] + 1, 1);
+                    #print("myWeightIndex:"~ myWeightIndex);
+                    
+                    # has been fired (display pylons or not)
+                    var myFired = substr(myString, myIndexArray[i] + 2, 1) == 1;
+                    #print(myFired);
+                    
+                    # what to put in weight[]/selected index
+                    var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, (myIndexArray[i + 1] - 1) - (myIndexArray[i] + 2));
+                    var mySelection = me.loadList[myWeightOptIndex];
+                    #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
+                    #print("mySelection: " ~ mySelection);
+                    
+                    # rebuilt the property Tree
+                    me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
+                    if(myFired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh[mySelection]);}
+                    me.mySelf.getNode("controls/armament/station["~ myWeightIndex ~"]/release", 1).setValue(myFired);
+                }
+                else
+                {
+                    #print(substr(myString, myIndexArray[i], size(myString) - myIndexArray[i]));
+                    
+                    # index of weight :
+                    var myWeightIndex = substr(myString, myIndexArray[i] + 1, 1);
+                    #print(myWeightIndex);
+                    
+                    # has been fired (display pylons or not)
+                    var myFired = substr(myString, myIndexArray[i] + 2, 1) == 1;
+                    #print(myFired);
+                    
+                    # what to put in weight[]/selected
+                    var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, size(myString) - (myIndexArray[i] + 2));
+                    var mySelection = me.loadList[myWeightOptIndex];
+                    #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
+                    #print(mySelection);
+                    
+                    # rebuilt the property Tree
+                    me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
+                    if(myFired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh[mySelection]);}
+                    me.mySelf.getNode("controls/armament/station["~ myWeightIndex ~"]/release", 1).setValue(myFired);
+                    
+                    if(me.running == 1)
+                    {
+                      #settimer(func(){ me.decode(); }, me.updateTime);
+                    }
+                }
+            }
         }
-
-        #me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
         #print(me.mySelf.getName() ~ "["~ me.mySelf.getIndex() ~"]");
     },
     stop: func()

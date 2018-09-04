@@ -69,7 +69,7 @@ var update_rmi1 = func
             adf2_corr -= 360;
         }
         setprop(RMI1bearing, adf2_corr);
-        setprop(RMI1ident, getprop("/instrumentation/adf[1]/ident"));
+        #setprop(RMI1ident, getprop("/instrumentation/adf[1]/ident"));
         setprop(RMI1dist, 0);
     }
 }
@@ -311,5 +311,5 @@ var update_main = func()
 {
     update_rmi1();
     update_rmi2();
-    #settimer(update_main, 0.25);
+    settimer(update_main, 0.25);
 }

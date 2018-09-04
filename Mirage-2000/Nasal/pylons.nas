@@ -435,9 +435,27 @@ var a2a_kilo_mica = func {
     #print(pylonSets[key].name);
     AllPossibleLoads.append(pylonSets[key].name);
   }
+  
+  #This is the array that allow us to decode it it has to be the same as  "AllPossibleLoads"
+  #To know what in it uncomment : "print(pylonSets[key].name);"
+  #ACtually, here this list is useless : but it need to be the exact same in MP.nas
+  loadList = [
+    "1700 l Droptank",
+    "2 x GBU-12",
+    "PDLCT",
+    "Matra Super 530D",
+    "30mm Cannon",
+    "none",
+    "1300 l Droptank",
+    "Matra R550 Magic 2",
+    "1700 l Droptank",
+    "MICA EM",
+    "ASMP",
+    "MICA IR"
+  ];
 
   
-  #Decoding String
+  #Decoding String => Not needed anymore. Just for information
   var decodeStations = func(){
     
     String = getprop("sim/multiplay/generic/string[1]");    
@@ -461,11 +479,10 @@ var a2a_kilo_mica = func {
       }else{
         var myCount = substr(String, myCountIndexArray[i] + 1, size(String) - myCountIndexArray[i]-1);
       }
-      
-      print(mySet);
-      print(myCount);
-      print(AllPossibleLoads.vector[mySet]);
-      #setprop("payload/armament/station/id-" ~ i ~ "-set",AllPossibleLoads.vector[mySet]);
+      #print(mySet);
+      #print(myCount);
+      #print(AllPossibleLoads.vector[mySet]);
+      #setprop("payload/armament/station/id-" ~ i ~ "-set",loadList[mySet]);
       #setprop("payload/armament/station/id-" ~ i ~ "-count",myCount);
     }
   
@@ -484,7 +501,7 @@ var a2a_kilo_mica = func {
         compiled = compiled  ~ "#" ~ AllPossibleLoads.index(myTempoSet) ~ "C" ~ myTempoCount;
         #print("myTempoSet" ~ myTempoSet ~ " and Vector index :" ~ AllPossibleLoads.index(myTempoSet) ~ ":"~ AllPossibleLoads.vector[AllPossibleLoads.index(myTempoSet)]);
     }
-    print(compiled);
+    #print(compiled);
     setprop("sim/multiplay/generic/string[1]", compiled);
   }
   
@@ -493,7 +510,7 @@ var a2a_kilo_mica = func {
   #i is the pylon number
   var setEncodeMPListener = func(i){
     var tempSet = setlistener("/payload/armament/station/id-" ~ i ~ "-set",func {
-                    print(i);
+                    #print(i);
                     codeStations();
                   }, 1, 0);
     var tempCount = setlistener("/payload/armament/station/id-" ~ i ~ "-count",func {
