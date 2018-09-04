@@ -48,16 +48,16 @@
       
       # Update Time
       var myDecodeur = m2000_mp.Decode_Load.new(self,myLoadString,0.5);
-      var LoadListening = setlistener("sim/multiplay/generic/string[1]", func {
+      var LoadListening = setlistener(myLoadString, func {
           #We have to use a timer, otherwwise, this is too fast and the new changed variable isn't loaded yet
           settimer(func(){myDecodeur.decode();},1,1);
-      });
+      }, 1, 0);
       
       
       var myBoolDecodeur = m2000_mp.Decode_Bool.new(self,myLoadInt,0.5);
-      var BoolListening = setlistener("sim/multiplay/generic/int[8]", func {
+      var BoolListening = setlistener(myLoadInt, func {
           myBoolDecodeur.decode();
-      }); 
+      }, 1, 0); 
       var myMP_light = m2000_mp.MP_light.new(self);
       
       crew_door.alias(float_0);

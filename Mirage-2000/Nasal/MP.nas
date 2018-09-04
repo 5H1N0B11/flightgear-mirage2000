@@ -35,7 +35,8 @@ var Decode_Load = {
         #print("myInternalString" ~ myInternalString);
         
         #Using getprop because it seems that the "myString.getValue()" does not work and I don't understand why.
-        var String = getprop("sim/multiplay/generic/string[1]");
+        var StringTree = me.mySelf.getNode("sim/multiplay/generic/string[1]");
+        var String = StringTree.getValue();
         var myIndexArray = [];
         
         #print("String "~String);
