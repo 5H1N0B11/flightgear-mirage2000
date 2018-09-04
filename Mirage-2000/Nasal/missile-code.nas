@@ -134,7 +134,7 @@ var SURFACE = 2;
 var ORDNANCE = 3;
 
 # set these to print stuff to console:
-var DEBUG_STATS            = 1;#most basic stuff
+var DEBUG_STATS            = 0;#most basic stuff
 var DEBUG_FLIGHT           = 0;#for creating missiles sometimes good to have this on to see how it flies.
 
 # set these to debug the code:
@@ -3249,7 +3249,8 @@ var AIM = {
 			}
 			var min_distance = me.testMe.get_Coord().direct_distance_to(explode_coord);
 			me.printStats(me.testMe.get_Callsign()~" dist: "~min_distance~" "~(min_distance < me.reportDist)~" "~(me.testMe.getUnique() != me.Tgt.getUnique()));
-			if (min_distance < me.reportDist and me.testMe.getUnique() != me.Tgt.getUnique()) {
+      #me.printStats(me.testMe.get_Callsign()~" Unique ID:" ~ me.testMe.getUnique() ~ "; It's "~ me.testMe.type ~" and Me Unique ID:" ~ me.Tgt.getUnique());
+			if (min_distance < me.reportDist and me.testMe.getUnique() != me.Tgt.getUnique() and me.testMe.get_Callsign() != me.type) {
 				var phrase = sprintf("%s %s: %.1f meters from: %s", me.type,event, min_distance, me.testMe.get_Callsign());
 				me.printStats(phrase);
 				me.sendMessage(phrase);

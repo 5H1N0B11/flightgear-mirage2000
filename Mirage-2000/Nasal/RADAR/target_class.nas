@@ -140,6 +140,10 @@ var Target = {
             obj.type = armament.SURFACE;
         }
 
+        if(obj.type  == "missile"){
+          obj.type  = armament.ORDNANCE;
+        }
+        
         obj.model = "";
         
         return obj;
@@ -343,8 +347,8 @@ var Target = {
 
     get_Callsign: func(){
         var n = me.Callsign.getValue();
-        if(n == nil){n = me.name.getValue();}
-        if(n == nil){n = "UFO";}
+        if(n == nil or n == ""){n = me.name.getValue();}
+        if(n == nil or n == ""){n = "UFO";}
         return n;
     },
 

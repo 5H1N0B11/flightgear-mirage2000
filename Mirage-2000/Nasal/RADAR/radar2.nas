@@ -500,8 +500,8 @@ var Radar = {
                 }
                 else
                 {
-                    me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
-                    if(me.tempo_Index != nil){me.ContactsList[me.tempo_Index].set_display(1,me.myTree);}
+                    #me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
+                    #if(me.tempo_Index != nil){me.ContactsList[me.tempo_Index].set_display(1,me.myTree);}
                   
                  #Here we shouldn't see the target anymore. It should disapear. So this is calling the Tempo_Janitor      
                     if(u.get_Validity() == 1)
@@ -517,8 +517,15 @@ var Radar = {
             }
             #Temporary adding this in order to make the whole new firesystem work
             #print("Update completeList");
+            
+#             if(u.get_Callsign() == "GROUND_TARGET"){
+#               if(me.inAzimuth(u,1) == 0){
+#                 u.set_display(0,me.myTree);
+#               }
+#             }
+            
             completeList = me.update_array_no_life_reset(u,completeList);
-        }
+        }#For Each End
 ;
                 
         me.ContactsList = me.decrease_life(me.ContactsList);
@@ -750,8 +757,8 @@ var Radar = {
         return GroundNotBehind;
     },
 
-    inAzimuth: func(SelectedObject){
-        if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
+    inAzimuth: func(SelectedObject,ExceptGroundTarget = 0){
+        if(SelectedObject.get_Callsign()=="GROUND_TARGET" and ExceptGroundTarget){return 1;}
         # Check if it's in Azimuth.
         # first we check our heading+ center az deviation + the sweep if the radar is mechanical
         tempAz = me.az_fld;
@@ -1265,10 +1272,11 @@ var Radar = {
     update_array_no_life_reset: func(SelectedObject,myArray){
       var tempo = nil;
       if(size(myArray) > 0){
-          #The idea is to keep the values of the variables
+          #The idea is to keep the values of the variables and not reseting them
+          #This way it does not impact the radar
           myIndex = me.find_index_inArray(SelectedObject,myArray);
         
-        if(myIndex != nil){
+        if(myIndex != nil and myArray[myIndex].Display_Node != nil){
           var mypaint = myArray[myIndex].isPainted();
           var myDisplay = myArray[myIndex].get_display();
           var myLife = myArray[myIndex].life;
@@ -1276,12 +1284,15 @@ var Radar = {
         
           me.update_array(SelectedObject,myArray);
           
-        if(myIndex != nil){
-          myArray[myIndex].setpainted(mypaint);
+        if(myIndex != nil and myArray[myIndex].Display_Node != nil){
+          myArray[myIndex].setPainted(mypaint);
           myArray[myIndex].set_display(myDisplay, me.UseATree);
           myArray[myIndex].life = myLife;
         }
+      }else{
+          me.update_array(SelectedObject,myArray);
       }
+      
       return myArray;
       
     },
