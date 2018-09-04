@@ -134,7 +134,7 @@ var SURFACE = 2;
 var ORDNANCE = 3;
 
 # set these to print stuff to console:
-var DEBUG_STATS            = 1;#most basic stuff
+var DEBUG_STATS            = 0;#most basic stuff
 var DEBUG_FLIGHT           = 0;#for creating missiles sometimes good to have this on to see how it flies.
 
 # set these to debug the code:
@@ -1343,9 +1343,6 @@ var AIM = {
 			me.printStats("All guidance has been disabled, the weapon will not guide.");
 		}
 		me.printStats("After propulsion ends, it will max steer up to %d degree pitch.",me.maxPitch);
-		if(me.Tgt == nil) {
-			me.printStats("Note: Ordnance was released with no lock or destination target.");
-		}
 		if (stages > 0) {
 			me.printStats("PROPULSION:");
 			me.printStats("Stage 1: %d lbf for %.1f seconds.", me.force_lbf_1, me.stage_1_duration);
@@ -1395,7 +1392,7 @@ var AIM = {
 		me.printStats("Arming time is %.1f seconds.",me.arming_time);
 		me.printStats("Will selfdestruct after %d seconds.",me.selfdestruct_time);
 		if (me.multiHit) {
-			me.printStats("When detonating, will hit everything nearby. Number of contacts to consider: %d", size(me.contacts));
+			me.printStats("When detonating, will hit everything nearby.");
 		} else {
 			me.printStats("When detonating, will only hit single target.");
 		}
@@ -3244,12 +3241,16 @@ var AIM = {
 	multiExplosion: func (explode_coord, event) {
 		# hit everything that is nearby except for target itself.
 		me.sendout = 0;
+		me.printStats("MultiHit starting");
 		foreach (me.testMe;me.contacts) {
-			if (!me.testMe.isValid() or me.testMe.isVirtual() or me.testMe.get_type() == ORDNANCE) {
+			if (!me.testMe.isValid() or me.testMe.isVirtual()) {
+				me.printStats(me.testMe.get_Callsign()~" is discarded.");
 				continue;
 			}
 			var min_distance = me.testMe.get_Coord().direct_distance_to(explode_coord);
-			if (min_distance < me.reportDist and me.testMe.getUnique() != me.Tgt.getUnique()) {
+			me.printStats(me.testMe.get_Callsign()~" dist: "~min_distance~" "~(min_distance < me.reportDist)~" "~(me.testMe.getUnique() != me.Tgt.getUnique()));
+      #me.printStats(me.testMe.get_Callsign()~" Unique ID:" ~ me.testMe.getUnique() ~ "; It's "~ me.testMe.type ~" and Me Unique ID:" ~ me.Tgt.getUnique());
+			if (min_distance < me.reportDist and me.testMe.getUnique() != me.Tgt.getUnique() and me.testMe.get_Callsign() != me.type) {
 				var phrase = sprintf("%s %s: %.1f meters from: %s", me.type,event, min_distance, me.testMe.get_Callsign());
 				me.printStats(phrase);
 				me.sendMessage(phrase);

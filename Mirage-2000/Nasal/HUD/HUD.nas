@@ -292,6 +292,7 @@ var HUD = {
       if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
         #print(pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1));
         var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(30, 0.2);
+        
         if(DistanceToShoot != nil ){
           if(DistanceToShoot < 3000){
             me.Fire_GBU.show();

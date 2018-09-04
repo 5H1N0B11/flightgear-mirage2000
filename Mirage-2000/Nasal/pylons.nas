@@ -422,3 +422,91 @@ var a2a_kilo_mica = func {
   
   
   
+  
+  
+  #Variable declaration
+  var pylonSetListener = [];
+  var pylonCountListener = [];
+  var maxPylons = 9;
+  var AllPossibleLoads = std.Vector.new();
+  
+  #Loading a vector with the Set names
+  foreach(key;keys(pylonSets)) {
+    #print(pylonSets[key].name);
+    AllPossibleLoads.append(pylonSets[key].name);
+  }
+
+  
+  #Decoding String
+  var decodeStations = func(){
+    
+    String = getprop("sim/multiplay/generic/string[1]");    
+    #Index of the beguining of each set string
+    var mySetIndexArray = [];
+    #Index of the beguining of each count string
+    var myCountIndexArray = [];
+    
+    for(i = 0 ; i < size(String) ; i += 1)
+    {
+        if(chr(String[i]) == '#'){append(mySetIndexArray, i);}
+        if(chr(String[i]) == 'C'){append(myCountIndexArray, i);}
+    }
+    
+    var i = 0;
+    forindex(i; mySetIndexArray){
+      var mySet = substr(String, mySetIndexArray[i] + 1, myCountIndexArray[i]-mySetIndexArray[i]-1);
+      #print("myCountIndexArray[i]:"~myCountIndexArray[i]~ " size(String):"~ size(String));
+      if(i+1<size(mySetIndexArray)){
+        var myCount = substr(String, myCountIndexArray[i] + 1, mySetIndexArray[i+1] - myCountIndexArray[i]-1);
+      }else{
+        var myCount = substr(String, myCountIndexArray[i] + 1, size(String) - myCountIndexArray[i]-1);
+      }
+      
+      print(mySet);
+      print(myCount);
+      print(AllPossibleLoads.vector[mySet]);
+      #setprop("payload/armament/station/id-" ~ i ~ "-set",AllPossibleLoads.vector[mySet]);
+      #setprop("payload/armament/station/id-" ~ i ~ "-count",myCount);
+    }
+  
+    
+  }
+  
+
+  #Encoding string String
+  var codeStations = func(){
+    var compiled = "";
+    for(var i = 0 ; i <= maxPylons ; i += 1){
+        # Load name
+        var myTempoSet = getprop("/payload/armament/station/id-" ~ i ~ "-set");
+        var myTempoCount = getprop("/payload/armament/station/id-" ~ i ~ "-count");
+        
+        compiled = compiled  ~ "#" ~ AllPossibleLoads.index(myTempoSet) ~ "C" ~ myTempoCount;
+        #print("myTempoSet" ~ myTempoSet ~ " and Vector index :" ~ AllPossibleLoads.index(myTempoSet) ~ ":"~ AllPossibleLoads.vector[AllPossibleLoads.index(myTempoSet)]);
+    }
+    print(compiled);
+    setprop("sim/multiplay/generic/string[1]", compiled);
+  }
+  
+  
+  #Set up Listener for pylons properties
+  #i is the pylon number
+  var setEncodeMPListener = func(i){
+    var tempSet = setlistener("/payload/armament/station/id-" ~ i ~ "-set",func {
+                    print(i);
+                    codeStations();
+                  }, 1, 0);
+    var tempCount = setlistener("/payload/armament/station/id-" ~ i ~ "-count",func {
+                      codeStations();
+                    }, 1, 0);
+    
+    append( pylonSetListener, tempSet);
+    append( pylonCountListener, tempCount);
+  }
+  
+  #loop for all listener (20 => because I'm lazy)
+  for(var i = 0 ; i <= maxPylons ; i += 1){
+    setEncodeMPListener(i);
+  }
+  
+

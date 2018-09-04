@@ -63,7 +63,7 @@ listOfGroundTargetNames = ["groundvehicle"];
 listOfShipNames      = ["carrier", "ship"];
 listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle"];
 listOfAIRadarEchoes2 = keys(weaponRadarNames);
-listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1"];
+listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
 #listOfGroundVehicleModels = ["GROUND_TARGET"];
 listOfShipModels          = ["frigate", "missile_frigate", "USS-LakeChamplain", "USS-NORMANDY", "USS-OliverPerry", "USS-SanAntonio"];
 foreach(var addMe ; listOfAIRadarEchoes2) {
@@ -387,6 +387,8 @@ var Radar = {
                           
                     }
                 }
+
+                #If not MARINE skipDoppler still == 0
                 if (me.skipDoppler == 0) {
                     foreach (var testMe ; listOfGroundTargetNames) {
                         if (testMe == folderName) {
@@ -395,8 +397,6 @@ var Radar = {
                             break;
                         }
                     }
-                } elsif (c.getNode("missile") != nil and c.getNode("missile").getValue()) {
-                    u.setType(armament.ORDNANCE);
                     
                  } else {   
                 # now we test the model name to guess what type it is:
@@ -424,6 +424,15 @@ var Radar = {
                               }
                           }
                       }
+                  }
+                  
+                 #Testing if ORDNANCE
+                 if (c.getNode("missile") != nil and c.getNode("missile").getValue()) {
+                    u.setType(armament.ORDNANCE);
+                 }
+                 #Testing Ground Target
+                  if(u.get_Callsign() == "GROUND_TARGET"){
+                    u.setType(armament.SURFACE);
                   }
  
 
@@ -519,8 +528,10 @@ var Radar = {
             #print("Update completeList");
             
 #             if(u.get_Callsign() == "GROUND_TARGET"){
-#               if(me.inAzimuth(u,1) == 0){
+#               if(me.inAzimuth(u,0) == 0){
 #                 u.set_display(0,me.myTree);
+#               }else{
+#                 u.set_display(1,me.myTree);
 #               }
 #             }
             
@@ -757,7 +768,7 @@ var Radar = {
         return GroundNotBehind;
     },
 
-    inAzimuth: func(SelectedObject,ExceptGroundTarget = 0){
+    inAzimuth: func(SelectedObject,ExceptGroundTarget = 1){
         if(SelectedObject.get_Callsign()=="GROUND_TARGET" and ExceptGroundTarget){return 1;}
         # Check if it's in Azimuth.
         # first we check our heading+ center az deviation + the sweep if the radar is mechanical

@@ -167,7 +167,7 @@ var updatefunction = func()
 
     if(AbsoluteTime - myFramerate.c > 0.5)
     {
-        call(m2000_load.Encode_Load,nil,nil,nil, myErr);
+        #call(m2000_load.Encode_Load,nil,nil,nil, myErr);
         call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
         myFramerate.b = AbsoluteTime;
         #mirage2000.weather_effects_loop();

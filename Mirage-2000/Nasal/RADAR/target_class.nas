@@ -32,7 +32,7 @@ var Target = {
         obj.engineTree      = c.getNode("engines");
         
         obj.AcType          = c.getNode("sim/model/ac-type");
-        obj.type            = c.getName();
+        obj.typeString      = c.getName();
         obj.fname           = c.getName();
         
         obj.index           = c.getIndex();
@@ -52,7 +52,7 @@ var Target = {
         if(TestIfMissileNode != nil) {
           if(TestIfMissileNode.getValue()){
             #print("It is a missile");
-            obj.type  = "missile";
+            obj.typeString  = "missile";
             missileIndex = missileIndex + 1;
             obj.index = missileIndex;            
           }
@@ -68,8 +68,8 @@ var Target = {
         obj.objectDisplay       = 0;
         
         
-        obj.string          = "ai/models/" ~ obj.type ~ "[" ~ obj.index ~ "]";
-        obj.shortstring     = obj.type ~ "[" ~ obj.index ~ "]";
+        obj.string          = "ai/models/" ~ obj.typeString ~ "[" ~ obj.index ~ "]";
+        obj.shortstring     = obj.typeString ~ "[" ~ obj.index ~ "]";
         
         
         
@@ -134,15 +134,17 @@ var Target = {
         
         obj.deviation       = nil;
 
+        
+
+#         if (obj.get_Callsign() == "GROUND_TARGET") {
+#             obj.type = armament.SURFACE;
+#         }
+# 
+#         if(obj.type  == "missile"){
+#           obj.type  = armament.ORDNANCE;
+#         }
+        
         obj.type = armament.AIR;
-
-        if (obj.get_Callsign() == "GROUND_TARGET") {
-            obj.type = armament.SURFACE;
-        }
-
-        if(obj.type  == "missile"){
-          obj.type  = armament.ORDNANCE;
-        }
         
         obj.model = "";
         
