@@ -8,7 +8,7 @@
 
         <name type="string">2-contrib Nevada</name>
         <texture>Liveries/1024x1024/nevada.png</texture>
-        <texture-tank-1700>tank1700_desert.png</texture-tank-1700>
+        <texture-tank-2000>tank2000_desert.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>

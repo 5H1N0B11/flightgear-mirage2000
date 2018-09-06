@@ -219,58 +219,6 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
   </submodel>
 
   <submodel>
-    <name>left-tank-1300</name>
-    <model>Aircraft/Mirage-2000/Models/External-objects/tank1300l/tank1300l.xml</model>
-    <trigger>controls/armament/station[2]/release-L1300</trigger>
-    <speed>1</speed>
-    <cd>0.035</cd>
-    <eda>2.8</eda>
-    <weight>250</weight>
-    <repeat>true</repeat>
-    <delay>1</delay>
-    <count>-1</count>
-    <wind>false</wind>
-    <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
-    <x-offset>-1.047</x-offset>    <!-- -1.212 m =  3.98 ft -->
-    <y-offset>-7.359</y-offset>    <!-- -0.308 m =  1.01 ft -->
-    <z-offset>-4.656</z-offset>    <!-- -1.183 m = -3.88 ft -->
-    <yaw-offset>358</yaw-offset>
-    <pitch-offset>-1</pitch-offset>
-    <contents>consumables/fuel/tank[2]</contents>
-    <life>1000</life>
-    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
-    <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/droptank1300l</impact-report>
-  </submodel>
-
-  <submodel>
-    <name>right-tank-1300</name>
-    <model>Aircraft/Mirage-2000/Models/External-objects/tank1300l/tank1300l.xml</model>
-    <trigger>controls/armament/station[4]/release-R1300</trigger>
-    <speed>1</speed>
-    <cd>0.035</cd>
-    <eda>2.8</eda>
-    <weight>250</weight>
-    <repeat>true</repeat>
-    <delay>1</delay>
-    <count>-1</count>
-    <wind>false</wind>
-    <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
-    <x-offset>-1.047</x-offset>   <!-- -1.212 m =  3.98 ft -->
-    <y-offset>7.359</y-offset>    <!-- -0.308 m =  1.01 ft -->
-    <z-offset>-4.656</z-offset>   <!-- -1.183 m = -3.88 ft -->
-    <yaw-offset>2</yaw-offset>
-    <pitch-offset>-1</pitch-offset>
-    <contents>consumables/fuel/tank[4]</contents>
-    <life>1000</life>
-    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
-    <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/droptank1300r</impact-report>
-  </submodel>
-
-  <submodel>
     <name>left-tank-1700</name>
     <model>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</model>
     <trigger>controls/armament/station[2]/release-L1700</trigger>
@@ -284,7 +232,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <wind>false</wind>
     <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
     <x-offset>-1.047</x-offset>    <!-- -1.212 m =  3.98 ft -->
-    <y-offset>-6.359</y-offset>    <!-- -0.308 m =  1.01 ft -->
+    <y-offset>-7.359</y-offset>    <!-- -0.308 m =  1.01 ft -->
     <z-offset>-4.656</z-offset>    <!-- -1.183 m = -3.88 ft -->
     <yaw-offset>358</yaw-offset>
     <pitch-offset>-1</pitch-offset>
@@ -309,6 +257,58 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <count>-1</count>
     <wind>false</wind>
     <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
+    <x-offset>-1.047</x-offset>   <!-- -1.212 m =  3.98 ft -->
+    <y-offset>7.359</y-offset>    <!-- -0.308 m =  1.01 ft -->
+    <z-offset>-4.656</z-offset>   <!-- -1.183 m = -3.88 ft -->
+    <yaw-offset>2</yaw-offset>
+    <pitch-offset>-1</pitch-offset>
+    <contents>consumables/fuel/tank[4]</contents>
+    <life>1000</life>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/droptank1700r</impact-report>
+  </submodel>
+
+  <submodel>
+    <name>left-tank-2000</name>
+    <model>Aircraft/Mirage-2000/Models/External-objects/tank2000l/tank2000l.xml</model>
+    <trigger>controls/armament/station[2]/release-L2000</trigger>
+    <speed>1</speed>
+    <cd>0.035</cd>
+    <eda>2.8</eda>
+    <weight>250</weight>
+    <repeat>true</repeat>
+    <delay>1</delay>
+    <count>-1</count>
+    <wind>false</wind>
+    <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
+    <x-offset>-1.047</x-offset>    <!-- -1.212 m =  3.98 ft -->
+    <y-offset>-6.359</y-offset>    <!-- -0.308 m =  1.01 ft -->
+    <z-offset>-4.656</z-offset>    <!-- -1.183 m = -3.88 ft -->
+    <yaw-offset>358</yaw-offset>
+    <pitch-offset>-1</pitch-offset>
+    <contents>consumables/fuel/tank[2]</contents>
+    <life>1000</life>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/droptank2000l</impact-report>
+  </submodel>
+
+  <submodel>
+    <name>right-tank-2000</name>
+    <model>Aircraft/Mirage-2000/Models/External-objects/tank2000l/tank2000l.xml</model>
+    <trigger>controls/armament/station[4]/release-R2000</trigger>
+    <speed>1</speed>
+    <cd>0.035</cd>
+    <eda>2.8</eda>
+    <weight>250</weight>
+    <repeat>true</repeat>
+    <delay>1</delay>
+    <count>-1</count>
+    <wind>false</wind>
+    <!--<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>-->
     <x-offset>-1.047</x-offset>    <!-- -1.212 m =  3.98 ft -->
     <y-offset>6.359</y-offset>     <!-- -0.308 m =  1.01 ft -->
     <z-offset>-4.656</z-offset>    <!-- -1.183 m = -3.88 ft -->
@@ -319,7 +319,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/tank</collision-report>
     <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/droptank1700r</impact-report>
+    <impact-report>sim/ai/aircraft/impact/droptank2000r</impact-report>
   </submodel>
 
   <!--

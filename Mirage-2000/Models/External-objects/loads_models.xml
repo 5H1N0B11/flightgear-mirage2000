@@ -97,7 +97,7 @@
   <!-- station left 3 (Index 2) -->
   <model>
     <name>left-large-tank</name>
-    <path>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</path>
+    <path>Aircraft/Mirage-2000/Models/External-objects/tank2000l/tank2000l.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m>-2.359</y-m>
@@ -107,9 +107,9 @@
 
   <model>
     <name>left-tank</name>
-    <path>Aircraft/Mirage-2000/Models/External-objects/tank1300l/tank1300l.xml</path>
+    <path>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.5</x-m>
       <y-m>-2.359</y-m>
       <z-m>-1.556</z-m>
     </offsets>
@@ -234,7 +234,7 @@
   <!-- station right 3 (Index 4)-->
   <model>
     <name>right-large-tank</name>
-    <path>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</path>
+    <path>Aircraft/Mirage-2000/Models/External-objects/tank2000l/tank2000l.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m> 2.359</y-m>
@@ -244,9 +244,9 @@
 
   <model>
     <name>right-tank</name>
-    <path>Aircraft/Mirage-2000/Models/External-objects/tank1300l/tank1300l.xml</path>
+    <path>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</path>
     <offsets>
-      <x-m> 1.047</x-m>
+      <x-m> 1.5</x-m>
       <y-m> 2.359</y-m>
       <z-m>-1.556</z-m>
     </offsets>

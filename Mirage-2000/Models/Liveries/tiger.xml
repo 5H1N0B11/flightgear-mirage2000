@@ -8,7 +8,7 @@
 
         <name type="string">2-contrib Indian Tiger</name>
         <texture>Liveries/1024x1024/tiger.png</texture>
-        <texture-tank-1700>tank1700.png</texture-tank-1700>
+        <texture-tank-2000>tank2000.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>

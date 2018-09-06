@@ -8,6 +8,7 @@
 
         <name type="string">3-event 100years_lafayette (HQ) [1916_2016]</name>
         <texture>Liveries/2048x2048/100years_lafayette_HQ.png</texture>
+        <texture-tank-2000>tank2000.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>

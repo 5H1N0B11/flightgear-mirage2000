@@ -163,8 +163,8 @@
     -->
     <station n="2">
       <release type="bool">false</release>
-      <release-L1300 type="bool">false</release-L1300>
       <release-L1700 type="bool">false</release-L1700>
+      <release-L2000 type="bool">false</release-L2000>
     </station>
     
     <station n="3">
@@ -174,8 +174,8 @@
     
     <station n="4">
       <release type="bool">false</release>
-      <release-R1300 type="bool">false</release-R1300>
       <release-R1700 type="bool">false</release-R1700>
+      <release-R2000 type="bool">false</release-R2000>
     </station>
     
     <station n="5">
