@@ -86,11 +86,11 @@
       <or>
         <equals>
           <property>payload/armament/station/id-2-set</property>
-          <value>1700 l Droptank</value>
+          <value>2000 l Droptank</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-2-set</property>
-           <value>1300 l Droptank</value>
+           <value>1700 l Droptank</value>
         </equals>
       </or>
     </condition>
@@ -108,11 +108,11 @@
         </not-equals>
         <not-equals>
           <property>payload/armament/station/id-2-set</property>
-          <value>1700 l Droptank</value>
+          <value>2000 l Droptank</value>
         </not-equals>
         <not-equals>
           <property>payload/armament/station/id-2-set</property>
-          <value>1300 l Droptank</value>
+          <value>1700 l Droptank</value>
         </not-equals>
     </and>
     </condition>
@@ -182,11 +182,11 @@
       <or>
        <equals>
           <property>payload/armament/station/id-2-set</property>
-          <value>1700 l Droptank</value>
+          <value>2000 l Droptank</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-2-set</property>
-           <value>1300 l Droptank</value>
+           <value>1700 l Droptank</value>
          </equals>
         </or>
     </condition>
@@ -204,11 +204,11 @@
         </not-equals>
         <not-equals>
           <property>payload/armament/station/id-2-set</property>
-          <value>1700 l Droptank</value>
+          <value>2000 l Droptank</value>
         </not-equals>
         <not-equals>
           <property>payload/armament/station/id-2-set</property>
-           <value>1300 l Droptank</value>
+           <value>1700 l Droptank</value>
          </not-equals>
         </and>
     </condition>

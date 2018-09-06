@@ -8,7 +8,7 @@
 
         <name type="string">1-official HQ 2000-C/B</name>
         <texture>Liveries/2048x2048/sky_HQ.png</texture>
-        <texture-tank-1700>tank1700.png</texture-tank-1700>
+        <texture-tank-2000>tank2000.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>

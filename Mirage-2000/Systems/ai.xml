@@ -52,7 +52,7 @@
           <livery>
             <file                 alias="/sim/model/livery/file" />
             <texture              alias="/sim/model/livery/texture" />
-            <texture-tank-1700    alias="/sim/model/livery/texture-tank-1700" />
+            <texture-tank-2000    alias="/sim/model/livery/texture-tank-2000" />
           </livery>
           <logos>
             <file                 alias="/sim/model/logos/file" />
@@ -162,7 +162,7 @@
           <livery>
             <file                 alias="/sim/model/livery/file" />
             <texture              alias="/sim/model/livery/texture" />
-            <texture-tank-1700    alias="/sim/model/livery/texture-tank-1700" />
+            <texture-tank-2000    alias="/sim/model/livery/texture-tank-2000" />
           </livery>
           <logos>
             <file                 alias="/sim/model/logos/file" />
@@ -273,7 +273,7 @@
           <livery>
             <file                 alias="/sim/model/livery/file" />
             <texture              alias="/sim/model/livery/texture" />
-            <texture-tank-1700    alias="/sim/model/livery/texture-tank-1700" />
+            <texture-tank-2000    alias="/sim/model/livery/texture-tank-2000" />
           </livery>
           <logos>
             <file                 alias="/sim/model/logos/file" />

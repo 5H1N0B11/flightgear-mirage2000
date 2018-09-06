@@ -16,7 +16,7 @@ var dropTanks = func() {
     for(var i = 2 ; i < 5 ; i += 1)
     {
         var select = getprop("/sim/weight["~ i ~"]/selected");
-        if(select == "1300 l Droptank" or select == "1700 l Droptank")
+        if(select == "1300 l Droptank" or select == "1700 l Droptank" or select == "2000 l Droptank")
         {
             m2000_load.dropLoad(i);
         }
@@ -29,6 +29,7 @@ var Encode_Load = func() {
         "none",
         "1300 l Droptank",
         "1700 l Droptank",
+        "2000 l Droptank",
         "AGM65",
         "AIM-54",
         "aim-9",
@@ -105,6 +106,7 @@ var Decode_Load = {
             "none",
             "1300 l Droptank",
             "1700 l Droptank",
+            "2000 l Droptank",
             "AGM65",
             "AIM-54",
             "aim-9",
@@ -429,7 +431,7 @@ var Kilo = func() {
         setprop("/sim/weight[1]/selected",                   "Matra MICA IR");
         
         # pylon 2
-        setprop("/sim/weight[2]/selected",                   "1700 l Droptank");
+        setprop("/sim/weight[2]/selected",                   "2000 l Droptank");
         setprop("/consumables/fuel/tank[2]/selected",        1);
         setprop("/consumables/fuel/tank[2]/capacity-gal_us", 448.50);
         setprop("/consumables/fuel/tank[2]/level-gal_us",    447);
@@ -441,7 +443,7 @@ var Kilo = func() {
         setprop("/consumables/fuel/tank[3]/level-gal_us",    342);
         
         # pylon 4
-        setprop("/sim/weight[4]/selected",                   "1700 l Droptank");
+        setprop("/sim/weight[4]/selected",                   "2000 l Droptank");
         setprop("/consumables/fuel/tank[4]/selected",        1);
         setprop("/consumables/fuel/tank[4]/capacity-gal_us", 448.50);
         setprop("/consumables/fuel/tank[4]/level-gal_us",    447);
@@ -514,7 +516,7 @@ var AirToGround = func() {
         setprop("/sim/weight[1]/selected",                   "Matra MICA IR");
         
         # pylon 2
-        setprop("/sim/weight[2]/selected",                   "1700 l Droptank");
+        setprop("/sim/weight[2]/selected",                   "2000 l Droptank");
         setprop("/consumables/fuel/tank[2]/selected",        1);
         setprop("/consumables/fuel/tank[2]/capacity-gal_us", 448.50);
         setprop("/consumables/fuel/tank[2]/level-gal_us",    447);
@@ -526,7 +528,7 @@ var AirToGround = func() {
         setprop("/consumables/fuel/tank[3]/level-gal_us",    0);
         
         # pylon 4
-        setprop("/sim/weight[4]/selected",                   "1700 l Droptank");
+        setprop("/sim/weight[4]/selected",                   "2000 l Droptank");
         setprop("/consumables/fuel/tank[4]/selected",        1);
         setprop("/consumables/fuel/tank[4]/capacity-gal_us", 448.50);
         setprop("/consumables/fuel/tank[4]/level-gal_us",    447);
@@ -557,7 +559,7 @@ var m2000N = func() {
         setprop("/sim/weight[1]/selected",                   "Matra R550 Magic 2");
         
         # pylon 2
-        setprop("/sim/weight[2]/selected",                   "1700 l Droptank");
+        setprop("/sim/weight[2]/selected",                   "2000 l Droptank");
         setprop("/consumables/fuel/tank[2]/selected",        1);
         setprop("/consumables/fuel/tank[2]/capacity-gal_us", 448.50);
         setprop("/consumables/fuel/tank[2]/level-gal_us",    447);
@@ -569,7 +571,7 @@ var m2000N = func() {
         setprop("/consumables/fuel/tank[3]/level-gal_us",    0);
         
         # pylon 4
-        setprop("/sim/weight[4]/selected",                   "1700 l Droptank");
+        setprop("/sim/weight[4]/selected",                   "2000 l Droptank");
         setprop("/consumables/fuel/tank[4]/selected",        1);
         setprop("/consumables/fuel/tank[4]/capacity-gal_us", 448.50);
         setprop("/consumables/fuel/tank[4]/level-gal_us",    447);
@@ -603,7 +605,8 @@ var weaponWeight = {
       "SCALP":                2866,
       "Exocet":               1460,
       "Matra Super 530D":     595.2,
-      "1700 l Droptank":      280,
+      "2000 l Droptank":      280,
+      "1700 l Droptank":      250,
       "1300 l Droptank":      220
 };
 
@@ -629,7 +632,7 @@ dropLoad = func(number) {
     var select = getprop("/sim/weight["~ number ~"]/selected");
     if(select != "none")
     {
-        if(select == "1300 l Droptank" or select == "1700 l Droptank")
+        if(select == "1300 l Droptank" or select == "1700 l Droptank" or select == "2000 l Droptank")
         {
             tank_submodel(number, select);
             setprop("/consumables/fuel/tank["~ number ~"]/selected", 0);
@@ -749,28 +752,29 @@ dropMissile3 = func(Current_missile, number)
 
 var tank_submodel = func(pylone, select)
 {
-    # 1300 Tanks
     var release = 0;
+    # 1300 l Tanks
     if(pylone == 2 and select == "1300 l Droptank")
     {
         release = "/controls/armament/station[2]/release-L1300";
     }
-    if(pylone == 3 and select == "1300 l Droptank")
+    # 1700 l Tanks
+    if(pylone == 3 and select == "1700 l Droptank")
     {
-        release = "/controls/armament/station[3]/release-C1300";
-    }
-    if(pylone == 4 and select == "1300 l Droptank")
-    {
-        release ="/controls/armament/station[4]/release-R1300";
-    }
-    # 1700 Tanks
-    if(pylone == 2 and select == "1700 l Droptank")
-    {
-        release ="/controls/armament/station[2]/release-L1700";
+        release = "/controls/armament/station[3]/release-C1700";
     }
     if(pylone == 4 and select == "1700 l Droptank")
     {
         release ="/controls/armament/station[4]/release-R1700";
+    }
+    # 2000 l Tanks
+    if(pylone == 2 and select == "2000 l Droptank")
+    {
+        release ="/controls/armament/station[2]/release-L2000";
+    }
+    if(pylone == 4 and select == "2000 l Droptank")
+    {
+        release ="/controls/armament/station[4]/release-R2000";
     }
     setprop(release, 1);
     settimer(func{setprop(release, 0);}, 0, 5);
@@ -969,6 +973,7 @@ var areFirable = {
             "none"            : 0,
             "1300 l Droptank" : 0,
             "1700 l Droptank" : 0,
+            "2000 l Droptank" : 0,
             "AGM65"           : 1,
             "AIM-54"          : 1,
             "aim-9"           : 1,

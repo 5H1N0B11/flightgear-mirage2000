@@ -133,7 +133,7 @@
     <condition>
         <equals>
           <property>payload/armament/station/id-2-set</property>
-          <value>1700 l Droptank</value>
+          <value>2000 l Droptank</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-2-count</property>
@@ -347,7 +347,7 @@
     <condition>
         <equals>
           <property>payload/armament/station/id-4-set</property>
-          <value>1700 l Droptank</value>
+          <value>2000 l Droptank</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-4-count</property>

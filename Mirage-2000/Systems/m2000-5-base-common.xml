@@ -119,8 +119,9 @@
                        \ |   | /
                         \|___|/
       
-         1700 l = 448.5 gal = 3013.92 lbs
-         1300 l = 343.0 gal = 2305.01 lbs
+         2000 l = 528.3 gal = ??????? lbs
+         1700 l = 449.0 gal = ??????? lbs
+         1300 l = 343.4 gal = ??????? lbs
   -->
 
   
@@ -165,8 +166,8 @@
     </offsets>
     <selected>none</selected>
     <opt><name>none</name>              <lbs type="double">    0.00 </lbs></opt>
-    <opt><name>1700 l Droptank</name>   <lbs type="double">  280.00 </lbs><gals>448.50</gals></opt>
-    <opt><name>1300 l Droptank</name>   <lbs type="double">  220.00 </lbs><gals>343.00</gals></opt>
+    <opt><name>2000 l Droptank</name>   <lbs type="double">  280.00 </lbs><gals>448.50</gals></opt>
+    <opt><name>1700 l Droptank</name>   <lbs type="double">  220.00 </lbs><gals>343.00</gals></opt>
     <opt><name>Matra Super 530D</name>  <lbs type="double">  595.2  </lbs></opt>
     <opt><name>Exocet</name>            <lbs type="double">  2866   </lbs></opt>
   </weight>
@@ -202,8 +203,8 @@
       <z-m type="double"> -1.556 </z-m>
     </offsets>
     <opt><name>none</name>              <lbs type="double">    0.00 </lbs></opt>
-    <opt><name>1700 l Droptank</name>   <lbs type="double">  280.00 </lbs><gals>448.50</gals></opt>
-    <opt><name>1300 l Droptank</name>   <lbs type="double">  220.00 </lbs><gals>343.00</gals></opt>
+    <opt><name>2000 l Droptank</name>   <lbs type="double">  280.00 </lbs><gals>448.50</gals></opt>
+    <opt><name>1700 l Droptank</name>   <lbs type="double">  220.00 </lbs><gals>343.00</gals></opt>
     <opt><name>Matra Super 530D</name>  <lbs type="double">  595.2  </lbs></opt>
     <opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
     <opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
