@@ -148,7 +148,7 @@
     <condition>
         <equals>
           <property>payload/armament/station/id-2-set</property>
-          <value>1300 l Droptank</value>
+          <value>1700 l Droptank</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-2-count</property>
@@ -161,16 +161,14 @@
     <type>select</type>
     <object-name>left-exocet</object-name>
     <condition>
-      <and>
         <equals>
-          <property>sim/weight[2]/selected</property>
-          <value>Exocet</value>
+          <property>payload/armament/station/id-2-set</property>
+          <value>AM39 Exocet</value>
         </equals>
-        <equals>
-          <property>controls/armament/station[2]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>0</value>
+        </greater-than>
     </condition>
   </animation>
   
@@ -277,16 +275,14 @@
     <type>select</type>
     <object-name>SCALP</object-name>
     <condition>
-      <and>
         <equals>
-          <property>sim/weight[3]/selected</property>
+          <property>payload/armament/station/id-3-set</property>
           <value>SCALP</value>
         </equals>
-        <equals>
-          <property>controls/armament/station[3]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>0</value>
+        </greater-than>
     </condition>
   </animation>
 
@@ -319,26 +315,6 @@
       </equals>
     </condition>
   </animation>
-  
-  
-  
-  <!-- Center Exocet -->
-  <animation>
-    <type>select</type>
-    <object-name>center-exocet</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[3]/selected</property>
-          <value>Exocet</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[3]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
 
   <!-- station right 3 (Index 4)-->
   <animation>
@@ -362,7 +338,7 @@
     <condition>
         <equals>
           <property>payload/armament/station/id-4-set</property>
-          <value>1300 l Droptank</value>
+          <value>1700 l Droptank</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-4-count</property>
@@ -375,16 +351,14 @@
     <type>select</type>
     <object-name>right-exocet</object-name>
     <condition>
-      <and>
         <equals>
-          <property>sim/weight[4]/selected</property>
-          <value>Exocet</value>
+          <property>payload/armament/station/id-4-set</property>
+          <value>AM39 Exocet</value>
         </equals>
-        <equals>
-          <property>controls/armament/station[4]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
     </condition>
   </animation>
   

@@ -6,14 +6,14 @@
 
   <animation>
     <!-- Objets opaques -->
-    <object-name>tank</object-name>
+    <object-name>tank2000</object-name>
 
     <!-- Objets transparents -->
   </animation>
 
   <animation>
     <type>material</type>
-    <object-name>tank</object-name>
+    <object-name>tank2000</object-name>
     <property-base>sim/model/livery</property-base>
     <texture-prop>texture-tank-2000</texture-prop>
     <texture-tank-2000>tank2000.png</texture-tank-2000>

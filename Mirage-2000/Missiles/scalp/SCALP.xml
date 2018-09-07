@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+  <path>Aircraft/Mirage-2000/Missiles/scalp/SCALP.ac</path>
+  <animation>
+    <object-name>scalp</object-name>
+    <object-name>scalp.wingL</object-name>
+    <object-name>scalp.wingR</object-name>
+  </animation>
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
+    <object-name>magic.optique</object-name>
+  </effect>
+  <animation>
+    <enable-hot type="bool">false</enable-hot>
+  </animation>
+  
+</PropertyList>

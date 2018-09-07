@@ -286,12 +286,20 @@ var HUD = {
     
     
     me.Fire_GBU.setText("Fire");
+    var aGL = props.globals.getNode("/position/altitude-agl-ft").getValue();
+    
     #Think this code sucks. If everyone have better, please, proceed :)
     if(pylons.fcs.getSelectedWeapon() != nil){
       #print(pylons.fcs.getSelectedWeapon().type);
       if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
         #print(pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1));
-        var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(30, 0.2);
+        if(aGL<8000){
+          var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1);
+        }elsif(aGL<15000){
+          var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(30, 0.2);
+        }else{
+          var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(45, 0.2);
+        }
         
         if(DistanceToShoot != nil ){
           if(DistanceToShoot < 3000){

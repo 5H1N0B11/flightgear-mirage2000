@@ -117,14 +117,14 @@
 
   <model>
     <name>left-exocet</name>
-    <path>Aircraft/Mirage-2000/Missiles/Exocet/Exocet.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/exocet/exocet.xml</path>
     <offsets>
       <x-m> 1.2</x-m>
       <y-m>-2.259</y-m>
-      <z-m>-1.6</z-m>
+      <z-m>-1.65</z-m>
       <heading-deg>0</heading-deg>
       <roll-deg>0</roll-deg>
-      <pitch-deg>-1</pitch-deg>
+      <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
 
@@ -147,16 +147,6 @@
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> 0.000</y-m>
-      <z-m>-1.656</z-m>
-    </offsets>
-  </model>
-  
-  <model>
-    <name>center-exocet</name>
-    <path>Aircraft/Mirage-2000/Missiles/Exocet/Exocet.xml</path>
-    <offsets>
-      <x-m> 1.082</x-m>
-      <y-m> 0.100</y-m>
       <z-m>-1.656</z-m>
     </offsets>
   </model>
@@ -203,7 +193,7 @@
 
   <model>
     <name>SCALP</name>
-    <path>Aircraft/Mirage-2000/Missiles/SCALP/SCALP.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/scalp/SCALP.xml</path>
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> 0.000</y-m>
@@ -254,14 +244,14 @@
 
   <model>
     <name>right-exocet</name>
-    <path>Aircraft/Mirage-2000/Missiles/Exocet/Exocet.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/exocet/exocet.xml</path>
     <offsets>
       <x-m> 1.2</x-m>
-      <y-m> 2.259</y-m>
-      <z-m>-1.6</z-m>
+      <y-m> 2.459</y-m>
+      <z-m>-1.65</z-m>
       <heading-deg>0</heading-deg>
       <roll-deg>0</roll-deg>
-      <pitch-deg>-1</pitch-deg>
+      <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
 

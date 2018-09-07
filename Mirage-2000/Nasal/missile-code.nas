@@ -554,6 +554,7 @@ var AIM = {
 		if (m.useSingleFile == FALSE) {
 			var id_model = m.weapon_model ~ m.ID ~ ".xml";
 			m.model.getNode("path", 1).setValue(id_model);
+      print("Attempting to load "~id_model);
 		} else {
 			var id_model = m.weapon_model2~".xml";
 			m.model.getNode("path", 1).setValue(id_model);
@@ -2591,7 +2592,7 @@ var AIM = {
 	            xyz = {"x":me.coord.x(),                  "y":me.coord.y(),                 "z":me.coord.z()};
 	            
 	            #Then we need the coordinate of the future point at let say 20 dt
-	            me.geoPlus4 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*20);
+	            me.geoPlus4 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, 5);
 	            me.geoPlus4.set_alt(geo.elevation(me.geoPlus4.lat(),me.geoPlus4.lon()));
 	            
 	            #Loop
@@ -4050,7 +4051,7 @@ var AIM = {
 	    # lng & lat & heading, in degree, speed in fps
 	    # this function should send back the futures lng lat
 	    me.distanceN = speed * dt * FT2M; # should be a distance in meters
-	    #me.print("distance ", distance);
+	    #print("distance "~ me.distanceN);
 	    # much simpler than trigo
 	    me.NextGeo = geo.Coord.new().set_latlon(lat, lon, alt);
 	    me.NextGeo.apply_course_distance(heading, me.distanceN);

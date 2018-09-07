@@ -212,6 +212,13 @@
     </binding>
   </button>
   <button>
+    <legend>Air to Sea</legend>
+    <binding>
+      <command>nasal</command>
+      <script>pylons.a2s_fox()</script>
+    </binding>
+  </button>  
+  <button>
     <legend>m2000N</legend>
     <binding>
       <command>nasal</command>
