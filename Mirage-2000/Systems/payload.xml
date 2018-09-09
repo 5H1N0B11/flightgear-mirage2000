@@ -349,8 +349,9 @@
     </scalp>
 
     <exocet>      <!-- Exocet -->
-      <short-name type="string">Exocet</short-name>
+      <short-name type="string">exocet</short-name>
       <long-name type="string">AM39 Exocet</long-name>
+      
       <all-aspect type="bool">true</all-aspect>
       <arming-time-sec type="double"> 2.0 </arming-time-sec>
       <class type="string">M</class>

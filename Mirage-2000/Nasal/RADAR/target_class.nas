@@ -406,6 +406,7 @@ var Target = {
         if(myCoord.is_defined())
         {
             myBearing = MyAircraftCoord.course_to(myCoord);
+            me.Bearing.setValue(myBearing);
         }
         #print("get_bearing_from_Coord :" ~ myBearing);
         return myBearing;
@@ -428,12 +429,15 @@ var Target = {
 
     get_Elevation_from_Coord: func(MyAircraftCoord){
         var myCoord = me.get_Coord();
-        me.objectElevationDeg = math.asin((myCoord.alt() - MyAircraftCoord.alt()) / myCoord.direct_distance_to(MyAircraftCoord)) * R2D;
+        #me.objectElevationDeg = math.asin((myCoord.alt() - MyAircraftCoord.alt()) / myCoord.direct_distance_to(MyAircraftCoord)) * R2D;
+        me.objectElevationDeg = vector.Math.getPitch(geo.aircraft_position(), me.get_Coord()); 
+        me.Elevation.setValue(me.objectElevationDeg);
         return me.objectElevationDeg;
     },
 
     get_total_elevation_from_Coord: func(own_pitch, MyAircraftCoord){
         var myTotalElevation =  - deviation_normdeg(own_pitch, me.get_Elevation_from_Coord(MyAircraftCoord));
+        me.Elevation.setValue(myTotalElevation);
         return myTotalElevation;
     },
     
@@ -453,6 +457,7 @@ var Target = {
         if(myCoord.is_defined())
         {
             myDistance = MyAircraftCoord.direct_distance_to(myCoord) * M2NM;
+            me.Range.setValue(myDistance);
         }
         #print("get_range_from_Coord :" ~ myDistance);
         return myDistance;

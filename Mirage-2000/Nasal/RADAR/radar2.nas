@@ -437,7 +437,7 @@ var Radar = {
  
 
 
-                #print("Start Testing "~ u.get_Callsign()~"Type: " ~ type);
+                #print("Start Testing "~ u.get_Callsign()~"Type: " ~ u.type);
                 
                               
                 # set Check_List to void
@@ -490,7 +490,7 @@ var Radar = {
                     {
                         #tgts_list => ARRAY4
                         
-                        #print("Update targetList");
+                        #print("Update targetList" ~ u.get_Callsign());
                         me.TargetList_Update(u);
                         me.TargetList_AddingTarget(u);
                         
