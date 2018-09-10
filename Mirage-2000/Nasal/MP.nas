@@ -11,18 +11,22 @@ var Decode_Load = {
         m.updateTime = updateTime;
         m.running = 0;
         m.loadList = [
-            "1700 l Droptank",
-            "2 x GBU-12",
-            "PDLCT",
-            "Matra Super 530D",
-            "30mm Cannon",
-            "none",
-            "1300 l Droptank",
-            "Matra R550 Magic 2",
-            "1700 l Droptank",
-            "MICA EM",
-            "ASMP",
-            "MICA IR"
+          "2000 l Droptank",
+          "1700 l Droptank",
+          "AM39-Exocet",
+          "1700 l Droptank",
+          "PDLCT",
+          "Matra Super 530D",
+          "30mm Cannon",
+          "none",
+          "1300 l Droptank",
+          "Matra R550 Magic 2",
+          "2000 l Droptank",
+          "MICA EM",
+          "2 x GBU-12",
+          "ASMP",
+          "SCALP",
+          "MICA IR"
         ];
         m.decode();
         return m;

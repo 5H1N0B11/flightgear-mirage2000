@@ -163,7 +163,7 @@
     <condition>
         <equals>
           <property>payload/armament/station/id-2-set</property>
-          <value>AM39 Exocet</value>
+          <value>AM39-Exocet</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-2-count</property>
@@ -353,7 +353,7 @@
     <condition>
         <equals>
           <property>payload/armament/station/id-4-set</property>
-          <value>AM39 Exocet</value>
+          <value>AM39-Exocet</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-4-count</property>

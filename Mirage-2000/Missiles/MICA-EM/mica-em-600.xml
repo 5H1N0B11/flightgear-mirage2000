@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+    
+  <model>
+    <name>mica-em-600</name>
+    <path>Aircraft/Mirage-2000/Missiles/MICA-EM/mica-em.xml</path>
+  </model>
+    
+  <animation>
+    <object-name>mica-em-600</object-name>
+    <enable-hot type="bool">false</enable-hot>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>mica-em-600</object-name>
+    <condition>
+        <property>payload/armament/mica-em/flags/msl-id-600</property>
+    </condition>
+  </animation>
+  
+  
+  <model>
+    <name>Smoke_mica-em-600</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/smoke.xml</path>
+    <offsets>
+      <x-m>3</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>Smoke_mica-em-600</object-name>
+    <condition>
+        <property>payload/armament/mica-em/flags/smoke-id-600</property>
+    </condition>
+  </animation>
+  
+  <model>
+    <name>explosionFire_mica-em-600</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionFire.xml</path>
+  </model>
+  <model>
+    <name>explosionSmoke_mica-em-600</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionSmoke.xml</path>
+  </model>
+  
+    <animation>
+    <type>select</type>
+    <object-name>explosionFire_mica-em-600</object-name>
+    <object-name>explosionSmoke_mica-em-600</object-name>
+    <condition>
+        <property>payload/armament/mica-em/flags/explode-id-600</property>
+    </condition>
+  </animation>
+  
+
+</PropertyList>

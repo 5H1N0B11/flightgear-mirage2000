@@ -40,7 +40,7 @@ var pylonSets = {
   tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
   t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
   tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	g: {name: "Matra R550 Magic 2", content: ["magic2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#wingtip
+	g: {name: "Matra R550 Magic 2", content: ["magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#wingtip
 	g2: {name: "MICA IR", content: ["mica-ir"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 	
 	h: {name: "Matra Super 530D", content: ["s530d"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
@@ -50,7 +50,7 @@ var pylonSets = {
   s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 	b2: {name: "2 x GBU-12", content: ["gbu-12", "gbu-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
   b3: {name: "SCALP", content: ["scalp"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-  b4: {name: "AM39 Exocet", content: ["exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+  b4: {name: "AM39-Exocet", content: ["am39-exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
   b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
 };
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
@@ -467,7 +467,7 @@ var a2a_kilo_mica = func {
   
   #Loading a vector with the Set names
   foreach(key;keys(pylonSets)) {
-    #print(pylonSets[key].name);
+    print(pylonSets[key].name);
     AllPossibleLoads.append(pylonSets[key].name);
   }
   
@@ -475,17 +475,21 @@ var a2a_kilo_mica = func {
   #To know what in it uncomment : "print(pylonSets[key].name);"
   #ACtually, here this list is useless : but it need to be the exact same in MP.nas
   loadList = [
+    "2000 l Droptank",
     "1700 l Droptank",
-    "2 x GBU-12",
+    "AM39-Exocet",
+    "1700 l Droptank",
     "PDLCT",
     "Matra Super 530D",
     "30mm Cannon",
     "none",
     "1300 l Droptank",
     "Matra R550 Magic 2",
-    "1700 l Droptank",
+    "2000 l Droptank",
     "MICA EM",
+    "2 x GBU-12",
     "ASMP",
+    "SCALP",
     "MICA IR"
   ];
 
