@@ -3,7 +3,7 @@
     
   <model>
     <name>magic2-500</name>
-    <path>Aircraft/Mirage-2000/Missiles/Magic-2/magic2.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Magic-2/magic-2.xml</path>
   </model>
     
   <animation>
@@ -14,7 +14,7 @@
     <type>select</type>
     <object-name>magic2-500</object-name>
     <condition>
-        <property>payload/armament/magic2/flags/msl-id-500</property>
+        <property>payload/armament/magic-2/flags/msl-id-500</property>
     </condition>
   </animation>
   
@@ -32,25 +32,25 @@
     <type>select</type>
     <object-name>Smoke_magic2-500</object-name>
     <condition>
-        <property>payload/armament/magic2/flags/smoke-id-500</property>
+        <property>payload/armament/magic-2/flags/smoke-id-500</property>
     </condition>
   </animation>
   
   <model>
-    <name>explosionFire_magic2-500</name>
+    <name>explosionFire_magic-2-500</name>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionFire.xml</path>
   </model>
   <model>
-    <name>explosionSmoke_magic2-500</name>
+    <name>explosionSmoke_magic-2-500</name>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionSmoke.xml</path>
   </model>
   
     <animation>
     <type>select</type>
-    <object-name>explosionFire_magic2-500</object-name>
-    <object-name>explosionSmoke_magic2-500</object-name>
+    <object-name>explosionFire_magic-2-500</object-name>
+    <object-name>explosionSmoke_magic-2-500</object-name>
     <condition>
-        <property>payload/armament/magic2/flags/explode-id-500</property>
+        <property>payload/armament/magic-2/flags/explode-id-500</property>
     </condition>
   </animation>
   

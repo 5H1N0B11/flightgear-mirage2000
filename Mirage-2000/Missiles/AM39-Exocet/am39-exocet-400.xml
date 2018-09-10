@@ -14,7 +14,7 @@
     <type>select</type>
     <object-name>exocet_400</object-name>
     <condition>
-        <property>payload/armament/exocet/flags/msl-id-400</property>
+        <property>payload/armament/am39-exocet/flags/msl-id-400</property>
     </condition>
   </animation>
   
@@ -32,7 +32,7 @@
     <type>select</type>
     <object-name>Smoke_exocet_400</object-name>
     <condition>
-        <property>payload/armament/exocet/flags/smoke-id-400</property>
+        <property>payload/armament/am39-exocet/flags/smoke-id-400</property>
     </condition>
   </animation>
   
@@ -50,7 +50,7 @@
     <object-name>explosionFire_exocet_400</object-name>
     <object-name>explosionSmoke_exocet_400</object-name>
     <condition>
-        <property>payload/armament/exocet/flags/explode-id-400</property>
+        <property>payload/armament/am39-exocet/flags/explode-id-400</property>
     </condition>
   </animation>
   

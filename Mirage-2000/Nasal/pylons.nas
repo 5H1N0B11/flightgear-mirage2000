@@ -30,7 +30,11 @@ var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 4, 448, "mirage/ce
 var dummy1 = stations.Dummy.new("PDLCT", "PDLCT");
 var dummy2 = stations.Dummy.new("ASMP", "ASMP");
 
+# content = folder name with upper and lower case
+#name = what will be in the -set, the 3D displaying underwings
 
+#Lowercase: flags, xml, payload.xml(<tag>)
+#Normal: folder, content, firecontrol, damage
 
 var pylonSets = {
 	empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
@@ -40,17 +44,17 @@ var pylonSets = {
   tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
   t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
   tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	g: {name: "Matra R550 Magic 2", content: ["magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#wingtip
-	g2: {name: "MICA IR", content: ["mica-ir"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	g: {name: "Matra R550 Magic 2", content: ["Magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#wingtip
+	g2: {name: "MICA IR", content: ["MICA-IR"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 	
-	h: {name: "Matra Super 530D", content: ["s530d"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
+	h: {name: "Matra Super 530D", content: ["S530D"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
 	
-  i: {name: "MICA EM", content: ["mica-em"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+  i: {name: "MICA EM", content: ["MICA-EM"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
   
   s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	b2: {name: "2 x GBU-12", content: ["gbu-12", "gbu-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-  b3: {name: "SCALP", content: ["scalp"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-  b4: {name: "AM39-Exocet", content: ["am39-exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	b2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+  b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+  b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
   b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
 };
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
@@ -150,7 +154,7 @@ if(1){
 
 	var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
 
-	fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon","magic2","s530d","mica-ir","mica-em","gbu-12","scalp","exocet"]);
+	fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon","Magic-2","S530D","MICA-IR","MICA-EM","GBU-12","SCALP","AM39-Exocet"]);
   
   
 
