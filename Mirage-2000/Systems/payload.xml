@@ -274,7 +274,7 @@
       <loft-altitude type="int"> 100 </loft-altitude>
       <max-fire-range-nm type="double"> 135 </max-fire-range-nm>
       <max-g type="int"> 3 </max-g>
-      <max-report-distance type="double"> 5 </max-report-distance>
+      <max-report-distance type="double"> 275 </max-report-distance>
       <min-fire-range-nm type="double"> 0.5 </min-fire-range-nm>
       <min-speed-for-guiding-mach type="double"> 0.25 </min-speed-for-guiding-mach>
       <mounted-limit-g type="double"> 7,5 </mounted-limit-g>
@@ -322,7 +322,7 @@
       <loft-altitude type="int"> 10 </loft-altitude>
       <max-fire-range-nm type="double"> 134 </max-fire-range-nm>
       <max-g type="int"> 15 </max-g>
-      <max-report-distance type="double"> 5 </max-report-distance>
+      <max-report-distance type="double"> 275 </max-report-distance>
       <min-fire-range-nm type="double"> 0.5 </min-fire-range-nm>
       <min-speed-for-guiding-mach type="double"> 0.25 </min-speed-for-guiding-mach>
       <mounted-limit-g type="double"> 7,5 </mounted-limit-g>
