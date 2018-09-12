@@ -1149,7 +1149,7 @@ ________________________________________________________________________________
             </volume>
         </gbu-release>
         
-        <scalp-release>
+        <gbu-release>
             <name>scalp-release</name>
             <mode>once</mode>
             <type>avionics</type>
@@ -1162,7 +1162,22 @@ ________________________________________________________________________________
                 <factor>1</factor>
                 <max>1</max>
             </volume>
-        </scalp-release>
+        </gbu-release>
+        
+        <gbu-release>
+            <name>exocet-release</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/Mirage-2000/Sounds/gbu_release.wav</path>
+            <condition>
+                <property>payload/armament/am39-exocet/sound-fire-on-off</property>
+            </condition>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+                <max>1</max>
+            </volume>
+        </gbu-release>
 
   </fx>
 

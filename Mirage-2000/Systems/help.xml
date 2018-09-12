@@ -61,10 +61,15 @@
     <name>w</name>
     <desc>Cycle Stick Weapon Mode Selector</desc>
   </key>
+  
+  <key>
+    <name>m</name>
+    <desc>Master Arm switch</desc>
+  </key>
 
   <key>
     <name>e</name>
-    <desc>Fire guns/missiles</desc>
+    <desc>Trigger for guns/missiles</desc>
   </key>
 
   <!--key>
@@ -145,7 +150,11 @@
   <line>   -- Lat/lon</line>
   <line>   For long range missile, you can directly enter lat/lon. Then click on acquistion.</line>
   <line>   In case of moving target, you can make the aiming follow it via the button "Follow closest GND AI/MP"</line>
-  <line>   Once target is acquired, Select it in the radar, then shoot.</line>
+  <line>   Once target is acquired, Select the target named "GROUND_TARGET" in the radar, then shoot</line>
+  <line>   your ground loads.</line>
+  <line>   For GBU, an indication in hud  will give you the distance to the best shooting point. Shoot when it is close to 0</line>
+  <line> - SEA : Select your Exocet, select a target. Fire. The exocet is a long range missile which fly just above waves. </line>
+  
   <line>=== Radar ===</line>
   <line>Activate "lock" with R</line>
   <line>Select target with "n"</line>

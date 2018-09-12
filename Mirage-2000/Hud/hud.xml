@@ -71,7 +71,7 @@
     <width>18</width>
     <height>8</height>
     <input>
-      <property>/orientation/heading-deg</property>
+      <property>instrumentation/mfd/heading-displayed</property>
     </input>
     <format>%3.0f</format>
     <halign>center</halign>
@@ -80,9 +80,9 @@
   </label>
 
   <tape>
-    <name>Gyrocompass</name>
+    <name>GyrocompassTrue</name>  
     <input>
-      <property>/orientation/heading-deg</property>
+      <property>instrumentation/mfd/heading-displayed</property>
       <factor>0.1</factor>
     </input>
     <x>-40</x>

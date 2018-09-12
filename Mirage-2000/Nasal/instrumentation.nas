@@ -236,6 +236,26 @@ var Tacan = func() {
     }
 }
 
+
+var display_heading = func(){
+    var trackingNorth = getprop("instrumentation/efis/mfd/true-north");
+    var magneticNorth = getprop("orientation/heading-magnetic-deg");
+    var trueNorth = getprop("orientation/heading-deg");
+    var bugbug = getprop("autopilot/internal/fdm-heading-bug-error-deg");
+    
+    if(getprop("instrumentation/efis/mfd/true-north")){
+      setprop("instrumentation/mfd/heading-displayed",trueNorth);
+      if(bugbug != nil){setprop("instrumentation/mfd/bug-heading-displayed",math.mod(bugbug + magneticNorth-trueNorth, 360));}
+    }else{
+      setprop("instrumentation/mfd/heading-displayed",getprop("orientation/heading-magnetic-deg"));
+      if(bugbug != nil){setprop("instrumentation/mfd/bug-heading-displayed",bugbug);}
+    }
+    
+    settimer(display_heading, 0.2);
+}
+
+display_heading();
+
 var initIns = func()
 {
     convertTemp();
@@ -243,5 +263,6 @@ var initIns = func()
     viewHUD();
     gearBox();
     Tacan();
+
     settimer(initIns, 0.5);
 }

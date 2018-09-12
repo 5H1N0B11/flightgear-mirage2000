@@ -1233,7 +1233,7 @@ var Radar = {
             if(me.az_fld != me.focused_az_fld){
               if (size(me.tgts_list) > 0) {
                 me.tgts_list[me.Target_Index].setPainted(0);
-                #armament.contact = 0;
+                armament.contact = nil;
               }
             }
             setprop("/ai/closest/range", 0);

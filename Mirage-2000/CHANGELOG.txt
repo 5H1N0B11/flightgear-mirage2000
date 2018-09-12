@@ -1,3 +1,10 @@
+2018-09
+================================================================================
+Added new weapons
+Added sound for weapons
+Made true heading/magnetic heading selectables
+Made an HUD indicator for when release bombs
+
 2018-08
 ================================================================================
 New weapons systems, generic and allow more option on missile/bombs

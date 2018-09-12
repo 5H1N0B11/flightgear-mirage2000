@@ -293,23 +293,26 @@ var HUD = {
       #print(pylons.fcs.getSelectedWeapon().type);
       if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
         #print(pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1));
-        if(aGL<8000){
-          var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1);
-        }elsif(aGL<15000){
-          var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(30, 0.2);
-        }else{
-          var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(45, 0.2);
-        }
-        
-        if(DistanceToShoot != nil ){
-          if(DistanceToShoot < 3000){
-            me.Fire_GBU.show();
-            me.Fire_GBU.setText(sprintf("Hold Fire: %d ", int(DistanceToShoot)));
-            if(DistanceToShoot < 600){
-              #print(DistanceToShoot);
-              me.Fire_GBU.setText(sprintf("Fire: %d ", int(DistanceToShoot)));
+        if(pylons.fcs.getSelectedWeapon().class =="GM" or pylons.fcs.getSelectedWeapon().class == "G"){
+          #print("Class of Load:" ~ pylons.fcs.getSelectedWeapon().class);
+          if(aGL<8000){
+            var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1);
+          }elsif(aGL<15000){
+            var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(30, 0.2);
+          }else{
+            var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(45, 0.2);
+          }
+          
+          if(DistanceToShoot != nil ){
+            if(DistanceToShoot < 3000){
               me.Fire_GBU.show();
-            }
+              me.Fire_GBU.setText(sprintf("Hold Fire: %d ", int(DistanceToShoot)));
+              if(DistanceToShoot < 600){
+                #print(DistanceToShoot);
+                me.Fire_GBU.setText(sprintf("Fire: %d ", int(DistanceToShoot)));
+                me.Fire_GBU.show();
+              }
+            }else{me.Fire_GBU.hide();}
           }else{me.Fire_GBU.hide();}
         }else{me.Fire_GBU.hide();}
       }else{me.Fire_GBU.hide();}

@@ -13,7 +13,7 @@
   </efis>
   
   <ejection type="bool">false</ejection>
-  
+  <heading-display>0</heading-display>
   <doors>
     <crew>
       <!--
@@ -116,6 +116,9 @@
         meteo dispayed at game start
     -->
     <wind-display type="bool"> 1 </wind-display>
+    <heading-displayed type="int">0</heading-displayed>
+    <bug-heading-displayed type="int">0</bug-heading-displayed>
+    
     <eicas>
       <n1-real type="string">""</n1-real>
       <n2-real type="string">""</n2-real>
