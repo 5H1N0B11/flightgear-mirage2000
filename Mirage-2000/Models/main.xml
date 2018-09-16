@@ -485,74 +485,44 @@
     </offsets>
   </model>
 
-  <!-- ~~~~~~~~~~~~~~~~~~ left ailerons animation -->
-  <animation>
-    <type>rotate</type>
-    <object-name>aileronG</object-name>
-    <property>surface-positions/left-aileron-pos-norm</property>
-    <factor> 16 </factor>
-    <axis>
-      <x1-m>  4.321 </x1-m>
-      <y1-m> -4.290 </y1-m>
-      <z1-m> -1.250 </z1-m>
-      <x2-m>  4.309 </x2-m>
-      <y2-m> -2.324 </y2-m>
-      <z2-m> -1.093 </z2-m>
-    </axis>
-  </animation>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>aileronG</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor> 16 </factor>
-    <axis>
-      <x1-m>  4.321 </x1-m>
-      <y1-m> -4.290 </y1-m>
-      <z1-m> -1.250 </z1-m>
-      <x2-m>  4.309 </x2-m>
-      <y2-m> -2.324 </y2-m>
-      <z2-m> -1.093 </z2-m>
-    </axis>
-  </animation>
-
-  <!-- ~~~~~~~~~~~~~~~~~~ right ailerons animation -->
-  <animation>
-    <type>rotate</type>
-    <object-name>aileronD</object-name>
-    <property>surface-positions/right-aileron-pos-norm</property>
-    <factor> 16 </factor>
-    <axis>
-      <x1-m>  4.309 </x1-m>
-      <y1-m>  2.324 </y1-m>
-      <z1-m> -1.093 </z1-m>
-      <x2-m>  4.321 </x2-m>
-      <y2-m>  4.290 </y2-m>
-      <z2-m> -1.250 </z2-m>
-    </axis>
-  </animation>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>aileronD</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor> 16 </factor>
-    <axis>
-      <x1-m>  4.309 </x1-m>
-      <y1-m>  2.324 </y1-m>
-      <z1-m> -1.093 </z1-m>
-      <x2-m>  4.321 </x2-m>
-      <y2-m>  4.290 </y2-m>
-      <z2-m> -1.250 </z2-m>
-    </axis>
-  </animation>
-
   <!-- ~~~~~~~~~~~~~~~~~~ left elevons animation -->
   <animation>
     <type>rotate</type>
+    <object-name>aileronG</object-name>
+    <property>sim/multiplay/generic/float[15]</property>
+    <factor> 1 </factor>
+    <axis>
+      <x1-m>  4.321 </x1-m>
+      <y1-m> -4.290 </y1-m>
+      <z1-m> -1.250 </z1-m>
+      <x2-m>  4.309 </x2-m>
+      <y2-m> -2.324 </y2-m>
+      <z2-m> -1.093 </z2-m>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ right elevons animation -->
+  <animation>
+    <type>rotate</type>
+    <object-name>aileronD</object-name>
+    <property>sim/multiplay/generic/float[18]</property>
+    <factor> 1 </factor>
+    <axis>
+      <x1-m>  4.309 </x1-m>
+      <y1-m>  2.324 </y1-m>
+      <z1-m> -1.093 </z1-m>
+      <x2-m>  4.321 </x2-m>
+      <y2-m>  4.290 </y2-m>
+      <z2-m> -1.250 </z2-m>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ left elevons inner animation -->
+  <animation>
+    <type>rotate</type>
     <object-name>elevonG</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor> 16 </factor>
+    <property>sim/multiplay/generic/float[16]</property>
+    <factor> 1 </factor>
     <axis>
       <x1-m>  4.309 </x1-m>
       <y1-m> -2.322 </y1-m>
@@ -563,12 +533,12 @@
     </axis>
   </animation>
 
-  <!-- ~~~~~~~~~~~~~~~~~~ right elevons animation -->
+  <!-- ~~~~~~~~~~~~~~~~~~ right elevons inner animation -->
   <animation>
     <type>rotate</type>
     <object-name>elevonD</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor> 16 </factor>
+    <property>sim/multiplay/generic/float[17]</property>
+    <factor> 1 </factor>
     <axis>
       <x1-m>  4.308 </x1-m>
       <y1-m>  0.873 </y1-m>
@@ -583,8 +553,8 @@
   <animation>
     <type>rotate</type>
     <object-name>direction</object-name>
-    <property>surface-positions/rudder-pos-norm</property>
-    <factor> -14 </factor>
+    <property>sim/multiplay/generic/float[19]</property>
+    <factor> 1 </factor>
     <axis>
       <x1-m> 5.895 </x1-m>
       <y1-m> 0.000 </y1-m>

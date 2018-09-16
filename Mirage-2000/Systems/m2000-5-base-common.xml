@@ -78,6 +78,11 @@
       <float                n="12" alias="/gear/gear[1]/rollspeed-ms" />
       <float                n="13" alias="/gear/gear[2]/rollspeed-ms" />
       <float                n="14" alias="/engines/engine[0]/afterburner" />
+      <float                n="15" alias="/it-fbw/internal/elevon-1L" />
+      <float                n="16" alias="/it-fbw/internal/elevon-2L" />
+      <float                n="17" alias="/it-fbw/internal/elevon-2R" />
+      <float                n="18" alias="/it-fbw/internal/elevon-1R" />
+      <float                n="19" alias="/it-fbw/internal/rudder" />
       <string type="string" n="0" />
       <!-- for loads -->
       <string type="string" n="1" />

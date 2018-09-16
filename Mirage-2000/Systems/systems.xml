@@ -2,8 +2,12 @@
 
 <PropertyList>
   
-  <autopilot>
+  <autopilot n="0">
     <path>Aircraft/Mirage-2000/Systems/m2000-5_autopilot.xml</path>
+  </autopilot>
+  
+  <autopilot n="2">
+    <path>Aircraft/Mirage-2000/Systems/it-fbw.xml</path>
   </autopilot>
   
   <electrical>
