@@ -24,7 +24,7 @@
   </property-rule>
 
   <property-rule n="102">
-    <path>Aircraft/Mirage-2000/Systems/m2000-5-views.xml</path>
+    <path>Aircraft/Mirage-2000/Systems/zoom-views.xml</path>
   </property-rule>
 
 </PropertyList>
