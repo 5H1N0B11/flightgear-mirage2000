@@ -207,7 +207,6 @@ ________________________________________________________________________________
 
     <control-input axis="/it-fbw/output/roll"           control="FLAP0" split="true" />
     <control-input axis="/controls/flight/aileron-trim" control="FLAP0" split="true" />
-    <control-input axis="/controls/flight/slats"        control="SLAT" />
     <control-input axis="/controls/flight/spoilers"     control="SPOILER" />
     <control-input axis="/it-fbw/output/slat"           control="SLAT" />
 

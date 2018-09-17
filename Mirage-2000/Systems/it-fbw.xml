@@ -1031,7 +1031,6 @@
 		</input>
 		<input>/controls/flight/flaps</input>
 		<output>/it-fbw/output/slat</output>
-		<output>/controls/flight/slats</output> 
 		<min>-1.0</min>
 		<max>1.0</max>
 	</filter>
