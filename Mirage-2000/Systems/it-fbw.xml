@@ -383,6 +383,25 @@
 	</pi-simple-controller>
 	
 	<filter>
+		<name>IT-CONTROLLER: G GROUND</name>
+		<type>gain</type>
+		<enable>
+			<condition>
+				<not-equals>
+					<property>/it-fbw/internal/flight-mode</property>
+					<value>1</value>
+				</not-equals>
+			</condition>
+		</enable>
+		<gain>-0.12</gain>
+		<input>/accelerations/pilot-g</input>
+		<reference>/it-fbw/pitch/target-g-lag</reference>
+		<output>/it-fbw/pitch/g-control</output>
+		<min>-1.0</min>
+		<max>1.0</max>
+	</filter>
+	
+	<filter>
 		<name>IT-CONTROLLER: Q CONTROL</name>
 		<type>gain</type>
 		<gain>
@@ -645,8 +664,8 @@
 			<expression>
 				<product>
 					<difference>
-						<property>/orientation/roll-rate-degps</property>
 						<property>/it-fbw/roll/target-rate-lag</property>
+						<property>/orientation/roll-rate-degps</property>
 					</difference>
 					<value>0.0025</value> <!-- Ground gain -->
 				</product>
@@ -664,32 +683,18 @@
 		<gain>25.0</gain>
 		<input>
 			<condition>
-				<equals>
-					<property>/it-fbw/internal/flight-mode</property>
-					<value>1</value>
-				</equals>
+				<or>
+					<equals>
+						<property>/it-fbw/internal/flight-mode</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-fbw/internal/ground-mode</property>
+						<value>1</value>
+					</equals>
+				</or>
 			</condition>
 			<property>/it-fbw/pitch/q-control</property>
-		</input>
-		<input>
-			<condition>
-				<equals>
-					<property>/it-fbw/internal/ground-mode</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<expression>
-				<sum>
-					<product>
-						<difference>
-							<property>/accelerations/pilot-g</property>
-							<property>/it-fbw/pitch/target-g-lag</property>
-						</difference>
-						<value>0.2</value> <!-- Ground gain -->
-					</product>
-					<value>0.2</value>
-				</sum>
-			</expression>
 		</input>
 		<input>/controls/flight/elevator-nul</input>
 		<output>/it-fbw/internal/pitch-pos-deg</output>
@@ -705,7 +710,7 @@
 			<expression>
 				<table>
 					<property>/velocities/mach</property> 
-					<entry><ind>0.2</ind><dep>-0.4</dep></entry>
+					<entry><ind>0.2</ind><dep>-0.2</dep></entry>
 					<entry><ind>0.5</ind><dep>-0.1</dep></entry>
 					<entry><ind>1.0</ind><dep> 0.0</dep></entry>
 				</table>
@@ -968,7 +973,7 @@
 			<expression>
 				<product>
 					<property>/controls/flight/rudder-nul</property>
-					<value>0.25</value>
+					<value>0.5</value>
 				</product>
 			</expression>
 		</input>
