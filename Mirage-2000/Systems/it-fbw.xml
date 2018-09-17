@@ -393,7 +393,7 @@
 				</not-equals>
 			</condition>
 		</enable>
-		<gain>-0.12</gain>
+		<gain>-0.1</gain>
 		<input>/accelerations/pilot-g</input>
 		<reference>/it-fbw/pitch/target-g-lag</reference>
 		<output>/it-fbw/pitch/g-control</output>
