@@ -246,7 +246,7 @@ var pitch_wheel = func(dir) {
 var set_pitch = func() {
     setprop(Vertical, "PTCH");
     var p_inst = getprop("/orientation/pitch-deg");
-    if(p_inst < 3 and p_inst > -3)
+    if(p_inst < 0.5 and p_inst > -0.5)
     {
         setprop("/autopilot/settings/target-pitch-deg", 0);
     }
@@ -259,7 +259,7 @@ var set_pitch = func() {
 var set_roll = func() {
     var r_inst = getprop("/orientation/roll-deg");
     setprop(Lateral, "ROLL");
-    if(r_inst < 10 and r_inst > -10)
+    if(r_inst < 1 and r_inst > -1)
     {
         setprop("/autopilot/settings/target-roll-deg", 0.0);
     }

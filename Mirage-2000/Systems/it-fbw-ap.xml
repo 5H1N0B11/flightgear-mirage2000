@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Mirage 2000 (YASim) FBW Autopilot -->
+<!-- Copyright (c) 2018 Joshua Davidson (it0uchpods) -->
+
+<PropertyList>
+	
+	<!-- From old Autopilot to make nasal work -->
+	<filter>
+		<name>NAV1 Heading Deflection</name>
+		<debug>false</debug>
+		<type>noise-spike</type>
+		<input>
+			<condition>
+				<equals>
+					<property>autopilot/settings/nav-source</property>
+					<value>NAV1</value>
+				</equals>
+			</condition>
+			<property>instrumentation/nav[0]/heading-needle-deflection</property>
+			<scale>3.0</scale>
+		</input>
+		<input>
+			<condition>
+				<equals>
+					<property>autopilot/settings/nav-source</property>
+					<value>NAV2</value>
+				</equals>
+			</condition>
+			<property>instrumentation/nav[1]/heading-needle-deflection</property>
+			<scale>3.0</scale>
+		</input>
+		<input>
+			<condition>
+				<equals>
+					<property>autopilot/settings/nav-source</property>
+					<value>FMS</value>
+				</equals>
+			</condition>
+			<property>instrumentation/gps/wp/wp[1]/course-error-nm</property>
+			<scale>9.0</scale>
+		</input>
+		<output>/autopilot/internal/cdi</output>
+		<max-rate-of-change>20</max-rate-of-change>
+	</filter>
+	
+	<!-- System Command Roll and Pitch -->
+	<filter>
+		<name>System Command: Roll Rate</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>-2.5</gain>
+		<input>/orientation/roll-deg</input>
+		<reference>/autopilot/settings/target-roll-deg</reference>
+		<output>/it-fbw/ap/target-roll-rate</output>
+		<min>-30</min>
+		<max>30</max>
+	</filter>
+	
+	<filter>
+		<name>System Command: Pitch Rate</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>-1.5</gain>
+		<input>/orientation/pitch-deg</input>
+		<reference>/autopilot/settings/target-pitch-deg</reference>
+		<output>/it-fbw/ap/target-pitch-rate</output>
+		<min>-15</min>
+		<max>15</max>
+	</filter>
+	
+	<pi-simple-controller>
+		<name>IT-CONTROLLER: G ACCEL PI</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/AP-status</property>
+					<value>AP1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>/it-fbw/ap/target-pitch-rate</input>
+		<reference>/orientation/pitch-rate-degps</reference>
+		<output>/it-fbw/ap/target-g-cmd</output>
+		<config>
+			<Kp>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>-0.37</dep></entry>
+						<entry><ind>1.0</ind><dep>-0.22</dep></entry>
+						<entry><ind>2.0</ind><dep>-0.18</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ki>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>-0.062</dep></entry>
+						<entry><ind>1.0</ind><dep>-0.037</dep></entry>
+						<entry><ind>2.0</ind><dep>-0.031</dep></entry>
+					</table>
+				</expression>
+			</Ki>
+			<Kp>/it-fbw/tune/kp</Kp>
+			<Ki>/it-fbw/tune/ki</Ki>
+			<min>-1.0</min>
+			<max>1.5</max>
+		</config>
+	</pi-simple-controller>
+	
+	<filter>
+		<name>System Command: G ACCEL SUM</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<sum>
+					<property>/it-fbw/ap/target-g-cmd</property>
+					<div>
+						<value>1</value>
+						<cos>
+							<deg2rad><property>/orientation/roll-deg</property></deg2rad>
+						</cos>
+					</div>
+				</sum>
+			</expression>
+		</input>
+		<output>/it-fbw/ap/target-g-accel</output>
+		<min>0.0</min>
+		<max>2.5</max>
+	</filter>
+	
+	<!-- System Command Autothrottle -->
+	<pid-controller>
+		<name>IT-CONTROLLER: Speed Knots</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/speed</property>
+					<value>SPD</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
+		<reference>/autopilot/settings/target-speed-kt</reference>
+		<output>/controls/engines/engine[0]/throttle</output>
+		<config>
+			<Kp>0.075</Kp>
+			<Ti>5.0</Ti>
+			<Td>0.001</Td>
+			<u_min>0.0</u_min>
+			<u_max>0.8</u_max> <!-- No afterburner -->
+		</config>
+	</pid-controller>
+
+</PropertyList>

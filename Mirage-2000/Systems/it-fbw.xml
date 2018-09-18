@@ -83,6 +83,15 @@
 		<input>
 			<condition>
 				<equals>
+					<property>/autopilot/locks/AP-status</property>
+					<value>AP1</value>
+				</equals>
+			</condition>
+			<property>/it-fbw/ap/target-roll-rate</property>
+		</input>
+		<input>
+			<condition>
+				<equals>
 					<property>controls/SAS/cat</property>
 					<value>1</value>
 				</equals>
@@ -314,6 +323,15 @@
 		<debug>false</debug>
 		<type>exponential</type>
 		<input>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/AP-status</property>
+					<value>AP1</value>
+				</equals>
+			</condition>
+			<property>/it-fbw/ap/target-g-accel</property>
+		</input>
+		<input>
 			<expression> <!-- Reduces stick sensitivity at low speeds -->
 				<sum>
 					<product>
@@ -375,8 +393,8 @@
 					</table>
 				</expression>
 			</Ki>
-			<Kp>/it-fbw/tune/kp</Kp>
-			<Ki>/it-fbw/tune/ki</Ki>
+			<!--Kp>/it-fbw/tune/kp</Kp>
+			<Ki>/it-fbw/tune/ki</Ki-->
 			<min>-1.0</min>
 			<max>1.0</max>
 		</config>
