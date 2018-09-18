@@ -159,8 +159,8 @@ var FD_set_mode = func(btn)
     {      
         if(Vmode != "VS")
         {
-            setprop(Vertical, "VS");
             setprop("/autopilot/settings/vertical-speed-fpm", getprop("/autopilot/internal/vert-speed-fpm"));
+            setprop(Vertical, "VS");
         }
         else
         {

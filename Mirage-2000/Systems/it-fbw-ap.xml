@@ -44,6 +44,260 @@
 		<max-rate-of-change>20</max-rate-of-change>
 	</filter>
 	
+	<!-- Roll Axis -->
+	<filter>
+		<name>System Command: Max Roll</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<table>
+					<property>/velocities/mach</property> 
+					<entry><ind>0.2</ind><dep>30</dep></entry>
+					<entry><ind>1.0</ind><dep>60</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>/it-fbw/ap/max-roll</output>
+	</filter>
+	
+	<filter>
+		<name>HEADING ERROR DEG</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/heading</property>
+					<value>HDG</value>
+				</equals>
+			</condition>
+			<property>/autopilot/settings/heading-bug-deg</property>
+			<offset>
+				<property>/orientation/heading-deg</property>
+				<scale>-1.0</scale>
+			</offset>
+		</input>
+		<input>
+			<condition>
+				<and>
+					<equals>
+						<property>/autopilot/locks/heading</property>
+						<value>LNAV</value>
+					</equals>
+					<equals>
+						<property>/autopilot/settings/nav-source</property>
+						<value>FMS</value>
+					</equals>
+					<equals>
+						<property>/autopilot/route-manager/active</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+			<expression>
+				<sum>
+					<property>/autopilot/route-manager/wp[0]/true-bearing-deg</property>
+					<difference>
+						<property>/orientation/track-magnetic-deg</property>
+						<property>/orientation/heading-magnetic-deg</property>
+					</difference>
+					<product>
+						<property>/orientation/heading-deg</property>
+						<value>-1</value>
+					</product>
+				</sum>
+			</expression>
+		</input>
+		<input>
+			<condition>
+				<and>
+					<equals>
+						<property>/autopilot/locks/heading</property>
+						<value>LNAV</value>
+					</equals>
+					<equals>
+						<property>/autopilot/settings/nav-source</property>
+						<value>FMS</value>
+					</equals>
+					<not-equals>
+						<property>/autopilot/route-manager/active</property>
+						<value>0</value>
+					</not-equals>
+				</and>
+			</condition>
+			<value>0</value>
+		</input>
+		<input>0</input>
+		<output>/it-fbw/ap/heading-error-deg</output>
+		<period>
+			<min>-180</min>
+			<max>180</max>
+		</period>
+	</filter>
+	
+	<pi-simple-controller>
+		<name>System Command: HDG/LNAV</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<or>
+					<equals>
+						<property>/autopilot/locks/heading</property>
+						<value>HDG</value>
+					</equals>
+					<equals>
+						<property>/autopilot/locks/heading</property>
+						<value>LNAV</value>
+					</equals>
+				</or>
+			</condition>
+		</enable>
+		<input>/it-fbw/ap/heading-error-deg</input>
+		<reference>0.0</reference>
+		<output>/autopilot/settings/target-roll-deg</output>
+		<config>
+			<Kp>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>-1.8</dep></entry>
+						<entry><ind>1.0</ind><dep>-3.7</dep></entry>
+						<entry><ind>1.5</ind><dep>-3.9</dep></entry>
+						<entry><ind>2.0</ind><dep>-4.1</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ki>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.4</ind><dep>-0.005</dep></entry>
+						<entry><ind>1.5</ind><dep>-0.010</dep></entry>
+					</table>
+				</expression>
+			</Ki>
+			<min>
+				<property>/it-fbw/ap/max-roll</property>
+				<scale>-1</scale>
+			</min>
+			<max>/it-fbw/ap/max-roll</max>
+		</config>
+	</pi-simple-controller>
+	
+	<!-- Pitch Axis -->
+	<filter>
+		<name>PITCH DEG SYNC</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<and>
+					<not-equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>ALT</value>
+					</not-equals>
+					<not-equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>VS</value>
+					</not-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/orientation/pitch-deg</input>
+		<output>/it-fbw/ap/target-pitch-deg</output>
+		<min>-15</min>
+		<max>30</max>
+	</filter>
+ 
+	<pid-controller>
+		<name>FPM HOLD</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<or>
+					<equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>ALT</value>
+					</equals>
+					<equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>VS</value>
+					</equals>
+				</or>
+			</condition>
+		</enable>
+		<input>/instrumentation/gps/indicated-vertical-speed</input>
+		<reference>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/altitude</property>
+					<value>ALT</value>
+				</equals>
+			</condition>
+			<expression>
+				<min>
+					<max>
+						<product>
+							<difference>
+								<property>/instrumentation/altimeter/indicated-altitude-ft</property>
+								<property>/autopilot/settings/target-altitude-ft</property>
+								<value>1</value>
+							</difference>
+							<table>
+								<property>/velocities/mach</property>
+								<entry><ind>0.2</ind><dep>-7</dep></entry>
+								<entry><ind>2.1</ind><dep>-2</dep></entry>
+							</table>
+						</product>
+					<value>-500</value>
+					</max>
+					<value>500</value>
+				</min>
+			</expression>
+		</reference>
+		<reference>/autopilot/settings/vertical-speed-fpm</reference>
+		<output>/it-fbw/ap/target-pitch-deg</output>
+		<config>
+			<Kp>
+				<expression>
+					<table>
+						<property>/velocities/mach</property>
+						<entry><ind>0.2</ind><dep>0.0029</dep></entry>
+						<entry><ind>0.9</ind><dep>0.0010</dep></entry>
+						<entry><ind>2.1</ind><dep>0.0003</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ti>2.0</Ti>
+			<Td>0.0001</Td>
+			<u_min>
+				<expression>
+					<max>
+						<dif>
+							<property>/orientation/pitch-deg</property>
+							<value>5</value>
+						</dif>
+						<value>-15</value>
+					</max>
+				</expression>
+			</u_min>
+			<u_max>
+				<expression>
+					<min>
+						<sum>
+							<property>/orientation/pitch-deg</property>
+							<value>5</value>
+						</sum>
+						<value>30</value>
+					</min>
+				</expression>
+			</u_max>
+		</config>
+	</pid-controller>
+	
 	<!-- System Command Roll and Pitch -->
 	<filter>
 		<name>System Command: Roll Rate</name>
@@ -53,8 +307,8 @@
 		<input>/orientation/roll-deg</input>
 		<reference>/autopilot/settings/target-roll-deg</reference>
 		<output>/it-fbw/ap/target-roll-rate</output>
-		<min>-30</min>
-		<max>30</max>
+		<min>-20</min>
+		<max>20</max>
 	</filter>
 	
 	<filter>
@@ -63,10 +317,25 @@
 		<type>gain</type>
 		<gain>-1.5</gain>
 		<input>/orientation/pitch-deg</input>
+		<reference>
+			<condition>
+				<or>
+					<equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>ALT</value>
+					</equals>
+					<equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>VS</value>
+					</equals>
+				</or>
+			</condition>
+			<property>/it-fbw/ap/target-pitch-deg</property>
+		</reference>
 		<reference>/autopilot/settings/target-pitch-deg</reference>
 		<output>/it-fbw/ap/target-pitch-rate</output>
-		<min>-15</min>
-		<max>15</max>
+		<min>-10</min>
+		<max>10</max>
 	</filter>
 	
 	<pi-simple-controller>
