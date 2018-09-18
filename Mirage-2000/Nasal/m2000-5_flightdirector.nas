@@ -263,7 +263,7 @@ var set_roll = func() {
     {
         setprop("/autopilot/settings/target-roll-deg", 0.0);
     }
-    if(r_inst > 10 or r_inst < -10)
+    else
     {
         setprop("/autopilot/settings/target-roll-deg", r_inst);
     }
