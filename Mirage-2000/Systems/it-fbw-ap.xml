@@ -7,7 +7,7 @@
 	
 	<!-- From old Autopilot to make nasal work -->
 	<filter>
-		<name>NAV1 Heading Deflection</name>
+		<name>NAV Heading Deflection</name>
 		<debug>false</debug>
 		<type>noise-spike</type>
 		<input>
@@ -212,6 +212,118 @@
 		</config>
 	</pi-simple-controller>
 	
+	<filter>
+		<name>NAV ERROR DEG</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>VOR</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>LOC</value>
+						</equals>
+					</or>
+					<equals>
+						<property>/autopilot/settings/nav-source</property>
+						<value>NAV1</value>
+					</equals>
+				</and>
+			</condition>
+			<property>/instrumentation/nav[0]/radials/target-auto-hdg-deg</property>
+			<offset>
+				<property>/orientation/heading-deg</property>
+				<scale>-1.0</scale>
+			</offset>
+		</input>
+		<input>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>VOR</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>LOC</value>
+						</equals>
+					</or>
+					<equals>
+						<property>/autopilot/settings/nav-source</property>
+						<value>NAV2</value>
+					</equals>
+				</and>
+			</condition>
+			<property>/instrumentation/nav[1]/radials/target-auto-hdg-deg</property>
+			<offset>
+				<property>/orientation/heading-deg</property>
+				<scale>-1.0</scale>
+			</offset>
+		</input>
+		<input>0</input>
+		<output>/it-fbw/ap/nav-error-deg</output>
+		<period>
+			<min>-180</min>
+			<max>180</max>
+		</period>
+	</filter>
+	
+	<pi-simple-controller>
+		<name>System Command: NAV</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<or>
+					<equals>
+						<property>/autopilot/locks/heading</property>
+						<value>VOR</value>
+					</equals>
+					<equals>
+						<property>/autopilot/locks/heading</property>
+						<value>LOC</value>
+					</equals>
+				</or>
+			</condition>
+		</enable>
+		<input>/it-fbw/ap/nav-error-deg</input>
+		<reference>0.0</reference>
+		<output>/autopilot/settings/target-roll-deg</output>
+		<config>
+			<Kp>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>-2.7</dep></entry>
+						<entry><ind>1.0</ind><dep>-5.5</dep></entry>
+						<entry><ind>1.5</ind><dep>-5.8</dep></entry>
+						<entry><ind>2.0</ind><dep>-6.1</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ki>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.4</ind><dep>-0.0075</dep></entry>
+						<entry><ind>1.5</ind><dep>-0.0150</dep></entry>
+					</table>
+				</expression>
+			</Ki>
+			<min>
+				<property>/it-fbw/ap/max-roll</property>
+				<scale>-1</scale>
+			</min>
+			<max>/it-fbw/ap/max-roll</max>
+		</config>
+	</pi-simple-controller>
+	
 	<!-- Pitch Axis -->
 	<filter>
 		<name>PITCH DEG SYNC</name>
@@ -227,6 +339,10 @@
 					<not-equals>
 						<property>/autopilot/locks/altitude</property>
 						<value>VS</value>
+					</not-equals>
+					<not-equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>GS</value>
 					</not-equals>
 				</and>
 			</condition>
@@ -250,6 +366,10 @@
 					<equals>
 						<property>/autopilot/locks/altitude</property>
 						<value>VS</value>
+					</equals>
+					<equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>GS</value>
 					</equals>
 				</or>
 			</condition>
@@ -277,11 +397,66 @@
 								<entry><ind>2.1</ind><dep>-2</dep></entry>
 							</table>
 						</product>
-					<value>-500</value>
+						<value>-500</value>
 					</max>
 					<value>500</value>
 				</min>
 			</expression>
+		</reference>
+		<reference>
+			<condition>
+				<and>
+					<equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>GS</value>
+					</equals>
+					<equals>
+						<property>/autopilot/settings/nav-source</property>
+						<value>NAV1</value>
+					</equals>
+				</and>
+			</condition>
+			<expression>
+				<min>
+					<max>
+						<property>/instrumentation/nav[0]/gs-rate-of-climb-fpm</property>
+						<value>-1500</value>
+					</max>
+					<value>0</value>
+				</min>
+			</expression>
+		</reference>
+		<reference>
+			<condition>
+				<and>
+					<equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>GS</value>
+					</equals>
+					<equals>
+						<property>/autopilot/settings/nav-source</property>
+						<value>NAV2</value>
+					</equals>
+				</and>
+			</condition>
+			<expression>
+				<min>
+					<max>
+						<property>/instrumentation/nav[1]/gs-rate-of-climb-fpm</property>
+						<value>-1500</value>
+					</max>
+					<value>0</value>
+				</min>
+			</expression>
+		</reference>
+		<reference>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/altitude</property>
+					<value>VS</value>
+				</equals>
+			</condition>
+			<property>/autopilot/settings/vertical-speed-fpm</property>
 		</reference>
 		<reference>/autopilot/settings/vertical-speed-fpm</reference>
 		<output>/it-fbw/ap/target-pitch-deg</output>
@@ -352,6 +527,10 @@
 					<equals>
 						<property>/autopilot/locks/altitude</property>
 						<value>VS</value>
+					</equals>
+					<equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>GS</value>
 					</equals>
 				</or>
 			</condition>
