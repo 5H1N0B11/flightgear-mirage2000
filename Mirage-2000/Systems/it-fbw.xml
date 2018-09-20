@@ -510,9 +510,9 @@
 			<expression>
 				<table>
 					<property>/controls/flight/rudder-nul</property>
-					<entry><ind>-1</ind><dep> 0.122173</dep></entry>
+					<entry><ind>-1</ind><dep> 0.244346</dep></entry>
 					<entry><ind> 0</ind><dep> 0.000000</dep></entry>
-					<entry><ind> 1</ind><dep>-0.122173</dep></entry>
+					<entry><ind> 1</ind><dep>-0.244346</dep></entry>
 				</table>
 			</expression>
 		</input>
@@ -520,9 +520,9 @@
 			<expression>
 				<table>
 					<property>/controls/flight/rudder-nul</property>
-					<entry><ind>-1</ind><dep> 0.174533</dep></entry>
+					<entry><ind>-1</ind><dep> 0.349066</dep></entry>
 					<entry><ind> 0</ind><dep> 0.000000</dep></entry>
-					<entry><ind> 1</ind><dep>-0.174533</dep></entry>
+					<entry><ind> 1</ind><dep>-0.349066</dep></entry>
 				</table>
 			</expression>
 		</input>
@@ -720,7 +720,7 @@
 		<max>16.0</max>
 	</filter>
 	
-	<filter> <!-- This just just a crude "hack" to fake unstable aircraft in YASim -->
+	<filter> <!-- This is just a crude "hack" to fake unstable aircraft in YASim -->
 		<name>YASim Mach Trim</name>
 		<type>gain</type>
 		<gain>1.0</gain>
