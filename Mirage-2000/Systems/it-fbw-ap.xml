@@ -757,26 +757,26 @@
 			</expression>
 		</input>
 		<output>/it-fbw/ap/target-g-accel</output>
-			<min>
-				<condition>
-					<equals>
-						<property>/autopilot/locks/altitude</property>
-						<value>TF</value>
-					</equals>
-				</condition>
-				<value>-1.5</value>
-			</min>
-			<min>0.0</min>
-			<max>
-				<condition>
-					<equals>
-						<property>/autopilot/locks/altitude</property>
-						<value>TF</value>
-					</equals>
-				</condition>
-				<value>5.0</value>
-			</max>
-			<max>2.5</max>
+		<min>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/altitude</property>
+					<value>TF</value>
+				</equals>
+			</condition>
+			<value>-1.5</value>
+		</min>
+		<min>0.0</min>
+		<max>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/altitude</property>
+					<value>TF</value>
+				</equals>
+			</condition>
+			<value>5.0</value>
+		</max>
+		<max>2.5</max>
 	</filter>
 	
 	<!-- System Command Autothrottle -->
