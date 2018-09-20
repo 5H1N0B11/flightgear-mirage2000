@@ -526,18 +526,27 @@
 					<product>
 						<asin>
 							<div>
-								<product>
-									<difference>
-										<property>/position/altitude-ft</property>
-										<property>/instrumentation/tfs/ground-altitude-ft</property>
-										<value>1.0</value>
-									</difference>
-									<table>
-										<property>/velocities/mach</property>
-										<entry><ind>0.2</ind><dep>-7</dep></entry>
-										<entry><ind>2.1</ind><dep>-2</dep></entry>
-									</table>
-								</product>
+								<min>
+									<max>
+										<product> <!-- Error Computer -->
+											<difference>
+												<property>/position/altitude-ft</property>
+												<sum>
+													<property>/instrumentation/tfs/ground-altitude-ft</property>
+													<property>/autopilot/settings/target-altitude-ft</property>
+												</sum>
+												<value>1.0</value>
+											</difference>
+											<table>
+												<property>/velocities/mach</property>
+												<entry><ind>0.2</ind><dep>-7</dep></entry>
+												<entry><ind>2.1</ind><dep>-2</dep></entry>
+											</table>
+										</product>
+										<value>-5000</value>
+									</max>
+									<value>5000</value>
+								</min>
 								<product>
 									<sum> <!-- Calculate True Airspeed -->
 										<property>/velocities/airspeed-kt</property>
@@ -610,7 +619,25 @@
 		</reference>
 		<reference>/autopilot/settings/target-pitch-deg</reference>
 		<output>/it-fbw/ap/target-pitch-rate</output>
+		<min>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/altitude</property>
+					<value>TF</value>
+				</equals>
+			</condition>
+			<value>-20</value>
+		</min>
 		<min>-10</min>
+		<max>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/altitude</property>
+					<value>TF</value>
+				</equals>
+			</condition>
+			<value>20</value>
+		</max>
 		<max>10</max>
 	</filter>
 	
