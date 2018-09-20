@@ -466,8 +466,8 @@
 					<entry><ind>0.2</ind><dep>-0.20</dep></entry>
 					<entry><ind>0.3</ind><dep>-0.10</dep></entry>
 					<entry><ind>0.5</ind><dep>-0.04</dep></entry>
-					<entry><ind>1.0</ind><dep>-0.02</dep></entry>
-					<entry><ind>2.0</ind><dep>-0.01</dep></entry>
+					<entry><ind>1.0</ind><dep>-0.03</dep></entry>
+					<entry><ind>2.0</ind><dep>-0.02</dep></entry>
 				</table>
 			</expression>
 		</gain>
@@ -510,9 +510,9 @@
 			<expression>
 				<table>
 					<property>/controls/flight/rudder-nul</property>
-					<entry><ind>-1</ind><dep> 0.244346</dep></entry>
+					<entry><ind>-1</ind><dep> 0.174533</dep></entry>
 					<entry><ind> 0</ind><dep> 0.000000</dep></entry>
-					<entry><ind> 1</ind><dep>-0.244346</dep></entry>
+					<entry><ind> 1</ind><dep>-0.174533</dep></entry>
 				</table>
 			</expression>
 		</input>
@@ -520,9 +520,9 @@
 			<expression>
 				<table>
 					<property>/controls/flight/rudder-nul</property>
-					<entry><ind>-1</ind><dep> 0.349066</dep></entry>
+					<entry><ind>-1</ind><dep> 0.244346</dep></entry>
 					<entry><ind> 0</ind><dep> 0.000000</dep></entry>
-					<entry><ind> 1</ind><dep>-0.349066</dep></entry>
+					<entry><ind> 1</ind><dep>-0.244346</dep></entry>
 				</table>
 			</expression>
 		</input>
@@ -552,7 +552,7 @@
 						<entry><ind>0.2</ind><dep>23</dep></entry>
 						<entry><ind>0.3</ind><dep>19</dep></entry>
 						<entry><ind>0.5</ind><dep>13</dep></entry>
-						<entry><ind>1.0</ind><dep>11</dep></entry>
+						<entry><ind>1.0</ind><dep> 7</dep></entry>
 						<entry><ind>2.0</ind><dep> 4</dep></entry>
 					</table>
 				</expression>
@@ -571,8 +571,8 @@
 			</Ki>
 			<!--Kp>/it-fbw/tune/kp</Kp>
 			<Ki>/it-fbw/tune/ki</Ki-->
-			<min>-0.3</min>
-			<max>0.3</max>
+			<min>-0.5</min>
+			<max>0.5</max>
 		</config>
 	</pi-simple-controller>
 	
@@ -589,14 +589,14 @@
 					<entry><ind>0.2</ind><dep>8.0</dep></entry>
 					<entry><ind>0.3</ind><dep>7.0</dep></entry>
 					<entry><ind>0.5</ind><dep>4.0</dep></entry>
-					<entry><ind>1.0</ind><dep>1.5</dep></entry>
+					<entry><ind>1.0</ind><dep>1.0</dep></entry>
 					<entry><ind>2.0</ind><dep>0.5</dep></entry>
 				</table>
 			</expression>
 		</filter-time>
 		<!--filter-time>/it-fbw/tune/kd</filter-time-->
-		<min>-0.3</min>
-		<max>0.3</max>
+		<min>-0.5</min>
+		<max>0.5</max>
 	</filter>
 	
 	<filter>
