@@ -545,7 +545,7 @@
 										</product>
 										<value>-5000</value>
 									</max>
-									<value>5000</value>
+									<value>15000</value>
 								</min>
 								<product>
 									<sum> <!-- Calculate True Airspeed -->
