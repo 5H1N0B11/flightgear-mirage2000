@@ -503,8 +503,47 @@
 	</pid-controller>
 	
 	<filter>
+		<name>TFS Ground Altitude Current Damp</name>
+		<type>exponential</type>
+		<input>/instrumentation/tfs/ground-altitude-ft-current</input>
+		<output>/it-fbw/ap/ground-altitude-current-damp</output>
+		<filter-time>0.12</filter-time>
+	</filter>
+	
+	<filter>
+		<name>TFS Ground Altitude Lookahead Damp</name>
+		<type>exponential</type>
+		<input>/instrumentation/tfs/ground-altitude-ft-lookahead</input>
+		<output>/it-fbw/ap/ground-altitude-lookahead-damp</output>
+		<filter-time>0.12</filter-time>
+	</filter>
+	
+	<filter>
+		<name>TF Error Computer</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<difference>
+					<property>/position/altitude-ft</property>
+					<sum>
+						<max>
+							<property>/it-fbw/ap/ground-altitude-current-damp</property>
+							<property>/it-fbw/ap/ground-altitude-lookahead-damp</property>
+						</max>
+						<property>/it-fbw/ap/tf-protection</property>
+						<property>/autopilot/settings/target-altitude-ft</property>
+					</sum>
+				</difference>
+			</expression>
+		</input>
+		<output>/it-fbw/ap/tf-error</output>
+	</filter>
+	
+	<filter>
 		<name>System Command: Vert Speed to Pitch Absolute Computer</name>
 		<type>gain</type>
+		<gain>1.0</gain>
 		<input>
 			<condition>
 				<equals>
@@ -528,19 +567,18 @@
 							<div>
 								<min>
 									<max>
-										<product> <!-- Error Computer -->
-											<difference>
-												<property>/position/altitude-ft</property>
-												<sum>
-													<property>/instrumentation/tfs/ground-altitude-ft</property>
-													<property>/autopilot/settings/target-altitude-ft</property>
-												</sum>
-												<value>1.0</value>
-											</difference>
+										<product>
+											<property>/it-fbw/ap/tf-error</property>
 											<table>
 												<property>/velocities/mach</property>
-												<entry><ind>0.2</ind><dep>-7</dep></entry>
-												<entry><ind>2.1</ind><dep>-2</dep></entry>
+												<entry><ind>0.2</ind><dep>-14.0</dep></entry>
+												<entry><ind>2.1</ind><dep> -4.0</dep></entry>
+											</table>
+											<table>
+												<abs><property>/it-fbw/ap/tf-error</property></abs>
+												<entry><ind>   0</ind><dep>1.0</dep></entry>
+												<entry><ind> 250</ind><dep>1.5</dep></entry>
+												<entry><ind>1000</ind><dep>2.5</dep></entry>
 											</table>
 										</product>
 										<value>-5000</value>

@@ -29,6 +29,8 @@ var pickingMethod = 0;
 if ((major == 2017 and minor == 2 and pica >= 1) or (major == 2017 and minor > 2) or major > 2017) {
     pickingMethod = 1;
 }
+setprop("/instrumentation/tfs/ground-altitude-ft-current",0);
+setprop("/instrumentation/tfs/ground-altitude-ft-lookahead",0);
 
 var myPos = geo.aircraft_position();
 var xyz = nil;
@@ -41,10 +43,18 @@ var terrain = geo.Coord.new();
 
 setprop ("instrumentation/tfs/delay-sec", 4);
 
-var tfs_radar = func() {
+#Calling 2 time the function
+var tfs_radar = func(){
+    var delay_sec = getprop("instrumentation/tfs/delay-sec");
+    setprop("/instrumentation/tfs/ground-altitude-ft-current",tfs_radar_calculation(1));
+    setprop("/instrumentation/tfs/ground-altitude-ft-lookahead",tfs_radar_calculation(delay_sec));
+  
+}
+
+
+
+var tfs_radar_calculation = func(delay_sec) {
     var speed_kt  = getprop("velocities/groundspeed-kt");
-    var delay_sec = getprop("instrumentation/tfs/delay-sec")
-                  + 0.5 * getprop("autopilot/settings/tf-mode");
     var range_m   = (speed_kt * 1852 / 3600) * delay_sec;
 
     var lat_deg = getprop ("position/latitude-deg");
@@ -67,9 +77,8 @@ var tfs_radar = func() {
     if((target_altitude_m == nil)
         or (altitude_m - target_altitude_m > 1000))
     {
-        setprop("instrumentation/tfs/ground-altitude-ft",
-            math.max (0, getprop ("instrumentation/tfs/ground-altitude-ft")));
         setprop("instrumentation/tfs/malfunction", 1);
+        return math.max (0, getprop ("instrumentation/tfs/ground-altitude-ft"));    
     }
     else
     {
@@ -81,9 +90,9 @@ var tfs_radar = func() {
           target_pos.set_alt(target_altitude_m);   
         }
         
-        setprop("instrumentation/tfs/ground-altitude-ft",
-            (target_altitude_m+30) * M2FT);
         setprop("instrumentation/tfs/malfunction", 0);
+        return ((target_altitude_m) * M2FT);
+        
     }
 
     #settimer (tfs_radar, 0.1);
