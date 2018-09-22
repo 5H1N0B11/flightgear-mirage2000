@@ -31,6 +31,7 @@ if ((major == 2017 and minor == 2 and pica >= 1) or (major == 2017 and minor > 2
 }
 setprop("/instrumentation/tfs/ground-altitude-ft-current",0);
 setprop("/instrumentation/tfs/ground-altitude-ft-lookahead",0);
+setprop("/instrumentation/tfs/ground-altitude-ft-lookmoreahead",0);
 
 var myPos = geo.aircraft_position();
 var xyz = nil;
@@ -42,13 +43,14 @@ var terrain = geo.Coord.new();
 
 
 setprop ("instrumentation/tfs/delay-sec", 4);
+setprop ("instrumentation/tfs/delay-big-sec", 8);
 
-#Calling 2 time the function
 var tfs_radar = func(){
     var delay_sec = getprop("instrumentation/tfs/delay-sec");
-    setprop("/instrumentation/tfs/ground-altitude-ft-current",tfs_radar_calculation(1));
+    var delay_big_sec = getprop("instrumentation/tfs/delay-big-sec");
+    setprop("/instrumentation/tfs/ground-altitude-ft-current",tfs_radar_calculation(0.25));
     setprop("/instrumentation/tfs/ground-altitude-ft-lookahead",tfs_radar_calculation(delay_sec));
-  
+    setprop("/instrumentation/tfs/ground-altitude-ft-lookmoreahead",tfs_radar_calculation(delay_big_sec));
 }
 
 
@@ -126,7 +128,6 @@ var check_terrain_avoiding = func(coord){
   }else{return 0;}    
  
 }
-
 
 
 

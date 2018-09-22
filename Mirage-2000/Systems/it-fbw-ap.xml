@@ -519,6 +519,14 @@
 	</filter>
 	
 	<filter>
+		<name>TFS Ground Altitude Lookmoreahead Damp</name>
+		<type>exponential</type>
+		<input>/instrumentation/tfs/ground-altitude-ft-lookmoreahead</input>
+		<output>/it-fbw/ap/ground-altitude-lookmoreahead-damp</output>
+		<filter-time>0.12</filter-time>
+	</filter>
+	
+	<filter>
 		<name>TF Error Computer</name>
 		<type>gain</type>
 		<gain>1.0</gain>
@@ -530,8 +538,8 @@
 						<max>
 							<property>/it-fbw/ap/ground-altitude-current-damp</property>
 							<property>/it-fbw/ap/ground-altitude-lookahead-damp</property>
+							<property>/it-fbw/ap/ground-altitude-lookmoreahead-damp</property>
 						</max>
-						<property>/it-fbw/ap/tf-protection</property>
 						<property>/autopilot/settings/target-altitude-ft</property>
 					</sum>
 				</difference>
@@ -583,7 +591,11 @@
 										</product>
 										<value>-5000</value>
 									</max>
-									<value>15000</value>
+									<table>
+										<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+										<entry><ind>200</ind><dep>10000</dep></entry>
+										<entry><ind>600</ind><dep>25000</dep></entry>
+									</table>
 								</min>
 								<product>
 									<sum> <!-- Calculate True Airspeed -->
