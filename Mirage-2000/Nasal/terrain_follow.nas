@@ -38,18 +38,35 @@ var v = nil;
 var distance_Target = nil;
 var terrain = geo.Coord.new();
 var My_pos = geo.Coord.new();
+var minim_delay = 8;
+var maximum_delay = 15;
 
 
 
 setprop ("instrumentation/tfs/delay-sec", 4);
-setprop ("instrumentation/tfs/delay-big-sec", 8);
+setprop ("instrumentation/tfs/delay-big-sec", minim_delay);
 
 var tfs_radar = func(){
     var delay_sec = getprop("instrumentation/tfs/delay-big-sec");
-    
     var myAltitude = tfs_radar_calculation(delay_sec);
-  
+    
     setprop("/instrumentation/tfs/ground-altitude-ft",myAltitude);
+}
+
+var long_view_avoiding = func(){
+    
+    #Minimum delay 8, maximum 15
+    var myAltitude = tfs_radar_calculation(20) * FT2M;
+    var myAircraft = geo.aircraft_position();
+    
+    var diff_future = myAltitude - myAircraft.alt();
+    
+    #140 meter/ seconds => max climb rate
+    var delay_sec = math.min(math.max(((diff_future)/140),minim_delay),maximum_delay);
+    
+    #print("Future Altitude:" ~ myAltitude ~";myAircraft:"~ myAircraft.alt() ~";myAltitude - myAircraft.alt():"~ diff_future ~" delay:"~ delay_sec);
+    getprop("instrumentation/tfs/delay-big-sec",delay_sec)
+  
 }
 
 
