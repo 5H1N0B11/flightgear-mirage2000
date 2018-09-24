@@ -142,7 +142,7 @@ var updatefunction = func()
     
     ########################### rate 0
     mirage2000.Update_SAS();
-    call(mirage2000.tfs_radar,nil,nil,nil, myErr);
+    
     
     
     # Flight Director (autopilot)
@@ -170,6 +170,16 @@ var updatefunction = func()
         #call(m2000_load.Encode_Load,nil,nil,nil, myErr);
         call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
         myFramerate.b = AbsoluteTime;
+        #if(getprop("autopilot/settings/tf-mode")){ <- need to find what is enabling it
+          #8 second prevision do not need to be updated each fps
+          call(mirage2000.tfs_radar,nil,nil,nil, myErr= []);
+          if(size(myErr)) {
+            foreach(var i;myErr) {
+              print(i);
+            }
+          }
+        #}
+          
         #mirage2000.weather_effects_loop();
         #environment.environment();
     }

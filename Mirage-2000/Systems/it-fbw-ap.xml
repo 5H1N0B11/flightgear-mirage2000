@@ -503,26 +503,10 @@
 	</pid-controller>
 	
 	<filter>
-		<name>TFS Ground Altitude Current Damp</name>
+		<name>TFS Ground Altitude Damp</name>
 		<type>exponential</type>
-		<input>/instrumentation/tfs/ground-altitude-ft-current</input>
-		<output>/it-fbw/ap/ground-altitude-current-damp</output>
-		<filter-time>0.12</filter-time>
-	</filter>
-	
-	<filter>
-		<name>TFS Ground Altitude Lookahead Damp</name>
-		<type>exponential</type>
-		<input>/instrumentation/tfs/ground-altitude-ft-lookahead</input>
-		<output>/it-fbw/ap/ground-altitude-lookahead-damp</output>
-		<filter-time>0.12</filter-time>
-	</filter>
-	
-	<filter>
-		<name>TFS Ground Altitude Lookmoreahead Damp</name>
-		<type>exponential</type>
-		<input>/instrumentation/tfs/ground-altitude-ft-lookmoreahead</input>
-		<output>/it-fbw/ap/ground-altitude-lookmoreahead-damp</output>
+		<input>/instrumentation/tfs/ground-altitude-ft</input>
+		<output>/it-fbw/ap/ground-altitude-ft-damp</output>
 		<filter-time>0.12</filter-time>
 	</filter>
 	
@@ -535,11 +519,7 @@
 				<difference>
 					<property>/position/altitude-ft</property>
 					<sum>
-						<max>
-							<property>/it-fbw/ap/ground-altitude-current-damp</property>
-							<property>/it-fbw/ap/ground-altitude-lookahead-damp</property>
-							<property>/it-fbw/ap/ground-altitude-lookmoreahead-damp</property>
-						</max>
+						<property>/it-fbw/ap/ground-altitude-ft-damp</property>
 						<property>/autopilot/settings/target-altitude-ft</property>
 					</sum>
 				</difference>
