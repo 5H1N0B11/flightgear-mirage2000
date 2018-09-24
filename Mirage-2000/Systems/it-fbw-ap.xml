@@ -114,6 +114,25 @@
 					</equals>
 					<equals>
 						<property>/autopilot/settings/nav-source</property>
+						<value>TACAN</value>
+					</equals>
+				</and>
+			</condition>
+			<property>/instrumentation/tacan/indicated-bearing-true-deg</property>
+			<offset>
+				<property>/orientation/heading-deg</property>
+				<scale>-1.0</scale>
+			</offset>
+		</input>
+		<input>
+			<condition>
+				<and>
+					<equals>
+						<property>/autopilot/locks/heading</property>
+						<value>LNAV</value>
+					</equals>
+					<equals>
+						<property>/autopilot/settings/nav-source</property>
 						<value>FMS</value>
 					</equals>
 					<equals>
