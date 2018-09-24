@@ -5,7 +5,7 @@
   <sim>
 
     <description>Mirage 2000 Biplace back-seat (YASim)</description>
-    <author>BARANGER Emmanuel (3D/FDM), Buckaroo (FDM), 5H1N0B1 (Weapons, systems), F-Sig and hardball (3D, systems, dual seat)</author>
+    <author>BARANGER Emmanuel (3D/FDM), Buckaroo (FDM), 5H1N0B1 (Weapons, systems), F-Sig and hardball (3D, systems, dual seat), Joshua Davidson (FCS/FBW/Autopilot)</author>
     
     <aircraft-version>2015-09-16</aircraft-version>
     <status>production</status>

@@ -18,7 +18,7 @@ var LastTime              = 0;
 # Elapsed for time > 0.25 sec
 var Elapsed               = 0;
 var myErr                 = [];
-var myFramerate           = {a:0,b:0,c:0,d:0,e:0};#a = 0.1, b=0.2, c = 0.5, d=1, e=1.5
+var myFramerate           = {a:0,b:0,c:0,d:0,e:0,f:0};#a = 0.1, b=0.2, c = 0.5, d=1, e=1.5 ; f = 2
 
 
 var msgB = "Please land before changing payload.";
@@ -140,9 +140,11 @@ var updatefunction = func()
     AbsoluteTime = getprop("/sim/time/elapsed-sec");
     #Things to update, order by refresh rate.
     
+    var AP_Alt = getprop("/autopilot/locks/altitude");
+    
     ########################### rate 0
     mirage2000.Update_SAS();
-    call(mirage2000.tfs_radar,nil,nil,nil, myErr);
+    
     
     
     # Flight Director (autopilot)
@@ -151,7 +153,6 @@ var updatefunction = func()
         call(mirage2000.update_fd,nil,nil,nil, myErr);
     }
 
-    
 
     ################## Rate 0.1 ##################
     if(AbsoluteTime - myFramerate.a > 0.05){
@@ -162,16 +163,25 @@ var updatefunction = func()
     }
     
     
-    
     ################## rate 0.5 ###############################
 
     if(AbsoluteTime - myFramerate.c > 0.5)
     {
-        #call(m2000_load.Encode_Load,nil,nil,nil, myErr);
-        call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
-        myFramerate.b = AbsoluteTime;
-        #mirage2000.weather_effects_loop();
-        #environment.environment();
+      #call(m2000_load.Encode_Load,nil,nil,nil, myErr);
+      call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
+      myFramerate.b = AbsoluteTime;
+      #if(getprop("autopilot/settings/tf-mode")){ <- need to find what is enabling it
+      #8 second prevision do not need to be updated each fps
+      if(AP_Alt =="TF"){
+        call(mirage2000.tfs_radar,nil,nil,nil, myErr= []);
+        if(size(myErr)) {
+          foreach(var i;myErr) {
+            print(i);
+          }
+        }
+      }
+      #mirage2000.weather_effects_loop();
+      #environment.environment();
     }
     
 
@@ -179,28 +189,41 @@ var updatefunction = func()
     ###################### rate 1 ###########################
     if(AbsoluteTime - myFramerate.d > 1)
     {
-        call(mirage2000.fuel_managment,nil,nil,nil, myErr);
-        if(getprop("/autopilot/locks/AP-status") != "AP1"){
-          call(mirage2000.update_fd,nil,nil,nil, myErr);
-        }
-        myFramerate.d = AbsoluteTime;
+      call(mirage2000.fuel_managment,nil,nil,nil, myErr);
+      if(getprop("/autopilot/locks/AP-status") != "AP1"){
+        call(mirage2000.update_fd,nil,nil,nil, myErr);
+      }
+      myFramerate.d = AbsoluteTime;
     }
     
     ###################### rate 1.5 ###########################
     if(AbsoluteTime - myFramerate.e > 1.5)
     {
-        call(environment.environment,nil,nil,nil, myErr);
-        if(size(myErr)>0){
-          #debug.printerror(myErr);
-        }
-        call(environment.max_cloud_layer,nil,nil,nil, myErr);
-        if(size(myErr)>0){
-          #debug.printerror(myErr);
-        }
-        
-        
-        myFramerate.e = AbsoluteTime;
+      call(environment.environment,nil,nil,nil, myErr);
+      if(size(myErr)>0){
+        #debug.printerror(myErr);
+      }
+      call(environment.max_cloud_layer,nil,nil,nil, myErr);
+      if(size(myErr)>0){
+        #debug.printerror(myErr);
+      }
+      myFramerate.e = AbsoluteTime;
     }
+    ###################### rate 2 ###########################
+    if(AbsoluteTime - myFramerate.f > 2)
+    {
+      if(AP_Alt =="TF"){
+        call(mirage2000.long_view_avoiding,nil,nil,nil, myErr);
+        if(size(myErr)>0){
+          foreach(var i;myErr) {
+            print(i);
+          }
+        }
+      }    
+      myFramerate.f = AbsoluteTime;
+    }
+    
+    
     
     
     
@@ -217,10 +240,10 @@ var init_Transpondeur = func()
     
     if(idcode != nil)
     {
-        for(var i = 0 ; i < 4 ; i += 1)
-        {
-            setprop("/instrumentation/transponder/inputs/digit[" ~ i ~ "]", int(math.mod(idcode / poweroften[i], 10)));
-        }
+      for(var i = 0 ; i < 4 ; i += 1)
+      {
+        setprop("/instrumentation/transponder/inputs/digit[" ~ i ~ "]", int(math.mod(idcode / poweroften[i], 10)));
+      }
     }
 }
 

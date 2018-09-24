@@ -2,14 +2,15 @@
 
 <PropertyList include="views.xml">
 
-  <current-view>
-    <z-offset-dec-step type="double">0.0</z-offset-dec-step>
-    <z-offset-inc-step type="double">0.0</z-offset-inc-step>
-    <can-change-z-offset type="bool">false</can-change-z-offset>
-
-    <z-offset-min-m type="float">10.0</z-offset-min-m>
-    <z-offset-max-m type="float">300.0</z-offset-max-m>
-  </current-view>
+	<current-view>
+		<z-offset-dec-step type="double">0.0</z-offset-dec-step>
+		<z-offset-inc-step type="double">0.0</z-offset-inc-step>
+		<can-change-z-offset type="bool">false</can-change-z-offset>
+		
+		<z-offset-default type="float">25.0</z-offset-default>
+		<z-offset-min-m type="float">10.0</z-offset-min-m>
+		<z-offset-max-m type="float">200.0</z-offset-max-m>
+	</current-view>
 
   <tutorials include="../Tutorials/m2000-5_tutorials.xml" />
 
@@ -78,6 +79,11 @@
       <float                n="12" alias="/gear/gear[1]/rollspeed-ms" />
       <float                n="13" alias="/gear/gear[2]/rollspeed-ms" />
       <float                n="14" alias="/engines/engine[0]/afterburner" />
+      <float                n="15" alias="/it-fbw/internal/elevon-1L" />
+      <float                n="16" alias="/it-fbw/internal/elevon-2L" />
+      <float                n="17" alias="/it-fbw/internal/elevon-2R" />
+      <float                n="18" alias="/it-fbw/internal/elevon-1R" />
+      <float                n="19" alias="/it-fbw/internal/rudder" />
       <string type="string" n="0" />
       <!-- for loads -->
       <string type="string" n="1" />

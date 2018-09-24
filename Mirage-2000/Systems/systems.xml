@@ -2,8 +2,12 @@
 
 <PropertyList>
   
-  <autopilot>
-    <path>Aircraft/Mirage-2000/Systems/m2000-5_autopilot.xml</path>
+  <autopilot n="0">
+    <path>Aircraft/Mirage-2000/Systems/it-fbw.xml</path>
+  </autopilot>
+  
+  <autopilot n="2">
+    <path>Aircraft/Mirage-2000/Systems/it-fbw-ap.xml</path>
   </autopilot>
   
   <electrical>
@@ -20,7 +24,7 @@
   </property-rule>
 
   <property-rule n="102">
-    <path>Aircraft/Mirage-2000/Systems/m2000-5-views.xml</path>
+    <path>Aircraft/Mirage-2000/Systems/zoom-views.xml</path>
   </property-rule>
 
 </PropertyList>

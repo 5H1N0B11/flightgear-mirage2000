@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- IDG Distance Zooming -->
+<!-- Copyright (c) 2015-2017 onox -->
+<!-- Modified by Joshua Davidson (it0uchpods) -->
+
+<PropertyList>
+	
+	<logic>
+		<name>Enable Sniping Cam</name>
+		<input>
+			<equals>
+			  <property>payload/armament/station/id-6-type</property>
+			  <value>PDLCT</value>
+			</equals>
+		</input>
+		<output>
+			<property>/sim/view[102]/enabled</property>
+		</output>
+	</logic>
+	
+	<logic>
+		<name>View Enable FLIR</name>
+		<input>
+			<equals>
+				<property>/sim/current-view/name</property>
+				<value>Sniping cam</value>
+			</equals>
+		</input>
+		<output>
+			<property>/aircraft/flir/target/view-enabled</property>
+		</output>
+	</logic>
+	
+    <logic>
+        <name>View Enable ALS IR</name>
+        <input>
+           <property>/aircraft/flir/target/view-enabled</property>
+        </input>
+        <output>
+            <property>/sim/rendering/als-filters/use-filtering</property>
+        </output>
+        <output>
+            <property>/sim/rendering/als-filters/use-IR-vision</property>
+        </output>
+    </logic>
+	
+	<logic>
+		<name>View Zoom Enabled</name>
+		<input>
+			<and>
+				<equals>
+					<property>/sim/current-view/type</property>
+					<value>lookat</value>
+				</equals>
+				<not-equals>
+					<property>/sim/current-view/name</property>
+					<value>Tower View</value>
+				</not-equals>
+				<not-equals>
+					<property>/sim/current-view/name</property>
+					<value>Fly-By View</value>
+				</not-equals>
+				<not-equals>
+					<property>/sim/current-view/name</property>
+					<value>Chase View</value>
+				</not-equals>
+				<not-equals>
+					<property>/sim/current-view/name</property>
+					<value>Chase View Without Yaw</value>
+				</not-equals>
+				<not-equals>
+					<property>/sim/current-view/name</property>
+					<value>Walk View</value>
+				</not-equals>
+			</and>
+		</input>
+		<output>
+			<property>/sim/current-view/can-change-z-offset</property>
+		</output>
+	</logic>
+	
+	<filter>
+		<name>View Zoom Decrease Step</name>
+		<type>gain</type>
+		<input>
+			<condition>
+				<less-than-equals>
+					<property>/sim/current-view/z-offset-m</property>
+					<value>-50.0</value>
+				</less-than-equals>
+			</condition>
+			<value>-10.0</value>
+		</input>
+		<input>
+			<value>-5.0</value>
+		</input>
+		<output>
+			<property>/sim/current-view/z-offset-dec-step</property>
+		</output>
+	</filter>
+	
+	<filter>
+		<name>View Zoom Increase Step</name>
+		<type>gain</type>
+		<input>
+			<condition>
+				<less-than>
+					<property>/sim/current-view/z-offset-m</property>
+					<value>-50.0</value>
+				</less-than>
+			</condition>
+			<value>10.0</value>
+		</input>
+		<input>
+			<value>5.0</value>
+		</input>
+		<output>
+			<property>/sim/current-view/z-offset-inc-step</property>
+		</output>
+	</filter>
+
+</PropertyList>

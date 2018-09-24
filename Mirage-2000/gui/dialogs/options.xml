@@ -120,7 +120,6 @@
       <layout>vbox</layout>
       <halign>left</halign>
       <text><label>Activate Fly By Wire</label></text>
-      <text><label>Auto trim</label></text>
       <text><label>Attenuate micro movement</label></text>
       <text><label>A/A - CHARGES</label></text>
     </group>
@@ -134,14 +133,6 @@
         <binding>
           <command>property-toggle</command>
           <property>controls/SAS/activated</property>
-        </binding>
-      </checkbox>
-      <checkbox>
-        <property>controls/SAS/autotrim</property>
-        <live>true</live>
-        <binding>
-          <command>property-toggle</command>
-          <property>controls/SAS/autotrim</property>
         </binding>
       </checkbox>
       <checkbox>
