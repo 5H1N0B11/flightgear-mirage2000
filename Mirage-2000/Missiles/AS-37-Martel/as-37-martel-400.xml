@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+    
+  <model>
+    <name>martel_400</name>
+    <path>Aircraft/Mirage-2000/Missiles/AS-37-Martel/martel.xml</path>
+  </model>
+    
+  <animation>
+    <object-name>martel_400</object-name>
+    <enable-hot type="bool">false</enable-hot>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>martel_400</object-name>
+    <condition>
+        <property>payload/armament/as-37-martel/flags/msl-id-400</property>
+    </condition>
+  </animation>
+  
+  
+  <model>
+    <name>Smoke_martel_400</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/smoke.xml</path>
+    <offsets>
+      <x-m>3</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>Smoke_martel_400</object-name>
+    <condition>
+        <property>payload/armament/as-37-martel/flags/smoke-id-400</property>
+    </condition>
+  </animation>
+  
+  <model>
+    <name>explosionFire_martel_400</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionFire.xml</path>
+  </model>
+  <model>
+    <name>explosionSmoke_martel_400</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionSmoke.xml</path>
+  </model>
+  
+    <animation>
+    <type>select</type>
+    <object-name>explosionFire_martel_400</object-name>
+    <object-name>explosionSmoke_martel_400</object-name>
+    <condition>
+        <property>payload/armament/as-37-martel/flags/explode-id-400</property>
+    </condition>
+  </animation>
+  
+
+</PropertyList>

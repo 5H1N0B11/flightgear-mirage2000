@@ -127,6 +127,19 @@
       <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
+  
+  <model>
+    <name>left-martel</name>
+    <path>Aircraft/Mirage-2000/Missiles/AS-37-Martel/martel.xml</path>
+    <offsets>
+      <x-m> 1.2</x-m>
+      <y-m>-2.259</y-m>
+      <z-m>-1.65</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
+    </offsets>
+  </model>
 
   <model>
     <name>S530D_Left</name>
@@ -245,6 +258,19 @@
   <model>
     <name>right-exocet</name>
     <path>Aircraft/Mirage-2000/Missiles/AM39-Exocet/exocet.xml</path>
+    <offsets>
+      <x-m> 1.2</x-m>
+      <y-m> 2.459</y-m>
+      <z-m>-1.65</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <name>right-martel</name>
+    <path>Aircraft/Mirage-2000/Missiles/AS-37-Martel/martel.xml</path>
     <offsets>
       <x-m> 1.2</x-m>
       <y-m> 2.459</y-m>

@@ -99,8 +99,8 @@ Cruise speed : 956 km/h (516 kts)
                                                                         APPROACH
 ================================================================================
   -->
-  <approach speed="130" aoa="7" fuel="0.3">
-    <control-setting axis="/controls/engines/engine[0]/throttle" value="0.3" />
+  <approach speed="120" aoa="12" fuel="0.3">
+    <control-setting axis="/controls/engines/engine[0]/throttle" value="0.5" />
     <control-setting axis="/controls/engines/engine[0]/reheat"   value="0" />
     <control-setting axis="/controls/gear/gear-down"             value="1" />
     <control-setting axis="/it-fbw/output/slat"                  value="0" />
@@ -200,7 +200,7 @@ ________________________________________________________________________________
         dihedral="-4"
         incidence="0"
         camber="0.03">
-        <stall aoa="22" width="8" peak="1.7" />
+        <stall aoa="29" width="8" peak="1.7" />
         <slat    start="0.20"  end="0.80"  aoa="6"     drag=" 2.0" />
         <flap0   start="0.59"  end="0.90"  lift="1.75" drag=" 1.2" />
         <spoiler start="0"  end="0.05"  lift="1"    drag="150" />
@@ -257,8 +257,8 @@ ________________________________________________________________________________
          sweep="0"
          camber="0.07"
          dihedral="-4">
-    <stall aoa="26" width="4" peak="1.5" />
-    <flap0 start="0.1" end="0.90" lift="1.58" drag="1.35" />
+    <stall aoa="29" width="4" peak="1.5" />
+    <flap0 start="0.1" end="0.90" lift="1.68" drag="1.35" />
     <spoiler start="0"  end="0.9" lift="0" drag="200" />
 
     <control-input axis="/it-fbw/output/pitch" control="FLAP0" />

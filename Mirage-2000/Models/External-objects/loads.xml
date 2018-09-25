@@ -174,6 +174,21 @@
   
   <animation>
     <type>select</type>
+    <object-name>left-martel</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-2-set</property>
+          <value>AS-37-Martel</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
     <object-name>S530D_Left</object-name>
     <condition>
         <equals>
@@ -354,6 +369,21 @@
         <equals>
           <property>payload/armament/station/id-4-set</property>
           <value>AM39-Exocet</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>right-martel</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-4-set</property>
+          <value>AS-37-Martel</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-4-count</property>

@@ -233,7 +233,7 @@
       <min-fire-range-nm type="double"> 0 </min-fire-range-nm>
       <min-speed-for-guiding-mach type="double"> 0 </min-speed-for-guiding-mach>
       <mounted-limit-g type="double"> 7.5 </mounted-limit-g>
-      <navigation type="string">PN</navigation>
+      <navigation type="string">APN</navigation>
       <rail type="bool">false</rail>
       <reaquire type="bool">true</reaquire>
       <release-limit-altitude type="double"> 22000 </release-limit-altitude>
@@ -306,6 +306,45 @@
       <weight-launch-lbs type="double"> 1870 </weight-launch-lbs>
       <weight-warhead-lbs type="double"> 992 </weight-warhead-lbs>
     </scalp>
+    
+    <as-37-martel>
+      <short-name type="string">AS37</short-name>
+      <long-name type="string">AS-37 Martel</long-name>
+      <all-aspect type="bool">true</all-aspect>
+      <arming-time-sec type="double">4.0</arming-time-sec>          
+      <auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
+      <class type="string">GM</class>
+      <cross-section-sqft type="double">0.53</cross-section-sqft>   !-- 9.84 inch diam -->
+      <drag-coeff type="double">0.25</drag-coeff>
+      <FCS-field-deg type="int">25</FCS-field-deg>            
+      <fire-msg type="string">Sniper</fire-msg>
+      <guidance type="string">radiation</guidance>
+      <hit-everything-nearby type="bool">true</hit-everything-nearby>
+      <lock-on-after-launch type="bool">true</lock-on-after-launch>
+      <loft-altitude type="int">0</loft-altitude>
+      <max-fire-range-nm type="double">30</max-fire-range-nm>              <!--  -->
+      <max-g type="int">15</max-g>
+      <max-report-distance type="double">65</max-report-distance>
+      <min-fire-range-nm type="double">0.25</min-fire-range-nm>
+      <min-speed-for-guiding-mach type="double">0.5</min-speed-for-guiding-mach>
+      <navigation type="string">PN</navigation>                           
+      <prowl-flight type="string">gyro-pitch</prowl-flight>
+      <rail type="bool">false</rail>
+      <reaquire type="bool">true</reaquire>
+      <seeker-field-deg type="int">100</seeker-field-deg>     
+      <self-destruct-time-sec type="double">150</self-destruct-time-sec>  
+      <stage-1-duration-sec type="double">10</stage-1-duration-sec>
+      <stage-2-duration-sec type="double">50</stage-2-duration-sec>
+      <switch-time-sec type="double">5</switch-time-sec>
+      <thrust-lbf-stage-1 type="double">660</thrust-lbf-stage-1><!-- Boost Sustain 64,000 lbs./sec     630 mps/mach 2+ -->
+      <thrust-lbf-stage-2 type="double">575</thrust-lbf-stage-2>
+      <vol-search type="double">0.00</vol-search>
+      <vol-track type="double">0.15</vol-track>
+      <vol-track-weak type="double">0.1</vol-track-weak>
+      <weight-fuel-lbm type="double">113</weight-fuel-lbm>
+      <weight-launch-lbs type="double">1212</weight-launch-lbs>              <!--  -->
+      <weight-warhead-lbs type="double">330</weight-warhead-lbs>            <!--  -->
+    </as-37-martel>
 
     <am39-exocet>      <!-- Exocet -->
       <short-name type="string">exocet</short-name>

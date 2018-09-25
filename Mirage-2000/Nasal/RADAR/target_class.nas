@@ -8,6 +8,7 @@ setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "o"~"r"~"f");
 var Target = {
     new: func(c,theTree = nil){
         var obj             = { parents : [Target,geo.Coord.new()]};
+        obj.propNode        = c;
         obj.RdrProp         = c.getNode("radar");
         obj.Heading         = c.getNode("orientation/true-heading-deg");
         
@@ -698,6 +699,24 @@ var Target = {
 
     isValid: func() {
         return me.Valid.getValue();
+    },
+    
+    isRadiating: func (coord) {
+      me.rn = me.get_range();
+      if (me.get_model() != "buk-m2" and me.get_model() != "missile_frigate" or me.get_type()==MARINE) {
+          me.bearingR = coord.course_to(me.get_Coord());
+          me.headingR = me.get_heading();
+          me.inv_bearingR =  me.bearingR+180;
+          me.deviationRd = me.inv_bearingR - me.headingR;
+      } else {
+          me.deviationRd = 0;
+      }
+      me.rdrAct = me.propNode.getNode("sim/multiplay/generic/int[2]");
+      if (me.rn < 70 and ((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviationRd)) < 60) {
+          # our radar is active and pointed at coord.
+          return 1;
+      }
+      return 0;
     },
 
     getElevation: func () {
