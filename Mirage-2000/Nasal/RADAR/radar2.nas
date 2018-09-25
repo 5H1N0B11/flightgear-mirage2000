@@ -729,6 +729,22 @@ var Radar = {
     },
 
     doppler: func(SelectedObject){
+      
+        #if it is a radiating stuff, skip doppler
+      #print("In the doppler");
+      if(pylons.fcs.getSelectedWeapon() != nil){
+        #print("pylons.fcs.getSelectedWeapon() != nil");
+        if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
+          #print("pylons.fcs.getSelectedWeapon().guidance:" ~pylons.fcs.getSelectedWeapon().guidance);
+          if(pylons.fcs.getSelectedWeapon().guidance =="radiation"){
+            #print( "Is radiating :" ~ SelectedObject.isRadiating(me.MyCoord));
+            if(SelectedObject.isRadiating(me.MyCoord)){
+              return 1;
+            }
+          }
+        }
+      }
+      
         # Test to check if the target can hide bellow us
         # Or Hide using anti doppler movements
         
@@ -1032,6 +1048,7 @@ var Radar = {
         #me.heat_sensor(SelectedObject);
         if( me.detectionTypetab=="laser" or skipDoppler == 1)
         {
+          #print("Skip Doppler");
           append(me.Check_List, 1);
          }else{
           append(me.Check_List, me.doppler(SelectedObject));
