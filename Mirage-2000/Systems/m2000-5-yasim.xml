@@ -99,7 +99,7 @@ Cruise speed : 956 km/h (516 kts)
                                                                         APPROACH
 ================================================================================
   -->
-  <approach speed="120" aoa="12" fuel="0.3">
+  <approach speed="125" aoa="12" fuel="0.3">
     <control-setting axis="/controls/engines/engine[0]/throttle" value="0.5" />
     <control-setting axis="/controls/engines/engine[0]/reheat"   value="0" />
     <control-setting axis="/controls/gear/gear-down"             value="1" />

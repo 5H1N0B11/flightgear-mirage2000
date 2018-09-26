@@ -68,7 +68,7 @@
 
   <keyboard>
     
-    <key n="101">
+<!--    <key n="101">
       <name>e</name>
       <desc>Guns</desc>
       <binding>
@@ -79,6 +79,23 @@
         <binding>
           <command>nasal</command>
           <script>controls.trigger(0)</script>
+        </binding>
+      </mod-up>
+    </key>-->
+    
+    <key n="101">
+      <name>e</name>
+      <desc>Gun Trigger</desc>
+      <binding>
+        <command>property-assign</command>
+        <property>controls/armament/trigger</property>
+        <value>1</value>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-assign</command>
+          <property>controls/armament/trigger</property>
+          <value>0</value>
         </binding>
       </mod-up>
     </key>
@@ -124,7 +141,7 @@
       <desc>Drop Tanks</desc>
       <binding>
         <command>nasal</command>
-        <script>m2000_load.dropTanks()</script>
+        <script>pylons.fcs.jettisonFuelAndAG()</script>
       </binding>
     </key>
     
@@ -210,7 +227,7 @@
         <command>nasal</command>
         <script>
             pylons.fcs.cycleLoadedWeapon();
-            m2000_load.weaponSelector();
+            setprop("/controls/armament/name",pylons.fcs.selectedType);
         </script>
       </binding>
     </key>

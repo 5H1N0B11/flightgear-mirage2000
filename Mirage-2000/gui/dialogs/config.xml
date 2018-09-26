@@ -56,8 +56,13 @@
       <property>/payload/armament/msg</property>
       <live>true</live>
       <binding>
+        <command>property-toggle</command>
+        <property>/payload/armament/msg</property>
+      </binding>
+      <binding>
         <command>nasal</command>
-        <script>m2000_load.MPReport()</script>
+        <script>
+          screen.log.write("MP messaging : " ~ (getprop("/payload/armament/msg") ? "Activated" : "Desactivated")  , 0.5, 0.5, 1);</script>
       </binding>
     </checkbox>
   </group>
@@ -209,6 +214,13 @@
     <binding>
       <command>nasal</command>
       <script>pylons.a2g_bravo_mix()</script>
+    </binding>
+  </button>
+  <button>
+    <legend>Anti Radar</legend>
+    <binding>
+      <command>nasal</command>
+      <script>pylons.a2ouadi_fox()</script>
     </binding>
   </button>
   <button>

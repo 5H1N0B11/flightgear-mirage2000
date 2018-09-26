@@ -180,9 +180,9 @@
     <instrumentation>
       <file>Aircraft/Mirage-2000/Nasal/instrumentation.nas</file>
     </instrumentation>
-    <m2000_load>
+<!--    <m2000_load>
       <file>Aircraft/Mirage-2000/Nasal/ext_stores.nas</file>
-    </m2000_load>
+    </m2000_load>-->
     <m2000_mp>
       <file>Aircraft/Mirage-2000/Nasal/MP.nas</file>
     </m2000_mp>
