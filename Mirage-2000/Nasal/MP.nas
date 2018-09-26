@@ -12,21 +12,22 @@ var Decode_Load = {
         m.running = 0;
         m.loadList = [
           "2000 l Droptank",
+          "SCALP",
           "1700 l Droptank",
           "AM39-Exocet",
+          "2 x GBU-12",
           "1700 l Droptank",
+          "AS-37-Martel",
           "PDLCT",
           "Matra Super 530D",
           "30mm Cannon",
           "none",
+          "MICA IR",
           "1300 l Droptank",
           "Matra R550 Magic 2",
           "2000 l Droptank",
           "MICA EM",
-          "2 x GBU-12",
-          "ASMP",
-          "SCALP",
-          "MICA IR"
+          "ASMP"
         ];
         m.decode();
         return m;
@@ -74,8 +75,6 @@ var Decode_Load = {
             #print(mySet);
             #print(myCount);
             #print(me.loadList[mySet]);
-            #setprop("payload/armament/station/id-" ~ i ~ "-set",AllPossibleLoads.vector[mySet]);
-            #setprop("payload/armament/station/id-" ~ i ~ "-count",myCount);
             me.mySelf.getNode("payload/armament/station/id-"~ i ~"-set", 1).setValue(me.loadList[mySet]);
             me.mySelf.getNode("payload/armament/station/id-"~ i ~"-count", 1).setValue(myCount);
             

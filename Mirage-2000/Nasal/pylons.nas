@@ -509,21 +509,22 @@ var a2a_kilo_mica = func {
   #ACtually, here this list is useless : but it need to be the exact same in MP.nas
   loadList = [
     "2000 l Droptank",
+    "SCALP",
     "1700 l Droptank",
     "AM39-Exocet",
+    "2 x GBU-12",
     "1700 l Droptank",
+    "AS-37-Martel",
     "PDLCT",
     "Matra Super 530D",
     "30mm Cannon",
     "none",
+    "MICA IR",
     "1300 l Droptank",
     "Matra R550 Magic 2",
     "2000 l Droptank",
     "MICA EM",
-    "2 x GBU-12",
-    "ASMP",
-    "SCALP",
-    "MICA IR"
+    "ASMP"
   ];
 
   
