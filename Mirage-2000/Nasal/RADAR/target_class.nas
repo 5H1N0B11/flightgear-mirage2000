@@ -59,7 +59,32 @@ var Target = {
           }
         }
 
-        
+        obj.Model = c.getNode("model-short");
+        var model_short = c.getNode("sim/model/path");
+        if(model_short != nil)
+        {
+            var model_short_val = model_short.getValue();
+            if (model_short_val != nil and model_short_val != "")
+            {
+                var u = split("/", model_short_val); # give array
+                var s = size(u); # how many elements in array
+                var o = u[s-1];  # the last element
+                var m = size(o); # how long is this string in the last element
+                var e = m - 4;   # - 4 chars .xml
+                obj.ModelType = substr(o, 0, e); # the string without .xml
+            }
+            else
+                obj.ModelType = "";
+        } elsif (c.getNode("type") != nil) {
+            # not all have a path property
+            obj.ModelType = c.getNode("type").getValue();
+            if (obj.ModelType == nil) {
+                # not all have a type property
+                obj.ModelType = "";
+            }
+        } else {
+            obj.ModelType = "";
+        }
 
         
         
@@ -684,6 +709,7 @@ var Target = {
     },
 
     get_type: func(){
+        #print("Type:"~me.type);
         return me.type;
     },
 
@@ -703,7 +729,7 @@ var Target = {
     
     isRadiating: func (coord) {
       me.rn = me.get_range();
-      if (me.get_model() != "buk-m2" and me.get_model() != "missile_frigate" or me.get_type()==MARINE) {
+      if (me.get_model() != "buk-m2" and me.get_model() != "missile_frigate" or me.get_type()== armament.MARINE) {
           me.bearingR = coord.course_to(me.get_Coord());
           me.headingR = me.get_heading();
           me.inv_bearingR =  me.bearingR+180;
@@ -714,9 +740,11 @@ var Target = {
       me.rdrAct = me.propNode.getNode("sim/multiplay/generic/int[2]");
       if (me.rn < 70 and ((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviationRd)) < 60) {
           # our radar is active and pointed at coord.
+          #print("Is Radiating");
           return 1;
       }
       return 0;
+      print("Is Not Radiating");
     },
 
     getElevation: func () {

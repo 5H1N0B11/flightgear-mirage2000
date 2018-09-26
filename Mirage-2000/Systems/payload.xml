@@ -321,8 +321,8 @@
       <guidance type="string">radiation</guidance>
       <hit-everything-nearby type="bool">true</hit-everything-nearby>
       <lock-on-after-launch type="bool">true</lock-on-after-launch>
-      <loft-altitude type="int">0</loft-altitude>
-      <max-fire-range-nm type="double">30</max-fire-range-nm>              <!--  -->
+      <loft-altitude type="int">36000</loft-altitude>
+      <max-fire-range-nm type="double">32</max-fire-range-nm>              <!--  -->
       <max-g type="int">15</max-g>
       <max-report-distance type="double">65</max-report-distance>
       <min-fire-range-nm type="double">0.25</min-fire-range-nm>
@@ -336,13 +336,13 @@
       <stage-1-duration-sec type="double">10</stage-1-duration-sec>
       <stage-2-duration-sec type="double">50</stage-2-duration-sec>
       <switch-time-sec type="double">5</switch-time-sec>
-      <thrust-lbf-stage-1 type="double">660</thrust-lbf-stage-1><!-- Boost Sustain 64,000 lbs./sec     630 mps/mach 2+ -->
-      <thrust-lbf-stage-2 type="double">575</thrust-lbf-stage-2>
+      <thrust-lbf-stage-1 type="double">2000</thrust-lbf-stage-1><!-- Boost Sustain 64,000 lbs./sec     630 mps/mach 2+ -->
+      <thrust-lbf-stage-2 type="double">1000</thrust-lbf-stage-2>
       <vol-search type="double">0.00</vol-search>
       <vol-track type="double">0.15</vol-track>
       <vol-track-weak type="double">0.1</vol-track-weak>
-      <weight-fuel-lbm type="double">113</weight-fuel-lbm>
-      <weight-launch-lbs type="double">1212</weight-launch-lbs>              <!--  -->
+      <weight-fuel-lbm type="double">700</weight-fuel-lbm>
+      <weight-launch-lbs type="double">1168</weight-launch-lbs>              <!--  -->
       <weight-warhead-lbs type="double">330</weight-warhead-lbs>            <!--  -->
     </as-37-martel>
 

@@ -398,7 +398,8 @@ var Radar = {
                         }
                     }
                     
-                 } else {   
+                 }
+                if(u.get_type() == 0){
                 # now we test the model name to guess what type it is:
                       me.pathNode = c.getNode("sim/model/path");
                       if (me.pathNode != nil) {
@@ -417,7 +418,7 @@ var Radar = {
                           }
                           foreach (var testMe ; listOfGroundVehicleModels) {
                               if (testMe == me.model) {
-                                # its a ground vehicle, Mirage ground radar will pick it up
+                                # its a ground vehicle, Mirage ground radar will not pick it up
                                 u.setType(armament.SURFACE);
                                 me.skipDoppler = 0;
                                 break;
@@ -436,7 +437,7 @@ var Radar = {
                   }
  
 
-
+                
                 #print("Start Testing "~ u.get_Callsign()~"Type: " ~ u.type);
                 
                               
