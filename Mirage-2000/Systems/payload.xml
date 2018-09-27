@@ -320,7 +320,7 @@
       <fire-msg type="string">Sniper</fire-msg>
       <guidance type="string">radiation</guidance>
       <hit-everything-nearby type="bool">true</hit-everything-nearby>
-      <lock-on-after-launch type="bool">true</lock-on-after-launch>
+      <lock-on-after-launch type="bool">false</lock-on-after-launch>
       <loft-altitude type="int">36000</loft-altitude>
       <max-fire-range-nm type="double">32</max-fire-range-nm>              <!--  -->
       <max-g type="int">15</max-g>
@@ -331,13 +331,19 @@
       <prowl-flight type="string">gyro-pitch</prowl-flight>
       <rail type="bool">false</rail>
       <reaquire type="bool">true</reaquire>
+      <release-limit-altitude type="double"> 36000 </release-limit-altitude>
+      <release-limit-g type="double"> 5 </release-limit-g><!-- no info on this -->
+      <release-limit-mach type="double"> 0,9 </release-limit-mach>
+      <release-limit-roll type="double"> 45 </release-limit-roll>
+      <require-lock-to-fire type="bool">true</require-lock-to-fire>
       <seeker-field-deg type="int">100</seeker-field-deg>     
-      <self-destruct-time-sec type="double">300</self-destruct-time-sec>  
-      <stage-1-duration-sec type="double">10</stage-1-duration-sec>
-      <stage-2-duration-sec type="double">30</stage-2-duration-sec>
+      <self-destruct-time-sec type="double">300</self-destruct-time-sec> 
+<!--      The large airframe accommodates a Hotchkiss-Brandt/SNPE Basile solid propellant boost stage with a 2.4 second burn, and an SNPE Cassandre solid propellant sustainer with a 22 second burn-->
+      <stage-1-duration-sec type="double">4</stage-1-duration-sec> 
+      <stage-2-duration-sec type="double">22</stage-2-duration-sec>
       <switch-time-sec type="double">5</switch-time-sec>
-      <thrust-lbf-stage-1 type="double">3000</thrust-lbf-stage-1><!-- Boost Sustain 64,000 lbs./sec     630 mps/mach 2+ -->
-      <thrust-lbf-stage-2 type="double">800</thrust-lbf-stage-2>
+      <thrust-lbf-stage-1 type="double">7000</thrust-lbf-stage-1><!-- Boost Sustain 64,000 lbs./sec     630 mps/mach 2+ -->
+      <thrust-lbf-stage-2 type="double">1000</thrust-lbf-stage-2>
       <vol-search type="double">0.00</vol-search>
       <vol-track type="double">0.15</vol-track>
       <vol-track-weak type="double">0.1</vol-track-weak>
@@ -345,7 +351,61 @@
       <weight-launch-lbs type="double">1168</weight-launch-lbs>              <!--  -->
       <weight-warhead-lbs type="double">330</weight-warhead-lbs>            <!--  -->
     </as-37-martel>
-
+    
+    <as30l>
+      <short-name type="string">AS30l</short-name>
+      <long-name type="string">AS-30 Laser</long-name>
+      <all-aspect type="bool">true</all-aspect>
+      <arming-time-sec type="double"> 3 </arming-time-sec>
+      <auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
+      <class type="string">GM</class>
+      <cross-section-sqft type="double"> 0.63 </cross-section-sqft>
+      <deploy-time type="double">0</deploy-time>
+      <drag-coeff type="double"> 0.012 </drag-coeff>
+      <drop-time type="double">0 </drop-time>
+      <FCS-field-deg type="int"> 200 </FCS-field-deg>
+      <fire-msg type="string">Rifle</fire-msg>
+      <guidance type="string">laser</guidance>
+      <hit-everything-nearby type="bool">true</hit-everything-nearby>
+      <lateral-dps type="double"> 10 </lateral-dps>
+      <lock-on-after-launch type="bool">false</lock-on-after-launch>
+      <lock-on-sun-deg type="double"> 0 </lock-on-sun-deg>
+      <loft-altitude type="int"> 0 </loft-altitude>
+      <max-fire-range-nm type="double">11 </max-fire-range-nm>
+      <max-g type="double"> 15 </max-g>
+      <max-pitch-deg type="double">-45</max-pitch-deg>
+      <max-report-distance type="double"> 275 </max-report-distance>
+      <min-fire-range-nm type="double">0.25</min-fire-range-nm>
+      <min-speed-for-guiding-mach type="double"> 0 </min-speed-for-guiding-mach>
+      <mounted-limit-g type="double"> 7.5 </mounted-limit-g>
+      <navigation type="string">PN</navigation>
+      <rail type="bool">true</rail>
+      <rail-length-m type="double"> 3.667 </rail-length-m>
+      <rail-pitch-deg type="double"> 0 </rail-pitch-deg>
+      <rail-point-forward type="bool">true</rail-point-forward>
+      <reaquire type="bool">true</reaquire>
+      <release-limit-altitude type="double"> 30000 </release-limit-altitude>
+      <release-limit-g type="double"> 5 </release-limit-g><!-- no info on this -->
+      <release-limit-mach type="double"> 0,9 </release-limit-mach>
+      <release-limit-roll type="double"> 45 </release-limit-roll>
+      <require-lock-to-fire type="bool">true</require-lock-to-fire>
+      <seeker-angular-speed-dps type="double"> 0 </seeker-angular-speed-dps>
+      <seeker-field-deg type="int"> 32 </seeker-field-deg>
+      <self-destruct-time-sec type="double"> 10000 </self-destruct-time-sec>
+      <stage-1-duration-sec type="double"> 4 </stage-1-duration-sec>
+      <stage-2-duration-sec type="double"> 30 </stage-2-duration-sec>
+      <terrain-follow type="bool">false</terrain-follow>
+      <thrust-lbf-stage-1 type="double">7000 </thrust-lbf-stage-1>
+      <thrust-lbf-stage-2 type="double"> 1000 </thrust-lbf-stage-2>
+      <vol-search type="double"> 0.075 </vol-search>
+      <vol-track type="double"> 0.25 </vol-track>
+      <vol-track-weak type="double"> 0.175 </vol-track-weak>
+      <weight-fuel-lbm type="double"> 300 </weight-fuel-lbm>
+      <weight-launch-lbs type="double">1146 </weight-launch-lbs>
+      <weight-warhead-lbs type="double"> 529 </weight-warhead-lbs>
+    </as30l>
+    
+  
     <am39-exocet>      <!-- Exocet -->
       <short-name type="string">exocet</short-name>
       <long-name type="string">AM39 Exocet</long-name>

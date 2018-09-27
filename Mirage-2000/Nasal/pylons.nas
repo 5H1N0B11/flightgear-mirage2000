@@ -56,6 +56,7 @@ var pylonSets = {
   b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
   b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
   b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+  b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
   b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
 };
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
@@ -67,8 +68,8 @@ if(1){
 	# source for fuel tanks content, fuel type, jettisonable and drag: TO. GR1F-16CJ-1-1
 
 	# sets
-	var InteriorWingSetR = [pylonSets.empty,pylonSets.h,pylonSets.t2,pylonSets.tb2,pylonSets.b4,pylonSets.b5];
-  var InteriorWingSetL = [pylonSets.empty,pylonSets.h,pylonSets.t4,pylonSets.tb4,pylonSets.b4,pylonSets.b5];
+	var InteriorWingSetR = [pylonSets.empty,pylonSets.h,pylonSets.t2,pylonSets.tb2,pylonSets.b4,pylonSets.b5,pylonSets.b6];
+  var InteriorWingSetL = [pylonSets.empty,pylonSets.h,pylonSets.t4,pylonSets.tb4,pylonSets.b4,pylonSets.b5,pylonSets.b6];
 	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g,pylonSets.g2];
 	var CenterSet   = [pylonSets.empty, pylonSets.t,pylonSets.b2,pylonSets.b3,pylonSets.b10];
     
@@ -155,7 +156,7 @@ if(1){
 
 	var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
 
-	fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon","Magic-2","S530D","MICA-IR","MICA-EM","GBU-12","SCALP","AM39-Exocet","AS-37-Martel"]);
+	fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon","Magic-2","S530D","MICA-IR","MICA-EM","GBU-12","SCALP","AM39-Exocet","AS-37-Martel","AS30L"]);
   
   
 

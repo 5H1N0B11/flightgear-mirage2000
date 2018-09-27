@@ -140,6 +140,19 @@
       <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
+  
+  <model>
+    <name>left-as30l</name>
+    <path>Aircraft/Mirage-2000/Missiles/AS30L/AS30L.xml</path>
+    <offsets>
+      <x-m> 1.60</x-m>
+      <y-m>-2.359</y-m>
+      <z-m>-1.58</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
+    </offsets>
+  </model>
 
   <model>
     <name>S530D_Left</name>
@@ -275,6 +288,19 @@
       <x-m> 1.2</x-m>
       <y-m> 2.459</y-m>
       <z-m>-1.65</z-m>
+      <heading-deg>0</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <name>right-as30l</name>
+    <path>Aircraft/Mirage-2000/Missiles/AS30L/AS30L.xml</path>
+    <offsets>
+      <x-m> 1.6</x-m>
+      <y-m> 2.359</y-m>
+      <z-m>-1.58</z-m>
       <heading-deg>0</heading-deg>
       <roll-deg>0</roll-deg>
       <pitch-deg>-2</pitch-deg>
