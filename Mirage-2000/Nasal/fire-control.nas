@@ -415,11 +415,24 @@ var FireControl = {
 	},
 
 	jettisonFuelAndAG: func {
-		# jettison all stations
+		# jettison all fuel and A/G stations
 		foreach (pyl;me.pylons) {
 			me.myWeaps = pyl.getWeapons();
 			if (me.myWeaps != nil and size(me.myWeaps)>0) {
 				if (me.myWeaps[0] != nil and me.myWeaps[0].parents[0] == armament.AIM and me.myWeaps[0].target_air == 1) {
+					continue;
+				}
+			}
+			pyl.jettisonAll();
+		}
+	},
+
+	jettisonFuel: func {
+		# jettison all fuel stations
+		foreach (pyl;me.pylons) {
+			me.myWeaps = pyl.getWeapons();
+			if (me.myWeaps != nil and size(me.myWeaps)>0) {
+				if (me.myWeaps[0] != nil and me.myWeaps[0].parents[0] == armament.AIM) {
 					continue;
 				}
 			}
@@ -642,5 +655,6 @@ var printfDebug = func {if (debug == 1) call(printf,arg);};
 
 # This is non-generic method, please edit it to fit your radar setup:
 var getCompleteRadarTargetsList = func {
+	# A list of all MP/AI aircraft/ships/surface-targets around the aircraft.
 	return radar.completeList;
 }

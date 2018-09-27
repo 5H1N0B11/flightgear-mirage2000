@@ -141,7 +141,7 @@
       <desc>Drop Tanks</desc>
       <binding>
         <command>nasal</command>
-        <script>pylons.fcs.jettisonFuelAndAG()</script>
+        <script>pylons.fcs.jettisonFuel()</script>
       </binding>
     </key>
     
