@@ -97,6 +97,7 @@
         <script>
         <![CDATA[
           setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  getprop("sim/multiplay/generic/string[1]"));
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     getprop("sim/multiplay/generic/int[8]"));
         ]]>
         </script>
       </binding>
@@ -179,7 +180,8 @@
         <command>nasal</command>
         <script>
         <![CDATA[
-          setprop("/ai/models/wingman[1]/sim/multiplay/generic/string[1]",               getprop("sim/multiplay/generic/string[1]"));
+          setprop("/ai/models/wingman[1]/sim/multiplay/generic/string[1]",  getprop("sim/multiplay/generic/string[1]"));
+          setprop("/ai/models/wingman[1]/sim/multiplay/generic/int[8]",     getprop("sim/multiplay/generic/int[8]"));
         ]]>
         </script>
       </binding>
@@ -262,7 +264,8 @@
         <command>nasal</command>
         <script>
         <![CDATA[
-          setprop("/ai/models/wingman[2]/sim/multiplay/generic/string[1]",               getprop("sim/multiplay/generic/string[1]"));
+          setprop("/ai/models/wingman[2]/sim/multiplay/generic/string[1]", getprop("sim/multiplay/generic/string[1]"));
+          setprop("/ai/models/wingman[2]/sim/multiplay/generic/int[8]",    getprop("sim/multiplay/generic/int[8]"));
         ]]>
         </script>
       </binding>

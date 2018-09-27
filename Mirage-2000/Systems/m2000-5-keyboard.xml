@@ -159,7 +159,7 @@
       <desc>Active ECM</desc>
       <binding>
         <command>nasal</command>
-        <script>hud.activate_ECM()</script>
+        <script>instrumentation.activate_ECM()</script>
       </binding>
     </key>
     

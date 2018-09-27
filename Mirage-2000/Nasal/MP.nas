@@ -20,6 +20,7 @@ var Decode_Load = {
           "AS-37-Martel",
           "PDLCT",
           "Matra Super 530D",
+          "AS30L",
           "30mm Cannon",
           "none",
           "MICA IR",
@@ -91,12 +92,13 @@ var Decode_Load = {
 };
 
 var Encode_Bool = func(){
-  var mycomp = mirage2000.landing1_switch.getValue();
-  mycomp       = mirage2000.formation_switch.getValue()                         ~ mycomp;
-  mycomp       = mirage2000.position_switch.getValue()                          ~ mycomp;
-  mycomp       = mirage2000.tailLight_switch.getValue()                         ~ mycomp;
-  mycomp       = mirage2000.strobe2_switch.getValue()                           ~ mycomp;
-  mycomp       = mirage2000.strobe_switch.getValue()                            ~ mycomp;
+  
+  var mycomp   = instrumentation.landing1_switch.getValue();
+  mycomp       = instrumentation.formation_switch.getValue()                    ~ mycomp;
+  mycomp       = instrumentation.position_switch.getValue()                     ~ mycomp;
+  mycomp       = instrumentation.tailLight_switch.getValue()                    ~ mycomp;
+  mycomp       = instrumentation.strobe2_switch.getValue()                      ~ mycomp;
+  mycomp       = instrumentation.strobe_switch.getValue()                       ~ mycomp;
   mycomp       = props.globals.getNode("/gear/gear[0]/wow").getValue()          ~ mycomp;
   mycomp       = props.globals.getNode("/gear/gear[1]/wow").getValue()          ~ mycomp;
   mycomp       = props.globals.getNode("/gear/gear[2]/wow").getValue()          ~ mycomp;

@@ -501,7 +501,7 @@ var a2a_kilo_mica = func {
   
   #Loading a vector with the Set names
   foreach(key;keys(pylonSets)) {
-    print(pylonSets[key].name);
+    #print(pylonSets[key].name);   <--- Uncomment this line to have the list displayed in the console
     AllPossibleLoads.append(pylonSets[key].name);
   }
   
@@ -518,6 +518,7 @@ var a2a_kilo_mica = func {
     "AS-37-Martel",
     "PDLCT",
     "Matra Super 530D",
+    "AS30L",
     "30mm Cannon",
     "none",
     "MICA IR",
