@@ -31,7 +31,7 @@ var cannon_types = {
     
     
 var warhead_lbs = {
-    "AGM-65":              126.00,
+"AGM-65":              126.00,
     "AGM-84":              488.00,
     "AGM-88":              146.00,
     "AGM65":               200.00,

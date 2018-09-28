@@ -56,13 +56,12 @@
       <property>/payload/armament/msg</property>
       <live>true</live>
       <binding>
-        <command>property-toggle</command>
-        <property>/payload/armament/msg</property>
-      </binding>
-      <binding>
         <command>nasal</command>
         <script>
-          screen.log.write("MP messaging : " ~ (getprop("/payload/armament/msg") ? "Activated" : "Desactivated")  , 0.5, 0.5, 1);</script>
+          if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
+            setprop("payload/armament/msg", !getprop("payload/armament/msg")); 
+          }
+          screen.log.write("MP messaging : " ~ (getprop("/payload/armament/msg") ? "Activated" : "Deactivated")  , 0.5, 0.5, 1);</script>
       </binding>
     </checkbox>
   </group>
@@ -114,7 +113,13 @@
     <legend>Reload Gun</legend>
     <binding>
       <command>nasal</command>
-      <script>guns.reload_Cannon()</script>
+      <script>
+        if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
+          guns.reload_Cannon()
+        }else{
+          screen.log.write(mirage2000.msgB);
+        }
+      </script>
     </binding>
   </button>
 
