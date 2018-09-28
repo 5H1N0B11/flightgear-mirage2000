@@ -150,7 +150,12 @@ var updatefunction = func()
     # Flight Director (autopilot)
     if(getprop("/autopilot/locks/AP-status") == "AP1")
     {
-        call(mirage2000.update_fd,nil,nil,nil, myErr);
+        call(mirage2000.update_fd,nil,nil,nil, myErr= []);
+        if(size(myErr)>0){
+          foreach(var i;myErr) {
+            print(i);
+          }
+        }
     }
 
 
@@ -191,7 +196,12 @@ var updatefunction = func()
     {
       call(mirage2000.fuel_managment,nil,nil,nil, myErr);
       if(getprop("/autopilot/locks/AP-status") != "AP1"){
-        call(mirage2000.update_fd,nil,nil,nil, myErr);
+        call(mirage2000.update_fd,nil,nil,nil, myErr= []);
+        if(size(myErr)>0){
+          foreach(var i;myErr) {
+            print(i);
+          }
+        }
       }
       myFramerate.d = AbsoluteTime;
     }

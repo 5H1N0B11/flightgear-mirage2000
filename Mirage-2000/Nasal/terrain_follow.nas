@@ -101,8 +101,7 @@ var tfs_radar_calculation = func(delay_sec) {
     var current_pos = geo.aircraft_position();
     var current_terr = geo.elevation(current_pos.lat(), current_pos.lon());
     if (current_terr == nil) {
-        setprop("instrumentation/tfs/malfunction", 1);
-        return math.max (0, getprop ("instrumentation/tfs/ground-altitude-ft"));
+      return TF_malfunction();   
     }
     My_pos.set_latlon(current_pos.lat(), current_pos.lon(), current_terr+1); 
     #var current_pos = geo.Coord.new().set_latlon (lat_deg, lon_deg);
@@ -113,8 +112,7 @@ var tfs_radar_calculation = func(delay_sec) {
     var target_altitude_m = geo.elevation (target_pos.lat(), target_pos.lon());
 
     if (target_altitude_m == nil) {
-        setprop("instrumentation/tfs/malfunction", 1);
-        return math.max (0, getprop ("instrumentation/tfs/ground-altitude-ft"));
+      return TF_malfunction();   
     }
     #print("target_pos alt :"~ target_altitude_m);
 
@@ -129,8 +127,7 @@ var tfs_radar_calculation = func(delay_sec) {
     if((target_altitude_m == nil)
         or (altitude_m - target_altitude_m > 2000))
     {
-        setprop("instrumentation/tfs/malfunction", 1);
-        return math.max (0, getprop ("instrumentation/tfs/ground-altitude-ft"));    
+      return TF_malfunction();   
     }
     else
     {
@@ -323,8 +320,14 @@ var terrain_detection_between = func(backward, forward){
   }   
 }
 
+var TF_malfunction = func(){
+  setprop("instrumentation/tfs/malfunction", 1);
+  settimer(reset_TF_malfunction, 5.0);
+  return math.max (0, getprop ("instrumentation/tfs/ground-altitude-ft")); 
+}
 
 
-
-
+var reset_TF_malfunction = func(){
+  setprop("instrumentation/tfs/malfunction", 0);
+}
 
