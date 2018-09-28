@@ -121,20 +121,27 @@
     <key n="69">
       <name>E</name>
       <desc>Parachute</desc>
+      <condition>
+        <property>/gear/gear[2]/wow</property>
+      </condition>
       <binding>
+        <condition>
+          <property>/gear/gear[1]/wow</property>
+          <property>/gear/gear[2]/wow</property>
+        </condition>
         <command>nasal</command>
         <script>doors.parachute.toggle();</script>
       </binding>
     </key>
     
-    <key n="5">
+<!--    <key n="5">
       <name>Ctrl-E</name>
       <desc>Ejection</desc>
       <binding>
         <command>nasal</command>
         <script>setprop("instrumentation/ejection","true");</script>
       </binding>
-    </key>
+    </key>-->
     
     <key n="74">
       <name>J</name>
