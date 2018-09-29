@@ -132,7 +132,7 @@ var Impact = func() {
         var phrase = "Gun Splash On : " ~ splashOn;
         if(MPMessaging.getValue() == 1)
         {
-            missile.defeatSpamFilter(phrase);
+            armament.defeatSpamFilter(phrase);
         }
         else
         {
