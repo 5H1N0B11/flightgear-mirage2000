@@ -12,7 +12,11 @@
     </inputs>
   </efis>
   
-  <ejection type="bool">false</ejection>
+  <ejection type="bool">
+    <ejection type="bool">false</ejection>
+    <force>1</force>
+    <done type="bool">false</done>
+  </ejection>
   <heading-display>0</heading-display>
   <doors>
     <crew>

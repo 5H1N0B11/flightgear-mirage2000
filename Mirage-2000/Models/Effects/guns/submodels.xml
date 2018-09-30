@@ -429,7 +429,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <yaw-offset>358</yaw-offset>
   </submodel>
 
-  <submodel>
+<!--  <submodel>
     <name>ejection</name>
     <model>Aircraft/Mirage-2000/Models/Effects/ejection/ejection.xml</model>
     <trigger>instrumentation/ejection</trigger>
@@ -448,6 +448,6 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <wind>false</wind>
     <pitch-offset>60</pitch-offset>
     <yaw-offset>0</yaw-offset>
-  </submodel>
+  </submodel>-->
 
 </PropertyList>

@@ -73,6 +73,10 @@
     <transponder          type="bool">true</transponder>
   </switches>
   
+  <seat>
+    <ejection-safety-lever type="bool">true</ejection-safety-lever>
+  </seat>
+  
   <armament>
     <!--
       note :

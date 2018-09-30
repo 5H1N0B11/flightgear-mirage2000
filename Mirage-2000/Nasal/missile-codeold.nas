@@ -142,7 +142,7 @@ var DEBUG_STATS_DETAILS    = FALSE;
 var DEBUG_GUIDANCE         = FALSE;
 var DEBUG_GUIDANCE_DETAILS = FALSE;
 var DEBUG_FLIGHT_DETAILS   = 0;
-var DEBUG_SEARCH           = FALSE;
+var DEBUG_SEARCH           = 0;
 var DEBUG_CODE             = FALSE;
 
 var g_fps        = 9.80665 * M2FT;
@@ -241,7 +241,7 @@ var AIM = {
         	m.SwSoundVol.setDoubleValue(0);
         }
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
-        m.useSingleFile   = getprop("payload/armament/one-xml-per-type");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
+        m.useSingleFile   = nil;#getprop("payload/armament/one-xml-per-type");#disabled.
         if (m.useSingleFile == nil) {
         	m.useSingleFile = FALSE;
         }
@@ -306,6 +306,7 @@ var AIM = {
 		# aerodynamic
 		m.weight_launch_lbm     = getprop(m.nodeString~"weight-launch-lbs");          # total weight of armament, including fuel and warhead.
 		m.Cd_base               = getprop(m.nodeString~"drag-coeff");                 # drag coefficient
+		m.Cd_delta              = getprop(m.nodeString~"delta-drag-coeff-deploy");    # drag coefficient added by deployment
 		m.ref_area_sqft         = getprop(m.nodeString~"cross-section-sqft");         # normally is crosssection area of munition (without fins)
 		m.max_g                 = getprop(m.nodeString~"max-g");                      # max G-force the missile can pull at sealevel
 		m.min_speed_for_guiding = getprop(m.nodeString~"min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly ballistic.
@@ -331,6 +332,7 @@ var AIM = {
         m.rail_pitch_deg        = getprop(m.nodeString~"rail-pitch-deg");             # Only used when rail is not forward. 90 for vertical tube.
         m.drop_time             = getprop(m.nodeString~"drop-time");                  # Time to fall before stage 1 thrust starts.
         m.deploy_time           = getprop(m.nodeString~"deploy-time");                # Time to deploy wings etc. Time starts when drop ends or rail passed.
+        m.no_pitch              = getprop(m.nodeString~"pitch-animation-disabled");   # bool
         # counter-measures
         m.chaffResistance       = getprop(m.nodeString~"chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950. [optional]
         m.flareResistance       = getprop(m.nodeString~"flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.950. [optional]
@@ -405,6 +407,10 @@ var AIM = {
 
         if(m.loal == nil) {
         	m.loal = FALSE;
+        }
+
+        if(m.Cd_delta == nil) {
+        	m.Cd_delta = 0;
         }
 
         if(m.canSwitch == nil) {
@@ -488,6 +494,9 @@ var AIM = {
 		if(m.guidanceEnabled == nil) {
 			m.guidanceEnabled = TRUE;
 		}
+		if (m.no_pitch == nil) {
+        	m.no_pitch = 0;
+        }
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
         m.useModelUpperCase     = getprop("payload/armament/modelsUpperCase");
@@ -635,6 +644,7 @@ var AIM = {
 		# cruise-missiles
 		m.nextGroundElevation = 0; # next Ground Elevation
 		m.nextGroundElevationMem = [-10000, -1];
+		m.terrainStage = 0;
 
 		#rail
 		m.rail_passed = FALSE;
@@ -644,6 +654,7 @@ var AIM = {
 		m.rail_pos = 0;
 		m.rail_speed_into_wind = 0;
 		m.rail_passed_time = nil;
+		m.deploy = 0;
 
 		# stats
 		m.maxFPS       = 0;
@@ -894,6 +905,7 @@ var AIM = {
 		if (me.status == MISSILE_STANDBY) {
 			me.status = MISSILE_STARTING;
 			me.ready_standby_time = getprop("sim/time/elapsed-sec");
+			if (me.ready_standby_time == 0) me.ready_standby_time = 0.001;
 		}
 	},
 
@@ -1032,13 +1044,18 @@ var AIM = {
 		}
 		var init_coord = nil;
 		if (me.rail == TRUE) {
-			if (me.rail_forward == FALSE) {
+			if (me.rail_forward == FALSE and me.rail_pitch_deg != 90) {
 				# polar pylon coords:
 				me.rail_dist_origin = math.sqrt(me.x*me.x+me.z*me.z);
-				me.rail_origin_angle_rad = math.acos(me.clamp(me.x/me.rail_dist_origin,-1,1))*(me.z<0?-1:1);
-				# since we cheat by rotating entire launcher, we must calculate new pylon positions after the rotation:
-				me.x = me.rail_dist_origin*math.cos(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
-				me.z = me.rail_dist_origin*math.sin(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
+				if(me.rail_dist_origin==0){
+					me.x = 0.0;
+					me.z = 0.0;
+				} else {
+					me.rail_origin_angle_rad = math.acos(me.clamp(me.x/me.rail_dist_origin,-1,1))*(me.z<0?-1:1);
+					# since we cheat by rotating entire launcher, we must calculate new pylon positions after the rotation:
+					me.x = me.rail_dist_origin*math.cos(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
+					me.z = me.rail_dist_origin*math.sin(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
+				}
 			}
 		}
 		if (offsetMethod == TRUE and (me.rail == FALSE or me.rail_forward == TRUE)) {
@@ -1591,10 +1608,13 @@ var AIM = {
 
 		if (me.rail == FALSE) {
 			me.deploy_prop.setValue(me.clamp(me.extrapolate(me.life_time, me.drop_time, me.drop_time+me.deploy_time,0,1),0,1));
+			me.deploy = me.deploy_prop.getValue();
 		} elsif (me.rail_passed_time == nil and me.rail_passed == TRUE) {
 			me.rail_passed_time = me.life_time;
+			me.deploy_prop.setValue(0);
 		} elsif (me.rail_passed_time != nil) {
 			me.deploy_prop.setValue(me.clamp(me.extrapolate(me.life_time, me.rail_passed_time, me.rail_passed_time+me.deploy_time,0,1),0,1));
+			me.deploy = me.deploy_prop.getValue();
 		}
 		#if(me.life_time > 8) {# todo: make this duration configurable
 			#me.SwSoundFireOnOff.setBoolValue(FALSE);
@@ -1747,7 +1767,11 @@ var AIM = {
 					# no incoming airstream if not vertical tube
 					me.opposing_wind = 0;
 				}
-				me.hdg = me.Tgt.get_bearing();
+				if (me.Tgt != nil) {
+					me.hdg = me.Tgt.get_bearing();
+				} else {
+					me.hdg = OurHdg.getValue();
+				}
 			}			
 
 			me.speed_on_rail = me.clamp(me.rail_speed_into_wind - me.opposing_wind, 0, 1000000);
@@ -1841,7 +1865,19 @@ var AIM = {
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
 		me.altN.setDoubleValue(me.alt_ft);
-		me.pitchN.setDoubleValue(me.pitch);
+		if (!no_pitch) {
+			me.pitchN.setDoubleValue(me.pitch);
+		} else {
+			me.uprighter = me.pitchN.getValue();
+			if (me.uprighter<89.92) {
+				me.uprighter += (90-me.uprighter)*me.dt*0.1;
+			} elsif (me.uprighter>90.08) {
+				me.uprighter -= (me.uprighter-90)*me.dt*0.1;
+			} else {
+				me.uprighter = 90.0;
+			}
+			me.pitchN.setDoubleValue(me.uprighter);
+		}
 		me.hdgN.setDoubleValue(me.hdg);
 		me.rollN.setDoubleValue(me.rollN.getValue()+me.lateralSpeed*me.dt);
 
@@ -2026,11 +2062,11 @@ var AIM = {
 		# and derived from Davic Culps code in AIBallistic.
 		me.Cd = 0;
 		if (mach < 0.7) {
-			me.Cd = (0.0125 * mach + 0.20) * 5 * me.Cd_base;
+			me.Cd = (0.0125 * mach + 0.20) * 5 * (me.Cd_base+me.Cd_delta*me.deploy);
 		} elsif (mach < 1.2 ) {
-			me.Cd = (0.3742 * math.pow(mach, 2) - 0.252 * mach + 0.0021 + 0.2 ) * 5 * me.Cd_base;
+			me.Cd = (0.3742 * math.pow(mach, 2) - 0.252 * mach + 0.0021 + 0.2 ) * 5 * (me.Cd_base+me.Cd_delta*me.deploy);
 		} else {
-			me.Cd = (0.2965 * math.pow(mach, -1.1506) + 0.2) * 5 * me.Cd_base;
+			me.Cd = (0.2965 * math.pow(mach, -1.1506) + 0.2) * 5 * (me.Cd_base+me.Cd_delta*me.deploy);
 		}
 
 		return me.Cd;
@@ -2574,10 +2610,46 @@ var AIM = {
         if(me.loft_alt != 0 and me.snapUp == FALSE) {
         	# this is for Air to ground/sea cruise-missile (SCALP, Sea-Eagle, Taurus, Tomahawk, RB-15...)
 
-        	var useNewCode = 1;# TODO: test this with all Viggen/F16/Mig21 cruise missiles.
+        	var code = 1;# 0 = old, 1 = new, 2 = angle
 
-        	if (useNewCode) {# Shinobi's new code
-        		#Variable declaration
+			if (code == 2) {# angle code
+				me.terrainStage += 1;# only 1 terrain check in each stage.
+				if (me.terrainStage > 5) {
+					me.terrainStage = 0;
+				}
+				if (me.terrainStage == 0) {
+					# down
+					me.terrainUnder = geo.elevation(me.coord.lat(),me.coord.lon());
+				} elsif (me.terrainStage == 1) {
+					# level
+					me.geoPlus = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, 5, me.coord.alt());
+
+					xyz = {"x":me.coord.x(),                  "y":me.coord.y(),                 "z":me.coord.z()};
+					dir = {"x":me.geoPlus.x()-me.coord.x(),  "y":me.geoPlus.y()-me.coord.y(), "z":me.geoPlus.z()-me.coord.z()};
+					me.groundIntersectResult = get_cart_ground_intersection(xyz, dir);
+	                if(me.groundIntersectResult == nil) {
+	                    me.terrainLevel = 1000000;
+	                } else {
+	                    GroundIntersectCoord.set_latlon(me.groundIntersectResult.lat, me.groundIntersectResult.lon, me.groundIntersectResult.elevation);
+	                    me.terrainLevel = me.coord.direct_distance_to(me.groundIntersectCoord);
+	                }
+				} elsif (me.terrainStage == 2) {
+					# negative angle
+					me.geoPlus = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, 5, me.coord.alt());
+
+					xyz = {"x":me.coord.x(),                  "y":me.coord.y(),                 "z":me.coord.z()};
+					dir = {"x":me.geoPlus.x()-me.coord.x(),  "y":me.geoPlus.y()-me.coord.y(), "z":me.geoPlus.z()-me.coord.z()};
+					me.groundIntersectResult = get_cart_ground_intersection(xyz, dir);
+	                if(me.groundIntersectResult == nil) {
+	                    me.terrainLevel = 1000000;
+	                } else {
+	                    GroundIntersectCoord.set_latlon(me.groundIntersectResult.lat, me.groundIntersectResult.lon, me.groundIntersectResult.elevation);
+	                    me.terrainLevel = me.coord.direct_distance_to(me.groundIntersectCoord);
+	                }
+				}
+
+        	} elsif (code == 1) {# Shinobi's new code
+        		        		#Variable declaration
 	            var No_terrain = 0;
 	            var distance_Target = 0;
 	            var xyz = nil;
@@ -3366,7 +3438,7 @@ var AIM = {
 		if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" or me.is_painted(me.tagt) == TRUE) and (me.guidance !="laser" or me.is_laser_painted(me.tagt) == TRUE))
 						and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
 					    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
-					    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
+					    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat" and me.guidance != "radiation"))
 					    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
 			return TRUE;
 		}
@@ -3853,7 +3925,7 @@ var AIM = {
 		me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.Tgt.get_bearing());    # deg.
 		# Check if in range and in the seeker FOV.
 		if (me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov) and me.Tgt.get_range() < me.max_fire_range_nm and me.Tgt.get_range() > me.min_fire_range_nm
-			and (me.Tgt.get_range() < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
+			and (me.Tgt.get_range() < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat" and me.guidance != "radiation"))) {
 			return TRUE;
 		}
 		# Target out of FOV or range while still not launched, return to search loop.
@@ -4051,7 +4123,7 @@ var AIM = {
 	    # lng & lat & heading, in degree, speed in fps
 	    # this function should send back the futures lng lat
 	    me.distanceN = speed * dt * FT2M; # should be a distance in meters
-	    #print("distance "~ me.distanceN);
+	    #me.print("distance ", distance);
 	    # much simpler than trigo
 	    me.NextGeo = geo.Coord.new().set_latlon(lat, lon, alt);
 	    me.NextGeo.apply_course_distance(heading, me.distanceN);

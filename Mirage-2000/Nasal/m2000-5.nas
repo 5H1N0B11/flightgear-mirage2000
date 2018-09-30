@@ -146,6 +146,12 @@ var updatefunction = func()
     mirage2000.Update_SAS();
     
     
+    if (getprop("payload/armament/es/flags/deploy-id-10")!= nil) {
+      setprop("instrumentation/ejection/force", 7-5*getprop("payload/armament/es/flags/deploy-id-10"));
+    } else {
+      setprop("instrumentation/ejection/force", 7);
+    }
+    
     
     # Flight Director (autopilot)
     if(getprop("/autopilot/locks/AP-status") == "AP1")
