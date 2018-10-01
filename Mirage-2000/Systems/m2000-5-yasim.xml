@@ -395,8 +395,8 @@ ________________________________________________________________________________
         compression="0.4"
         spring="1.4"
         damp="2.6"
-        sfric="0.8"
-        dfric="0.7">
+        sfric="1.6"
+        dfric="1.4">
 
     <control-input axis="/controls/flight/SAS-gear" control="STEER" src0="-1.0" src1="1.0" dst0="-0.6" dst1="0.6" />
     <control-input axis="/controls/gear/gear-down"  control="EXTEND" />
