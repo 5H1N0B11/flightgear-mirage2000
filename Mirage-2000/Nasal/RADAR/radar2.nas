@@ -601,6 +601,8 @@ var Radar = {
         if(me.get_check())
         {
             SelectCoord = SelectedObject.get_Coord();
+            
+            SelectCoord.set_alt(SelectCoord.alt()+1);
             # Because there is no terrain on earth that can be between these 2
             if(me.our_alt < 8900 and SelectCoord.alt() < 8900)
             {
