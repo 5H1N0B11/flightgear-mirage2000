@@ -54,7 +54,7 @@
     <z-factor>0.5</z-factor>
   </animation>
 
- <model>
+<!-- <model>
   <name>flare_trail</name>
   <path>Aircraft/Mirage-2000/Models/Effects/flare/flare-trail.xml</path>
   <offsets>
@@ -62,9 +62,9 @@
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
- </model>
+ </model>-->
 
- <model>
+<!-- <model>
   <name>flare_smoke</name>
   <path>Aircraft/Mirage-2000/Models/Effects/flare/flare-smoke.xml</path>
   <offsets>
@@ -72,6 +72,6 @@
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
- </model>
+ </model>-->
 
 </PropertyList>
