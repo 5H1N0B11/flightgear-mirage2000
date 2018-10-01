@@ -3,7 +3,7 @@
     
   <model>
     <name>martel_400</name>
-    <path>Aircraft/Mirage-2000/Missiles/AS-37-Martel/martel.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/AS-37-Martel/as37.xml</path>
   </model>
     
   <animation>

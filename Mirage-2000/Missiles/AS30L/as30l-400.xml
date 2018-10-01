@@ -3,7 +3,7 @@
     
   <model>
     <name>as30l_400</name>
-    <path>Aircraft/Mirage-2000/Missiles/AS30L/AS30L.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/AS30L/as30L.xml</path>
   </model>
     
   <animation>
