@@ -19,6 +19,7 @@ var LastTime              = 0;
 var Elapsed               = 0;
 var myErr                 = [];
 var myFramerate           = {a:0,b:0,c:0,d:0,e:0,f:0};#a = 0.1, b=0.2, c = 0.5, d=1, e=1.5 ; f = 2
+var EjectionKey = 0;
 
 
 var msgB = "Please land before changing payload.";
@@ -487,4 +488,32 @@ var mp_messaging = func(){
     
     
   }
+}
+
+
+var ejection = func(){
+ print("Ejection");
+        if (getprop("instrumentation/ejection/done")==1) {
+            return;
+        }
+        EjectionKey = EjectionKey +1;
+        print("EjectionKey:"~EjectionKey);
+        
+        if(EjectionKey<3){
+          settimer(mirage2000.init_EjectionKey, 2.0);
+          return;
+        }
+        
+        setprop("instrumentation/ejection/done",1);
+        
+        var es = armament.AIM.new(10, "es","gamma", nil ,[-3.65,0,0.7]);
+
+        es.releaseAtNothing();
+        view.view_firing_missile(es);
+        setprop("sim/view[0]/enabled",0);
+#       settimer(func {crash.exp();},3.5);
+}
+
+var init_EjectionKey = func(){
+  EjectionKey = 0;
 }
