@@ -63,8 +63,10 @@
 		<gain>1.0</gain>
 		<input> <!-- Lock the controls if ejected -->
 			<condition>
-				<property>instrumentation/ejection/done</property>
-				<value>1</value>
+				<equals>
+					<property>instrumentation/ejection/done</property>
+					<value>1</value>
+				</equals>
 			</condition>
 			<input>0</input>
 		</input>
@@ -245,8 +247,10 @@
 		<gain>1.0</gain>
 		<input> <!-- Lock the controls if ejected -->
 			<condition>
-				<property>instrumentation/ejection/done</property>
-				<value>1</value>
+				<equals>
+					<property>instrumentation/ejection/done</property>
+					<value>1</value>
+				</equals>
 			</condition>
 			<input>0</input>
 		</input>
@@ -497,8 +501,10 @@
 		<gain>1.0</gain>
 		<input> <!-- Lock the controls if ejected -->
 			<condition>
-				<property>instrumentation/ejection/done</property>
-				<value>1</value>
+				<equals>
+					<property>instrumentation/ejection/done</property>
+					<value>1</value>
+				</equals>
 			</condition>
 			<input>0</input>
 		</input>
