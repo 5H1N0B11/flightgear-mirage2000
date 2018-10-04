@@ -117,6 +117,7 @@
 
   <!-- pilot -->
   <model>
+    <name>pilot</name>
     <path>Aircraft/Mirage-2000/Models/Pilot/pilot.xml</path>
     <condition>
       <or>
@@ -147,6 +148,7 @@
 
   <!-- Seat -->
   <model>
+    <name>frontseat</name>
     <path>Aircraft/Mirage-2000/Models/Interior/seat/seat.xml</path>
     <offsets>
       <x-m> -2.555 </x-m>
@@ -154,6 +156,7 @@
       <z-m> -0.502 </z-m>
     </offsets>
   </model>
+  
 
   <!-- Canopy -->
   <animation>
@@ -165,7 +168,8 @@
     <object-name>poignees-MONOPLACE</object-name>
     <object-name>LeLoquet</object-name>
   </animation>
-
+  
+  
   <animation>
     <type>pick</type>
     <object-name>poignees-MONOPLACE</object-name>
