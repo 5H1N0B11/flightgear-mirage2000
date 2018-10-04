@@ -61,6 +61,15 @@
 		<name>Aileron Nul</name>
 		<type>gain</type>
 		<gain>1.0</gain>
+		<input> <!-- Lock the controls if ejected -->
+			<condition>
+				<equals>
+					<property>instrumentation/ejection/done</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<input>0</input>
+		</input>
 		<input>
 			<expression>
 				<table>
@@ -236,6 +245,15 @@
 		<name>Elevator Nul</name>
 		<type>gain</type>
 		<gain>1.0</gain>
+		<input> <!-- Lock the controls if ejected -->
+			<condition>
+				<equals>
+					<property>instrumentation/ejection/done</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<input>0</input>
+		</input>
 		<input>
 			<expression>
 				<sum>
@@ -481,6 +499,15 @@
 		<name>Rudder Nul</name>
 		<type>gain</type>
 		<gain>1.0</gain>
+		<input> <!-- Lock the controls if ejected -->
+			<condition>
+				<equals>
+					<property>instrumentation/ejection/done</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<input>0</input>
+		</input>
 		<input>
 			<expression>
 				<table>
