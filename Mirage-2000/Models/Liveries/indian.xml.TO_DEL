@@ -8,7 +8,6 @@
 
         <name type="string">Indian Air Force</name>
         <texture>Liveries/1024x1024/indian.png</texture>
-        <texture-tank-1700>tank1700.png</texture-tank-1700>
 
         <specular>
           <red>    0.3  </red>

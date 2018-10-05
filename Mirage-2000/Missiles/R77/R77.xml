@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<PropertyList>
-  <path>Aircraft/Mirage-2000/Missiles/R77/R-77.ac</path>
-  <animation>
-    <!-- Objets opaques -->
-    <object-name>r-77</object-name>
-    <!-- Objets transparents -->
-  </animation>
-</PropertyList>

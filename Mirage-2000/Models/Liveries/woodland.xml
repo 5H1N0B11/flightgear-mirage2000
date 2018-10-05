@@ -8,7 +8,7 @@
 
         <name type="string">2-contrib Woodland_Digital</name>
         <texture>Liveries/1024x1024/woodland.png</texture>
-        <texture-tank-1700>tank1700_D.png</texture-tank-1700>
+        <texture-tank-2000>tank2000_D.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>

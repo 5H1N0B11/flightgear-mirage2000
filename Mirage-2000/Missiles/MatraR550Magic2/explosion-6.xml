@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<PropertyList>
-  <model>
-    <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/explosionFire-6.xml</path>
-  </model>
-  <model>
-    <path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/explosionSmoke-6.xml</path>
-  </model>
-</PropertyList>

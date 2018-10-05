@@ -7,6 +7,7 @@
 #
 # The file vector.nas needs to be available in namespace 'vector'.
 #
+
 var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
   var myCoord = geo.aircraft_position();
   var echoCoord = geo.Coord.new(myCoord);
@@ -18,14 +19,19 @@ var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
 var rcs_database = {
     "default":                  200,    #default value if target's model isn't listed
     "f-14b":                    12,     #guess
+    "F-14D":                    12,     #guess
+    "f-14b-bs":                 0.001,   # low so it dont show up on radar
     "F-15C":                    10,     #low end of sources
     "F-15D":                    11,     #low end of sources
+    "F-16":                     2,      #guess
+    "f15-bs":                   0.001,   # low so it dont show up on radar
     "JA37-Viggen":              3,      #guess
     "AJ37-Viggen":              3,      #guess
     "AJS37-Viggen":             3,      #guess
     "JA37Di-Viggen":            3,      #guess
     "m2000-5":                  1,
     "m2000-5B":                 1,
+    "m2000-5B-backseat":        0.001,
     "707":                      100,    #guess
     "707-TT":                   100,    #guess
     "EC-137D":                  110,    #guess
@@ -67,7 +73,7 @@ var inRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
 }
 
 var wasInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
-    var sign = contact.get_Callsign();
+    var sign = contact.getUnique();
     if (sign != nil and contains(prevVisible, sign)) {
         return prevVisible[sign];
     } else {
@@ -77,8 +83,17 @@ var wasInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
 
 var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
     if (contact != nil and contact.get_Coord() != nil) {
-        var value = targetRCSSignal(contact.get_Coord(), contact.get_model(), contact.get_heading(), contact.get_Pitch(), contact.get_Roll(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs);
-        prevVisible[contact.get_Callsign()] = value;
+        var value = 1;
+        call(func {value = targetRCSSignal(contact.get_Coord(), contact.get_model(), contact.get_heading(), contact.get_Pitch(), contact.get_Roll(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs)},nil, var err = []);
+        if (size(err)) {
+            foreach(line;err) {
+                print(line);
+            }
+            # open radar for one will make this happen.
+            return value;
+        }
+
+        prevVisible[contact.getUnique()] = value;
         return value;
     }
     return 0;
@@ -92,25 +107,15 @@ var targetRCSSignal = func(targetCoord, targetModel, targetHeading, targetPitch,
     if ( contains(rcs_database,targetModel) ) {
         target_front_rcs = rcs_database[targetModel];
     } else {
+        return 1;
         target_front_rcs = rcs_database["default"];
     }
     var target_rcs = getRCS(targetCoord, targetHeading, targetPitch, targetRoll, myCoord, target_front_rcs);
     var target_distance = myCoord.direct_distance_to(targetCoord);
-    #use inverse square to determine max signal strength vs target signal strength
-    #var my_max_signal = myRadarStrength_rcs/math.pow(myRadarDistance_m,2);
-    #var target_signal = target_rcs/math.pow(target_distance,2);
 
-    # comparing with standard formula
+    # standard formula
     var currMaxDist = myRadarDistance_m/math.pow(myRadarStrength_rcs/target_rcs, 1/4);
     return currMaxDist > target_distance;
-
-    if ( my_max_signal <= target_signal ) {
-        print("true");
-        return 1;
-    } else {
-        print("false");
-        return 0;
-    }
 }
 
 var getRCS = func (echoCoord, echoHeading, echoPitch, echoRoll, myCoord, frontRCS) {

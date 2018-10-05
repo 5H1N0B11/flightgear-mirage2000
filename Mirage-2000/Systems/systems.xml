@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <autopilot n="0">
+    <path>Aircraft/Mirage-2000/Systems/it-fbw.xml</path>
+  </autopilot>
+  
+  <autopilot n="2">
+    <path>Aircraft/Mirage-2000/Systems/it-fbw-ap.xml</path>
+  </autopilot>
+  
+  <electrical>
+    <!-- note :
+    null electrical system path here so we can use a nasal based model defined
+    later in the nasal section of this file.
+    -->
+    <path></path>
+  </electrical>
+
+  <property-rule n="101">
+    <name>rain-drops</name>
+    <path>Aircraft/Mirage-2000/Systems/rain-drops.xml</path>
+  </property-rule>
+
+  <property-rule n="102">
+    <path>Aircraft/Mirage-2000/Systems/zoom-views.xml</path>
+  </property-rule>
+
+</PropertyList>

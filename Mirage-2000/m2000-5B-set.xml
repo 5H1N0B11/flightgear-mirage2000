@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<PropertyList include="System/m2000-5B-base.xml">
+<PropertyList include="Systems/m2000-5B-base.xml">
 
 
   <scalp-pos-norm type="float">0</scalp-pos-norm>
@@ -9,7 +9,7 @@
   <sim>
 
     <description>Mirage 2000 Biplace (B, N, D) (YASim)</description>
-    <author>BARANGER Emmanuel (3D/FDM), Buckaroo (FDM), 5H1N0B1 (Weapons, systems), F-Sig and hardball (3D, systems, dual seat)</author>
+    <author>BARANGER Emmanuel (3D/FDM), Buckaroo (FDM), 5H1N0B1 (Weapons, systems), F-Sig and hardball (3D, systems, dual seat), Joshua Davidson (FCS/FBW/Autopilot)</author>
     
     <long-description>The Dassault Mirage 2000 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
 
@@ -18,7 +18,7 @@
     <variant-of>m2000-5</variant-of>
 
     <flight-model>yasim</flight-model>
-    <aero>System/m2000-5-yasim</aero>
+    <aero>Systems/m2000-5-yasim</aero>
 
     <rating>
       <FDM     type="int"> 4 </FDM>

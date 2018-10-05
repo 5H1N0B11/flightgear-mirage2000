@@ -58,6 +58,11 @@ var blackout = 0;
 var redout   = 0;
 
 var redout_loop = func() {
+    if (getprop("payload/armament/msg") == 0) {
+      settimer(redout_loop, 0.5);
+      return;
+    }
+  
     setprop("sim/rendering/redout/enabled", 1);# enable the Fg default redout/blackout system.
     setprop("sim/rendering/redout/parameters/blackout-onset-g", blackout_onset);
     setprop("sim/rendering/redout/parameters/blackout-complete-g", blackout_fast);

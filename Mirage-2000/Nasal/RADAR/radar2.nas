@@ -20,6 +20,7 @@ var nearest_rng       = 0;
 var nearest_u         = nil;
 var missileIndex = 0;
 var MytargetVariable = nil;
+var completeList     = [];
 #var LoopElapsed =0;
 
 
@@ -63,6 +64,7 @@ listOfShipNames      = ["carrier", "ship"];
 listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle"];
 listOfAIRadarEchoes2 = keys(weaponRadarNames);
 listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
+#listOfGroundVehicleModels = ["GROUND_TARGET"];
 listOfShipModels          = ["frigate", "missile_frigate", "USS-LakeChamplain", "USS-NORMANDY", "USS-OliverPerry", "USS-SanAntonio"];
 foreach(var addMe ; listOfAIRadarEchoes2) {
     append(listOfAIRadarEchoes, addMe);
@@ -140,6 +142,7 @@ var Radar = {
         m.Target_Index    = -1 ; # for Target Selection
         m.Target_Callsign = nil;
         m.radarMaxSize    = 20;
+        m.selectedArmament= nil; #Actually useless : The idea is to allow the radar to occult everything that is not for the current loaded weapon
         
         # source behavior
         m.OurHdg        = 0;
@@ -157,6 +160,8 @@ var Radar = {
         m.swp_diplay_width  = 0;
         m.rng_diplay_width  = 0;
         m.ppi_diplay_radius = 0;
+        
+        m.tempo_Index = 0;
 
         if(m.haveSweep == 1)
         {
@@ -185,6 +190,7 @@ var Radar = {
         #print(m.myTree.getPath());
         
         # update interval for engine init() functions
+        m.updating_now = 0;
         m.UPDATE_PERIOD = 0.05; 
         
         # return our new object
@@ -217,6 +223,7 @@ var Radar = {
                 #me.update();
                 #These line bellow are error management.
                 var UpdateErr = [];
+#                 print("Calling radar");
                 call(me.update,[],me,nil,UpdateErr);
                 if(size(UpdateErr) != 0)
                 {
@@ -226,6 +233,7 @@ var Radar = {
                         print(myErrors);
                     }
                 }
+#                 print("Radar refreshing done");
             }
             #me.Global_janitor();
             settimer(loop_Update, me.UPDATE_PERIOD);
@@ -276,7 +284,14 @@ var Radar = {
     
     
     update: func(tempCoord = nil, tempHeading = nil, tempPitch = nil) {
-    
+      
+        if(me.updating_now == 1)
+        {
+          return;
+        }else{
+          me.updating_now = 1;
+        }
+
         # First update Coord, Alt, heeading and Pitch. 
         # The code pout the aircraft properties if nothing has been passed in parameters
         # Coord update ! Should be filled with altitude
@@ -293,7 +308,9 @@ var Radar = {
         # This is to know when was the last time we called the update
         me.TimeWhenUpdate = getprop("sim/time/elapsed-sec");
         
+        
         # Altitude update (in meters)
+
         me.our_alt = me.MyCoord.alt();
         
         # Heading Update (should be the airplane heading, not the radar look direction)
@@ -362,39 +379,66 @@ var Radar = {
                 # now we test the property folder name to guess what type it is:
                 foreach (var testMe ; listOfShipNames) {
                     if (testMe == folderName) {
-                        u.setType(missile.MARINE);
-                        me.skipDoppler = 1;
+                        if(u.get_altitude()<100){
+                          u.setType(armament.MARINE);
+                          me.skipDoppler = 1;
+                        }
+                        break;
+                          
                     }
                 }
-                foreach (var testMe ; listOfGroundTargetNames) {
-                    if (testMe == folderName) {
-                        u.setType(missile.SURFACE);
-                        me.skipDoppler = 1;
+
+                #If not MARINE skipDoppler still == 0
+                if (me.skipDoppler == 0) {
+                    foreach (var testMe ; listOfGroundTargetNames) {
+                        if (testMe == folderName) {
+                            u.setType(armament.SURFACE);
+                            me.skipDoppler = 0;
+                            break;
+                        }
                     }
-                }
-                
+                    
+                 }
+                if(u.get_type() == 0){
                 # now we test the model name to guess what type it is:
-                me.pathNode = c.getNode("sim/model/path");
-                if (me.pathNode != nil) {
-                    me.path = me.pathNode.getValue();
-                    me.model = split(".", split("/", me.path)[-1])[0];
-                    u.set_model(me.model);#used for RCS
-                    foreach (var testMe ; listOfShipModels) {
-                        if (testMe == me.model) {
-                           # Its a ship, Mirage ground radar will pick it up
-                           u.setType(missile.MARINE);
-                           me.skipDoppler = 1;
-                        }
-                    }
-                    foreach (var testMe ; listOfGroundVehicleModels) {
-                        if (testMe == me.model) {
-                           # its a ground vehicle, Mirage ground radar will pick it up
-                           u.setType(missile.SURFACE);
-                           me.skipDoppler = 1;
-                        }
-                    }
-                }
-                #print("Start Testing "~ u.get_Callsign()~"Type: " ~ type);
+                      me.pathNode = c.getNode("sim/model/path");
+                      if (me.pathNode != nil) {
+                          me.path = me.pathNode.getValue();
+                          me.model = split(".", split("/", me.path)[-1])[0];
+                          u.set_model(me.model);#used for RCS
+                          foreach (var testMe ; listOfShipModels) {
+                              if (testMe == me.model) {
+                                # Its a ship, Mirage ground radar will pick it up
+                                if(u.get_altitude()<100){
+                                  u.setType(armament.MARINE);
+                                  me.skipDoppler = 1;
+                                }
+                                break;
+                              }
+                          }
+                          foreach (var testMe ; listOfGroundVehicleModels) {
+                              if (testMe == me.model) {
+                                # its a ground vehicle, Mirage ground radar will not pick it up
+                                u.setType(armament.SURFACE);
+                                me.skipDoppler = 0;
+                                break;
+                              }
+                          }
+                      }
+                  }
+                  
+                 #Testing if ORDNANCE
+                 if (c.getNode("missile") != nil and c.getNode("missile").getValue()) {
+                    u.setType(armament.ORDNANCE);
+                 }
+                 #Testing Ground Target
+                  if(u.get_Callsign() == "GROUND_TARGET"){
+                    u.setType(armament.SURFACE);
+                  }
+ 
+
+                
+                #print("Start Testing "~ u.get_Callsign()~"Type: " ~ u.type);
                 
                               
                 # set Check_List to void
@@ -403,6 +447,10 @@ var Radar = {
                 # test on an array[] named Check_List
 
                 me.go_check(u, me.skipDoppler);
+                
+                #print("Complete liste after update : " ~ size(completeList));
+                #me.decrease_life(completeList);
+                #me.sorting_and_suppr(completeList);
                 
                 #Displaying Check
                 #print("Testing "~ u.get_Callsign()~"Check: " ~ me.get_check());
@@ -415,15 +463,23 @@ var Radar = {
                                         
                     #Is in Range : Should be added to the main ARRAY1 (Here : ContactsList)
                     var HaveRadarNode = c.getNode("radar");
+
+                    #Update ContactList : Only updated when target is valid
+                    #Should return an Index, in order to take the object from the table and not the property tree
+                    
                     if(me.UseATree){
                       u.create_tree(me.MyCoord, me.OurHdg);
                       u.set_all(me.MyCoord);
                       me.calculateScreen(u);
                     }
-                    #Update ContactList : Only updated when target is valid
-                    #Should return an Index, in order to take the object from the table and not the property tree
-                    var indexTempo = me.update_array(u);
-                    if(indexTempo != nil){ u = me.ContactsList[indexTempo];}
+                    
+                    #print("Update contactList");
+                    me.ContactsList = me.update_array(u,me.ContactsList);
+                    #me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
+                    #me.ContactsList[me.tempo_Index].set_display(1);
+                    u.set_display(1);
+                    
+                    #if(me.tempo_Index != nil){ u = me.ContactsList[me.tempo_Index];}
                     
                     
                     # for Target Selection
@@ -435,15 +491,18 @@ var Radar = {
                     {
                         #tgts_list => ARRAY4
                         
+                        #print("Update targetList" ~ u.get_Callsign());
                         me.TargetList_Update(u);
                         me.TargetList_AddingTarget(u);
                         
                         #We should UPDATE tgts_list here
                         
                         #This shouldn't be here. See how to delet it
-                        if(u.get_Callsign() == me.tgts_list[me.Target_Index].get_Callsign() and u.get_Callsign() == me.Target_Callsign){
+                        if(u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and u.getUnique() == me.Target_Callsign){
                           #print("Picasso painting");
                           u.setPainted(1);
+                          armament.contact = me.tgts_list[me.Target_Index];
+                          #print(armament.contact.get_type());
                         }
                     }
                     append(CANVASARRAY, u); 
@@ -451,6 +510,9 @@ var Radar = {
                 }
                 else
                 {
+                    #me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
+                    #if(me.tempo_Index != nil){me.ContactsList[me.tempo_Index].set_display(1,me.myTree);}
+                  
                  #Here we shouldn't see the target anymore. It should disapear. So this is calling the Tempo_Janitor      
                     if(u.get_Validity() == 1)
                     {
@@ -459,16 +521,37 @@ var Radar = {
                           me.Tempo_janitor(u);
                         }
                     }
-                }
+                    
+                }    
+                completeList = me.update_array_no_life_reset(u,completeList);
             }
-        }
-
-        me.decrease_life();
+            #Temporary adding this in order to make the whole new firesystem work
+            #print("Update completeList");
+            
+#             if(u.get_Callsign() == "GROUND_TARGET"){
+#               if(me.inAzimuth(u,0) == 0){
+#                 u.set_display(0,me.myTree);
+#               }else{
+#                 u.set_display(1,me.myTree);
+#               }
+#             }
+            
+            
+        }#For Each End
+;
+                
+        me.ContactsList = me.decrease_life(me.ContactsList);
         #print("Test");
-        me.sorting_and_suppr();
+        me.sorting_and_suppr(me.ContactsList);
         #me.ContactsList = me.cut_array(me.radarMaxSize,me.ContactsList);
         #me.Global_janitor();
         #print("Side in RADAR : "~ size(me.ContactsList));
+        #foreach(contact;me.ContactsList){
+        #  print("Last Check : " ~ contact.get_Callsign() ~" 's life : "~ contact.life);
+        #}
+
+        #print("size(completeList) : " ~size(completeList) ~ "; size(me.ContactsList) : " ~ size(me.ContactsList));
+        me.updating_now = 0;
         return CANVASARRAY;
     },
     
@@ -518,6 +601,8 @@ var Radar = {
         if(me.get_check())
         {
             SelectCoord = SelectedObject.get_Coord();
+            
+            SelectCoord.set_alt(SelectCoord.alt()+1);
             # Because there is no terrain on earth that can be between these 2
             if(me.our_alt < 8900 and SelectCoord.alt() < 8900)
             {
@@ -647,6 +732,22 @@ var Radar = {
     },
 
     doppler: func(SelectedObject){
+      
+        #if it is a radiating stuff, skip doppler
+      #print("In the doppler");
+      if(pylons.fcs.getSelectedWeapon() != nil){
+        #print("pylons.fcs.getSelectedWeapon() != nil");
+        if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
+          #print("pylons.fcs.getSelectedWeapon().guidance:" ~pylons.fcs.getSelectedWeapon().guidance);
+          if(pylons.fcs.getSelectedWeapon().guidance =="radiation"){
+            #print( "Is radiating :" ~ SelectedObject.isRadiating(me.MyCoord));
+            if(SelectedObject.isRadiating(me.MyCoord)){
+              return 1;
+            }
+          }
+        }
+      }
+      
         # Test to check if the target can hide bellow us
         # Or Hide using anti doppler movements
         
@@ -686,8 +787,8 @@ var Radar = {
         return GroundNotBehind;
     },
 
-    inAzimuth: func(SelectedObject){
-        if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
+    inAzimuth: func(SelectedObject,ExceptGroundTarget = 1){
+        if(SelectedObject.get_Callsign()=="GROUND_TARGET" and ExceptGroundTarget){return 1;}
         # Check if it's in Azimuth.
         # first we check our heading+ center az deviation + the sweep if the radar is mechanical
         tempAz = me.az_fld;
@@ -798,6 +899,7 @@ var Radar = {
 
     TargetList_Update: func(SelectedObject){
       forindex(i; me.tgts_list){
+        #print("Target list update");
         if(me.tgts_list[i].get_Callsign()==SelectedObject.get_Callsign()){
           me.tgts_list[i].update(SelectedObject);
           return i;
@@ -827,7 +929,7 @@ var Radar = {
                 {
                     append(TempoTgts_list, TempTarget);
                 }else{
-                  TempTarget.setPainted(0);
+                  #TempTarget.setPainted(0);
                 }
             }
             #me.tgts_list = TempoTgts_list;
@@ -884,6 +986,7 @@ var Radar = {
       var result = 0;
       #Variable for the selection Type test
       var selectedType = SelectedObject.getName();
+      
 
       selectedType = me.type_selector(SelectedObject);
 
@@ -897,7 +1000,7 @@ var Radar = {
       foreach(myType;me.typeTarget)
       {
         if(myType == selectedType){
-          result = 1;
+           result = 1;
         }
       }
 
@@ -948,6 +1051,7 @@ var Radar = {
         #me.heat_sensor(SelectedObject);
         if( me.detectionTypetab=="laser" or skipDoppler == 1)
         {
+          #print("Skip Doppler");
           append(me.Check_List, 1);
          }else{
           append(me.Check_List, me.doppler(SelectedObject));
@@ -1039,7 +1143,8 @@ var Radar = {
     },
 
     next_Target_Index: func(){
-        if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
+      if(me.az_fld == me.focused_az_fld){  
+      if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         me.Target_Index = me.Target_Index + 1;
         if(me.Target_Index > (size(me.tgts_list)-1))
         {
@@ -1063,12 +1168,13 @@ var Radar = {
             me.next_Target_Index();
           }
           
-          me.Target_Callsign = me.tgts_list[me.Target_Index].get_Callsign();
+          me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
           me.tgts_list[me.Target_Index].setPainted(1);
         } else {
           me.Target_Callsign = nil;
           return
-        }
+        } 
+      }
         #if(me.tgts_list[me.Target_Index].get_display()!=1){
           #me.Target_Index = me.Target_Index==0?size(me.tgts_list)-1:me.Target_Index - 1; 
           #me.next_Target_Index();
@@ -1076,6 +1182,7 @@ var Radar = {
     },
 
     previous_Target_Index: func(){
+      if(me.az_fld == me.focused_az_fld){
         if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         me.Target_Index = me.Target_Index - 1;
         if(me.Target_Index < 0)
@@ -1083,11 +1190,12 @@ var Radar = {
             me.Target_Index = size(me.tgts_list)-1;
         }
         if (size(me.tgts_list) > 0) {
-          me.Target_Callsign = me.tgts_list[me.Target_Index].get_Callsign();
+          me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
           me.tgts_list[me.Target_Index].setPainted(1);
         } else {
           me.Target_Callsign = nil;
         }
+      }
 
     },
 
@@ -1112,7 +1220,7 @@ var Radar = {
                  setprop("/ai/closest/range", 0);
                  return;#me.Target_Index = 0;
             }
-            if (me.Target_Callsign != me.tgts_list[me.Target_Index].get_Callsign()) {
+            if (me.Target_Callsign != me.tgts_list[me.Target_Index].getUnique()) {
                 me.Target_Callsign = nil;
                 me.Target_Callsign = nil;
                 setprop("/ai/closest/range", 0);
@@ -1143,7 +1251,10 @@ var Radar = {
             setprop("/ai/closest/latitude", latitude);
         }else{
             if(me.az_fld != me.focused_az_fld){
-              if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
+              if (size(me.tgts_list) > 0) {
+                me.tgts_list[me.Target_Index].setPainted(0);
+                armament.contact = nil;
+              }
             }
             setprop("/ai/closest/range", 0);
         }
@@ -1153,61 +1264,105 @@ var Radar = {
     
     ###########################################################################
     ###   Update element of the actual diplayed array
-    update_Element_of_array: func(SelectedObject){
-      forindex(i; me.ContactsList){
-        if(me.ContactsList[i].get_Callsign()==SelectedObject.get_Callsign()){
-          me.ContactsList[i].update(SelectedObject);
-          return i;
+    update_Element_of_array: func(SelectedObject,myArray){
+      #print("Normal Update bellow");
+      forindex(i; myArray){
+        if(myArray[i].getUnique()==SelectedObject.getUnique()){
+          myArray[i].update(SelectedObject);
+          return myArray;
         }
       }
-      return nil;
+      return myArray;
     },
     
     ###   add element to the array
-    add_Element_to_Array: func(SelectedObject){
-      append(me.ContactsList,SelectedObject);
-      return size(me.ContactsList)-1;
+    add_Element_to_Array: func(SelectedObject,myArray){
+      append(myArray,SelectedObject);
+      return myArray;
     },   
     
     ###   update array : update element, or add it if there aren't present
-    update_array: func(SelectedObject){
-      var tempo = me.update_Element_of_array(SelectedObject);
-      
-      if(tempo == nil){
-        tempo = me.add_Element_to_Array(SelectedObject);
+    update_array: func(SelectedObject,myArray){
+      var tempo = nil;
+      if(size(myArray) > 0){
+        myArray = me.update_Element_of_array(SelectedObject,myArray);
+        tempo = me.find_index_inArray(SelectedObject,myArray);
       }
-      return tempo;
-      #print("My Array  Size = %d ",size(me.ContactsList));
+      
+      if(tempo == nil){;
+        myArray = me.add_Element_to_Array(SelectedObject,myArray);
+      }
+      return myArray;
     },
     
+    find_index_inArray: func(SelectedObject,myArray){
+          forindex(i; myArray){
+            #print("myArray[i].getUnique() : " ~ myArray[i].getUnique() ~" And SelectedObject.getUnique() : "~SelectedObject.getUnique());
+            if(myArray[i].getUnique()==SelectedObject.getUnique()){return i;}
+          }
+        return nil; 
+    },
+    
+    update_array_no_life_reset: func(SelectedObject,myArray){
+      var tempo = nil;
+      if(size(myArray) > 0){
+          #The idea is to keep the values of the variables and not reseting them
+          #This way it does not impact the radar
+          myIndex = me.find_index_inArray(SelectedObject,myArray);
+        
+        if(myIndex != nil and myArray[myIndex].Display_Node != nil){
+          var mypaint = myArray[myIndex].isPainted();
+          var myDisplay = myArray[myIndex].get_display();
+          var myLife = myArray[myIndex].life;
+        }
+        
+          me.update_array(SelectedObject,myArray);
+          
+        if(myIndex != nil and myArray[myIndex].Display_Node != nil){
+          myArray[myIndex].setPainted(mypaint);
+          myArray[myIndex].set_display(myDisplay, me.UseATree);
+          myArray[myIndex].life = myLife;
+        }
+      }else{
+          me.update_array(SelectedObject,myArray);
+      }
+      
+      return myArray;
+      
+    },
     
     #############################################################################
     
     
     #decrease life of element. < 0 then it's not displayed anymore
     #should call a remove_element function to remove element from array
-    decrease_life: func(){
-      foreach(contact;me.ContactsList){
+    decrease_life: func(myArray){
+      var i = 0;
+      foreach(contact;myArray){
         contact.life = contact.life - me.LoopElapsed;
-        if(contact.life<1){
-          contact.set_display(0);
-          contact.setPainted(1);
+        #print("Elapsed = " ~ me.LoopElapsed ~" Then " ~ contact.get_Callsign() ~ " 's life : "~ contact.life);
+        
+        if(contact.life<3){
+          #print("Elapsed = " ~ me.LoopElapsed ~" Then " ~ contact.get_Callsign() ~ " 's life : "~ contact.life);
+          contact.set_display(0, me.UseATree);
+          contact.setPainted(0);
         }
       }
+      return myArray;
     },
  
  
     #This function should sort and suppr
-    sorting_and_suppr: func(){
+    sorting_and_suppr: func(myArray){
     #print("Test2 : size : " ~ size(me.ContactsList));
-      for(var i=0;i<size(me.ContactsList)-1;i = i + 1){
+      for(var i=0;i<size(myArray)-1;i = i + 1){
         #print("Test3");
-        for(var j=0;j<size(me.ContactsList)-1;j = j + 1){
-          #print(me.ContactsList[i].get_Callsign() ~ " : " ~ me.ContactsList[i].life ~ " vs " ~ me.ContactsList[j].get_Callsign() ~ " : " ~ me.ContactsList[j].life);
-          if(me.ContactsList[i].life<me.ContactsList[j].life){
-            var u = me.ContactsList[i];
-            me.ContactsList[i] = me.ContactsList[j];
-            me.ContactsList[j] = u; 
+        for(var j=0;j<size(myArray)-1;j = j + 1){
+          #print(myArray[i].get_Callsign() ~ " : " ~ myArray[i].life ~ " vs " ~ myArray[j].get_Callsign() ~ " : " ~ myArray[j].life);
+          if(myArray[i].life<myArray[j].life){
+            var u = myArray[i];
+            myArray[i] = myArray[j];
+            myArray[j] = u; 
           }
         }
       }
@@ -1241,7 +1396,7 @@ var Radar = {
         {
             return nil;#me.Target_Index = 0;
         }
-        if (me.Target_Callsign == me.tgts_list[me.Target_Index].get_Callsign()) {
+        if (me.Target_Callsign == me.tgts_list[me.Target_Index].getUnique()) {
           me.tgts_list[me.Target_Index].setPainted(1);
           return me.tgts_list[me.Target_Index];
         } else {
@@ -1278,3 +1433,4 @@ var rounding1000 = func(n){
     n = (n >= l) ? ((a + 1) * 1000) : (a * 1000);
     return(n);
 }
+

@@ -6,24 +6,16 @@
 
   <animation>
     <!-- Objets opaques -->
-    <object-name>tank</object-name>
+    <object-name>tank1700</object-name>
 
     <!-- Objets transparents -->
-  </animation>
-
-  <animation>
-    <type>material</type>
-    <object-name>tank</object-name>
-    <property-base>sim/model/livery</property-base>
-    <texture-prop>texture-tank-1700</texture-prop>
-    <texture-tank-1700>tank1700.png</texture-tank-1700>
   </animation>
 
 
   <effect>
     <!--inherits-from>Aircraft/Generic/Effects/Fuselagereflect</inherits-from-->
     <inherits-from>Aircraft/Mirage-2000/Models/Effects/aircraft/aircraft</inherits-from>
-    <object-name>tank</object-name>
+    <object-name>tank1700</object-name>
     <condition>
       <not><property>sim/rendering/rembrandt/enabled</property></not>
     </condition>

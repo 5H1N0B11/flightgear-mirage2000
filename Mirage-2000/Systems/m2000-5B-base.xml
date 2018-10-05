@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- http://wiki.flightgear.org/Property_tree
+
+     changelog
+     
+       04/08/2015 Updated by Hardball : added comments
+       30/01/2017 Duplicated from m2000-5 by Hardball : added 2 seat specific
+
+-->
+<PropertyList>
+
+  <!-- This is in order to make flare working -->
+  <!-- We use/ hack a mp variable -->
+  <rotors include="rotors.xml" />
+
+  
+    <aircraft> 
+        <flir> 
+            <input> 
+                <yaw-deg type="double">0.0</yaw-deg> 
+                <pitch-deg type="double">0.0</pitch-deg> 
+            </input> 
+            <target> 
+                <yaw-deg type="double">0.0</yaw-deg> 
+                <pitch-deg type="double">0.0</pitch-deg> 
+                <auto-track type="bool">false</auto-track> 
+            </target> 
+            <locks> 
+                <auto-track type="bool">false</auto-track> 
+            </locks> 
+        </flir> 
+    </aircraft> 
+ 
+  
+  <sim include="m2000-5-base-common.xml">
+
+    <view n="103">
+      <name>Navigator View</name>
+      <type>lookfrom</type>
+      <internal archive="y">true</internal>
+      <config>
+        <from-model type="bool">true</from-model>
+        <from-model-idx type="int">0</from-model-idx>
+        <x-offset-m archive="y" type="double">  0.00 </x-offset-m>
+        <y-offset-m archive="y" type="double">  0.21 </y-offset-m>
+        <z-offset-m archive="y" type="double"> -1.06 </z-offset-m>
+        <pitch-offset-deg type="double"> -10 </pitch-offset-deg>
+        <heading-offset-deg type="double"> 0 </heading-offset-deg>
+        <default-field-of-view-deg type="double">82</default-field-of-view-deg>
+      </config>
+    </view>
+    <dialog>
+      <groundtTargeting>
+        <target-latitude-deg type="double">0</target-latitude-deg>
+        <target-longitude-deg type="double">0</target-longitude-deg>
+	<target-alt-feet type="double">0</target-alt-feet>
+      </groundtTargeting>
+    </dialog>
+    <model>
+      <path>Aircraft/Mirage-2000/Models/m2000-5B.xml</path>
+      <livery>
+        <file type="string">default</file>
+      </livery>
+      <logos>
+        <file type="string">default</file>
+      </logos>
+      <!-- canopy opened at game start -->
+      <doors>
+        <crew>
+          <position-norm type="float">1</position-norm>
+        </crew>
+      </doors>
+    </model>
+
+  </sim>
+
+  <mouse>
+    <invert-mouse-wheel type="bool">true</invert-mouse-wheel>
+  </mouse>
+
+  <controls include="controls.xml" />
+
+  <engines include="engines.xml" />
+
+  <instrumentation include="cnf-instrumentation.xml" />
+
+  <input include="m2000-5-keyboard.xml" />
+
+  <environment include="environment.xml" />
+
+  <systems include="cnf-systems.xml" />
+
+  <consumables include="consumables.xml" />
+
+  <ai include="ai.xml" />
+
+  <autopilot include="cnf-autopilot.xml" />
+
+  <payload include="payload.xml" />
+
+  <nasal>
+    <!-- c172p is part of FGDATA and thus always present -->
+    <math_ext>
+      <file>Aircraft/c172p/Nasal/generic/math_ext.nas</file>
+    </math_ext>
+    <logger>
+      <file>Aircraft/c172p/Nasal/generic/logger.nas</file>
+    </logger>
+    <updateloop>
+      <file>Aircraft/Generic/updateloop.nas</file>
+    </updateloop>
+    <ai>
+      <file>Aircraft/Mirage-2000/Nasal/AI_list.nas</file>
+    </ai>
+    <aar>
+      <file>Aircraft/Generic/aar.nas</file>
+    </aar>
+    <doors>
+      <file>Aircraft/Mirage-2000/Nasal/doors.nas</file>
+    </doors>
+    <controls>
+      <file>Aircraft/Mirage-2000/Nasal/m2000-5-controls.nas</file>
+    </controls>
+    <electrics>
+      <file>Aircraft/Mirage-2000/Nasal/m2000-5-electrical.nas</file>
+    </electrics>
+    <engines>
+      <file>Aircraft/Mirage-2000/Nasal/generic-yasim-engine.nas</file>
+    </engines>
+    <vector>
+        <file>Aircraft/Mirage-2000/Nasal/vector.nas</file>
+    </vector>
+    <rcs>
+        <file>Aircraft/Mirage-2000/Nasal/rcs.nas</file>
+    </rcs>
+    
+    <armament>
+        <file>Aircraft/Mirage-2000/Nasal/missile-code.nas</file><!-- must be before station-manager -->
+    </armament>
+    
+    <!--The radar object is created is m2000-5.nas; the Script use this order to load everything.
+    So we have to load radar2.nas before m2000.nas -->
+    <radar>
+      <file>Aircraft/Mirage-2000/Nasal/RADAR/radar2.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/RADAR/target_class.nas</file>
+<!--      <file>Aircraft/Mirage-2000/Nasal/RADAR/radarPrototype.nas</file>-->
+    </radar>
+    
+    
+    
+    <!-- First attempt to standardise the weapons system -->
+    <stations>
+        <file>Aircraft/Mirage-2000/Nasal/station-manager.nas</file><!-- must be before fire-control and pylons -->
+    </stations>
+    <fc>
+        <file>Aircraft/Mirage-2000/Nasal/fire-control.nas</file>
+    </fc>
+    <pylons>
+        <file>Aircraft/Mirage-2000/Nasal/pylons.nas</file>
+    </pylons>
+     
+    
+    
+    <fuel>
+      <file>Aircraft/Mirage-2000/Nasal/m2000-5-fuel.nas</file>
+    </fuel>
+    <hydraulics>
+      <file>Aircraft/Mirage-2000/Nasal/m2000-5-hydraulical.nas</file>
+    </hydraulics>
+    <hud>
+      <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/mini-hud.nas</file>
+    </hud>
+    <mirage2000>
+      <file>Aircraft/Mirage-2000/Nasal/m2000-5_mfd.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/liveries.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/m2000-5_flightdirector.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/terrain_follow.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/SAS.nas</file>
+      <file>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/transpondeur/transpondeur.nas</file>
+      <file>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/ND.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/MFD/MAP.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/MFD/viewTargeting.nas</file>      
+      <file>Aircraft/Mirage-2000/Nasal/flir.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/m2000-5.nas</file>
+    </mirage2000>
+    <m2000_controls>
+      <file>Aircraft/Mirage-2000/Nasal/m2000-5-controls.nas</file>
+    </m2000_controls>
+    <radardist>
+      <file>Aircraft/Instruments-3d/radardist/radardist.nas</file>
+    </radardist>
+    <environment>
+      <file>Aircraft/Mirage-2000/Nasal/environment.nas</file>
+    </environment>
+    <guns>
+      <file>Aircraft/Mirage-2000/Nasal/weapons.nas</file>
+    </guns>
+    <instrumentation>
+      <file>Aircraft/Mirage-2000/Nasal/instrumentation.nas</file>
+    </instrumentation>
+    <m2000_mp>
+      <file>Aircraft/Mirage-2000/Nasal/MP.nas</file>
+    </m2000_mp>
+    <missile>
+      <file>Aircraft/Mirage-2000/Nasal/missile_GroundTargeting.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/damage.nas</file>
+    </missile>
+    <view>
+      <file>Aircraft/Mirage-2000/Nasal/MissileView.nas</file>
+    </view>
+    <blackout>
+      <file>Aircraft/Mirage-2000/Nasal/blackout.nas</file>
+    </blackout>
+    <formation>
+      <file>Aircraft/Generic/formation.nas</file>
+    </formation>
+    <assistance>
+      <file>Aircraft/Mirage-2000/Nasal/assistance.nas</file>
+    </assistance>
+    
+
+   
+  </nasal>
+
+</PropertyList>

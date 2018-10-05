@@ -57,18 +57,27 @@
       <live>true</live>
       <binding>
         <command>nasal</command>
-        <script>m2000_load.MPReport()</script>
+        <script>
+          if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
+            setprop("payload/armament/msg", !getprop("payload/armament/msg")); 
+          }
+          screen.log.write("MP messaging : " ~ (getprop("/payload/armament/msg") ? "Activated" : "Deactivated")  , 0.5, 0.5, 1);</script>
       </binding>
     </checkbox>
   </group>
   
   <group>
-    <layout>hbox</layout>
-    <text><label>Use Interpolation method</label></text>
-    <checkbox>
-      <property>payload/armament/hit-interpolation</property>
-    </checkbox>
-  </group>
+        <layout>hbox</layout>
+        <text><label>Use Interpolation method</label></text>
+        <checkbox>
+          <property>payload/armament/hit-interpolation</property>
+          <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>payload/armament/hit-interpolation</property>
+            </binding>
+        </checkbox>
+      </group>
   <hrule />
 
   <group>
@@ -104,7 +113,13 @@
     <legend>Reload Gun</legend>
     <binding>
       <command>nasal</command>
-      <script>guns.reload_Cannon()</script>
+      <script>
+        if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
+          guns.reload_Cannon()
+        }else{
+          screen.log.write(mirage2000.msgB);
+        }
+      </script>
     </binding>
   </button>
 
@@ -154,63 +169,77 @@
     <legend>No load</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.NoLoad()</script>
+      <script>pylons.lisse()</script>
     </binding>
   </button>
   <button>
     <legend>PO</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.Po()</script>
+      <script>pylons.a2a_po_old()</script>
     </binding>
   </button>
   <button>
     <legend>Fox Old Years</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.FoxOldYears()</script>
+      <script>pylons.a2a_fox_old()</script>
     </binding>
   </button>
   <button>
     <legend>Fox</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.Fox()</script>
+      <script>pylons.a2a_fox_mix()</script>
     </binding>
   </button>
   <button>
     <legend>Fox Full Mica</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.FoxFullMica()</script>
+      <script>pylons.a2a_fox_mica()</script>
     </binding>
   </button>
   <button>
     <legend>Bravo</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.Bravo()</script>
+      <script>pylons.a2a_bravo_mix()</script>
     </binding>
   </button>
   <button>
     <legend>Kilo</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.Kilo()</script>
+      <script>pylons.a2a_kilo_mica()</script>
     </binding>
   </button>
   <button>
     <legend>Air to Ground</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.AirToGround()</script>
+      <script>pylons.a2g_bravo_mix()</script>
     </binding>
   </button>
+  <button>
+    <legend>Anti Radar</legend>
+    <binding>
+      <command>nasal</command>
+      <script>pylons.a2ouadi_fox()</script>
+    </binding>
+  </button>
+  <button>
+    <legend>Air to Sea</legend>
+    <binding>
+      <command>nasal</command>
+      <script>pylons.a2s_fox()</script>
+    </binding>
+  </button>  
   <button>
     <legend>m2000N</legend>
     <binding>
       <command>nasal</command>
-      <script>m2000_load.m2000N()</script>
+      <script>pylons.nuke()</script>
     </binding>
   </button>
 

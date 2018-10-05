@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<PropertyList>
-  <model>
-    <path>Aircraft/Mirage-2000/Missiles/Exocet/explosionFire-2.xml</path>
-  </model>
-  <model>
-    <path>Aircraft/Mirage-2000/Missiles/Exocet/explosionSmoke-2.xml</path>
-  </model>
-</PropertyList>

@@ -87,7 +87,7 @@
   <animation>
     <type>rotate</type>
     <object-name>EHSI-hdg-bug</object-name>
-    <property>autopilot/internal/fdm-heading-bug-error-deg</property>
+    <property>instrumentation/mfd/bug-heading-displayed</property>
     <axis>
       <x>-1.0</x>
       <y> 0.0</y>
@@ -104,13 +104,16 @@
     <object-name>EHSI-CRS-FROM</object-name>
     <object-name>EHSI-ptr2</object-name>
     <object-name>EHSI-ptr1</object-name>
-    <property>orientation/heading-magnetic-deg</property>
+    <property>instrumentation/mfd/heading-displayed</property>
     <axis>
       <x>1</x>
       <y>0</y>
       <z>0</z>
     </axis>
+
   </animation>
+  
+ <!-- /instrumentation/efis/mfd/true-north-->
 
   <!--EHSI CRS -->
   <animation>
@@ -223,7 +226,7 @@
   <animation>
     <type>rotate</type>
     <object-name>EHSI-w-arrow</object-name>
-    <property>orientation/heading-magnetic-deg</property>
+    <property>instrumentation/mfd/heading-displayed</property>
     <offset-deg>180</offset-deg>
     <center>
       <x-m>-0.010</x-m>
@@ -237,6 +240,7 @@
     </axis>
   </animation>
 
+  
   <animation>
     <type>rotate</type>
     <object-name>EHSI-w-arrow</object-name>

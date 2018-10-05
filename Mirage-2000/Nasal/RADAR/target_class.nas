@@ -8,6 +8,7 @@ setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "o"~"r"~"f");
 var Target = {
     new: func(c,theTree = nil){
         var obj             = { parents : [Target,geo.Coord.new()]};
+        obj.propNode        = c;
         obj.RdrProp         = c.getNode("radar");
         obj.Heading         = c.getNode("orientation/true-heading-deg");
         
@@ -32,8 +33,12 @@ var Target = {
         obj.engineTree      = c.getNode("engines");
         
         obj.AcType          = c.getNode("sim/model/ac-type");
-        obj.type            = c.getName();
+        obj.typeString      = c.getName();
+        obj.fname           = c.getName();
+        
         obj.index           = c.getIndex();
+        
+        #print(obj.fname);
         obj.flareNode       = c.getNode("rotors/main/blade[3]/flap-deg");
         obj.chaffNode       = c.getNode("rotors/main/blade[3]/position-deg");
         
@@ -48,20 +53,63 @@ var Target = {
         if(TestIfMissileNode != nil) {
           if(TestIfMissileNode.getValue()){
             #print("It is a missile");
-            obj.type  = "missile";
+            obj.typeString  = "missile";
             missileIndex = missileIndex + 1;
             obj.index = missileIndex;            
           }
         }
 
+        obj.Model = c.getNode("model-short");
+        var model_short = c.getNode("sim/model/path");
+        if(model_short != nil)
+        {
+            var model_short_val = model_short.getValue();
+            if (model_short_val != nil and model_short_val != "")
+            {
+                var u = split("/", model_short_val); # give array
+                var s = size(u); # how many elements in array
+                var o = u[s-1];  # the last element
+                var m = size(o); # how long is this string in the last element
+                var e = m - 4;   # - 4 chars .xml
+                obj.ModelType = substr(o, 0, e); # the string without .xml
+            }
+            else
+                obj.ModelType = "";
+        } elsif (c.getNode("type") != nil) {
+            # not all have a path property
+            obj.ModelType = c.getNode("type").getValue();
+            if (obj.ModelType == nil) {
+                # not all have a type property
+                obj.ModelType = "";
+            }
+        } else {
+            obj.ModelType = "";
+        }
+
+        
+        
         obj.life = 5; #Have to be given in parameters, but now written in hard
         obj.objectDeviationDeg = 0;
         obj.objectElevationDeg = 0;
         obj.objectDisplay       = 0;
         
         
-        obj.string          = "ai/models/" ~ obj.type ~ "[" ~ obj.index ~ "]";
-        obj.shortstring     = obj.type ~ "[" ~ obj.index ~ "]";
+        obj.string          = "ai/models/" ~ obj.typeString ~ "[" ~ obj.index ~ "]";
+        obj.shortstring     = obj.typeString ~ "[" ~ obj.index ~ "]";
+        
+        
+        
+        var TestID = c.getNode("unicId",1);
+        if(TestID.getValue() != nil) {
+          obj.ID = TestID.getValue();
+          #print("Id already exist:" ~ obj.ID);
+        }else{
+          obj.ID = int(1000000 * rand());
+          TestID.setValue(obj.ID);
+          #print("Id Creation" ~ obj.ID);
+        }
+
+        
         
         if(theTree == nil)
         {
@@ -102,6 +150,7 @@ var Target = {
         obj.lifetime        = 3; #Not implemented yet : should represent the life time in sec of a target. (simpler than actually)
         obj.RangeLast       = 0; 
         obj.ClosureRate     = 0;
+        obj.Display_Node    = nil;
         
         obj.ispainted       = 0;
         
@@ -111,12 +160,18 @@ var Target = {
         
         obj.deviation       = nil;
 
-        obj.type = missile.AIR;
+        
 
-        if (obj.get_Callsign() == "GROUND_TARGET") {
-            obj.type = missile.SURFACE;
-        }
-
+#         if (obj.get_Callsign() == "GROUND_TARGET") {
+#             obj.type = armament.SURFACE;
+#         }
+# 
+#         if(obj.type  == "missile"){
+#           obj.type  = armament.ORDNANCE;
+#         }
+        
+        obj.type = armament.AIR;
+        
         obj.model = "";
         
         return obj;
@@ -145,7 +200,7 @@ var Target = {
         me.engineTree      = c.engineTree;
         
         me.AcType          = c.AcType;
-        me.type            = c.type;
+        
         me.index           = c.index;
         me.flareNode       = c.flareNode;
         me.chaffNode       = c.chaffNode;
@@ -171,16 +226,23 @@ var Target = {
         me.EcmSignal       = c.EcmSignal; 
         me.EcmSignalNorm   = c.EcmSignalNorm; 
         me.EcmTypeNum      = c.EcmTypeNum; 
-        me.Display         = c.Display; 
         me.Fading          = c.Fading; 
         me.DddDrawRangeNm  = c.DddDrawRangeNm; 
         me.TidDrawRangeNm  = c.TidDrawRangeNm; 
         me.RoundedAlt      = c.RoundedAlt; 
         me.TimeLast        = 0;
+        if(me.life<1){
+          me.ispainted       = c.ispainted;
+          me.Display         = c.Display;
+          me.type            = c.type ;
+        }else{
+          #if(me.get_Callsign() != ""){print("Update Target :" ~ me.get_Callsign() ~ " Paiting : " ~ me.ispainted ~" and Display : " ~ me.Display);}
+        }
         me.lifetime        = 3; # We reinit the lifetime
         me.RangeLast       = c.RangeLast; 
         me.ClosureRate     = c.ClosureRate;
-        me.ispainted       = c.ispainted;
+        
+        
         
         me.life = 5; 
         me.objectDeviationDeg = c.objectDeviationDeg;
@@ -205,7 +267,7 @@ var Target = {
         me.EcmSignal      = me.TgtsFiles.getNode("ecm-signal", 1);
         me.EcmSignalNorm  = me.TgtsFiles.getNode("ecm-signal-norm", 1);
         me.EcmTypeNum     = me.TgtsFiles.getNode("ecm_type_num", 1);
-        me.Display        = me.TgtsFiles.getNode("display", 1);
+        me.Display_Node   = me.TgtsFiles.getNode("display", 1);
         me.Fading         = me.TgtsFiles.getNode("ddd-echo-fading", 1);
         me.DddDrawRangeNm = me.TgtsFiles.getNode("ddd-draw-range-nm", 1);
         me.TidDrawRangeNm = me.TgtsFiles.getNode("tid-draw-range-nm", 1);
@@ -313,16 +375,8 @@ var Target = {
 
     get_Callsign: func(){
         var n = me.Callsign.getValue();
-        
-        if(n == nil){
-            return "UFO";
-        }
-        
-        if(size(n) > 1 and n !=nil and me.name !=nil)
-        {
-            n = me.name.getValue();
-        }
- 
+        if(n == nil or n == ""){n = me.name.getValue();}
+        if(n == nil or n == ""){n = "UFO";}
         return n;
     },
 
@@ -378,6 +432,7 @@ var Target = {
         if(myCoord.is_defined())
         {
             myBearing = MyAircraftCoord.course_to(myCoord);
+            me.Bearing.setValue(myBearing);
         }
         #print("get_bearing_from_Coord :" ~ myBearing);
         return myBearing;
@@ -400,12 +455,15 @@ var Target = {
 
     get_Elevation_from_Coord: func(MyAircraftCoord){
         var myCoord = me.get_Coord();
-        me.objectElevationDeg = math.asin((myCoord.alt() - MyAircraftCoord.alt()) / myCoord.direct_distance_to(MyAircraftCoord)) * R2D;
+        #me.objectElevationDeg = math.asin((myCoord.alt() - MyAircraftCoord.alt()) / myCoord.direct_distance_to(MyAircraftCoord)) * R2D;
+        me.objectElevationDeg = vector.Math.getPitch(geo.aircraft_position(), me.get_Coord()); 
+        me.Elevation.setValue(me.objectElevationDeg);
         return me.objectElevationDeg;
     },
 
     get_total_elevation_from_Coord: func(own_pitch, MyAircraftCoord){
         var myTotalElevation =  - deviation_normdeg(own_pitch, me.get_Elevation_from_Coord(MyAircraftCoord));
+        me.Elevation.setValue(myTotalElevation);
         return myTotalElevation;
     },
     
@@ -425,6 +483,7 @@ var Target = {
         if(myCoord.is_defined())
         {
             myDistance = MyAircraftCoord.direct_distance_to(myCoord) * M2NM;
+            me.Range.setValue(myDistance);
         }
         #print("get_range_from_Coord :" ~ myDistance);
         return myDistance;
@@ -500,14 +559,14 @@ var Target = {
     },
 
     get_display: func(){
-        return me.Display.getValue();
+        #print("Get display : " ~ me.get_Callsign() ~ " Paiting : " ~ me.ispainted ~" and Display : " ~ me.Display);
+        return me.Display;
     },
 
     set_display: func(n,writeTree = nil){
+        me.Display = n;
         if(writeTree == nil or writeTree==1){
-          me.Display.setBoolValue(n);
-        }else{
-          me.Display = n;
+          me.Display_Node.setBoolValue(n);
         }
         me.objectDisplay = n;
     },
@@ -650,6 +709,7 @@ var Target = {
     },
 
     get_type: func(){
+        #print("Type:"~me.type);
         return me.type;
     },
 
@@ -658,11 +718,33 @@ var Target = {
     },
 
     getUnique: func () {
-        return rand();
+      #var myIndex = me.getIndex();
+      return me.fname~me.ID;
+        #return me.get_type()~me.fname~me.ID;
     },
 
     isValid: func() {
         return me.Valid.getValue();
+    },
+    
+    isRadiating: func (coord) {
+      me.rn = me.get_range();
+      if (me.get_model() != "buk-m2" and me.get_model() != "missile_frigate" or me.get_type()== armament.MARINE) {
+          me.bearingR = coord.course_to(me.get_Coord());
+          me.headingR = me.get_heading();
+          me.inv_bearingR =  me.bearingR+180;
+          me.deviationRd = me.inv_bearingR - me.headingR;
+      } else {
+          me.deviationRd = 0;
+      }
+      me.rdrAct = me.propNode.getNode("sim/multiplay/generic/int[2]");
+      if (me.rn < 70 and ((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviationRd)) < 60) {
+          # our radar is active and pointed at coord.
+          #print("Is Radiating");
+          return 1;
+      }
+      return 0;
+      print("Is Not Radiating");
     },
 
     getElevation: func () {
@@ -683,9 +765,15 @@ var Target = {
     },
 
     isPainted: func() {
-        if(me.Display == 0){me.setPainted(0);}
-        #print("Paiting : " ~ me.ispainted);
+        #if(me.Display == 0){me.setPainted(0);}
+        #print(me.get_Callsign() ~ "Paiting : " ~ me.ispainted);
         return me.ispainted;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
+    },
+    isLaserPainted: func() {
+        return me.ispainted; 
+    },
+    isVirtual: func(){
+      if(me.get_Callsign() == "GROUND_TARGET"){return 1;}else{return 0;}
     },
 
     get_model: func {

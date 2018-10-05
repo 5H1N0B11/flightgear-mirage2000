@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+  
+  
+  <model>
+  <name>scalp-100</name>
+    <path>Aircraft/Mirage-2000/Missiles/SCALP/SCALP.xml</path>
+  </model>
+  
+  <animation>
+    <type>select</type>
+    <object-name>scalp-100</object-name>
+    <condition>
+      <property>payload/armament/scalp/flags/msl-id-300</property>
+    </condition>
+  </animation>
+  
+  
+  
+
+  <!-- 
+pour les tests :
+- /scalp-pos-norm defini dans m2000-5B-set.xml
+- clic sur ailes pour deplier/replier les ailes
+
+TODO:
+- deplacer la propriete /scalp-pos-norm
+- animer le deploiement sur un evenement donne
+
+5H1N0B1 : 
+Utiliser la variable qui déclenche la smoke et trouver la bonne interpolation.
+-->
+
+  <animation>
+    <type>rotate</type>
+    <object-name>scalp.wingL</object-name>
+    <property>payload/armament/scalp/flags/deploy-id-300</property>
+    <factor>-75</factor>
+    <center>
+      <x-m>.19</x-m>
+      <y-m>-.2</y-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>scalp.wingR</object-name>
+    <property>payload/armament/scalp/flags/deploy-id-300</property>
+    <factor>75</factor>
+    <center>
+      <x-m>.19</x-m>
+      <y-m>.2</y-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>scalp.wingR</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>interpolate("payload/armament/scalp/flags/deploy-id-300", 1, 0.25);</script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>scalp.wingL</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>interpolate("payload/armament/scalp/flags/deploy-id-300", 0, 0.25);</script>
+      </binding>
+    </action>
+  </animation>
+  
+  
+  
+  
+  <particlesystem>
+		   <name>explosion</name>
+		   <texture>../smoke.png</texture>
+
+		   <emissive type="bool">true</emissive>
+		   <lighting type="bool">false</lighting>
+
+		   <condition>
+		         <property>payload/armament/scalp/flags/explode-id-300</property>
+		   </condition>
+
+		   <attach>world</attach>
+
+		   <placer>
+		     <type>point</type> 
+		   </placer>
+
+		   <shooter>
+		     <theta-min-deg>-180</theta-min-deg>
+		     <theta-max-deg>180</theta-max-deg>
+		     <phi-min-deg>-180</phi-min-deg>
+		     <phi-max-deg>180</phi-max-deg>
+		     <speed-mps>
+		       <value>500</value>
+		       <spread>80</spread>
+		     </speed-mps>
+		     <rotation-speed>
+		       <x-min-deg-sec>0</x-min-deg-sec>
+		       <y-min-deg-sec>0</y-min-deg-sec>
+		       <z-min-deg-sec>0</z-min-deg-sec>
+		       <x-max-deg-sec>0</x-max-deg-sec>
+		       <y-max-deg-sec>0</y-max-deg-sec>
+		       <z-max-deg-sec>0</z-max-deg-sec>
+		     </rotation-speed>
+		   </shooter>
+
+		   <counter>
+		     <particles-per-sec>
+		       <value>30</value>
+		       <spread>10</spread>
+		     </particles-per-sec>
+		   </counter>
+		      
+		   <align>billboard</align>
+
+		   <particle>
+		     <start>
+		       <color>
+		         <red><value>   1.0 </value></red>
+		         <green><value> 1.0 </value></green>
+		         <blue><value>  0.4 </value></blue>
+		         <alpha><value> 1 </value></alpha>
+		       </color>
+		       <size>
+		         <value>4</value>
+		       </size>
+		     </start>
+
+		     <end>
+		       <color>
+		         <red><value>   0.8 </value></red>
+		         <green><value> 0.5 </value></green>
+		         <blue><value>  0.2 </value></blue>
+		         <alpha><value> 0.1 </value></alpha>
+		       </color>
+		       <size>
+		         <value>200</value>
+		       </size>
+		     </end>
+
+		     <life-sec>
+		       <value>0.5</value>
+		     </life-sec>
+		        
+		     <mass-kg>  5 </mass-kg>
+		     <radius-m> 0.5 </radius-m>
+		   </particle>
+
+		   <program>
+		     <fluid>               air  </fluid>
+		     <gravity type="bool"> true </gravity>
+		     <wind typ="bool">     true </wind>
+		   </program>
+
+		 </particlesystem>
+
+		<particlesystem>
+		   <name>explosion-smoke</name>
+		   <texture>../smoke.png</texture>
+
+		   <emissive type="bool">false</emissive>
+		   <lighting type="bool">false</lighting>
+
+		   <condition>
+		         <property>payload/armament/scalp/flags/explode-smoke-id-300</property>
+		   </condition>
+
+		   <attach>world</attach>
+
+		   <placer>
+		     <type>point</type> 
+		   </placer>
+
+		   <shooter>
+		     <theta-min-deg>-180</theta-min-deg>
+		     <theta-max-deg>180</theta-max-deg>
+		     <phi-min-deg>-180</phi-min-deg>
+		     <phi-max-deg>180</phi-max-deg>
+		     <speed-mps>
+		       <value>500</value>
+		       <spread>60</spread>
+		     </speed-mps>
+		     <rotation-speed>
+		       <x-min-deg-sec>0</x-min-deg-sec>
+		       <y-min-deg-sec>0</y-min-deg-sec>
+		       <z-min-deg-sec>0</z-min-deg-sec>
+		       <x-max-deg-sec>0</x-max-deg-sec>
+		       <y-max-deg-sec>0</y-max-deg-sec>
+		       <z-max-deg-sec>0</z-max-deg-sec>
+		     </rotation-speed>
+		   </shooter>
+
+		   <counter>
+		     <particles-per-sec>
+		       <value>50</value>
+		       <spread>10</spread>
+		     </particles-per-sec>
+		   </counter>
+		      
+		   <align>billboard</align>
+
+		   <particle>
+		     <start>
+		       <color>
+		         <red><value>   0.3 </value></red>
+		         <green><value> 0.3 </value></green>
+		         <blue><value>  0.25 </value></blue>
+		         <alpha><value> 0.5 </value></alpha>
+		       </color>
+		       <size>
+		         <value>20</value>
+		       </size>
+		     </start>
+
+		     <end>
+		       <color>
+		         <red><value>   0.4 </value></red>
+		         <green><value> 0.4 </value></green>
+		         <blue><value>  0.4 </value></blue>
+		         <alpha><value> 0.04 </value></alpha>
+		       </color>
+		       <size>
+		         <value>240</value>
+		       </size>
+		     </end>
+
+		     <life-sec>
+		       <value>40</value>
+		     </life-sec>
+		        
+		     <mass-kg>  5 </mass-kg>
+		     <radius-m> 0.5 </radius-m>
+		   </particle>
+
+		   <program>
+		     <fluid>               air  </fluid>
+		     <gravity type="bool"> true </gravity>
+		     <wind typ="bool">     true </wind>
+		   </program>
+
+		 </particlesystem>
+  
+</PropertyList>

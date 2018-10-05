@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+    
+  <model>
+    <name>mica-ir-100</name>
+    <path>Aircraft/Mirage-2000/Missiles/MICA-IR/MicaIR.xml</path>
+  </model>
+    
+  <animation>
+    <object-name>mica-ir-100</object-name>
+    <enable-hot type="bool">false</enable-hot>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>mica-ir-100</object-name>
+    <condition>
+        <property>payload/armament/mica-ir/flags/msl-id-100</property>
+    </condition>
+  </animation>
+  
+  
+  <model>
+    <name>Smoke_mica-ir-100</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/smoke.xml</path>
+    <offsets>
+      <x-m>3</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>Smoke_mica-ir-100</object-name>
+    <condition>
+        <property>payload/armament/mica-ir/flags/smoke-id-100</property>
+    </condition>
+  </animation>
+  
+  <model>
+    <name>explosionFire_mica-ir-100</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionFire.xml</path>
+  </model>
+  <model>
+    <name>explosionSmoke_mica-ir-100</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionSmoke.xml</path>
+  </model>
+  
+    <animation>
+    <type>select</type>
+    <object-name>explosionFire_mica-ir-100</object-name>
+    <object-name>explosionSmoke_mica-ir-100</object-name>
+    <condition>
+        <property>payload/armament/mica-ir/flags/explode-id-100</property>
+    </condition>
+  </animation>
+  
+
+</PropertyList>

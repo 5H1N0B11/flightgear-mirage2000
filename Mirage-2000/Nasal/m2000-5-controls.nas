@@ -41,14 +41,14 @@ var applyBrakes = func(v, which = 0)
 }
 
 # Trigger
-var trigger = func(b)
-{
-    setprop("/controls/armament/trigger", b);
-    if(getprop ("/gear/gear[2]/position-norm") == 0)
-    {
-        guns.fire_MG(b);
-    }
-}
+# var trigger = func(b)
+# {
+#     setprop("/controls/armament/trigger", b);
+#     if(getprop ("/gear/gear[2]/position-norm") == 0)
+#     {
+#         guns.fire_MG(b);
+#     }
+# }
 
 
 ##

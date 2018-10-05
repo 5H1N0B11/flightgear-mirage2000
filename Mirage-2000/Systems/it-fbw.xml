@@ -1,0 +1,1092 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Mirage 2000 (YASim) FBW -->
+<!-- Copyright (c) 2018 Joshua Davidson (it0uchpods) -->
+
+<PropertyList>
+	
+	<!-- FBW Shared -->
+	<logic>
+		<input>
+			<and>
+				<equals>
+					<property>/gear/gear[1]/wow</property>
+					<value>0</value>
+				</equals>
+				<equals>
+					<property>/gear/gear[2]/wow</property>
+					<value>0</value>
+				</equals>
+				<equals>
+					<property>/controls/SAS/activated</property>
+					<value>1</value>
+				</equals>
+				<greater-than-equals>
+					<property>/systems/hydraulical/circuit1_press</property>
+					<value>190</value>
+				</greater-than-equals>
+			</and>
+		</input>
+		<output>/it-fbw/internal/flight-mode</output>
+	</logic>
+	
+	<logic>
+		<input>
+			<and>
+				<or>
+					<equals>
+						<property>/gear/gear[1]/wow</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/gear/gear[2]/wow</property>
+						<value>1</value>
+					</equals>
+				</or>
+				<equals>
+					<property>/controls/SAS/activated</property>
+					<value>1</value>
+				</equals>
+				<greater-than-equals>
+					<property>/systems/hydraulical/circuit1_press</property>
+					<value>190</value>
+				</greater-than-equals>
+			</and>
+		</input>
+		<output>/it-fbw/internal/ground-mode</output>
+	</logic>
+	
+	<!-- FBW Roll Axis -->
+	<filter>
+		<name>Aileron Nul</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input> <!-- Lock the controls if ejected -->
+			<condition>
+				<equals>
+					<property>instrumentation/ejection/done</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<input>0</input>
+		</input>
+		<input>
+			<expression>
+				<table>
+					<property>/controls/flight/aileron</property> 
+					<entry><ind>-1.00</ind><dep>-1.0</dep></entry>
+					<entry><ind>-0.02</ind><dep> 0.0</dep></entry>
+					<entry><ind> 0.00</ind><dep> 0.0</dep></entry>
+					<entry><ind> 0.02</ind><dep> 0.0</dep></entry>
+					<entry><ind> 1.00</ind><dep> 1.0</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>/controls/flight/aileron-nul</output>
+	</filter>
+	
+	<filter>
+		<name>Target Roll Rate Lag</name>
+		<debug>false</debug>
+		<type>exponential</type>
+		<input>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/AP-status</property>
+					<value>AP1</value>
+				</equals>
+			</condition>
+			<property>/it-fbw/ap/target-roll-rate</property>
+		</input>
+		<input>
+			<condition>
+				<equals>
+					<property>controls/SAS/cat</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<expression>
+				<product>
+					<table>
+						<product>
+							<property>/controls/flight/aileron-nul</property>
+							<table>
+								<abs><property>/controls/flight/aileron-nul</property></abs>
+								<entry><ind>0</ind><dep> 0</dep></entry>
+								<entry><ind>1</ind><dep>20</dep></entry>
+							</table>
+						</product>
+						<entry><ind>-20</ind><dep>-150</dep></entry>
+						<entry><ind>  0</ind><dep>   0</dep></entry>
+						<entry><ind> 20</ind><dep> 150</dep></entry>
+					</table>
+					<table>
+						<property>/orientation/alpha-deg</property>
+						<entry><ind>2</ind><dep>1.00000</dep></entry>
+						<entry><ind>5</ind><dep>0.56666</dep></entry>
+					</table>
+				</product>
+			</expression>
+		</input>
+		<input>
+			<expression>
+				<table>
+					<product>
+						<property>/controls/flight/aileron-nul</property>
+						<table>
+							<abs><property>/controls/flight/aileron-nul</property></abs>
+							<entry><ind>0</ind><dep> 0</dep></entry>
+							<entry><ind>1</ind><dep>20</dep></entry>
+						</table>
+					</product>
+					<entry><ind>-20</ind><dep>-270</dep></entry>
+					<entry><ind>  0</ind><dep>   0</dep></entry>
+					<entry><ind> 20</ind><dep> 270</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>/it-fbw/roll/target-rate-lag</output>
+		<filter-time>0.16</filter-time>
+	</filter>
+	
+	<pi-simple-controller>
+		<name>IT-CONTROLLER: ROLL RATE PI</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/it-fbw/internal/flight-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>/it-fbw/roll/target-rate-lag</input>
+		<reference>/orientation/roll-rate-degps</reference>
+		<output>/it-fbw/roll/rate-control</output>
+		<config>
+			<Kp>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>-0.20</dep></entry>
+						<entry><ind>0.3</ind><dep>-0.10</dep></entry>
+						<entry><ind>0.5</ind><dep>-0.05</dep></entry>
+						<entry><ind>1.0</ind><dep>-0.04</dep></entry>
+						<entry><ind>2.0</ind><dep>-0.03</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ki>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>-0.100</dep></entry>
+						<entry><ind>0.3</ind><dep>-0.050</dep></entry>
+						<entry><ind>0.5</ind><dep>-0.020</dep></entry>
+						<entry><ind>1.0</ind><dep>-0.010</dep></entry>
+						<entry><ind>2.0</ind><dep>-0.007</dep></entry>
+					</table>
+				</expression>
+			</Ki>
+			<!--Kp>/it-fbw/tune/kp</Kp>
+			<Ki>/it-fbw/tune/ki</Ki-->
+			<min>-0.64</min>
+			<max>0.64</max>
+		</config>
+	</pi-simple-controller>
+	
+	<filter>
+		<name>IT-CONTROLLER: ROLL RATE DAMP</name>
+		<type>derivative</type>
+		<input>/orientation/roll-rate-degps</input>
+		<reference>/it-fbw/roll/target-rate-lag</reference>
+		<output>/it-fbw/roll/rate-damp</output>
+		<filter-time>
+			<expression>
+				<table>
+					<property>/velocities/mach</property> 
+					<entry><ind>0.2</ind><dep>-0.0200</dep></entry>
+					<entry><ind>0.3</ind><dep>-0.0100</dep></entry>
+					<entry><ind>0.5</ind><dep>-0.0050</dep></entry>
+					<entry><ind>1.0</ind><dep>-0.0002</dep></entry>
+					<entry><ind>2.0</ind><dep>-0.0001</dep></entry>
+				</table>
+			</expression>
+		</filter-time>
+		<!--filter-time>/it-fbw/tune/kd</filter-time-->
+		<min>-0.64</min>
+		<max>0.64</max>
+	</filter>
+	
+	<!-- FBW Pitch Axis -->
+	<filter>
+		<name>Alpha Modified</name>
+		<type>exponential</type>
+		<input>
+			<condition>
+				<less-than>
+					<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+					<value>100</value>
+				</less-than>
+			</condition>
+			<expression>
+				<sum>
+					<property>/orientation/alpha-deg</property>
+					<value>2</value>
+				</sum>
+			</expression>
+		</input>
+		<input>/orientation/alpha-deg</input>
+		<output>/it-fbw/pitch/alpha-modified</output>
+		<filter-time>0.04</filter-time>
+	</filter>
+	
+	<filter>
+		<name>Elevator Nul</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input> <!-- Lock the controls if ejected -->
+			<condition>
+				<equals>
+					<property>instrumentation/ejection/done</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<input>0</input>
+		</input>
+		<input>
+			<expression>
+				<sum>
+					<table>
+						<property>/controls/flight/elevator</property> 
+						<entry><ind>-1.00</ind><dep>-1.0</dep></entry>
+						<entry><ind>-0.02</ind><dep> 0.0</dep></entry>
+						<entry><ind> 0.00</ind><dep> 0.0</dep></entry>
+						<entry><ind> 0.02</ind><dep> 0.0</dep></entry>
+						<entry><ind> 1.00</ind><dep> 1.0</dep></entry>
+					</table>
+					<table>
+						<property>/it-fbw/pitch/alpha-modified</property> 
+						<entry><ind>26</ind><dep>0.0</dep></entry>
+						<entry><ind>28</ind><dep>0.5</dep></entry>
+						<entry><ind>30</ind><dep>1.0</dep></entry>
+					</table>
+				</sum>
+			</expression>
+		</input>
+		<output>/controls/flight/elevator-nul</output>
+		<min>
+			<expression>
+				<table>
+					<property>/it-fbw/pitch/alpha-modified</property> 
+					<entry><ind>22</ind><dep>-1.00</dep></entry>
+					<entry><ind>25</ind><dep>-0.85</dep></entry>
+					<entry><ind>29</ind><dep> 0.00</dep></entry>
+				</table>
+			</expression>
+		</min>
+		<max>1.0</max>
+	</filter>
+	
+	<filter>
+		<name>Target G</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<equals>
+					<property>controls/SAS/cat</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<expression>
+				<table>
+					<property>/controls/flight/elevator-nul</property> 
+					<entry><ind>-1.000</ind><dep> 7.5</dep></entry>
+					<entry><ind>-0.900</ind><dep> 5.5</dep></entry> <!-- A slight null zone for the elastic stop -->
+					<entry><ind>-0.850</ind><dep> 5.5</dep></entry>
+					<entry><ind> 0.000</ind><dep> 1.0</dep></entry>
+					<entry><ind> 1.000</ind><dep>-3.5</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<input>
+			<expression>
+				<table>
+					<property>/controls/flight/elevator-nul</property> 
+					<entry><ind>-1.000</ind><dep>10.5</dep></entry>
+					<entry><ind>-0.900</ind><dep> 8.5</dep></entry> <!-- A slight null zone for the elastic stop -->
+					<entry><ind>-0.850</ind><dep> 8.5</dep></entry>
+					<entry><ind> 0.000</ind><dep> 1.0</dep></entry>
+					<entry><ind> 1.000</ind><dep>-3.5</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>/it-fbw/pitch/target-g-cmd</output>
+		<min>-3.5</min>
+		<max>
+			<condition>
+				<equals>
+					<property>controls/SAS/cat</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>7.5</value>
+		</max>
+		<max>10.5</max>
+	</filter>
+	
+	<filter>
+		<name>Target G Lag</name>
+		<debug>false</debug>
+		<type>exponential</type>
+		<input>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/AP-status</property>
+					<value>AP1</value>
+				</equals>
+			</condition>
+			<property>/it-fbw/ap/target-g-accel</property>
+		</input>
+		<input>
+			<expression> <!-- Reduces stick sensitivity at low speeds -->
+				<sum>
+					<product>
+						<difference>
+							<property>/it-fbw/pitch/target-g-cmd</property>
+							<value>1.0</value>
+						</difference>
+						<table>
+							<property>/velocities/mach</property> 
+							<entry><ind>0.2</ind><dep>0.25</dep></entry>
+							<entry><ind>0.3</ind><dep>0.50</dep></entry>
+							<entry><ind>0.5</ind><dep>1.00</dep></entry>
+						</table>
+					</product>
+					<value>1.0</value>
+				</sum>
+			</expression>
+		</input>
+		<output>/it-fbw/pitch/target-g-lag</output>
+		<filter-time>0.24</filter-time>
+	</filter>
+	
+	<pi-simple-controller>
+		<name>IT-CONTROLLER: G PI</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/it-fbw/internal/flight-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>/it-fbw/pitch/target-g-lag</input>
+		<reference>/accelerations/pilot-g</reference>
+		<output>/it-fbw/pitch/g-control</output>
+		<config>
+			<Kp>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>-0.20</dep></entry>
+						<entry><ind>0.3</ind><dep>-0.17</dep></entry>
+						<entry><ind>0.5</ind><dep>-0.13</dep></entry>
+						<entry><ind>1.0</ind><dep>-0.09</dep></entry>
+						<entry><ind>2.0</ind><dep>-0.05</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ki>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>-0.29</dep></entry>
+						<entry><ind>0.3</ind><dep>-0.26</dep></entry>
+						<entry><ind>0.5</ind><dep>-0.18</dep></entry>
+						<entry><ind>1.0</ind><dep>-0.15</dep></entry>
+						<entry><ind>2.0</ind><dep>-0.08</dep></entry>
+					</table>
+				</expression>
+			</Ki>
+			<!--Kp>/it-fbw/tune/kp</Kp>
+			<Ki>/it-fbw/tune/ki</Ki-->
+			<min>-1.0</min>
+			<max>1.0</max>
+		</config>
+	</pi-simple-controller>
+	
+	<filter>
+		<name>IT-CONTROLLER: G GROUND</name>
+		<type>gain</type>
+		<enable>
+			<condition>
+				<not-equals>
+					<property>/it-fbw/internal/flight-mode</property>
+					<value>1</value>
+				</not-equals>
+			</condition>
+		</enable>
+		<gain>-0.1</gain>
+		<input>/accelerations/pilot-g</input>
+		<reference>/it-fbw/pitch/target-g-lag</reference>
+		<output>/it-fbw/pitch/g-control</output>
+		<min>-1.0</min>
+		<max>1.0</max>
+	</filter>
+	
+	<filter>
+		<name>IT-CONTROLLER: Q CONTROL</name>
+		<type>gain</type>
+		<gain>
+			<expression>
+				<table>
+					<property>/velocities/mach</property> 
+					<entry><ind>0.2</ind><dep>11.0</dep></entry>
+					<entry><ind>0.3</ind><dep> 8.0</dep></entry>
+					<entry><ind>0.5</ind><dep> 5.0</dep></entry>
+					<entry><ind>1.0</ind><dep> 0.9</dep></entry>
+					<entry><ind>2.0</ind><dep> 0.4</dep></entry>
+				</table>
+			</expression>
+		</gain>
+		<!--gain>/gain</gain-->
+		<input>
+			<property>/fdm/yasim/velocities/vrot-y</property>
+			<scale>-1.0</scale> <!-- YASim has this inverted -->
+		</input>
+		<reference>
+			<expression>
+				<product>
+					<property>/it-fbw/pitch/g-control</property>
+					<value>0.523599</value>
+					<!-- For tuning/testing only -->
+					<!--property>/controls/flight/elevator-nul</property>
+					<value>-0.523599</value-->
+				</product>
+			</expression>
+		</reference>
+		<output>/it-fbw/pitch/q-control</output>
+		<min>-1.0</min>
+		<max>0.64</max>
+	</filter>
+	
+	<!-- FBW Yaw Axis -->
+	<filter>
+		<name>IT-CONTROLLER: YAW DAMP</name>
+		<type>gain</type>
+		<gain>
+			<expression>
+				<table>
+					<property>/velocities/mach</property> 
+					<entry><ind>0.2</ind><dep>-0.20</dep></entry>
+					<entry><ind>0.3</ind><dep>-0.10</dep></entry>
+					<entry><ind>0.5</ind><dep>-0.04</dep></entry>
+					<entry><ind>1.0</ind><dep>-0.03</dep></entry>
+					<entry><ind>2.0</ind><dep>-0.02</dep></entry>
+				</table>
+			</expression>
+		</gain>
+		<input>/orientation/yaw-rate-degps</input>
+		<output>/it-fbw/yaw/yaw-damp</output>
+		<min>-0.3</min>
+		<max>0.3</max>
+	</filter>
+	
+	<filter>
+		<name>Rudder Nul</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input> <!-- Lock the controls if ejected -->
+			<condition>
+				<equals>
+					<property>instrumentation/ejection/done</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<input>0</input>
+		</input>
+		<input>
+			<expression>
+				<table>
+					<property>/controls/flight/rudder</property> 
+					<entry><ind>-1.00</ind><dep>-1.0</dep></entry>
+					<entry><ind>-0.02</ind><dep> 0.0</dep></entry>
+					<entry><ind> 0.00</ind><dep> 0.0</dep></entry>
+					<entry><ind> 0.02</ind><dep> 0.0</dep></entry>
+					<entry><ind> 1.00</ind><dep> 1.0</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>/controls/flight/rudder-nul</output>
+	</filter>
+	
+	<filter>
+		<name>Target Beta Lag</name>
+		<debug>false</debug>
+		<type>exponential</type>
+		<input>
+			<condition>
+				<not-equals>
+					<property>/gear/gear[0]/position-norm</property>
+					<value>1</value>
+				</not-equals>
+			</condition>
+			<expression>
+				<table>
+					<property>/controls/flight/rudder-nul</property>
+					<entry><ind>-1</ind><dep> 0.174533</dep></entry>
+					<entry><ind> 0</ind><dep> 0.000000</dep></entry>
+					<entry><ind> 1</ind><dep>-0.174533</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<input>
+			<expression>
+				<table>
+					<property>/controls/flight/rudder-nul</property>
+					<entry><ind>-1</ind><dep> 0.244346</dep></entry>
+					<entry><ind> 0</ind><dep> 0.000000</dep></entry>
+					<entry><ind> 1</ind><dep>-0.244346</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>/it-fbw/yaw/target-beta-lag</output>
+		<filter-time>0.16</filter-time>
+	</filter>
+	
+	<pi-simple-controller>
+		<name>IT-CONTROLLER: BETA PI</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/it-fbw/internal/flight-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>/it-fbw/yaw/target-beta-lag</input>
+		<reference>/orientation/side-slip-rad</reference>
+		<output>/it-fbw/yaw/beta-control</output>
+		<config>
+			<Kp>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>23</dep></entry>
+						<entry><ind>0.3</ind><dep>19</dep></entry>
+						<entry><ind>0.5</ind><dep>13</dep></entry>
+						<entry><ind>1.0</ind><dep> 7</dep></entry>
+						<entry><ind>2.0</ind><dep> 4</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ki>
+				<expression>
+					<table>
+						<property>/velocities/mach</property> 
+						<entry><ind>0.2</ind><dep>7</dep></entry>
+						<entry><ind>0.3</ind><dep>6</dep></entry>
+						<entry><ind>0.5</ind><dep>3</dep></entry>
+						<entry><ind>1.0</ind><dep>2</dep></entry>
+						<entry><ind>2.0</ind><dep>1</dep></entry>
+					</table>
+				</expression>
+			</Ki>
+			<!--Kp>/it-fbw/tune/kp</Kp>
+			<Ki>/it-fbw/tune/ki</Ki-->
+			<min>-0.5</min>
+			<max>0.5</max>
+		</config>
+	</pi-simple-controller>
+	
+	<filter>
+		<name>IT-CONTROLLER: BETA DAMP</name>
+		<type>derivative</type>
+		<input>/orientation/side-slip-rad</input>
+		<reference>0</reference>
+		<output>/it-fbw/yaw/beta-damp</output>
+		<filter-time>
+			<expression>
+				<table>
+					<property>/velocities/mach</property> 
+					<entry><ind>0.2</ind><dep>8.0</dep></entry>
+					<entry><ind>0.3</ind><dep>7.0</dep></entry>
+					<entry><ind>0.5</ind><dep>4.0</dep></entry>
+					<entry><ind>1.0</ind><dep>2.0</dep></entry>
+					<entry><ind>2.0</ind><dep>1.0</dep></entry>
+				</table>
+			</expression>
+		</filter-time>
+		<!--filter-time>/it-fbw/tune/kd</filter-time-->
+		<min>-0.5</min>
+		<max>0.5</max>
+	</filter>
+	
+	<filter>
+		<name>Yaw CMD Sum</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<sum>
+					<property>/it-fbw/yaw/yaw-damp</property>
+					<property>/it-fbw/yaw/beta-control</property>
+					<property>/it-fbw/yaw/beta-damp</property>
+				</sum>
+			</expression>
+		</input>
+		<output>/it-fbw/yaw/cmd-sum</output>
+		<min> <!-- Prevent using rudder to stall aircraft -->
+			<expression>
+				<sum>
+					<value>-1</value>
+					<product>
+						<table>
+							<property>/it-fbw/pitch/alpha-modified</property> 
+							<entry><ind>21</ind><dep>0.0</dep></entry>
+							<entry><ind>27</ind><dep>1.0</dep></entry>
+						</table>
+						<table>
+							<property>/orientation/roll-deg</property> 
+							<entry><ind> 0</ind><dep>0.0</dep></entry>
+							<entry><ind>10</ind><dep>1.0</dep></entry>
+						</table>
+					</product>
+				</sum>
+			</expression>
+		</min>
+		<max> <!-- Prevent using rudder to stall aircraft -->
+			<expression>
+				<difference>
+					<value>1</value>
+					<product>
+						<table>
+							<property>/it-fbw/pitch/alpha-modified</property> 
+							<entry><ind>21</ind><dep>0.0</dep></entry>
+							<entry><ind>27</ind><dep>1.0</dep></entry>
+						</table>
+						<table>
+							<property>/orientation/roll-deg</property> 
+							<entry><ind> 0</ind><dep>0.0</dep></entry>
+							<entry><ind>10</ind><dep>1.0</dep></entry>
+						</table>
+					</product>
+				</difference>
+			</expression>
+		</max>
+	</filter>
+	
+	<!-- FBW Outputs -->
+	<filter>
+		<name>Roll Gain</name>
+		<type>gain</type>
+		<gain>25.0</gain>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-fbw/internal/flight-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<expression>
+				<sum>
+					<property>/it-fbw/roll/rate-control</property>
+					<property>/it-fbw/roll/rate-damp</property>
+				</sum>
+			</expression>
+		</input>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-fbw/internal/ground-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<expression>
+				<product>
+					<difference>
+						<property>/it-fbw/roll/target-rate-lag</property>
+						<property>/orientation/roll-rate-degps</property>
+					</difference>
+					<value>0.0025</value> <!-- Ground gain -->
+				</product>
+			</expression>
+		</input>
+		<input>/controls/flight/aileron-nul</input>
+		<output>/it-fbw/internal/roll-pos-deg</output>
+		<min>-25.0</min>
+		<max>25.0</max>
+	</filter>
+	
+	<filter>
+		<name>Pitch Gain</name>
+		<type>gain</type>
+		<gain>25.0</gain>
+		<input>
+			<condition>
+				<or>
+					<equals>
+						<property>/it-fbw/internal/flight-mode</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/it-fbw/internal/ground-mode</property>
+						<value>1</value>
+					</equals>
+				</or>
+			</condition>
+			<property>/it-fbw/pitch/q-control</property>
+		</input>
+		<input>/controls/flight/elevator-nul</input>
+		<output>/it-fbw/internal/pitch-pos-deg</output>
+		<min>-25.0</min>
+		<max>16.0</max>
+	</filter>
+	
+	<filter> <!-- This is just a crude "hack" to fake unstable aircraft in YASim -->
+		<name>YASim Mach Trim</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<table>
+					<property>/velocities/mach</property> 
+					<entry><ind>0.2</ind><dep>-0.2</dep></entry>
+					<entry><ind>0.5</ind><dep>-0.1</dep></entry>
+					<entry><ind>1.0</ind><dep> 0.0</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>/controls/flight/elevator-trim</output>
+	</filter>
+	
+	<!-- Elevons -->
+	<filter>
+		<name>Elevon 1L</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<less-than>
+					<property>/systems/hydraulical/circuit1_press</property>
+					<value>190</value>
+				</less-than>
+			</condition>
+			<expression>
+				<table>
+					<property>/velocities/airspeed-kt</property> 
+					<entry><ind>62</ind><dep>16</dep></entry>
+					<entry><ind>77</ind><dep> 0</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<input>
+			<expression>
+				<sum>
+					<property>/it-fbw/internal/roll-pos-deg</property>
+					<property>/it-fbw/internal/pitch-pos-deg</property>
+				</sum>
+			</expression>
+		</input>
+		<output>/it-fbw/internal/elevon-1L-cmd</output>
+		<min>-25.0</min>
+		<max>16.0</max>
+	</filter>
+	
+	<filter>
+		<name>Elevon 1L Final</name>
+		<debug>false</debug>
+		<type>exponential</type>
+		<input>/it-fbw/internal/elevon-1L-cmd</input>
+		<output>/it-fbw/internal/elevon-1L</output>
+		<filter-time>0.04</filter-time>
+	</filter>
+	
+	<filter>
+		<name>Elevon 2L</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<less-than>
+					<property>/systems/hydraulical/circuit1_press</property>
+					<value>190</value>
+				</less-than>
+			</condition>
+			<expression>
+				<table>
+					<property>/velocities/airspeed-kt</property> 
+					<entry><ind>62</ind><dep>16</dep></entry>
+					<entry><ind>77</ind><dep> 0</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<input>
+			<expression>
+				<sum>
+					<property>/it-fbw/internal/roll-pos-deg</property>
+					<property>/it-fbw/internal/pitch-pos-deg</property>
+				</sum>
+			</expression>
+		</input>
+		<output>/it-fbw/internal/elevon-2L-cmd</output>
+		<min>-25.0</min>
+		<max>16.0</max>
+	</filter>
+	
+	<filter>
+		<name>Elevon 2L Final</name>
+		<debug>false</debug>
+		<type>exponential</type>
+		<input>/it-fbw/internal/elevon-2L-cmd</input>
+		<output>/it-fbw/internal/elevon-2L</output>
+		<filter-time>0.04</filter-time>
+	</filter>
+	
+	<filter>
+		<name>Elevon 2R</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<less-than>
+					<property>/systems/hydraulical/circuit1_press</property>
+					<value>190</value>
+				</less-than>
+			</condition>
+			<expression>
+				<table>
+					<property>/velocities/airspeed-kt</property> 
+					<entry><ind>62</ind><dep>16</dep></entry>
+					<entry><ind>77</ind><dep> 0</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<input>
+			<expression>
+				<sum>
+					<product>
+						<property>/it-fbw/internal/roll-pos-deg</property>
+						<value>-1</value>
+					</product>
+					<property>/it-fbw/internal/pitch-pos-deg</property>
+				</sum>
+			</expression>
+		</input>
+		<output>/it-fbw/internal/elevon-2R-cmd</output>
+		<min>-25.0</min>
+		<max>16.0</max>
+	</filter>
+	
+	<filter>
+		<name>Elevon 2R Final</name>
+		<debug>false</debug>
+		<type>exponential</type>
+		<input>/it-fbw/internal/elevon-2R-cmd</input>
+		<output>/it-fbw/internal/elevon-2R</output>
+		<filter-time>0.04</filter-time>
+	</filter>
+	
+	<filter>
+		<name>Elevon 1R</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<less-than>
+					<property>/systems/hydraulical/circuit1_press</property>
+					<value>190</value>
+				</less-than>
+			</condition>
+			<expression>
+				<table>
+					<property>/velocities/airspeed-kt</property> 
+					<entry><ind>62</ind><dep>16</dep></entry>
+					<entry><ind>77</ind><dep> 0</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<input>
+			<expression>
+				<sum>
+					<product>
+						<property>/it-fbw/internal/roll-pos-deg</property>
+						<value>-1</value>
+					</product>
+					<property>/it-fbw/internal/pitch-pos-deg</property>
+				</sum>
+			</expression>
+		</input>
+		<output>/it-fbw/internal/elevon-1R-cmd</output>
+		<min>-25.0</min>
+		<max>16.0</max>
+	</filter>
+	
+	<filter>
+		<name>Elevon 1R Final</name>
+		<debug>false</debug>
+		<type>exponential</type>
+		<input>/it-fbw/internal/elevon-1R-cmd</input>
+		<output>/it-fbw/internal/elevon-1R</output>
+		<filter-time>0.04</filter-time>
+	</filter>
+	
+	<filter>
+		<name>Elevon Roll Total</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<product>
+					<sum> <!-- Total of -82 to 82 degrees -->
+						<property>/it-fbw/internal/elevon-1L</property>
+						<property>/it-fbw/internal/elevon-2L</property>
+						<product>
+							<property>/it-fbw/internal/elevon-2R</property>
+							<value>-1.0</value>
+						</product>
+						<product>
+							<property>/it-fbw/internal/elevon-1R</property>
+							<value>-1.0</value>
+						</product>
+					</sum>
+					<value>0.01219512195121951219512195121951</value> <!-- Normalize it to -1 to 1 for YASim --> <!-- 1/82 -->
+				</product>
+			</expression>
+		</input>
+		<output>/it-fbw/output/roll</output>
+		<min>-1.0</min>
+		<max>1.0</max>
+	</filter>
+	
+	<filter>
+		<name>Elevon Pitch Total</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<product>
+					<sum> <!-- Total of -100 to 64 degrees -->
+						<property>/it-fbw/internal/elevon-1L</property>
+						<property>/it-fbw/internal/elevon-2L</property>
+						<property>/it-fbw/internal/elevon-2R</property>
+						<property>/it-fbw/internal/elevon-1R</property>
+					</sum>
+					<value>0.01</value> <!-- Normalize it to -1 to 0.64 for YASim -->
+				</product>
+			</expression>
+		</input>
+		<output>/it-fbw/output/pitch</output>
+		<min>-1.0</min>
+		<max>0.64</max>
+	</filter>
+	
+	<!-- Rudder -->
+	<filter>
+		<name>Rudder</name>
+		<type>gain</type>
+		<gain>25.0</gain>
+		<input>
+			<condition>
+				<less-than>
+					<property>/systems/hydraulical/circuit1_press</property>
+					<value>190</value>
+				</less-than>
+			</condition>
+			<value>0</value>
+		</input>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-fbw/internal/flight-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>/it-fbw/yaw/cmd-sum</property>
+		</input>
+		<input>
+			<condition>
+				<equals>
+					<property>/it-fbw/internal/ground-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<expression>
+				<product>
+					<property>/controls/flight/rudder-nul</property>
+					<value>0.5</value>
+				</product>
+			</expression>
+		</input>
+		<input>/controls/flight/rudder-nul</input>
+		<output>/it-fbw/internal/rudder-cmd</output>
+		<min>-25.0</min>
+		<max>25.0</max>
+	</filter>
+	
+	<filter>
+		<name>Rudder Final</name>
+		<debug>false</debug>
+		<type>exponential</type>
+		<input>/it-fbw/internal/rudder-cmd</input>
+		<output>/it-fbw/internal/rudder</output>
+		<filter-time>0.04</filter-time>
+	</filter>
+	
+	<filter>
+		<name>Rudder Yaw</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<product>
+					<property>/it-fbw/internal/rudder</property>
+					<value>0.04</value> <!-- Normalize it to -1 to 1 for YASim -->
+				</product>
+			</expression>
+		</input>
+		<output>/it-fbw/output/yaw</output>
+		<min>-1.0</min>
+		<max>1.0</max>
+	</filter>
+	
+	<!-- Slats -->
+	<filter>
+		<name>Slat</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<condition>
+				<not-equals>
+					<property>/gear/gear[0]/position-norm</property>
+					<value>1</value>
+				</not-equals>
+			</condition>
+			<expression>
+				<table>
+					<property>/orientation/alpha-deg</property> 
+					<entry><ind> 4</ind><dep>0</dep></entry>
+					<entry><ind>10</ind><dep>1</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<input>/controls/flight/flaps</input>
+		<output>/it-fbw/output/slat</output>
+		<min>-1.0</min>
+		<max>1.0</max>
+	</filter>
+	
+	<!-- Stuff to make YASim work -->
+	<filter>
+		<name>Trim Killer: Aileron</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>0</input>
+		<output>/controls/flight/aileron-trim</output>
+	</filter>
+
+</PropertyList>

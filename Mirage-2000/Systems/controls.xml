@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <SAS>
+    <autotrim type="bool">true</autotrim>
+    <micromov type="bool">false</micromov>
+    <cat type="int">true</cat>
+    <activated type="bool">true</activated>
+  </SAS>
+  <armament>
+    <master-arm type="bool">false</master-arm>
+  </armament>
+  <lighting>
+    <landing-lights n="0" type="bool">false</landing-lights>
+    <landing-lights n="1" type="bool">false</landing-lights>
+    <running-lights>0</running-lights>
+    <passing-lights>0</passing-lights>
+    <instruments-norm>1</instruments-norm>
+    <recognition-lights n="0">0</recognition-lights>
+    <recognition-lights n="1">0</recognition-lights>
+    <recognition-lights n="2">0</recognition-lights>
+    <tail-lights>0 </tail-lights>
+    <cabin-lights>0</cabin-lights>
+    <strobe type="bool">true</strobe>
+    <strobeBelly type="bool">true</strobeBelly>
+    <tailLight type="bool">true</tailLight>
+    <position type="bool">true</position>
+    <formation-lights type="bool">true</formation-lights>
+  </lighting>
+  
+  <circuit-breakers>
+    <cabin-lights-pwr>true</cabin-lights-pwr>
+    <instrument-lights>true</instrument-lights>
+  </circuit-breakers>
+
+  <hud type="bool">true</hud>
+
+  <gear>
+    <brake-parking type="double"> 1 </brake-parking>
+  </gear>
+  
+  <engines>
+    <engine n="0">
+      <boost type="double"> 0 </boost>
+      <magnetos>0</magnetos>
+      <master-bat type="bool">true</master-bat>
+      <master-alt type="bool">true</master-alt>
+    </engine>
+    
+    <engine>
+      <master-bat type="bool">true</master-bat>
+      <master-alt type="bool">true</master-alt>
+    </engine>
+  </engines>
+  
+  <switches>
+    <master-avionics      type="bool">true</master-avionics>
+    <jettinson-button     type="bool">false</jettinson-button>
+    <!-- ' jet power on switches  -->
+    <battery-switch       type="bool">false</battery-switch>
+    <transformator-switch type="bool">false</transformator-switch>
+    <ALT1-switch          type="bool">false</ALT1-switch>
+    <ALT2-switch          type="bool">false</ALT2-switch>
+    <hide-cutoff          type="bool">true</hide-cutoff>
+    <cutoff               type="bool">true</cutoff>
+    <pump-BP              type="bool">false</pump-BP>
+    <pump-BPG             type="bool">false</pump-BPG>
+    <pump-BPD             type="bool">false</pump-BPD>
+    <vent-allumage        type="bool">false</vent-allumage>
+    <hide-starter         type="bool">false</hide-starter>
+    <starter              type="bool">false</starter>
+    <transponder          type="bool">true</transponder>
+  </switches>
+  
+  <seat>
+    <ejection-safety-lever type="bool">true</ejection-safety-lever>
+  </seat>
+  
+  <armament>
+    <!--
+      note :
+        Missile property. the value here doesn't really count, beacause it's reloaded
+        by a Nasal for each missile. Anyway this is nessecary for variable declaration
+    -->
+    <automissileview type="bool">true</automissileview>
+    <missile>
+      <name>Matra MICA</name>
+      <address>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</address>
+      <addressNoSmoke>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</addressNoSmoke>
+      <addressExplosion>Aircraft/Mirage-2000/Missiles/MatraMica/explosion.xml</addressExplosion>
+      <count type="int">0</count>
+      <nearest-target type="int"> -1 </nearest-target>
+      <sound-on-off type="bool">false</sound-on-off>
+      <sound-volume type="double"> 0.12 </sound-volume>
+      <target-range-nm type="double"> 0 </target-range-nm>
+      <max-detection-rng-nm type="int"> 45 </max-detection-rng-nm>
+      <!-- ' not real impact yet-->
+      <fov-deg type="int"> 25 </fov-deg>
+      <!-- ' seeker optical FOV -->
+      <detection-fov-deg type="int"> 60 </detection-fov-deg>
+      <!-- ' search pattern diameter (rosette scan) -->
+      <track-max-deg type="int"> 110 </track-max-deg>
+      <!-- ' seeker max total angular rotation -->
+      <max-g type="int"> 100 </max-g>
+      <!-- ' in turn -->
+      <thrust-lbs type="double"> 300 </thrust-lbs>
+      <!-- ' guess -->
+      <thrust-duration-sec type="int"> 30 </thrust-duration-sec>
+      <!-- ' Mk.36 Mod.7,8 -->
+      <weight-launch-lbs> 216 </weight-launch-lbs>
+      <weight-warhead-lbs> 30 </weight-warhead-lbs>
+      <drag-coeff type="double"> 0.05 </drag-coeff>
+      <!-- ' guess - original 0.05-->
+      <drag-area type="double"> 0.043 </drag-area>
+      <!-- ' sq ft -->
+      <maxExplosionRange type="int"> 200 </maxExplosionRange>
+      <!--
+        note :
+          due to the code, more the speed is important, more we need to have this
+          figure high
+      -->
+      <maxspeed type="double"> 4 </maxspeed>
+      <!-- ' in Mach -->
+      <life> 60 </life>
+      <!--
+        note :
+          "Fox1" for guided by the aircraft radar (semi active) AIM7,
+          "Fox2" for infrared AIM9,
+          "Fox3" for intern missile Radar AIM120, AIM54, A/G air to ground
+      -->
+      <fox>Fox 3</fox>
+      <!--
+        note :
+          if the missile fall before thrust start or if there is some kind of "rail"
+      -->
+      <rail type="bool">true</rail>
+      <!--
+        note :
+          for cruise missile, in feet.0 is off.bellow 10000 feet is terrain following
+      -->
+      <cruise_alt type="int"> 0 </cruise_alt>
+      <current-pylon type="int"> 0 </current-pylon>
+    </missile>
+    
+    <trigger type="bool">false</trigger>
+    <gunQuality type="bool">true</gunQuality>
+    
+    <master-arm type="bool">true</master-arm>
+    <!-- ' 0=OFF, 1=GUN, 2=A/A, 3=A/G -->
+    
+    <stick-selector type="int">0</stick-selector>
+    <position-norm type="int">1</position-norm>
+    
+    <station n="0">
+      <release type="bool">false</release>
+    </station>
+    
+    <station n="1">
+      <release type="bool">false</release>
+    </station>
+    <!--
+      note
+        about tank release :
+        this is for bypassing submodel control (cause we can't have conditional
+        control, just a trigger)
+    -->
+    <station n="2">
+      <release type="bool">false</release>
+      <release-L1700 type="bool">false</release-L1700>
+      <release-L2000 type="bool">false</release-L2000>
+    </station>
+    
+    <station n="3">
+      <release type="bool">false</release>
+      <release-C1300 type="bool">false</release-C1300>
+    </station>
+    
+    <station n="4">
+      <release type="bool">false</release>
+      <release-R1700 type="bool">false</release-R1700>
+      <release-R2000 type="bool">false</release-R2000>
+    </station>
+    
+    <station n="5">
+      <release type="bool">false</release>
+    </station>
+    
+    <station n="6">
+      <release type="bool">false</release>
+    </station>
+    
+    <station n="7">
+      <release type="bool">false</release>
+    </station>
+    
+    <station n="8">
+      <release type="bool">false</release>
+    </station>
+    
+  </armament>
+
+  <seat>
+    <pilot type="bool">true</pilot>
+  </seat>
+
+  <ground-equipment type="bool">true</ground-equipment>
+
+  <cabin>
+    <shake-effect type="bool">true</shake-effect>
+  </cabin>
+
+  <assistance type="bool">0</assistance>
+
+</PropertyList>

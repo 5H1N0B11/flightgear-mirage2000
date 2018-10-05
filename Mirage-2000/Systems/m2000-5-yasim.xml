@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+################################################################################
+#
+#               m2005-5's FLIGHT DYNAMIC MODEL DEFINITION : YASIM
+#
+################################################################################
+
+http://wiki.flightgear.org/YASim
+
+changelog
+- 16/04/2012 Updated with Melchior's script 
+- 25/04/2012 Updated by Buckaroo
+- 17/05/2015 Updated by Hardball
+
+     changelog
+     - 16/04/2012 Updated with Melchior's script
+     - 25/04/2012 Updated by Buckaroo
+     - 17/05/2015 Updated by Hardball
+     - 10/11/2015 Updated by Helijah
+
+Mirage 2000-5 BARANGER Emmanuel (2012)
+
+Sources      : http://en.wikipedia.org/wiki/Dassault_Mirage_2000
+             : http://en.wikipedia.org/wiki/SNECMA_M53
+
+Wingspan     :  9.13 m (29 ft)
+Length       : 14.36 m (47 ft 1 in)
+Height       :  5.20 m (17 ft)
+Empty mass   : 7500 kg (16350 lb)
+Engine       : 1 SNECMA M53-P2 afterburning turbofan
+  type         : Afterburning single-shaft turbofan
+  power cruise : 14300 lbf military thrust
+  afterburner  : 21384 lbf with afterburner
+  weight       : 1515 kg ( 3340 lb )
+Max speed    : Mach 2.2 (2350 km/h, 1268 kts) at (39400 ft)
+Cruise speed : 956 km/h (516 kts)
+
+'''' Buckaroo's note
+' This FDM is mostly my wild guesses and approximations. I have no serious
+' information or research on the Mirage 2000. My objective is to make a
+' reasonable, fun to fly FDM using the basic parameters of commonly available
+' information and Emmanuel's model.
+' 
+' Currently the model will not achieve the top speeds of Mach 2+ at 36000'
+' without additional fuel. It somewhat exceeds the original FDM's estimated
+'  cruise of 512 KIAS at 20000' using 80% dry power.
+' 
+' The standard autopilot will hold at about 50% power at 20000'. Above that it
+' starts porpoising. This is likely due to several factors. The flight neutral
+' point is intentionally positioned to try to be at or slightly ahead of the CG,
+' and the trimming stabilizer is positioned at the trailing edge of the wing,
+' giving a short stabilizer moment arm. At higher speeds this will give the
+' default autopilot fits. A custom AP can probably cope with this, but AP's
+' aren't my thing.
+' 
+' If you import this FDM into Blender using Melchior's excellent importer
+' script, you'll see a stabilizer and that the wing is shifted slightly forward
+' compared to Emmanuel's model. These are intentional adjustments. See my notes
+' below.
+' 
+' Takeoff :
+'   My takeoffs were practiced using 80% dry power (currently there's no option
+'   to disable afterburners). Rotate at 145-150. A little back elevator trim
+'   helps, about 10% or so.
+' 
+' Landing :
+'   Approach at 170 kts, land between 140-150. I don't recommend using the
+'   spoilers during final, but once down they help a lot to slow the aircraft.
+'   (I had to add some keyboard spoiler controls.)
+' 
+' Cruise :
+'   The plane is set to require near neutral elevator trim at cruise speeds, so
+'   much of the lower-speed flight may benefit from keeping a little elevator
+'   trim.
+' 
+' Afterburners :
+'   I think there's typically a switch to engage/disengage burners at some
+'   throttle position, but right now the burners are turned on when you reach
+'   80% throttle and can't be disabled.
+' 
+' I have no idea what real V-speeds are in this bird, so this is all fantasy.
+' 
+' I added control settings for slats, disabled speedbrakes for the solver's
+' approach solution, and enabled afterburners for the cruise (maximum level
+' speed) settings.
+' I also increased cruise speed to the maximum statistics given for the plane in
+' level flight at 36000'. This speed is somewhat silly given fuel would be
+' depleted very quickly, but it's a reference.
+' The second reference is the original FDM cruise of 516 kts at 20000'.
+' Currently the model exceeds the lower reference, but won't quite exceed
+' Mach 2, so it's a compromise.
+-->
+
+<airplane mass="16350"
+          version="YASIM_VERSION_CURRENT">
+  <!--
+================================================================================
+                                                                        APPROACH
+================================================================================
+  -->
+  <approach speed="125" aoa="12" fuel="0.3">
+    <control-setting axis="/controls/engines/engine[0]/throttle" value="0.5" />
+    <control-setting axis="/controls/engines/engine[0]/reheat"   value="0" />
+    <control-setting axis="/controls/gear/gear-down"             value="1" />
+    <control-setting axis="/it-fbw/output/slat"                  value="0" />
+    <control-setting axis="/controls/flight/speedbrake"          value="0" />
+  </approach>
+
+  <!--
+================================================================================
+                                                                          CRUISE
+================================================================================
+  -->
+  <cruise speed="1350" alt="36000" fuel="0.5">
+    <control-setting axis="/controls/engines/engine[0]/throttle" value="1.0" />
+    <control-setting axis="/controls/engines/engine[0]/reheat"   value="1" />
+    <control-setting axis="/controls/gear/gear-down"             value="0" />
+    <control-setting axis="/it-fbw/output/slat"                  value="0" />
+    <control-setting axis="/controls/flight/speedbrake"          value="0" />
+  </cruise>
+
+  <!--
+  ''''  Buckaroo's notes
+  ' If the drag bodies were simplified, drag performance could be improved. But
+  ' these are such nicely formed drag bodies that I just didn't have the heart to
+  ' change them.
+  -->
+  <!--
+================================================================================
+                                                                         COCKPIT
+================================================================================
+  -->
+  <cockpit x="2.544" y="0" z="0.079" />
+
+  <!--
+================================================================================
+                                                                        FUSELAGE
+================================================================================
+  -->
+  <fuselage ax="6.769" ay=" 0.000" az="-1.053" bx=" 4.463" by="0.000" bz="-0.806" width="0.756" taper="0.08" midpoint="1.00" />
+  <fuselage ax="4.463" ay=" 0.000" az="-0.806" bx="-7.086" by="0.000" bz="-0.511" width="1.500" taper="0.40" midpoint="0.40" />
+  <fuselage ax="4.476" ay=" 0.000" az="-0.422" bx="-1.782" by="0.000" bz=" 0.162" width="0.800" taper="0.00" midpoint="0.20" />
+  <fuselage ax="2.018" ay=" 0.580" az="-0.692" bx="-7.023" by="0.000" bz="-0.506" width="1.000" taper="0.50" midpoint="0.05" />
+  <fuselage ax="2.018" ay="-0.580" az="-0.692" bx="-7.023" by="0.000" bz="-0.506" width="1.000" taper="0.50" midpoint="0.05" />
+
+  <!--
+================================================================================
+                                                                        SURFACES
+================================================================================
+  -->
+  <!--
+________________________________________________________________________________
+                                                                           WINGS
+-->
+  <!--
+  '''' Buckaroo's notes
+  ' Anhedral is usually used to counter excessive roll stability or dutch roll
+  ' problems, and since the model doesn't exhibit those behaviors it's worth
+  ' considering reducing the effective anhedral amount. Currently I left
+  ' dihedral unchanged at -4.
+  ' 
+  ' I reduced stall AoA slightly from 20. Delta wings typical stall higher than
+  ' high-aspect forms so I'd expect something in the 17-20 range, but I think
+  ' YASim is too generous on stall AoA, possibly due to how "width" is
+  ' implemented. So I reduced stall to 18 and changed slats to give an AoA bonus
+  ' of +2 (the original was +20, a typo?), for a total stall with slats deployed
+  ' of 20 degrees. It's hard to pull the model into these alpha realms anyway,
+  ' at least with my current hstab settings. Not sure about the real plane.
+  ' 
+  ' Camber was increased to add more lift at low alphas, mainly to help rotation
+  ' at takeoff. The airfoil appears to have a considerable camber anyway.
+  ' I didn't try to find airfoil data; these military types are usually very
+  ' proprietary and hard to find info.
+  ' 
+  ' I reduced aileron lift considerably. The original FDM was very snappy on
+  ' rolls, and autopilot can't find solutions at modest to high speeds with such
+  ' high values. I have no idea how the real aircraft handles, but it responds
+  ' nicely at these settings.
+  ' I also removed the src0="-0.5" src1="0.5" dst0="-0.9" dst1="0.9" as I didn't
+  ' know what that was for and it simplified testing to remove it.
+  ' 
+  ' I added a control input for slats.
+  ' The real aircraft has a neutral point very close or even slightly forward of
+  ' the CG. I also believe YASim tends to calculate lift a little too far aft
+  ' (33% MAC), so I moved the wing forward a little, 0.3 meters.
+  ' The original position is x="-1.202". This is totally guesswork. Mostly my
+  ' aim is to keep the CG about 0.2 meters ahead of the main wheels, and the
+  ' center of lift slightly ahead of that.
+  ' 
+  ' Other values tweaked for solver results.
+  ' Airbrakes (spoilers) may be a little too effective, but I didn't adjust
+  ' them.
+  -->
+  <wing x="-0.9" y="0.247" z="-0.933"
+        chord="7.823"
+        length="5.5"
+        taper="0.08"
+        sweep="38"
+        dihedral="-4"
+        incidence="0"
+        camber="0.03">
+        <stall aoa="29" width="8" peak="1.7" />
+        <slat    start="0.20"  end="0.80"  aoa="6"     drag=" 2.0" />
+        <flap0   start="0.59"  end="0.90"  lift="1.75" drag=" 1.2" />
+        <spoiler start="0"  end="0.05"  lift="1"    drag="150" />
+
+    <control-input axis="/it-fbw/output/roll"           control="FLAP0" split="true" />
+    <control-input axis="/controls/flight/aileron-trim" control="FLAP0" split="true" />
+    <control-input axis="/controls/flight/spoilers"     control="SPOILER" />
+    <control-input axis="/it-fbw/output/slat"           control="SLAT" />
+
+    <control-output control="FLAP0" side="left"  prop="/surface-positions/left-aileron-pos-norm" />
+    <control-output control="FLAP0" side="right" prop="/surface-positions/right-aileron-pos-norm" />
+    <control-output control="SPOILER"            prop="/surface-positions/spoiler-pos-norm" invert="true" />
+    <control-output control="SLAT"               prop="/surface-positions/slat-pos-norm" />
+
+    <control-speed  control="FLAP0"   transition-time="0.08" />
+    <control-speed  control="SPOILER" transition-time="1.5" />
+    <control-speed  control="SLAT"    transition-time="2.6" />
+  </wing>
+
+  <!--
+________________________________________________________________________________
+                                                           HORIZONTAL STABILIZER
+  -->
+  <!--
+  '''' Buckaroo's notes
+  ' YASim wasn't designed for flying-wings/delta-wings and requires a horizontal
+  ' stabilizer for trimming. The original hstab was essentially a duplicate of
+  ' the main wing used for trim. While this can work, it doubles the wing, kinda
+  ' like a biplane with one wing overlaid on the other, with duplicated drag and
+  ' lift results. I believe the engine has to work much harder for the
+  ' approach/cruise numbers, and YASim compensates by giving a large drag/lift
+  ' spread, making the plane very slick. My alternative was to create a
+  ' short-chord, high-aspect tail surface roughly
+  '
+  ' positioned along the wing trailing edge, with a critical AoA slightly higher
+  ' than the wing. This method greatly reduces the drag/lift spread. It's very
+  ' close to the wing though, so the stabilizer moment arm is pretty short and
+  ' I'm guessing it may result in instability issues at some speeds/attitudes.
+  '
+  ' Current elevator lift settings won't quite allow a full power-off stall. Any
+  ' more and the auto-pilot can't tune results at higher airspeeds. This could
+  ' be refined after the plane gets its own custom auto-pilot or other automatic
+  ' controllers. The current values gives pretty reasonable approaches with a
+  ' little elevator trim. Since I don't know how the real plane responds, this
+  ' seems OK for now.
+  '
+  ' The 'spoiler' here is likely for use with a parachute simulation. I didn't
+  ' modify it.
+  -->
+  <hstab x="-5" y="0.5" z="-0.933"
+         chord="1"
+         length="4"
+         taper="1"
+         sweep="0"
+         camber="0.07"
+         dihedral="-4">
+    <stall aoa="29" width="4" peak="1.5" />
+    <flap0 start="0.1" end="0.90" lift="1.68" drag="1.35" />
+    <spoiler start="0"  end="0.9" lift="0" drag="200" />
+
+    <control-input axis="/it-fbw/output/pitch" control="FLAP0" />
+    <control-input axis="/controls/flight/elevator-trim" control="FLAP0" />
+    <control-input axis="/sim/model/door-positions/parachute/position-norm" control="SPOILER" />
+
+    <control-output control="FLAP0" prop="/surface-positions/elevator-pos-norm" />
+    <control-speed  control="FLAP0" transition-time="0.08" />
+
+  </hstab>
+
+  <!--
+________________________________________________________________________________
+                                                             VERTICAL STABILIZER
+  -->
+  <!--
+  '''' Buckaroo's notes
+  ' I reduced rudder effectiveness and made stall characteristics a bit less
+  ' extreme.
+  -->
+  <vstab x="-4.646" y="0" z="0.151"
+         chord="3.6"
+         length="4.1"
+         taper="0.22"
+         sweep="38">
+    <stall aoa="16" width="4" peak="1.5" />
+    <flap0 start="0.06" end="0.67" lift="1.35" drag="1.3" />
+
+    <control-input axis="/it-fbw/output/yaw" control="FLAP0" invert="false" />
+
+    <control-output control="FLAP0" prop="/surface-positions/rudder-pos-norm" />
+
+    <control-speed control="FLAP0" transition-time="0.5" />
+
+  </vstab>
+
+  <!--
+================================================================================
+                                                                         ENGINES
+================================================================================
+  -->
+  <!--
+________________________________________________________________________________
+                                                                             JET
+  -->
+  <!--
+  '''' Buckaroo's notes
+  ' The big addition here is exhaust-speed. The default value is 1555 kts.
+  ' Assuming a max speed of 1350 at 36000' (which is likely under the most
+  ' optimal conditions), by the time we approached that speed we'd only have
+  ' (1 - 1350/1555) * max_thrust, or about 13%. Under those conditions it would
+  ' take a long time to get to that altitude and speed, and the afterburners
+  ' would probably drain the fuel tanks long before we got there.
+  '
+  ' Without radically and unreasonably changing other FDM values, the only
+  ' number available to tune is exhaust-speed, so I had to increased this by
+  ' 50%. I don't think YASim models this well, particularly with afterburners.
+  ' Perhaps there should be a separate value to be applied when afterburners are
+  ' engaged.
+  '
+  ' I moved the mass of the engine back from x="-1.2". The engines in these
+  ' configurations tend to be much further back in the fuselage than appearances
+  ' suggest. -3 is just a guess but pretty reasonable. Not a big deal, but
+  ' affects the mass distribution and moment stuff.
+  ' 
+  ' I changed the action point to center it approximately about the thrust
+  ' chamber, rather than aft of the aircraft and slightly high. There's a small
+  ' cheat here: I lowered the action point from z="-0.534" to z="-0.634" so
+  ' thrust is closer to the CG, reducing the early pitching moment on the
+  ' takeoff roll so the plane will rotate around 150 kts. Otherwise rotation
+  ' speeds are rather high at military power takeoff thrust or better. 
+  ' 
+  ' 1123 K = 850'C
+  -->
+  <jet x="-3" y="0" z="-0.480"
+       mass="3340"
+       thrust="14500"
+       afterburner="21400"
+       egt="1123"
+       epr="9.8"
+       exhaust-speed="2333"
+       spool-time="0.1"
+       tsfc="0.3"
+       n1-idle="47.0"
+       n1-max="105"
+       n2-idle="73"
+       n2-max="110">
+    <actionpt x="-6" y="0" z="-0.634" />
+
+    <control-input axis="/controls/engines/engine[0]/throttle" control="THROTTLE" />
+    <control-input axis="/controls/engines/engine[0]/throttle" control="REHEAT" src0="0.85" src1="1.0" dst0="0.0" dst1="1.0" />
+
+    <control-output control="REHEAT" prop="engines/engine[0]/afterburner" />
+
+    <control-speed control="THROTTLE" transition-time="2" />
+    <control-speed control="REHEAT"   transition-time="2" />
+
+  </jet>
+
+  <!--
+________________________________________________________________________________
+                                                                        THRUSTER
+  -->
+  <!-- ~~~~~~~~~~~~~~~~~~ guns recoil -->
+  <!--
+  '''' notes
+  ' guns recoil in 5000 Lbf = 2.5Tf negative angle of the gun : -2'
+  -->
+  <thruster thrust="5000"
+            x="1.212" y="-0.308" z="-1.183"
+            vx="-0.999390827" vy="0" vz="0.03489949">
+    <control-input axis="/controls/armament/Gun_trigger" control="THROTTLE" />
+  </thruster>
+
+  <!--
+================================================================================
+                                                                   LANDING GEARS
+================================================================================
+  -->
+  <!--
+________________________________________________________________________________
+                                                                           GEARS
+  -->
+  <!--
+  '''' Buckaroo's notes
+  ' 
+  ' Based on the model, FDM compression values are two great. Maximum extension
+  ' for each appears to be 0.2 meters at best. I didn't adjust these values
+  ' since the animations are very nice and tied to these particular values.
+  -->
+  <!-- ~~~~~~~~~~~~~~~~~~ front gear -->
+  <gear x="2.996" y="0" z="-2.592"
+        retract-time="7"
+        compression="0.4"
+        spring="1.4"
+        damp="2.6"
+        sfric="1.6"
+        dfric="1.4">
+
+    <control-input axis="/controls/flight/SAS-gear" control="STEER" src0="-1.0" src1="1.0" dst0="-0.6" dst1="0.6" />
+    <control-input axis="/controls/gear/gear-down"  control="EXTEND" />
+
+    <control-output control="EXTEND" prop="/gear/gear[0]/position-norm" />
+    <control-output control="STEER"  prop="/surface-positions/nose-wheel-pos-norm" />
+
+    <control-speed control="EXTEND"  transition-time="7" />
+  </gear>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ left main gear -->
+  <gear x="-1.948" y="1.673" z="-2.595"
+        retract-time="7"
+        compression="0.6"
+        spring="1.0"
+        damp="1.8">
+
+    <control-input axis="/controls/gear/brake-left" control="BRAKE" />
+    <control-input axis="/controls/gear/brake-parking" control="BRAKE" />
+    <control-input axis="/controls/gear/gear-down" control="EXTEND" />
+
+    <control-speed control="EXTEND" transition-time="7" />
+
+    <control-output control="EXTEND" prop="/gear/gear[1]/position-norm" />
+  </gear>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ right main gear -->
+  <gear x="-1.948" y="-1.673" z="-2.595"
+        retract-time="7"
+        compression="0.6"
+        spring="1.0"
+        damp="1.8">
+
+    <control-input axis="/controls/gear/brake-right" control="BRAKE" />
+    <control-input axis="/controls/gear/brake-parking" control="BRAKE" />
+    <control-input axis="/controls/gear/gear-down" control="EXTEND" />
+
+    <control-speed control="EXTEND" transition-time="7" />
+
+    <control-output control="EXTEND" prop="/gear/gear[2]/position-norm" />
+  </gear>
+
+  <!--
+================================================================================
+                                                                            FUEL
+================================================================================
+  -->
+  <!--
+________________________________________________________________________________
+                                                                            TANK
+  -->
+  <!-- ~~~~~~~~~~~~~~~~~~ right wing internal tanks -->
+  <tank x="-1.600" y=" 1.667" z="-1.032" jet="true" capacity="3546.144" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ left wing internal tanks -->
+  <tank x="-1.600" y="-1.667" z="-1.032" jet="true" capacity="3546.144" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ left dropable tank -->
+  <tank x="-1.047" y=" 2.359" z="-1.556" jet="true" capacity="0" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ center dropable tank -->
+  <tank x="-1.082" y=" 0.000" z="-1.656" jet="true" capacity="0" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ right dropable tank -->
+  <tank x="-1.047" y="-2.359" z="-1.556" jet="true" capacity="0" />
+
+  <!--
+================================================================================
+                                                               MASS DISTRIBUTION
+================================================================================
+  -->
+  <!--
+________________________________________________________________________________
+                                                                         BALLAST
+  -->
+  <!--
+  '''' Buckaroo's notes :
+  ' Modest changes to keep the CG around -1.8. x="3.5" y="0" z="-1"
+  -->
+  <ballast x="3.8" y="0" z="-1" mass="1700" />
+
+  <!--
+________________________________________________________________________________
+                                                                          WEIGHT
+  -->
+  <!--
+  '''' Helijah's notes [28-04-2012]
+  ' Added weapons system
+  -->
+<!--  To check
+[1]#Pylon2.L (2.373;-3.278 ;-1.494)
+[4]#Pylon2.R (2.373; 3.278 ;-1.494)
+[2]#Pylon3.L (1.047;-2.359;-1.556)
+[6]#Pylon3.R (1.047; 2.359;-1.556) 
+ 
+[3]#pylon.C (1.082;0.000;-1.656)
+  
+[0]#pylon1.L (-1.265;-0.824;-1.370)
+[5]#pylon1.L (-1.265; 0.824;-1.370)
+  
+[6]#pylonB.L (3.360;-0.920;-1.380)
+[7]#pylonB.L (3.360; 0.920;-1.380)-->
+  
+
+  <!-- ~~~~~~~~~~~~~~~~~~ external loads -->
+  <weight x="-1.900" y=" 1.800" z=" 0.250" size="0.25" mass-prop="yasim/weight[0]" />
+  <weight x="-2.373" y=" 3.278" z="-1.494" size="0.45" mass-prop="yasim/weight[1]" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ droptank -->
+  <weight x="-1.047" y=" 2.359" z="-1.556" size="0.70" mass-prop="yasim/weight[2]" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ center -->
+  <weight x="-1.082" y=" 0.000" z="-1.656" size="0.60" mass-prop="yasim/weight[3]" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ droptank -->
+  <weight x="-1.047" y="-2.359" z="-1.556" size="0.70" mass-prop="yasim/weight[4]" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ external loads -->
+  <weight x="-2.373" y="-3.278" z="-1.494" size="0.45" mass-prop="yasim/weight[5]" />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ external loads -->
+  <weight x="-1.900" y="-1.800" z="0.250" size="0.25" mass-prop="yasim/weight[6]" />
+  
+  <weight x="0.195" y="1.800" z="0.250" size="0.25" mass-prop="yasim/weight[7]" />
+  
+  <weight x="0.195" y="-1.800" z="0.250" size="0.25" mass-prop="yasim/weight[8]" />
+
+</airplane>

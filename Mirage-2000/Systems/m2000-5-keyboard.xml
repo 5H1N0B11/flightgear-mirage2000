@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- data/Docs/keyboard/map.pdf -->
+<PropertyList>
+
+	<mice n="0">
+		<mouse n="0">
+			<mode n="0">
+				<button n="3">
+					<binding n="0">
+						<script></script>
+					</binding>
+					<binding n="1">
+						<condition>
+							<and>
+								<property>/devices/status/mice/mouse[0]/button[2]</property>
+								<not><property>/sim/mouse/right-button-mode-cycle-enabled</property></not>
+							</and>
+						</condition>
+						<command>nasal</command>
+						<script>
+						if (getprop("/sim/current-view/can-change-z-offset")) {
+							var distance = getprop("/sim/current-view/z-offset-m");
+							var multiple = getprop("/sim/current-view/z-offset-inc-step");
+							var min_dist = getprop("/sim/current-view/z-offset-min-m");
+
+							distance = math.round(std.min(-min_dist, distance + multiple) / multiple) * multiple;
+							setprop("/sim/current-view/z-offset-m", distance);
+
+							gui.popupTip(sprintf("%d meters", abs(distance)));
+						} else {
+							view.decrease();
+						}
+						</script>
+					</binding>
+				</button>
+				<button n="4">
+					<binding n="0">
+						<script></script>
+					</binding>
+					<binding n="1">
+						<condition>
+							<and>
+								<property>/devices/status/mice/mouse[0]/button[2]</property>
+								<not><property>/sim/mouse/right-button-mode-cycle-enabled</property></not>
+							</and>
+						</condition>
+						<command>nasal</command>
+						<script>
+							if (getprop("/sim/current-view/can-change-z-offset")) {
+								var distance = getprop("/sim/current-view/z-offset-m");
+								var multiple = getprop("/sim/current-view/z-offset-dec-step");
+								var max_dist = getprop("/sim/current-view/z-offset-max-m");
+
+								distance = math.round(std.max(-max_dist, distance + multiple) / multiple) * multiple;
+								setprop("/sim/current-view/z-offset-m", distance);
+
+								gui.popupTip(sprintf("%d meters", abs(distance)));
+							} else {
+								view.increase();
+							}
+						</script>
+					</binding>
+				</button>
+			</mode>
+		</mouse>
+	</mice>
+
+  <keyboard>
+    
+<!--    <key n="101">
+      <name>e</name>
+      <desc>Guns</desc>
+      <binding>
+        <command>nasal</command>
+        <script>controls.trigger(1)</script>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>nasal</command>
+          <script>controls.trigger(0)</script>
+        </binding>
+      </mod-up>
+    </key>-->
+    
+    <key n="101">
+      <name>e</name>
+      <desc>Gun Trigger</desc>
+      <binding>
+        <command>property-assign</command>
+        <property>controls/armament/trigger</property>
+        <value>1</value>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-assign</command>
+          <property>controls/armament/trigger</property>
+          <value>0</value>
+        </binding>
+      </mod-up>
+    </key>
+    
+    <key n="68">
+      <name>D</name>
+      <desc>Passenger door</desc>
+      <binding>
+        <command>nasal</command>
+        <script>doors.passenger.toggle();</script>
+      </binding>
+    </key>
+    
+    <key n="100">
+      <name>d</name>
+      <desc>Doors</desc>
+      <binding>
+        <command>nasal</command>
+        <script>doors.move_canopy();</script>
+      </binding>
+    </key>
+    
+    <key n="69">
+      <name>E</name>
+      <desc>Parachute</desc>
+      <binding>
+        <condition>
+          <property>/gear/gear[1]/wow</property>
+          <property>/gear/gear[2]/wow</property>
+        </condition>
+        <command>nasal</command>
+        <script>doors.parachute.toggle();</script>
+      </binding>
+    </key>
+    
+<!--    <key n="5">
+      <name>Ctrl-E</name>
+      <desc>Ejection</desc>
+      <binding>
+        <command>nasal</command>
+        <script>setprop("instrumentation/ejection","true");</script>
+      </binding>
+    </key>-->
+    <key n="5">
+      <name>Ctrl-E</name>
+      <desc>noop</desc>
+      <repeatable type="bool">false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>
+          mirage2000.ejection();
+        </script>
+      </binding>
+    </key>
+    
+    
+    
+    <key n="74">
+      <name>J</name>
+      <desc>Drop Tanks</desc>
+      <binding>
+        <command>nasal</command>
+        <script>pylons.fcs.jettisonFuel()</script>
+      </binding>
+    </key>
+    
+    <key n="72">
+      <name>H</name>
+      <desc>Active Target Seeking</desc>
+      <binding>
+        <command>nasal</command>
+        <script>hud.activate_borsight()</script>
+      </binding>
+    </key>
+    
+    <key n="81">
+      <name>Q</name>
+      <desc>Active ECM</desc>
+      <binding>
+        <command>nasal</command>
+        <script>instrumentation.activate_ECM()</script>
+      </binding>
+    </key>
+    
+    <key n="82">
+      <name>R</name>
+      <desc>Active Telemeter</desc>
+      <binding>
+        <command>nasal</command>
+        <!--<script>hud.activate_Telemeter()</script>-->
+        <script>
+          setprop("instrumentation/radar/az-field",mirage2000.myRadar3.radar_mode_toggle());
+        </script>
+      </binding>
+      <!--      <binding>
+      <command>property-toggle</command>
+      <property>/ai/closest/range</property>
+      <value>-2</value>
+      <value>-1</value>
+      </binding>-->
+    </key>
+    
+    <key n="116">
+      <name>t</name>
+      <desc>Increase Radar Distance</desc>
+      <binding>
+        <command>nasal</command>
+        <script>
+          mirage2000.myRadar3.switch_distance_ics();
+          setprop("instrumentation/radar/range", mirage2000.myRadar3.get_radar_distance());
+          setprop("/instrumentation/radar/range-selected",mirage2000.myRadar3.get_radar_distance());
+        </script>
+        
+        <!--        <script>hud.switch_distance()</script>-->
+      </binding>
+    </key>
+    
+    <key n="84">
+      <name>T</name>
+      <desc>Decrease Radar Distance</desc>
+      <binding>
+        <command>nasal</command>
+        <script>
+          mirage2000.myRadar3.switch_distance_dcs();
+          setprop("instrumentation/radar/range", mirage2000.myRadar3.get_radar_distance());
+          setprop("/instrumentation/radar/range-selected",mirage2000.myRadar3.get_radar_distance());
+        </script>
+        
+        <!--        <script>hud.switch_distance()</script>-->
+      </binding>
+    </key>
+    
+    <key n="119">
+      <name>w</name>
+      <desc>Cycle Stick Weapon Mode Selector</desc>
+<!--      <binding>
+        <command>property-adjust</command>
+        <property>controls/armament/stick-selector</property>
+        <step>1</step>
+        <min>0</min>
+        <max>4</max>
+        <repeat>false</repeat>
+        <wrap>true</wrap>
+      </binding>-->
+      <binding>
+        <command>nasal</command>
+        <script>
+            pylons.fcs.cycleLoadedWeapon();
+            setprop("/controls/armament/name",pylons.fcs.selectedType);
+        </script>
+      </binding>
+    </key>
+    
+    <key n="125">
+      <name>}</name>
+      <desc>Engine Autostart</desc>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.engine1.autostart();</script>
+      </binding>
+    </key>
+    
+    <key n="108">
+      <name>l</name>
+      <desc>Flare out</desc>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/switches/flares</property>
+      </binding>
+    </key>
+    
+    <!-- Landing light switch -->
+    <key n="76">
+      <name>L</name>
+      <desc>Landing light</desc>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/lighting/landing-lights</property>
+        <value>0</value>
+        <value>1</value>
+      </binding>
+    </key>
+    
+    <!--This should be used to compute ECM-->
+    <key n="113">
+      <name>q</name>
+      <desc>Toggle radar standby mode</desc>
+      <binding>
+        <command>property-toggle</command>
+        <property>instrumentation/radar/radar-standby</property>
+      </binding>
+    </key>
+    
+    <!-- This is to toggle radar az_scan. Could be used to reboot the radar-->
+    <!--    <key n="81">
+    <name>q</name>
+    <desc>Toggle radar standby mode</desc>
+    <binding>
+    <command>property-toggle</command>
+    <property>instrumentation/radar/display-rdr</property>
+    </binding>
+    </key>-->
+    
+    <key n="110">
+      <name>n</name>
+      <desc>Changes Target</desc>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.myRadar3.next_Target_Index()</script>
+      </binding>
+    </key>
+    
+    <key n="14">
+      <name>Ctrl-n</name>
+      <desc>Changes Target</desc>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.myRadar3.previous_Target_Index()</script>
+      </binding>
+    </key>
+    
+    <key n="109">
+      <name>m</name>
+      <desc>Masterarm</desc>
+      <binding>
+          <command>property-toggle</command>
+          <property>controls/armament/master-arm</property>
+      </binding>
+      <binding>
+          <command>nasal</command>
+          <script>screen.log.write("Master-arm "~(getprop("controls/armament/master-arm")==0?"OFF":"ON"), 0.5, 0.5, 1);</script>
+      </binding>
+    </key>
+    
+    <key n="2">
+      <name>Ctrl-B</name>
+      <desc>Apply AirBrake</desc>
+      <binding>
+        <command>nasal</command>
+        <script>controls.applyAirBrakes(1)</script>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>nasal</command>
+          <script>controls.applyAirBrakes(0)</script>
+        </binding>
+      </mod-up>
+    </key>
+    
+    <!-- This allow us to use a little tricks for gui load -->
+    <key n="66">
+      <name>B</name>
+      <desc>Toggle parking brake on or off</desc>
+      <binding>
+        <command>nasal</command>
+        <script>
+          controls.applyParkingBrake(1);
+          instrumentation.enableGuiLoad();
+        </script>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>nasal</command>
+          <script>
+            controls.applyParkingBrake(0);
+          </script>
+        </binding>
+      </mod-up>
+    </key>
+    
+    <!-- This allow us to use a little tricks to send back slats in initial position -->
+    <key n="71">
+      <name>G</name>
+      <desc>Gear down</desc>
+      <binding>
+        <command>nasal</command>
+        <script>
+          m2000_controls.gearUp(0);
+        </script>
+      </binding>
+    </key>
+    
+    <key n="103">
+      <name>g</name>
+      <desc>Gear up</desc>
+      <binding>
+        <command>nasal</command>
+        <script>
+          m2000_controls.gearUp(1);
+        </script>
+      </binding>
+    </key>
+
+    <key n="262">
+        <name>F6</name>
+        <desc>Enable automatic tracking by FLIR camera</desc>
+        <binding>
+            <condition>
+                <property>/aircraft/flir/target/view-enabled</property>
+            </condition>
+            <command>property-toggle</command>
+            <property>/aircraft/flir/locks/auto-track</property>
+        </binding>
+    </key>
+    
+    <key n="261">
+      <name>F5</name>
+      <repeatable type="bool">true</repeatable>
+      <mod-shift>
+      <desc>Reload autopilot configuration</desc>
+        <binding>
+          <command>nasal</command>
+            <script>
+            fgcommand('reinit', props.Node.new({ subsystem: "xml-autopilot" }));
+            print("xml-autopilot reinitialized!");
+          </script>
+        </binding>
+      </mod-shift>
+    </key>
+	
+	<key n="24">
+		<name>Ctrl-x</name>
+		<desc>Reset zoom to default</desc>
+		<binding>
+			<command>nasal</command>
+			<script>
+				if (getprop("/sim/current-view/can-change-z-offset")) {
+					setprop("/sim/current-view/z-offset-m", getprop("/sim/current-view/z-offset-default") * -1);
+
+					gui.popupTip(sprintf("%d meters", getprop("/sim/current-view/z-offset-default")));
+				} else {
+					setprop("/sim/current-view/field-of-view", getprop("/sim/view/config/default-field-of-view-deg"));
+				}
+			</script>
+		</binding>
+	</key>
+	<key n="88">
+		<name>X</name>
+		<desc>Increase field of view</desc>
+		<repeatable type="bool">true</repeatable>
+		<binding>
+		<command>nasal</command>
+		<script>
+			if (getprop("/sim/current-view/can-change-z-offset")) {
+				var distance = getprop("/sim/current-view/z-offset-m");
+				var multiple = getprop("/sim/current-view/z-offset-dec-step");
+				var max_dist = getprop("/sim/current-view/z-offset-max-m");
+
+				distance = math.round(std.max(-max_dist, distance + multiple) / multiple) * multiple;
+				setprop("/sim/current-view/z-offset-m", distance);
+
+				gui.popupTip(sprintf("%d meters", abs(distance)));
+			} else {
+				view.increase();
+			}
+		</script>
+		</binding>
+	</key>
+	<key n="120">
+		<name>x</name>
+		<desc>Decrease field of view</desc>
+		<repeatable type="bool">true</repeatable>
+		<binding>
+			<command>nasal</command>
+			<script>
+				if (getprop("/sim/current-view/can-change-z-offset")) {
+					var distance = getprop("/sim/current-view/z-offset-m");
+					var multiple = getprop("/sim/current-view/z-offset-inc-step");
+					var min_dist = getprop("/sim/current-view/z-offset-min-m");
+
+					distance = math.round(std.min(-min_dist, distance + multiple) / multiple) * multiple;
+					setprop("/sim/current-view/z-offset-m", distance);
+
+					gui.popupTip(sprintf("%d meters", abs(distance)));
+				} else {
+					view.decrease();
+				}
+			</script>
+		</binding>
+	</key>
+  
+  <key n="21"> 
+    <name>Ctrl-U</name> 
+    <desc>[Cheat] Add 1000ft of emergency altitude</desc> 
+    <binding> 
+          <command>nasal</command> 
+          <script> 
+              if (getprop("payload/armament/msg")==1) { 
+                  screen.log.write("CTRL-U disabled at the moment."); 
+              } else { 
+                  setprop("position/altitude-ft", getprop("position/altitude-ft")+1000); 
+                  setprop("sim/startup/onground", 0); 
+              } 
+          </script> 
+      </binding> 
+    </key> 
+    <key n="97"> 
+    <name>a</name> 
+    <desc>Increase speed-up</desc> 
+      <binding> 
+          <command>nasal</command> 
+          <script> 
+              if (getprop("payload/armament/msg")==1) { 
+                  screen.log.write("Speed-up disabled at the moment."); 
+              } else { 
+                  controls.speedup(1); 
+              } 
+          </script> 
+      </binding> 
+    </key> 
+    <key n="65"> 
+    <name>A</name> 
+    <desc>Decrease speed-up</desc> 
+      <binding> 
+          <command>nasal</command> 
+          <script> 
+              if (getprop("payload/armament/msg")==1) { 
+                  screen.log.write("Speed-down disabled at the moment."); 
+              } else { 
+                  controls.speedup(-1); 
+              } 
+          </script> 
+      </binding> 
+    </key>
+    
+    <key n="18">
+      <name>Ctrl-R</name>
+      <desc>Activate the instant replay system</desc>
+      <binding>
+        <command>nasal</command>
+        <script>
+          if (getprop("payload/armament/msg")==1) {
+            screen.log.write("Please do not use replay while in combat over MP!");
+            call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "replay"}))},nil,var err2 = []);
+          } else {
+            call(func{fgcommand('replay', props.Node.new({}))},nil,var err2 = []);
+            call(func{fgcommand('dialog-show', props.Node.new({"dialog-name": "replay"}))},nil,var err2 = []);
+          }
+        </script>
+        </binding>
+        <mod-up>
+        </mod-up>
+      </key>
+
+  </keyboard>
+  
+</PropertyList>

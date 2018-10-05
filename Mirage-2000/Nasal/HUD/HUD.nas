@@ -156,7 +156,14 @@ var HUD = {
     m.text =
       m.root.createChild("group")
             .set("fill", "rgba(0,255,0,0.9)");
-
+            
+            
+    m.Fire_GBU =
+      m.text.createChild("text")
+            .setAlignment("right-center")
+            .setTranslation(220, 70)
+            .setDouble("character-size", 42);
+            
    
     # Radar altidude
     m.rad_alt =
@@ -276,6 +283,43 @@ var HUD = {
       rad_alt = nil;
     me.rad_alt.setText(rad_alt);
     
+    
+    
+    me.Fire_GBU.setText("Fire");
+    var aGL = props.globals.getNode("/position/altitude-agl-ft").getValue();
+    
+    #Think this code sucks. If everyone have better, please, proceed :)
+    if(pylons.fcs.getSelectedWeapon() != nil){
+      #print(pylons.fcs.getSelectedWeapon().type);
+      if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
+        #print(pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1));
+        if(pylons.fcs.getSelectedWeapon().class =="GM" or pylons.fcs.getSelectedWeapon().class == "G"){
+          #print("Class of Load:" ~ pylons.fcs.getSelectedWeapon().class);
+          if(aGL<8000){
+            var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1);
+          }elsif(aGL<15000){
+            var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(30, 0.2);
+          }else{
+            var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(45, 0.2);
+          }
+          
+          if(DistanceToShoot != nil ){
+            if(DistanceToShoot < 3000){
+              me.Fire_GBU.show();
+              me.Fire_GBU.setText(sprintf("Hold Fire: %d ", int(DistanceToShoot)));
+              if(DistanceToShoot < 600){
+                #print(DistanceToShoot);
+                me.Fire_GBU.setText(sprintf("Fire: %d ", int(DistanceToShoot)));
+                me.Fire_GBU.show();
+              }
+            }else{me.Fire_GBU.hide();}
+          }else{me.Fire_GBU.hide();}
+        }else{me.Fire_GBU.hide();}
+      }else{me.Fire_GBU.hide();}
+    }else{me.Fire_GBU.hide();}
+    
+    
+    
     #me.hdg.setText(sprintf("%03d", me.input.hdg.getValue()));
     me.h_trans.setTranslation(0, 18 * me.input.pitch.getValue());
     
@@ -349,6 +393,7 @@ var HUD = {
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
     
     #print(mydistanceTohud)
+
 
     
     #To put a triangle on the selected target

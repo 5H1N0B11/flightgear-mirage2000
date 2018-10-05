@@ -71,7 +71,7 @@
     <width>18</width>
     <height>8</height>
     <input>
-      <property>/orientation/heading-magnetic-deg</property>
+      <property>instrumentation/mfd/heading-displayed</property>
     </input>
     <format>%3.0f</format>
     <halign>center</halign>
@@ -80,9 +80,9 @@
   </label>
 
   <tape>
-    <name>Gyrocompass</name>
+    <name>GyrocompassTrue</name>  
     <input>
-      <property>/orientation/heading-magnetic-deg</property>
+      <property>instrumentation/mfd/heading-displayed</property>
       <factor>0.1</factor>
     </input>
     <x>-40</x>
@@ -535,11 +535,15 @@
     <width>15</width>
     <height>6</height>
     <condition>
-      <equals>
-        <property>controls/armament/stick-selector</property>
-        <value>1</value>
-      </equals>
+      <and>
+        <property>controls/armament/master-arm</property>
+        <equals>
+          <property>controls/armament/name</property>
+          <value>30mm Cannon</value>
+        </equals>
+      </and>
     </condition>
+
     <input>
       <property>ai/submodels/submodel/count</property>
     </input>
@@ -554,12 +558,15 @@
     <y>-80</y>
     <width>15</width>
     <height>6</height>
-<!--    <condition>
-      <equals>
-        <property>controls/armament/stick-selector</property>
-        <value>2</value>
-      </equals>
-    </condition>-->
+    <condition>
+      <and>
+        <property>controls/armament/master-arm</property>
+        <not><equals>    
+          <property>controls/armament/name</property>
+          <value>30mm Cannon</value>
+        </equals></not>
+      </and>
+    </condition>
     <input>
       <property>controls/armament/name</property>
     </input>

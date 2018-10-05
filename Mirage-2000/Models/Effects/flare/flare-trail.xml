@@ -42,7 +42,7 @@
   
   <counter>
    <particles-per-sec>
-    <value>30</value>
+    <value>4</value>
    </particles-per-sec>
   </counter>
   

@@ -1,3 +1,18 @@
+2018-09
+================================================================================
+Added new weapons
+Added sound for weapons
+Made true heading/magnetic heading selectables
+Made an HUD indicator for when release bombs
+
+2018-08
+================================================================================
+New weapons systems, generic and allow more option on missile/bombs
+- All load have been update, closer to reality.
+- FLIR via the sniping pod is available.
+
+etc ...
+
 2017-10
 ================================================================================
 new pylons
@@ -56,8 +71,8 @@ new biplace version
 -------------------
 The aircraft model is common between mono and bi, some parts are shown or not
 for example :
-- mirage 2000-5 : m2000-5-set.xml includes System/m2000-5-base.xml which loads Models/m2000-5.xml which hide biplace parts
-- mirage 2000-5B (launch with --aircraft=m2000-5B) : m2000-5B-set.xml (new file) includes System/m2000-5B-base.xml (new file) which loads Models/m2000-5B.xml (new file) which hide monoplace p
+- mirage 2000-5 : m2000-5-set.xml includes Systems/m2000-5-base.xml which loads Models/m2000-5.xml which hide biplace parts
+- mirage 2000-5B (launch with --aircraft=m2000-5B) : m2000-5B-set.xml (new file) includes Systems/m2000-5B-base.xml (new file) which loads Models/m2000-5B.xml (new file) which hide monoplace p
 
 - adapted logo uvmap, antennas placement
 - modelized back seat panel

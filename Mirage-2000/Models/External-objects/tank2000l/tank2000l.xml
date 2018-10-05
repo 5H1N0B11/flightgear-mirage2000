@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>Aircraft/Mirage-2000/Models/External-objects/tank2000l/tank2000l.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>tank2000</object-name>
+
+    <!-- Objets transparents -->
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>tank2000</object-name>
+    <property-base>sim/model/livery</property-base>
+    <texture-prop>texture-tank-2000</texture-prop>
+    <texture-tank-2000>tank2000.png</texture-tank-2000>
+  </animation>
+
+
+  <effect>
+    <!--inherits-from>Aircraft/Generic/Effects/Fuselagereflect</inherits-from-->
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/aircraft/aircraft</inherits-from>
+    <object-name>tank</object-name>
+    <condition>
+      <not><property>sim/rendering/rembrandt/enabled</property></not>
+    </condition>
+  </effect>
+
+</PropertyList>
+

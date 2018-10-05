@@ -11,49 +11,25 @@ var Decode_Load = {
         m.updateTime = updateTime;
         m.running = 0;
         m.loadList = [
-            "none",
-            "1300 l Droptank",
-            "1700 l Droptank",
-            "AGM65",
-            "AIM-54",
-            "aim-9",
-            "AIM120",
-            "GBU12",
-            "GBU16",
-            "Double GBU12",
-            "Double GBU12_1",
-            "Matra MICA",
-            "MATRA-R530",
-            "Matra R550 Magic 2",
-            "Meteor",
-            "R74",
-            "R77",
-            "SCALP",
-            "Sea Eagle",
-            "SmokePod",
-            "ASMP",
-            "PDLCT",
-            "Matra MICA IR",
-            "Exocet",
-            "Matra Super 530D"
+          "2000 l Droptank",
+          "SCALP",
+          "1700 l Droptank",
+          "AM39-Exocet",
+          "2 x GBU-12",
+          "1700 l Droptank",
+          "AS-37-Martel",
+          "PDLCT",
+          "Matra Super 530D",
+          "AS30L",
+          "30mm Cannon",
+          "none",
+          "MICA IR",
+          "1300 l Droptank",
+          "Matra R550 Magic 2",
+          "2000 l Droptank",
+          "MICA EM",
+          "ASMP"
         ];
-        m.weaponWeight = {
-          "none":                 0,
-          "GBU16":                1000,
-          "GBU12":                800,
-          "Double GBU12":         1600,
-          "Double GBU12_1":       800,
-          "PDLCT":                280,
-          "Matra MICA":           246.91,
-          "Matra MICA IR":        246.91,
-          "Matra R550 Magic 2":   196.21,
-          "ASMP":                 1850,
-          "SCALP":                2866,
-          "Exocet":               1460,
-          "Matra Super 530D":     595.2,
-          "1700 l Droptank":      280,
-          "1300 l Droptank":      220
-        };
         m.decode();
         return m;
     },
@@ -61,81 +37,52 @@ var Decode_Load = {
     decode: func()
     {
         #print("Upload On going");
-        var myString = me.myString.getValue();
+        #var myInternalString = me.myString.getValue();
+        #print("myInternalString" ~ myInternalString);
+        
+        #Using getprop because it seems that the "myString.getValue()" does not work and I don't understand why.
+        var StringTree = me.mySelf.getNode("sim/multiplay/generic/string[1]");
+        var String = StringTree.getValue();
         var myIndexArray = [];
         
-        if(myString != nil)
+        #print("String "~String);
+        
+        if(String != nil)
         {
-            #print("the string :"~ myString);
-            #print("test" ~ me.loadList[3]);
-            # Here to detect each substring index
-            for(i = 0 ; i < size(myString) ; i += 1)
-            {
-                #print(chr(myString[i]));
-                if(chr(myString[i]) == '#')
-                {
-                    #print("We got one : " ~ i );
-                    append(myIndexArray, i);
-                }
-                #print(size(myIndexArray));
+          #String = getprop("sim/multiplay/generic/string[1]");    
+          #Index of the beguining of each set string
+          var mySetIndexArray = [];
+          #Index of the beguining of each count string
+          var myCountIndexArray = [];
+          
+          for(i = 0 ; i < size(String) ; i += 1)
+          {
+              if(chr(String[i]) == '#'){append(mySetIndexArray, i);}
+              if(chr(String[i]) == 'C'){append(myCountIndexArray, i);}
+          }
+          
+          if(size(mySetIndexArray) != size(myCountIndexArray)){return;}
+          
+          var i = 0;
+          forindex(i; mySetIndexArray){
+            var mySet = substr(String, mySetIndexArray[i] + 1, myCountIndexArray[i]-mySetIndexArray[i]-1);
+            #print("myCountIndexArray[i]:"~myCountIndexArray[i]~ " size(String):"~ size(String));
+            if(i+1<size(mySetIndexArray)){
+              var myCount = substr(String, myCountIndexArray[i] + 1, mySetIndexArray[i+1] - myCountIndexArray[i]-1);
+            }else{
+              var myCount = substr(String, myCountIndexArray[i] + 1, size(String) - myCountIndexArray[i]-1);
             }
             
-            # now we can split the substring
-            for(i = 0 ; i < size(myIndexArray) ; i += 1)
-            {
-                if(i < size(myIndexArray) - 1)
-                {
-                    #print(substr(myString, myIndexArray[i], myIndexArray[i + 1] - myIndexArray[i]));
-                    
-                    # index of weight :
-                    var myWeightIndex = substr(myString, myIndexArray[i] + 1, 1);
-                    #print("myWeightIndex:"~ myWeightIndex);
-                    
-                    # has been fired (display pylons or not)
-                    var myFired = substr(myString, myIndexArray[i] + 2, 1) == 1;
-                    #print(myFired);
-                    
-                    # what to put in weight[]/selected index
-                    var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, (myIndexArray[i + 1] - 1) - (myIndexArray[i] + 2));
-                    var mySelection = me.loadList[myWeightOptIndex];
-                    #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
-                    #print("mySelection: " ~ mySelection);
-                    
-                    # rebuilt the property Tree
-                    me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
-                    if(myFired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh[mySelection]);}
-                    me.mySelf.getNode("controls/armament/station["~ myWeightIndex ~"]/release", 1).setValue(myFired);
-                }
-                else
-                {
-                    #print(substr(myString, myIndexArray[i], size(myString) - myIndexArray[i]));
-                    
-                    # index of weight :
-                    var myWeightIndex = substr(myString, myIndexArray[i] + 1, 1);
-                    #print(myWeightIndex);
-                    
-                    # has been fired (display pylons or not)
-                    var myFired = substr(myString, myIndexArray[i] + 2, 1) == 1;
-                    #print(myFired);
-                    
-                    # what to put in weight[]/selected
-                    var myWeightOptIndex = substr(myString, myIndexArray[i] + 3, size(myString) - (myIndexArray[i] + 2));
-                    var mySelection = me.loadList[myWeightOptIndex];
-                    #var myWeight = getprop("sim/weight["~ myWeightIndex ~"]/opt[" ~ myWeightOptIndex ~ "]/name");
-                    #print(mySelection);
-                    
-                    # rebuilt the property Tree
-                    me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
-                    if(myFired){me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(me.weaponWeigh[mySelection]);}
-                    me.mySelf.getNode("controls/armament/station["~ myWeightIndex ~"]/release", 1).setValue(myFired);
-                    
-                    if(me.running == 1)
-                    {
-                      #settimer(func(){ me.decode(); }, me.updateTime);
-                    }
-                }
-            }
+            #print(mySet);
+            #print(myCount);
+            #print(me.loadList[mySet]);
+            me.mySelf.getNode("payload/armament/station/id-"~ i ~"-set", 1).setValue(me.loadList[mySet]);
+            me.mySelf.getNode("payload/armament/station/id-"~ i ~"-count", 1).setValue(myCount);
+            
+          }
         }
+
+        #me.mySelf.getNode("sim/weight["~ myWeightIndex ~"]/selected", 1).setValue(mySelection);
         #print(me.mySelf.getName() ~ "["~ me.mySelf.getIndex() ~"]");
     },
     stop: func()
@@ -145,12 +92,13 @@ var Decode_Load = {
 };
 
 var Encode_Bool = func(){
-  var mycomp = mirage2000.landing1_switch.getValue();
-  mycomp       = mirage2000.formation_switch.getValue()                         ~ mycomp;
-  mycomp       = mirage2000.position_switch.getValue()                          ~ mycomp;
-  mycomp       = mirage2000.tailLight_switch.getValue()                         ~ mycomp;
-  mycomp       = mirage2000.strobe2_switch.getValue()                           ~ mycomp;
-  mycomp       = mirage2000.strobe_switch.getValue()                            ~ mycomp;
+  
+  var mycomp   = instrumentation.landing1_switch.getValue();
+  mycomp       = instrumentation.formation_switch.getValue()                    ~ mycomp;
+  mycomp       = instrumentation.position_switch.getValue()                     ~ mycomp;
+  mycomp       = instrumentation.tailLight_switch.getValue()                    ~ mycomp;
+  mycomp       = instrumentation.strobe2_switch.getValue()                      ~ mycomp;
+  mycomp       = instrumentation.strobe_switch.getValue()                       ~ mycomp;
   mycomp       = props.globals.getNode("/gear/gear[0]/wow").getValue()          ~ mycomp;
   mycomp       = props.globals.getNode("/gear/gear[1]/wow").getValue()          ~ mycomp;
   mycomp       = props.globals.getNode("/gear/gear[2]/wow").getValue()          ~ mycomp;
