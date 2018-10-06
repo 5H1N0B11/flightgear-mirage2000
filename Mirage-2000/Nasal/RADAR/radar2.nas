@@ -1181,13 +1181,22 @@ var Radar = {
         #}
     },
     
+    next_loop: func(index,factor){
+      var number = 0;
+      for(i=1;i<size(me.tgts_list);i = i + 1){
+        number = math.mod(index + (i * factor), size(me.tgts_list));
+        if(me.tgts_list[number].get_display() == 1){ return number;}
+      }
+      return index;
+    },
+    
     next_Target_Index: func(){
       if(me.az_fld == me.focused_az_fld){
         #Stuff to un paint previous target
         if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         
         #Stuff to decrease the index
-        me.Target_Index = me.Target_Index + 1 > size(me.tgts_list)-1 ? 0 : me.Target_Index + 1;
+        me.Target_Index = me.next_loop(me.Target_Index, 1);
 
         #Stuff to do with new index        
         if (size(me.tgts_list) > 0) {
@@ -1206,12 +1215,7 @@ var Radar = {
         if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         
         #Stuff to decrease the index
-        me.Target_Index = me.Target_Index - 1 < 0? size(me.tgts_list)-1: me.Target_Index - 1;
-        
-        #if(me.Target_Index < 0)
-        #{
-        #    me.Target_Index = size(me.tgts_list)-1;
-        #}
+        me.Target_Index = me.next_loop(me.Target_Index, -1);
         
         #Stuff to do with new index        
         if (size(me.tgts_list) > 0) {
