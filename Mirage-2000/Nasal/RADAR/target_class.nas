@@ -86,7 +86,17 @@ var Target = {
             obj.ModelType = "";
         }
 
-        
+        # let us make callsign a static variable:
+        if (obj.Callsign == nil or obj.Callsign.getValue() == "")
+        {
+            if (obj.name == nil or obj.name.getValue() == "") {
+                obj.myCallsign = obj.ModelType;# last resort. 
+            } else {
+                obj.myCallsign = obj.name.getValue();# for AI ships.
+            }
+        } else {
+            obj.myCallsign = obj.Callsign.getValue();
+        }
         
         obj.life = 5; #Have to be given in parameters, but now written in hard
         obj.objectDeviationDeg = 0;
@@ -373,11 +383,15 @@ var Target = {
         return TgTCoord;
     },
 
-    get_Callsign: func(){
-        var n = me.Callsign.getValue();
-        if(n == nil or n == ""){n = me.name.getValue();}
-        if(n == nil or n == ""){n = "UFO";}
-        return n;
+    get_Callsign: func{
+        return me.myCallsign;# callsigns are probably not dynamic, so its defined at Target creation.
+        if (me.Callsign == nil or me.Callsign.getValue() == "") {
+            if (me.name == nil or me.name.getValue() == "") {
+                return me.get_model();
+            }
+            return me.name.getValue();# for AI ships.
+        }
+        return me.Callsign.getValue();
     },
 
     get_Speed: func(){

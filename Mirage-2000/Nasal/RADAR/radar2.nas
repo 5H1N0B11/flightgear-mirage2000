@@ -220,19 +220,19 @@ var Radar = {
             radarWorking = (radarWorking == nil) ? 0 : radarWorking;
             if(radarWorking > 24 and me.AutoUpdate)
             {
-                #me.update();
-                #These line bellow are error management.
-                var UpdateErr = [];
+              #me.update();
+              #These line bellow are error management.
+              var UpdateErr = [];
 #                 print("Calling radar");
-                call(me.update,[],me,nil,UpdateErr);
-                if(size(UpdateErr) != 0)
+              call(me.update,[],me,nil,UpdateErr);
+              if(size(UpdateErr) > 0)
+              {
+                print("We have Radar update Errors, but radar still running");
+                foreach(var myErrors ; UpdateErr)
                 {
-                    print("We have Radar update Errors, but radar still running");
-                    foreach(var myErrors ; UpdateErr)
-                    {
-                        print(myErrors);
-                    }
+                  print(myErrors);
                 }
+              }
 #                 print("Radar refreshing done");
             }
             #me.Global_janitor();
@@ -1142,7 +1142,7 @@ var Radar = {
         return me.az_fld;
     },
 
-    next_Target_Index: func(){
+    next_Target_Index_Old: func(){
       if(me.az_fld == me.focused_az_fld){  
       if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         me.Target_Index = me.Target_Index + 1;
@@ -1180,15 +1180,40 @@ var Radar = {
           #me.next_Target_Index();
         #}
     },
+    
+    next_Target_Index: func(){
+      if(me.az_fld == me.focused_az_fld){
+        #Stuff to un paint previous target
+        if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
+        
+        #Stuff to decrease the index
+        me.Target_Index = me.Target_Index + 1 > size(me.tgts_list)-1 ? 0 : me.Target_Index + 1;
 
+        #Stuff to do with new index        
+        if (size(me.tgts_list) > 0) {
+          me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
+          me.tgts_list[me.Target_Index].setPainted(1);
+        } else {
+          me.Target_Callsign = nil;
+        }
+      }
+
+    },
+    
     previous_Target_Index: func(){
       if(me.az_fld == me.focused_az_fld){
+        #Stuff to un paint previous target
         if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
-        me.Target_Index = me.Target_Index - 1;
-        if(me.Target_Index < 0)
-        {
-            me.Target_Index = size(me.tgts_list)-1;
-        }
+        
+        #Stuff to decrease the index
+        me.Target_Index = me.Target_Index - 1 < 0? size(me.tgts_list)-1: me.Target_Index - 1;
+        
+        #if(me.Target_Index < 0)
+        #{
+        #    me.Target_Index = size(me.tgts_list)-1;
+        #}
+        
+        #Stuff to do with new index        
         if (size(me.tgts_list) > 0) {
           me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
           me.tgts_list[me.Target_Index].setPainted(1);
