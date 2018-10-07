@@ -1,9 +1,13 @@
 2018-09
 ================================================================================
-Added new weapons
-Added sound for weapons
-Made true heading/magnetic heading selectables
-Made an HUD indicator for when release bombs
+- New FBW/AP
+- New firecontrol / load management
+- Missiles only limited to what the mirage can actually use
+- improvement on the  3D missiles
+- New tacan panel, correction on previous bugs, heading tru/mag selectable
+- New effect ALS  on canopy/mirror
+- Ejection seat
+- 3D stick in the cockpit
 
 2018-08
 ================================================================================
