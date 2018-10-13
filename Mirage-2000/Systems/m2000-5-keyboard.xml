@@ -18,20 +18,7 @@
 							</and>
 						</condition>
 						<command>nasal</command>
-						<script>
-						if (getprop("/sim/current-view/can-change-z-offset")) {
-							var distance = getprop("/sim/current-view/z-offset-m");
-							var multiple = getprop("/sim/current-view/z-offset-inc-step");
-							var min_dist = getprop("/sim/current-view/z-offset-min-m");
-
-							distance = math.round(std.min(-min_dist, distance + multiple) / multiple) * multiple;
-							setprop("/sim/current-view/z-offset-m", distance);
-
-							gui.popupTip(sprintf("%d meters", abs(distance)));
-						} else {
-							view.decrease();
-						}
-						</script>
+						<script>mirage2000.fovZoom(-1);</script>
 					</binding>
 				</button>
 				<button n="4">
@@ -46,20 +33,7 @@
 							</and>
 						</condition>
 						<command>nasal</command>
-						<script>
-							if (getprop("/sim/current-view/can-change-z-offset")) {
-								var distance = getprop("/sim/current-view/z-offset-m");
-								var multiple = getprop("/sim/current-view/z-offset-dec-step");
-								var max_dist = getprop("/sim/current-view/z-offset-max-m");
-
-								distance = math.round(std.max(-max_dist, distance + multiple) / multiple) * multiple;
-								setprop("/sim/current-view/z-offset-m", distance);
-
-								gui.popupTip(sprintf("%d meters", abs(distance)));
-							} else {
-								view.increase();
-							}
-						</script>
+						<script>mirage2000.fovZoom(1);</script>
 					</binding>
 				</button>
 			</mode>
@@ -421,15 +395,7 @@
 		<desc>Reset zoom to default</desc>
 		<binding>
 			<command>nasal</command>
-			<script>
-				if (getprop("/sim/current-view/can-change-z-offset")) {
-					setprop("/sim/current-view/z-offset-m", getprop("/sim/current-view/z-offset-default") * -1);
-
-					gui.popupTip(sprintf("%d meters", getprop("/sim/current-view/z-offset-default")));
-				} else {
-					setprop("/sim/current-view/field-of-view", getprop("/sim/view/config/default-field-of-view-deg"));
-				}
-			</script>
+			<script>mirage2000.fovZoom(0);</script>
 		</binding>
 	</key>
 	<key n="88">
@@ -437,21 +403,8 @@
 		<desc>Increase field of view</desc>
 		<repeatable type="bool">true</repeatable>
 		<binding>
-		<command>nasal</command>
-		<script>
-			if (getprop("/sim/current-view/can-change-z-offset")) {
-				var distance = getprop("/sim/current-view/z-offset-m");
-				var multiple = getprop("/sim/current-view/z-offset-dec-step");
-				var max_dist = getprop("/sim/current-view/z-offset-max-m");
-
-				distance = math.round(std.max(-max_dist, distance + multiple) / multiple) * multiple;
-				setprop("/sim/current-view/z-offset-m", distance);
-
-				gui.popupTip(sprintf("%d meters", abs(distance)));
-			} else {
-				view.increase();
-			}
-		</script>
+			<command>nasal</command>
+			<script>mirage2000.fovZoom(1);</script>
 		</binding>
 	</key>
 	<key n="120">
@@ -460,20 +413,7 @@
 		<repeatable type="bool">true</repeatable>
 		<binding>
 			<command>nasal</command>
-			<script>
-				if (getprop("/sim/current-view/can-change-z-offset")) {
-					var distance = getprop("/sim/current-view/z-offset-m");
-					var multiple = getprop("/sim/current-view/z-offset-inc-step");
-					var min_dist = getprop("/sim/current-view/z-offset-min-m");
-
-					distance = math.round(std.min(-min_dist, distance + multiple) / multiple) * multiple;
-					setprop("/sim/current-view/z-offset-m", distance);
-
-					gui.popupTip(sprintf("%d meters", abs(distance)));
-				} else {
-					view.decrease();
-				}
-			</script>
+			<script>mirage2000.fovZoom(-1);</script>
 		</binding>
 	</key>
   
