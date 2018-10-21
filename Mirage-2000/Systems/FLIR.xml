@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- IDG Distance Zooming --> 
+<!-- 2015-2017 onox --> 
+<!-- Modified by Joshua Davidson (it0uchpods) --> 
+
+<PropertyList>
+  
+ <logic> 
+    <name>Enable Sniping Cam</name> 
+    <input> 
+      <equals> 
+        <property>payload/armament/station/id-6-type</property> 
+        <value>PDLCT</value> 
+      </equals> 
+    </input> 
+    <output> 
+      <property>/sim/view[102]/enabled</property> 
+    </output> 
+  </logic> 
+   
+  <logic> 
+    <name>View Enable FLIR</name> 
+    <input> 
+      <equals> 
+        <property>/sim/current-view/name</property> 
+        <value>Sniping cam</value> 
+      </equals> 
+    </input> 
+    <output> 
+      <property>/aircraft/flir/target/view-enabled</property> 
+    </output> 
+  </logic> 
+   
+    <logic> 
+        <name>View Enable ALS IR</name> 
+        <input> 
+           <property>/aircraft/flir/target/view-enabled</property> 
+        </input> 
+        <output> 
+            <property>/sim/rendering/als-filters/use-filtering</property> 
+        </output> 
+        <output> 
+            <property>/sim/rendering/als-filters/use-IR-vision</property> 
+        </output> 
+    </logic> 
+
+</PropertyList>

@@ -22,5 +22,9 @@
     <name>rain-drops</name>
     <path>Aircraft/Mirage-2000/Systems/rain-drops.xml</path>
   </property-rule>
+  
+   <property-rule n="102"> 
+    <path>Aircraft/Mirage-2000/Systems/FLIR.xml</path> 
+  </property-rule> 
 
 </PropertyList>
