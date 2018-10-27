@@ -89,8 +89,8 @@
     <object-name>axeD3</object-name>
     <object-name>axeD4</object-name>
     <object-name>roueD</object-name>
-    <object-name>turbine</object-name>
-    <object-name>bruleur</object-name>
+<!--    <object-name>turbine</object-name>
+    <object-name>bruleur</object-name>-->
     <object-name>tuyere</object-name>
 
     <!-- ~~~~~~~~~~~~~~~~~~ transparent objects -->
@@ -173,7 +173,7 @@
     <object-name>axeD3</object-name>
     <object-name>axeD4</object-name>
     <object-name>roueD</object-name>
-    <object-name>turbine</object-name>
+<!--    <object-name>turbine</object-name>-->
 
     <!-- ~~~~~~~~~~~~~~~~~~ textures -->
     <property-base>sim/model/livery</property-base>
@@ -266,9 +266,12 @@
   </model>
 
   <model>
-    <path>Aircraft/Mirage-2000/Models/Effects/fx/fx2.xml</path>
+    <path>Aircraft/Mirage-2000/Models/turbine.xml</path>
   </model>
-
+  
+  
+  
+  
   <!-- shadow for osg -->
 <!--  <model>
     <path>Aircraft/Mirage-2000/Models/shadow.xml</path>
