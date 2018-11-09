@@ -26,6 +26,15 @@
     <button>
       <row>0</row><col>1</col>
       <legend>none</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  "");
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     "");
+        ]]>
+        </script>
+      </binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/payload/armament/station/id-0-set</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/payload/armament/station/id-1-set</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/payload/armament/station/id-2-set</property><value>none</value></binding>
@@ -48,6 +57,15 @@
     <button>
       <row>0</row><col>2</col>
       <legend>Air-Air</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  "");
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     "");
+        ]]>
+        </script>
+      </binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/payload/armament/station/id-0-set</property><value>MICA EM</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/payload/armament/station/id-1-set</property><value>MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/payload/armament/station/id-2-set</property><value>none</value></binding>
@@ -70,6 +88,15 @@
     <button>
       <row>0</row><col>3</col>
       <legend>Air-Ground</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  "");
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     "");
+        ]]>
+        </script>
+      </binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/payload/armament/station/id-0-set</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/payload/armament/station/id-1-set</property><value>MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[0]/payload/armament/station/id-2-set</property><value>2000 l Droptank</value></binding>
@@ -110,6 +137,15 @@
     <button>
       <row>1</row><col>1</col>
       <legend>none</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  "");
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     "");
+        ]]>
+        </script>
+      </binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/payload/armament/station/id-0-set</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/payload/armament/station/id-1-set</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/payload/armament/station/id-2-set</property><value>none</value></binding>
@@ -132,6 +168,15 @@
     <button>
       <row>1</row><col>2</col>
       <legend>Air-Air</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  "");
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     "");
+        ]]>
+        </script>
+      </binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/payload/armament/station/id-0-set</property><value>MICA EM</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/payload/armament/station/id-1-set</property><value>MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/payload/armament/station/id-2-set</property><value>none</value></binding>
@@ -154,6 +199,15 @@
     <button>
       <row>1</row><col>3</col>
       <legend>Air-Ground</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  "");
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     "");
+        ]]>
+        </script>
+      </binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/payload/armament/station/id-0-set</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/payload/armament/station/id-1-set</property><value>MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[1]/payload/armament/station/id-2-set</property><value>2000 l Droptank</value></binding>
@@ -194,6 +248,15 @@
     <button>
       <row>2</row><col>1</col>
       <legend>none</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  "");
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     "");
+        ]]>
+        </script>
+      </binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/payload/armament/station/id-0-set</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/payload/armament/station/id-1-set</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/payload/armament/station/id-2-set</property><value>none</value></binding>
@@ -216,6 +279,15 @@
     <button>
       <row>2</row><col>2</col>
       <legend>Air-Air</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  "");
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     "");
+        ]]>
+        </script>
+      </binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/payload/armament/station/id-0-set</property><value>MICA EM</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/payload/armament/station/id-1-set</property><value>MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/payload/armament/station/id-2-set</property><value>none</value></binding>
@@ -238,6 +310,15 @@
     <button>
       <row>2</row><col>3</col>
       <legend>Air-Ground</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+        <![CDATA[
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/string[1]",  "");
+          setprop("/ai/models/wingman[0]/sim/multiplay/generic/int[8]",     "");
+        ]]>
+        </script>
+      </binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/payload/armament/station/id-0-set</property><value>none</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/payload/armament/station/id-1-set</property><value>MICA IR</value></binding>
       <binding><command>property-assign</command><property>/ai/models/wingman[2]/payload/armament/station/id-2-set</property><value>2000 l Droptank</value></binding>
