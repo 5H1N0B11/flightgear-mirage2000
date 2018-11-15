@@ -73,7 +73,7 @@
 		<input>
 			<expression>
 				<table>
-					<property>/controls/flight/aileron</property> 
+					<property>/controls/flight/aileron</property>
 					<entry><ind>-1.00</ind><dep>-1.0</dep></entry>
 					<entry><ind>-0.02</ind><dep> 0.0</dep></entry>
 					<entry><ind> 0.00</ind><dep> 0.0</dep></entry>
@@ -167,24 +167,24 @@
 			<Kp>
 				<expression>
 					<table>
-						<property>/velocities/mach</property> 
-						<entry><ind>0.2</ind><dep>-0.20</dep></entry>
-						<entry><ind>0.3</ind><dep>-0.10</dep></entry>
-						<entry><ind>0.5</ind><dep>-0.05</dep></entry>
-						<entry><ind>1.0</ind><dep>-0.04</dep></entry>
-						<entry><ind>2.0</ind><dep>-0.03</dep></entry>
+						<property>/velocities/airspeed-kt</property>
+						<entry><ind>130</ind><dep>-0.20</dep></entry>
+						<entry><ind>200</ind><dep>-0.10</dep></entry>
+						<entry><ind>320</ind><dep>-0.05</dep></entry>
+						<entry><ind>600</ind><dep>-0.04</dep></entry>
+						<entry><ind>950</ind><dep>-0.03</dep></entry>
 					</table>
 				</expression>
 			</Kp>
 			<Ki>
 				<expression>
 					<table>
-						<property>/velocities/mach</property> 
-						<entry><ind>0.2</ind><dep>-0.100</dep></entry>
-						<entry><ind>0.3</ind><dep>-0.050</dep></entry>
-						<entry><ind>0.5</ind><dep>-0.020</dep></entry>
-						<entry><ind>1.0</ind><dep>-0.010</dep></entry>
-						<entry><ind>2.0</ind><dep>-0.007</dep></entry>
+						<property>/velocities/airspeed-kt</property>
+						<entry><ind>130</ind><dep>-0.100</dep></entry>
+						<entry><ind>200</ind><dep>-0.050</dep></entry>
+						<entry><ind>320</ind><dep>-0.020</dep></entry>
+						<entry><ind>600</ind><dep>-0.010</dep></entry>
+						<entry><ind>950</ind><dep>-0.007</dep></entry>
 					</table>
 				</expression>
 			</Ki>
@@ -204,12 +204,12 @@
 		<filter-time>
 			<expression>
 				<table>
-					<property>/velocities/mach</property> 
-					<entry><ind>0.2</ind><dep>-0.0200</dep></entry>
-					<entry><ind>0.3</ind><dep>-0.0100</dep></entry>
-					<entry><ind>0.5</ind><dep>-0.0050</dep></entry>
-					<entry><ind>1.0</ind><dep>-0.0002</dep></entry>
-					<entry><ind>2.0</ind><dep>-0.0001</dep></entry>
+					<property>/velocities/airspeed-kt</property>
+					<entry><ind>130</ind><dep>-0.0200</dep></entry>
+					<entry><ind>200</ind><dep>-0.0100</dep></entry>
+					<entry><ind>320</ind><dep>-0.0050</dep></entry>
+					<entry><ind>600</ind><dep>-0.0002</dep></entry>
+					<entry><ind>950</ind><dep>-0.0001</dep></entry>
 				</table>
 			</expression>
 		</filter-time>
@@ -258,7 +258,7 @@
 			<expression>
 				<sum>
 					<table>
-						<property>/controls/flight/elevator</property> 
+						<property>/controls/flight/elevator</property>
 						<entry><ind>-1.00</ind><dep>-1.0</dep></entry>
 						<entry><ind>-0.02</ind><dep> 0.0</dep></entry>
 						<entry><ind> 0.00</ind><dep> 0.0</dep></entry>
@@ -266,7 +266,7 @@
 						<entry><ind> 1.00</ind><dep> 1.0</dep></entry>
 					</table>
 					<table>
-						<property>/it-fbw/pitch/alpha-modified</property> 
+						<property>/it-fbw/pitch/alpha-modified</property>
 						<entry><ind>26</ind><dep>0.0</dep></entry>
 						<entry><ind>28</ind><dep>0.5</dep></entry>
 						<entry><ind>30</ind><dep>1.0</dep></entry>
@@ -278,7 +278,7 @@
 		<min>
 			<expression>
 				<table>
-					<property>/it-fbw/pitch/alpha-modified</property> 
+					<property>/it-fbw/pitch/alpha-modified</property>
 					<entry><ind>22</ind><dep>-1.00</dep></entry>
 					<entry><ind>25</ind><dep>-0.85</dep></entry>
 					<entry><ind>29</ind><dep> 0.00</dep></entry>
@@ -301,7 +301,7 @@
 			</condition>
 			<expression>
 				<table>
-					<property>/controls/flight/elevator-nul</property> 
+					<property>/controls/flight/elevator-nul</property>
 					<entry><ind>-1.000</ind><dep> 7.5</dep></entry>
 					<entry><ind>-0.900</ind><dep> 5.5</dep></entry> <!-- A slight null zone for the elastic stop -->
 					<entry><ind>-0.850</ind><dep> 5.5</dep></entry>
@@ -313,7 +313,7 @@
 		<input>
 			<expression>
 				<table>
-					<property>/controls/flight/elevator-nul</property> 
+					<property>/controls/flight/elevator-nul</property>
 					<entry><ind>-1.000</ind><dep>10.5</dep></entry>
 					<entry><ind>-0.900</ind><dep> 8.5</dep></entry> <!-- A slight null zone for the elastic stop -->
 					<entry><ind>-0.850</ind><dep> 8.5</dep></entry>
@@ -358,7 +358,7 @@
 							<value>1.0</value>
 						</difference>
 						<table>
-							<property>/velocities/mach</property> 
+							<property>/velocities/mach</property> <!-- Better to use mach here -->
 							<entry><ind>0.2</ind><dep>0.25</dep></entry>
 							<entry><ind>0.3</ind><dep>0.50</dep></entry>
 							<entry><ind>0.5</ind><dep>1.00</dep></entry>
@@ -390,24 +390,24 @@
 			<Kp>
 				<expression>
 					<table>
-						<property>/velocities/mach</property> 
-						<entry><ind>0.2</ind><dep>-0.20</dep></entry>
-						<entry><ind>0.3</ind><dep>-0.17</dep></entry>
-						<entry><ind>0.5</ind><dep>-0.13</dep></entry>
-						<entry><ind>1.0</ind><dep>-0.09</dep></entry>
-						<entry><ind>2.0</ind><dep>-0.05</dep></entry>
+						<property>/velocities/airspeed-kt</property>
+						<entry><ind>130</ind><dep>-0.20</dep></entry>
+						<entry><ind>200</ind><dep>-0.17</dep></entry>
+						<entry><ind>320</ind><dep>-0.13</dep></entry>
+						<entry><ind>600</ind><dep>-0.09</dep></entry>
+						<entry><ind>950</ind><dep>-0.05</dep></entry>
 					</table>
 				</expression>
 			</Kp>
 			<Ki>
 				<expression>
 					<table>
-						<property>/velocities/mach</property> 
-						<entry><ind>0.2</ind><dep>-0.29</dep></entry>
-						<entry><ind>0.3</ind><dep>-0.26</dep></entry>
-						<entry><ind>0.5</ind><dep>-0.18</dep></entry>
-						<entry><ind>1.0</ind><dep>-0.15</dep></entry>
-						<entry><ind>2.0</ind><dep>-0.08</dep></entry>
+						<property>/velocities/airspeed-kt</property>
+						<entry><ind>130</ind><dep>-0.29</dep></entry>
+						<entry><ind>200</ind><dep>-0.26</dep></entry>
+						<entry><ind>320</ind><dep>-0.18</dep></entry>
+						<entry><ind>600</ind><dep>-0.15</dep></entry>
+						<entry><ind>950</ind><dep>-0.08</dep></entry>
 					</table>
 				</expression>
 			</Ki>
@@ -441,17 +441,24 @@
 		<name>IT-CONTROLLER: Q CONTROL</name>
 		<type>gain</type>
 		<gain>
+			<condition>
+				<equals>
+					<property>/it-fbw/internal/flight-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
 			<expression>
 				<table>
-					<property>/velocities/mach</property> 
-					<entry><ind>0.2</ind><dep>11.0</dep></entry>
-					<entry><ind>0.3</ind><dep> 8.0</dep></entry>
-					<entry><ind>0.5</ind><dep> 5.0</dep></entry>
-					<entry><ind>1.0</ind><dep> 0.9</dep></entry>
-					<entry><ind>2.0</ind><dep> 0.4</dep></entry>
+					<property>/velocities/airspeed-kt</property>
+					<entry><ind>130</ind><dep>11.0</dep></entry>
+					<entry><ind>200</ind><dep> 8.0</dep></entry>
+					<entry><ind>320</ind><dep> 5.0</dep></entry>
+					<entry><ind>600</ind><dep> 0.9</dep></entry>
+					<entry><ind>950</ind><dep> 0.4</dep></entry>
 				</table>
 			</expression>
 		</gain>
+		<gain>11.0</gain>
 		<!--gain>/gain</gain-->
 		<input>
 			<property>/fdm/yasim/velocities/vrot-y</property>
@@ -480,12 +487,12 @@
 		<gain>
 			<expression>
 				<table>
-					<property>/velocities/mach</property> 
-					<entry><ind>0.2</ind><dep>-0.20</dep></entry>
-					<entry><ind>0.3</ind><dep>-0.10</dep></entry>
-					<entry><ind>0.5</ind><dep>-0.04</dep></entry>
-					<entry><ind>1.0</ind><dep>-0.03</dep></entry>
-					<entry><ind>2.0</ind><dep>-0.02</dep></entry>
+					<property>/velocities/airspeed-kt</property>
+					<entry><ind>130</ind><dep>-0.20</dep></entry>
+					<entry><ind>200</ind><dep>-0.10</dep></entry>
+					<entry><ind>320</ind><dep>-0.04</dep></entry>
+					<entry><ind>600</ind><dep>-0.03</dep></entry>
+					<entry><ind>950</ind><dep>-0.02</dep></entry>
 				</table>
 			</expression>
 		</gain>
@@ -511,7 +518,7 @@
 		<input>
 			<expression>
 				<table>
-					<property>/controls/flight/rudder</property> 
+					<property>/controls/flight/rudder</property>
 					<entry><ind>-1.00</ind><dep>-1.0</dep></entry>
 					<entry><ind>-0.02</ind><dep> 0.0</dep></entry>
 					<entry><ind> 0.00</ind><dep> 0.0</dep></entry>
@@ -575,24 +582,24 @@
 			<Kp>
 				<expression>
 					<table>
-						<property>/velocities/mach</property> 
-						<entry><ind>0.2</ind><dep>23</dep></entry>
-						<entry><ind>0.3</ind><dep>19</dep></entry>
-						<entry><ind>0.5</ind><dep>13</dep></entry>
-						<entry><ind>1.0</ind><dep> 7</dep></entry>
-						<entry><ind>2.0</ind><dep> 4</dep></entry>
+						<property>/velocities/airspeed-kt</property>
+						<entry><ind>130</ind><dep>23</dep></entry>
+						<entry><ind>200</ind><dep>19</dep></entry>
+						<entry><ind>320</ind><dep>13</dep></entry>
+						<entry><ind>600</ind><dep> 7</dep></entry>
+						<entry><ind>950</ind><dep> 4</dep></entry>
 					</table>
 				</expression>
 			</Kp>
 			<Ki>
 				<expression>
 					<table>
-						<property>/velocities/mach</property> 
-						<entry><ind>0.2</ind><dep>7</dep></entry>
-						<entry><ind>0.3</ind><dep>6</dep></entry>
-						<entry><ind>0.5</ind><dep>3</dep></entry>
-						<entry><ind>1.0</ind><dep>2</dep></entry>
-						<entry><ind>2.0</ind><dep>1</dep></entry>
+						<property>/velocities/airspeed-kt</property>
+						<entry><ind>130</ind><dep>7</dep></entry>
+						<entry><ind>200</ind><dep>6</dep></entry>
+						<entry><ind>320</ind><dep>3</dep></entry>
+						<entry><ind>600</ind><dep>2</dep></entry>
+						<entry><ind>950</ind><dep>1</dep></entry>
 					</table>
 				</expression>
 			</Ki>
@@ -612,12 +619,12 @@
 		<filter-time>
 			<expression>
 				<table>
-					<property>/velocities/mach</property> 
-					<entry><ind>0.2</ind><dep>8.0</dep></entry>
-					<entry><ind>0.3</ind><dep>7.0</dep></entry>
-					<entry><ind>0.5</ind><dep>4.0</dep></entry>
-					<entry><ind>1.0</ind><dep>2.0</dep></entry>
-					<entry><ind>2.0</ind><dep>1.0</dep></entry>
+					<property>/velocities/airspeed-kt</property>
+					<entry><ind>130</ind><dep>8.0</dep></entry>
+					<entry><ind>200</ind><dep>7.0</dep></entry>
+					<entry><ind>320</ind><dep>4.0</dep></entry>
+					<entry><ind>600</ind><dep>2.0</dep></entry>
+					<entry><ind>950</ind><dep>1.0</dep></entry>
 				</table>
 			</expression>
 		</filter-time>
@@ -643,15 +650,15 @@
 		<min> <!-- Prevent using rudder to stall aircraft -->
 			<expression>
 				<sum>
-					<value>-1</value>
+					<value>-1.0</value>
 					<product>
 						<table>
-							<property>/it-fbw/pitch/alpha-modified</property> 
+							<property>/it-fbw/pitch/alpha-modified</property>
 							<entry><ind>21</ind><dep>0.0</dep></entry>
 							<entry><ind>27</ind><dep>1.0</dep></entry>
 						</table>
 						<table>
-							<property>/orientation/roll-deg</property> 
+							<property>/orientation/roll-deg</property>
 							<entry><ind> 0</ind><dep>0.0</dep></entry>
 							<entry><ind>10</ind><dep>1.0</dep></entry>
 						</table>
@@ -662,15 +669,15 @@
 		<max> <!-- Prevent using rudder to stall aircraft -->
 			<expression>
 				<difference>
-					<value>1</value>
+					<value>1.0</value>
 					<product>
 						<table>
-							<property>/it-fbw/pitch/alpha-modified</property> 
+							<property>/it-fbw/pitch/alpha-modified</property>
 							<entry><ind>21</ind><dep>0.0</dep></entry>
 							<entry><ind>27</ind><dep>1.0</dep></entry>
 						</table>
 						<table>
-							<property>/orientation/roll-deg</property> 
+							<property>/orientation/roll-deg</property>
 							<entry><ind> 0</ind><dep>0.0</dep></entry>
 							<entry><ind>10</ind><dep>1.0</dep></entry>
 						</table>
@@ -754,7 +761,7 @@
 		<input>
 			<expression>
 				<table>
-					<property>/velocities/mach</property> 
+					<property>/velocities/mach</property>
 					<entry><ind>0.2</ind><dep>-0.2</dep></entry>
 					<entry><ind>0.5</ind><dep>-0.1</dep></entry>
 					<entry><ind>1.0</ind><dep> 0.0</dep></entry>
@@ -778,7 +785,7 @@
 			</condition>
 			<expression>
 				<table>
-					<property>/velocities/airspeed-kt</property> 
+					<property>/velocities/airspeed-kt</property>
 					<entry><ind>62</ind><dep>16</dep></entry>
 					<entry><ind>77</ind><dep> 0</dep></entry>
 				</table>
@@ -819,7 +826,7 @@
 			</condition>
 			<expression>
 				<table>
-					<property>/velocities/airspeed-kt</property> 
+					<property>/velocities/airspeed-kt</property>
 					<entry><ind>62</ind><dep>16</dep></entry>
 					<entry><ind>77</ind><dep> 0</dep></entry>
 				</table>
@@ -860,7 +867,7 @@
 			</condition>
 			<expression>
 				<table>
-					<property>/velocities/airspeed-kt</property> 
+					<property>/velocities/airspeed-kt</property>
 					<entry><ind>62</ind><dep>16</dep></entry>
 					<entry><ind>77</ind><dep> 0</dep></entry>
 				</table>
@@ -904,7 +911,7 @@
 			</condition>
 			<expression>
 				<table>
-					<property>/velocities/airspeed-kt</property> 
+					<property>/velocities/airspeed-kt</property>
 					<entry><ind>62</ind><dep>16</dep></entry>
 					<entry><ind>77</ind><dep> 0</dep></entry>
 				</table>
@@ -1068,7 +1075,7 @@
 			</condition>
 			<expression>
 				<table>
-					<property>/orientation/alpha-deg</property> 
+					<property>/orientation/alpha-deg</property>
 					<entry><ind> 4</ind><dep>0</dep></entry>
 					<entry><ind>10</ind><dep>1</dep></entry>
 				</table>
