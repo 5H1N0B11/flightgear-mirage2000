@@ -16,8 +16,19 @@
     <object-name>knob_x/y</object-name>
     <object-name>knob_mode</object-name>
   </animation>
-    <!-- Objets transparents -->
+  <!-- Objets transparents -->
 
+	<animation>
+		<type>material</type>	
+		<object-name>texte</object-name>
+		<emission>
+			<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+			<red>0.50</red>
+			<green>0.25</green>
+			<blue>0.25</blue>
+		</emission>
+	</animation>
+	
   <animation>
     <type>select</type>
     <object-name>alphaX</object-name>
@@ -50,8 +61,8 @@
       <binding>
         <command>property-cycle</command>
         <property>instrumentation/tacan/frequencies/selected-channel[4]</property>
-		<value>X</value>
-		<value>Y</value>
+				<value>X</value>
+				<value>Y</value>
       </binding>
     </action>
   </animation> 
