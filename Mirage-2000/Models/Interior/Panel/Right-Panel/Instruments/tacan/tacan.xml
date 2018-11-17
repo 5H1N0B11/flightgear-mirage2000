@@ -1,44 +1,61 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
-
   <path>tacan.ac</path>
 
   <animation>
     <!-- Objets opaques -->
-    <object-name>base</object-name>
-    <object-name>texte</object-name>
+		<object-name>texte</object-name>
+		<object-name>base</object-name>
     <object-name>num-0</object-name>
     <object-name>num-1</object-name>
     <object-name>num-2</object-name>
-    <object-name>alphaX</object-name>
-    <object-name>alphaY</object-name>
-    <object-name>butonX</object-name>
-    <object-name>butonY</object-name>
-    <object-name>buton2</object-name>
-
-    <!-- Objets transparents -->
-
+		<object-name>num-3</object-name>
+		<object-name>num-4</object-name>
+    <object-name>knob1</object-name>
+    <object-name>knob2</object-name>
+    <object-name>knob_x/y</object-name>
+    <object-name>knob_mode</object-name>
   </animation>
+  <!-- Objets transparents -->
 
+	<animation>
+		<type>material</type>	
+		<object-name>texte</object-name>
+		<emission>
+			<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+			<red>0.50</red>
+			<green>0.25</green>
+			<blue>0.25</blue>
+		</emission>
+	</animation>
 
-  <animation>
-    <type>material</type>
-    <object-name>texte</object-name>
-    <emission>
-      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
-      <red>   0.50 </red>
-      <green> 0.25 </green>
-      <blue>  0.25 </blue>
-    </emission>
-  </animation>
+	<animation>
+		<name>display</name>
+		<object-name>num-0</object-name>
+		<object-name>num-1</object-name>
+		<object-name>num-2</object-name>
+		<object-name>alphaX</object-name>
+		<object-name>alphaY</object-name>
+	</animation>
+
+	<animation>
+		<type>material</type>
+		<object-name>display</object-name>
+		<emission>
+			<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+			<red>0.50</red>
+			<green>0.25</green>
+			<blue>0.25</blue>
+		</emission>
+	</animation>
 
   <animation>
     <type>select</type>
     <object-name>alphaX</object-name>
     <condition>
       <equals>
-        <property>instrumentation/tacan/frequencies/selected-channel[4]</property>
+				<property>/instrumentation/tacan/frequencies/selected-channel[4]</property>
         <value>X</value>
       </equals>
     </condition>
@@ -46,10 +63,10 @@
 
   <animation>
     <type>select</type>
-    <object-name>alphaY</object-name>
+		<object-name>alphaY</object-name>
     <condition>
       <equals>
-        <property>instrumentation/tacan/frequencies/selected-channel[4]</property>
+				<property>/instrumentation/tacan/frequencies/selected-channel[4]</property>
         <value>Y</value>
       </equals>
     </condition>
@@ -57,45 +74,123 @@
 
   <animation>
     <type>pick</type>
-    <object-name>butonX</object-name>
+		<object-name>knob_x/y</object-name>
     <visible>true</visible>
     <action>
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>property-assign</command>
+        <command>property-cycle</command>
         <property>instrumentation/tacan/frequencies/selected-channel[4]</property>
-        <value>X</value>
+				<value>X</value>
+				<value>Y</value>
       </binding>
     </action>
-  </animation>
+  </animation> 
 
   <animation>
     <type>pick</type>
-    <object-name>butonY</object-name>
+	<object-name>knob1</object-name>
     <visible>true</visible>
     <action>
-      <button>0</button>
+	  <button>3</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>property-assign</command>
-        <property>instrumentation/tacan/frequencies/selected-channel[4]</property>
-        <value>Y</value>
+        <command>property-cycle</command>
+        <property>instrumentation/tacan/frequencies/selected-channel[2]</property>
+		<value>0</value>
+		<value>1</value>
+		<value>2</value>
+		<value>3</value>
+		<value>4</value>
+		<value>5</value>
+        <value>6</value>
+		<value>7</value>
+		<value>8</value>
+		<value>9</value>
       </binding>
     </action>
-  </animation>
+  </animation> 
 
   <animation>
-    <name>buton1</name>
-    <object-name>butonX</object-name>
-    <object-name>butonY</object-name>
-  </animation>
+    <type>pick</type>
+	<object-name>knob1</object-name>
+    <visible>true</visible>
+    <action>
+	  <button>4</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-cycle</command>
+        <property>instrumentation/tacan/frequencies/selected-channel[2]</property>
+		<value>9</value>
+		<value>8</value>
+		<value>7</value>
+		<value>6</value>
+		<value>5</value>
+		<value>4</value>
+        <value>3</value>
+		<value>2</value>
+		<value>1</value>
+		<value>0</value>
+      </binding>
+    </action>
+  </animation> 
 
   <animation>
-    <type>rotate</type>
-    <object-name>buton1</object-name>
+    <type>pick</type>
+	<object-name>knob2</object-name>
+    <visible>true</visible>
+    <action>
+      <button>4</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-cycle</command>
+        <property>instrumentation/tacan/frequencies/selected-channel[3]</property>
+		<value>0</value>
+		<value>1</value>
+		<value>2</value>
+		<value>3</value>
+		<value>4</value>
+		<value>5</value>
+        <value>6</value>
+		<value>7</value>
+		<value>8</value>
+		<value>9</value>
+      </binding>
+    </action>
+  </animation> 
+
+   <animation>
+    <type>pick</type>
+	<object-name>knob2</object-name>
+    <visible>true</visible>
+    <action>
+      <button>3</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-cycle</command>
+        <property>instrumentation/tacan/frequencies/selected-channel[3]</property>
+		<value>9</value>
+		<value>8</value>
+		<value>7</value>
+		<value>6</value>
+		<value>5</value>
+		<value>4</value>
+        <value>3</value>
+		<value>2</value>
+		<value>1</value>
+		<value>0</value>
+      </binding>
+    </action>
+  </animation> 
+
+ 
+   <animation>
+    <type>knob</type>
+	<object-name>knob_x/y</object-name>
     <property>instrumentation/tacan/frequencies/XPos</property>
-    <factor>30</factor>
+	<factor>35</factor>
+	<offset>0</offset>
     <center>
       <x-m> 0.003574</x-m>
       <y-m>-0.010760</y-m>
@@ -108,7 +203,7 @@
     </axis>
   </animation>
 
-  <animation>
+ <animation>
     <type>textranslate</type>
     <object-name>num-0</object-name>
     <property>instrumentation/tacan/frequencies/selected-channel[1]</property>
@@ -120,6 +215,8 @@
       <z> 0</z>
     </axis>
   </animation>
+
+ 
 
   <animation>
     <type>textranslate</type>
@@ -145,6 +242,40 @@
       <y>-1</y>
       <z> 0</z>
     </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+	<object-name>knob1</object-name>
+	<property>instrumentation/tacan/frequencies/selected-channel[2]</property>
+	<factor>36</factor>
+    <center>
+      <x-m> 0.003574</x-m>
+      <y-m>-0.010760</y-m>
+      <z-m>-0.005036</z-m>
+    </center>
+	<axis>
+	  <x>1</x>
+	  <y>0</y>
+	  <z>0</z>
+	</axis>
+  </animation>
+    
+  <animation>
+    <type>rotate</type>
+	<object-name>knob2</object-name>
+	<property>instrumentation/tacan/frequencies/selected-channel[3]</property>
+	<factor>36</factor>
+    <center>
+      <x-m> 0.003574</x-m>
+      <y-m> 0.010760</y-m>
+      <z-m> -0.005036</z-m>
+    </center>
+	<axis>
+	  <x>1</x>
+	  <y>0</y>
+	  <z>0</z>
+	</axis>
   </animation>
 
   <!--
@@ -201,7 +332,5 @@
       <property>sim/panel-hotspots</property>
     </condition>
   </animation>
-
-
 
 </PropertyList>

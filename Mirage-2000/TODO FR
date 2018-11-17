@@ -107,24 +107,13 @@ Ce mirage 2000-5, il est énorme !!
   * le 2000N a une troisième couleur pour l'intrados le camouflage diffère de
     celui du 2000C près du radome
 
--------------------------------------------------------------------------------
-                                  To Do list
--------------------------------------------------------------------------------
-
-Pour moi et pour ceux qui veulent bien :
-
-LOAD :
 - Rendre visibles les load en multijoueur
 - Essayer de moins charger d'objet 3D (dans les load, car cela peut ralentir
   les fps)
-- Peut être limiter les chargements aux armes Matra ... ? ...
+- Peut être limiter les chargements aux armes Matra
 - Rajouter le missile Exocet et ASMP
-
-FDM :
 - améliorer la stabilisation en mode Auto-pilote (essayer en time * 8 pour voir
-  le problème)
-
-MODEL :
+  le problème) => Done with Itouchpods
 - rendre plus joli le cône transsonique
 - améliorer encore la PC ? (voir le f35 du hangar FGUK)
 - 2000C -> 2000-5
@@ -132,23 +121,50 @@ MODEL :
   * supprimer le tube pitot [DONE]
   * ajouter les lance leurres sur les Karman de voilure [DONE]
 - créer une version biplace [DONE]
+- créer des livrées pour les bidons externes
+- pouvoir éteindre le radar
+- améliorer les sons de démarrage du moteur : voir su27 dans le hangar FGUK
+- Mettre des boutons pour les lights...(ou sur le MFD ou en recupérer
+  d'ailleurs ....ce serait bien d'avoir 3 ou 4 option de light) [DONE]
+- Les phares principaux ne font pas de lumière...(parking)
+- ajouter les lumières de vol en formation (gris éteint, vert pastel allumé) [DONE]
+- Siège éjectable (+bloquer la vue sur le siège éjecté+bloquer les commandes de
+  l'avion)
+- améliorer l'EHSI : cas où nav1 est slave d'un wp gps
+- Gérer les missiles semi actifs
+- Comprendre le problème avec la "ground detection" des missiles A/G
+- Faire déplier les ailes du Apache/scalp (et faire une livrée SCALP)
+- Faire réagir les missiles au contre mesures... (type flare....)
+- Pod de designation laser -> vue plus possibilité de "créer" une cible en
+  sniper vu et de cliquer pour la sélectionner
+
+-------------------------------------------------------------------------------
+                                  To Do list
+-------------------------------------------------------------------------------
+
+Pour moi et pour ceux qui veulent bien :
+
+LOAD :
+
+
+FDM :
+
+MODEL :
+
 
 SUBMODELS :
 - Voir si en multijoueur, un missile lancé par un avion tiers peut être
   visible...
-- créer des livrées pour les bidons externes
+
 
 INSTRUMENTS :
-- pouvoir éteindre le radar
+
 - Faire marcher les différents mode hud, par exemple le rond pour le tir Canon,
   le rond du lock mode, rajouter un mode de virtualisation des pistes
   d'atterrissage (existe dans les hud) ou encore gestion de waypoint (existe
   aussi)
 - Finir de rajouter les instruments qui manquent : manche, manette de gaz, ECM
   APU etc ... [WORK IN PROGRESS]
-- Siège éjectable (+bloquer la vue sur le siège éjecté+bloquer les commandes de
-  l'avion)
-- améliorer l'EHSI : cas où nav1 est slave d'un wp gps
 - ajouter sur le hud ou sur un MFD le taux de virage (1min, 2min)
 
 SON :
@@ -157,24 +173,16 @@ SON :
   permettrai d'avoir le son seulement "après" l'appareil quand la vitesse du
   son est dépassée ...(voir même de diminuer le cône de dispersion quand mach 2
   est atteint.)
-- améliorer les sons de démarrage du moteur : voir su27 dans le hangar FGUK
+
 
 TANKER :
 - Quand on commande un tanker, il n'est pas visible en multijoueur...
 
 LIGHT :
-- Mettre des boutons pour les lights...(ou sur le MFD ou en recupérer
-  d'ailleurs ....ce serait bien d'avoir 3 ou 4 option de light) [DONE]
-- Les phares principaux ne font pas de lumière...(parking)
-- ajouter les lumières de vol en formation (gris éteint, vert pastel allumé) [DONE]
+
 
 MISSILE :
-- Gérer les missiles semi actifs
-- Comprendre le problème avec la "ground detection" des missiles A/G
-- Faire déplier les ailes du Apache/scalp (et faire une livrée SCALP)
-- Faire réagir les missiles au contre mesures... (type flare....)
-- Pod de designation laser -> vue plus possibilité de "créer" une cible en
-  sniper vu et de cliquer pour la sélectionner
+
 
 COMMUNICATION :
 - ?

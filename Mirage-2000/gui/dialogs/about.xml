@@ -38,7 +38,7 @@
     </button>
   </group>
   
-  <text><label>Mirage 2000-5, by Heljah and 5H1N0B1</label></text>
+  <text><label>Mirage 2000-5, by 5H1N0B1</label></text>
 
   <hrule />
 
@@ -47,10 +47,9 @@
   <hrule />
 
   <text><label>Helijah (for the 3D model), Buckaroo (for the FDM), 5HIN0B1 (for the working weapons and systems), </label></text>
+  <text><label>hardball (3D, systems, dual seat), Joshua Davidson (FCS/FBW/Autopilot) Leto, Richard, onox, legoboyvdlp, Domokos Juttner (Rudolf)</label></text>
   <text><label>Koubi (for the engine script),  Ray (for helping on the MFD), F-Sig (For 3D and MFD), Xiii (for fox2.nas, the initial missile script), </label></text>
-  <text><label>the F-16 team (for the radar and HUD), the Citation X team (for the middle MFD), all those who created missile models, </label></text>
-  <text><label>Niko (for the wiki page and the original ask for the project), Thomas (for the liveries),</label></text>
-  <text><label>Gijs (for the wiki page) , FG-TUX, Anusil, fb237 (for testing) (for testing)and all those forgotten here</label></text>
+  <text><label>Gijs (for the wiki page) , FG-TUX, Anusil, fb237 (for testing), OPRF guys (for testing) and all those forgotten here</label></text>
   <text><label>Thanks to all. </label></text>
 
   <hrule />
@@ -60,7 +59,7 @@
     <binding>
       <command>nasal</command>
       <script>
-        var phrase = "Developpement link : https://dl.dropboxusercontent.com/u/109132916/Mirage-2000.tar.gz";
+        var phrase = "Developpement link : https://github.com/5H1N0B11/Aircraft";
         setprop("/sim/multiplay/chat", phrase);
         </script>
     </binding>
@@ -71,7 +70,7 @@
     <binding>
       <command>nasal</command>
       <script>
-var phrase = "Stable Release : http://helijah.free.fr/flightgear/les-appareils/m2000/appareil.htm";
+var phrase = "Stable Release : FGADDON";
 setprop("/sim/multiplay/chat", phrase);
         </script>
     </binding>

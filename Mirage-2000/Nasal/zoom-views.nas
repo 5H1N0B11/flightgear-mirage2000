@@ -1,5 +1,13 @@
+print("*** LOADING zoom-views.nas ... ***");
+################################################################################
+#
+#                     m2005-5's VIEW and ZOOMING
+#
+################################################################################
+
 # IDG Distance Zooming
 # Copyright (c) 2018 Joshua Davidson (it0uchpods)
+# Function add by 5H1N0B1
 # Based on PropertyRule file by onox
 
 var distance = 0;
@@ -60,3 +68,16 @@ var fovZoom = func(d) {
 		}
 	}
 }
+
+
+
+var SnipingEnabling= setlistener("/payload/armament/station/id-6-set",func {
+                    setprop("/sim/view[102]/enabled",(getprop("/payload/armament/station/id-6-set")=="PDLCT"));
+                  }, 1, 0);
+var viewEnabling= setlistener("/sim/current-view/name",func {
+                    setprop("/aircraft/flir/target/view-enabled",(getprop("/sim/current-view/name")=="Sniping cam"));
+                  }, 1, 0);
+var ALS_IR_Enabling= setlistener("/aircraft/flir/target/view-enabled",func {
+                    setprop("/sim/rendering/als-filters/use-filtering",getprop("/aircraft/flir/target/view-enabled"));
+                    setprop("/sim/rendering/als-filters/use-IR-vision",getprop("/aircraft/flir/target/view-enabled"));
+                  }, 1, 0);
