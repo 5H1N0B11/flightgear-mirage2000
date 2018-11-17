@@ -168,11 +168,11 @@
 				<expression>
 					<table>
 						<property>/velocities/airspeed-kt</property>
-						<entry><ind>130</ind><dep>-0.20</dep></entry>
-						<entry><ind>200</ind><dep>-0.10</dep></entry>
-						<entry><ind>320</ind><dep>-0.05</dep></entry>
-						<entry><ind>600</ind><dep>-0.04</dep></entry>
-						<entry><ind>950</ind><dep>-0.03</dep></entry>
+						<entry><ind>130</ind><dep>-0.15</dep></entry>
+						<entry><ind>200</ind><dep>-0.09</dep></entry>
+						<entry><ind>320</ind><dep>-0.04</dep></entry>
+						<entry><ind>600</ind><dep>-0.03</dep></entry>
+						<entry><ind>950</ind><dep>-0.02</dep></entry>
 					</table>
 				</expression>
 			</Kp>
@@ -180,7 +180,7 @@
 				<expression>
 					<table>
 						<property>/velocities/airspeed-kt</property>
-						<entry><ind>130</ind><dep>-0.100</dep></entry>
+						<entry><ind>130</ind><dep>-0.090</dep></entry>
 						<entry><ind>200</ind><dep>-0.050</dep></entry>
 						<entry><ind>320</ind><dep>-0.020</dep></entry>
 						<entry><ind>600</ind><dep>-0.010</dep></entry>
@@ -207,7 +207,7 @@
 					<property>/velocities/airspeed-kt</property>
 					<entry><ind>130</ind><dep>-0.0200</dep></entry>
 					<entry><ind>200</ind><dep>-0.0100</dep></entry>
-					<entry><ind>320</ind><dep>-0.0050</dep></entry>
+					<entry><ind>320</ind><dep>-0.0030</dep></entry>
 					<entry><ind>600</ind><dep>-0.0002</dep></entry>
 					<entry><ind>950</ind><dep>-0.0001</dep></entry>
 				</table>
@@ -761,10 +761,10 @@
 		<input>
 			<expression>
 				<table>
-					<property>/velocities/mach</property>
-					<entry><ind>0.2</ind><dep>-0.2</dep></entry>
-					<entry><ind>0.5</ind><dep>-0.1</dep></entry>
-					<entry><ind>1.0</ind><dep> 0.0</dep></entry>
+					<property>/velocities/airspeed-kt</property>
+					<entry><ind>130</ind><dep>-0.3</dep></entry>
+					<entry><ind>320</ind><dep>-0.1</dep></entry>
+					<entry><ind>600</ind><dep> 0.0</dep></entry>
 				</table>
 			</expression>
 		</input>
