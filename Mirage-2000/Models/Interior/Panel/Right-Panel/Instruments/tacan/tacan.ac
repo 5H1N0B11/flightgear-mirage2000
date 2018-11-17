@@ -5,7 +5,7 @@ OBJECT world
 name "Blender_exporter_v2.26__tacan.ac"
 kids 12
 OBJECT poly
-name "alphaX.001"
+name "alphaX"
 data 11
 alphaX.mesh
 crease 30.0
@@ -26,7 +26,7 @@ refs 4
 2 0.811508 0.218844
 kids 0
 OBJECT poly
-name "alphaY.001"
+name "alphaY"
 data 11
 alphaY.mesh
 crease 30.0
@@ -47,7 +47,7 @@ refs 4
 2 0.904432 0.218844
 kids 0
 OBJECT poly
-name "base.001"
+name "base"
 data 9
 base.mesh
 crease 30.0

@@ -35,14 +35,15 @@
 	<animation>
 		<name>msarm</name>
 		<object-name>switch</object-name>
-		<objectname>light</objectname>
+		<object-name>light</object-name>
 	</animation>
 
 	<animation>
 		<type>rotate</type>
 		<object-name>msarm</object-name>
 		<property>/controls/armament/master-arm</property>
-		<factor>-40</factor>
+		<factor>-30</factor>
+		<offset-deg>15</offset-deg>
 		<axis>
 			<x>0</x>
 			<y>1</y>
@@ -56,6 +57,18 @@
 	</animation>
 
 	<animation>
+		<type>material</type>
+		<object-name>Text</object-name>
+		<object-name>light</object-name>
+		<emission>
+			<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+			<red>0.50</red>
+			<green>0.25</green>
+			<blue>0.25</blue>
+		</emission>
+	</animation>
+	
+	<animation>
 		<type>pick</type>
 		<object-name>msarm</object-name>
 		<action>
@@ -66,13 +79,6 @@
 				<property>/controls/armament/master-arm</property>
 			</binding>
 		</action>
-		<hovered>
-			<binding>
-				<command>set-tooltip</command>
-				<tooltipir>swich-masterarm</tooltipir>
-				<label>Master-ARM</label>
-			</binding>
-		</hovered>
 	</animation>
 
   <animation>

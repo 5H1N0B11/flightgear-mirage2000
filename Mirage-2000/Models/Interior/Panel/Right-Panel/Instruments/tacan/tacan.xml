@@ -5,12 +5,13 @@
 
   <animation>
     <!-- Objets opaques -->
-    <object-name>base</object-name>
+		<object-name>texte</object-name>
+		<object-name>base</object-name>
     <object-name>num-0</object-name>
     <object-name>num-1</object-name>
     <object-name>num-2</object-name>
-    <object-name>alphaX</object-name>
-    <object-name>alphaY</object-name>
+		<object-name>num-3</object-name>
+		<object-name>num-4</object-name>
     <object-name>knob1</object-name>
     <object-name>knob2</object-name>
     <object-name>knob_x/y</object-name>
@@ -28,13 +29,33 @@
 			<blue>0.25</blue>
 		</emission>
 	</animation>
-	
+
+	<animation>
+		<name>display</name>
+		<object-name>num-0</object-name>
+		<object-name>num-1</object-name>
+		<object-name>num-2</object-name>
+		<object-name>alphaX</object-name>
+		<object-name>alphaY</object-name>
+	</animation>
+
+	<animation>
+		<type>material</type>
+		<object-name>display</object-name>
+		<emission>
+			<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+			<red>0.50</red>
+			<green>0.25</green>
+			<blue>0.25</blue>
+		</emission>
+	</animation>
+
   <animation>
     <type>select</type>
     <object-name>alphaX</object-name>
     <condition>
       <equals>
-        <property>instrumentation/tacan/frequencies/selected-channel[4]</property>
+				<property>/instrumentation/tacan/frequencies/selected-channel[4]</property>
         <value>X</value>
       </equals>
     </condition>
@@ -42,10 +63,10 @@
 
   <animation>
     <type>select</type>
-    <object-name>alphaY</object-name>
+		<object-name>alphaY</object-name>
     <condition>
       <equals>
-        <property>instrumentation/tacan/frequencies/selected-channel[4]</property>
+				<property>/instrumentation/tacan/frequencies/selected-channel[4]</property>
         <value>Y</value>
       </equals>
     </condition>
@@ -53,7 +74,7 @@
 
   <animation>
     <type>pick</type>
-	<object-name>knob_x/y</object-name>
+		<object-name>knob_x/y</object-name>
     <visible>true</visible>
     <action>
       <button>0</button>
