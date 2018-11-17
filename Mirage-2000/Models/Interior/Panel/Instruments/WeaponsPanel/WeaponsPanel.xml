@@ -2,9 +2,13 @@
 
 <PropertyList>
 
-  <path>alerts.ac</path>
+  <path>WeaponsPanel.ac</path>
 
-  <animation>
+	<animation>
+		<object-name>base</object-name>
+		<object-name>switch</object-name>
+		<object-name>light</object-name>
+		<object-name>Text</object-name>
     <object-name>fond</object-name>
     <object-name>visses</object-name>
     <object-name>texte.off</object-name>
@@ -28,6 +32,55 @@
     <object-name>texte.9</object-name>
   </animation>
 
+	<animation>
+		<name>msarm</name>
+		<object-name>switch</object-name>
+		<object-name>light</object-name>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>msarm</object-name>
+		<property>/controls/armament/master-arm</property>
+		<factor>-30</factor>
+		<offset-deg>15</offset-deg>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>-0.00995</x-m>
+			<y-m>-0.08363</y-m>
+			<z-m> 0.00995</z-m>
+		</center>
+	</animation>
+
+	<animation>
+		<type>material</type>
+		<object-name>Text</object-name>
+		<object-name>light</object-name>
+		<emission>
+			<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+			<red>0.50</red>
+			<green>0.25</green>
+			<blue>0.25</blue>
+		</emission>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>msarm</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>/controls/armament/master-arm</property>
+			</binding>
+		</action>
+	</animation>
+
   <animation>
     <type>material</type>
     <object-name>fond</object-name>
@@ -40,7 +93,7 @@
     <emission>
       <red>   0.13 </red>
       <green> 0.13 </green>
-      <blue>  0.13 </blue>
+  	  <blue>  0.13 </blue>
     </emission>
   </animation>
 
