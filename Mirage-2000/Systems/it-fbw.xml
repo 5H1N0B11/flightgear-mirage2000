@@ -761,10 +761,10 @@
 		<input>
 			<expression>
 				<table>
-					<property>/velocities/mach</property>
-					<entry><ind>0.2</ind><dep>-0.2</dep></entry>
-					<entry><ind>0.5</ind><dep>-0.1</dep></entry>
-					<entry><ind>1.0</ind><dep> 0.0</dep></entry>
+					<property>/velocities/airspeed-kt</property>
+					<entry><ind>130</ind><dep>-0.3</dep></entry>
+					<entry><ind>320</ind><dep>-0.1</dep></entry>
+					<entry><ind>600</ind><dep> 0.0</dep></entry>
 				</table>
 			</expression>
 		</input>
