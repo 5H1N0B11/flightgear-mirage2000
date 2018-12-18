@@ -561,70 +561,47 @@
 			</expression>
 		</input>
 		<output>/it-fbw/yaw/target-beta-lag</output>
-		<filter-time>0.16</filter-time>
+		<filter-time>0.24</filter-time>
 	</filter>
 	
-	<pi-simple-controller>
-		<name>IT-CONTROLLER: BETA PI</name>
+	<filter>
+		<name>IT-CONTROLLER: BETA CONTROL</name>
 		<debug>false</debug>
-		<enable>
-			<condition>
-				<equals>
-					<property>/it-fbw/internal/flight-mode</property>
-					<value>1</value>
-				</equals>
-			</condition>
-		</enable>
-		<input>/it-fbw/yaw/target-beta-lag</input>
-		<reference>/orientation/side-slip-rad</reference>
+		<type>gain</type>
+		<gain>
+			<expression>
+				<table>
+					<property>/velocities/airspeed-kt</property>
+					<entry><ind>130</ind><dep>23</dep></entry>
+					<entry><ind>200</ind><dep>19</dep></entry>
+					<entry><ind>320</ind><dep>13</dep></entry>
+					<entry><ind>600</ind><dep> 7</dep></entry>
+					<entry><ind>950</ind><dep> 4</dep></entry>
+				</table>
+			</expression>
+		</gain>
+		<input>/orientation/side-slip-rad</input>
+		<reference>/it-fbw/yaw/target-beta-lag</reference>
 		<output>/it-fbw/yaw/beta-control</output>
-		<config>
-			<Kp>
-				<expression>
-					<table>
-						<property>/velocities/airspeed-kt</property>
-						<entry><ind>130</ind><dep>23</dep></entry>
-						<entry><ind>200</ind><dep>19</dep></entry>
-						<entry><ind>320</ind><dep>13</dep></entry>
-						<entry><ind>600</ind><dep> 7</dep></entry>
-						<entry><ind>950</ind><dep> 4</dep></entry>
-					</table>
-				</expression>
-			</Kp>
-			<Ki>
-				<expression>
-					<table>
-						<property>/velocities/airspeed-kt</property>
-						<entry><ind>130</ind><dep>7</dep></entry>
-						<entry><ind>200</ind><dep>6</dep></entry>
-						<entry><ind>320</ind><dep>3</dep></entry>
-						<entry><ind>600</ind><dep>2</dep></entry>
-						<entry><ind>950</ind><dep>1</dep></entry>
-					</table>
-				</expression>
-			</Ki>
-			<!--Kp>/it-fbw/tune/kp</Kp>
-			<Ki>/it-fbw/tune/ki</Ki-->
-			<min>-1.0</min>
-			<max>1.0</max>
-		</config>
-	</pi-simple-controller>
+		<min>-1.0</min>
+		<max>1.0</max>
+	</filter>
 	
 	<filter>
 		<name>IT-CONTROLLER: BETA DAMP</name>
 		<type>derivative</type>
 		<input>/orientation/side-slip-rad</input>
-		<reference>0</reference>
+		<reference>0.0</reference>
 		<output>/it-fbw/yaw/beta-damp</output>
 		<filter-time>
 			<expression>
 				<table>
 					<property>/velocities/airspeed-kt</property>
-					<entry><ind>130</ind><dep>8.0</dep></entry>
-					<entry><ind>200</ind><dep>7.0</dep></entry>
-					<entry><ind>320</ind><dep>4.0</dep></entry>
-					<entry><ind>600</ind><dep>2.0</dep></entry>
-					<entry><ind>950</ind><dep>1.0</dep></entry>
+					<entry><ind>130</ind><dep>8</dep></entry>
+					<entry><ind>200</ind><dep>7</dep></entry>
+					<entry><ind>320</ind><dep>4</dep></entry>
+					<entry><ind>600</ind><dep>2</dep></entry>
+					<entry><ind>950</ind><dep>1</dep></entry>
 				</table>
 			</expression>
 		</filter-time>
