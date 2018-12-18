@@ -544,9 +544,9 @@
 			<expression>
 				<table>
 					<property>/controls/flight/rudder-nul</property>
-					<entry><ind>-1</ind><dep> 0.174533</dep></entry>
+					<entry><ind>-1</ind><dep> 0.261799</dep></entry>
 					<entry><ind> 0</ind><dep> 0.000000</dep></entry>
-					<entry><ind> 1</ind><dep>-0.174533</dep></entry>
+					<entry><ind> 1</ind><dep>-0.261799</dep></entry>
 				</table>
 			</expression>
 		</input>
@@ -554,9 +554,9 @@
 			<expression>
 				<table>
 					<property>/controls/flight/rudder-nul</property>
-					<entry><ind>-1</ind><dep> 0.244346</dep></entry>
+					<entry><ind>-1</ind><dep> 0.349066</dep></entry>
 					<entry><ind> 0</ind><dep> 0.000000</dep></entry>
-					<entry><ind> 1</ind><dep>-0.244346</dep></entry>
+					<entry><ind> 1</ind><dep>-0.349066</dep></entry>
 				</table>
 			</expression>
 		</input>
@@ -605,8 +605,8 @@
 			</Ki>
 			<!--Kp>/it-fbw/tune/kp</Kp>
 			<Ki>/it-fbw/tune/ki</Ki-->
-			<min>-0.5</min>
-			<max>0.5</max>
+			<min>-1.0</min>
+			<max>1.0</max>
 		</config>
 	</pi-simple-controller>
 	
@@ -629,8 +629,8 @@
 			</expression>
 		</filter-time>
 		<!--filter-time>/it-fbw/tune/kd</filter-time-->
-		<min>-0.5</min>
-		<max>0.5</max>
+		<min>-1.0</min>
+		<max>1.0</max>
 	</filter>
 	
 	<filter>
@@ -1022,12 +1022,7 @@
 					<value>1</value>
 				</equals>
 			</condition>
-			<expression>
-				<product>
-					<property>/controls/flight/rudder-nul</property>
-					<value>0.5</value>
-				</product>
-			</expression>
+			<property>/controls/flight/rudder-nul</property>
 		</input>
 		<input>/controls/flight/rudder-nul</input>
 		<output>/it-fbw/internal/rudder-cmd</output>
