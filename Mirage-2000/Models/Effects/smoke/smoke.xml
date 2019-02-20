@@ -17,18 +17,26 @@
     </offsets>
     
     <condition>
-      <and>
-        <less-than-equals>
-          <property>velocities/airspeed-kt</property><!--  velocities/airspeed-kt -->
-          <!--value>200</value-->
-          <value>300</value>
-        </less-than-equals>
-        <greater-than>
-          <!-- engines/engine[0]/n2 -->
-          <property>sim/multiplay/generic/float[4]</property>
-          <value>30</value>
-        </greater-than>
-      </and>
+      <or>
+        <and>
+          <!-- MULTIPLAY, we can use only some properties -->
+          <less-than-equals>
+            <property>velocities/airspeed-kt</property>
+            <value>300</value>
+          </less-than-equals>
+          <greater-than>
+            <property>sim/multiplay/generic/float[7]</property> <!-- /controls/engines/engine[0]/throttle -->
+            <value>0</value>
+          </greater-than>
+        </and>
+        <and>
+          <!-- LOCAL, smoke if engine running -->
+          <greater-than>
+            <property>/engines/engine[0]/rpm</property>
+            <value>2000</value>
+          </greater-than>
+        </and>
+      </or>
     </condition>
     
     <attach>world</attach>

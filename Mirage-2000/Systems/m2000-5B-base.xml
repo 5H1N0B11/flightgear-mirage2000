@@ -54,7 +54,7 @@
       <groundtTargeting>
         <target-latitude-deg type="double">0</target-latitude-deg>
         <target-longitude-deg type="double">0</target-longitude-deg>
-	<target-alt-feet type="double">0</target-alt-feet>
+        <target-alt-feet type="double">0</target-alt-feet>
       </groundtTargeting>
     </dialog>
     <model>
@@ -147,8 +147,6 @@
 <!--      <file>Aircraft/Mirage-2000/Nasal/RADAR/radarPrototype.nas</file>-->
     </radar>
     
-    
-    
     <!-- First attempt to standardise the weapons system -->
     <stations>
         <file>Aircraft/Mirage-2000/Nasal/station-manager.nas</file><!-- must be before fire-control and pylons -->
@@ -159,8 +157,6 @@
     <pylons>
         <file>Aircraft/Mirage-2000/Nasal/pylons.nas</file>
     </pylons>
-     
-    
     
     <fuel>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-fuel.nas</file>
@@ -220,9 +216,7 @@
     <assistance>
       <file>Aircraft/Mirage-2000/Nasal/assistance.nas</file>
     </assistance>
-    
 
-   
   </nasal>
 
 </PropertyList>

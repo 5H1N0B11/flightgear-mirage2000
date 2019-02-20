@@ -272,7 +272,7 @@
 
   <!-- Weapons Panel -->
   <model>
-		<path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/WeaponsPanel/WeaponsPanel.xml</path>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/WeaponsPanel/WeaponsPanel.xml</path>
     <offsets>
       <x-m>  0.395 </x-m>
       <y-m> -0.170 </y-m>

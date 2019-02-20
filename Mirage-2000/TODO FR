@@ -142,7 +142,12 @@ Ce mirage 2000-5, il est énorme !!
                                   To Do list
 -------------------------------------------------------------------------------
 
+
 Pour moi et pour ceux qui veulent bien :
+
+BUG :
+- Failed to load file: "Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Alerts/alerts.xml"
+
 
 LOAD :
 

@@ -14,6 +14,7 @@
     <object-name>fuel-truck.base</object-name>
     <object-name>fuel-truck.pipe</object-name>
     <object-name>fuel-truck.tank</object-name>
+    <object-name>extincteur</object-name>
     <object-name>parking</object-name>
   </animation>
   
@@ -24,6 +25,7 @@
     <object-name>fuel-truck.base</object-name>
     <object-name>fuel-truck.pipe</object-name>
     <object-name>fuel-truck.tank</object-name>
+    <object-name>extincteur</object-name>
     <condition>
       <and>
         <property>controls/ground-equipment</property>

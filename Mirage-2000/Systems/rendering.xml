@@ -4,8 +4,11 @@
   
   <redout>
     <parameters>
+<!-- disabled by hardball : theese parameters doesnt belong to the m2000 -->
+<!--
       <blackout-complete-g>10</blackout-complete-g>
       <blackout-onset-g>8</blackout-onset-g>
+-->
     </parameters>
   </redout>
   

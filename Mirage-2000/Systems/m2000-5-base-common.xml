@@ -2,20 +2,20 @@
 
 <PropertyList include="views.xml">
 
-	<current-view>
-		<z-offset-default type="float">25.0</z-offset-default>
-		<z-offset-min-m type="float">10.0</z-offset-min-m>
-		<z-offset-max-m type="float">200.0</z-offset-max-m>
-	</current-view>
+  <current-view>
+    <z-offset-default type="float">25.0</z-offset-default>
+    <z-offset-min-m type="float">10.0</z-offset-min-m>
+    <z-offset-max-m type="float">200.0</z-offset-max-m>
+  </current-view>
 
   <tutorials include="../Tutorials/m2000-5_tutorials.xml" />
 
   <fuel-fraction>0.8</fuel-fraction>
 
   <hud include="hud.xml" />
-    
+
   <instrumentation include="instrumentation.xml" />
-    
+
   <startup>
     <splash-texture>Aircraft/Mirage-2000/Splashs/m2000-5B-splash.png</splash-texture>
     <splash-texture>Aircraft/Mirage-2000/Splashs/m2000-5-splash.png</splash-texture>
@@ -33,15 +33,6 @@
     <serviceable type="bool">true</serviceable>
     <path>Aircraft/Mirage-2000/Models/Effects/guns/submodels.xml</path>
   </submodels>
-
-  <rendering>
-    <redout>
-      <parameters>
-        <blackout-complete-g>10</blackout-complete-g>
-        <blackout-onset-g>8</blackout-onset-g>
-      </parameters>
-    </redout>
-  </rendering>
 
   <multiplay>
     <chat_display>1</chat_display>
