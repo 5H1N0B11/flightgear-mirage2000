@@ -59,7 +59,6 @@ var rcs_database = {
     "QF-4E":                    1,      #actual: 6
     "depot":                    170,    #estimated with blender
     "buk-m2":                   7,      #estimated with blender
-    "GROUND_TARGET":            1,      # 
     "truck":                    1.5,    #estimated with blender
     "missile_frigate":          450,    #estimated with blender
     "frigate":                  450,    #estimated with blender
@@ -73,7 +72,7 @@ var inRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
 }
 
 var wasInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
-    var sign = contact.getUnique();
+    var sign = contact.get_Callsign();
     if (sign != nil and contains(prevVisible, sign)) {
         return prevVisible[sign];
     } else {
@@ -92,8 +91,7 @@ var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
             # open radar for one will make this happen.
             return value;
         }
-
-        prevVisible[contact.getUnique()] = value;
+        prevVisible[contact.get_Callsign()] = value;
         return value;
     }
     return 0;

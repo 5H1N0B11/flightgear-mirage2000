@@ -1,4 +1,3 @@
-print("*** LOADING damage.nas ... ***");
 #
 # Install: Include this code into an aircraft to make it damagable. (remember to add it to the -set file)
 #
@@ -31,10 +30,12 @@ var cannon_types = {
     
     
 var warhead_lbs = {
-"AGM-65":              126.00,
+    "AGM-65":              126.00,
     "AGM-84":              488.00,
     "AGM-88":              146.00,
     "AGM65":               200.00,
+    "AGM-154A":            493.00,
+    "AGM-158":            1000.00,
     "aim-120":              44.00,
     "AIM-120":              44.00,
     "AIM-54":              135.00,
@@ -49,11 +50,13 @@ var warhead_lbs = {
     "AM39-Exocet":         364.00, 
     "AS-37-Martel":        330.00, 
     "AS30L":               529.00,
+    "CBU-87":			   128.00,
     "Exocet":              364.00,
     "FAB-100":              92.59,
     "FAB-250":             202.85,
     "FAB-500":             564.38,
     "GBU-12":              190.00,
+    "GBU-24":              945.00,
     "GBU-31":              945.00,
     "GBU12":               190.00,
     "GBU16":               450.00,
@@ -379,7 +382,7 @@ processCallsigns();
 
 setlistener("/sim/multiplay/chat-history", incoming_listener, 0, 0);
 
-#setprop("/sim/failure-manager/display-on-screen", FALSE);
+setprop("/sim/failure-manager/display-on-screen", FALSE);
 
 var re_init = func {
   # repair the aircraft

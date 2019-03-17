@@ -29,6 +29,14 @@
     <startup>
       <splash-texture>Aircraft/Mirage-2000/Splashs/m2000-5B-splash.png</splash-texture>
     </startup>
+    
+    <previews>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splashs/m2000-5B-splash.png</path>
+            </preview>
+    </previews>
 
     <!-- ~~~~~~~~~~~~~~~~~~ sound -->
     <sound>

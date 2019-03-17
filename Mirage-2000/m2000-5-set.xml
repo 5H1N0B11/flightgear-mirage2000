@@ -41,6 +41,34 @@
         <tag>hud</tag>
         <tag>afterburner</tag>
     </tags>
+    
+    <previews>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splashs/m2000-5-splash.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splashs/splash-01.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splashs/splash-02.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splashs/splash-03.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splashs/splash-04.png</path>
+            </preview>
+    </previews>
 
   </sim>
 
