@@ -61,11 +61,6 @@
             <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
-                <path>Splashs/splash-03.png</path>
-            </preview>
-            <preview>
-                <type>exterior</type>
-                <splash type="bool">true</splash>
                 <path>Splashs/splash-04.png</path>
             </preview>
     </previews>

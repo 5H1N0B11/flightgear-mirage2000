@@ -1482,10 +1482,13 @@ var rounding1000 = func(n){
 #RWR stuff, thank to Leto
 var rwrList   = [];
 var rwrList16 = [];
+
 var RWR_APG = {
     run: func () {
+        rwrList = [];
+        rwrList16 = [];
         me.MyCoord = geo.aircraft_position();
-        #printf("clist %d", size(completeList));
+#         printf("clist %d", size(completeList));
         foreach(me.u;completeList) {
             me.cs = me.u.get_Callsign();
             me.rn = me.u.get_range();

@@ -308,7 +308,7 @@ var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
         "mipmapping": 1
     });  
 
-#     cv.addPlacement({"node": "bkg", "texture":"rwr-bkg.png"});
+#   cv.addPlacement({"node": "bkg", "texture":"rwr-bkg.png"});
     cv.setColorBackground(0, 0.20, 0);
     var root = cv.createGroup();
     rwr = RWRCanvas.new(root, [diam/2,diam/2],diam);
