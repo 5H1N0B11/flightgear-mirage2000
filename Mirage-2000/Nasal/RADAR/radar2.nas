@@ -285,6 +285,18 @@ var Radar = {
     
     update: func(tempCoord = nil, tempHeading = nil, tempPitch = nil) {
       
+        #rwr stuff
+      
+        if (rwr.rwr != nil) {
+          if (size(rwrList)>0) {
+            rwr.rwr.update(rwrList);
+          } else {
+            rwr.rwr.update(rwrList16);
+          }
+        }
+
+      
+      
         if(me.updating_now == 1)
         {
           return;
@@ -552,6 +564,10 @@ var Radar = {
 
         #print("size(completeList) : " ~size(completeList) ~ "; size(me.ContactsList) : " ~ size(me.ContactsList));
         me.updating_now = 0;
+        
+        # RWR launch
+        RWR_APG.run();
+        
         return CANVASARRAY;
     },
     
@@ -1462,4 +1478,70 @@ var rounding1000 = func(n){
     n = (n >= l) ? ((a + 1) * 1000) : (a * 1000);
     return(n);
 }
+
+#RWR stuff, thank to Leto
+var rwrList   = [];
+var rwrList16 = [];
+var RWR_APG = {
+    run: func () {
+        me.MyCoord = geo.aircraft_position();
+        #printf("clist %d", size(completeList));
+        foreach(me.u;completeList) {
+            me.cs = me.u.get_Callsign();
+            me.rn = me.u.get_range();
+            me.l16 = 0;
+            if (getprop("link16/wingman-1")==me.cs or getprop("link16/wingman-2")==me.cs or getprop("link16/wingman-3")==me.cs or me.rn > 150) {
+                me.l16 = 1;
+            }
+            me.bearing = geo.aircraft_position().course_to(me.u.get_Coord());
+            me.trAct = me.u.propNode.getNode("instrumentation/transponder/transmitted-id");
+            me.show = 0;
+            me.heading = me.u.get_heading();  
+            me.inv_bearing =  me.bearing+180;
+            me.deviation = me.inv_bearing - me.heading;
+            me.dev = math.abs(geo.normdeg180(me.deviation));
+            if (me.u.get_display()) {
+                me.show = 1;#in radar cone
+            } elsif(me.u.get_model()=="AI" and me.rn < 55) {
+                me.show = 1;#non MP always has transponder on.
+            } elsif (me.trAct != nil and me.trAct.getValue() != -9999 and me.rn < 55) {
+              # transponder on
+              me.show = 1;
+            } else {
+              me.rdrAct = me.u.propNode.getNode("sim/multiplay/generic/int[2]");
+              if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviation)) < 60) {
+                  # we detect its radar is pointed at us and active
+                  me.show = 1;
+              }
+            }
+            if (me.show == 1) {
+                me.threat = 0;
+                if (me.u.get_model() != "missile_frigate" and me.u.get_model() != "buk-m2") {
+                    me.threat += ((180-me.dev)/180)*0.30;
+                    me.spd = (60-me.u.get_Speed())/60;
+                    me.threat -= me.spd>0?me.spd:0;
+                } elsif (me.u.get_model == "missile_frigate") {
+                    me.threat += 0.30;
+                } else {
+                    me.threat += 0.30;
+                }
+                me.danger = me.u.get_model() == "missile_frigate"?75:(me.u.get_model() == "buk-m2"?35:50);
+                me.threat += ((me.danger-me.rn)/me.danger)>0?((me.danger-me.rn)/me.danger)*0.60:0;
+                me.clo = me.u.get_closure_rate_from_Coord(me.MyCoord);
+                me.threat += me.clo>0?(me.clo/500)*0.10:0;
+                if (me.threat > 1) me.threat = 1;
+                if (me.threat <= 0) continue;
+                #printf("%s threat:%.2f range:%d dev:%d", u.get_Callsign(),threat,u.get_range(),dev);
+                if (!me.l16) {
+                    append(rwrList,[me.u,me.threat]);
+                } else {
+                    append(rwrList16,[me.u,me.threat]);
+                }
+            } else {
+                #printf("%s ----", u.get_Callsign());
+            }
+        }
+    },
+};
+
 
