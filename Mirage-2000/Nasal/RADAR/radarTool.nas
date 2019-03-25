@@ -269,4 +269,28 @@ var RadarTool = {
         }
         # Here we could add a velocity test : if speed >mach 1, we can imagine that friction provides heat
     },
+    #Detection of the link16 : Should allow us to see it as a friend and avoiding shooting it
+    IsFriendlink16: func(SelectedObject){
+      cs = SelectedObject.get_Callsign();
+      rn = SelectedObject.get_range();
+      if (getprop("link16/wingman-1")==cs or getprop("link16/wingman-2")==cs or getprop("link16/wingman-3")==cs or rn > 150) {
+        return 1;
+      }else{
+        return 0;
+      }
+    },
+    
+    #Transponder detection : if transponder still on, the target will be easy to detect
+    HasTransponderOn: func(SelectedObject){
+      trAct = SelectedObject.propNode.getNode("instrumentation/transponder/transmitted-id");
+      rn    = SelectedObject.get_range();
+      
+      if(SelectedObject.get_model()=="AI" and rn < 55) {
+        return 1;#non MP always has transponder on.
+      } elsif (trAct != nil and trAct.getValue() != -9999 and rn < 55) { 
+        return 1; # transponder on
+      }else{
+        return 0;
+      }
+    }
 }
