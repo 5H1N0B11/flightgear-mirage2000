@@ -216,10 +216,21 @@ var Radar = {
         }
 
         var loop_Update = func() {
+            
+            #rwr stuff
+            if (rwr.rwr != nil) {
+              if (size(rwrList)>0) {
+                rwr.rwr.update(rwrList);
+              } else {
+                rwr.rwr.update(rwrList16);
+              }
+            }  
+            
             var radarWorking = getprop(me.ElectricalPath);
             radarWorking = (radarWorking == nil) ? 0 : radarWorking;
             if(radarWorking > 24 and me.AutoUpdate)
             {
+              setprop("sim/multiplay/generic/int[2]",0);
               #me.update();
               #These line bellow are error management.
               var UpdateErr = [];
@@ -234,8 +245,14 @@ var Radar = {
                 }
               }
 #                 print("Radar refreshing done");
+            }else{
+              setprop("sim/multiplay/generic/int[2]",1);
             }
             #me.Global_janitor();
+            
+            # RWR launch
+            RWR_APG.run();
+            
             settimer(loop_Update, me.UPDATE_PERIOD);
         };
         settimer(loop_Update,me.UPDATE_PERIOD);
@@ -285,15 +302,7 @@ var Radar = {
     
     update: func(tempCoord = nil, tempHeading = nil, tempPitch = nil) {
       
-        #rwr stuff
-      
-        if (rwr.rwr != nil) {
-          if (size(rwrList)>0) {
-            rwr.rwr.update(rwrList);
-          } else {
-            rwr.rwr.update(rwrList16);
-          }
-        }
+
 
       
       
@@ -565,8 +574,7 @@ var Radar = {
         #print("size(completeList) : " ~size(completeList) ~ "; size(me.ContactsList) : " ~ size(me.ContactsList));
         me.updating_now = 0;
         
-        # RWR launch
-        RWR_APG.run();
+
         
         return CANVASARRAY;
     },
@@ -617,30 +625,6 @@ var Radar = {
         setprop(me.sweepProperty,me.SwpMarker);
     },
 
-    targetRange: func(SelectedObject){
-        # This is a way to shortcurt the issue that some of node have : in-range =0
-        # So by giving the second fucntion our coord, we just have to calculate it
-        var myRange = 0;
-        myRange = SelectedObject.get_range();
-        if(myRange == 0)
-        {
-            myRange = SelectedObject.get_range_from_Coord(me.MyCoord);
-        }
-        #print("myRange="~myRange);
-        return myRange;
-    },
-
-    targetBearing: func(SelectedObject){
-        # This is a way to shortcurt the issue that some of node have : bearing =0
-        # So by giving the second fucntion our coord, we just have to calculate it
-        var myBearing = 0;
-        myBearing = SelectedObject.get_bearing();
-        if(myBearing == 0)
-        {
-            myBearing = SelectedObject.get_bearing_from_Coord(me.MyCoord);
-        }
-        return myBearing;
-    },
 
     TargetList_Update: func(SelectedObject){
       forindex(i; me.tgts_list){
@@ -1213,7 +1197,10 @@ var rwrList   = [];
 var rwrList16 = [];
 
 var RWR_APG = {
+#     parents : [RWR_APG,RadarTool],
     run: func () {
+        me.parents = [RadarTool];
+      
         rwrList = [];
         rwrList16 = [];
         me.MyCoord = geo.aircraft_position();
@@ -1241,7 +1228,7 @@ var RWR_APG = {
               me.show = 1;
             } else {
               me.rdrAct = me.u.propNode.getNode("sim/multiplay/generic/int[2]");
-              if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviation)) < 60) {
+              if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviation)) < 60 and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {
                   # we detect its radar is pointed at us and active
                   me.show = 1;
               }

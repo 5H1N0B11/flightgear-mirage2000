@@ -4,8 +4,8 @@ var RadarTool = {
         isVisible = 0;
         
         # As the script is relatively ressource consuming, then, we do a maximum of test before doing it
-        if(me.get_check())
-        {
+#         if(me.get_check())
+#         {
             SelectCoord = SelectedObject.get_Coord();
             
             SelectCoord.set_alt(SelectCoord.alt()+1);
@@ -123,10 +123,14 @@ var RadarTool = {
             {
                 isVisible = 1;
             }
-        }
+#         }
         return isVisible;
     },
     NotBeyondHorizon: func(SelectedObject){
+        me.MyCoord = geo.aircraft_position();
+        me.our_alt = me.MyCoord.alt();
+      
+      
         if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
         # if distance is beyond the earth curve
         var horizon = SelectedObject.get_horizon(me.our_alt);
@@ -174,6 +178,8 @@ var RadarTool = {
     },
 
     isGroundNotBehind: func(SelectedObject){
+
+      
         var myPitch = SelectedObject.get_Elevation_from_Coord(me.MyCoord);
         var GroundNotBehind = 1; # sky is behind the target (this don't work on a valley)
         if(myPitch < 0 and me.NotBeyondHorizon(SelectedObject))
@@ -193,6 +199,7 @@ var RadarTool = {
     },
 
     inAzimuth: func(SelectedObject,ExceptGroundTarget = 1){
+        
         if(SelectedObject.get_Callsign()=="GROUND_TARGET" and ExceptGroundTarget){return 1;}
         # Check if it's in Azimuth.
         # first we check our heading+ center az deviation + the sweep if the radar is mechanical
@@ -292,5 +299,30 @@ var RadarTool = {
       }else{
         return 0;
       }
+    },
+    
+    targetRange: func(SelectedObject){
+        # This is a way to shortcurt the issue that some of node have : in-range =0
+        # So by giving the second fucntion our coord, we just have to calculate it
+        var myRange = 0;
+        myRange = SelectedObject.get_range();
+        if(myRange == 0)
+        {
+            myRange = SelectedObject.get_range_from_Coord(me.MyCoord);
+        }
+        #print("myRange="~myRange);
+        return myRange;
+    },
+    
+    targetBearing: func(SelectedObject){
+        # This is a way to shortcurt the issue that some of node have : bearing =0
+        # So by giving the second fucntion our coord, we just have to calculate it
+        var myBearing = 0;
+        myBearing = SelectedObject.get_bearing();
+        if(myBearing == 0)
+        {
+            myBearing = SelectedObject.get_bearing_from_Coord(me.MyCoord);
+        }
+        return myBearing;
     }
 }
