@@ -173,6 +173,10 @@ RWRCanvas = {
         rwr.AIRCRAFT_FRIGATE = "SH";
         #rwr.AIRCRAFT_TANKER = "KC";
         rwr.AIRCRAFT_AWACS = "S";
+        rwr.AIRCRAFT_TYPHOON = "EF";
+        rwr.AIRCRAFT_SU15 = "SU";
+        rwr.SCENARIO_OPPONENT = "28";
+        rwr.AIRCRAFT_JAGUAR   = "JG";
         rwr.AIRCRAFT_UNKNOWN = "U";
         rwr.AIRCRAFT_AI = "AI";
         rwr.lookupType = {
@@ -216,14 +220,14 @@ RWRCanvas = {
                 "A-10":                     rwr.AIRCRAFT_WARTHOG,
                 "A-10-model":               rwr.AIRCRAFT_WARTHOG,
         #        "truck":"TR",
-                "Typhoon":"EF",
+                "Typhoon":                  rwr.AIRCRAFT_TYPHOON,
                 "f16":"16",
-                "Mig-28":"28",
+                "Mig-28":                   rwr.SCENARIO_OPPONENT,
         #        "Tu-95MR":"95",
         #        "Tu-160-Blackjack":"BJ",
         #        "AN-225-Mrija":"AN",
-                "Su-15":"SU",
-                "Jaguar-GR3":"JG",
+                "Su-15":                    rwr.AIRCRAFT_SU15,
+                "Jaguar-GR3":               rwr.AIRCRAFT_JAGUAR,
         };
         rwr.shownList = [];
         return rwr;
