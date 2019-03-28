@@ -292,7 +292,7 @@ var RadarTool = {
       trAct = SelectedObject.propNode.getNode("instrumentation/transponder/transmitted-id");
       rn    = SelectedObject.get_range();
       
-      if(SelectedObject.get_model()=="AI" and rn < 55) {
+      if(SelectedObject.propNode.getName() != "multiplayer" and rn < 55) {
         return 1;#non MP always has transponder on.
       } elsif (trAct != nil and trAct.getValue() != -9999 and rn < 55) { 
         return 1; # transponder on
