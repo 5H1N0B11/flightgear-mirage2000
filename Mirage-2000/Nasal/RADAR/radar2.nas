@@ -1221,12 +1221,10 @@ var RWR_APG = {
             me.dev = math.abs(geo.normdeg180(me.deviation));
             if (me.u.get_display()) {
                 me.show = 1;#in radar cone
-            } elsif(me.u.get_model()=="AI" and me.rn < 55) {
-                me.show = 1;#non MP always has transponder on.
-            } elsif (me.trAct != nil and me.trAct.getValue() != -9999 and me.rn < 55) {
+            } elsif(me.HasTransponderOn(me.u)){
               # transponder on
               me.show = 1;
-            } else {
+            }else{
               me.rdrAct = me.u.propNode.getNode("sim/multiplay/generic/int[2]");
               if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviation)) < 60 and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {
                   # we detect its radar is pointed at us and active
