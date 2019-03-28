@@ -298,25 +298,39 @@ RWRCanvas = {
 };
 var rwr = nil;
 var cv = nil;
-var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
-  if (getprop("sim/signals/fdm-initialized") == 1) {
-     var diam = 256;
+# var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
+#   if (getprop("sim/signals/fdm-initialized") == 1) {
+#      var diam = 256;
+#      cv = canvas.new({
+#         "name": "Rwr",
+#         "size": [diam,diam], 
+#         "view": [diam,diam],
+#         "mipmapping": 1
+#     });  
+
+# # #   cv.addPlacement({"node": "bkg", "texture":"rwr-bkg.png"});
+#     cv.setColorBackground(0, 0.20, 0);
+#     var root = cv.createGroup();
+#     rwr = RWRCanvas.new(root, [diam/2,diam/2],diam);
+#      removelistener(main_init_listener);
+#   }
+#  }, 0, 0);
+
+var openDialog = func(){
+   var diam = 256;
      cv = canvas.new({
-        "name": "F16 RWR",
+        "name": "Rwr",
         "size": [diam,diam], 
         "view": [diam,diam],
         "mipmapping": 1
-    });  
-
-#   cv.addPlacement({"node": "bkg", "texture":"rwr-bkg.png"});
+      });  
+        
     cv.setColorBackground(0, 0.20, 0);
     var root = cv.createGroup();
+    
     rwr = RWRCanvas.new(root, [diam/2,diam/2],diam);
-     removelistener(main_init_listener);
-  }
- }, 0, 0);
-
-var openDialog = func(){
+  
+  
   var window = canvas.Window.new([256,256],"Rwr");
   window.setCanvas(cv);
 }
