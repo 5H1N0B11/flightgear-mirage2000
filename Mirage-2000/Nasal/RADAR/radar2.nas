@@ -368,7 +368,7 @@ var Radar = {
             # existing as a displayable target in the radar targets nodes.
             # FIXED, with janitor. 5H1N0B1
             var type = me.type_selector(c);
-            if(! c.getNode("valid", 1).getValue())
+            if(c.getNode("valid") == nil or c.getNode("valid").getValue() != 1)
             {
                 continue;
             }
