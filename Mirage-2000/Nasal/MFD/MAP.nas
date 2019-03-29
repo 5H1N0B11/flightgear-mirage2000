@@ -21,21 +21,21 @@ var height = 576;
 # - color       : color
 # - line_width  : line_width
 #
-var draw_arc = func(element, center_x, center_y, radius, start_angle, end_angle, color, line_width)
-{
-    var coord_start_x = center_x + (radius * math.cos(start_angle * D2R));
-    var coord_start_y = center_y - (radius * math.sin(start_angle * D2R));
-
-    var to_x = -(radius * math.cos(start_angle * D2R)) + (radius * math.cos(end_angle * D2R));
-    var to_y = (radius * math.sin(start_angle * D2R)) - (radius * math.sin(end_angle * D2R));
-
-    element.setStrokeLineWidth(line_width)
-        .set("stroke", color)
-        .moveTo(coord_start_x, coord_start_y)
-        .arcSmallCCW(radius, radius, 0, to_x, to_y);
-        
-    print("coord_start_x:"~coord_start_x~"| coord_start_y:"~coord_start_y~"| radius:"~ radius ~"| to_x:"~to_x~"| to_y:"~ to_y);
-}
+# var draw_arc = func(element, center_x, center_y, radius, start_angle, end_angle, color, line_width)
+# {
+#     var coord_start_x = center_x + (radius * math.cos(start_angle * D2R));
+#     var coord_start_y = center_y - (radius * math.sin(start_angle * D2R));
+# 
+#     var to_x = -(radius * math.cos(start_angle * D2R)) + (radius * math.cos(end_angle * D2R));
+#     var to_y = (radius * math.sin(start_angle * D2R)) - (radius * math.sin(end_angle * D2R));
+# 
+#     element.setStrokeLineWidth(line_width)
+#         .set("stroke", color)
+#         .moveTo(coord_start_x, coord_start_y)
+#         .arcSmallCCW(radius, radius, 0, to_x, to_y);
+#         
+#     print("coord_start_x:"~coord_start_x~"| coord_start_y:"~coord_start_y~"| radius:"~ radius ~"| to_x:"~to_x~"| to_y:"~ to_y);
+# }
 
 #-------------------------------------------------------------------------------
 #                                                                     draw_piste
@@ -225,15 +225,15 @@ var rightMFDcanvas = {
       m.MapToggle = 1;
       
       # creation des arcs "range"
-      m.arc_range1 = m.radarStuff.createChild("path", "arc_range1");
-      m.arc_range1.moveTo(334,256).arcSmallCCW(50, 50, 0,  434, 256);
-      m.arc_range1.setStrokeLineWidth(3)
-      .moveTo(484, 256)
-      .set("stroke", "rgba(100, 100, 100, 1)")
-      .arcSmallCCW(100, 100, 0, -200, 0)
-      .arcSmallCCW(100, 100, 0, 200, 0);
-      
-        draw_arc(m.arc_range1, 384,256 , 100 , 0, 180, "rgba(100, 100, 100, 1)", 3);
+#       m.arc_range1 = m.radarStuff.createChild("path", "arc_range1");
+#       m.arc_range1.moveTo(334,256).arcSmallCCW(50, 50, 0,  434, 256);
+#       m.arc_range1.setStrokeLineWidth(3)
+#       .moveTo(484, 256)
+#       .set("stroke", "rgba(100, 100, 100, 1)")
+#       .arcSmallCCW(100, 100, 0, -200, 0)
+#       .arcSmallCCW(100, 100, 0, 200, 0);
+#       
+#         draw_arc(m.arc_range1, 384,256 , 100 , 0, 180, "rgba(100, 100, 100, 1)", 3);
       
       
       
@@ -373,7 +373,7 @@ var rightMFDcanvas = {
           }else{
             me.updateRadar()
           }
-          if (getprop("instrumentation/mfd/modeR")==4) {
+          if (getprop("instrumentation/mfd/modeR")==2) {
             me.rwr.show();
           } else {
             me.rwr.hide();
