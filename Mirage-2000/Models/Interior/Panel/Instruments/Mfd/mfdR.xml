@@ -79,7 +79,6 @@
     <object-name>pot-r2</object-name>
     <object-name>pot-r3</object-name>
     <object-name>pot-r4</object-name>
-    <object-name>canvasCadre</object-name>
     <condition>
       <not>
         <property>sim/rendering/rembrandt/enabled</property>
@@ -115,7 +114,6 @@
     <object-name>pot-r2</object-name>
     <object-name>pot-r3</object-name>
     <object-name>pot-r4</object-name>
-    <object-name>canvasCadre</object-name>
     <condition>
       <property>sim/rendering/rembrandt/enabled</property>
     </condition>
@@ -123,6 +121,16 @@
       <red>   0.05 </red>
       <green> 0.05 </green>
       <blue>  0.05 </blue>
+    </emission>
+  </animation>
+  
+  <animation>
+    <type>material</type>
+    <object-name>canvasCadre</object-name>
+    <emission>
+      <red>   1.00 </red>
+      <green> 1.00 </green>
+      <blue>  1.00 </blue>
     </emission>
   </animation>
 

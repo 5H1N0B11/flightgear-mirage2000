@@ -1,5 +1,7 @@
 print("*** LOADING rwr.nas ... ***");
 
+var lineWidth = 3;
+
 RWRCanvas = {
     new: func (root, center, diameter) {
         var rwr = {parents: [RWRCanvas]};
@@ -17,33 +19,35 @@ RWRCanvas = {
         rwr.fadeTime = 7;#seconds
         rwr.rootCenter = root.createChild("group")
                 .setTranslation(center[0],center[1]);
+        var rootOffset = root.createChild("group")
+                .setTranslation(center[0]-diameter/2,center[1]-diameter/2);
         
 #        root.createChild("path")
 #           .moveTo(0, diameter/2)
 #           .arcSmallCW(diameter/2, diameter/2, 0, diameter, 0)
 #           .arcSmallCW(diameter/2, diameter/2, 0, -diameter, 0)
-#           .setStrokeLineWidth(1)
+#           .setStrokeLineWidth(lineWidth)
 #           .setColor(1, 1, 1);
-        root.createChild("path")
+        rootOffset.createChild("path")
            .moveTo(diameter/2-rwr.circle_radius_small, diameter/2)
            .arcSmallCW(rwr.circle_radius_small, rwr.circle_radius_small, 0, rwr.circle_radius_small*2, 0)
            .arcSmallCW(rwr.circle_radius_small, rwr.circle_radius_small, 0, -rwr.circle_radius_small*2, 0)
-           .setStrokeLineWidth(1)
+           .setStrokeLineWidth(lineWidth)
            .setColor(colorLG);
-        root.createChild("path")
+        rootOffset.createChild("path")
            .moveTo(diameter/2-rwr.circle_radius_big, diameter/2)
            .arcSmallCW(rwr.circle_radius_big, rwr.circle_radius_big, 0, rwr.circle_radius_big*2, 0)
            .arcSmallCW(rwr.circle_radius_big, rwr.circle_radius_big, 0, -rwr.circle_radius_big*2, 0)
-           .setStrokeLineWidth(1)
+           .setStrokeLineWidth(lineWidth)
            .setColor(colorLG);
-        root.createChild("path")
+        rootOffset.createChild("path")
            .moveTo(diameter/2-rwr.circle_radius_small/2, diameter/2)
            .lineTo(diameter/2+rwr.circle_radius_small/2, diameter/2)
            .moveTo(diameter/2, diameter/2-rwr.circle_radius_small/2)
            .lineTo(diameter/2, diameter/2+rwr.circle_radius_small/2)
-           .setStrokeLineWidth(1)
+           .setStrokeLineWidth(lineWidth)
            .setColor(colorLG);
-        root.createChild("path")
+        rootOffset.createChild("path")
            .moveTo(0,diameter*0.5)
            .horiz(tick_long)
            .moveTo(diameter,diameter*0.5)
@@ -52,7 +56,7 @@ RWRCanvas = {
            .vert(tick_long)
            .moveTo(diameter*0.5,diameter)
            .vert(-tick_long)
-           .setStrokeLineWidth(1)
+           .setStrokeLineWidth(lineWidth)
            .setColor(colorLG);
         rwr.rootCenter.createChild("path")
            .moveTo(radius*math.cos(30*D2R),radius*math.sin(-30*D2R))
@@ -72,7 +76,7 @@ RWRCanvas = {
            .lineTo(-(radius-tick_short)*math.cos(30*D2R),(radius-tick_short)*math.sin(30*D2R))
            .moveTo(-radius*math.cos(60*D2R),radius*math.sin(60*D2R))
            .lineTo(-(radius-tick_short)*math.cos(60*D2R),(radius-tick_short)*math.sin(60*D2R))
-           .setStrokeLineWidth(1)
+           .setStrokeLineWidth(lineWidth)
            .setColor(colorLG);
         rwr.texts = setsize([],rwr.max_icons);
         for (var i = 0;i<rwr.max_icons;i+=1) {
@@ -91,7 +95,7 @@ RWRCanvas = {
                     .lineTo(font*0.7,-font*0.5)
                     .moveTo(0,-font)
                     .lineTo(-font*0.7,-font*0.5)
-                    .setStrokeLineWidth(1)
+                    .setStrokeLineWidth(lineWidth)
                     .setColor(colorG)
                     .hide();
         }
@@ -105,7 +109,7 @@ RWRCanvas = {
 #                   .lineTo(-9, -4)
 #                   .moveTo(-9, -8)
 #                   .lineTo(-11, -4)
-#                   .setStrokeLineWidth(1)
+#                   .setStrokeLineWidth(lineWidth)
 #                   .setColor(1,0,0)
 #                   .hide();
 #        }
@@ -115,7 +119,7 @@ RWRCanvas = {
                     .moveTo(font*1.2, 0)
                     .arcSmallCW(font*1.2, font*1.2, 0, -font*2.4, 0)
                     .arcSmallCW(font*1.2, font*1.2, 0, font*2.4, 0)
-                    .setStrokeLineWidth(1)
+                    .setStrokeLineWidth(lineWidth)
                     .setColor(colorG)
                     .hide();
         }
@@ -124,7 +128,7 @@ RWRCanvas = {
             rwr.symbol_new[i] = rwr.rootCenter.createChild("path")
                     .moveTo(font*1.2, 0)
                     .arcSmallCCW(font*1.2, font*1.2, 0, -font*2.4, 0)
-                    .setStrokeLineWidth(1)
+                    .setStrokeLineWidth(lineWidth)
                     .setColor(colorG)
                     .hide();
         }
@@ -136,7 +140,7 @@ RWRCanvas = {
 #                   .lineTo(-10,-10)
 #                   .lineTo(-10,10)
 #                   .lineTo(10, 10)
-#                   .setStrokeLineWidth(1)
+#                   .setStrokeLineWidth(lineWidth)
 #                   .setColor(1,0,0)
 #                   .hide();
 #        }
@@ -146,7 +150,7 @@ RWRCanvas = {
                     .lineTo(0,-font*1.2)
                     .lineTo(-font*1.2,0)
                     .lineTo(0, font*1.2)
-                    .setStrokeLineWidth(1)
+                    .setStrokeLineWidth(lineWidth)
                     .setColor(colorG)
                     .hide();
         
@@ -156,7 +160,7 @@ RWRCanvas = {
 #                   .moveTo(15, 0)
 #                   .lineTo(0,-15)
 #                   .lineTo(-15,0)
-#                   .setStrokeLineWidth(1)
+#                   .setStrokeLineWidth(lineWidth)
 #                   .setColor(1,0,0)
 #                   .hide();
 #        }
@@ -256,9 +260,13 @@ RWRCanvas = {
                 break;
             }
             if (me.typ == nil) {
-                me.typ = me.AIRCRAFT_UNKNOWN;
-                continue;
-                me.unk = 1;
+                if (me.contact[0].propNode.getName() != "multiplayer") {
+                    # AI planes are allowed to be unknowns
+                    me.typ = me.AIRCRAFT_UNKNOWN;
+                    me.unk = 1;
+                } else {
+                    continue;
+                }
             }
             #print("show "~me.i~" "~me.typ~" "~contact[0].get_model()~"  "~contact[1]);
             me.threat = me.contact[1];#print(me.threat);
@@ -351,6 +359,7 @@ var cv = nil;
 #  }, 0, 0);
 
 var openDialog = func(){
+    return;
    var diam = 256;
      cv = canvas.new({
         "name": "Rwr",
@@ -368,3 +377,8 @@ var openDialog = func(){
   var window = canvas.Window.new([256,256],"Rwr");
   window.setCanvas(cv);
 }
+
+var setGroup = func (root) {
+    root.createChild("path").horiz(768).vert(576).horiz(-768).vert(-576).setColorFill(0,0,0).setColor(0,0,0);
+    rwr = RWRCanvas.new(root, [768/2,576/2],576);
+};
