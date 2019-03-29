@@ -161,7 +161,7 @@
         <property>/instrumentation/mfd/modeR</property>
         <step>1</step>
         <min>0</min>
-        <max>4</max>
+        <max>5</max>
         <wrap>true</wrap>
       </binding>
     </action>
@@ -1216,10 +1216,16 @@
     <object-name>canvasCadre</object-name>
     <condition>
       <and>
-        <equals>
-          <property>/instrumentation/mfd/modeR</property>
-          <value>2</value>
-        </equals>
+        <or>
+          <equals>
+            <property>/instrumentation/mfd/modeR</property>
+            <value>2</value>
+          </equals>
+          <equals>
+            <property>/instrumentation/mfd/modeR</property>
+            <value>4</value>
+          </equals>
+        </or>
         <greater-than>
           <property>/systems/electrical/volts</property>
           <value>12</value>
