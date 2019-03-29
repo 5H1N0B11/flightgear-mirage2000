@@ -137,9 +137,10 @@ var rightMFDcanvas = {
       ## Base for the canvas
       m.canvas.addPlacement(placement);
       m.root = m.canvas.createGroup();
-      m.mapStuff = m.root.createChild("group");
-      m.radarStuff = m.root.createChild("group"); #Should be replaced by rwr
+      m.mapStuff = m.root.createChild("group").set("z-index",9000);
+      m.radarStuff = m.root.createChild("group").set("z-index",10000); #Should be replaced by rwr
       
+      rwr.setGroup(m.radarStuff);
       
       #MAP stuff
       m.g_front = m.mapStuff.createChild("group");
@@ -224,13 +225,13 @@ var rightMFDcanvas = {
       m.MapToggle = 1;
       
       # creation des arcs "range"
-      m.arc_range1 = m.radarStuff.createChild("path", "arc_range1");
+#      m.arc_range1 = m.radarStuff.createChild("path", "arc_range1");
       #m.arc_range1.moveTo(334,256).arcSmallCCW(50, 50, 0,  434, 256);
-      m.arc_range1.setStrokeLineWidth(3)
-      .moveTo(484, 256)
-      .set("stroke", "rgba(100, 100, 100, 1)")
-      .arcSmallCCW(100, 100, 0, -200, 0)
-      .arcSmallCCW(100, 100, 0, 200, 0);
+#      m.arc_range1.setStrokeLineWidth(3)
+#      .moveTo(484, 256)
+#      .set("stroke", "rgba(100, 100, 100, 1)")
+#      .arcSmallCCW(100, 100, 0, -200, 0)
+#      .arcSmallCCW(100, 100, 0, 200, 0);
       
 #        draw_arc(m.arc_range1, 384,256 , 100 , 0, 180, "rgba(100, 100, 100, 1)", 3);
       
