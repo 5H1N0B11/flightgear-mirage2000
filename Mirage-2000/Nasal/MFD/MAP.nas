@@ -137,10 +137,10 @@ var rightMFDcanvas = {
       ## Base for the canvas
       m.canvas.addPlacement(placement);
       m.root = m.canvas.createGroup();
-      m.mapStuff = m.root.createChild("group").set("z-index",9000);
-      m.radarStuff = m.root.createChild("group").set("z-index",10000); #Should be replaced by rwr
-      
-      rwr.setGroup(m.radarStuff);
+      m.mapStuff = m.root.createChild("group").set("z-index",0);
+      m.radarStuff = m.root.createChild("group").set("z-index",9500);
+      m.rwr = m.root.createChild("group").set("z-index",10000);
+      rwr.setGroup(m.rwr);
       
       #MAP stuff
       m.g_front = m.mapStuff.createChild("group");
@@ -183,7 +183,7 @@ var rightMFDcanvas = {
       ];
       # simple aircraft icon at current position/center of the map
       m.filename = "Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Mfd/littleaircraftRed.svg";
-      m.svg_symbol = m.root.createChild("group");
+      m.svg_symbol = m.root.createChild("group").set("z-index",9750);
       canvas.parsesvg(m.svg_symbol, m.filename);
       m.svg_symbol.setScale(0.05);
       
@@ -225,15 +225,15 @@ var rightMFDcanvas = {
       m.MapToggle = 1;
       
       # creation des arcs "range"
-#      m.arc_range1 = m.radarStuff.createChild("path", "arc_range1");
-      #m.arc_range1.moveTo(334,256).arcSmallCCW(50, 50, 0,  434, 256);
-#      m.arc_range1.setStrokeLineWidth(3)
-#      .moveTo(484, 256)
-#      .set("stroke", "rgba(100, 100, 100, 1)")
-#      .arcSmallCCW(100, 100, 0, -200, 0)
-#      .arcSmallCCW(100, 100, 0, 200, 0);
+      m.arc_range1 = m.radarStuff.createChild("path", "arc_range1");
+      m.arc_range1.moveTo(334,256).arcSmallCCW(50, 50, 0,  434, 256);
+      m.arc_range1.setStrokeLineWidth(3)
+      .moveTo(484, 256)
+      .set("stroke", "rgba(100, 100, 100, 1)")
+      .arcSmallCCW(100, 100, 0, -200, 0)
+      .arcSmallCCW(100, 100, 0, 200, 0);
       
-#        draw_arc(m.arc_range1, 384,256 , 100 , 0, 180, "rgba(100, 100, 100, 1)", 3);
+        draw_arc(m.arc_range1, 384,256 , 100 , 0, 180, "rgba(100, 100, 100, 1)", 3);
       
       
       
@@ -372,6 +372,11 @@ var rightMFDcanvas = {
             me.updateTiles();
           }else{
             me.updateRadar()
+          }
+          if (getprop("instrumentation/mfd/modeR")==4) {
+            me.rwr.show();
+          } else {
+            me.rwr.hide();
           }
       });
       update_timer.start();
