@@ -1236,10 +1236,10 @@ var RWR_APG = {
                   me.show = 1;
               }
             }
-            print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show);
+            #print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show ~ " Name:"~me.u.propNode.getName());
             if (me.show == 1) {
                 me.threat = 0;
-                if (me.u.get_model() != "missile_frigate" and me.u.get_model() != "fleet" and me.u.get_model() != "buk-m2") {
+                if (me.u.get_model() != "missile_frigate" and me.u.propNode.getName() != "carrier" and me.u.get_model() != "fleet" and me.u.get_model() != "buk-m2") {
                     me.threat += ((180-me.dev)/180)*0.30;
                     me.spd = (60-me.u.get_Speed())/60;
                     me.threat -= me.spd>0?me.spd:0;
@@ -1253,11 +1253,15 @@ var RWR_APG = {
                     me.danger = 75
                 } elsif (me.u.get_model() == "buk-m2") {
                     me.danger = 35;
+                } elsif (me.u.propNode.getName() == "carrier") {
+                    me.danger = 60;
                 }
+                
                 me.threat += ((me.danger-me.rn)/me.danger)>0?((me.danger-me.rn)/me.danger)*0.60:0;
                 me.clo = me.u.get_closure_rate_from_Coord(me.MyCoord);
                 me.threat += me.clo>0?(me.clo/500)*0.10:0;
                 if (me.threat > 1) me.threat = 1;
+                #printf("%s threat:%.2f range:%d dev:%d", me.u.get_Callsign(),me.threat,me.u.get_range(),me.dev);
                 if (me.threat <= 0) continue;
                 #printf("%s threat:%.2f range:%d dev:%d", u.get_Callsign(),threat,u.get_range(),dev);
                 if (!me.l16) {

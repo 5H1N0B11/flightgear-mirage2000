@@ -28,7 +28,7 @@ var RadarTool = {
                   terrain.set_latlon(v.lat, v.lon, v.elevation);
                   var maxDist = myPos.direct_distance_to(SelectCoord);
                   var terrainDist = myPos.direct_distance_to(terrain);
-                  if (terrainDist < maxDist) {
+                  if (terrainDist < maxDist-1) {
                     #print("terrain found between the planes");
                     return 0;
                   } else {
