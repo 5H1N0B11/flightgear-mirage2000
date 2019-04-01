@@ -1207,6 +1207,7 @@ var RWR_APG = {
 #         printf("clist %d", size(completeList));
         foreach(me.u;completeList) {
             me.cs = me.u.get_Callsign();
+#             print("Will test  : "~ me.u.get_Callsign()~" as Type: " ~ me.u.type);
             me.rn = me.u.get_range();
             me.l16 = 0;
             if (getprop("link16/wingman-1")==me.cs or getprop("link16/wingman-2")==me.cs or getprop("link16/wingman-3")==me.cs or me.rn > 150) {
@@ -1226,11 +1227,16 @@ var RWR_APG = {
               me.show = 1;
             }else{
               me.rdrAct = me.u.propNode.getNode("sim/multiplay/generic/int[2]");
-              if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviation)) < 60 and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {
+              
+              me.rwrTargetAzimuth = me.TargetWhichRadarAzimut(me.u);
+              #print(me.rwrTargetAzimuth);
+              
+              if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviation)) < me.rwrTargetAzimuth and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {
                   # we detect its radar is pointed at us and active
                   me.show = 1;
               }
             }
+            print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show);
             if (me.show == 1) {
                 me.threat = 0;
                 if (me.u.get_model() != "missile_frigate" and me.u.get_model() != "fleet" and me.u.get_model() != "buk-m2") {

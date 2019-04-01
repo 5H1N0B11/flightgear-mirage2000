@@ -324,5 +324,13 @@ var RadarTool = {
             myBearing = SelectedObject.get_bearing_from_Coord(me.MyCoord);
         }
         return myBearing;
+    },
+    TargetWhichRadarAzimut: func(SelectedObject){
+      
+      if(SelectedObject.type == armament.SURFACE or SelectedObject.type == armament.MARINE) {
+        return 180;    
+      }else{
+        return 60;     
+      }
     }
 }
