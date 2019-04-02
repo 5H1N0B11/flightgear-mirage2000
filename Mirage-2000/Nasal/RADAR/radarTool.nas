@@ -221,6 +221,46 @@ var RadarTool = {
         }
         return inMyAzimuth;
     },
+    
+    
+    #The goal of this function is to make the xml radar screen work. It is useless with Canvas
+    calculateScreen: func(SelectedObject){
+        # swp_diplay_width = Global
+        # az_fld = Global
+        # ppi_diplay_radius = Global
+        
+        SelectedObject.check_carrier_type();
+        mydeviation = SelectedObject.get_deviation(me.OurHdg, me.MyCoord);
+        #print("My Radar deviation %f", mydeviation);
+        var u_rng = me.targetRange(SelectedObject);
+        
+        # compute mp position in our B-scan like display. (Bearing/horizontal + Range/Vertical).
+        SelectedObject.set_relative_bearing(me.swp_diplay_width / me.az_fld * mydeviation,me.UseATree);
+        var factor_range_radar = me.rng_diplay_width / me.rangeTab[me.rangeIndex]; # length of the distance range on the B-scan screen.
+        SelectedObject.set_ddd_draw_range_nm(factor_range_radar * u_rng,me.UseATree);
+        u_fading = 1;
+        u_display = 1;
+        
+        # Compute mp position in our PPI like display.
+        factor_range_radar = me.ppi_diplay_radius / me.rangeTab[me.rangeIndex]; # Length of the radius range on the PPI like screen.
+        SelectedObject.set_tid_draw_range_nm(factor_range_radar * u_rng,me.UseATree);
+        
+        # Compute first digit of mp altitude rounded to nearest thousand. (labels).
+        SelectedObject.set_rounded_alt(rounding1000(SelectedObject.get_altitude()) / 1000,me.UseATree);
+        
+        # Compute closure rate in Kts.
+        #SelectedObject.get_closure_rate_from_Coord(me.MyCoord) * MPS2KT;
+            
+        # Check if u = nearest echo.
+        if(SelectedObject.get_Callsign() == getprop("/ai/closest/callsign"))
+        {
+            #print(u.get_Callsign());
+            tmp_nearest_u = SelectedObject;
+            tmp_nearest_rng = u_rng;
+        }
+        SelectedObject.set_display(u_display, me.UseATree);
+        SelectedObject.set_fading(u_fading, me.UseATree);
+    },
 
     inElevation: func(SelectedObject){
         if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}

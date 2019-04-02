@@ -160,6 +160,7 @@ var Radar = {
         m.swp_diplay_width  = 0;
         m.rng_diplay_width  = 0;
         m.ppi_diplay_radius = 0;
+        m.isdeleting = 0;
         
         m.tempo_Index = 0;
 
@@ -253,15 +254,31 @@ var Radar = {
             # RWR launch
             RWR_APG.run();
             
-            settimer(loop_Update, me.UPDATE_PERIOD);
+            if(me.isdeleting == 0){settimer(loop_Update, me.UPDATE_PERIOD)};
         };
-        settimer(loop_Update,me.UPDATE_PERIOD);
+        if(me.isdeleting == 0){settimer(loop_Update, me.UPDATE_PERIOD)};
 
         var loop_Sweep = func() {
             if(me.haveSweep ==1){me.maj_sweep();}
             settimer(loop_Sweep, 0.05);
         };
-        settimer(loop_Sweep,0.05);
+        if(me.isdeleting == 0){settimer(loop_Sweep,0.05);}
+    },
+    
+    delete: func(){
+      me.AutoUpdate = 0;
+      me.isdeleting = 1;
+      tmp_nearest_rng   = nil;
+      tmp_nearest_u     = nil;
+      nearest_rng       = 0;
+      nearest_u         = nil;
+      missileIndex = 0;
+      MytargetVariable = nil;
+      completeList     = [];
+      
+      #rwr Stuff
+      rwrList   = [];
+      rwrList16 = [];
     },
 
     ############
@@ -579,43 +596,7 @@ var Radar = {
         return CANVASARRAY;
     },
     
-    calculateScreen: func(SelectedObject){
-        # swp_diplay_width = Global
-        # az_fld = Global
-        # ppi_diplay_radius = Global
-        
-        SelectedObject.check_carrier_type();
-        mydeviation = SelectedObject.get_deviation(me.OurHdg, me.MyCoord);
-        #print("My Radar deviation %f", mydeviation);
-        var u_rng = me.targetRange(SelectedObject);
-        
-        # compute mp position in our B-scan like display. (Bearing/horizontal + Range/Vertical).
-        SelectedObject.set_relative_bearing(me.swp_diplay_width / me.az_fld * mydeviation,me.UseATree);
-        var factor_range_radar = me.rng_diplay_width / me.rangeTab[me.rangeIndex]; # length of the distance range on the B-scan screen.
-        SelectedObject.set_ddd_draw_range_nm(factor_range_radar * u_rng,me.UseATree);
-        u_fading = 1;
-        u_display = 1;
-        
-        # Compute mp position in our PPI like display.
-        factor_range_radar = me.ppi_diplay_radius / me.rangeTab[me.rangeIndex]; # Length of the radius range on the PPI like screen.
-        SelectedObject.set_tid_draw_range_nm(factor_range_radar * u_rng,me.UseATree);
-        
-        # Compute first digit of mp altitude rounded to nearest thousand. (labels).
-        SelectedObject.set_rounded_alt(rounding1000(SelectedObject.get_altitude()) / 1000,me.UseATree);
-        
-        # Compute closure rate in Kts.
-        #SelectedObject.get_closure_rate_from_Coord(me.MyCoord) * MPS2KT;
-            
-        # Check if u = nearest echo.
-        if(SelectedObject.get_Callsign() == getprop("/ai/closest/callsign"))
-        {
-            #print(u.get_Callsign());
-            tmp_nearest_u = SelectedObject;
-            tmp_nearest_rng = u_rng;
-        }
-        SelectedObject.set_display(u_display, me.UseATree);
-        SelectedObject.set_fading(u_fading, me.UseATree);
-    },
+
 
     
     maj_sweep: func(){
