@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <!-- Mirage 2000 (YASim) FBW -->
-<!-- Copyright (c) 2018 Joshua Davidson (it0uchpods) -->
+<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
 
 <PropertyList>
 	
@@ -206,8 +206,8 @@
 				<table>
 					<property>/velocities/airspeed-kt</property>
 					<entry><ind>130</ind><dep>-0.0200</dep></entry>
-					<entry><ind>200</ind><dep>-0.0100</dep></entry>
-					<entry><ind>320</ind><dep>-0.0030</dep></entry>
+					<entry><ind>200</ind><dep>-0.0050</dep></entry>
+					<entry><ind>320</ind><dep>-0.0020</dep></entry>
 					<entry><ind>600</ind><dep>-0.0002</dep></entry>
 					<entry><ind>950</ind><dep>-0.0001</dep></entry>
 				</table>
@@ -571,9 +571,9 @@
 			<expression>
 				<table>
 					<property>/velocities/airspeed-kt</property>
-					<entry><ind>130</ind><dep>23</dep></entry>
-					<entry><ind>200</ind><dep>19</dep></entry>
-					<entry><ind>320</ind><dep>13</dep></entry>
+					<entry><ind>130</ind><dep>21</dep></entry>
+					<entry><ind>200</ind><dep>18</dep></entry>
+					<entry><ind>320</ind><dep>12</dep></entry>
 					<entry><ind>600</ind><dep> 7</dep></entry>
 					<entry><ind>950</ind><dep> 4</dep></entry>
 				</table>
@@ -731,16 +731,18 @@
 	</filter>
 	
 	<filter> <!-- This is just a crude "hack" to fake unstable aircraft in YASim -->
-		<name>YASim Mach Trim</name>
+		<name>YASim Speed Trim</name>
 		<type>gain</type>
 		<gain>1.0</gain>
 		<input>
 			<expression>
 				<table>
 					<property>/velocities/airspeed-kt</property>
-					<entry><ind>130</ind><dep>-0.3</dep></entry>
-					<entry><ind>320</ind><dep>-0.1</dep></entry>
-					<entry><ind>600</ind><dep> 0.0</dep></entry>
+					<entry><ind>130</ind><dep>-0.60</dep></entry>
+					<entry><ind>200</ind><dep>-0.35</dep></entry>
+					<entry><ind>320</ind><dep>-0.15</dep></entry>
+					<entry><ind>600</ind><dep>-0.05</dep></entry>
+					<entry><ind>950</ind><dep>-0.01</dep></entry>
 				</table>
 			</expression>
 		</input>
