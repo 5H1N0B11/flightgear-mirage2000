@@ -8,12 +8,9 @@
        Weight   : 89 kg (196.21 lb)
   -->
   <!--path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.ac</path-->
-  <path>Aircraft/Mirage-2000/Missiles/Magic-2/MatraR550Magic2.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/Magic-2/Magic2.ac</path>
   <animation>
-    <!-- Objets opaques -->
-    <object-name>magic</object-name>
-    <!-- Objets transparents -->
-    <object-name>magic.optique</object-name>
+		<object-name>magic</object-name>
   </animation>
   <effect>
     <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
