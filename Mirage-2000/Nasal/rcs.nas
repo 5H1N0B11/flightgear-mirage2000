@@ -20,39 +20,54 @@ var rcs_database = {
     "default":                  200,    #default value if target's model isn't listed
     "f-14b":                    12,     #guess
     "F-14D":                    12,     #guess
-    "f-14b-bs":                 0.001,   # low so it dont show up on radar
+    "f-14b-bs":                 0.0001, # low so it doesnt show up on radar
     "F-15C":                    10,     #low end of sources
     "F-15D":                    11,     #low end of sources
     "F-16":                     2,      #guess
-    "f15-bs":                   0.001,   # low so it dont show up on radar
+    "YF-16":                    2,      #guess
+    "F-16CJ":                   2,      #guess
+    "f16":                      2,      #guess
+    "MiG-29":                   6,      #guess
+    "f15-bs":                   0.0001, # low so it doesnt show up on radar
     "JA37-Viggen":              3,      #guess
     "AJ37-Viggen":              3,      #guess
     "AJS37-Viggen":             3,      #guess
     "JA37Di-Viggen":            3,      #guess
     "m2000-5":                  1,
     "m2000-5B":                 1,
-    "m2000-5B-backseat":        0.001,
+    "m2000-5B-backseat":        0.0001,
     "707":                      100,    #guess
     "707-TT":                   100,    #guess
     "EC-137D":                  110,    #guess
     "B-1B":                     10,
+    "b2-spirit":                0.004,   #actual: 0.0001
+    "B-2A":                     0.004,   #actual: 0.0001
     "Blackbird-SR71A":          0.25,
     "Blackbird-SR71B":          0.30,
     "Blackbird-SR71A-BigTail":  0.30,
-    "ch53e":                    20,     #guess
+    "u2s":                      0.30,   #actual: 0.01
+    "ch53e":                    40,     #guess
     "MiG-21bis":                3.5,
     "MQ-9":                     1,      #guess
     "KC-137R":                  100,    #guess
     "KC-137R-RT":               100,    #guess
-    "A-10":                     23.5, 
-    "KC-10A":                   100,    #guess
+    "A-10":                     23.5,
+    "A-10-model":               23.5, 
+    "KC-10A":                   110,    #guess
+    "KC-10A-GE":                110,    #guess
+    "KC-30A":                   110,    #guess
+    "Voyager-KC":               110,    #guess
     "Typhoon":                  0.5,
+    "EF2000":                   0.5,
+    "brsq":                     5.0,
     "C-137R":                   100,    #guess
     "RC-137R":                  100,    #guess
     "EC-137R":                  110,    #guess
+    "E-8R":                     100,    #guess
     "c130":                     100,    #guess
-    "SH-60J":                   30,     #guess
-    "UH-60J":                   30,     #guess
+    "SH-60J":                   20,     #guess
+    "UH-60J":                   20,     #guess
+    "uh60_Blackhawk":           20,     #guess
     "uh1":                      30,     #guess
     "212-TwinHuey":             25,     #guess
     "412-Griffin":              25,     #guess
@@ -63,6 +78,13 @@ var rcs_database = {
     "missile_frigate":          450,    #estimated with blender
     "frigate":                  450,    #estimated with blender
     "tower":                    60,     #estimated with blender
+    "gci":                      50,     #guess
+    "F-22-Raptor":				0.004,	#actual: 0.0001
+    "F-35A":					0.001,
+    "F-35B":					0.001,
+    "daVinci_F-35A":            0.001,  
+    "Jaguar-GR3":               6,	    #guess
+    "OpenRadar":                0.01,  # low so it doesnt show up on radar
 };
 
 var prevVisible = {};

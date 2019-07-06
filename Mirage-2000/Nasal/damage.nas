@@ -34,6 +34,7 @@ var warhead_lbs = {
     "AGM-84":              488.00,
     "AGM-88":              146.00,
     "AGM65":               200.00,
+    "AGM-119":             264.50,
     "AGM-154A":            493.00,
     "AGM-158":            1000.00,
     "aim-120":              44.00,
@@ -58,6 +59,7 @@ var warhead_lbs = {
     "GBU-12":              190.00,
     "GBU-24":              945.00,
     "GBU-31":              945.00,
+    "GBU-54":              192.00,
     "GBU12":               190.00,
     "GBU16":               450.00,
     "HVAR":                  7.50,#P51
@@ -171,6 +173,7 @@ var incoming_listener = func {
             # its being fired at me
             #print("Incoming!");
             var enemy = getCallsign(author);
+            var sam = size(last_vector) > 2 and last_vector[1] == " Bird away at"?1:0;
             if (enemy != nil) {
               #print("enemy identified");
               var bearingNode = enemy.getNode("radar/bearing-deg");
@@ -213,7 +216,7 @@ var incoming_listener = func {
                 } else {
                   playIncomingSound("");
                 }
-                setLaunch(author);
+                setLaunch(author, sam);
                 return;
               }
             }
@@ -337,13 +340,15 @@ var stopIncomingSound = func (clock) {
   setprop("sound/incoming"~clock, 0);
 }
 
-var setLaunch = func (e) {
-  setprop("sound/rwr-launch", e);
+var setLaunch = func (c,s) {
+  setprop("sound/rwr-launch-sam", s);
+  setprop("sound/rwr-launch", c);
   settimer(func {stopLaunch();},7);
 }
 
 var stopLaunch = func () {
   setprop("sound/rwr-launch", "");
+  setprop("sound/rwr-launch-sam", 0);
 }
 
 var callsign_struct = {};
