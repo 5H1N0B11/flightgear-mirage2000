@@ -91,10 +91,16 @@
 		<type>exponential</type>
 		<input>
 			<condition>
-				<equals>
-					<property>/autopilot/locks/AP-status</property>
-					<value>AP1</value>
-				</equals>
+				<and>
+					<equals>
+						<property>/autopilot/locks/AP-status</property>
+						<value>AP1</value>
+					</equals>
+					<not-equals>
+						<property>/autopilot/locks/heading</property>
+						<value>TEMP DISENGAGE</value>
+					</not-equals>
+				</and>
 			</condition>
 			<property>/it-fbw/ap/target-roll-rate</property>
 		</input>
@@ -341,10 +347,16 @@
 		<type>exponential</type>
 		<input>
 			<condition>
-				<equals>
-					<property>/autopilot/locks/AP-status</property>
-					<value>AP1</value>
-				</equals>
+				<and>
+					<equals>
+						<property>/autopilot/locks/AP-status</property>
+						<value>AP1</value>
+					</equals>
+					<not-equals>
+						<property>/autopilot/locks/altitude</property>
+						<value>TEMP DISENGAGE</value>
+					</not-equals>
+				</and>
 			</condition>
 			<property>/it-fbw/ap/target-g-accel</property>
 		</input>
@@ -738,9 +750,9 @@
 			<expression>
 				<table>
 					<property>/velocities/airspeed-kt</property>
-					<entry><ind>130</ind><dep>-0.60</dep></entry>
-					<entry><ind>200</ind><dep>-0.35</dep></entry>
-					<entry><ind>320</ind><dep>-0.15</dep></entry>
+					<entry><ind>130</ind><dep>-0.65</dep></entry>
+					<entry><ind>200</ind><dep>-0.36</dep></entry>
+					<entry><ind>320</ind><dep>-0.16</dep></entry>
 					<entry><ind>600</ind><dep>-0.05</dep></entry>
 					<entry><ind>950</ind><dep>-0.01</dep></entry>
 				</table>

@@ -71,7 +71,7 @@ var FD_set_mode = func(btn)
         }
         else
         {
-            kill_Ap("<MINIMUM");
+            kill_Ap("");
         }
     }
     elsif(btn == "hdg")
@@ -511,20 +511,22 @@ var monitor_V_armed = func() {
 
 # Tests PA-Limits
 var monitor_AP_errors = func() {
-    var ralt = getprop("/position/altitude-agl-ft");
-    if(ralt < getprop("/autopilot/settings/minimums"))
-    {
-        kill_Ap("AP-<MINI-ALTITUDE");
-    }
-    var rlimit = getprop("/orientation/roll-deg");
-    if(rlimit > 65 or rlimit < -65)
-    {
-        kill_Ap("AP-BANKLIMIT-FAIL");
-    }
-    var plimit = getprop("/orientation/pitch-deg");
-    if(plimit > 30 or plimit < -30)
-    {
-        kill_Ap("AP-PITCHLIMIT-FAIL");
+    if (getprop("/it-fbw/internal/flight-mode") != 1) {
+        kill_Ap("AP-FBW-NOT-IN-FLIGHT");
+    } else {
+        var ralt = getprop("/position/altitude-agl-ft");
+        var plimit = getprop("/orientation/pitch-deg");
+        var rlimit = getprop("/orientation/roll-deg");
+		var Apind = getprop(AP);
+        if (ralt < getprop("/autopilot/settings/minimums")) {
+            kill_Ap("AP-<MINI-ALTITUDE");
+        } else if (rlimit > 65 or rlimit < -65) {
+            kill_Ap("AP-BANKLIMIT-FAIL");
+        } else if (plimit > 30 or plimit < -30) {
+            kill_Ap("AP-PITCHLIMIT-FAIL");
+        } else if (Apind == "AP-FBW-NOT-IN-FLIGHT" or Apind == "AP-<MINI-ALTITUDE" or Apind == "AP-BANKLIMIT-FAIL" or Apind == "AP-PITCHLIMIT-FAIL") {
+            kill_Ap("");
+        }
     }
 }
 
@@ -535,10 +537,6 @@ var kill_Ap = func(msg) {
     set_pitch();
     set_roll();
     flag = 0;
-    
-    #Trim management is done on SAS so put it to 0 cause strange behaviour
-    #setprop(pitch_trim, 0);
-    #setprop(roll_trim, 0);
 }
 
 # Temporarly disengage Autopilot when control stick steering
@@ -578,8 +576,8 @@ var update_fd = func() {
     var V_mode = getprop(Vertical);
     var pa_stat = getprop(AP);
     if(pa_stat == "AP1"
-        and L_mode == "ROLL"
-        and V_mode == "PTCH"
+        and (L_mode == "ROLL" or V_mode == "TF") # this way we can always override in TF
+        and (V_mode == "PTCH" or V_mode == "TF") # this way we can always override in TF
         and stick_pos == 1)
     {
         pa_stb_off();
@@ -590,14 +588,6 @@ var update_fd = func() {
         and stick_pos == 0)
     {
         pa_stb_on();
-    }
-    if (V_mode == "TF" and stick_pos == 1)
-    {
-        setprop (Vertical, "TEMP DISENGAGE");
-    }
-    elsif (V_mode == "TEMP DISENGAGE" and stick_pos == 0)
-    {
-        setprop (Vertical, "TF");
     }
     update_nav();
     if(count == 0)
