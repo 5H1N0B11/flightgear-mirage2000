@@ -6,6 +6,7 @@
      changelog
 
        19/07/2015 Updated by Hardball : added new indicators
+       11/07/2019 Updating
 -->
 <PropertyList>
 
@@ -15,9 +16,9 @@
     <name>Pitch Ladder</name>
     <type>pitch</type>
     <x>-25</x>
-    <y>-25</y>
+    <y>-65</y>
     <width>50</width>
-    <height>50</height>
+    <height>40</height>
     <roll-input>
       <property>/orientation/roll-deg</property>
     </roll-input>
@@ -51,7 +52,7 @@
   <turn-bank-indicator>
     <name>Turn Indicator</name>
     <x>-50</x>
-    <y>-75</y>
+    <y>-110</y> <!-- -75  = 35 --> 
     <width>100</width>
     <height>100</height>
     <bank-input>
@@ -67,7 +68,7 @@
   <label>
     <name>Gyro Heading Label</name>
     <x>-9</x>
-    <y>42</y>
+    <y> 14</y>
     <width>18</width>
     <height>8</height>
     <input>
@@ -85,9 +86,9 @@
       <property>instrumentation/mfd/heading-displayed</property>
       <factor>0.1</factor>
     </input>
-    <x>-40</x>
-    <y>50</y>
-    <width>80</width>
+    <x>-50</x>
+    <y>23</y>
+    <width>100</width>
     <height>10</height>
     <display-span>4.0</display-span>
     <modulo>36</modulo>
@@ -112,8 +113,8 @@
 
   <label>
     <name>KIAS</name>
-    <x>-59</x>
-    <y>24</y>
+    <x>-66</x>
+    <y>  7</y>
     <width>30</width>
     <height>8</height>
     <input>
@@ -127,7 +128,7 @@
   <label>
     <name>MACH Number</name>
     <x>-58</x>
-    <y>20</y>
+    <y>-0</y>
     <width>1</width>
     <height>1</height>
     <condition>
@@ -146,7 +147,7 @@
   <label>
     <name>Altitude</name>
     <x>39</x>
-    <y>24</y>
+    <y> 5</y>
     <width>18</width>
     <height>12</height>
     <input>
@@ -161,7 +162,7 @@
   <label>
     <name>flight level</name>
     <x>39</x>
-    <y>16</y>
+    <y>-20</y>
     <width>18</width>
     <height>12</height>
     <condition>
@@ -183,7 +184,7 @@
   <label>
     <name>elevationOk</name>
     <x>34</x>
-    <y>-75</y>
+    <y>-110</y>
     <condition>
       <less-than>
         <property>/position/altitude-agl-ft</property>
@@ -201,7 +202,7 @@
   <label>
     <name>Closest Range</name>
     <x>-58</x>
-    <y>-20</y>
+    <y>-55</y>
     <condition>
       <and>
         <less-than>
@@ -225,7 +226,7 @@
   <label>
     <name>Closest Callsign</name>
     <x>-58</x>
-    <y>-12</y>
+    <y>-48</y>
     <condition>
       <and>
         <less-than>
@@ -249,7 +250,7 @@
   <label>
     <name>Closest Altitude</name>
     <x>-58</x>
-    <y>-28</y>
+    <y>-63</y>
     <condition>
       <and>
         <less-than>
@@ -273,7 +274,7 @@
   <label>
     <name>Closest heading</name>
     <x>-58</x>
-    <y>-36</y>
+    <y>-71</y>
     <condition>
       <and>
         <less-than>
@@ -297,7 +298,7 @@
   <label>
     <name>Closest speed</name>
     <x>-58</x>
-    <y>-44</y>
+    <y>-79</y>
     <condition>
       <and>
         <less-than>
@@ -321,7 +322,7 @@
   <label>
     <name>Closest bearing</name>
     <x>-58</x>
-    <y>-52</y>
+    <y>-87</y>
     <condition>
       <and>
         <less-than>
@@ -344,8 +345,8 @@
   <!-- ~~~~~~~~~~~~~~~~~~ angle of attack -->
   <label>
     <name>AoA</name>
-    <x>55</x>
-    <y>10</y>
+    <x>-60</x>
+    <y>-80</y>
     <condition>
       <or>
         <greater-than>
@@ -363,18 +364,34 @@
     </condition>
     <width>1</width>
     <height>1</height>
-    <halign>right</halign>
-    <format>AoA %3.1f</format>
+    <halign>left</halign>
+    <format>a %2.1f</format>
     <input>
       <property>/orientation/alpha-deg</property>
     </input>
+  </label>
+  
+    <!-- ~~~~~~~~~~~~~~~~~~ G load -->
+  <label>
+    <name>G Load</name>
+    <x>-60</x>
+    <y>-88</y>
+    <width>1.5</width>
+    <height>1.5</height>
+    <input>
+      <property>/accelerations/pilot/z-accel-fps_sec</property>
+      <factor>-0.03108095</factor>
+      <damp>1.0</damp>
+    </input>
+    <format>g %2.1f</format>
+    <halign>left</halign>
   </label>
 
   <!-- ~~~~~~~~~~~~~~~~~~ engine off -->
   <label>
     <name>off</name>
     <x>0</x>
-    <y>-30</y>
+    <y>-65</y>
     <width>1</width>
     <height>1</height>
     <condition>
@@ -388,7 +405,7 @@
   <label>
     <name>Starting</name>
     <x>0</x>
-    <y>-30</y>
+    <y>-65</y>
     <width>1</width>
     <height>1</height>
     <condition>
@@ -402,7 +419,7 @@
   <label>
     <name>ECM</name>
     <x>-10</x>
-    <y>-66</y>
+    <y>-101</y>
     <width>15</width>
     <height>6</height>
     <condition>
@@ -415,8 +432,8 @@
   <!-- ~~~~~~~~~~~~~~~~~~ gears -->
   <label>
     <name>Gear</name>
-    <x>-56</x>
-    <y>-70</y>
+    <x>-60</x>
+    <y>-105</y>
     <width>15</width>
     <height>6</height>
     <condition>
@@ -429,8 +446,8 @@
   <!-- ~~~~~~~~~~~~~~~~~~ parking brake -->
   <label>
     <name>Parking Break</name>
-    <x>-56</x>
-    <y>-62</y>
+    <x>-60</x>
+    <y>-97</y>
     <width>15</width>
     <height>6</height>
     <condition>
@@ -440,27 +457,13 @@
     <halign>left</halign>
   </label>
 
-  <!-- ~~~~~~~~~~~~~~~~~~ G load -->
-  <label>
-    <name>G Load</name>
-    <x>-60</x>
-    <y>45</y>
-    <width>1.5</width>
-    <height>1.5</height>
-    <input>
-      <property>/accelerations/pilot/z-accel-fps_sec</property>
-      <factor>-0.03108095</factor>
-      <damp>1.0</damp>
-    </input>
-    <format>%2.1fg</format>
-    <halign>left</halign>
-  </label>
+
 
   <!-- ~~~~~~~~~~~~~~~~~~ stall alert -->
   <label>
     <name>StallAlert</name>
     <x>-35</x>
-    <y>-10</y>
+    <y>-45</y>
     <width>15</width>
     <height>6</height>
     <condition>
@@ -480,7 +483,7 @@
   <label>
     <name>StallWarning</name>
     <x>-40</x>
-    <y>-10</y>
+    <y>-45</y>
     <width>15</width>
     <height>6</height>
     <condition>
@@ -500,7 +503,7 @@
   <label>
     <name>elevationWarn</name>
     <x>0</x>
-    <y>0</y>
+    <y>-35</y>
     <condition>
       <and>
         <equals>
@@ -530,8 +533,8 @@
   <!-- ~~~~~~~~~~~~~~~~~~ guns -->
   <label>
     <name>Guns</name>
-    <x>-58</x>
-    <y>-80</y>
+    <x>-60</x>
+    <y>-115</y>
     <width>15</width>
     <height>6</height>
     <condition>
@@ -555,7 +558,7 @@
   <label>
     <name>Missiles</name>
     <x>-58</x>
-    <y>-80</y>
+    <y>-115m</y>
     <width>15</width>
     <height>6</height>
     <condition>
@@ -574,109 +577,5 @@
     <halign>left</halign>
   </label>
 
-  <!-- ~~~~~~~~~~~~~~~~~~ missiles ag -->
-<!--  <label>
-    <name>Missiles ag</name>
-    <x>-58</x>
-    <y>-80</y>
-    <width>15</width>
-    <height>6</height>
-    <condition>
-      <equals>
-        <property>controls/armament/stick-selector</property>
-        <value>3</value>
-      </equals>
-    </condition>
-    <format>A/G</format>
-    <halign>left</halign>
-  </label>-->
-
-  <aiming-reticle>
-    <x>-20</x>
-    <y>-19</y>
-    <width>40</width>
-    <!-- defines the diameter of the constant/inner circle -->
-    <height>40</height>
-    <active-condition>
-      <property>/sim/aim/active</property>
-    </active-condition>
-    <!-- defines the diameter of the adjustable/outer circle -->
-    <!--<diameter-input>50</diameter-input> -->
-    <!-- The aiming reticule under is for gun-->
-  </aiming-reticle>
-
-  <aiming-reticle>
-
-    <condition>
-      <equals>
-        <property>/sim/current-view/name</property>
-        <value>Cockpit View</value>
-      </equals>
-      <property>/sim/aim/tachy</property>
-    </condition>
-
-    <active-condition>
-      <property>/sim/aim/active</property>
-    </active-condition>
-
-    <tachy-condition>
-      <property>/sim/aim/tachy</property>
-    </tachy-condition>
-
-    <align-condition>
-      <property>/sim/aim/align</property>
-    </align-condition>
-
-    <yaw-input>
-      <property>/orientation/yaw-rate-degps</property>
-      <factor>-1.0</factor>
-      <damp>2.0</damp>
-    </yaw-input>
-
-    <pitch-input>
-      <property>/orientation/pitch-rate-degps</property>
-      <factor>-1.0</factor>
-      <damp>2.0</damp>
-    </pitch-input>
-
-    <offset-x-input>
-      <property>/sim/aim/offsets/x</property>
-    </offset-x-input>
-
-    <offset-y-input>
-      <property>/sim/aim/offsets/y</property>
-    </offset-y-input>
-
-    <speed-input>
-      <property>/sim/aim/speed-fps</property>
-      <!--In feet /s ... 1 yard = 3 feet and 1 nm = 2025 yards (and 1000 meters = 1 km)-->
-    </speed-input>
-
-    <range-input>
-      <property>/sim/aim/range-yds</property>
-      <!-- In Yard... -->
-    </range-input>
-
-    <!-- defines the diameter and length of the adjustable outer arc -->
-    <diameter-input>
-      <property>/sim/aim/radius</property>
-    </diameter-input>
-
-    <arc-start-input>
-      <property>/sim/aim/arc/start-deg</property>
-    </arc-start-input>
-
-    <arc-stop-input>
-      <property>/sim/aim/arc/stop-deg</property>
-    </arc-stop-input>
-
-    <x>-9</x>
-    <y>-15</y>
-    <width>15</width>
-    <height>15</height>
-    <compression-factor>10</compression-factor>
-    <limit-x>80</limit-x>
-    <limit-y>40</limit-y>
-  </aiming-reticle>
 
 </PropertyList>

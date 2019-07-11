@@ -40,7 +40,7 @@ var minihud = func()
             var is_dynamic_view = getprop("/sim/current-view/dynamic-view");
             if(is_dynamic_view)
             {
-                var dynamic_clipping_bottom = -(95 - (getprop("/accelerations/pilot-gdamped") * 7));
+                var dynamic_clipping_bottom = -(115 - (getprop("/accelerations/pilot-gdamped") * 7));
                 setprop("/sim/hud/clipping/bottom", dynamic_clipping_bottom);
             }
             
@@ -51,6 +51,7 @@ var minihud = func()
                 setprop("/sim/hud/clipping/left",                       -65);
                 setprop("/sim/hud/clipping/right",                       65);
                 setprop("/sim/hud/clipping/top",                         60);
+                
             }
         }
     }
