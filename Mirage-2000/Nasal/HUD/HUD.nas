@@ -381,8 +381,8 @@ var HUD = {
     var Pilotz = getprop("sim/current-view/y-offset-m");
     var Pilotx = getprop("sim/current-view/z-offset-m");
      var xCube = (centerHUDx - Pilotx)*(centerHUDx - Pilotx);
-     var yCube = (centerHUDy - Piloty)*(centerHUDy - Piloty);
-     var zCube = (centerHUDz - Pilotz)*(centerHUDz - Pilotz);
+     var yCube = (centerHUDy - Piloty)*(centerHUDy - Piloty); # 20190712 : testing by  x0
+     var zCube = (centerHUDz - Pilotz)*(centerHUDz - Pilotz); # 20190712 : testing by  x0
      
      var offsetZ = centerHUDz-Pilotz;
      
@@ -392,7 +392,7 @@ var HUD = {
     
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
     
-    #print(mydistanceTohud)
+    print("mydistanceTohud:" ~ mydistanceTohud);
 
 
     
@@ -434,11 +434,15 @@ var HUD = {
           mydeviation = c.objectDeviationDeg;
           myelevation = c.objectElevationDeg;
           
+          print("myelevation:" ~ myelevation ~ " from viewer:" ~ c.get_Elevation_from_Coord_HUD());
+          myelevation = c.get_Elevation_from_Coord_HUD();
+          
           myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
       
           myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
           myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
           
+          print("myhorizontaldeviation:" ~ myhorizontaldeviation ~ " myverticalelevation:"~ myverticalelevation);
           
           #If we have a selected target we display a triangle
           if(target_callsign == closestCallsign and closestRange > 0){
@@ -451,7 +455,7 @@ var HUD = {
           }else{
             #Else  the circle
             me.targetArray[i].show();
-            me.targetArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+            me.targetArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation))-55;
           }
           #here is the text display
           me.TextInfoArray[i].show();

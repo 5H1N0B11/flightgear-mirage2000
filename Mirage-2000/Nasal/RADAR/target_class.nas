@@ -474,6 +474,10 @@ var Target = {
         me.Elevation.setValue(me.objectElevationDeg);
         return me.objectElevationDeg;
     },
+    get_Elevation_from_Coord_HUD:func(){
+        var myCoord = me.get_Coord();
+        return vector.Math.getPitch(geo.viewer_position(), me.get_Coord()); 
+    },
 
     get_total_elevation_from_Coord: func(own_pitch, MyAircraftCoord){
         var myTotalElevation =  - deviation_normdeg(own_pitch, me.get_Elevation_from_Coord(MyAircraftCoord));
