@@ -1217,7 +1217,9 @@ var RWR_APG = {
                   me.show = 1;
               }
             }
-            #print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show ~ " Name:"~me.u.propNode.getName());
+            
+            #print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show ~ " Name:"~me.u.propNode.getName()~" Model:"~me.u.get_model());
+            
             if (me.show == 1) {
                 me.threat = 0;
                 if (me.u.get_model() != "missile_frigate" and me.u.propNode.getName() != "carrier" and me.u.get_model() != "fleet" and me.u.get_model() != "buk-m2") {

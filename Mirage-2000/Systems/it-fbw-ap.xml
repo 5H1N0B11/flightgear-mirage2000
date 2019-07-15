@@ -723,8 +723,8 @@
 					</table>
 				</expression>
 			</Ki>
-			<Kp>/it-fbw/tune/kp</Kp>
-			<Ki>/it-fbw/tune/ki</Ki>
+			<!--Kp>/it-fbw/tune/kp</Kp>
+			<Ki>/it-fbw/tune/ki</Ki-->
 			<min>
 				<condition>
 					<equals>
