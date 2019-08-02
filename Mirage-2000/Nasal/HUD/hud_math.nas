@@ -2,6 +2,8 @@
 #
 # Author: Nikolai V. Chr. (FPI location code adapted from Buccaneer aircraft)
 #
+# Version 1.02
+#
 # License: GPL 2.0
 	
 var HudMath = {
@@ -12,8 +14,8 @@ var HudMath = {
 		# uvUpperLeft_norm, uvLowerRight_norm: normalized UV coordinates of the canvas texture.
 		# parallax: If the whole canvas is set to move with head as if focused on infinity.
 		#
-		# Assumptions is that HUD canvas is vertical aligned and centered in the Y axis.
-		# Also assumed that UV ratio is not stretched. So that every texel is perfect square formed.
+		# Assumptions is that HUD canvas is vertical aligned and centered in the Y axis. (will though to some degree work with slanted HUDs)
+		# Also assumed that UV ratio is not stretched. So that every texel is perfect square formed. (see above)
 		# Another assumption is that aircraft bore line is parallel with 3D X axis.
 		
 		# statics
@@ -62,9 +64,13 @@ var HudMath = {
 		return [0,me.centerOffset];
 	},	
 	
-	getPosFromCoord: func (gpsCoord) {
+	getPosFromCoord: func (gpsCoord, aircraft = nil) {
 		# return pos in canvas from center origin
-		me.crft = geo.aircraft_position();
+		if (aircraft== nil) {
+			me.crft = geo.aircraft_position();
+		} else {
+			me.crft = aircraft;
+		}
 		me.ptch = vector.Math.getPitch(me.crft,gpsCoord);
 	    me.dst  = me.crft.direct_distance_to(gpsCoord);
 	    me.brng = me.crft.course_to(gpsCoord);
@@ -111,15 +117,26 @@ var HudMath = {
 		return [x,y];
 	},
 	
+	getPosFromPolar:  func (meter, angle_deg) {
+		# return pos from center origin
+		me.xxx =  me.pixelPerMeterX * meter * math.sin(angle_deg*D2R);
+        me.yyy = -me.pixelPerMeterY * meter * math.cos(angle_deg*D2R);
+        return [me.xxx, me.yyy+me.centerOffset];
+	},
+	
+	#getEyeToHudDistance: func {
+	#	return me.input.viewX.getValue() - me.hud3dX;
+	#},
+	
 	hudX3d: func (y) {
 		# hud 3D X pos for slanted HUDs
 		# only does this for x as Y is less affected by slanting.
-		return me.extrapolate(y-me.canvasHeight*0.5,0,me.canvasHeight,me.hud3dXTop,me.hud3dXBottom);
+		return me.extrapolate(y+me.centerOffset,-me.canvasHeight*0.5,me.canvasHeight*0.5,me.hud3dXTop,me.hud3dXBottom);
 	},
 	
 	getFlightPathIndicatorPos: func (clampXmin=-1000,clampYmin=-1000,clampXmax=1000,clampYmax=1000) {
 		# return pos from canvas center origin
-		# notice that this gives real flightpath location, not influenced by wind.
+		# notice that this gives real flightpath location, not influenced by wind. (use the wind for yasim, as there is an issue with that somehow)
 		me.vel_gx = me.input.speed_n.getValue();
 	    me.vel_gy = me.input.speed_e.getValue();
 	    me.vel_gz = me.input.speed_d.getValue();
@@ -151,7 +168,7 @@ var HudMath = {
 	 
 	    me.dir_y  = math.atan2(me.round0_(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
 	    me.dir_x  = math.atan2(me.round0_(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
-	    
+
 	    me.pos = me.getPosFromDegs(me.dir_x,-me.dir_y);
 	    
 	    me.pos_x = me.clamp(me.pos[0],                   clampXmin, clampXmax);

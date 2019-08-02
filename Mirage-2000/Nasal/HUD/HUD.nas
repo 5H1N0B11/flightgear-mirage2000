@@ -245,6 +245,18 @@ var HUD = {
                    .setStrokeLineWidth(4);
                    
     m.radarStuffGroup = m.root.createChild("group");
+    
+    
+    #eegs:
+    m.eegsGroup = m.root.createChild("group");
+    m.eegsRightX = [0,0,0,0,0,0,0,0,0,0];
+    m.eegsRightY = [0,0,0,0,0,0,0,0,0,0];
+    m.eegsLeftX = [0,0,0,0,0,0,0,0,0,0];
+    m.eegsLeftY = [0,0,0,0,0,0,0,0,0,0];
+    m.gunPos   = [[nil,nil],[nil,nil,nil],[nil,nil,nil,nil],[nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil]];
+    m.eegsMe = {ac: geo.Coord.new(), eegsPos: geo.Coord.new(),shellPosX: [0,0,0,0,0,0,0,0,0,0],shellPosY: [0,0,0,0,0,0,0,0,0,0],shellPosDist: [0,0,0,0,0,0,0,0,0,0]};
+    m.lastTime = systime();
+    m.averageDt = 0.150;
                      
       
    ##################################### Circle ####################################
@@ -352,6 +364,7 @@ var HUD = {
     var aGL = props.globals.getNode("/position/altitude-agl-ft").getValue();
     
     #Think this code sucks. If everyone have better, please, proceed :)
+    var eegsShow=0;
     if(pylons.fcs.getSelectedWeapon() != nil){
       #print(pylons.fcs.getSelectedWeapon().type);
       if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
@@ -378,7 +391,7 @@ var HUD = {
             }else{me.Fire_GBU.hide();}
           }else{me.Fire_GBU.hide();}
         }else{me.Fire_GBU.hide();}
-      }else{me.Fire_GBU.hide();}
+      }else{me.Fire_GBU.hide(); eegsShow=1;}
     }else{me.Fire_GBU.hide();}
     
     
@@ -397,7 +410,7 @@ var HUD = {
     
     # flight path vector (FPV)
     
-    me.fpv.setTranslation(HudMath.getFlightPathIndicatorPos());
+    me.fpv.setTranslation(HudMath.getFlightPathIndicatorPosWind());
 
     var speed_error = 0;
     if( me.input.target_spd.getValue() != nil )
@@ -522,10 +535,128 @@ var HUD = {
       me.TextInfoArray[y].hide();
     }
     
-
+    
+    me.eegsGroup.setVisible(eegsShow);
+    if (eegsShow) {
+      me.displayEEGS();
+    }
 
     #settimer(func me.update(), 0.1);
-  }
+  },
+  
+  displayEEGS: func() {
+        #note: this stuff is expensive like hell to compute, but..lets do it anyway.
+        
+        var funnelParts = 10;#max 10
+        var st = systime();
+        me.eegsMe.dt = st-me.lastTime;
+        if (me.eegsMe.dt > me.averageDt*3) {
+            me.lastTime = st;
+            me.gunPos   = [[nil,nil],[nil,nil,nil],[nil,nil,nil,nil],[nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil]];
+            me.eegsGroup.removeAllChildren();
+        } else {
+            #printf("dt %05.3f",me.eegsMe.dt);
+            me.lastTime = st;
+            
+            me.eegsMe.hdg   = getprop("orientation/heading-deg");
+            me.eegsMe.pitch = getprop("orientation/pitch-deg");
+            me.eegsMe.roll  = getprop("orientation/roll-deg");
+            
+            var hdp = {roll:me.eegsMe.roll,current_view_z_offset_m: getprop("sim/current-view/z-offset-m")};
+            
+            me.eegsMe.ac = geo.aircraft_position();
+            me.eegsMe.allow = 1;
+            
+            for (var l = 0;l < funnelParts;l+=1) {
+                # compute display positions of funnel on hud
+                var pos = me.gunPos[l][l+1];
+                if (pos == nil) {
+                    me.eegsMe.allow = 0;
+                } else {
+                    var ac  = me.gunPos[l][l][1];
+                    pos     = me.gunPos[l][l][0];
+                    
+                    var ps = HudMath.getPosFromCoord(pos, ac);
+                    me.eegsMe.xcS = ps[0];
+                    me.eegsMe.ycS = ps[1];
+                    me.eegsMe.shellPosDist[l] = ac.direct_distance_to(pos)*M2FT;
+                    me.eegsMe.shellPosX[l] = me.eegsMe.xcS;
+                    me.eegsMe.shellPosY[l] = me.eegsMe.ycS;
+                }
+            }
+            if (me.eegsMe.allow) {
+                # draw the funnel
+                for (var k = 0;k<funnelParts;k+=1) {
+                    var halfspan = math.atan2(35*0.5,me.eegsMe.shellPosDist[k])*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
+                    me.eegsRightX[k] = me.eegsMe.shellPosX[k]-halfspan;
+                    me.eegsRightY[k] = me.eegsMe.shellPosY[k];
+                    me.eegsLeftX[k]  = me.eegsMe.shellPosX[k]+halfspan;
+                    me.eegsLeftY[k]  = me.eegsMe.shellPosY[k];
+                }
+                me.eegsGroup.removeAllChildren();
+                for (var i = 0; i < funnelParts-1; i+=1) {
+                    me.eegsGroup.createChild("path")
+                        .moveTo(me.eegsRightX[i], me.eegsRightY[i])
+                        .lineTo(me.eegsRightX[i+1], me.eegsRightY[i+1])
+                        .moveTo(me.eegsLeftX[i], me.eegsLeftY[i])
+                        .lineTo(me.eegsLeftX[i+1], me.eegsLeftY[i+1])
+                        .setStrokeLineWidth(4);
+                }
+                me.eegsGroup.update();
+            }
+            
+            
+            
+            
+            #calc shell positions
+            
+            me.eegsMe.vel = getprop("velocities/uBody-fps")+3363.0;#3363.0 = speed
+            
+            me.eegsMe.geodPos = aircraftToCart({x:0, y:-0.81, z: -(0.17-getprop("sim/current-view/y-offset-m"))});#position (meters) of gun in aircraft (x and z inverted), needs to be adapted to mirage!!
+            me.eegsMe.eegsPos.set_xyz(me.eegsMe.geodPos.x, me.eegsMe.geodPos.y, me.eegsMe.geodPos.z);
+            me.eegsMe.altC = me.eegsMe.eegsPos.alt();
+            
+            me.eegsMe.rs = armament.AIM.rho_sndspeed(me.eegsMe.altC*M2FT);#simplified
+            me.eegsMe.rho = me.eegsMe.rs[0];
+            me.eegsMe.mass =  0.9369635/ armament.slugs_to_lbm;#0.9369635=lbs
+            
+            #print("x,y");
+            #printf("%d,%d",0,0);
+            #print("-----");
+            
+            for (var j = 0;j < funnelParts;j+=1) {
+                
+                #calc new speed
+                me.eegsMe.Cd = drag(me.eegsMe.vel/ me.eegsMe.rs[1],0.193);#0.193=cd
+                me.eegsMe.q = 0.5 * me.eegsMe.rho * me.eegsMe.vel * me.eegsMe.vel;
+                me.eegsMe.deacc = (me.eegsMe.Cd * me.eegsMe.q * 0.007609) / me.eegsMe.mass;#0.007609=eda
+                me.eegsMe.vel -= me.eegsMe.deacc * me.averageDt;
+                me.eegsMe.speed_down_fps       = -math.sin(me.eegsMe.pitch * D2R) * (me.eegsMe.vel);
+                me.eegsMe.speed_horizontal_fps = math.cos(me.eegsMe.pitch * D2R) * (me.eegsMe.vel);
+                
+                me.eegsMe.speed_down_fps += 9.81 *M2FT *me.averageDt;
+                
+                
+                 
+                me.eegsMe.altC -= (me.eegsMe.speed_down_fps*me.averageDt)*FT2M;
+                
+                me.eegsMe.dist = (me.eegsMe.speed_horizontal_fps*me.averageDt)*FT2M;
+                
+                me.eegsMe.eegsPos.apply_course_distance(me.eegsMe.hdg, me.eegsMe.dist);
+                me.eegsMe.eegsPos.set_alt(me.eegsMe.altC);
+                
+                var old = me.gunPos[j];
+                me.gunPos[j] = [[geo.Coord.new(me.eegsMe.eegsPos),me.eegsMe.ac]];
+                for (var m = 0;m<j+1;m+=1) {
+                    append(me.gunPos[j], old[m]);
+                } 
+                
+                me.eegsMe.vel = math.sqrt(me.eegsMe.speed_down_fps*me.eegsMe.speed_down_fps+me.eegsMe.speed_horizontal_fps*me.eegsMe.speed_horizontal_fps);
+                me.eegsMe.pitch = math.atan2(-me.eegsMe.speed_down_fps,me.eegsMe.speed_horizontal_fps)*R2D;
+            }                        
+        }
+    },
+    
 };
 
 
@@ -545,3 +676,17 @@ var HUD = {
   #hud_copilot.update()
 #};
 
+var drag = func (Mach, _cd) {
+    if (Mach < 0.7)
+        return 0.0125 * Mach + _cd;
+    elsif (Mach < 1.2)
+        return 0.3742 * math.pow(Mach, 2) - 0.252 * Mach + 0.0021 + _cd;
+    else
+        return 0.2965 * math.pow(Mach, -1.1506) + _cd;
+};
+
+var deviation_normdeg = func(our_heading, target_bearing) {
+  var dev_norm = target_bearing-our_heading;
+    dev_norm=geo.normdeg180(dev_norm);
+  return dev_norm;
+};
