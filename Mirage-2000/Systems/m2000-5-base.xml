@@ -146,7 +146,8 @@
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-hydraulical.nas</file>
     </hydraulics>
     <hud>
-      <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/HUD/hud_math.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>      
       <file>Aircraft/Mirage-2000/Nasal/mini-hud.nas</file>
     </hud>
     <rwr>

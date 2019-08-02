@@ -12,7 +12,7 @@
 
   <enable3d>true</enable3d>
   
-  <ladder>
+  <!--<ladder>
     <name>Pitch Ladder</name>
     <type>pitch</type>
     <x>-25</x>
@@ -47,7 +47,7 @@
     <enable-waypoint-marker>true</enable-waypoint-marker>
     <enable-zenith>false</enable-zenith>
     <enable-nadir>true</enable-nadir>
-  </ladder>
+  </ladder>-->
 
   <turn-bank-indicator>
     <name>Turn Indicator</name>
