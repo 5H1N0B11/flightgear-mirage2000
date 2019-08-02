@@ -4,6 +4,18 @@ print("*** LOADING HUD.nas ... ***");
 #                     m2005-5's HUD AI/MP SETTINGS
 #
 ################################################################################
+#panel with revi:
+#      <x-m> -3.653 </x-m>
+#      <y-m>  0.000 </y-m>
+#      <z-m> -0.297 </z-m>
+#      <pitch-deg> -14 </pitch-deg>
+#revi:
+#      <x-m> 0.456 </x-m>
+#      <y-m> 0.000 </y-m>
+#      <z-m> 0.159 </z-m>
+
+
+
 
 var target_marker = func()
 {
@@ -128,7 +140,7 @@ var HUD = {
   canvas_settings: {
     "name": "HUD",
     "size": [1024,1024],#<-- size of the texture
-    "view": [480, 480], #<- Size of the coordinate systems (the bigger the sharpener)
+    "view": [480,480], #<- Size of the coordinate systems (the bigger the sharpener)
     "mipmapping": 0
   },
   new: func(placement)
@@ -137,6 +149,10 @@ var HUD = {
       parents: [HUD],
       canvas: canvas.new(HUD.canvas_settings)
     };
+    
+    HudMath.init([-3.26163,-0.067,0.085216], [-3.26163,0.067,-0.048785], [480,480], [0,1.0], [1,0.0], 0);
+    #HudMath.init([-3.22012,-0.07327,0.101839], [-3.32073,0.07327,-0.093358], [1024,1024], [0.166803,1.0], [0.834003,0.0], 0); wrong HUD
+        
     m.viewPlacement = 480;
     m.min = -m.viewPlacement * 0.846;
     m.max = m.viewPlacement * 0.846;
@@ -148,7 +164,7 @@ var HUD = {
     m.root =
       m.canvas.createGroup()
               #.setScale(1, 1/math.cos(45 * D2R))
-              .setTranslation(240, 240)
+              .setTranslation(HudMath.getCenterOrigin())
               .set("font", "LiberationFonts/LiberationMono-Regular.ttf")
               .setDouble("character-size", 18)
               .setDouble("character-aspect-ration", 0.9)
@@ -170,19 +186,64 @@ var HUD = {
       m.text.createChild("text")
             .setAlignment("right-center")
             .setTranslation(220, 70);
+            
+    #fpv
+    m.fpv = m.root.createChild("path")
+        .moveTo(10, 0)
+        .horiz(20)
+        .moveTo(10, 0)
+        .arcSmallCW(10,10, 0, -20, 0)
+        .arcSmallCW(10,10, 0, 20, 0)
+        .moveTo(-10, 0)
+        .horiz(-20)
+        .moveTo(0, -10)
+        .vert(-10)
+        .setStrokeLineWidth(4)
+        .set("stroke", "rgba(0,180,0,0.9)");
 
+    #bore cross
+    m.boreCross = m.root.createChild("path")
+                   .moveTo(-12.5, 0)
+                   .horiz(25)
+                   .moveTo(0, -12.5)
+                   .vert(25)
+                   .setStrokeLineWidth(4);
 
-    # Horizon
+    # Horizon groups
     m.horizon_group = m.root.createChild("group");
-    m.h_trans = m.horizon_group.createTransform();
     m.h_rot   = m.horizon_group.createTransform();
-    
+    m.horizon_sub_group = m.horizon_group.createChild("group");
   
-    # Horizon line
-    m.horizon_group.createChild("path")
+    # Horizon and pitch lines
+    m.horizon_sub_group.createChild("path")
                    .moveTo(-500, 0)
-                   .horizTo(500)
-                   .setStrokeLineWidth(1.5);
+                   .horiz(1000)
+                   .setStrokeLineWidth(4);
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(5)*5)
+                   .horiz(200)
+                   .setStrokeLineWidth(4);
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(5)*-5)
+                   .horiz(200)
+                   .setStrokeLineWidth(4);               
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(10)*10)
+                   .horiz(200)
+                   .setStrokeLineWidth(4);
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(10)*-10)
+                   .horiz(200)
+                   .setStrokeLineWidth(4);
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(15)*15)
+                   .horiz(200)
+                   .setStrokeLineWidth(4);
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(15)*-15)
+                   .horiz(200)
+                   .setStrokeLineWidth(4);
+                   
     m.radarStuffGroup = m.root.createChild("group");
                      
       
@@ -191,7 +252,7 @@ var HUD = {
     m.circle_group2 = m.radarStuffGroup.createChild("group");
     for(var i = 1; i <= MaxTarget; i += 1){
       myCircle = m.circle_group2.createChild("path")
-        .moveTo( 10, 0)
+        .moveTo(15, 0)
         .arcSmallCW(15,15, 0, -30, 0)
         .arcSmallCW(15,15, 0, 30, 0)
         .setStrokeLineWidth(4)
@@ -275,6 +336,8 @@ var HUD = {
     #me.airspeed.setText(sprintf("%d", me.input.ias.getValue()));
     #me.groundspeed.setText(sprintf("G %3d", me.input.gs.getValue()));
     #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
+    HudMath.reCalc();
+    me.boreCross.setTranslation(HudMath.getBorePos());
     
     var rad_alt = me.input.rad_alt.getValue();
     if( rad_alt and rad_alt < 5000 ) # Only show below 5000AGL
@@ -321,43 +384,20 @@ var HUD = {
     
     
     #me.hdg.setText(sprintf("%03d", me.input.hdg.getValue()));
-    me.h_trans.setTranslation(0, 18 * me.input.pitch.getValue());
+    var horiz = HudMath.getStaticHorizon();
+    me.horizon_group.setTranslation(horiz[0]);
+    me.h_rot.setRotation(horiz[1]);
+    me.horizon_sub_group.setTranslation(horiz[2]);
     
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
-    me.h_rot.setRotation(rot);
-    me.targetrot.setRotation(rot);
     me.Textrot.setRotation(rot);
-    me.triangleRot.setRotation(rot);
+    
     
     
     
     # flight path vector (FPV)
-    var vel_gx = me.input.speed_n.getValue();
-    var vel_gy = me.input.speed_e.getValue();
-    var vel_gz = me.input.speed_d.getValue();
     
-    var yaw = me.input.hdg.getValue() * math.pi / 180.0;
-    var roll = me.input.roll.getValue() * math.pi / 180.0;
-    var pitch = me.input.pitch.getValue() * math.pi / 180.0;
-    
-    var sy = math.sin(yaw);   var cy = math.cos(yaw);
-    var sr = math.sin(roll);  var cr = math.cos(roll);
-    var sp = math.sin(pitch); var cp = math.cos(pitch);
-
-    var vel_bx = vel_gx * cy * cp
-               + vel_gy * sy * cp
-               + vel_gz * -sp;
-    var vel_by = vel_gx * (cy * sp * sr - sy * cr)
-               + vel_gy * (sy * sp * sr + cy * cr)
-               + vel_gz * cp * sr;
-    var vel_bz = vel_gx * (cy * sp * cr + sy * sr)
-               + vel_gy * (sy * sp * cr - cy * sr)
-               + vel_gz * cp * cr;
-
-    var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.01)) * 180.0 / math.pi;
-    var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.01)) * 180.0 / math.pi;
-
-    #me.fpv.setTranslation(dir_x * 18, dir_y * 18);
+    me.fpv.setTranslation(HudMath.getFlightPathIndicatorPos());
 
     var speed_error = 0;
     if( me.input.target_spd.getValue() != nil )
@@ -366,7 +406,7 @@ var HUD = {
         -15, 15
       );
       
-    me.horizon_group.hide();
+    
     #me.hdg.hide();
     #me.groundspeed.hide();  
     me.rad_alt.hide();
@@ -392,7 +432,7 @@ var HUD = {
     
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
     
-    print("mydistanceTohud:" ~ mydistanceTohud);
+    #print("mydistanceTohud:" ~ mydistanceTohud);
 
 
     
@@ -434,7 +474,7 @@ var HUD = {
           mydeviation = c.objectDeviationDeg;
           myelevation = c.objectElevationDeg;
           
-          print("myelevation:" ~ myelevation ~ " from viewer:" ~ c.get_Elevation_from_Coord_HUD());
+          #print("myelevation:" ~ myelevation ~ " from viewer:" ~ c.get_Elevation_from_Coord_HUD());
           myelevation = c.get_Elevation_from_Coord_HUD();
           
           myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
@@ -442,24 +482,26 @@ var HUD = {
           myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
           myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
           
-          print("myhorizontaldeviation:" ~ myhorizontaldeviation ~ " myverticalelevation:"~ myverticalelevation);
+          #print("myhorizontaldeviation:" ~ myhorizontaldeviation ~ " myverticalelevation:"~ myverticalelevation);
+          
+          var triPos = HudMath.getPosFromCoord(c.get_Coord());
           
           #If we have a selected target we display a triangle
           if(target_callsign == closestCallsign and closestRange > 0){
             Token = 1;
             me.TriangleGroupe.show();
-            me.triangle.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
-            me.triangle2.setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+            me.triangle.setTranslation(triPos);
+            me.triangle2.setTranslation(triPos);
             #And we hide the circle
             me.targetArray[i].hide();
           }else{
             #Else  the circle
             me.targetArray[i].show();
-            me.targetArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation))-55;
+            me.targetArray[i].setTranslation(triPos);
           }
           #here is the text display
           me.TextInfoArray[i].show();
-          me.TextInfoArray[i].setTranslation((480/wideMeters)*myhorizontaldeviation,(480/heightMeters)*(myverticalelevation)-55);
+          me.TextInfoArray[i].setTranslation(triPos);
           
           me.TextInfoArray[i].setText(sprintf("  %s \n   %d nm \n   %d ft / %d", target_callsign, target_Distance, target_altitude, target_heading_deg));
 
