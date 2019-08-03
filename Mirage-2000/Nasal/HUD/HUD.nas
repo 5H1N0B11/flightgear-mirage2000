@@ -389,7 +389,6 @@ var HUD = {
               if(me.DistanceToShoot < 600){
                 #print(me.DistanceToShoot);
                 me.Fire_GBU.setText(sprintf("Fire: %d ", int(me.DistanceToShoot)));
-                me.Fire_GBU.show();
               }
             }
           }
@@ -615,7 +614,7 @@ var HUD = {
             
             me.eegsMe.vel = getprop("velocities/uBody-fps")+3363.0;#3363.0 = speed
             
-            me.eegsMe.geodPos = aircraftToCart({x:-0, y:0, z: -0});#position (meters) of gun in aircraft (x and z inverted)
+            me.eegsMe.geodPos = aircraftToCart({x:-0, y:0, z: getprop("sim/current-view/y-offset-m")});#position (meters) of gun in aircraft (x and z inverted)
             me.eegsMe.eegsPos.set_xyz(me.eegsMe.geodPos.x, me.eegsMe.geodPos.y, me.eegsMe.geodPos.z);
             me.eegsMe.altC = me.eegsMe.eegsPos.alt();
             
