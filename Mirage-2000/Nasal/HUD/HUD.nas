@@ -247,7 +247,7 @@ var HUD = {
     m.radarStuffGroup = m.root.createChild("group");
     
     
-    #eegs:
+    #eegs funnel:
     m.eegsGroup = m.root.createChild("group");
     m.eegsRightX = [0,0,0,0,0,0,0,0,0,0];
     m.eegsRightY = [0,0,0,0,0,0,0,0,0,0];
@@ -364,43 +364,46 @@ var HUD = {
     var aGL = props.globals.getNode("/position/altitude-agl-ft").getValue();
     
     #Think this code sucks. If everyone have better, please, proceed :)
-    var eegsShow=0;
-    if(pylons.fcs.getSelectedWeapon() != nil){
-      #print(pylons.fcs.getSelectedWeapon().type);
-      if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
-        #print(pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1));
-        if(pylons.fcs.getSelectedWeapon().class =="GM" or pylons.fcs.getSelectedWeapon().class == "G"){
-          #print("Class of Load:" ~ pylons.fcs.getSelectedWeapon().class);
+    me.eegsShow=0;
+    me.selectedWeap = pylons.fcs.getSelectedWeapon();
+    me.showFire_GBU = 0;
+    if(me.selectedWeap != nil){
+      #print(me.selectedWeap.type);
+      if(me.selectedWeap.type != "30mm Cannon"){
+        #print(me.selectedWeap.getCCRP(20, 0.1));
+        if(find("M", me.selectedWeap.class) !=-1 or find("G", me.selectedWeap.class) !=-1){
+          #print("Class of Load:" ~ me.selectedWeap.class);
+          me.DistanceToShoot = nil;
           if(aGL<8000){
-            var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(20, 0.1);
+            me.DistanceToShoot = me.selectedWeap.getCCRP(20, 0.1);
           }elsif(aGL<15000){
-            var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(30, 0.2);
+            me.DistanceToShoot = me.selectedWeap.getCCRP(30, 0.2);
           }else{
-            var DistanceToShoot = pylons.fcs.getSelectedWeapon().getCCRP(45, 0.2);
+            me.DistanceToShoot = me.selectedWeap.getCCRP(45, 0.2);
           }
           
-          if(DistanceToShoot != nil ){
-            if(DistanceToShoot < 3000){
-              me.Fire_GBU.show();
-              me.Fire_GBU.setText(sprintf("Hold Fire: %d ", int(DistanceToShoot)));
-              if(DistanceToShoot < 600){
-                #print(DistanceToShoot);
-                me.Fire_GBU.setText(sprintf("Fire: %d ", int(DistanceToShoot)));
+          if(me.DistanceToShoot != nil ){
+            if(me.DistanceToShoot < 3000){
+              me.showFire_GBU = 1;
+              me.Fire_GBU.setText(sprintf("Hold Fire: %d ", int(me.DistanceToShoot)));
+              if(me.DistanceToShoot < 600){
+                #print(me.DistanceToShoot);
+                me.Fire_GBU.setText(sprintf("Fire: %d ", int(me.DistanceToShoot)));
                 me.Fire_GBU.show();
               }
-            }else{me.Fire_GBU.hide();}
-          }else{me.Fire_GBU.hide();}
-        }else{me.Fire_GBU.hide();}
-      }else{me.Fire_GBU.hide(); eegsShow=1;}
-    }else{me.Fire_GBU.hide();}
-    
+            }
+          }
+        }
+      }else{me.eegsShow=1;}
+    }
+    me.Fire_GBU.setVisible(me.showFire_GBU);
     
     
     #me.hdg.setText(sprintf("%03d", me.input.hdg.getValue()));
-    var horiz = HudMath.getStaticHorizon();
-    me.horizon_group.setTranslation(horiz[0]);
-    me.h_rot.setRotation(horiz[1]);
-    me.horizon_sub_group.setTranslation(horiz[2]);
+    me.horizStuff = HudMath.getStaticHorizon();
+    me.horizon_group.setTranslation(me.horizStuff[0]);
+    me.h_rot.setRotation(me.horizStuff[1]);
+    me.horizon_sub_group.setTranslation(me.horizStuff[2]);
     
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
     me.Textrot.setRotation(rot);
@@ -536,8 +539,8 @@ var HUD = {
     }
     
     
-    me.eegsGroup.setVisible(eegsShow);
-    if (eegsShow) {
+    me.eegsGroup.setVisible(me.eegsShow);
+    if (me.eegsShow) {
       me.displayEEGS();
     }
 
@@ -612,7 +615,7 @@ var HUD = {
             
             me.eegsMe.vel = getprop("velocities/uBody-fps")+3363.0;#3363.0 = speed
             
-            me.eegsMe.geodPos = aircraftToCart({x:0, y:-0.81, z: -(0.17-getprop("sim/current-view/y-offset-m"))});#position (meters) of gun in aircraft (x and z inverted), needs to be adapted to mirage!!
+            me.eegsMe.geodPos = aircraftToCart({x:-0, y:0, z: -0});#position (meters) of gun in aircraft (x and z inverted)
             me.eegsMe.eegsPos.set_xyz(me.eegsMe.geodPos.x, me.eegsMe.geodPos.y, me.eegsMe.geodPos.z);
             me.eegsMe.altC = me.eegsMe.eegsPos.alt();
             
