@@ -633,8 +633,9 @@ var HUD = {
       me.TextInfoArray[y].hide();
     }
     
-    
-    me.eegsGroup.setVisible(me.eegsShow);
+    if (!me.eegsShow) {
+      me.eegsGroup.setVisible(me.eegsShow);
+    }
     if (me.eegsShow and !me.eegsLoop.isRunning) {
         me.eegsLoop.start();
     } elsif (!me.eegsShow and me.eegsLoop.isRunning) {
@@ -755,6 +756,7 @@ var HUD = {
                 me.eegsMe.pitch = math.atan2(-me.eegsMe.speed_down_fps,me.eegsMe.speed_horizontal_fps)*R2D;
             }                        
         }
+        me.eegsGroup.show();
     },
     
 };
