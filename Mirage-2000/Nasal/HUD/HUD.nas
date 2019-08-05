@@ -199,7 +199,8 @@ var HUD = {
         .moveTo(0, -10)
         .vert(-10)
         .setStrokeLineWidth(4)
-        .set("stroke", "rgba(0,180,0,0.9)");
+        .set("stroke", "rgba(0,255,0,0.9)");
+        #.set("stroke", "rgba(0,180,0,0.9)");
 
     #bore cross
     m.boreCross = m.root.createChild("path")
@@ -219,30 +220,123 @@ var HUD = {
                    .moveTo(-500, 0)
                    .horiz(1000)
                    .setStrokeLineWidth(4);
+
+   for (var myladder = 5;myladder < 90;myladder+=5)
+   {
+     if (myladder/10 == int(myladder/10)){
+        #Text bellow 0 left
+        m.horizon_sub_group.createChild("text")
+          .setAlignment("right-center")
+          .setTranslation(-160, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+          .setDouble("character-size", 30)
+          .setText(myladder);
+        #Text bellow 0 left
+        m.horizon_sub_group.createChild("text")
+          .setAlignment("left-center")
+          .setTranslation(160, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+          .setDouble("character-size", 30)
+          .setText(myladder);
+
+        #Text above 0 left         
+        m.horizon_sub_group.createChild("text")
+          .setAlignment("right-center")
+          .setTranslation(-160, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
+          .setDouble("character-size", 30)
+          .setText(myladder); 
+        #Text above 0 right   
+        m.horizon_sub_group.createChild("text")
+          .setAlignment("left-center")
+          .setTranslation(160, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
+          .setDouble("character-size", 30)
+          .setText(myladder);
+      }
+      
+  # =============  BELLOW 0 ===================           
+    #half line bellow 0 (left part)       ------------------ 
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(5)*5)
-                   .horiz(200)
-                   .setStrokeLineWidth(4);
+                   .moveTo(-150, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+                   .vert(-15)
+                   .setStrokeLineWidth(4); 
+                   
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(5)*-5)
-                   .horiz(200)
-                   .setStrokeLineWidth(4);               
+                   .moveTo(-150, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+                   .horiz(20)
+                  .setStrokeLineWidth(4);             
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(10)*10)
-                   .horiz(200)
-                   .setStrokeLineWidth(4);
+                   .moveTo(-110, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+                   .horiz(20)
+                  .setStrokeLineWidth(4);    
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(10)*-10)
-                   .horiz(200)
-                   .setStrokeLineWidth(4);
+                   .moveTo(-70, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+                   .horiz(20)
+                  .setStrokeLineWidth(4);
+                  
+    #half line (rigt part)       ------------------           
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(15)*15)
-                   .horiz(200)
-                   .setStrokeLineWidth(4);
+                   .moveTo(50, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+                   .horiz(20)
+                  .setStrokeLineWidth(4);            
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(15)*-15)
-                   .horiz(200)
-                   .setStrokeLineWidth(4);
+                   .moveTo(90, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+                   .horiz(20)
+                   .setStrokeLineWidth(4);          
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(130, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+                   .horiz(20)
+                  .setStrokeLineWidth(4);
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(150, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+                   .vert(-15)
+                   .setStrokeLineWidth(4); 
+                   
+
+    
+                   
+# =============  ABOVE 0 ===================               
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(-150, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
+                   .vert(15)
+                   .setStrokeLineWidth(4); 
+                   
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(-150, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
+                   .horiz(100)
+                  .setStrokeLineWidth(4);             
+          
+    #half line (rigt part)       ------------------           
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(50, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
+                   .horiz(100)
+                  .setStrokeLineWidth(4);            
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(150, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
+                   .vert(15)
+                   .setStrokeLineWidth(4); 
+                   
+
+   }           
+                   
+                   
+    #m.horizon_sub_group.createChild("path")
+                   #.moveTo(-100, HudMath.getPixelPerDegreeAvg(5)*-5)
+                   #.horiz(200)
+                   #.setStrokeLineWidth(4);               
+ #   m.horizon_sub_group.createChild("path")
+#                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(10)*10)
+#                   .horiz(200)
+#                   .setStrokeLineWidth(4);
+#    m.horizon_sub_group.createChild("path")
+#                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(10)*-10)
+#                   .horiz(200)
+#                   .setStrokeLineWidth(4);
+#    m.horizon_sub_group.createChild("path")
+#                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(15)*15)
+#                   .horiz(200)
+#                   .setStrokeLineWidth(4);
+#    m.horizon_sub_group.createChild("path")
+#                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(15)*-15)
+#                   .horiz(200)
+#                   .setStrokeLineWidth(4);
                    
     m.radarStuffGroup = m.root.createChild("group");
     
@@ -405,7 +499,7 @@ var HUD = {
     me.horizon_sub_group.setTranslation(me.horizStuff[2]);
     
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
-    me.Textrot.setRotation(rot);
+    #me.Textrot.setRotation(rot);
     
     
     
@@ -516,7 +610,7 @@ var HUD = {
           }
           #here is the text display
           me.TextInfoArray[i].show();
-          me.TextInfoArray[i].setTranslation(triPos);
+          me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
           
           me.TextInfoArray[i].setText(sprintf("  %s \n   %d nm \n   %d ft / %d", target_callsign, target_Distance, target_altitude, target_heading_deg));
 

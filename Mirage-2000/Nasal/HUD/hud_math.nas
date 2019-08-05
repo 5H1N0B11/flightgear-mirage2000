@@ -191,14 +191,14 @@ var HudMath = {
 	    return [me.pos_x, me.pos_y];
 	},
 	
-	getStaticHorizon: func {
-		# get translation and rotation for horizon line, static means not centered around FPI.
-		# return a vector of 3: translation of main horizon group, rotation of main horizon groups transform, translation of sub horizon group (wherein the line (and pitch ladder) is drawn).
-		
-		me.rot = -me.input.roll.getValue() * D2R;
-    
-	    return [[0,me.centerOffset],me.rot,[0, me.getPixelPerDegreeAvg(me.input.pitch.getValue())*me.input.pitch.getValue()]];
-	},
+getStaticHorizon: func (averagePoint_deg = 7.5) {
+        # get translation and rotation for horizon line, static means not centered around FPI.
+        # return a vector of 3: translation of main horizon group, rotation of main horizon groups transform, translation of sub horizon group (wherein the line (and pitch ladder) is drawn).
+
+        me.rot = -me.input.roll.getValue() * D2R;
+
+        return [[0,me.centerOffset],me.rot,[0, me.getPixelPerDegreeAvg(averagePoint_deg)*me.input.pitch.getValue()]];
+    },
 	
 	getDynamicHorizon: func {
 		# get translation and rotation for horizon line, dynamic means centered around FPI.
