@@ -257,6 +257,8 @@ var HUD = {
     m.eegsMe = {ac: geo.Coord.new(), eegsPos: geo.Coord.new(),shellPosX: [0,0,0,0,0,0,0,0,0,0],shellPosY: [0,0,0,0,0,0,0,0,0,0],shellPosDist: [0,0,0,0,0,0,0,0,0,0]};
     m.lastTime = systime();
     m.averageDt = 0.150;
+    m.eegsLoop = maketimer(m.averageDt, m, m.displayEEGS);
+    m.eegsLoop.simulatedTime = 1;
                      
       
    ##################################### Circle ####################################
@@ -393,7 +395,7 @@ var HUD = {
             }
           }
         }
-      }else{me.eegsShow=1;}
+      }else{me.eegsShow=getprop("controls/armament/master-arm");}
     }
     me.Fire_GBU.setVisible(me.showFire_GBU);
     
@@ -539,8 +541,10 @@ var HUD = {
     
     
     me.eegsGroup.setVisible(me.eegsShow);
-    if (me.eegsShow) {
-      me.displayEEGS();
+    if (me.eegsShow and !me.eegsLoop.isRunning) {
+        me.eegsLoop.start();
+    } elsif (!me.eegsShow and me.eegsLoop.isRunning) {
+        me.eegsLoop.stop();
     }
 
     #settimer(func me.update(), 0.1);
