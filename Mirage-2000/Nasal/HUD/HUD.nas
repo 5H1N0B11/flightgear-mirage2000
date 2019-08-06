@@ -361,10 +361,10 @@ var HUD = {
     #m.gunTemp = [nil,nil];
     
     for(i = 0;i < m.funnelParts;i+=1){
-      append(m.eegsRightX,[0]);
-      append(m.eegsRightY,[0]);
-      append(m.eegsLeftX,[0]);
-      append(m.eegsLeftY,[0]);
+      append(m.eegsRightX,0);
+      append(m.eegsRightY,0);
+      append(m.eegsLeftX,0);
+      append(m.eegsLeftY,0);
 
       #print ("i:"~i);
       #print("size:"~size(m.gunPos));
@@ -380,9 +380,10 @@ var HUD = {
       #print("After append size[i]:"~size(m.gunPos[i]));
       #print("After append size[i+1]:"~size(m.gunPos[i+1]));
       #append(m.gunPos,append(m.gunPos[i],[nil]));
-      append(m.shellPosXInit,[0]);
-      append(m.shellPosYInit,[0]);
-      append(m.shellPosDistInit,[0]);
+      
+      append(m.shellPosXInit,0);
+      append(m.shellPosYInit,0);
+      append(m.shellPosDistInit,0);
     }
     #print(size(m.eegsRightX));
     #print(size(m.gunPos[size(m.gunPos)-1]));
