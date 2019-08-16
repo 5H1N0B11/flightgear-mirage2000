@@ -357,6 +357,7 @@ var HUD = {
     m.shellPosXInit = [0];
     m.shellPosYInit =  [0];
     m.shellPosDistInit = [0];
+    m.wingspanFT = 35;# 7- to 40 meter
     
     #m.gunTemp = [nil,nil];
     
@@ -727,7 +728,9 @@ var HUD = {
             
             me.eegsMe.ac = geo.aircraft_position();
             me.eegsMe.allow = 1;
-            me.drawEEGSAim = 0;
+            me.drawEEGSPipper = 0;
+            me.drawEEGS300 = 0;
+            me.drawEEGS600 = 0;
             for (var l = 0;l < me.funnelParts;l+=1) {
                 # compute display positions of funnel on hud
                 var pos = me.gunPos[l][l+1];
@@ -743,7 +746,7 @@ var HUD = {
                     me.eegsMe.shellPosDist[l] = ac.direct_distance_to(pos)*M2FT;
                     me.eegsMe.shellPosX[l] = me.eegsMe.xcS;
                     me.eegsMe.shellPosY[l] = me.eegsMe.ycS;
-                    if (me.designatedDistanceFT != nil and !me.drawEEGSAim) {
+                    if (me.designatedDistanceFT != nil and !me.drawEEGSPipper) {
                       if (l != 0 and me.eegsMe.shellPosDist[l] >= me.designatedDistanceFT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
                         var highdist = me.eegsMe.shellPosDist[l];
                         var lowdist = me.eegsMe.shellPosDist[l-1];
@@ -751,7 +754,29 @@ var HUD = {
                         var fractionY = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
                         me.eegsRightX[0] = fractionX;
                         me.eegsRightY[0] = fractionY;
-                        me.drawEEGSAim = 1;
+                        me.drawEEGSPipper = 1;
+                      }
+                    }
+                    if (!me.drawEEGS300) {
+                      if (l != 0 and me.eegsMe.shellPosDist[l] >= 300*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+                        var highdist = me.eegsMe.shellPosDist[l];
+                        var lowdist = me.eegsMe.shellPosDist[l-1];
+                        var fractionX = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+                        var fractionY = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+                        me.eegsRightX[1] = fractionX;
+                        me.eegsRightY[1] = fractionY;
+                        me.drawEEGS300 = 1;
+                      }
+                    }
+                    if (!me.drawEEGS600) {
+                      if (l != 0 and me.eegsMe.shellPosDist[l] >= 600*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+                        var highdist = me.eegsMe.shellPosDist[l];
+                        var lowdist = me.eegsMe.shellPosDist[l-1];
+                        var fractionX = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+                        var fractionY = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+                        me.eegsRightX[2] = fractionX;
+                        me.eegsRightY[2] = fractionY;
+                        me.drawEEGS600 = 1;
                       }
                     }
                 }
@@ -759,23 +784,55 @@ var HUD = {
             if (me.eegsMe.allow) {
                 # draw the funnel
                 for (var k = 0;k<me.funnelParts;k+=1) {
-                    #var halfspan = math.atan2(35*0.5,me.eegsMe.shellPosDist[k])*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
+                    
                     me.eegsLeftX[k]  = me.eegsMe.shellPosX[k];
                     me.eegsLeftY[k]  = me.eegsMe.shellPosY[k];
                 }
                 me.eegsGroup.removeAllChildren();
                 for (var i = 0; i < me.funnelParts-1; i+=1) {
-                    me.eegsGroup.createChild("path")
+                    me.fnnl = me.eegsGroup.createChild("path")
                         .moveTo(me.eegsLeftX[i], me.eegsLeftY[i])
                         .lineTo(me.eegsLeftX[i+1], me.eegsLeftY[i+1])
                         .setStrokeLineWidth(4);
+                    if (i==0) {
+                      me.fnnl.setStrokeDashArray([5,5]);
+                    }
                 }
-                if (me.drawEEGSAim) {
+                if (me.drawEEGSPipper) {
+                    me.EEGSdeg = math.max(0,HudMath.extrapolate(me.designatedDistanceFT*FT2M,1500,300,0,360))*D2R;
+                    me.EEGSdegPos = [math.sin(me.EEGSdeg)*40,40-math.cos(me.EEGSdeg)*40];
+                    if (me.EEGSdeg<180*D2R) {
+                      me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
+                          .arcSmallCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
+                          .setStrokeLineWidth(4);
+                    } elsif (me.EEGSdeg>=360*D2R) {
+                      me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
+                          .arcSmallCW(40,40,0,0,80)
+                          .arcSmallCW(40,40,0,0,-80)
+                          .setStrokeLineWidth(4);
+                    } else {
+                      me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
+                          .arcLargeCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
+                          .setStrokeLineWidth(4);
+                    }
+                }
+                if (me.drawEEGS300 and !me.drawEEGSPipper) {
+                    var halfspan = math.atan2(me.wingspanFT*0.5,300*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
                     me.eegsGroup.createChild("path")
-                        .moveTo(me.eegsRightX[0]-20, me.eegsRightY[0])
-                        .horiz(40)
+                        .moveTo(me.eegsRightX[1]-halfspan, me.eegsRightY[1])
+                        .horiz(halfspan*2)
                         .setStrokeLineWidth(4);
                 }
+                if (me.drawEEGS600 and !me.drawEEGSPipper) {
+                    var halfspan = math.atan2(me.wingspanFT*0.5,600*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
+                    me.eegsGroup.createChild("path")
+                        .moveTo(me.eegsRightX[2]-halfspan, me.eegsRightY[2])
+                        .horiz(halfspan*2)
+                        .setStrokeLineWidth(4);
+                }                
                 me.eegsGroup.update();
             }
             
