@@ -607,7 +607,9 @@ var HUD = {
     #print("Size:" ~ size(raw_list));
     
     i = 0;
-
+    
+    me.designatedDistanceFT = nil;
+    
     foreach(var c; raw_list){
       
       if(i<size(me.targetArray)){
@@ -652,6 +654,9 @@ var HUD = {
             me.triangle2.setTranslation(triPos);
             #And we hide the circle
             me.targetArray[i].hide();
+            if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
+              me.designatedDistanceFT = c.get_Coord().direct_distance_to(geo.aircraft_position())*M2FT;
+            }
           }else{
             #Else  the circle
             me.targetArray[i].show();
@@ -722,7 +727,7 @@ var HUD = {
             
             me.eegsMe.ac = geo.aircraft_position();
             me.eegsMe.allow = 1;
-            
+            me.drawEEGSAim = 0;
             for (var l = 0;l < me.funnelParts;l+=1) {
                 # compute display positions of funnel on hud
                 var pos = me.gunPos[l][l+1];
@@ -738,24 +743,37 @@ var HUD = {
                     me.eegsMe.shellPosDist[l] = ac.direct_distance_to(pos)*M2FT;
                     me.eegsMe.shellPosX[l] = me.eegsMe.xcS;
                     me.eegsMe.shellPosY[l] = me.eegsMe.ycS;
+                    if (me.designatedDistanceFT != nil and !me.drawEEGSAim) {
+                      if (l != 0 and me.eegsMe.shellPosDist[l] >= me.designatedDistanceFT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+                        var highdist = me.eegsMe.shellPosDist[l];
+                        var lowdist = me.eegsMe.shellPosDist[l-1];
+                        var fractionX = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+                        var fractionY = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+                        me.eegsRightX[0] = fractionX;
+                        me.eegsRightY[0] = fractionY;
+                        me.drawEEGSAim = 1;
+                      }
+                    }
                 }
             }
             if (me.eegsMe.allow) {
                 # draw the funnel
                 for (var k = 0;k<me.funnelParts;k+=1) {
-                    var halfspan = math.atan2(35*0.5,me.eegsMe.shellPosDist[k])*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
-                    me.eegsRightX[k] = me.eegsMe.shellPosX[k]-halfspan;
-                    me.eegsRightY[k] = me.eegsMe.shellPosY[k];
-                    me.eegsLeftX[k]  = me.eegsMe.shellPosX[k]+halfspan;
+                    #var halfspan = math.atan2(35*0.5,me.eegsMe.shellPosDist[k])*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
+                    me.eegsLeftX[k]  = me.eegsMe.shellPosX[k];
                     me.eegsLeftY[k]  = me.eegsMe.shellPosY[k];
                 }
                 me.eegsGroup.removeAllChildren();
                 for (var i = 0; i < me.funnelParts-1; i+=1) {
                     me.eegsGroup.createChild("path")
-                        .moveTo(me.eegsRightX[i], me.eegsRightY[i])
-                        .lineTo(me.eegsRightX[i+1], me.eegsRightY[i+1])
                         .moveTo(me.eegsLeftX[i], me.eegsLeftY[i])
                         .lineTo(me.eegsLeftX[i+1], me.eegsLeftY[i+1])
+                        .setStrokeLineWidth(4);
+                }
+                if (me.drawEEGSAim) {
+                    me.eegsGroup.createChild("path")
+                        .moveTo(me.eegsRightX[0]-20, me.eegsRightY[0])
+                        .horiz(40)
                         .setStrokeLineWidth(4);
                 }
                 me.eegsGroup.update();
@@ -812,6 +830,18 @@ var HUD = {
             }                        
         }
         me.eegsGroup.show();
+    },
+    
+    interpolate: func (start, end, fraction) {
+        me.xx = (start.x()*(1-fraction)
+          +end.x()*fraction);
+        me.yy = (start.y()*(1-fraction)+end.y()*fraction);
+        me.zz = (start.z()*(1-fraction)+end.z()*fraction);
+
+        me.cc = geo.Coord.new();
+        me.cc.set_xyz(me.xx,me.yy,me.zz);
+
+        return me.cc;
     },
     
 };
