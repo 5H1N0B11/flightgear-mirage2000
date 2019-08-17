@@ -799,7 +799,7 @@ var HUD = {
                     }
                 }
                 if (me.drawEEGSPipper) {
-                    me.EEGSdeg = math.max(0,HudMath.extrapolate(me.designatedDistanceFT*FT2M,1500,300,0,360))*D2R;
+                    me.EEGSdeg = math.max(0,HudMath.extrapolate(me.designatedDistanceFT*FT2M,1500,300,360,0))*D2R;
                     me.EEGSdegPos = [math.sin(me.EEGSdeg)*40,40-math.cos(me.EEGSdeg)*40];
                     if (me.EEGSdeg<180*D2R) {
                       me.eegsGroup.createChild("path")
