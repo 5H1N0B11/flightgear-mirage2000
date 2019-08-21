@@ -337,6 +337,31 @@ var HUD = {
 #                   .moveTo(-100, HudMath.getPixelPerDegreeAvg(15)*-15)
 #                   .horiz(200)
 #                   .setStrokeLineWidth(4);
+    var canvasWidth = 480;           
+    var headScaleTickSpacing = (80/1024)*canvasWidth;           
+    m.headingScaleGroup = m.root.createChild("group");
+    m.head_scale = m.headingScaleGroup.createChild("path")
+    .moveTo(-headScaleTickSpacing*2, 0)
+    .vert(-(40/1024)*canvasWidth)
+    .moveTo(0, 0)
+    .vert(-(40/1024)*canvasWidth)
+    .moveTo(headScaleTickSpacing*2, 0)
+    .vert(-(40/1024)*canvasWidth)
+    
+    .moveTo(-headScaleTickSpacing, 0)
+    .vert(-(10/1024)*canvasWidth)
+    .moveTo(headScaleTickSpacing, 0)
+    .vert(-(10/1024)*canvasWidth)
+    
+    .moveTo(-headScaleTickSpacing*3, 0)
+    .vert(-(10/1024)*canvasWidth)
+    .moveTo(headScaleTickSpacing*3, 0)
+    .vert(-(10/1024)*canvasWidth)
+    
+    .setStrokeLineWidth(4)
+    .show();
+                   
+                   
                    
     m.radarStuffGroup = m.root.createChild("group");
     
@@ -402,8 +427,50 @@ var HUD = {
     m.eegsLoop = maketimer(m.averageDt, m, m.displayEEGS);
     m.eegsLoop.simulatedTime = 1;
                      
+    
+    
+    
+    
+   ################################### Runways #######################################   
+   m.myRunwayGroup = m.root.createChild("group");
+   
+   
+   m.myRunway = m.myRunwayGroup.createChild("path")
+        .moveTo(15, 0)
+        .arcSmallCW(15,15, 0, -30, 0)
+        .arcSmallCW(15,15, 0, 30, 0)
+        .setStrokeLineWidth(4)
+        .set("stroke", "rgba(0,180,0,0.9)");
+  
+    m.myRunwayBeginLeft = m.myRunwayGroup.createChild("path")
+        .moveTo(15, 0)
+        .arcSmallCW(15,15, 0, -30, 0)
+        .arcSmallCW(15,15, 0, 30, 0)
+        .setStrokeLineWidth(4)
+        .set("stroke", "rgba(0,180,0,0.9)");
+        
+    m.myRunwayBeginRight = m.myRunwayGroup.createChild("path")
+        .moveTo(15, 0)
+        .arcSmallCW(15,15, 0, -30, 0)
+        .arcSmallCW(15,15, 0, 30, 0)
+        .setStrokeLineWidth(4)
+        .set("stroke", "rgba(0,180,0,0.9)");
+    
+     m.myRunwayEndRight = m.myRunwayGroup.createChild("path")
+        .moveTo(15, 0)
+        .arcSmallCW(15,15, 0, -30, 0)
+        .arcSmallCW(15,15, 0, 30, 0)
+        .setStrokeLineWidth(4)
+        .set("stroke", "rgba(0,180,0,0.9)");
+
+     m.myRunwayEndLeft = m.myRunwayGroup.createChild("path")
+        .moveTo(15, 0)
+        .arcSmallCW(15,15, 0, -30, 0)
+        .arcSmallCW(15,15, 0, 30, 0)
+        .setStrokeLineWidth(4)
+        .set("stroke", "rgba(0,180,0,0.9)");    
       
-   ##################################### Circle ####################################
+   ##################################### Target Circle ####################################
     m.targetArray = [];
     m.circle_group2 = m.radarStuffGroup.createChild("group");
     for(var i = 1; i <= MaxTarget; i += 1){
@@ -462,6 +529,9 @@ var HUD = {
          m.triangleRot =  m.TriangleGroupe.createTransform();
          
     m.TriangleGroupe.hide();
+    
+    
+    
 
     m.input = {
       pitch:      "/orientation/pitch-deg",
@@ -592,8 +662,8 @@ var HUD = {
     mydistanceTohud = math.sqrt(xCube+yCube+zCube);
     
     #print("mydistanceTohud:" ~ mydistanceTohud);
-
-
+    
+    
     
     #To put a triangle on the selected target
     #This should be changed by calling directly the radar object (in case of multi targeting)
@@ -686,6 +756,9 @@ var HUD = {
       me.TextInfoArray[y].hide();
     }
     
+    me.displayRunway();
+    
+    
     if (!me.eegsShow) {
       me.eegsGroup.setVisible(me.eegsShow);
     }
@@ -697,6 +770,91 @@ var HUD = {
 
     #settimer(func me.update(), 0.1);
   },
+  
+  displayRunway:func(){
+    
+    #Coord of the runways gps coord
+    var RunwayCoord =  geo.Coord.new();
+    var RunwaysCoordCornerLeft = geo.Coord.new();
+    var RunwaysCoordCornerRight = geo.Coord.new();
+    var RunwaysCoordEndCornerLeft = geo.Coord.new();
+    var RunwaysCoordEndCornerRight = geo.Coord.new();
+    
+    #var info = airportinfo(icao;
+    #Need to select the runways and write the conditions
+    #2. SYNTHETIC RUNWAY. The synthetic runway symbol is an aid for locating the real runway, especially during low visibility conditions. 
+    #It is only visible when: 
+    #a. The INS is on.
+    #b. The airport is the current fly-to waypoint. 
+    #c. The runway data (heading and glideslope) were entered.
+    #d. Both localizer and glideslope have been captured 
+    #e. The runway is less than 10 nautical miles away. 
+    #f. Lateral deviation is less than 7º.
+    # The synthetic runway is removed from the HUD as soon as there is weight on the landing gear’s wheels. 
+    
+    
+    
+    
+    var info = airportinfo();
+    #print("-- Lengths of the runways at ", info.name, " (", info.id, ") --");
+    foreach(var rwy; keys(info.runways)){
+        #print(rwy, ": ", math.round(info.runways[rwy].length * M2FT), " ft (", info.runways[rwy].length, " m)");  
+    }
+    
+    #Calculating GPS coord of the runway's corners
+    RunwayCoord.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
+    
+    RunwaysCoordCornerLeft.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
+    RunwaysCoordCornerLeft.apply_course_distance((info.runways[rwy].heading)-90,(info.runways[rwy].width)/2);
+    
+    RunwaysCoordCornerRight.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
+    RunwaysCoordCornerRight.apply_course_distance((info.runways[rwy].heading)+90,(info.runways[rwy].width)/2);
+    
+    RunwaysCoordEndCornerLeft.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
+    RunwaysCoordEndCornerLeft.apply_course_distance((info.runways[rwy].heading)-90,(info.runways[rwy].width)/2);
+    RunwaysCoordEndCornerLeft.apply_course_distance((info.runways[rwy].heading),info.runways[rwy].length);
+    
+    RunwaysCoordEndCornerRight.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
+    RunwaysCoordEndCornerRight.apply_course_distance((info.runways[rwy].heading)+90,(info.runways[rwy].width)/2);
+    RunwaysCoordEndCornerRight.apply_course_distance((info.runways[rwy].heading),info.runways[rwy].length);
+    
+    
+    #Calculating the HUD coord of the runways coord
+    var MyRunwayTripos                     = HudMath.getPosFromCoord(RunwayCoord);
+    var MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(RunwaysCoordCornerLeft);
+    var MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(RunwaysCoordCornerRight);
+    var MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(RunwaysCoordEndCornerLeft);
+    var MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(RunwaysCoordEndCornerRight);
+    
+    
+    
+    #Updating : clear all previous stuff
+    me.myRunwayGroup.removeAllChildren();
+    
+    #drawing the runway
+    me.RunwaysDrawing = me.myRunwayGroup.createChild("path")
+    .moveTo(MyRunwayCoordCornerLeftTripos)
+    .lineTo(MyRunwayCoordCornerRightTripos)
+    .lineTo(MyRunwayCoordCornerEndRightTripos)
+    .lineTo(MyRunwayCoordCornerEndLeftTripos)
+    .lineTo(MyRunwayCoordCornerLeftTripos)
+    .setStrokeLineWidth(4);
+    
+    
+    #tranlating the circle ...
+    #old stuff : not used anymore
+    me.myRunway.setTranslation(MyRunwayTripos);
+    me.myRunwayBeginLeft.setTranslation(MyRunwayCoordCornerLeftTripos);
+    me.myRunwayBeginRight.setTranslation(MyRunwayCoordCornerRightTripos);
+    me.myRunwayEndRight.setTranslation(MyRunwayCoordCornerEndLeftTripos);
+    me.myRunwayEndLeft.setTranslation(MyRunwayCoordCornerEndRightTripos);
+    
+    
+    #myRunwayBeginLeft
+    #me.myRunway.hide();
+  },
+  
+  
   
   displayEEGS: func() {
         #note: this stuff is expensive like hell to compute, but..lets do it anyway.
