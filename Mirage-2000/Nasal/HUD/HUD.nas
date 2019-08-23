@@ -15,7 +15,10 @@ print("*** LOADING HUD.nas ... ***");
 #      <z-m> 0.159 </z-m>
 
 
-
+var roundabout = func(x) {
+  var y = x - int(x);
+  return y < 0.5 ? int(x) : 1 + int(x) ;
+};
 
 var target_marker = func()
 {
@@ -338,35 +341,95 @@ var HUD = {
 #                   .horiz(200)
 #                   .setStrokeLineWidth(4);
               
-    var headScaleTickSpacing = 45;           
-    m.headingScaleGroup = m.root.createChild("group");
+    m.headScaleTickSpacing = 45;           
+    #m.headScaleVerticalPlace = -220;
+    m.headScaleVerticalPlace = -80;
+    m.headingStuff = m.root.createChild("group");
+    m.headingScaleGroup = m.headingStuff.createChild("group");
     
-    m.headingScaleGroup.set("clip-frame", canvas.Element.LOCAL);
-    m.headingScaleGroup.set("clip", "rect(160, 40, -160, -40)");
+    #m.headingScaleGroup.set("clip-frame", canvas.Element.LOCAL);
+    #m.headingScaleGroup.set("clip", "rect(160px, 40px, -160px, -40px)");
     
     
     m.head_scale = m.headingScaleGroup.createChild("path")
-    .moveTo(-headScaleTickSpacing*2, 0)
-    .vert(-30)
-    .moveTo(0, 0)
-    .vert(-30)
-    .moveTo(headScaleTickSpacing*2, 0)
-    .vert(-30)
-    
-    .moveTo(-headScaleTickSpacing, 0)
+    .moveTo(-m.headScaleTickSpacing*2, m.headScaleVerticalPlace)
+    .vert(-20)
+    .moveTo(0, m.headScaleVerticalPlace)
+    .vert(-20)
+    .moveTo(m.headScaleTickSpacing*2, m.headScaleVerticalPlace)
+    .vert(-20)
+    .moveTo(m.headScaleTickSpacing*4, m.headScaleVerticalPlace)
+    .vert(-20)
+    .moveTo(-m.headScaleTickSpacing, m.headScaleVerticalPlace)
     .vert(-10)
-    .moveTo(headScaleTickSpacing, 0)
+    .moveTo(m.headScaleTickSpacing, m.headScaleVerticalPlace)
     .vert(-10)
-    
-    .moveTo(-headScaleTickSpacing*3, 0)
+    .moveTo(-m.headScaleTickSpacing*3, m.headScaleVerticalPlace)
     .vert(-10)
-    .moveTo(headScaleTickSpacing*3, 0)
+    .moveTo(m.headScaleTickSpacing*3, m.headScaleVerticalPlace)
     .vert(-10)
     
     .setStrokeLineWidth(4)
     .show();
+    
+    #Heading middle number on horizon line
+    me.hdgMH = m.headingScaleGroup.createChild("text")
+          .setTranslation(0,m.headScaleVerticalPlace -30)
+          .setDouble("character-size", 30)
+          .setAlignment("center-bottom")
+          #.setFontSize((65/1024)*canvasWidth*fs, ar);
+          .setText("0"); 
                    
-                   
+#     # Heading left number on horizon line
+      me.hdgLH = m.headingScaleGroup.createChild("text")
+          .setTranslation(-m.headScaleTickSpacing*2,m.headScaleVerticalPlace -30)
+          .setDouble("character-size", 30)
+          .setAlignment("center-bottom")
+          #.setFontSize((65/1024)*canvasWidth*fs, ar);
+          .setText("350");           
+
+#     # Heading right number on horizon line
+      me.hdgRH = m.headingScaleGroup.createChild("text")
+          .setTranslation(m.headScaleTickSpacing*2,m.headScaleVerticalPlace -30)
+          .setDouble("character-size", 30)
+          .setAlignment("center-bottom")
+          #.setFontSize((65/1024)*canvasWidth*fs, ar);
+          .setText("10");    
+          
+      # Heading right right number on horizon line
+      me.hdgRRH = m.headingScaleGroup.createChild("text")
+          .setTranslation(m.headScaleTickSpacing*4,m.headScaleVerticalPlace -30)
+          .setDouble("character-size", 30)
+          .setAlignment("center-bottom")
+          #.setFontSize((65/1024)*canvasWidth*fs, ar);
+          .setText("20");          
+
+    
+      
+    #Point the The Selected Route. it's at the middle of the HUD
+    m.TriangleSize = 4;
+    m.head_scale_route_pointer = m.headingStuff.createChild("path")
+    .setStrokeLineWidth(3)
+    #.set("stroke", "rgba(0,180,0,0.9)")
+    .moveTo(0, m.headScaleVerticalPlace)
+    .lineTo(m.TriangleSize*-5/2, (m.headScaleVerticalPlace)+(m.TriangleSize*5))
+    .lineTo(m.TriangleSize*5/2,(m.headScaleVerticalPlace)+(m.TriangleSize*5))
+    .lineTo(0, m.headScaleVerticalPlace);
+    
+    
+
+    #a line representthe middle and the actual heading
+    m.heading_pointer_line = m.headingStuff.createChild("path")
+    .setStrokeLineWidth(4)
+    .moveTo(0, m.headScaleVerticalPlace + 2)
+    .vert(20);
+    
+
+    
+    
+    
+    
+    
                    
     m.radarStuffGroup = m.root.createChild("group");
     
@@ -542,7 +605,9 @@ var HUD = {
     m.input = {
       pitch:      "/orientation/pitch-deg",
       roll:       "/orientation/roll-deg",
-      hdg:        "/orientation/heading-deg",
+      hdg:        "/orientation/heading-magnetic-deg",
+      hdgReal:    "/orientation/heading-deg",
+      hdgDisplay: "/instrumentation/efis/mfd/true-north",
       speed_n:    "velocities/speed-north-fps",
       speed_e:    "velocities/speed-east-fps",
       speed_d:    "velocities/speed-down-fps",
@@ -555,7 +620,8 @@ var HUD = {
       wow_nlg:    "/gear/gear[4]/wow",
       airspeed:   "/velocities/airspeed-kt",
       target_spd: "/autopilot/settings/target-speed-kt",
-      acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2"
+      acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
+
     };
     
     foreach(var name; keys(m.input))
@@ -798,14 +864,9 @@ var HUD = {
         }
       }
     }
-    
-    
     #print("Test : ",me.selectedRunway != "0");
     if(me.selectedRunway != "0"){
-  
       var (courseToAiport, distToAirport) = courseAndDistance(info);
-      
-
       if(  distToAirport < 10 and getprop("/gear/gear[1]/wow") == 0){
         me.displayRunway(info,me.selectedRunway);
       }else{
@@ -815,7 +876,11 @@ var HUD = {
       me.myRunwayGroup.removeAllChildren();
     }
     
+    # -------------------- displayHeadingHorizonScale ---------------
+    me.displayHeadingHorizonScale();
     
+    
+    #---------------------- EEFS --------------------
     if (!me.eegsShow) {
       me.eegsGroup.setVisible(me.eegsShow);
     }
@@ -826,6 +891,46 @@ var HUD = {
     }
 
     #settimer(func me.update(), 0.1);
+  },
+  
+  
+  
+  displayHeadingHorizonScale:func(){
+      #Depend of which heading we want to display
+      if(me.input.hdgDisplay.getValue()){
+        me.heading = me.input.hdgReal.getValue();
+      }else{
+        me.heading = me.input.hdg.getValue();
+      }
+    
+      me.headOffset = me.heading/10 - int (me.heading/10);
+      me.headScaleOffset = me.headOffset;
+      me.middleText = roundabout(me.heading/10);
+
+      me.middleText = me.middleText == 36?0:me.middleText;
+      me.leftText = me.middleText == 0?35:me.middleText-1;
+      me.rightText = me.middleText == 35?0:me.middleText+1;
+      me.rightRightText = me.rightText == 35?0:me.rightText+1;
+      
+      if (me.headOffset > 0.5) {
+        me.middleOffset = -(me.headScaleOffset-1)*me.headScaleTickSpacing*2;
+        #me.hdgLineL.show();
+        #me.hdgLineR.hide();
+      } else {
+        me.middleOffset = -me.headScaleOffset*me.headScaleTickSpacing*2;
+        #me.hdgLineR.show();
+        #me.hdgLineL.hide();
+      }
+      print(" me.heading:", me.heading,", me.headOffset:",me.headOffset, ", me.middleOffset:",me.middleOffset);
+      me.headingScaleGroup.setTranslation(me.middleOffset , 0);
+      me.hdgRH.setText(sprintf("%02d", me.rightText));
+      me.hdgMH.setText(sprintf("%02d", me.middleText));
+      me.hdgLH.setText(sprintf("%02d", me.leftText));
+      me.hdgRRH.setText(sprintf("%02d", me.rightRightText));
+      
+      #me.hdgMH.setTranslation(me.middleOffset , 0);
+      me.headingScaleGroup.update();
+    
   },
   
   displayRunway:func( info, rwy){
