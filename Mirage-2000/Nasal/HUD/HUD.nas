@@ -204,7 +204,27 @@ var HUD = {
         .setStrokeLineWidth(4)
         .set("stroke", "rgba(0,255,0,0.9)");
         #.set("stroke", "rgba(0,180,0,0.9)");
-
+        
+   #Chevrons Acceleration Vector (AV)
+   me.chevronFactor = 25;
+   m.chevronGroup = m.root.createChild("group");
+   
+  me.LeftChevron = m.chevronGroup.createChild("text")
+  .setTranslation(-150,0)
+  .setDouble("character-size", 35)
+  .setAlignment("center-center")
+  #.setFontSize((65/1024)*canvasWidth*fs, ar);
+  .setText(">");    
+  
+  me.RightChevron = m.chevronGroup.createChild("text")
+    .setTranslation(150,0)
+    .setDouble("character-size", 35)
+    .setAlignment("center-center")
+    #.setFontSize((65/1024)*canvasWidth*fs, ar);
+    .setText("<");   
+        
+        
+        
     #bore cross
     m.boreCross = m.root.createChild("path")
                    .moveTo(-12.5, 0)
@@ -224,7 +244,7 @@ var HUD = {
                    .horiz(1000)
                    .setStrokeLineWidth(4);
 
-   for (var myladder = 5;myladder < 90;myladder+=5)
+   for (var myladder = 5;myladder <= 90;myladder+=5)
    {
      if (myladder/10 == int(myladder/10)){
         #Text bellow 0 left
@@ -624,6 +644,7 @@ var HUD = {
       airspeed:   "/velocities/airspeed-kt",
       target_spd: "/autopilot/settings/target-speed-kt",
       acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
+      acc_yas:    "/fdm/yasim/accelerations/a-x",
 
     };
     
@@ -700,8 +721,12 @@ var HUD = {
     
     
     # flight path vector (FPV)
+    me.fpvCalc = HudMath.getFlightPathIndicatorPosWind();
+    me.fpv.setTranslation(me.fpvCalc);
     
-    me.fpv.setTranslation(HudMath.getFlightPathIndicatorPosWind());
+    #chevronGroup
+    #print(me.input.acc_yas.getValue());
+    me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc_yas.getValue()*me.chevronFactor);
 
     var speed_error = 0;
     if( me.input.target_spd.getValue() != nil )
