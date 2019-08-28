@@ -49,10 +49,10 @@
     <enable-nadir>true</enable-nadir>
   </ladder>-->
 
-  <turn-bank-indicator>
+<!--  <turn-bank-indicator>
     <name>Turn Indicator</name>
     <x>-50</x>
-    <y>-110</y> <!-- -75  = 35 --> 
+    <y>-110</y> 
     <width>100</width>
     <height>100</height>
     <bank-input>
@@ -63,8 +63,8 @@
     </sideslip-input>
     <bank-scale>true</bank-scale>
     <option>bottom</option>
-  </turn-bank-indicator>
-
+  </turn-bank-indicator>-->
+<!--
   <label>
     <name>Gyro Heading Label</name>
     <x>-9</x>
@@ -78,9 +78,9 @@
     <halign>center</halign>
     <box>true</box>
     <option>top</option>
-  </label>
+  </label>-->
 
-  <tape>
+<!--  <tape>
     <name>GyrocompassTrue</name>  
     <input>
       <property>instrumentation/mfd/heading-displayed</property>
@@ -109,7 +109,7 @@
     <pointer-type>fixed</pointer-type>
     <tick-type>line</tick-type>
     <tick-length>variable</tick-length>
-  </tape>
+  </tape>-->
 
   <label>
     <name>KIAS</name>

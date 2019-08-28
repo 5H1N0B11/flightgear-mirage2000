@@ -204,7 +204,27 @@ var HUD = {
         .setStrokeLineWidth(4)
         .set("stroke", "rgba(0,255,0,0.9)");
         #.set("stroke", "rgba(0,180,0,0.9)");
-
+        
+   #Chevrons Acceleration Vector (AV)
+   me.chevronFactor = 25;
+   m.chevronGroup = m.root.createChild("group");
+   
+  me.LeftChevron = m.chevronGroup.createChild("text")
+  .setTranslation(-150,0)
+  .setDouble("character-size", 35)
+  .setAlignment("center-center")
+  #.setFontSize((65/1024)*canvasWidth*fs, ar);
+  .setText(">");    
+  
+  me.RightChevron = m.chevronGroup.createChild("text")
+    .setTranslation(150,0)
+    .setDouble("character-size", 35)
+    .setAlignment("center-center")
+    #.setFontSize((65/1024)*canvasWidth*fs, ar);
+    .setText("<");   
+        
+        
+        
     #bore cross
     m.boreCross = m.root.createChild("path")
                    .moveTo(-12.5, 0)
@@ -224,7 +244,7 @@ var HUD = {
                    .horiz(1000)
                    .setStrokeLineWidth(4);
 
-   for (var myladder = 5;myladder < 90;myladder+=5)
+   for (var myladder = 5;myladder <= 90;myladder+=5)
    {
      if (myladder/10 == int(myladder/10)){
         #Text bellow 0 left
@@ -342,13 +362,15 @@ var HUD = {
 #                   .setStrokeLineWidth(4);
               
     m.headScaleTickSpacing = 45;           
-    #m.headScaleVerticalPlace = -220;
-    m.headScaleVerticalPlace = -80;
+    m.headScaleVerticalPlace = -180;
     m.headingStuff = m.root.createChild("group");
     m.headingScaleGroup = m.headingStuff.createChild("group");
     
     #m.headingScaleGroup.set("clip-frame", canvas.Element.LOCAL);
     #m.headingScaleGroup.set("clip", "rect(160px, 40px, -160px, -40px)");
+    
+     m.headingStuff.set("clip-frame", canvas.Element.LOCAL);
+     m.headingStuff.set("clip", "rect(-230px, 140px, -130px, -140px)");# top,right,bottom,left
     
     
     m.head_scale = m.headingScaleGroup.createChild("path")
@@ -607,6 +629,7 @@ var HUD = {
       roll:       "/orientation/roll-deg",
       hdg:        "/orientation/heading-magnetic-deg",
       hdgReal:    "/orientation/heading-deg",
+      hdgBug:     "/autopilot/settings/heading-bug-deg",
       hdgDisplay: "/instrumentation/efis/mfd/true-north",
       speed_n:    "velocities/speed-north-fps",
       speed_e:    "velocities/speed-east-fps",
@@ -621,6 +644,7 @@ var HUD = {
       airspeed:   "/velocities/airspeed-kt",
       target_spd: "/autopilot/settings/target-speed-kt",
       acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
+      acc_yas:    "/fdm/yasim/accelerations/a-x",
 
     };
     
@@ -697,8 +721,12 @@ var HUD = {
     
     
     # flight path vector (FPV)
+    me.fpvCalc = HudMath.getFlightPathIndicatorPosWind();
+    me.fpv.setTranslation(me.fpvCalc);
     
-    me.fpv.setTranslation(HudMath.getFlightPathIndicatorPosWind());
+    #chevronGroup
+    #print(me.input.acc_yas.getValue());
+    me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc_yas.getValue()*me.chevronFactor);
 
     var speed_error = 0;
     if( me.input.target_spd.getValue() != nil )
@@ -880,6 +908,10 @@ var HUD = {
     me.displayHeadingHorizonScale();
     
     
+    # -------------------- display_heading_bug ---------------
+    me.display_heading_bug();
+    
+    
     #---------------------- EEFS --------------------
     if (!me.eegsShow) {
       me.eegsGroup.setVisible(me.eegsShow);
@@ -921,7 +953,7 @@ var HUD = {
         #me.hdgLineR.show();
         #me.hdgLineL.hide();
       }
-      print(" me.heading:", me.heading,", me.headOffset:",me.headOffset, ", me.middleOffset:",me.middleOffset);
+      #print(" me.heading:", me.heading,", me.headOffset:",me.headOffset, ", me.middleOffset:",me.middleOffset);
       me.headingScaleGroup.setTranslation(me.middleOffset , 0);
       me.hdgRH.setText(sprintf("%02d", me.rightText));
       me.hdgMH.setText(sprintf("%02d", me.middleText));
@@ -931,6 +963,17 @@ var HUD = {
       #me.hdgMH.setTranslation(me.middleOffset , 0);
       me.headingScaleGroup.update();
     
+  },
+  
+  display_heading_bug : func(){
+      #Depend of which heading we want to display
+      if(me.input.hdgDisplay.getValue()){
+        me.heading = me.input.hdgReal.getValue();
+      }else{
+        me.heading = me.input.hdg.getValue();
+      }
+      var headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
+      me.head_scale_route_pointer.setTranslation(headOffset,0);
   },
   
   displayRunway:func( info, rwy){
