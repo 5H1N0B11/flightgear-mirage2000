@@ -206,23 +206,34 @@ var HUD = {
         #.set("stroke", "rgba(0,180,0,0.9)");
         
    #Chevrons Acceleration Vector (AV)
-   me.chevronFactor = 25;
+   m.chevronFactor = 25;
    m.chevronGroup = m.root.createChild("group");
    
-  me.LeftChevron = m.chevronGroup.createChild("text")
+  m.LeftChevron = m.chevronGroup.createChild("text")
   .setTranslation(-150,0)
   .setDouble("character-size", 35)
   .setAlignment("center-center")
   #.setFontSize((65/1024)*canvasWidth*fs, ar);
   .setText(">");    
   
-  me.RightChevron = m.chevronGroup.createChild("text")
+  m.RightChevron = m.chevronGroup.createChild("text")
     .setTranslation(150,0)
     .setDouble("character-size", 35)
     .setAlignment("center-center")
     #.setFontSize((65/1024)*canvasWidth*fs, ar);
     .setText("<");   
-        
+   
+    
+    
+  #Take off Acceleration
+  m.accBoxGroup = m.root.createChild("group");  
+    
+  m.acceleration_Box = m.accBoxGroup.createChild("text")
+  .setTranslation(0,0)
+  .setDouble("character-size", 35)
+  .setAlignment("center-center")
+  #.setFontSize((65/1024)*canvasWidth*fs, ar);
+  .setText("0.00"); 
         
         
     #bore cross
@@ -640,7 +651,7 @@ var HUD = {
       gs:         "/velocities/groundspeed-kt",
       vs:         "/velocities/vertical-speed-fps",
       rad_alt:    "/instrumentation/radar-altimeter/radar-altitude-ft",
-      wow_nlg:    "/gear/gear[4]/wow",
+      wow_nlg:    "/gear/gear[1]/wow",
       airspeed:   "/velocities/airspeed-kt",
       target_spd: "/autopilot/settings/target-speed-kt",
       acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
@@ -667,6 +678,7 @@ var HUD = {
     else
       rad_alt = nil;
     me.rad_alt.setText(rad_alt);
+    
     
     
     
@@ -734,6 +746,14 @@ var HUD = {
         me.input.target_spd.getValue() - me.input.airspeed.getValue(),
         -15, 15
       );
+      
+    #Acc accBoxGroup in G(so I guess /9,8)
+    if(me.input.wow_nlg.getValue()){
+      me.acceleration_Box.setText(sprintf("%.2f", me.input.acc_yas.getValue()/9.8));
+      me.accBoxGroup.show();
+    }else{
+      me.accBoxGroup.hide();
+    }
       
     
     #me.hdg.hide();
@@ -895,7 +915,7 @@ var HUD = {
     #print("Test : ",me.selectedRunway != "0");
     if(me.selectedRunway != "0"){
       var (courseToAiport, distToAirport) = courseAndDistance(info);
-      if(  distToAirport < 10 and getprop("/gear/gear[1]/wow") == 0){
+      if(  distToAirport < 10 and me.input.wow_nlg.getValue() == 0){
         me.displayRunway(info,me.selectedRunway);
       }else{
         me.myRunwayGroup.removeAllChildren();
