@@ -158,14 +158,14 @@
   </model>
 
   <!-- REVI -->
-  <model>
+  <!--<model>
     <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Revi/revi.xml</path>
     <offsets>
       <x-m> 0.456 </x-m>
       <y-m> 0.000 </y-m>
       <z-m> 0.159 </z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <!-- RADAR -->
   <model>

@@ -56,6 +56,11 @@
     </offsets>
   </model>
   
+  <!-- REVI -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Revi/revi.xml</path>
+  </model>
+  
 
   <!-- Tableau de bord -->
   <model>
