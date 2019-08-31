@@ -678,12 +678,16 @@ var HUD = {
       gs:         "/velocities/groundspeed-kt",
       vs:         "/velocities/vertical-speed-fps",
       alt:        "/position/altitude-ft",
+      alt_instru: "/instrumentation/altimeter/indicated-altitude-ft",
       rad_alt:    "/instrumentation/radar-altimeter/radar-altitude-ft",
       wow_nlg:    "/gear/gear[1]/wow",
       airspeed:   "/velocities/airspeed-kt",
       target_spd: "/autopilot/settings/target-speed-kt",
       acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
       acc_yas:    "/fdm/yasim/accelerations/a-x",
+      NavFreq:    "/instrumentation/nav/frequencies/selected-mhz",
+      destRunway: "/autopilot/route-manager/destination/runway",
+      destAirport:"/autopilot/route-manager/destination/airport",
 
     };
     
@@ -761,12 +765,10 @@ var HUD = {
     
     
     # flight path vector (FPV)
-    me.fpvCalc = HudMath.getFlightPathIndicatorPosWind();
-    me.fpv.setTranslation(me.fpvCalc);
+    me.display_Fpv();
     
     #chevronGroup
-    #print(me.input.acc_yas.getValue());
-    me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc_yas.getValue()*me.chevronFactor);
+    me.display_Chevron();
 
     var speed_error = 0;
     if( me.input.target_spd.getValue() != nil )
@@ -776,18 +778,10 @@ var HUD = {
       );
       
     #Acc accBoxGroup in G(so I guess /9,8)
-    if(me.input.wow_nlg.getValue()){
-      me.acceleration_Box.setText(sprintf("%.2f", me.input.acc_yas.getValue()/9.8));
-      me.accBoxGroup.show();
-    }else{
-      me.accBoxGroup.hide();
-    }
+    me.display_Acceleration_Box();
       
     #Display speedAltGroup
-    me.Speed.setText(sprintf("%d",int(me.input.ias.getValue())));
-    #print("Alt:",me.input.alt.getValue()," Calcul:" ,int(((me.input.alt.getValue()/100) - int(me.input.alt.getValue()/100))*100));
-    me.feet_Alt.setText(sprintf("%d",int(((me.input.alt.getValue()/100) - int(me.input.alt.getValue()/100))*100)));
-    me.hundred_feet_Alt.setText(sprintf("%d",int((me.input.alt.getValue()/100))));
+    me.display_speedAltGroup();
 
     
     
@@ -800,26 +794,7 @@ var HUD = {
     #me.acc.hide();
     #me.vertical_speed.hide();
     
-    
-    #Pilot position:    
-    var Piloty = getprop("sim/current-view/x-offset-m"); 
-    var Pilotz = getprop("sim/current-view/y-offset-m");
-    var Pilotx = getprop("sim/current-view/z-offset-m");
-     var xCube = (centerHUDx - Pilotx)*(centerHUDx - Pilotx);
-     var yCube = (centerHUDy - Piloty)*(centerHUDy - Piloty); # 20190712 : testing by  x0
-     var zCube = (centerHUDz - Pilotz)*(centerHUDz - Pilotz); # 20190712 : testing by  x0
-     
-     var offsetZ = centerHUDz-Pilotz;
-     
-     #print("centerHUDx=" ~ centerHUDx ~ "centerHUDy=" ~ centerHUDy ~ "centerHUDz=" ~centerHUDz);
-     #print("Pilotx = " ~ Pilotx ~ ";Piloty = " ~ Piloty ~ ";Pilotz = " ~ Pilotz);
-     #print("xCube = " ~ xCube ~ ";yCube = " ~ yCube ~ ";zCube = " ~ zCube);
-    
-    mydistanceTohud = math.sqrt(xCube+yCube+zCube);
-    
-    #print("mydistanceTohud:" ~ mydistanceTohud);
-    
-    
+  
     
     #To put a triangle on the selected target
     #This should be changed by calling directly the radar object (in case of multi targeting)
@@ -829,7 +804,6 @@ var HUD = {
     var Token = 0;
     
 
-    #myarrayofTarget = mirage2000.myRadar3.update();
     raw_list = mirage2000.myRadar3.ContactsList;
     #print("Size:" ~ size(raw_list));
     
@@ -856,20 +830,6 @@ var HUD = {
           target_altitude = c.get_altitude();
           target_heading_deg = c.get_heading();
           target_Distance = c.get_range();
-          
-          #Data for position calculation
-          mydeviation = c.objectDeviationDeg;
-          myelevation = c.objectElevationDeg;
-          
-          #print("myelevation:" ~ myelevation ~ " from viewer:" ~ c.get_Elevation_from_Coord_HUD());
-          myelevation = c.get_Elevation_from_Coord_HUD();
-          
-          myelevation = radar.deviation_normdeg(me.input.pitch.getValue(), myelevation);
-      
-          myhorizontaldeviation = mydeviation!=nil ?mydistanceTohud * math.tan(mydeviation*D2R):0;
-          myverticalelevation = myelevation!=nil ?  mydistanceTohud * math.tan(myelevation*D2R):0;
-          
-          #print("myhorizontaldeviation:" ~ myhorizontaldeviation ~ " myverticalelevation:"~ myverticalelevation);
           
           var triPos = HudMath.getPosFromCoord(c.get_Coord());
           
@@ -927,24 +887,24 @@ var HUD = {
        
     
     #First trying with ILS
-    var NavFrequency = getprop("/instrumentation/nav/frequencies/selected-mhz");
+    #var NavFrequency = getprop("/instrumentation/nav/frequencies/selected-mhz");
     me.selectedRunway  = "0";
     #print("-- Lengths of the runways at ", info.name, " (", info.id, ") --");
     var info = airportinfo();
     foreach(var rwy; keys(info.runways)){
-        if(sprintf("%.2f",info.runways[rwy].ils_frequency_mhz) == sprintf("%.2f",NavFrequency)){
+        if(sprintf("%.2f",info.runways[rwy].ils_frequency_mhz) == sprintf("%.2f",me.input.NavFreq.getValue())){
           me.selectedRunway = rwy;
         }  
     }
     #Then, trying with route manager
     if(me.selectedRunway == "0"){
-      if(getprop("/autopilot/route-manager/destination/runway") != ""){
+      if(me.input.destRunway.getValue() != ""){
         
         var fp = flightplan();
         if(fp.getPlanSize() == fp.indexOfWP(fp.currentWP())+1){
           
-          info = airportinfo(getprop("/autopilot/route-manager/destination/airport"));
-          me.selectedRunway = getprop("/autopilot/route-manager/destination/runway");
+          info = airportinfo(me.input.destAirport.getValue());
+          me.selectedRunway = me.input.destRunway.getValue() ;
         }
       }
     }
@@ -1021,6 +981,17 @@ var HUD = {
     
   },
   
+  # flight path vector (FPV)
+  display_Fpv:func(){
+    me.fpvCalc = HudMath.getFlightPathIndicatorPosWind();
+    me.fpv.setTranslation(me.fpvCalc);
+  },
+  
+  display_Chevron : func(){
+     #print(me.input.acc_yas.getValue());
+    me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc_yas.getValue()*me.chevronFactor);
+  },
+  
   display_heading_bug : func(){
       #Depend of which heading we want to display
       if(me.input.hdgDisplay.getValue()){
@@ -1030,6 +1001,23 @@ var HUD = {
       }
       var headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
       me.head_scale_route_pointer.setTranslation(headOffset,0);
+  },
+  
+  display_Acceleration_Box:func(){
+    #Acc accBoxGroup in G(so I guess /9,8)
+    if(me.input.wow_nlg.getValue()){
+      me.acceleration_Box.setText(sprintf("%.2f", me.input.acc_yas.getValue()/9.8));
+      me.accBoxGroup.show();
+    }else{
+      me.accBoxGroup.hide();
+    } 
+    
+  },
+  display_speedAltGroup:func(){
+      me.Speed.setText(sprintf("%d",int(me.input.ias.getValue())));
+    #print("Alt:",me.input.alt.getValue()," Calcul:" ,int(((me.input.alt.getValue()/100) - int(me.input.alt.getValue()/100))*100));
+    me.feet_Alt.setText(sprintf("%d",int(((me.input.alt_instru.getValue()/100) - int(me.input.alt_instru.getValue()/100))*100)));
+    me.hundred_feet_Alt.setText(sprintf("%d",int((me.input.alt_instru.getValue()/100))));
   },
   
   displayRunway:func( info, rwy){
