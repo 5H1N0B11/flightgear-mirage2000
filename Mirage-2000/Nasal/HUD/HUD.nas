@@ -184,12 +184,6 @@ var HUD = {
             .setTranslation(220, 70)
             .setDouble("character-size", 42);
             
-   
-    # Radar altidude
-    m.rad_alt =
-      m.text.createChild("text")
-            .setAlignment("right-center")
-            .setTranslation(220, 70);
             
     #fpv
     m.fpv = m.root.createChild("path")
@@ -235,7 +229,16 @@ var HUD = {
   .setAlignment("center-center")
   #.setFontSize((65/1024)*canvasWidth*fs, ar);
   .setText("0.00"); 
-        
+  
+  
+   m.InvertedT = m.accBoxGroup.createChild("path")
+                    .moveTo(-70, -25)
+                    .horiz(140)
+                    .vert(50)
+                    .horiz(-140)
+                    .vert(-50)
+                    .setStrokeLineWidth(4);
+                    
         
     #bore cross
     m.boreCross = m.root.createChild("path")
@@ -355,6 +358,22 @@ var HUD = {
 
    }           
                    
+       
+    #This is the inverted T that is present in at -13 and putting this line on the horizon will keep the aircraft at 13 which is the perfect angle to take off and to land
+    m.InvertedT = m.root.createChild("path")
+                   .moveTo(-m.maxladderspan/2, 0)
+                   .horiz(m.maxladderspan)
+                   .moveTo(0, 0)
+                   .vert(-m.maxladderspan/15*2)
+                   .setStrokeLineWidth(6);
+    
+#     m.InvertedT = m.root.createChild("path")
+#                       .moveTo(-m.maxladderspan/2, HudMath.getCenterPosFromDegs(0,-13)[1])
+#                       .horiz(m.maxladderspan)
+#                       .moveTo(0, HudMath.getCenterPosFromDegs(0,-13)[1])
+#                       .vert(-m.maxladderspan/15*2)
+#                       .setStrokeLineWidth(4);  
+                   
                    
     #m.horizon_sub_group.createChild("path")
                    #.moveTo(-100, HudMath.getPixelPerDegreeAvg(5)*-5)
@@ -389,22 +408,22 @@ var HUD = {
     
     m.head_scale = m.headingScaleGroup.createChild("path")
     .moveTo(-m.headScaleTickSpacing*2, m.headScaleVerticalPlace)
-    .vert(-10)
+    .vert(-15)
     .moveTo(0, m.headScaleVerticalPlace)
-    .vert(-10)
+    .vert(-15)
     .moveTo(m.headScaleTickSpacing*2, m.headScaleVerticalPlace)
-    .vert(-10)
+    .vert(-15)
     .moveTo(m.headScaleTickSpacing*4, m.headScaleVerticalPlace)
-    .vert(-10)
+    .vert(-15)
     .moveTo(-m.headScaleTickSpacing, m.headScaleVerticalPlace)
-    .vert(-3)
+    .vert(-5)
     .moveTo(m.headScaleTickSpacing, m.headScaleVerticalPlace)
-    .vert(-3)
+    .vert(-5)
     .moveTo(-m.headScaleTickSpacing*3, m.headScaleVerticalPlace)
-    .vert(-3)
+    .vert(-5)
     .moveTo(m.headScaleTickSpacing*3, m.headScaleVerticalPlace)
-    .vert(-3)
-    .setStrokeLineWidth(2)
+    .vert(-5)
+    .setStrokeLineWidth(5)
     .show();
     
     #Heading middle number on horizon line
@@ -494,7 +513,40 @@ var HUD = {
           #.setFontSize((65/1024)*canvasWidth*fs, ar);
           .setText("00");  
           
-    
+          
+     # Heading right right number on horizon line
+     me.groundAlt = m.speedAltGroup.createChild("text")
+          .setTranslation(m.maxladderspan + 95,m.headScaleVerticalPlace+25)
+          .setDouble("character-size", 30)
+          .setAlignment("right-bottom")
+          #.setFontSize((65/1024)*canvasWidth*fs, ar);
+          .setText("*****"); 
+          
+         # Heading right right number on horizon line
+     me.theH = m.speedAltGroup.createChild("text")
+          .setTranslation(m.maxladderspan + 100,m.headScaleVerticalPlace+25)
+          .setDouble("character-size", 30)
+          .setAlignment("left-bottom")
+          #.setFontSize((65/1024)*canvasWidth*fs, ar);
+          .setText("H");  
+          
+    m.alphaGroup = m.root.createChild("group");      
+  
+    #alpha
+    m.alpha = m.alphaGroup.createChild("text")
+      .setTranslation(- m.maxladderspan-70,m.headScaleVerticalPlace+50)
+      .setDouble("character-size", 40)
+      .setAlignment("right-center")
+      #.setFontSize((65/1024)*canvasWidth*fs, ar);
+      .setText("α");
+          
+    #aoa 
+    m.aoa = m.alphaGroup.createChild("text")
+      .setTranslation(- m.maxladderspan-50,m.headScaleVerticalPlace+50)
+      .setDouble("character-size", 30)
+      .setAlignment("left-center")
+      #.setFontSize((65/1024)*canvasWidth*fs, ar);
+      .setText("0.0");
     
     
                    
@@ -687,8 +739,9 @@ var HUD = {
       vs:         "/velocities/vertical-speed-fps",
       alt:        "/position/altitude-ft",
       alt_instru: "/instrumentation/altimeter/indicated-altitude-ft",
-      rad_alt:    "/instrumentation/radar-altimeter/radar-altitude-ft",
+      rad_alt:    "position/altitude-agl-ft", #"/instrumentation/radar-altimeter/radar-altitude-ft",
       wow_nlg:    "/gear/gear[1]/wow",
+      gearPos:    "/gear/gear[1]/position-norm",
       airspeed:   "/velocities/airspeed-kt",
       target_spd: "/autopilot/settings/target-speed-kt",
       acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
@@ -711,14 +764,9 @@ var HUD = {
     #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
     HudMath.reCalc();
     me.boreCross.setTranslation(HudMath.getBorePos());
-    
-    var rad_alt = me.input.rad_alt.getValue();
-    if( rad_alt and rad_alt < 5000 ) # Only show below 5000AGL
-      rad_alt = sprintf("R %4d", rad_alt);
-    else
-      rad_alt = nil;
-    me.rad_alt.setText(rad_alt);
-    
+  
+
+
     
     
     
@@ -778,6 +826,7 @@ var HUD = {
     #chevronGroup
     me.display_Chevron();
 
+    #Don't know what that does ...
     var speed_error = 0;
     if( me.input.target_spd.getValue() != nil )
       speed_error = 4 * clamp(
@@ -787,16 +836,22 @@ var HUD = {
       
     #Acc accBoxGroup in G(so I guess /9,8)
     me.display_Acceleration_Box();
-      
+
+    #display_radarAltimeter
+    me.display_radarAltimeter();
+            
     #Display speedAltGroup
     me.display_speedAltGroup();
-
     
+    #Display diplay_inverted_T
+    me.display_inverted_T();
     
+    #Display aoa
+    me.display_alpha();
     
     #me.hdg.hide();
     #me.groundspeed.hide();  
-    me.rad_alt.hide();
+    #me.rad_alt.hide();
     #me.airspeed.hide();
     #me.energy_cue.hide();
     #me.acc.hide();
@@ -1042,6 +1097,38 @@ var HUD = {
     
     me.speedAltGroup.update();
     
+  },
+  
+  display_radarAltimeter:func(){
+    if( me.input.rad_alt.getValue() < 5000) { #Or be selected be a special swith not yet done # Only show below 5000AGL
+      if(abs(me.input.pitch.getValue())<20 and abs(me.input.roll.getValue())<20){ #if the angle is above 20° the radar do not work
+        me.groundAlt.setText(sprintf("%4d", me.input.rad_alt.getValue()-8));#The radar should show 0 when on Ground      
+      }else{
+        me.groundAlt.setText("*****");
+      }
+      me.groundAlt.show();
+      me.theH.show();
+    }else{
+      me.groundAlt.hide();
+      me.theH.hide();
+    }
+  },
+  
+  display_inverted_T:func(){
+    if(me.input.gearPos.getValue()){
+      me.InvertedT.setTranslation(0, HudMath.getCenterPosFromDegs(0,-13)[1]);
+      me.InvertedT.show();
+    }else{
+      me.InvertedT.hide();
+    }
+  },
+  display_alpha:func(){
+    if(me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2){
+      me.aoa.setText(sprintf("%0.1f",me.input.alpha.getValue()));
+      me.alphaGroup.show();
+    }else{
+      me.alphaGroup.hide();
+    }
   },
   
   displayRunway:func( info, rwy){

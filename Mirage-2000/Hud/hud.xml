@@ -125,7 +125,7 @@
     <box>false</box>
   </label>-->
 
-  <label>
+<!--  <label>
     <name>MACH Number</name>
     <x>-58</x>
     <y>-0</y>
@@ -142,7 +142,7 @@
     </input>
     <format>%4.2f</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
 <!--  <label>
     <name>Altitude</name>
@@ -181,7 +181,7 @@
     <option>left</option>
   </label>-->
 
-  <label>
+<!--  <label>
     <name>elevationOk</name>
     <x>34</x>
     <y>-110</y>
@@ -196,7 +196,7 @@
     <input>
       <property>/position/altitude-agl-ft</property>
     </input>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ range -->
 <!--  <label>
@@ -343,7 +343,7 @@
   </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ angle of attack -->
-  <label>
+<!--  <label>
     <name>AoA</name>
     <x>-60</x>
     <y>-80</y>
@@ -369,10 +369,10 @@
     <input>
       <property>/orientation/alpha-deg</property>
     </input>
-  </label>
+  </label>-->
   
     <!-- ~~~~~~~~~~~~~~~~~~ G load -->
-  <label>
+<!--  <label>
     <name>G Load</name>
     <x>-60</x>
     <y>-88</y>
@@ -385,10 +385,10 @@
     </input>
     <format>g %2.1f</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ engine off -->
-  <label>
+<!--  <label>
     <name>off</name>
     <x>0</x>
     <y>-65</y>
@@ -399,10 +399,10 @@
     </condition>
     <format>off</format>
     <halign>center</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ engine starting -->
-  <label>
+<!--  <label>
     <name>Starting</name>
     <x>0</x>
     <y>-65</y>
@@ -413,10 +413,10 @@
     </condition>
     <format>Starting</format>
     <halign>center</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ electronic counter measure -->
-  <label>
+<!--  <label>
     <name>ECM</name>
     <x>-10</x>
     <y>-101</y>
@@ -427,10 +427,10 @@
     </condition>
     <format>ecm</format>
     <halign>center</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ gears -->
-  <label>
+<!--  <label>
     <name>Gear</name>
     <x>-60</x>
     <y>-105</y>
@@ -441,10 +441,10 @@
     </condition>
     <format>gears</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ parking brake -->
-  <label>
+<!--  <label>
     <name>Parking Break</name>
     <x>-60</x>
     <y>-97</y>
@@ -455,7 +455,7 @@
     </condition>
     <format>brakes</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
 
 
