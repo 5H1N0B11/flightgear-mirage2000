@@ -469,6 +469,13 @@ var HUD = {
           #.setFontSize((65/1024)*canvasWidth*fs, ar);
           .setText("0"); 
           
+    me.Speed_Mach = m.speedAltGroup.createChild("text")
+      .setTranslation(- m.maxladderspan,m.headScaleVerticalPlace+25)
+      .setDouble("character-size", 30)
+      .setAlignment("right-bottom")
+      #.setFontSize((65/1024)*canvasWidth*fs, ar);
+      .setText("0"); 
+          
 
      # Heading right right number on horizon line
      me.hundred_feet_Alt = m.speedAltGroup.createChild("text")
@@ -675,6 +682,7 @@ var HUD = {
       alpha:      "/orientation/alpha-deg",
       beta:       "/orientation/side-slip-deg",
       ias:        "/velocities/airspeed-kt",
+      mach:       "/velocities/mach",
       gs:         "/velocities/groundspeed-kt",
       vs:         "/velocities/vertical-speed-fps",
       alt:        "/position/altitude-ft",
@@ -990,6 +998,8 @@ var HUD = {
   display_Chevron : func(){
      #print(me.input.acc_yas.getValue());
     me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc_yas.getValue()*me.chevronFactor);
+    
+    me.chevronGroup.update();
   },
   
   display_heading_bug : func(){
@@ -1001,6 +1011,8 @@ var HUD = {
       }
       var headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
       me.head_scale_route_pointer.setTranslation(headOffset,0);
+      
+      me.headingScaleGroup.update();
   },
   
   display_Acceleration_Box:func(){
@@ -1012,12 +1024,24 @@ var HUD = {
       me.accBoxGroup.hide();
     } 
     
+    me.accBoxGroup.update();
+    
   },
   display_speedAltGroup:func(){
       me.Speed.setText(sprintf("%d",int(me.input.ias.getValue())));
+      if(me.input.mach.getValue()>= 0.6){
+        me.Speed_Mach.setText(sprintf("%0.2f",me.input.mach.getValue()));
+        me.Speed_Mach.show();
+      }else{
+        me.Speed_Mach.hide();
+      } 
+      
     #print("Alt:",me.input.alt.getValue()," Calcul:" ,int(((me.input.alt.getValue()/100) - int(me.input.alt.getValue()/100))*100));
     me.feet_Alt.setText(sprintf("%d",int(((me.input.alt_instru.getValue()/100) - int(me.input.alt_instru.getValue()/100))*100)));
     me.hundred_feet_Alt.setText(sprintf("%d",int((me.input.alt_instru.getValue()/100))));
+    
+    me.speedAltGroup.update();
+    
   },
   
   displayRunway:func( info, rwy){
