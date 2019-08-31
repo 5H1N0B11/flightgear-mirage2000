@@ -138,12 +138,13 @@ var MaxTarget = 15;
 #center of the hud
 
 
-
+#X = 420 * 2
+#Y = 1024 => 512 * 2
 var HUD = {
   canvas_settings: {
     "name": "HUD",
     "size": [1024,1024],#<-- size of the texture
-    "view": [480,480], #<- Size of the coordinate systems (the bigger the sharpener)
+    "view": [1024,1024], #<- Size of the coordinate systems (the bigger the sharpener)
     "mipmapping": 0
   },
   new: func(placement)
@@ -153,7 +154,7 @@ var HUD = {
       canvas: canvas.new(HUD.canvas_settings)
     };
      
-    HudMath.init([-3.26163,-0.067,0.099216], [-3.26163,0.067,-0.062785], [480,480], [0,1.0], [0.8265,0.0], 0);
+    HudMath.init([-3.26163,-0.067,0.099216], [-3.26163,0.067,-0.062785], [1024,1024], [0,1.0], [0.8265,0.0], 0);
     #HudMath.init([-3.22012,-0.07327,0.101839], [-3.32073,0.07327,-0.093358], [1024,1024], [0.166803,1.0], [0.834003,0.0], 0); wrong HUD
         
     m.viewPlacement = 480;
@@ -255,32 +256,35 @@ var HUD = {
                    .horiz(1000)
                    .setStrokeLineWidth(4);
 
+    m.ladderScale = 7.5;#7.5
+    m.maxladderspan =  200;
+                   
    for (var myladder = 5;myladder <= 90;myladder+=5)
    {
      if (myladder/10 == int(myladder/10)){
         #Text bellow 0 left
         m.horizon_sub_group.createChild("text")
           .setAlignment("right-center")
-          .setTranslation(-160, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+          .setTranslation(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
           .setDouble("character-size", 30)
           .setText(myladder);
         #Text bellow 0 left
         m.horizon_sub_group.createChild("text")
           .setAlignment("left-center")
-          .setTranslation(160, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
+          .setTranslation(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
           .setDouble("character-size", 30)
           .setText(myladder);
 
         #Text above 0 left         
         m.horizon_sub_group.createChild("text")
           .setAlignment("right-center")
-          .setTranslation(-160, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
+          .setTranslation(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
           .setDouble("character-size", 30)
           .setText(myladder); 
         #Text above 0 right   
         m.horizon_sub_group.createChild("text")
           .setAlignment("left-center")
-          .setTranslation(160, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
+          .setTranslation(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
           .setDouble("character-size", 30)
           .setText(myladder);
       }
@@ -288,63 +292,64 @@ var HUD = {
   # =============  BELLOW 0 ===================           
     #half line bellow 0 (left part)       ------------------ 
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-150, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
-                   .vert(-15)
+                   .moveTo(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
+                   .vert(-m.maxladderspan/15)
                    .setStrokeLineWidth(4); 
                    
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-150, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
-                   .horiz(20)
+                   .moveTo(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
+                   .horiz(m.maxladderspan*2/15)
                   .setStrokeLineWidth(4);             
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-110, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
-                   .horiz(20)
+                   .moveTo(-abs(m.maxladderspan - m.maxladderspan*2/15*2), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
+                   .horiz(m.maxladderspan*2/15)
                   .setStrokeLineWidth(4);    
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-70, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
-                   .horiz(20)
+                   .moveTo(-abs(m.maxladderspan - m.maxladderspan*2/15*4), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
+                   .horiz(m.maxladderspan*2/15)
                   .setStrokeLineWidth(4);
                   
-    #half line (rigt part)       ------------------           
+    #half line (rigt part)       ------------------   
     m.horizon_sub_group.createChild("path")
-                   .moveTo(50, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
-                   .horiz(20)
-                  .setStrokeLineWidth(4);            
-    m.horizon_sub_group.createChild("path")
-                   .moveTo(90, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
-                   .horiz(20)
-                   .setStrokeLineWidth(4);          
-    m.horizon_sub_group.createChild("path")
-                   .moveTo(130, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
-                   .horiz(20)
-                  .setStrokeLineWidth(4);
-    m.horizon_sub_group.createChild("path")
-                   .moveTo(150, HudMath.getPixelPerDegreeAvg(7.5)*myladder)
-                   .vert(-15)
+                   .moveTo(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
+                   .vert(-m.maxladderspan/15)
                    .setStrokeLineWidth(4); 
                    
-
-    
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
+                   .horiz(-m.maxladderspan*2/15)
+                  .setStrokeLineWidth(4);             
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(abs(m.maxladderspan - m.maxladderspan*2/15*2), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
+                   .horiz(-m.maxladderspan*2/15)
+                  .setStrokeLineWidth(4);    
+    m.horizon_sub_group.createChild("path")
+                   .moveTo(abs(m.maxladderspan - m.maxladderspan*2/15*4), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
+                   .horiz(-m.maxladderspan*2/15)
+                  .setStrokeLineWidth(4);              
+                  
+                  
+  
                    
 # =============  ABOVE 0 ===================               
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-150, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
-                   .vert(15)
+                   .moveTo(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
+                   .vert(m.maxladderspan/15)
                    .setStrokeLineWidth(4); 
                    
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-150, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
-                   .horiz(100)
+                   .moveTo(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
+                   .horiz(m.maxladderspan/3*2)
                   .setStrokeLineWidth(4);             
           
     #half line (rigt part)       ------------------           
     m.horizon_sub_group.createChild("path")
-                   .moveTo(50, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
-                   .horiz(100)
+                   .moveTo(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
+                   .horiz(-m.maxladderspan/3*2)
                   .setStrokeLineWidth(4);            
     m.horizon_sub_group.createChild("path")
-                   .moveTo(150, HudMath.getPixelPerDegreeAvg(7.5)*-myladder)
-                   .vert(15)
+                   .moveTo(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
+                   .vert(m.maxladderspan/15)
                    .setStrokeLineWidth(4); 
                    
 
@@ -373,41 +378,38 @@ var HUD = {
 #                   .setStrokeLineWidth(4);
               
     m.headScaleTickSpacing = 45;           
-    m.headScaleVerticalPlace = -180;
+    m.headScaleVerticalPlace = -450;
     m.headingStuff = m.root.createChild("group");
     m.headingScaleGroup = m.headingStuff.createChild("group");
-    
-    #m.headingScaleGroup.set("clip-frame", canvas.Element.LOCAL);
-    #m.headingScaleGroup.set("clip", "rect(160px, 40px, -160px, -40px)");
+
     
      m.headingStuff.set("clip-frame", canvas.Element.LOCAL);
-     m.headingStuff.set("clip", "rect(-230px, 140px, -130px, -140px)");# top,right,bottom,left
+     m.headingStuff.set("clip", "rect(-500px, 150px, -400px, -150px)");# top,right,bottom,left
     
     
     m.head_scale = m.headingScaleGroup.createChild("path")
     .moveTo(-m.headScaleTickSpacing*2, m.headScaleVerticalPlace)
-    .vert(-20)
+    .vert(-10)
     .moveTo(0, m.headScaleVerticalPlace)
-    .vert(-20)
+    .vert(-10)
     .moveTo(m.headScaleTickSpacing*2, m.headScaleVerticalPlace)
-    .vert(-20)
+    .vert(-10)
     .moveTo(m.headScaleTickSpacing*4, m.headScaleVerticalPlace)
-    .vert(-20)
+    .vert(-10)
     .moveTo(-m.headScaleTickSpacing, m.headScaleVerticalPlace)
-    .vert(-10)
+    .vert(-3)
     .moveTo(m.headScaleTickSpacing, m.headScaleVerticalPlace)
-    .vert(-10)
+    .vert(-3)
     .moveTo(-m.headScaleTickSpacing*3, m.headScaleVerticalPlace)
-    .vert(-10)
+    .vert(-3)
     .moveTo(m.headScaleTickSpacing*3, m.headScaleVerticalPlace)
-    .vert(-10)
-    
-    .setStrokeLineWidth(4)
+    .vert(-3)
+    .setStrokeLineWidth(2)
     .show();
     
     #Heading middle number on horizon line
     me.hdgMH = m.headingScaleGroup.createChild("text")
-          .setTranslation(0,m.headScaleVerticalPlace -30)
+          .setTranslation(0,m.headScaleVerticalPlace -15)
           .setDouble("character-size", 30)
           .setAlignment("center-bottom")
           #.setFontSize((65/1024)*canvasWidth*fs, ar);
@@ -415,7 +417,7 @@ var HUD = {
                    
 #     # Heading left number on horizon line
       me.hdgLH = m.headingScaleGroup.createChild("text")
-          .setTranslation(-m.headScaleTickSpacing*2,m.headScaleVerticalPlace -30)
+          .setTranslation(-m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
           .setDouble("character-size", 30)
           .setAlignment("center-bottom")
           #.setFontSize((65/1024)*canvasWidth*fs, ar);
@@ -423,7 +425,7 @@ var HUD = {
 
 #     # Heading right number on horizon line
       me.hdgRH = m.headingScaleGroup.createChild("text")
-          .setTranslation(m.headScaleTickSpacing*2,m.headScaleVerticalPlace -30)
+          .setTranslation(m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
           .setDouble("character-size", 30)
           .setAlignment("center-bottom")
           #.setFontSize((65/1024)*canvasWidth*fs, ar);
@@ -431,7 +433,7 @@ var HUD = {
           
       # Heading right right number on horizon line
       me.hdgRRH = m.headingScaleGroup.createChild("text")
-          .setTranslation(m.headScaleTickSpacing*4,m.headScaleVerticalPlace -30)
+          .setTranslation(m.headScaleTickSpacing*4,m.headScaleVerticalPlace -15)
           .setDouble("character-size", 30)
           .setAlignment("center-bottom")
           #.setFontSize((65/1024)*canvasWidth*fs, ar);
@@ -458,8 +460,33 @@ var HUD = {
     .vert(20);
     
 
-    
-    
+     m.speedAltGroup = m.root.createChild("group");
+     # Heading right right number on horizon line
+    me.Speed = m.speedAltGroup.createChild("text")
+          .setTranslation(- m.maxladderspan,m.headScaleVerticalPlace)
+          .setDouble("character-size", 50)
+          .setAlignment("right-bottom")
+          #.setFontSize((65/1024)*canvasWidth*fs, ar);
+          .setText("0"); 
+          
+
+     # Heading right right number on horizon line
+     me.hundred_feet_Alt = m.speedAltGroup.createChild("text")
+          .setTranslation(m.maxladderspan + 60 ,m.headScaleVerticalPlace)
+          .setDouble("character-size", 50)
+          .setAlignment("right-bottom")
+          #.setFontSize((65/1024)*canvasWidth*fs, ar);
+          .setText("0");   
+      
+
+     # Heading right right number on horizon line
+     me.feet_Alt = m.speedAltGroup.createChild("text")
+          .setTranslation(m.maxladderspan + 60,m.headScaleVerticalPlace)
+          .setDouble("character-size", 30)
+          .setAlignment("left-bottom")
+          #.setFontSize((65/1024)*canvasWidth*fs, ar);
+          .setText("00");  
+          
     
     
     
@@ -650,6 +677,7 @@ var HUD = {
       ias:        "/velocities/airspeed-kt",
       gs:         "/velocities/groundspeed-kt",
       vs:         "/velocities/vertical-speed-fps",
+      alt:        "/position/altitude-ft",
       rad_alt:    "/instrumentation/radar-altimeter/radar-altitude-ft",
       wow_nlg:    "/gear/gear[1]/wow",
       airspeed:   "/velocities/airspeed-kt",
@@ -755,6 +783,14 @@ var HUD = {
       me.accBoxGroup.hide();
     }
       
+    #Display speedAltGroup
+    me.Speed.setText(sprintf("%d",int(me.input.ias.getValue())));
+    #print("Alt:",me.input.alt.getValue()," Calcul:" ,int(((me.input.alt.getValue()/100) - int(me.input.alt.getValue()/100))*100));
+    me.feet_Alt.setText(sprintf("%d",int(((me.input.alt.getValue()/100) - int(me.input.alt.getValue()/100))*100)));
+    me.hundred_feet_Alt.setText(sprintf("%d",int((me.input.alt.getValue()/100))));
+
+    
+    
     
     #me.hdg.hide();
     #me.groundspeed.hide();  
