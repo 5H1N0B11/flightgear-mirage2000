@@ -547,6 +547,65 @@ var HUD = {
                         .setStrokeLineWidth(4);         
       m.accBoxGroup.setTranslation(0,m.headScaleVerticalPlace*2/5);
       
+      
+      
+      #Waypoint Group
+      m.waypointGroup = m.root.createChild("group");
+      
+
+      #Distance to next Waypoint
+#       m.waypointDist = m.waypointGroup.createChild("text")
+#         .setTranslation( m.maxladderspan + 45 ,m.headScaleVerticalPlace*2/5)
+#         .setDouble("character-size", 30)
+#         .setAlignment("right-center")
+#         .setText("0");    
+#       # N
+#       m.waypointN = m.waypointGroup.createChild("text")
+#         .setTranslation( m.maxladderspan + 65 ,m.headScaleVerticalPlace*2/5)
+#         .setDouble("character-size", 30)
+#         .setAlignment("center-center")
+#         .setText("N");     
+#       #next Waypoint NUMBER
+#       m.waypointNumber = m.waypointGroup.createChild("text")
+#         .setTranslation( m.maxladderspan + 85 ,m.headScaleVerticalPlace*2/5)
+#         .setDouble("character-size", 30)
+#         .setAlignment("left-center")
+#         .setText("00"); 
+      
+      #Distance to next Waypoint
+      m.waypointDist = m.waypointGroup.createChild("text")
+        .setTranslation( m.maxladderspan + 80 ,m.headScaleVerticalPlace*2/5)
+        .setDouble("character-size", 30)
+        .setAlignment("left-center")
+        .setText("0");    
+      # N
+      m.waypointN = m.waypointGroup.createChild("text")
+        .setTranslation( m.maxladderspan + 120 ,m.headScaleVerticalPlace*2/5)
+        .setDouble("character-size", 30)
+        .setAlignment("left-center")
+        .setText("N");   
+        
+      #next Waypoint NUMBER
+      m.waypointNumber = m.waypointGroup.createChild("text")
+        .setTranslation( m.maxladderspan + 80 ,m.headScaleVerticalPlace*2/5-25)
+        .setDouble("character-size", 30)
+        .setAlignment("left-center")
+        .setText("00");     
+      #bull eye
+      m.BE = m.waypointGroup.createChild("text")
+        .setTranslation( m.maxladderspan + 55 ,m.headScaleVerticalPlace*2/5-25)
+        .setDouble("character-size", 30)
+        .setAlignment("right-center")
+        .setText("BE");
+      #heading to the next Waypoint
+      m.waypointHeading = m.waypointGroup.createChild("text")
+        .setTranslation( m.maxladderspan + 65 ,m.headScaleVerticalPlace*2/5)
+        .setDouble("character-size", 30)
+        .setAlignment("right-center")
+        .setText("000/"); 
+
+      
+      
                    
     m.radarStuffGroup = m.root.createChild("group");
     
@@ -747,7 +806,10 @@ var HUD = {
       NavFreq:    "/instrumentation/nav/frequencies/selected-mhz",
       destRunway: "/autopilot/route-manager/destination/runway",
       destAirport:"/autopilot/route-manager/destination/airport",
-
+      distNextWay:"/autopilot/route-manager/wp/dist",
+      NextWayNum :"/autopilot/route-manager/current-wp",
+      NextWayTrueBearing:"/autopilot/route-manager/wp/true-bearing-deg",
+      NextWayBearing:"/autopilot/route-manager/wp/bearing-deg",
     };
     
     foreach(var name; keys(m.input))
@@ -846,6 +908,9 @@ var HUD = {
     
     #Display aoa
     me.display_alpha();
+    
+    #Display Route dist and waypoint number
+    me.display_Waypoint();
     
     #me.hdg.hide();
     #me.groundspeed.hide();  
@@ -1127,6 +1192,28 @@ var HUD = {
     }else{
       me.alphaGroup.hide();
     }
+  },
+  
+  display_Waypoint:func(){
+    
+    if(me.input.distNextWay.getValue() != nil){
+      if(me.input.distNextWay.getValue()>10){
+        me.waypointDist.setText(sprintf("%d",int(me.input.distNextWay.getValue())));
+       
+      }else{
+        me.waypointDist.setText(sprintf("%0.1f",me.input.distNextWay.getValue()));
+      }
+      me.waypointNumber.setText(sprintf("%02d",me.input.NextWayNum.getValue()));
+      if(me.input.hdgDisplay.getValue()){
+        me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayTrueBearing.getValue()));
+      }else{
+        me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayBearing.getValue()));
+      }
+      me.waypointGroup.show();
+    }else{
+      me.waypointGroup.hide();
+    }
+      
   },
   
   displayRunway:func( info, rwy){
