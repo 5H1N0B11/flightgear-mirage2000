@@ -12,7 +12,7 @@
 
   <enable3d>true</enable3d>
   
-  <ladder>
+  <!--<ladder>
     <name>Pitch Ladder</name>
     <type>pitch</type>
     <x>-25</x>
@@ -47,12 +47,12 @@
     <enable-waypoint-marker>true</enable-waypoint-marker>
     <enable-zenith>false</enable-zenith>
     <enable-nadir>true</enable-nadir>
-  </ladder>
+  </ladder>-->
 
-  <turn-bank-indicator>
+<!--  <turn-bank-indicator>
     <name>Turn Indicator</name>
     <x>-50</x>
-    <y>-110</y> <!-- -75  = 35 --> 
+    <y>-110</y> 
     <width>100</width>
     <height>100</height>
     <bank-input>
@@ -63,8 +63,8 @@
     </sideslip-input>
     <bank-scale>true</bank-scale>
     <option>bottom</option>
-  </turn-bank-indicator>
-
+  </turn-bank-indicator>-->
+<!--
   <label>
     <name>Gyro Heading Label</name>
     <x>-9</x>
@@ -78,9 +78,9 @@
     <halign>center</halign>
     <box>true</box>
     <option>top</option>
-  </label>
+  </label>-->
 
-  <tape>
+<!--  <tape>
     <name>GyrocompassTrue</name>  
     <input>
       <property>instrumentation/mfd/heading-displayed</property>
@@ -109,9 +109,9 @@
     <pointer-type>fixed</pointer-type>
     <tick-type>line</tick-type>
     <tick-length>variable</tick-length>
-  </tape>
+  </tape>-->
 
-  <label>
+<!--  <label>
     <name>KIAS</name>
     <x>-66</x>
     <y>  7</y>
@@ -123,9 +123,9 @@
     <format>%4.0fkt</format>
     <halign>left</halign>
     <box>false</box>
-  </label>
+  </label>-->
 
-  <label>
+<!--  <label>
     <name>MACH Number</name>
     <x>-58</x>
     <y>-0</y>
@@ -142,9 +142,9 @@
     </input>
     <format>%4.2f</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
-  <label>
+<!--  <label>
     <name>Altitude</name>
     <x>39</x>
     <y> 5</y>
@@ -179,9 +179,9 @@
     <halign>right</halign>
     <box>false</box>
     <option>left</option>
-  </label>
+  </label>-->
 
-  <label>
+<!--  <label>
     <name>elevationOk</name>
     <x>34</x>
     <y>-110</y>
@@ -196,10 +196,10 @@
     <input>
       <property>/position/altitude-agl-ft</property>
     </input>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ range -->
-  <label>
+<!--  <label>
     <name>Closest Range</name>
     <x>-58</x>
     <y>-55</y>
@@ -220,10 +220,10 @@
     <input>
       <property>/ai/closest/range</property>
     </input>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ Callsign -->
-  <label>
+<!--  <label>
     <name>Closest Callsign</name>
     <x>-58</x>
     <y>-48</y>
@@ -244,10 +244,10 @@
     </input>
     <format>%s</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ altitude -->
-  <label>
+<!--  <label>
     <name>Closest Altitude</name>
     <x>-58</x>
     <y>-63</y>
@@ -268,10 +268,10 @@
     </input>
     <format>%1.0fft</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ heading -->
-  <label>
+<!--  <label>
     <name>Closest heading</name>
     <x>-58</x>
     <y>-71</y>
@@ -292,10 +292,10 @@
     </input>
     <format>%1.0f'</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ speed -->
-  <label>
+<!--  <label>
     <name>Closest speed</name>
     <x>-58</x>
     <y>-79</y>
@@ -316,10 +316,10 @@
     </input>
     <format>%1.0fkts</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ bearing -->
-  <label>
+<!--  <label>
     <name>Closest bearing</name>
     <x>-58</x>
     <y>-87</y>
@@ -340,10 +340,10 @@
     </input>
     <format>at %1.0f'</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ angle of attack -->
-  <label>
+<!--  <label>
     <name>AoA</name>
     <x>-60</x>
     <y>-80</y>
@@ -369,10 +369,10 @@
     <input>
       <property>/orientation/alpha-deg</property>
     </input>
-  </label>
+  </label>-->
   
     <!-- ~~~~~~~~~~~~~~~~~~ G load -->
-  <label>
+<!--  <label>
     <name>G Load</name>
     <x>-60</x>
     <y>-88</y>
@@ -385,10 +385,10 @@
     </input>
     <format>g %2.1f</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ engine off -->
-  <label>
+<!--  <label>
     <name>off</name>
     <x>0</x>
     <y>-65</y>
@@ -399,10 +399,10 @@
     </condition>
     <format>off</format>
     <halign>center</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ engine starting -->
-  <label>
+<!--  <label>
     <name>Starting</name>
     <x>0</x>
     <y>-65</y>
@@ -413,10 +413,10 @@
     </condition>
     <format>Starting</format>
     <halign>center</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ electronic counter measure -->
-  <label>
+<!--  <label>
     <name>ECM</name>
     <x>-10</x>
     <y>-101</y>
@@ -427,10 +427,10 @@
     </condition>
     <format>ecm</format>
     <halign>center</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ gears -->
-  <label>
+<!--  <label>
     <name>Gear</name>
     <x>-60</x>
     <y>-105</y>
@@ -441,10 +441,10 @@
     </condition>
     <format>gears</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ parking brake -->
-  <label>
+<!--  <label>
     <name>Parking Break</name>
     <x>-60</x>
     <y>-97</y>
@@ -455,7 +455,7 @@
     </condition>
     <format>brakes</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
 
 
