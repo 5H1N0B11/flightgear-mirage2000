@@ -218,27 +218,6 @@ var HUD = {
     #.setFontSize((65/1024)*canvasWidth*fs, ar);
     .setText("<");   
    
-    
-    
-  #Take off Acceleration
-  m.accBoxGroup = m.root.createChild("group");  
-    
-  m.acceleration_Box = m.accBoxGroup.createChild("text")
-  .setTranslation(0,0)
-  .setDouble("character-size", 35)
-  .setAlignment("center-center")
-  #.setFontSize((65/1024)*canvasWidth*fs, ar);
-  .setText("0.00"); 
-  
-  
-   m.InvertedT = m.accBoxGroup.createChild("path")
-                    .moveTo(-70, -25)
-                    .horiz(140)
-                    .vert(50)
-                    .horiz(-140)
-                    .vert(-50)
-                    .setStrokeLineWidth(4);
-                    
         
     #bore cross
     m.boreCross = m.root.createChild("path")
@@ -548,7 +527,26 @@ var HUD = {
       #.setFontSize((65/1024)*canvasWidth*fs, ar);
       .setText("0.0");
     
-    
+      
+      #Take off Acceleration
+      m.accBoxGroup = m.root.createChild("group");  
+        
+      m.acceleration_Box = m.accBoxGroup.createChild("text")
+      .setTranslation(0,0)
+      .setDouble("character-size", 35)
+      .setAlignment("center-center")
+      #.setFontSize((65/1024)*canvasWidth*fs, ar);
+      .setText("0.00"); 
+      
+      m.accBoxLine = m.accBoxGroup.createChild("path")
+                        .moveTo(-70, -25)
+                        .horiz(140)
+                        .vert(50)
+                        .horiz(-140)
+                        .vert(-50)
+                        .setStrokeLineWidth(4);         
+      m.accBoxGroup.setTranslation(0,m.headScaleVerticalPlace*2/5);
+      
                    
     m.radarStuffGroup = m.root.createChild("group");
     
