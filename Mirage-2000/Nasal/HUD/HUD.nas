@@ -579,11 +579,11 @@ var HUD = {
         .setAlignment("left-center")
         .setText("0");    
       # N
-      m.waypointN = m.waypointGroup.createChild("text")
-        .setTranslation( m.maxladderspan + 120 ,m.headScaleVerticalPlace*2/5)
-        .setDouble("character-size", 30)
-        .setAlignment("left-center")
-        .setText("N");   
+#       m.waypointN = m.waypointGroup.createChild("text")
+#         .setTranslation( m.maxladderspan + 120 ,m.headScaleVerticalPlace*2/5)
+#         .setDouble("character-size", 30)
+#         .setAlignment("left-center")
+#         .setText("N");   
         
       #next Waypoint NUMBER
       m.waypointNumber = m.waypointGroup.createChild("text")
@@ -1155,8 +1155,12 @@ var HUD = {
       } 
       
     #print("Alt:",me.input.alt.getValue()," Calcul:" ,int(((me.input.alt.getValue()/100) - int(me.input.alt.getValue()/100))*100));
-    me.feet_Alt.setText(sprintf("%d",int(((me.input.alt_instru.getValue()/100) - int(me.input.alt_instru.getValue()/100))*100)));
-    me.hundred_feet_Alt.setText(sprintf("%d",int((me.input.alt_instru.getValue()/100))));
+    me.feet_Alt.setText(sprintf("%02d",abs(int(((me.input.alt_instru.getValue()/100) - int(me.input.alt_instru.getValue()/100))*100))));
+    if(me.input.alt_instru.getValue()>0){
+      me.hundred_feet_Alt.setText(sprintf("%d",abs(int((me.input.alt_instru.getValue()/100)))));
+    }else{
+      me.hundred_feet_Alt.setText(sprintf("-%d",abs(int((me.input.alt_instru.getValue()/100)))));
+    }
     
     me.speedAltGroup.update();
     
@@ -1198,10 +1202,10 @@ var HUD = {
     
     if(me.input.distNextWay.getValue() != nil){
       if(me.input.distNextWay.getValue()>10){
-        me.waypointDist.setText(sprintf("%d",int(me.input.distNextWay.getValue())));
+        me.waypointDist.setText(sprintf("%d N",int(me.input.distNextWay.getValue())));
        
       }else{
-        me.waypointDist.setText(sprintf("%0.1f",me.input.distNextWay.getValue()));
+        me.waypointDist.setText(sprintf("%0.1f N",me.input.distNextWay.getValue()));
       }
       me.waypointNumber.setText(sprintf("%02d",me.input.NextWayNum.getValue()));
       if(me.input.hdgDisplay.getValue()){
