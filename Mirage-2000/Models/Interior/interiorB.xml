@@ -65,6 +65,12 @@
       <z-m> -0.65 </z-m>
     </offsets>
   </model>
+  
+  <!-- REVI -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Revi/revi.xml</path>
+  </model>
+  
 
 
   <!-- Tableau de bord pilote -->
