@@ -592,11 +592,18 @@ var HUD = {
         .setAlignment("left-center")
         .setText("00");     
       #bull eye
-      m.BE = m.waypointGroup.createChild("text")
+#       m.BE = m.waypointGroup.createChild("text")
+#         .setTranslation( m.maxladderspan + 55 ,m.headScaleVerticalPlace*2/5-25)
+#         .setDouble("character-size", 30)
+#         .setAlignment("right-center")
+#         .setText("BE");
+        
+      m.DEST = m.waypointGroup.createChild("text")
         .setTranslation( m.maxladderspan + 55 ,m.headScaleVerticalPlace*2/5-25)
         .setDouble("character-size", 30)
         .setAlignment("right-center")
-        .setText("BE");
+        .setText("DEST");
+        
       #heading to the next Waypoint
       m.waypointHeading = m.waypointGroup.createChild("text")
         .setTranslation( m.maxladderspan + 65 ,m.headScaleVerticalPlace*2/5)
