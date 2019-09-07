@@ -187,18 +187,32 @@ var HUD = {
             
     #fpv
     m.fpv = m.root.createChild("path")
-        .moveTo(10, 0)
-        .horiz(20)
-        .moveTo(10, 0)
-        .arcSmallCW(10,10, 0, -20, 0)
-        .arcSmallCW(10,10, 0, 20, 0)
-        .moveTo(-10, 0)
-        .horiz(-20)
-        .moveTo(0, -10)
-        .vert(-10)
+        .moveTo(15, 0)
+        .horiz(40)
+        .moveTo(15, 0)
+        .arcSmallCW(15,15, 0, -30, 0)
+        .arcSmallCW(15,15, 0, 30, 0)
+        .moveTo(-15, 0)
+        .horiz(-40)
+        .moveTo(0, -15)
+        .vert(-15)
         .setStrokeLineWidth(4)
         .set("stroke", "rgba(0,255,0,0.9)");
         #.set("stroke", "rgba(0,180,0,0.9)");
+        
+        
+         
+      #Little House pointing  Waypoint
+      m.HouseSize = 4;
+      m.HeadingHouse = m.root.createChild("path")
+      .setStrokeLineWidth(5)
+      #.set("stroke", "rgba(0,180,0,0.9)")
+      .moveTo(-20,0)
+      .vert(-30)
+      .lineTo(0,-50)
+      .lineTo(20,-30)
+      .vert(30);
+ 
         
    #Chevrons Acceleration Vector (AV)
    m.chevronFactor = 25;
@@ -221,10 +235,10 @@ var HUD = {
         
     #bore cross
     m.boreCross = m.root.createChild("path")
-                   .moveTo(-12.5, 0)
-                   .horiz(25)
-                   .moveTo(0, -12.5)
-                   .vert(25)
+                   .moveTo(-20, 0)
+                   .horiz(40)
+                   .moveTo(0, -20)
+                   .vert(40)
                    .setStrokeLineWidth(4);
 
     # Horizon groups
@@ -553,24 +567,26 @@ var HUD = {
       m.waypointGroup = m.root.createChild("group");
       
 
+      
+      m.waypointSimpleGroup = m.root.createChild("group");
       #Distance to next Waypoint
-#       m.waypointDist = m.waypointGroup.createChild("text")
-#         .setTranslation( m.maxladderspan + 45 ,m.headScaleVerticalPlace*2/5)
-#         .setDouble("character-size", 30)
-#         .setAlignment("right-center")
-#         .setText("0");    
-#       # N
-#       m.waypointN = m.waypointGroup.createChild("text")
+      m.waypointDistSimple = m.waypointSimpleGroup.createChild("text")
+        .setTranslation( m.maxladderspan + 45 ,m.headScaleVerticalPlace*2/5)
+        .setDouble("character-size", 30)
+        .setAlignment("right-center")
+        .setText("0");    
+      # N
+#       m.waypointNSimple = m.waypointSimpleGroup.createChild("text")
 #         .setTranslation( m.maxladderspan + 65 ,m.headScaleVerticalPlace*2/5)
 #         .setDouble("character-size", 30)
 #         .setAlignment("center-center")
 #         .setText("N");     
-#       #next Waypoint NUMBER
-#       m.waypointNumber = m.waypointGroup.createChild("text")
-#         .setTranslation( m.maxladderspan + 85 ,m.headScaleVerticalPlace*2/5)
-#         .setDouble("character-size", 30)
-#         .setAlignment("left-center")
-#         .setText("00"); 
+      #next Waypoint NUMBER
+      m.waypointNumberSimple = m.waypointSimpleGroup.createChild("text")
+        .setTranslation( m.maxladderspan + 85 ,m.headScaleVerticalPlace*2/5)
+        .setDouble("character-size", 30)
+        .setAlignment("left-center")
+        .setText("00"); 
       
       #Distance to next Waypoint
       m.waypointDist = m.waypointGroup.createChild("text")
@@ -817,6 +833,13 @@ var HUD = {
       NextWayNum :"/autopilot/route-manager/current-wp",
       NextWayTrueBearing:"/autopilot/route-manager/wp/true-bearing-deg",
       NextWayBearing:"/autopilot/route-manager/wp/bearing-deg",
+      AutopilotStatus:"/autopilot/locks/AP-status",
+      currentWp     : "/autopilot/route-manager/current-wp",
+#       NxtWP_latDeg   :"/autopilot/route-manager/route/wp/latitude-deg",
+#       NxtWP_lonDeg   :"/autopilot/route-manager/route/wp/longitude-deg",
+#       NxtWP_Altm   :"/autopilot/route-manager/route/wp/altitude-m",
+      
+      MasterArm      :"/controls/armament/master-arm",
     };
     
     foreach(var name; keys(m.input))
@@ -830,12 +853,11 @@ var HUD = {
     #me.groundspeed.setText(sprintf("G %3d", me.input.gs.getValue()));
     #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
     HudMath.reCalc();
-    me.boreCross.setTranslation(HudMath.getBorePos());
-  
+    
 
 
     
-    
+ 
     
     me.Fire_GBU.setText("Fire");
     var aGL = props.globals.getNode("/position/altitude-agl-ft").getValue();
@@ -870,7 +892,7 @@ var HUD = {
             }
           }
         }
-      }else{me.eegsShow=getprop("controls/armament/master-arm");}
+      }else{me.eegsShow=me.input.MasterArm.getValue();}
     }
     me.Fire_GBU.setVisible(me.showFire_GBU);
     
@@ -884,11 +906,38 @@ var HUD = {
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
     #me.Textrot.setRotation(rot);
     
+      # Bore Cross. In navigation, the cross should only appear on NextWaypoint gps cooord, when dist to this waypoint is bellow 10 nm
+      # Other wise, only visible in gun mode
+      #me.boreCross.setTranslation(HudMath.getBorePos());
+      me.NXTWP = geo.Coord.new();
+      if(me.input.currentWp.getValue() != nil and me.input.currentWp.getValue() != -1){
+        me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
+        me.NxtWP_latDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/latitude-deg");
+        me.NxtWP_lonDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/longitude-deg");
+        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg);
+        
+        print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
+        
+        var Geo_Elevation = geo.elevation(me.NxtWP_latDeg , me.NxtWP_lonDeg);
+        
+        Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation;
+        
+        print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
+        if( me.NxtElevation == nil or me.NxtElevation < Geo_Elevation){
+          me.NxtElevation = Geo_Elevation + 2;
+        }
+        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg , me.NxtElevation);
+      }
+     me.displayBoreCross();
+    
     
     
     
     # flight path vector (FPV)
     me.display_Fpv();
+    
+    # displaying the little house
+    me.display_house();
     
     #chevronGroup
     me.display_Chevron();
@@ -1120,6 +1169,39 @@ var HUD = {
     me.fpv.setTranslation(me.fpvCalc);
   },
   
+  display_house:func(){
+      if(me.input.distNextWay.getValue() != nil){
+        #Depend of which heading we want to display
+          if(me.input.hdgDisplay.getValue()){
+            me.heading = me.input.hdgReal.getValue();
+          }else{
+            me.heading = me.input.hdg.getValue();
+          }
+          if(me.input.hdgDisplay.getValue()){
+            me.houseTranslation = -(geo.normdeg180(me.heading - me.input.NextWayTrueBearing.getValue() ))*me.headScaleTickSpacing/5;
+            #me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayTrueBearing.getValue()));
+          }else{
+            me.houseTranslation = -(geo.normdeg180(me.heading - me.input.NextWayBearing.getValue() ))*me.headScaleTickSpacing/5;
+            #me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayBearing.getValue()));
+          }
+          #headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
+          #me.head_scale_route_pointer.setTranslation(headOffset,0);
+        
+        
+        #print(me.houseTranslation/(me.headScaleTickSpacing/5));
+        
+        me.HeadingHouse.setTranslation(clamp(me.houseTranslation,-me.maxladderspan,me.maxladderspan),me.fpvCalc[1]);
+        if(abs(me.houseTranslation/(me.headScaleTickSpacing/5))>90){
+          me.HeadingHouse.setRotation(me.horizStuff[1]+(180* D2R));
+        }else{
+          me.HeadingHouse.setRotation(me.horizStuff[1]);
+        }
+        me.HeadingHouse.show();
+      }else{
+        me.HeadingHouse.hide();
+      }
+  },
+  
   display_Chevron : func(){
      #print(me.input.acc_yas.getValue());
     me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc_yas.getValue()*me.chevronFactor);
@@ -1134,7 +1216,7 @@ var HUD = {
       }else{
         me.heading = me.input.hdg.getValue();
       }
-      var headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
+      headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
       me.head_scale_route_pointer.setTranslation(headOffset,0);
       
       me.headingScaleGroup.update();
@@ -1210,19 +1292,30 @@ var HUD = {
     if(me.input.distNextWay.getValue() != nil){
       if(me.input.distNextWay.getValue()>10){
         me.waypointDist.setText(sprintf("%d N",int(me.input.distNextWay.getValue())));
-       
+        me.waypointDistSimple.setText(sprintf("%d N",int(me.input.distNextWay.getValue())));
       }else{
         me.waypointDist.setText(sprintf("%0.1f N",me.input.distNextWay.getValue()));
+        me.waypointDistSimple.setText(sprintf("%0.1f N",me.input.distNextWay.getValue()));
       }
       me.waypointNumber.setText(sprintf("%02d",me.input.NextWayNum.getValue()));
+      me.waypointNumberSimple.setText(sprintf("%02d",me.input.NextWayNum.getValue()));
+      
       if(me.input.hdgDisplay.getValue()){
         me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayTrueBearing.getValue()));
       }else{
         me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayBearing.getValue()));
       }
-      me.waypointGroup.show();
+      
+      if(me.input.AutopilotStatus.getValue()=="AP1"){
+        me.waypointGroup.show();
+        me.waypointSimpleGroup.hide();
+      }else{
+        me.waypointSimpleGroup.show();
+        me.waypointGroup.hide();
+      }
     }else{
       me.waypointGroup.hide();
+      me.waypointSimpleGroup.hide();
     }
       
   },
@@ -1305,7 +1398,21 @@ var HUD = {
     #me.myRunway.hide();
   },
   
-  
+  displayBoreCross:func(){
+    
+    if(me.input.MasterArm.getValue() and pylons.fcs.getSelectedWeapon() !=nil){   
+      if(me.selectedWeap.type == "30mm Cannon"){#if weapons selected
+        me.boreCross.setTranslation(HudMath.getBorePos());
+        me.boreCross.show();
+      }
+    }elsif(me.input.distNextWay.getValue()!= nil and me.input.distNextWay.getValue()<10){#if waypoint is active
+
+      me.boreCross.setTranslation(HudMath.getPosFromCoord(me.NXTWP));
+      me.boreCross.show();
+    }else{
+      me.boreCross.hide();
+    }
+  },
   
   displayEEGS: func() {
         #note: this stuff is expensive like hell to compute, but..lets do it anyway.
