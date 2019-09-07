@@ -200,6 +200,13 @@ var HUD = {
         .set("stroke", "rgba(0,255,0,0.9)");
         #.set("stroke", "rgba(0,180,0,0.9)");
         
+  m.AutopilotStar = m.root.createChild("text")
+    .setTranslation(150,0)
+    .setDouble("character-size", 50)
+    .setAlignment("center-center")
+    #.setFontSize((65/1024)*canvasWidth*fs, ar);
+    .setText("*"); 
+        
         
          
       #Little House pointing  Waypoint
@@ -220,14 +227,14 @@ var HUD = {
    
   m.LeftChevron = m.chevronGroup.createChild("text")
   .setTranslation(-150,0)
-  .setDouble("character-size", 35)
+  .setDouble("character-size", 40)
   .setAlignment("center-center")
   #.setFontSize((65/1024)*canvasWidth*fs, ar);
   .setText(">");    
   
   m.RightChevron = m.chevronGroup.createChild("text")
     .setTranslation(150,0)
-    .setDouble("character-size", 35)
+    .setDouble("character-size", 40)
     .setAlignment("center-center")
     #.setFontSize((65/1024)*canvasWidth*fs, ar);
     .setText("<");   
@@ -239,6 +246,19 @@ var HUD = {
                    .horiz(40)
                    .moveTo(0, -20)
                    .vert(40)
+                   .setStrokeLineWidth(4);
+                   
+                   
+    #WP cross
+    m.WaypointCross = m.root.createChild("path")
+                   .moveTo(-20, 0)
+                   .horiz(12)
+                   .moveTo(8, 0)
+                   .horiz(12)
+                   .moveTo(0, -20)
+                   .vert(12)
+                   .moveTo(0, 8)
+                   .vert(12)
                    .setStrokeLineWidth(4);
 
     # Horizon groups
@@ -906,29 +926,17 @@ var HUD = {
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
     #me.Textrot.setRotation(rot);
     
-      # Bore Cross. In navigation, the cross should only appear on NextWaypoint gps cooord, when dist to this waypoint is bellow 10 nm
-      # Other wise, only visible in gun mode
-      #me.boreCross.setTranslation(HudMath.getBorePos());
-      me.NXTWP = geo.Coord.new();
-      if(me.input.currentWp.getValue() != nil and me.input.currentWp.getValue() != -1){
-        me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
-        me.NxtWP_latDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/latitude-deg");
-        me.NxtWP_lonDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/longitude-deg");
-        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg);
-        
-        print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
-        
-        var Geo_Elevation = geo.elevation(me.NxtWP_latDeg , me.NxtWP_lonDeg);
-        
-        Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation;
-        
-        print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
-        if( me.NxtElevation == nil or me.NxtElevation < Geo_Elevation){
-          me.NxtElevation = Geo_Elevation + 2;
-        }
-        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg , me.NxtElevation);
-      }
-     me.displayBoreCross();
+    # Bore Cross. In navigation, the cross should only appear on NextWaypoint gps cooord, when dist to this waypoint is bellow 10 nm
+    me.NXTWP = geo.Coord.new();
+    
+    #Calculate the GPS coord of the next WP
+    me.NextWaypointCoordinate();
+      
+    #Display the Next WP
+    me.displayWaypointCross();
+     
+    #Gun Cross (bore)
+    me.displayBoreCross();
     
     
     
@@ -1167,10 +1175,16 @@ var HUD = {
   display_Fpv:func(){
     me.fpvCalc = HudMath.getFlightPathIndicatorPosWind();
     me.fpv.setTranslation(me.fpvCalc);
+    if(me.input.AutopilotStatus.getValue()=="AP1"){
+      me.AutopilotStar.setTranslation(me.fpvCalc);
+      me.AutopilotStar.show();
+    }else{
+      me.AutopilotStar.hide();
+    }
   },
   
   display_house:func(){
-      if(me.input.distNextWay.getValue() != nil){
+      if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 ){
         #Depend of which heading we want to display
           if(me.input.hdgDisplay.getValue()){
             me.heading = me.input.hdgReal.getValue();
@@ -1399,19 +1413,48 @@ var HUD = {
   },
   
   displayBoreCross:func(){
-    
+    #maybe it should be a different cross.
     if(me.input.MasterArm.getValue() and pylons.fcs.getSelectedWeapon() !=nil){   
       if(me.selectedWeap.type == "30mm Cannon"){#if weapons selected
         me.boreCross.setTranslation(HudMath.getBorePos());
         me.boreCross.show();
+      }else{
+        me.boreCross.hide();
       }
-    }elsif(me.input.distNextWay.getValue()!= nil and me.input.distNextWay.getValue()<10){#if waypoint is active
-
-      me.boreCross.setTranslation(HudMath.getPosFromCoord(me.NXTWP));
-      me.boreCross.show();
     }else{
       me.boreCross.hide();
     }
+    
+  },
+  
+  displayWaypointCross:func(){
+    if(me.input.distNextWay.getValue()!= nil and me.input.distNextWay.getValue()<10 and me.input.gearPos.getValue() == 0){#if waypoint is active
+      me.WaypointCross.setTranslation(HudMath.getPosFromCoord(me.NXTWP));
+      me.WaypointCross.show();
+    }else{
+      me.WaypointCross.hide();
+    }
+  },
+  
+  NextWaypointCoordinate:func(){
+      if(me.input.currentWp.getValue() != nil and me.input.currentWp.getValue() != -1){
+        me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
+        me.NxtWP_latDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/latitude-deg");
+        me.NxtWP_lonDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/longitude-deg");
+        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg);
+        
+        #print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
+        
+        var Geo_Elevation = geo.elevation(me.NxtWP_latDeg , me.NxtWP_lonDeg);
+        
+        Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation;
+        
+        #print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
+        if( me.NxtElevation == nil or me.NxtElevation < Geo_Elevation){
+          me.NxtElevation = Geo_Elevation + 2;
+        }
+        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg , me.NxtElevation);
+      }
   },
   
   displayEEGS: func() {
