@@ -161,6 +161,9 @@ var HUD = {
     m.min = -m.viewPlacement * 0.846;
     m.max = m.viewPlacement * 0.846;
 
+    m.MaxX = 420; #the canvas is 420 *2;
+    m.MaxY = 512; #the canvas is 420 *2;
+    
     m.canvas.addPlacement(placement);
     #m.canvas.setColorBackground(red, green, blue, 0.0);
     m.canvas.setColorBackground(0.36, 1, 0.3, 0.02);
@@ -222,7 +225,7 @@ var HUD = {
  
         
    #Chevrons Acceleration Vector (AV)
-   m.chevronFactor = 25;
+   m.chevronFactor = 40;
    m.chevronGroup = m.root.createChild("group");
    
   m.LeftChevron = m.chevronGroup.createChild("text")
@@ -260,6 +263,9 @@ var HUD = {
                    .moveTo(0, 8)
                    .vert(12)
                    .setStrokeLineWidth(4);
+                   
+
+                   
 
     # Horizon groups
     m.horizon_group = m.root.createChild("group");
@@ -268,9 +274,16 @@ var HUD = {
   
     # Horizon and pitch lines
     m.horizon_sub_group.createChild("path")
-                   .moveTo(-500, 0)
-                   .horiz(1000)
+                   .moveTo(-1000, 0)
+                   .horiz(2000)
                    .setStrokeLineWidth(4);
+                   
+    #ILS stuff
+    #Runway on the HorizonLine
+    m.RunwayOnTheHorizonLine = m.horizon_sub_group.createChild("path")
+                    .move(0,0)
+                    .vert(-30)
+                    .setStrokeLineWidth(6);               
 
     m.ladderScale = 7.5;#7.5
     m.maxladderspan =  200;
@@ -925,6 +938,8 @@ var HUD = {
     
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
     #me.Textrot.setRotation(rot);
+
+    me.RunwayOnTheHorizonLine.hide();
     
     # Bore Cross. In navigation, the cross should only appear on NextWaypoint gps cooord, when dist to this waypoint is bellow 10 nm
     me.NXTWP = geo.Coord.new();
@@ -1184,7 +1199,8 @@ var HUD = {
   },
   
   display_house:func(){
-      if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 ){
+      if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 and 
+        (!me.isInCanvas(HudMath.getPosFromCoord(me.NXTWP)[0],HudMath.getPosFromCoord(me.NXTWP)[1]) or me.input.distNextWay.getValue()>10) ){
         #Depend of which heading we want to display
           if(me.input.hdgDisplay.getValue()){
             me.heading = me.input.hdgReal.getValue();
@@ -1647,6 +1663,12 @@ var HUD = {
         }
         me.eegsGroup.show();
     },
+    
+    isInCanvas:func(x,y){
+        #print("x:",x," y:",y," me.MaxX:",me.MaxX," MaxY",me.MaxY, " Result:",abs(x)<me.MaxX and abs(y)<me.MaxY;
+        return abs(x)<me.MaxX and abs(y)<me.MaxY;
+    },
+    
     
     interpolate: func (start, end, fraction) {
         me.xx = (start.x()*(1-fraction)
