@@ -303,8 +303,24 @@ var HUD = {
                   .horiz(50)
                   .vert(-50)
                   .horiz(-50)
-                  .setStrokeLineWidth(6);   
-                  
+                  .setStrokeLineWidth(6);
+    #Landing Brackets
+    m.brackets = m.ILS_Scale_Independant.createChild("group");
+    m.LeftBracket = m.brackets.createChild("text")
+      .setTranslation(-140,0)
+      .setDouble("character-size", 40)
+      .setAlignment("center-center")
+      #.setFontSize((65/1024)*canvasWidth*fs, ar);
+      .setText("]");    
+  
+    m.RightBracket = m.brackets.createChild("text")
+      .setTranslation(140,0)
+      .setDouble("character-size", 40)
+      .setAlignment("center-center")
+      #.setFontSize((65/1024)*canvasWidth*fs, ar);
+      .setText("["); 
+    
+    
                   
     m.ladderScale = 7.5;#7.5
     m.maxladderspan =  200;
@@ -1201,7 +1217,8 @@ var HUD = {
   display_ILS_Square:func(){
     if(me.input.ILS_gs_in_range.getValue()){
       me.ILS_Square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
-      me.ILS_Square.update();
+      #me.ILS_Square.update();
+      me.brackets.setTranslation(0,HudMath.getCenterPosFromDegs(0,me.input.pitch.getValue()-14)[1]);
       me.ILS_Scale_Independant.update();
       me.ILS_Scale_Independant.show();
     }else{
@@ -1525,14 +1542,10 @@ var HUD = {
         me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
         me.NxtWP_latDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/latitude-deg");
         me.NxtWP_lonDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/longitude-deg");
-        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg);
-        
+        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg);    
         #print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
-        
-        var Geo_Elevation = geo.elevation(me.NxtWP_latDeg , me.NxtWP_lonDeg);
-        
-        Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation;
-        
+        var Geo_Elevation = geo.elevation(me.NxtWP_latDeg , me.NxtWP_lonDeg);    
+        Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation; 
         #print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
         if( me.NxtElevation == nil or me.NxtElevation < Geo_Elevation){
           me.NxtElevation = Geo_Elevation + 2;
