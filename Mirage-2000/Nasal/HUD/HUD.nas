@@ -279,12 +279,33 @@ var HUD = {
                    .setStrokeLineWidth(4);
                    
     #ILS stuff
+    m.ILS_Scale_dependant = m.horizon_sub_group.createChild("group");
+                    
     #Runway on the HorizonLine
-    m.RunwayOnTheHorizonLine = m.horizon_sub_group.createChild("path")
+    m.RunwayOnTheHorizonLine = m.ILS_Scale_dependant.createChild("path")
                     .move(0,0)
                     .vert(-30)
-                    .setStrokeLineWidth(6);               
-
+                    .setStrokeLineWidth(6);   
+                    
+    m.ILS_localizer_deviation = m.ILS_Scale_dependant.createChild("path")
+                .move(0,0)
+                .vert(1500)
+                .setStrokeDashArray([30, 30, 30, 30, 30]) 
+                #.setCenter(0.0)
+                .setStrokeLineWidth(5);                  
+    m.ILS_localizer_deviation.setCenter(0,0);
+    
+    #Part of the ILS not dependant of the SCALE
+    m.ILS_Scale_Independant = m.root.createChild("group");
+    m.ILS_Square  = m.ILS_Scale_Independant.createChild("path")
+                  .move(-25,-25)
+                  .vert(50)
+                  .horiz(50)
+                  .vert(-50)
+                  .horiz(-50)
+                  .setStrokeLineWidth(6);   
+                  
+                  
     m.ladderScale = 7.5;#7.5
     m.maxladderspan =  200;
                    
@@ -868,7 +889,13 @@ var HUD = {
       NextWayBearing:"/autopilot/route-manager/wp/bearing-deg",
       AutopilotStatus:"/autopilot/locks/AP-status",
       currentWp     : "/autopilot/route-manager/current-wp",
-#       NxtWP_latDeg   :"/autopilot/route-manager/route/wp/latitude-deg",
+      ILS_valid     :"/instrumentation/nav/data-is-valid",
+      NavHeadingRunwayILS:"/instrumentation/nav/heading-deg",
+      ILS_gs_in_range :"/instrumentation/nav/gs-in-range",
+      ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
+      NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
+      
+#       NxtWP_latDeg   :"/autopilot/route-manager/route/wp/latitude-deg", 
 #       NxtWP_lonDeg   :"/autopilot/route-manager/route/wp/longitude-deg",
 #       NxtWP_Altm   :"/autopilot/route-manager/route/wp/altitude-m",
       
@@ -887,6 +914,8 @@ var HUD = {
     #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
     HudMath.reCalc();
     
+    #Choose the heading to display
+    me.getHeadingToDisplay();
 
 
     
@@ -930,6 +959,7 @@ var HUD = {
     me.Fire_GBU.setVisible(me.showFire_GBU);
     
     
+
     #me.hdg.setText(sprintf("%03d", me.input.hdg.getValue()));
     me.horizStuff = HudMath.getStaticHorizon();
     me.horizon_group.setTranslation(me.horizStuff[0]);
@@ -939,7 +969,13 @@ var HUD = {
     var rot = -me.input.roll.getValue() * math.pi / 180.0;
     #me.Textrot.setRotation(rot);
 
-    me.RunwayOnTheHorizonLine.hide();
+    #Displaying ILS STUFF (but only show after LOCALIZER capture)
+    me.display_ILS_STUFF();
+    
+    #ILS not dependent of the Scale (but only show after GS capture)
+    me.display_ILS_Square();
+    #me.RunwayOnTheHorizonLine.hide();
+    
     
     # Bore Cross. In navigation, the cross should only appear on NextWaypoint gps cooord, when dist to this waypoint is bellow 10 nm
     me.NXTWP = geo.Coord.new();
@@ -1145,16 +1181,48 @@ var HUD = {
 
     #settimer(func me.update(), 0.1);
   },
-  
-  
-  
-  displayHeadingHorizonScale:func(){
-      #Depend of which heading we want to display
+  display_ILS_STUFF:func(){
+    if(me.input.ILS_valid.getValue()){
+      me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading - me.input.NavHeadingRunwayILS.getValue() ));
+
+      me.ILS_Scale_dependant.setTranslation(me.runwayPosHrizonOnHUD,0);
+      #me.ILS_localizer_deviation.setCenter(me.runwayPosHrizonOnHUD,0);
+      me.ILS_localizer_deviation.setRotation(-45*me.input.NavHeadingNeedleDeflectionILS.getValue()*D2R);
+      
+      me.ILS_Scale_dependant.update();
+      me.ILS_Scale_dependant.show();
+      
+    }else{
+      me.ILS_Scale_dependant.hide();
+      
+    }
+
+  },
+  display_ILS_Square:func(){
+    if(me.input.ILS_gs_in_range.getValue()){
+      me.ILS_Square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
+      me.ILS_Square.update();
+      me.ILS_Scale_Independant.update();
+      me.ILS_Scale_Independant.show();
+    }else{
+      me.ILS_Scale_Independant.hide();
+    }
+  },
+  getHeadingToDisplay:func(){
       if(me.input.hdgDisplay.getValue()){
         me.heading = me.input.hdgReal.getValue();
       }else{
         me.heading = me.input.hdg.getValue();
       }
+  },
+  
+  displayHeadingHorizonScale:func(){
+      #Depend of which heading we want to display
+#       if(me.input.hdgDisplay.getValue()){
+#         me.heading = me.input.hdgReal.getValue();
+#       }else{
+#         me.heading = me.input.hdg.getValue();
+#       }
     
       me.headOffset = me.heading/10 - int (me.heading/10);
       me.headScaleOffset = me.headOffset;
@@ -1202,11 +1270,11 @@ var HUD = {
       if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 and 
         (!me.isInCanvas(HudMath.getPosFromCoord(me.NXTWP)[0],HudMath.getPosFromCoord(me.NXTWP)[1]) or me.input.distNextWay.getValue()>10) ){
         #Depend of which heading we want to display
-          if(me.input.hdgDisplay.getValue()){
-            me.heading = me.input.hdgReal.getValue();
-          }else{
-            me.heading = me.input.hdg.getValue();
-          }
+#           if(me.input.hdgDisplay.getValue()){
+#             me.heading = me.input.hdgReal.getValue();
+#           }else{
+#             me.heading = me.input.hdg.getValue();
+#           }
           if(me.input.hdgDisplay.getValue()){
             me.houseTranslation = -(geo.normdeg180(me.heading - me.input.NextWayTrueBearing.getValue() ))*me.headScaleTickSpacing/5;
             #me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayTrueBearing.getValue()));
@@ -1241,11 +1309,11 @@ var HUD = {
   
   display_heading_bug : func(){
       #Depend of which heading we want to display
-      if(me.input.hdgDisplay.getValue()){
-        me.heading = me.input.hdgReal.getValue();
-      }else{
-        me.heading = me.input.hdg.getValue();
-      }
+#       if(me.input.hdgDisplay.getValue()){
+#         me.heading = me.input.hdgReal.getValue();
+#       }else{
+#         me.heading = me.input.hdg.getValue();
+#       }
       headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
       me.head_scale_route_pointer.setTranslation(headOffset,0);
       
@@ -1319,7 +1387,7 @@ var HUD = {
   
   display_Waypoint:func(){
     
-    if(me.input.distNextWay.getValue() != nil){
+    if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0){
       if(me.input.distNextWay.getValue()>10){
         me.waypointDist.setText(sprintf("%d N",int(me.input.distNextWay.getValue())));
         me.waypointDistSimple.setText(sprintf("%d N",int(me.input.distNextWay.getValue())));
