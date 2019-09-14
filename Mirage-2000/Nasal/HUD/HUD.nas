@@ -853,10 +853,10 @@ var HUD = {
     for(var i = 1; i <= MaxTarget; i += 1){
       myCircle = m.circle_group2.createChild("path")
         .setColor(m.myGreen)
-        .moveTo(15, 0)
-        .arcSmallCW(15,15, 0, -30, 0)
-        .arcSmallCW(15,15, 0, 30, 0)
-        .setStrokeLineWidth(4)
+        .moveTo(25, 0)
+        .arcSmallCW(25,25, 0, -50, 0)
+        .arcSmallCW(25,25, 0, 50, 0)
+        .setStrokeLineWidth(5)
         ;
       append(m.targetArray, myCircle);
     }
@@ -908,6 +908,32 @@ var HUD = {
          m.triangleRot =  m.TriangleGroupe.createTransform();
          
     m.TriangleGroupe.hide();
+    
+    
+    m.Square_Group = m.radarStuffGroup.createChild("group");
+     
+    m.Locked_Square  = m.Square_Group.createChild("path")
+      .setColor(m.myGreen)
+      .move(-25,-25)
+      .vert(50)
+      .horiz(50)
+      .vert(-50)
+      .horiz(-50)
+      .setStrokeLineWidth(6);
+      
+    m.Locked_Square_Dash  = m.Square_Group.createChild("path")
+      .setColor(m.myGreen)
+      .move(-25,-25)
+      .vert(50)
+      .horiz(50)
+      .vert(-50)
+      .horiz(-50)
+      .setStrokeDashArray([10,10])
+      .setStrokeLineWidth(5);
+      
+    m.Square_Group.hide();  
+      
+    
     
     m.root.setColor(m.red,m.green,m.blue,1);
     
@@ -1134,9 +1160,13 @@ var HUD = {
           #If we have a selected target we display a triangle
           if(target_callsign == closestCallsign and closestRange > 0){
             Token = 1;
-            me.TriangleGroupe.show();
-            me.triangle.setTranslation(triPos);
-            me.triangle2.setTranslation(triPos);
+            #me.TriangleGroupe.show();
+            #me.triangle.setTranslation(triPos);
+            #me.triangle2.setTranslation(triPos);
+            me.Square_Group.show();
+            me.Locked_Square.setTranslation(triPos);
+            me.Locked_Square_Dash.setTranslation(clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
+            
             #And we hide the circle
             me.targetArray[i].hide();
             if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
@@ -1159,7 +1189,8 @@ var HUD = {
         }
         #The token has 1 when we have a selected target
         if(Token == 0){
-            me.TriangleGroupe.hide();
+            #me.TriangleGroupe.hide();
+            me.Square_Group.hide();
         }
       }
       
