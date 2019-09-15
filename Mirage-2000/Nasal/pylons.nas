@@ -15,7 +15,7 @@ var pylon8 = nil;
 var pylon9 = nil;
 var pylonI = nil;
 
-var cannon = stations.SubModelWeapon.new("30mm Cannon", 0.9369635, 120, 2, [1,2], props.globals.getNode("controls/armament/Gun_trigger",1), 0, func{return 1;});
+var cannon = stations.SubModelWeapon.new("30mm Cannon", 0.9369635, 120, [0,1], [2,3], props.globals.getNode("controls/armament/Gun_trigger",1), 0, func{return 1;});
 
 #5H1NB1's notes : To check : It seems that the weight of the tank itself isn't taking in account
 #Not because of the fc code, but because I didn't find where to put it
@@ -152,7 +152,8 @@ if(1){
     
 
     
-	pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("yasim/weight[10]",1));
+  pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("yasim/weight[10]",1));
+
 
 	var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
 
