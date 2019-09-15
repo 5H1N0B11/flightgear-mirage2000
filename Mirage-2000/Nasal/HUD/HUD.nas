@@ -1746,7 +1746,7 @@ var HUD = {
                           .setStrokeLineWidth(4);
                     } else {
                       me.eegsGroup.createChild("path")
-                          .setColor(m.myGreen)
+                          .setColor(me.myGreen)
                           .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
                           .arcLargeCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
                           .setStrokeLineWidth(4);
