@@ -65,7 +65,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/tracer.xml
     <expiry>true</expiry>
     <repeat>true</repeat>
     <delay>0.03</delay>
-    <count>120</count>
+    <count>-1</count>
     <wind>false</wind>
     <collision>true</collision>
     <collision-reports>sim/ai/aircraft/collision/cannon</collision-reports>
