@@ -49,8 +49,8 @@ var stopFiring = func() {
 }
 
 reload_Cannon = func() {
-    setprop("/ai/submodels/submodel/count",    120);
-    setprop("/ai/submodels/submodel[1]/count", 120);
+    setprop("/ai/submodels/submodel/count",    125);
+    setprop("/ai/submodels/submodel[1]/count", 125);
 }
 
 Cannon_rate = func() {

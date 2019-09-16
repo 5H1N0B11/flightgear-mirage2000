@@ -1751,6 +1751,7 @@ var HUD = {
                           
                           
                     #drawing mini and centra point 
+                    if(me.designatedDistanceFT*FT2M <1200){
                     me.eegsGroup.createChild("path")
                           .moveTo(me.eegsRightX[0],me.eegsRightY[0]-40)
                           .lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
@@ -1758,6 +1759,7 @@ var HUD = {
                           .setColor(me.myGreen)
                           .setStrokeLineWidth(4)
                           .setRotation(me.EEGSdeg);
+                    }
                     
                     if (me.EEGSdeg<180*D2R) {
                       me.eegsGroup.createChild("path")
