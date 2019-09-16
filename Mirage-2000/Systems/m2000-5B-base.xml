@@ -221,9 +221,6 @@
     <assistance>
       <file>Aircraft/Mirage-2000/Nasal/assistance.nas</file>
     </assistance>
-    <rwr>
-      <file>Aircraft/Mirage-2000/Nasal/rwr.nas</file>
-    </rwr>
 
   </nasal>
 

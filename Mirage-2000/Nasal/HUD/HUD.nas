@@ -1018,7 +1018,9 @@ var HUD = {
         if(find("M", me.selectedWeap.class) !=-1 or find("G", me.selectedWeap.class) !=-1){
           #print("Class of Load:" ~ me.selectedWeap.class);
           me.DistanceToShoot = nil;
-          if(aGL<8000){
+          if(aGL<4500){
+            me.DistanceToShoot = me.selectedWeap.getCCRP(10, 0.1);
+          }elsif(aGL<8000){
             me.DistanceToShoot = me.selectedWeap.getCCRP(20, 0.1);
           }elsif(aGL<15000){
             me.DistanceToShoot = me.selectedWeap.getCCRP(30, 0.2);
@@ -1731,6 +1733,32 @@ var HUD = {
                 if (me.drawEEGSPipper) {
                     me.EEGSdeg = math.max(0,HudMath.extrapolate(me.designatedDistanceFT*FT2M,1200,300,360,0))*D2R;
                     me.EEGSdegPos = [math.sin(me.EEGSdeg)*40,40-math.cos(me.EEGSdeg)*40];
+                    
+                    #drawing mini and centra point 
+                    me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsRightX[0],me.eegsRightY[0])
+                          .lineTo(me.eegsRightX[0],me.eegsRightY[0])
+                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)  
+                          .lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
+                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]+40)  
+                          .lineTo(me.eegsRightX[0], me.eegsRightY[0]+55)
+                          .moveTo(me.eegsRightX[0]-40, me.eegsRightY[0])  
+                          .lineTo(me.eegsRightX[0]-55, me.eegsRightY[0])
+                          .moveTo(me.eegsRightX[0]+40, me.eegsRightY[0])  
+                          .lineTo(me.eegsRightX[0]+55, me.eegsRightY[0])
+                          .setColor(me.myGreen)
+                          .setStrokeLineWidth(4);
+                          
+                          
+                    #drawing mini and centra point 
+                    me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsRightX[0],me.eegsRightY[0]-40)
+                          .lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
+                          .setCenter(me.eegsRightX[0],me.eegsRightY[0])
+                          .setColor(me.myGreen)
+                          .setStrokeLineWidth(4)
+                          .setRotation(me.EEGSdeg);
+                    
                     if (me.EEGSdeg<180*D2R) {
                       me.eegsGroup.createChild("path")
                           .setColor(me.myGreen)
