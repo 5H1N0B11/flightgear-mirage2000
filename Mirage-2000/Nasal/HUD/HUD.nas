@@ -978,10 +978,6 @@ var HUD = {
       ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
       NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
       
-#       NxtWP_latDeg   :"/autopilot/route-manager/route/wp/latitude-deg", 
-#       NxtWP_lonDeg   :"/autopilot/route-manager/route/wp/longitude-deg",
-#       NxtWP_Altm   :"/autopilot/route-manager/route/wp/altitude-m",
-      
       MasterArm      :"/controls/armament/master-arm",
     };
     
@@ -996,6 +992,9 @@ var HUD = {
     #me.groundspeed.setText(sprintf("G %3d", me.input.gs.getValue()));
     #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
     HudMath.reCalc();
+    
+    #loading Flightplan
+    me.fp = flightplan();
     
     #Choose the heading to display
     me.getHeadingToDisplay();
@@ -1230,9 +1229,8 @@ var HUD = {
     #Then, trying with route manager
     if(me.selectedRunway == "0"){
       if(me.input.destRunway.getValue() != ""){
-        
-        var fp = flightplan();
-        if(fp.getPlanSize() == fp.indexOfWP(fp.currentWP())+1){
+         
+        if(me.fp.getPlanSize() == me.fp.indexOfWP(me.fp.currentWP())+1){
           
           info = airportinfo(me.input.destAirport.getValue());
           me.selectedRunway = me.input.destRunway.getValue() ;
@@ -1612,20 +1610,19 @@ var HUD = {
     }
   },
   
-  NextWaypointCoordinate:func(){
-      if(me.input.currentWp.getValue() != nil and me.input.currentWp.getValue() != -1){
-        me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
-        me.NxtWP_latDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/latitude-deg");
-        me.NxtWP_lonDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/longitude-deg");
-        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg);    
-        #print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
-        var Geo_Elevation = geo.elevation(me.NxtWP_latDeg , me.NxtWP_lonDeg);    
-        Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation; 
-        #print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
-        if( me.NxtElevation == nil or me.NxtElevation < Geo_Elevation){
-          me.NxtElevation = Geo_Elevation + 2;
-        }
-        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg , me.NxtElevation);
+  NextWaypointCoordinate:func(){ 
+      if(me.fp.currentWP() != nil){
+          me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
+          #print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
+          var Geo_Elevation = geo.elevation(me.fp.currentWP().lat , me.fp.currentWP().lon);    
+          Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation; 
+          #print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
+          if( me.NxtElevation  == nil or me.NxtElevation  < Geo_Elevation){
+            me.NXTWP.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon ,  Geo_Elevation + 2);
+          }else{
+            me.NXTWP.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon , me.NxtElevation );
+          }
+          
       }
   },
   
