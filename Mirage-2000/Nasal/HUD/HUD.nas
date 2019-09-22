@@ -978,10 +978,6 @@ var HUD = {
       ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
       NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
       
-#       NxtWP_latDeg   :"/autopilot/route-manager/route/wp/latitude-deg", 
-#       NxtWP_lonDeg   :"/autopilot/route-manager/route/wp/longitude-deg",
-#       NxtWP_Altm   :"/autopilot/route-manager/route/wp/altitude-m",
-      
       MasterArm      :"/controls/armament/master-arm",
     };
     
@@ -996,6 +992,9 @@ var HUD = {
     #me.groundspeed.setText(sprintf("G %3d", me.input.gs.getValue()));
     #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
     HudMath.reCalc();
+    
+    #loading Flightplan
+    me.fp = flightplan();
     
     #Choose the heading to display
     me.getHeadingToDisplay();
@@ -1018,7 +1017,9 @@ var HUD = {
         if(find("M", me.selectedWeap.class) !=-1 or find("G", me.selectedWeap.class) !=-1){
           #print("Class of Load:" ~ me.selectedWeap.class);
           me.DistanceToShoot = nil;
-          if(aGL<8000){
+          if(aGL<4500){
+            me.DistanceToShoot = me.selectedWeap.getCCRP(10, 0.1);
+          }elsif(aGL<8000){
             me.DistanceToShoot = me.selectedWeap.getCCRP(20, 0.1);
           }elsif(aGL<15000){
             me.DistanceToShoot = me.selectedWeap.getCCRP(30, 0.2);
@@ -1228,9 +1229,8 @@ var HUD = {
     #Then, trying with route manager
     if(me.selectedRunway == "0"){
       if(me.input.destRunway.getValue() != ""){
-        
-        var fp = flightplan();
-        if(fp.getPlanSize() == fp.indexOfWP(fp.currentWP())+1){
+         
+        if(me.fp.getPlanSize() == me.fp.indexOfWP(me.fp.currentWP())+1){
           
           info = airportinfo(me.input.destAirport.getValue());
           me.selectedRunway = me.input.destRunway.getValue() ;
@@ -1356,7 +1356,8 @@ var HUD = {
   },
   
   display_house:func(){
-      if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 and 
+    if(me.input.NextWayNum.getValue()!=-1){
+      if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 and
         (!me.isInCanvas(HudMath.getPosFromCoord(me.NXTWP)[0],HudMath.getPosFromCoord(me.NXTWP)[1]) or me.input.distNextWay.getValue()>10) ){
         #Depend of which heading we want to display
 #           if(me.input.hdgDisplay.getValue()){
@@ -1387,6 +1388,9 @@ var HUD = {
       }else{
         me.HeadingHouse.hide();
       }
+    }else{
+        me.HeadingHouse.hide();
+    }
   },
   
   display_Chevron : func(){
@@ -1602,7 +1606,8 @@ var HUD = {
   },
   
   displayWaypointCross:func(){
-    if(me.input.distNextWay.getValue()!= nil and me.input.distNextWay.getValue()<10 and me.input.gearPos.getValue() == 0 and me.NXTWP != nil){#if waypoint is active
+    if(me.input.distNextWay.getValue()!= nil and me.input.distNextWay.getValue()<10 and me.input.gearPos.getValue() == 0 
+                       and me.input.NextWayNum.getValue()!=-1 and me.NXTWP != nil and me.fp.currentWP() != nil){#if waypoint is active
       me.WaypointCross.setTranslation(HudMath.getPosFromCoord(me.NXTWP));
       me.WaypointCross.show();
     }else{
@@ -1610,20 +1615,19 @@ var HUD = {
     }
   },
   
-  NextWaypointCoordinate:func(){
-      if(me.input.currentWp.getValue() != nil and me.input.currentWp.getValue() != -1){
-        me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
-        me.NxtWP_latDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/latitude-deg");
-        me.NxtWP_lonDeg = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/longitude-deg");
-        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg);    
-        #print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
-        var Geo_Elevation = geo.elevation(me.NxtWP_latDeg , me.NxtWP_lonDeg);    
-        Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation; 
-        #print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
-        if( me.NxtElevation == nil or me.NxtElevation < Geo_Elevation){
-          me.NxtElevation = Geo_Elevation + 2;
-        }
-        me.NXTWP.set_latlon(me.NxtWP_latDeg , me.NxtWP_lonDeg , me.NxtElevation);
+  NextWaypointCoordinate:func(){ 
+      if(me.fp.currentWP() != nil){
+          me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
+          #print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
+          var Geo_Elevation = geo.elevation(me.fp.currentWP().lat , me.fp.currentWP().lon);    
+          Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation; 
+          #print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
+          if( me.NxtElevation  == nil or me.NxtElevation  < Geo_Elevation){
+            me.NXTWP.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon ,  Geo_Elevation + 2);
+          }else{
+            me.NXTWP.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon , me.NxtElevation );
+          }
+          
       }
   },
   
@@ -1731,6 +1735,34 @@ var HUD = {
                 if (me.drawEEGSPipper) {
                     me.EEGSdeg = math.max(0,HudMath.extrapolate(me.designatedDistanceFT*FT2M,1200,300,360,0))*D2R;
                     me.EEGSdegPos = [math.sin(me.EEGSdeg)*40,40-math.cos(me.EEGSdeg)*40];
+                    
+                    #drawing mini and centra point 
+                    me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsRightX[0],me.eegsRightY[0])
+                          .lineTo(me.eegsRightX[0],me.eegsRightY[0])
+                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)  
+                          .lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
+                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]+40)  
+                          .lineTo(me.eegsRightX[0], me.eegsRightY[0]+55)
+                          .moveTo(me.eegsRightX[0]-40, me.eegsRightY[0])  
+                          .lineTo(me.eegsRightX[0]-55, me.eegsRightY[0])
+                          .moveTo(me.eegsRightX[0]+40, me.eegsRightY[0])  
+                          .lineTo(me.eegsRightX[0]+55, me.eegsRightY[0])
+                          .setColor(me.myGreen)
+                          .setStrokeLineWidth(4);
+                          
+                          
+                    #drawing mini and centra point 
+                    if(me.designatedDistanceFT*FT2M <1200){
+                    me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsRightX[0],me.eegsRightY[0]-40)
+                          .lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
+                          .setCenter(me.eegsRightX[0],me.eegsRightY[0])
+                          .setColor(me.myGreen)
+                          .setStrokeLineWidth(4)
+                          .setRotation(me.EEGSdeg);
+                    }
+                    
                     if (me.EEGSdeg<180*D2R) {
                       me.eegsGroup.createChild("path")
                           .setColor(me.myGreen)
