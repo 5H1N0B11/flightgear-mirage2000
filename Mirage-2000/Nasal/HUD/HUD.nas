@@ -1356,7 +1356,8 @@ var HUD = {
   },
   
   display_house:func(){
-      if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 and 
+    if(me.input.NextWayNum.getValue()!=-1){
+      if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 and
         (!me.isInCanvas(HudMath.getPosFromCoord(me.NXTWP)[0],HudMath.getPosFromCoord(me.NXTWP)[1]) or me.input.distNextWay.getValue()>10) ){
         #Depend of which heading we want to display
 #           if(me.input.hdgDisplay.getValue()){
@@ -1387,6 +1388,9 @@ var HUD = {
       }else{
         me.HeadingHouse.hide();
       }
+    }else{
+        me.HeadingHouse.hide();
+    }
   },
   
   display_Chevron : func(){
@@ -1602,7 +1606,8 @@ var HUD = {
   },
   
   displayWaypointCross:func(){
-    if(me.input.distNextWay.getValue()!= nil and me.input.distNextWay.getValue()<10 and me.input.gearPos.getValue() == 0 and me.NXTWP != nil){#if waypoint is active
+    if(me.input.distNextWay.getValue()!= nil and me.input.distNextWay.getValue()<10 and me.input.gearPos.getValue() == 0 
+                       and me.input.NextWayNum.getValue()!=-1 and me.NXTWP != nil and me.fp.currentWP() != nil){#if waypoint is active
       me.WaypointCross.setTranslation(HudMath.getPosFromCoord(me.NXTWP));
       me.WaypointCross.show();
     }else{
