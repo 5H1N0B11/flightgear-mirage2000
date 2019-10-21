@@ -1010,32 +1010,40 @@ var HUD = {
     me.eegsShow=0;
     me.selectedWeap = pylons.fcs.getSelectedWeapon();
     me.showFire_GBU = 0;
-    if(me.selectedWeap != nil){
+    if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
       #print(me.selectedWeap.type);
       if(me.selectedWeap.type != "30mm Cannon"){
         #print(me.selectedWeap.getCCRP(20, 0.1));
         if(find("M", me.selectedWeap.class) !=-1 or find("G", me.selectedWeap.class) !=-1){
           #print("Class of Load:" ~ me.selectedWeap.class);
+          
           me.DistanceToShoot = nil;
-          if(aGL<4500){
-            me.DistanceToShoot = me.selectedWeap.getCCRP(10, 0.1);
-          }elsif(aGL<8000){
+          if(aGL<8000){
             me.DistanceToShoot = me.selectedWeap.getCCRP(20, 0.1);
+#             print("20sec");
           }elsif(aGL<15000){
             me.DistanceToShoot = me.selectedWeap.getCCRP(30, 0.2);
+#             print("30sec");
           }else{
             me.DistanceToShoot = me.selectedWeap.getCCRP(45, 0.2);
+#             print("45sec");
           }
           
           if(me.DistanceToShoot != nil ){
-            if(me.DistanceToShoot < 3000){
+            print("Distance to shoot"~ me.DistanceToShoot);
+            if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30){
+              #print("Temps sur zone :" ~ me.DistanceToShoot / (me.input.gs.getValue() * KT2MPS));
               me.showFire_GBU = 1;
-              me.Fire_GBU.setText(sprintf("Hold Fire: %d ", int(me.DistanceToShoot)));
-              if(me.DistanceToShoot < 600){
+#               me.Fire_GBU.setText(sprintf("Hold Fire: %d ", int(me.DistanceToShoot)));
+                me.Fire_GBU.setText(sprintf("TTR: %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
+              if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 15){
                 #print(me.DistanceToShoot);
-                me.Fire_GBU.setText(sprintf("Fire: %d ", int(me.DistanceToShoot)));
+                #me.Fire_GBU.setText(sprintf("Fire: %d ", int(me.DistanceToShoot)));
+                me.Fire_GBU.setText(sprintf("Fire : %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
               }
             }
+          }else{
+             print("Distance to shoot : nil");
           }
         }
       }else{me.eegsShow=me.input.MasterArm.getValue();}

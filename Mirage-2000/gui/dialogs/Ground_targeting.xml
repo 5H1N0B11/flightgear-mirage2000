@@ -120,7 +120,16 @@
     </binding>
   </button>
   
-  
+  <button>
+    <legend>Delete Ground Target</legend>
+    <binding>
+     <command>dialog-apply</command>
+    </binding>
+    <binding>
+      <command>nasal</command>
+      <script>missile.del_target()</script>
+    </binding>
+  </button>  
   
 
 </PropertyList>
