@@ -11,6 +11,7 @@ var myGroundTarget = nil;
 var Mp = props.globals.getNode("ai/models");
 var MyActualview = props.globals.getNode("/sim/current-view/view-number");
 
+
 var listOfGroundOrShipVehicleModels = {
                                         "buk-m2":1, 
                                         "depot":1, 

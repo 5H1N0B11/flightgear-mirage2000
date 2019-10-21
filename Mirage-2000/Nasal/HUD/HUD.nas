@@ -194,8 +194,8 @@ var HUD = {
             
     m.Fire_GBU =
       m.text.createChild("text")
-            .setAlignment("right-center")
-            .setTranslation(220, 70)
+            .setAlignment("center-center")
+            .setTranslation(0, 70)
             .setColor(m.myGreen)
             .setDouble("character-size", 42);
             
@@ -242,14 +242,14 @@ var HUD = {
   m.LeftChevron = m.chevronGroup.createChild("text")
   .setColor(m.myGreen)
   .setTranslation(-150,0)
-  .setDouble("character-size", 40)
+  .setDouble("character-size", 60)
   .setAlignment("center-center")
   .setText(">");    
   
   m.RightChevron = m.chevronGroup.createChild("text")
     .setColor(m.myGreen)
     .setTranslation(150,0)
-    .setDouble("character-size", 40)
+    .setDouble("character-size", 60)
     .setAlignment("center-center")
     .setText("<");   
    
@@ -326,14 +326,14 @@ var HUD = {
     m.LeftBracket = m.brackets.createChild("text")
       .setColor(m.myGreen)
       .setTranslation(-140,0)
-      .setDouble("character-size", 40)
+      .setDouble("character-size", 60)
       .setAlignment("center-center")
       .setText("]");    
   
     m.RightBracket = m.brackets.createChild("text")
       .setColor(m.myGreen)
       .setTranslation(140,0)
-      .setDouble("character-size", 40)
+      .setDouble("character-size", 60)
       .setAlignment("center-center")
       .setText("["); 
     
@@ -979,6 +979,7 @@ var HUD = {
       NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
       
       MasterArm      :"/controls/armament/master-arm",
+      TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
     };
     
     foreach(var name; keys(m.input))
@@ -1009,6 +1010,7 @@ var HUD = {
     #Think this code sucks. If everyone have better, please, proceed :)
     me.eegsShow=0;
     me.selectedWeap = pylons.fcs.getSelectedWeapon();
+    
     me.showFire_GBU = 0;
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
       #print(me.selectedWeap.type);
@@ -1017,20 +1019,23 @@ var HUD = {
         if(find("M", me.selectedWeap.class) !=-1 or find("G", me.selectedWeap.class) !=-1){
           #print("Class of Load:" ~ me.selectedWeap.class);
           
+          
           me.DistanceToShoot = nil;
-          if(aGL<8000){
-            me.DistanceToShoot = me.selectedWeap.getCCRP(20, 0.1);
-#             print("20sec");
-          }elsif(aGL<15000){
-            me.DistanceToShoot = me.selectedWeap.getCCRP(30, 0.2);
-#             print("30sec");
-          }else{
-            me.DistanceToShoot = me.selectedWeap.getCCRP(45, 0.2);
-#             print("45sec");
-          }
+#           if(aGL<8000){
+#             me.DistanceToShoot = me.selectedWeap.getCCRP(20, 0.1);
+# #             print("20sec");
+#           }elsif(aGL<15000){
+#             me.DistanceToShoot = me.selectedWeap.getCCRP(30, 0.2);
+# #             print("30sec");
+#           }else{
+#             me.DistanceToShoot = me.selectedWeap.getCCRP(45, 0.2);
+# #             print("45sec");
+#           }
+
+           me.DistanceToShoot = me.selectedWeap.getCCRP(me.input.TimeToTarget.getValue(), 0.1);
           
           if(me.DistanceToShoot != nil ){
-            print("Distance to shoot"~ me.DistanceToShoot);
+            #print("Distance to shoot"~ me.DistanceToShoot);
             if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30){
               #print("Temps sur zone :" ~ me.DistanceToShoot / (me.input.gs.getValue() * KT2MPS));
               me.showFire_GBU = 1;
@@ -1043,7 +1048,7 @@ var HUD = {
               }
             }
           }else{
-             print("Distance to shoot : nil");
+             #print("Distance to shoot : nil");
           }
         }
       }else{me.eegsShow=me.input.MasterArm.getValue();}
