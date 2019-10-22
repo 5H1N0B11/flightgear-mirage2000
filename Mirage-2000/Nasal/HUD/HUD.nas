@@ -1019,7 +1019,7 @@ var HUD = {
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
       if(me.selectedWeap.type != "30mm Cannon"){
         #Doing the math only for bombs
-        if(me.selectedWeap.stage_1_duration+me.selectedWeap.stage_1_duration == 0){
+        if(me.selectedWeap.stage_1_duration+me.selectedWeap.stage_2_duration == 0){
           
           #print("Class of Load:" ~ me.selectedWeap.class);     
           me.DistanceToShoot = nil;
