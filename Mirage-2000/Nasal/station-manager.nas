@@ -15,7 +15,7 @@ var baseGui = fdm=="jsb"?"payload":"sim";
 
 var Station = {
 # pylon or fixed mounted weapon on the aircraft
-	new: func (name, id, position, sets, guiID, pointmassNode, operableFunction = nil) {
+	new: func (name, id, position, sets, guiID, pointmassNode, operableFunction = nil, activeFunction = nil) {
 		var p = {parents:[Station]};
 		p.id = id;
 		p.name = name;
@@ -24,6 +24,7 @@ var Station = {
 		p.guiID = guiID;
 		p.node_pointMass = pointmassNode;
 		p.operableFunction = operableFunction;
+		p.activeFunction = activeFunction; # for F14, if a pylon is set active or not
 		p.weapons = [];#when weapons are fired/jettisoned, they turn to nil, the vector size must stay same as fire-order dictates.
 		p.changingGui = 0;
 		p.launcherDA=0;
@@ -54,6 +55,13 @@ var Station = {
 	getCurrentName: func {
 		return me.currentName;
 	},
+	
+	isActive: func {
+		if (me.activeFunction != nil) {
+			return me.activeFunction();
+		}
+		return 1;
+	},
 
 	loadSet: func (set) {
 		foreach(me.weapon ; me.weapons) {
@@ -68,7 +76,16 @@ var Station = {
 				me.weaponName = set.content[me.i];
 				if (typeof(me.weaponName) == "scalar") {
 					#print("attempting to create weapon id="~(me.id*100+me.i));
-					me.aim = armament.AIM.new(me.id*100+me.i, me.weaponName, "", nil, me.position);
+					var mf = nil;
+					if (me.weaponName == "AGM-154A" or me.weaponName == "AGM-158") {
+						mf = func (struct) {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 7 and struct.guidance == "gps") {
+								return {"guidance":"vision","class":"GM","target":"nil"};
+							}
+							return {};
+						};
+					}
+					me.aim = armament.AIM.new(me.id*100+me.i, me.weaponName, "", mf, me.position);
 					if (me.aim == -1) {
 						print("Pylon could not create "~me.weaponName);
 						me.aim = nil;
@@ -221,7 +238,7 @@ var InternalStation = {
 # simulates a fixed station, for example a cannon mounted inside the aircraft
 # inherits from Station
 	new: func (name, id, sets, pointmassNode, operableFunction = nil) {
-		var s = Station.new(name, id, [0,0,0], sets, nil, pointmassNode, operableFunction);
+		var s = Station.new(name, id, [0,0,0], sets, nil, pointmassNode, operableFunction, nil);
 		s.parents = [InternalStation, Station];
 
 		# these should not be called in parent.new(), as they are empty there.
@@ -249,8 +266,8 @@ var Pylon = {
 #   GUI payload id number
 #   shared position for 3D release (from xml?)
 #   possible sets that can be loaded ("2 x AIM9L", "1 x GBU-82") At loadtime, this can be many, so store in Nasal :(
-	new: func (name, id, position, sets, guiID, pointmassNode, dragareaNode, operableFunction = nil) {
-		var p = Station.new(name, id, position, sets, guiID, pointmassNode, operableFunction);
+	new: func (name, id, position, sets, guiID, pointmassNode, dragareaNode, operableFunction = nil, activeFunction = nil) {
+		var p = Station.new(name, id, position, sets, guiID, pointmassNode, operableFunction, activeFunction);
 		p.parents = [Pylon, Station];
 		p.node_dragaera = dragareaNode;
 
@@ -291,10 +308,10 @@ var Pylon = {
 		me.i = 0;
 		foreach(set ; me.sets) {
 			me.guiNode.initNode("opt["~me.i~"]/name",set.name,"STRING");
-			if (fdm=="yasim") {
+			#if (fdm=="yasim") { commented out due to fuel dialog changes in FG2018.3
 				# due to fuel dialog has different features in yasim from jsb, this must be done:
 				me.guiNode.initNode("opt["~me.i~"]/lbs",0,"DOUBLE");
-			}
+			#}
 			me.i += 1;
 		}
 		me.guiListener = setlistener(baseGui~"/weight["~me.guiID~"]/selected", func me.guiChanged());
@@ -429,12 +446,12 @@ var SubModelWeapon = {
 #
 # Attributes:
 #  drag, weight, submodel(s)
-	new: func (name, munitionMass, maxAmmo, submodelNumbers, tracerSubModelNumbers, trigger, jettisonable, operableFunction=nil) {
+	new: func (name, munitionMass, maxAmmo, subModelNumbers, tracerSubModelNumbers, trigger, jettisonable, operableFunction=nil, alternate = 0) {
 		var s = {parents:[SubModelWeapon]};
 		s.type = name;
 		s.typeLong = name;
 		s.typeShort = name;
-		s.submodelNumbers = submodelNumbers;
+		s.subModelNumbers = subModelNumbers;
 		s.tracerSubModelNumbers = tracerSubModelNumbers;
 		s.operableFunction = operableFunction;
 		s.maxAmmo = maxAmmo;
@@ -444,7 +461,8 @@ var SubModelWeapon = {
 		s.trigger = trigger;
 		s.triggerNode = nil;
 		s.active = 0;
-		s.timer = maketimer(0.3, s, func s.loop());
+		s.alternate = alternate;
+		s.timer = maketimer(0.1, s, func s.loop());
 		
 
 		# these 2 needs to be here and be 0
@@ -500,26 +518,30 @@ var SubModelWeapon = {
 
 	eject: func {
 		if (me.jettisonable) {
-			s.timer.stop();
+			me.timer.stop();
 			me.trigger.unalias();
 			me.trigger.setBoolValue(0);
 		}
 	},
 
 	del: func {
-		s.timer.stop();
+		me.timer.stop();
 		me.trigger.unalias();
 		me.trigger.setBoolValue(0);
 	},
 
 	getAmmo: func {
 		# return ammo count
-		return getprop("ai/submodels/submodel["~me.submodelNumbers[0]~"]/count");
+		var ammo = 0;
+		for(me.i = 0;me.i<size(me.subModelNumbers);me.i+=1) {
+			ammo += getprop("ai/submodels/submodel["~me.subModelNumbers[me.i]~"]/count");
+		}
+		return ammo;
 	},
 
 	reloadAmmo: func {
-		for(me.i = 0;me.i<size(me.submodelNumbers);me.i+=1) {
-			setprop("ai/submodels/submodel["~me.submodelNumbers[me.i]~"]/count", me.maxAmmo);
+		for(me.i = 0;me.i<size(me.subModelNumbers);me.i+=1) {
+			setprop("ai/submodels/submodel["~me.subModelNumbers[me.i]~"]/count", me.maxAmmo);
 		}
 	},
 };
@@ -548,11 +570,15 @@ var FuelTank = {
 
 	mount: func {
 		# set capacity in fuel tank
+		if (fdm == "jsb") {
+			setprop("fdm/jsbsim/propulsion/tank["~me.fuelTankNumber~"]/external-flow-rate-pps", 0);
+		}
 		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/capacity-gal_us", me.capacity);
 		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/level-gal_us", me.capacity);
 		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/selected", 1);
 		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/name", me.typeLong);
 		setprop(me.modelPath, 1);
+		setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload"));
 	},
 
 	eject: func {
@@ -562,6 +588,10 @@ var FuelTank = {
 		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/selected", 0);
 		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/name", "Not attached");
 		setprop(me.modelPath, 0);
+		setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload"));
+		if (fdm == "jsb") {
+			setprop("fdm/jsbsim/propulsion/tank["~me.fuelTankNumber~"]/external-flow-rate-pps", -1000);
+		}
 	},
 
 	del: func {
@@ -571,6 +601,10 @@ var FuelTank = {
 		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/selected", 0);
 		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/name", "Not attached");
 		setprop(me.modelPath, 0);
+		setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload"));
+		if (fdm == "jsb") {
+			setprop("fdm/jsbsim/propulsion/tank["~me.fuelTankNumber~"]/external-flow-rate-pps", -1000);
+		}
 	},
 
 	getAmmo: func {
