@@ -6,4 +6,5 @@
     <object-name>mica_em</object-name>
     <enable-hot type="bool">false</enable-hot>
   </animation>
+
 </PropertyList>
