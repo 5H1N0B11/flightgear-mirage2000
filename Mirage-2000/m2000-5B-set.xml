@@ -26,6 +26,8 @@
       <cockpit type="int"> 3 </cockpit>
       <model   type="int"> 4 </model>
     </rating>
+    
+    <fallback-model-index type="int">527</fallback-model-index>
 
     <tags>
         <tag>dassault</tag>

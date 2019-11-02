@@ -221,9 +221,9 @@ var Radar = {
             #rwr stuff
             if (rwr.rwr != nil) {
               if (size(rwrList)>0) {
-                rwr.rwr.update(rwrList);
+                rwr.rwr.update(rwrList,"normal");
               } else {
-                rwr.rwr.update(rwrList16);
+                rwr.rwr.update(rwrList16,"normal");
               }
             }  
             

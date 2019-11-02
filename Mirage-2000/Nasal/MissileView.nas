@@ -84,6 +84,8 @@ var missile_view_handler = {
   },
 };
 
+
+
 var myModel = ai.AImodel.new();
 myModel.init();
 

@@ -9,9 +9,11 @@
   -->
   <!--path>Aircraft/Mirage-2000/Missiles/MatraR550Magic2/MatraR550Magic2.ac</path-->
   <path>Aircraft/Mirage-2000/Missiles/Magic-2/Magic2.ac</path>
+  <!--
   <animation>
 		<object-name>magic</object-name>
-  </animation>
+		</animation>
+-->
   <effect>
     <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
     <object-name>magic.optique</object-name>

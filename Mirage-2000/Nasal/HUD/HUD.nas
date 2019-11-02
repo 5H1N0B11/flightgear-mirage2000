@@ -194,8 +194,8 @@ var HUD = {
             
     m.Fire_GBU =
       m.text.createChild("text")
-            .setAlignment("right-center")
-            .setTranslation(220, 70)
+            .setAlignment("center-center")
+            .setTranslation(0, 70)
             .setColor(m.myGreen)
             .setDouble("character-size", 42);
             
@@ -242,14 +242,14 @@ var HUD = {
   m.LeftChevron = m.chevronGroup.createChild("text")
   .setColor(m.myGreen)
   .setTranslation(-150,0)
-  .setDouble("character-size", 40)
+  .setDouble("character-size", 60)
   .setAlignment("center-center")
   .setText(">");    
   
   m.RightChevron = m.chevronGroup.createChild("text")
     .setColor(m.myGreen)
     .setTranslation(150,0)
-    .setDouble("character-size", 40)
+    .setDouble("character-size", 60)
     .setAlignment("center-center")
     .setText("<");   
    
@@ -326,14 +326,14 @@ var HUD = {
     m.LeftBracket = m.brackets.createChild("text")
       .setColor(m.myGreen)
       .setTranslation(-140,0)
-      .setDouble("character-size", 40)
+      .setDouble("character-size", 60)
       .setAlignment("center-center")
       .setText("]");    
   
     m.RightBracket = m.brackets.createChild("text")
       .setColor(m.myGreen)
       .setTranslation(140,0)
-      .setDouble("character-size", 40)
+      .setDouble("character-size", 60)
       .setAlignment("center-center")
       .setText("["); 
     
@@ -979,6 +979,7 @@ var HUD = {
       NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
       
       MasterArm      :"/controls/armament/master-arm",
+      TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
     };
     
     foreach(var name; keys(m.input))
@@ -1003,43 +1004,42 @@ var HUD = {
     
  
     
-    me.Fire_GBU.setText("Fire");
-    var aGL = props.globals.getNode("/position/altitude-agl-ft").getValue();
+ 
+
     
     #Think this code sucks. If everyone have better, please, proceed :)
     me.eegsShow=0;
     me.selectedWeap = pylons.fcs.getSelectedWeapon();
+    
+    
+    me.Fire_GBU.setText("Fire");
     me.showFire_GBU = 0;
-    if(me.selectedWeap != nil){
-      #print(me.selectedWeap.type);
+    
+    
+    if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
       if(me.selectedWeap.type != "30mm Cannon"){
-        #print(me.selectedWeap.getCCRP(20, 0.1));
-        if(find("M", me.selectedWeap.class) !=-1 or find("G", me.selectedWeap.class) !=-1){
-          #print("Class of Load:" ~ me.selectedWeap.class);
-          me.DistanceToShoot = nil;
-          if(aGL<4500){
-            me.DistanceToShoot = me.selectedWeap.getCCRP(10, 0.1);
-          }elsif(aGL<8000){
-            me.DistanceToShoot = me.selectedWeap.getCCRP(20, 0.1);
-          }elsif(aGL<15000){
-            me.DistanceToShoot = me.selectedWeap.getCCRP(30, 0.2);
-          }else{
-            me.DistanceToShoot = me.selectedWeap.getCCRP(45, 0.2);
-          }
+        #Doing the math only for bombs
+        if(me.selectedWeap.stage_1_duration+me.selectedWeap.stage_2_duration == 0){
           
+          #print("Class of Load:" ~ me.selectedWeap.class);     
+          me.DistanceToShoot = nil;
+          me.DistanceToShoot = me.selectedWeap.getCCRP(me.input.TimeToTarget.getValue(), 0.05);
+        
           if(me.DistanceToShoot != nil ){
-            if(me.DistanceToShoot < 3000){
+            if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30){
               me.showFire_GBU = 1;
-              me.Fire_GBU.setText(sprintf("Hold Fire: %d ", int(me.DistanceToShoot)));
-              if(me.DistanceToShoot < 600){
-                #print(me.DistanceToShoot);
-                me.Fire_GBU.setText(sprintf("Fire: %d ", int(me.DistanceToShoot)));
+                me.Fire_GBU.setText(sprintf("TTR: %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
+              if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 15){
+                me.Fire_GBU.setText(sprintf("Fire : %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
               }
             }
+          }else{
+             #print("Distance to shoot : nil");
           }
         }
       }else{me.eegsShow=me.input.MasterArm.getValue();}
     }
+    
     me.Fire_GBU.setVisible(me.showFire_GBU);
     
     

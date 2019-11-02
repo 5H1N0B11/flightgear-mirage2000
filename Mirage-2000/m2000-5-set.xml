@@ -42,6 +42,8 @@
         <tag>afterburner</tag>
     </tags>
     
+    <fallback-model-index type="int">527</fallback-model-index>
+    
     <previews>
             <preview>
                 <type>exterior</type>

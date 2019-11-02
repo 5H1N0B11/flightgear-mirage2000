@@ -16,20 +16,61 @@ var FireControl = {
 		foreach(pyl;pylons) {
 			pyl.setPylonListener(fc);
 		}
-		fc.selected = nil;
-		fc.pylonOrder=pylonOrder;
-		fc.typeOrder=typeOrder;
-		fc.selectedType = nil;
-		fc.triggerTime = 0;
-		fc.gunTriggerTime = 0;
+		fc.selected = nil;        # vector [pylonNumber, weaponNumber]
+		fc.selectedAdd = nil;     # vector of above kind of vectors
+		fc.pylonOrder=pylonOrder; # vector with order the pylons should select/fire weapons from
+		fc.typeOrder=typeOrder;   # vector with order the types should be selected in
+		fc.selectedType = nil;    # string with current selected type
+		fc.triggerTime = 0;       # a timer for firing maddog
+		fc.gunTriggerTime = 0;    # a timer for how often to use gun brevity
+		fc.ripple = 1;            # ripple setting, from 1 to x.
+		fc.rippleDist = 150*FT2M; # ripple setting, in meters.
+		fc.isRippling = 0;        # is in ripple progress
 		fc.WeaponNotification = VectorNotification.new("WeaponNotification");
 		fc.setupMFDObservers();
-		setlistener("controls/armament/trigger",func{fc.trigger();fc.updateCurrent()});
+		fc.dropMode = 0;          # 0=ccrp, 1 = ccip
+		setlistener("controls/armament/trigger",func{fc.trigger();fc.updateDual()});
 		setlistener("controls/armament/master-arm",func{fc.updateCurrent()});
+		setlistener("controls/armament/dual",func{fc.updateDual()});
 		return fc;
+	},
+	
+	getDropMode: func {
+		#0=ccrp, 1 = ccip
+		me.dropMode;
+	},
+	
+	setDropMode: func (mode) {
+		#0=ccrp, 1 = ccip
+		me.dropMode = mode;
+	},
+	
+	getRippleMode: func {
+		me.ripple;
+	},
+	
+	setRippleMode: func (ripple) {
+		if (ripple >= 1) {
+			me.ripple = int(ripple);
+		}
+	},
+	
+	getRippleDist: func {
+		me.rippleDist;
+	},
+	
+	setRippleDist: func (rippleDist) {
+		if (rippleDist >= 0) {
+			me.rippleDist = rippleDist;
+		}
+	},
+	
+	getSelectedType: func {
+		return me.selectedType;
 	},
 
 	getCategory: func {
+		# get loadout CAT (not to be confused with FBW CAT setting)
 		me.cat = 1;
 		foreach (pyl;me.pylons) {
 			if (pyl.getCategory()>me.cat) {
@@ -136,6 +177,7 @@ var FireControl = {
 			me.selTypeIndex += 1;
 		}		
 		me.selected = nil;
+		me.selectedAdd = nil;
 		me.selectedType = nil;
 		screen.log.write("Selected nothing", 0.5, 0.5, 1);
 	},
@@ -158,11 +200,12 @@ var FireControl = {
 	},
 
 	cycleAG: func {
-		# will stop current weapon and select next A-A weapon and start it.
+		# will stop current weapon and select next A-G weapon and start it.
 		# horrible programming though, but since its called seldom and in no loop, it will do for now.
 		me.stopCurrent();
 		if (!me._isSelectedWeapon()) {
 			me.selected = nil;
+			me.selectedAdd = nil;
 			me.selectedType = nil;
 		}
 		if (me.selectedType == nil) {
@@ -227,6 +270,7 @@ var FireControl = {
 							return;
 						} else {
 							me.selectedType = nil;
+							me.selectedAdd = nil;
 							me.selected = nil;
 							screen.log.write("Selected nothing", 0.5, 0.5, 1);
 						}
@@ -255,7 +299,8 @@ var FireControl = {
 		}
 		me.selectedType = nil;
 		me.selected = nil;
-		me.updateCurrent();
+		me.selectedAdd = nil;
+		me.updateDual();
 	},
 
 	cycleAA: func {
@@ -263,6 +308,7 @@ var FireControl = {
 		me.stopCurrent();
 		if (!me._isSelectedWeapon()) {
 			me.selected = nil;
+			me.selectedAdd = nil;
 			me.selectedType = nil;
 		}
 		if (me.selectedType == nil) {
@@ -328,6 +374,7 @@ var FireControl = {
 						} else {
 							me.selectedType = nil;
 							me.selected = nil;
+							me.selectedAdd = nil;
 							screen.log.write("Selected nothing", 0.5, 0.5, 1);
 						}
 						return;
@@ -355,15 +402,15 @@ var FireControl = {
 		}
 		me.selectedType = nil;
 		me.selected = nil;
+		me.selectedAdd = nil;
 	},
 
 	updateAll: func {
 		# called from the stations when they change.
 		if (me.selectedType != nil) {
 			screen.log.write("Fire-control: deselecting "~me.selectedType, 0.5, 0.5, 1);
-			me.selectedType = nil;
-			me.selected = nil;
 		}
+		me.noWeapon();
 	},
 
 	getSelectedWeapon: func {
@@ -375,6 +422,61 @@ var FireControl = {
 			return nil;
 		}
 		return me.pylons[me.selected[0]].getWeapons()[me.selected[1]];
+	},
+	
+	_getSpecificWeapon: func (p, w) {
+		# return specific weapon or nil
+		if (w < 0 or w > size(me.pylons[p].getWeapons())-1) {
+			return nil;
+		}
+		return me.pylons[p].getWeapons()[w];
+	},
+	
+	getSelectedWeapons: func {
+		# return selected weapons or nil
+		if (me.selected == nil) {
+			return nil;
+		}
+		if (me.selected[1] > size(me.pylons[me.selected[0]].getWeapons())-1) {
+			return nil;
+		}
+		me.sw = [];
+		if (me.pylons[me.selected[0]].getWeapons()[me.selected[1]] != nil) {
+			append(me.sw, me.pylons[me.selected[0]].getWeapons()[me.selected[1]]);
+		}
+		if (me.selectedAdd != nil) {
+			foreach(me.sweap ; me.selectedAdd) {
+				if (me.sweap[1] > size(me.pylons[me.sweap[0]].getWeapons())-1) {
+					continue;
+				}
+				if (me.pylons[me.sweap[0]].getWeapons()[me.sweap[1]] != nil) {
+					append(me.sw, me.pylons[me.sweap[0]].getWeapons()[me.sweap[1]]);
+				}
+			}
+		}
+		return me.sw;
+	},
+	
+	getSelectedDualWeapons: func {
+		# return selected dual weapons or nil
+		if (me.selected == nil) {
+			return nil;
+		}
+		if (me.selected[1] > size(me.pylons[me.selected[0]].getWeapons())-1) {
+			return nil;
+		}
+		me.sw = [];
+		if (me.selectedAdd != nil) {
+			foreach(me.sweap ; me.selectedAdd) {
+				if (me.sweap[1] > size(me.pylons[me.sweap[0]].getWeapons())-1) {
+					continue;
+				}
+				if (me.pylons[me.sweap[0]].getWeapons()[me.sweap[1]] != nil) {
+					append(me.sw, me.pylons[me.sweap[0]].getWeapons()[me.sweap[1]]);
+				}
+			}
+		}
+		return me.sw;
 	},
 
 	getSelectedPylon: func {
@@ -400,8 +502,10 @@ var FireControl = {
 			printDebug("Nothing to jettison");
 			return nil;
 		}
+		me.stopCurrent();
 		me.pylons[me.selected[0]].jettisonAll();
 		me.selected = nil;
+		me.selectedAdd = nil;
 		if (me.selectedType != nil) {
 			me.nextWeapon(me.selectedType);
 		}
@@ -462,7 +566,7 @@ var FireControl = {
 				me.stopCurrent();
 				me.selected = [p, w];
 				me.selectedType = me.ws[w].type;
-				me.updateCurrent();
+				me.updateDual();
 				return;
 			} elsif (me.ws != nil and w == nil and size(me.ws) > 0) {
 				w = 0;
@@ -471,7 +575,7 @@ var FireControl = {
 						me.stopCurrent();
 						me.selected = [p, w];
 						me.selectedType = me.ws[w].type;
-						me.updateCurrent();
+						me.updateDual();
 						return;
 					}
 					w+=1;
@@ -485,47 +589,108 @@ var FireControl = {
 		# trigger pressed down should go here, this will fire weapon
 		# cannon is fired in another way, but this method will print the brevity.
 		printfDebug("trigger called %d %d %d",getprop("controls/armament/master-arm"),getprop("controls/armament/trigger"),me.selected != nil);
+		if (me.getSelectedPylon() == nil or !me.getSelectedPylon().isActive()) return;
+		if (me.isRippling) return;
 		if (getprop("controls/armament/master-arm") == 1 and getprop("controls/armament/trigger") > 0 and me.selected != nil) {
 			printDebug("trigger propagating");
 			me.aim = me.getSelectedWeapon();
 			#printfDebug(" to %d",me.aim != nil);
-			if (me.aim != nil and me.aim.parents[0] == armament.AIM and me.aim.status == armament.MISSILE_LOCK) {
-				me.aim = me.pylons[me.selected[0]].fireWeapon(me.selected[1], getCompleteRadarTargetsList());
-				if (me.aim != nil) {
-					me.aim.sendMessage(me.aim.brevity~" at: "~me.aim.callsign);
-					me.aimNext = me.nextWeapon(me.selectedType);
-					if (me.aimNext != nil) {
-						me.aimNext.start();
+			if (me.aim != nil and me.aim.parents[0] == armament.AIM and (me.aim.status == armament.MISSILE_LOCK or me.aim.guidance=="unguided")) {
+				me.aim = me.fireAIM(me.selected[0],me.selected[1]);
+				if (me.selectedAdd != nil) {
+					foreach(me.seldual ; me.selectedAdd) {
+						me.fireAIM(me.seldual[0],me.seldual[1]);
 					}
 				}
-				me.triggerTime = 0;
-			} elsif (me.aim != nil and me.aim.parents[0] == armament.AIM and me.aim.guidance=="unguided") {
-				me.aim = me.pylons[me.selected[0]].fireWeapon(me.selected[1], getCompleteRadarTargetsList());
-				if (me.aim != nil) {
-					me.aim.sendMessage(me.aim.brevity);
-					me.aimNext = me.nextWeapon(me.selectedType);
-					if (me.aimNext != nil) {
-						me.aimNext.start();
-					}
+				me.nextWeapon(me.selectedType);
+				
+				# start ripple if set
+				me.idx = me.vectorIndex(dualWeapons,me.selectedType);
+				if (me.idx != -1 and me.ripple > 1) {
+					me.isRippling = 1;
+					me.rippleThis = 2;
+					me.rippleFireStart();
 				}
+				
 				me.triggerTime = 0;
 			} elsif (me.aim != nil and me.aim.parents[0] == armament.AIM and me.aim.loal) {
 				me.triggerTime = getprop("sim/time/elapsed-sec");
 				settimer(func me.triggerHold(me.aim), 1.5);
 			} elsif (me.aim != nil and me.aim.parents[0] == stations.SubModelWeapon and (me.aim.operableFunction == nil or me.aim.operableFunction()) and me.aim.getAmmo()>0) {
-				if (getprop("sim/time/elapsed-sec")>me.gunTriggerTime+10) {
+				if (getprop("sim/time/elapsed-sec")>me.gunTriggerTime+10 or me.aim.alternate) {
 					# only say guns guns every 10 seconds.
-					armament.AIM.sendMessage("Guns guns");
+					armament.AIM.sendMessage(me.aim.brevity);
 					me.gunTriggerTime = getprop("sim/time/elapsed-sec");
 				}
 				me.triggerTime = 0;
 			}
 		} elsif (getprop("controls/armament/trigger") < 1) {
+			# trigger was released, we reset triggertimer and if alternating submodelweapon we stop it and switch to next and start that
 			me.triggerTime = 0;
+			me.aim = me.getSelectedWeapon();
+			if (me.aim != nil and me.aim.parents[0] == stations.SubModelWeapon) {
+				if (me.aim.alternate) {
+					me.stopCurrent();
+					me.nextWeapon(me.selectedType);
+				}
+			}
 		}
+	},
+	
+	fireAIM: func (p,w) {
+		# fire a weapon (that is a missile-code instance)
+		me.aim = me.pylons[p].fireWeapon(w, getCompleteRadarTargetsList());
+		if (me.aim != nil) {
+			var add = "";
+			if (me.aim.status == armament.MISSILE_LOCK and me.aim.guidance != "unguided") {
+				add = " at: "~me.aim.callsign;
+			}
+			me.aim.sendMessage(me.aim.brevity~add);
+		}
+		return me.aim;
+	},
+	
+	rippleFireStart: func {
+		# First has been fired, now start system to fire the ripple ones.
+		if (me.getSelectedWeapon() != nil) {
+			me.rippleCoord = geo.aircraft_position();
+			me.rippleCount = 0;
+			me.rippleTest();
+		}
+	},
+	
+	rippleTest: func {
+		# test for distance if we should fire ripple bombs. And do so if distance is great enough.
+		me.rippleCount += 1;
+		if (geo.aircraft_position().distance_to(me.rippleCoord) > me.rippleDist*(me.rippleThis-1)) {
+			me.aim = me.getSelectedWeapon();
+			if (me.aim != nil and me.aim.parents[0] == armament.AIM and (me.aim.status == armament.MISSILE_LOCK or me.aim.guidance=="unguided")) {
+				me.fireAIM(me.selected[0],me.selected[1]);
+				if (me.selectedAdd != nil) {
+					foreach(me.seldual ; me.selectedAdd) {
+						me.fireAIM(me.seldual[0],me.seldual[1]);
+					}
+				}
+				me.nextWeapon(me.selectedType);
+				me.rippleThis += 1;
+				if (me.rippleThis > me.ripple or me.getSelectedWeapon() == nil) {
+					me.isRippling = 0;
+					screen.log.write("Finished ripple", 0.5, 0.5, 1);
+					return;
+				}
+			}
+		}
+		if (me.rippleCount > 30) {
+			# after 7.5 seconds if its not finished rippling, cancel it. Might happen if the aircraft is still.
+			me.isRippling = 0;
+			screen.log.write("Cancelled ripple", 0.5, 0.5, 1);
+			return;
+		}
+		settimer(func me.rippleTest(), 0.25);
 	},
 
 	triggerHold: func (aimer) {
+		# will fire weapon even with no lock
 		if (me.triggerTime == 0 or me.getSelectedWeapon() == nil or me.getSelectedWeapon().parents[0] != armament.AIM) {
 			return;
 		}
@@ -539,12 +704,23 @@ var FireControl = {
 	},
 
 	updateCurrent: func {
-		# will start/stop current weapon depending on masterarm
+		# will start/stop current weapons depending on masterarm
 		# will also update mass (for cannon mainly)
 		if (getprop("controls/armament/master-arm")==1 and me.selected != nil) {
-			me.getSelectedWeapon().start();
+			me.sweaps = me.getSelectedWeapons();
+			if (me.sweaps != nil) {
+				foreach(me.sweap ; me.sweaps) {
+					me.sweap.start();
+#					print("starting a weapon");
+				}
+			}
 		} elsif (getprop("controls/armament/master-arm")==0 and me.selected != nil) {
-			me.getSelectedWeapon().stop();
+			me.sweaps = me.getSelectedWeapons();
+			if (me.sweaps != nil) {
+				foreach(me.sweap ; me.sweaps) {
+					me.sweap.stop();
+				}
+			}
 		}
 		if (me.selected == nil) {
 			return;
@@ -553,9 +729,84 @@ var FireControl = {
 		
 		me.pylons[me.selected[0]].calculateMass();#kind of a hack to get cannon ammo changed.
 	},
+	
+	updateDual: func (type = nil) {
+		# will stop all current weapons, and select single and pair weapons and start em all.
+		me.duality = getprop("controls/armament/dual");
+		me.sweaps = me.getSelectedWeapons();
+		if (me.sweaps != nil) {
+			foreach(me.sweap ; me.sweaps) {
+				me.sweap.stop();
+			}
+		}
+		me.selectedAdd = nil;
+		if (me.selected != nil) {
+			if (type == nil) type = me.selectedType;
+			me.idx = me.vectorIndex(dualWeapons,type);
+			if (me.idx != -1 and me.duality > 1) {
+				me.selectDualWeapons(type, me.duality);
+			}
+			me.updateCurrent();
+			return;
+		}
+	},
+	
+	selectDualWeapons: func (type, duality) {
+		# will select additional weapon of same type if dual is supported for the type and dual is greater than 'single'
+		# will NOT start them
+		me.selectedAdd = [];
+		me.listofduals = [me.getSelectedWeapon()];
+		if (me.selected == nil) {
+			me.selectedAdd = nil;
+			return;
+		} else {
+			me.pylon = me.selected[0];
+		}
+#		print("single: "~me.pylon);
+		for (me.ij=2;me.ij<=duality;me.ij+=1) {
+			printDebug("");
+			printfDebug("Start find next dual weapon of type %s, starting from pylon %d", type, me.pylon);
+			me.indexWeapon = -1;
+			me.index = me.vectorIndex(me.pylonOrder, me.pylon);
+			for(me.i=0;me.i<size(me.pylonOrder);me.i+=1) {
+				#printDebug("me.i="~me.i);
+				me.index += 1;
+				if (me.index >= size(me.pylonOrder)) {
+					me.index = 0;
+				}
+				me.pylon = me.pylonOrder[me.index];
+				if (!me.pylons[me.pylon].isActive()) {
+					continue;
+				}
+#				print("testing: "~me.pylon);
+				printfDebug(" Testing pylon %d", me.pylon);
+				# now we try to select a weapon but make sure it start looking for current index on pylon higher than already included:
+				me.current = nil;
+				if (me.pylon == me.selected[0]) {
+					me.current = me.selected[1];
+				}
+				foreach(me.add ; me.selectedAdd) {
+					if (me.add[0] = me.pylon) {
+						me.current = me.add[1];
+					}
+				}
+				me.indexWeapon = me._getNextWeapon(me.pylons[me.pylon], type, me.current);
+				me.testweapon = me._getSpecificWeapon(me.pylon,me.indexWeapon);
+				if (me.testweapon != nil and me.vectorIndex(me.listofduals,me.testweapon) == -1) {
+					# we found a weapon and its not already included
+					append(me.selectedAdd, [me.pylon, me.indexWeapon]);
+					append(me.listofduals, me.testweapon);
+					printDebug(" Another dual weapon found");
+#					print("found: "~me.pylon);
+					break;
+				}
+			}
+		}
+#		print("duals found "~size(me.selectedAdd));
+	},
 
 	nextWeapon: func (type) {
-		# find next weapon of type. Will select and start it.
+		# find next weapon of type. Will select and start it. Will not select weapons on inactive pylons.
 		# will NOT stop previous weapon
 		# will NOT set selectedType
 		if (me.selected == nil) {
@@ -574,12 +825,16 @@ var FireControl = {
 				me.index = 0;
 			}
 			me.pylon = me.pylonOrder[me.index];
+			if (!me.pylons[me.pylon].isActive()) {
+				continue;
+			}
 			printfDebug(" Testing pylon %d", me.pylon);
 			me.indexWeapon = me._getNextWeapon(me.pylons[me.pylon], type, nil);
 			if (me.indexWeapon != -1) {
 				me.selected = [me.pylon, me.indexWeapon];
 				printDebug(" Next weapon found");
-				me.updateCurrent();#TODO: think a bit more about this
+				me.updateDual(type);
+				#me.updateCurrent();#TODO: think a bit more about this
 				me.wap = me.pylons[me.pylon].getWeapons()[me.indexWeapon];
 				#me.selectedType = me.wap.type;
 				return me.wap;
@@ -587,7 +842,7 @@ var FireControl = {
 		}
 		printDebug(" Next weapon not found");
 		me.selected = nil;
-		#me.selectedType = nil;
+		me.selectedAdd = nil;
 		return nil;
 	},
 
@@ -608,7 +863,7 @@ var FireControl = {
 					me.fireIndex = 0;
 				}
 				if (pylon.getWeapons()[pylon.currentSet.fireOrder[me.fireIndex]] != nil) {
-					if (pylon.getWeapons()[pylon.currentSet.fireOrder[me.fireIndex]].type == type) {
+					if (pylon.getWeapons()[pylon.currentSet.fireOrder[me.fireIndex]].type == type and (pylon.getWeapons()[pylon.currentSet.fireOrder[me.fireIndex]].parents[0] != stations.SubModelWeapon or pylon.getWeapons()[pylon.currentSet.fireOrder[me.fireIndex]].getAmmo() > 0)) {
 						return pylon.currentSet.fireOrder[me.fireIndex];
 					}
 				}
@@ -626,6 +881,17 @@ var FireControl = {
 		}
 		return me.count;
 	},
+	
+	getActiveAmmo: func {
+		# return ammo count of currently selected type that are on active pylons
+		me.count = 0;
+		foreach (p;me.pylons) {
+			if (p.isActive()) {
+				me.count += p.getAmmo(me.selectedType);
+			}
+		}
+		return me.count;
+	},
 
 	vectorIndex: func (vec, item) {
 		# returns index of item in vector, -1 if nothing.
@@ -640,22 +906,29 @@ var FireControl = {
 	},
 
 	stopCurrent: func {
-		# stops current weapon, but does not deselect it.
-		me.selWeap = me.getSelectedWeapon();
-		if (me.selWeap != nil) {
-			me.selWeap.stop();
+		# stops current weapons, but does not deselect it.
+		me.selWeap = me.getSelectedWeapons();
+		if (me.selWeap == nil) {
+			return;
+		}
+		foreach(me.sWeap ; me.selWeap) {
+			if (me.sWeap != nil) {
+				me.sWeap.stop();
+			}
 		}
 	},
 
 	noWeapon: func {
-		# deselects
+		# stops and deselects
 		me.stopCurrent();
 		me.selected = nil;
+		me.selectedAdd = nil;
 		me.selectedType = nil;
 		printDebug("FC: nothing selected");
 	},
 
 	setPoint: func (c) {
+		# don't remember this, don't think its used anymore
 		me.ag = me.getSelectedWeapon();
 		if (me.ag != nil and me.ag["target_pnt"] == 1) {
 			if (c == nil) {
@@ -668,6 +941,20 @@ var FireControl = {
 			}
 		}
 	},
+	
+	getAllOfType: func (typ) {
+		# return vector with all weapons of certain type
+		me.typVec = [];
+		
+		foreach(pyl;me.pylons) {
+			foreach(me.pylweap ; pyl.getWeapons()) {
+				if (me.pylweap != nil and me.pylweap.type == typ) {
+					append(me.typVec, me.pylweap);
+				}
+			}
+		}
+		return me.typVec;
+	},
 };
 
 var debug = 0;
@@ -677,18 +964,20 @@ var printfDebug = func {if (debug == 1) call(printf,arg);};
 
 
 # This is non-generic methods, please edit it to fit your radar setup:
+var dualWeapons = ["MK-82","MK-83","MK-84","GBU-12","GBU-24","GBU-54","CBU-87","GBU-31","B61-7","B61-12"];
 var getCompleteRadarTargetsList = func {
 	# A list of all MP/AI aircraft/ships/surface-targets around the aircraft.
 	return radar.completeList;
 }
 
 var ContactTGP = {
-  new: func(callsign, coord) {
+  new: func(callsign, coord, laser = 1) {
     var obj             = { parents : [ContactTGP]};# in real OO class this should inherit from Contact, but in nasal it does not need to
     obj.coord           = geo.Coord.new(coord);
     obj.coord.set_alt(coord.alt()+1);#avoid z fighting
     obj.callsign        = callsign;
     obj.unique          = rand();
+    obj.laser = laser;
     return obj;
   },
 
@@ -705,7 +994,7 @@ var ContactTGP = {
   },
 
   isLaserPainted: func{
-    getprop("controls/armament/laser-arm-dmd");
+    return getprop("controls/armament/laser-arm-dmd") and me.laser;
   },
 
   isRadiating: func (c) {
@@ -732,7 +1021,7 @@ var ContactTGP = {
     return nil;
   },
 
-  get_Coord: func(){
+  get_Coord: func(inaccurate = 1){
       return me.coord;
   },
 
@@ -783,6 +1072,10 @@ var ContactTGP = {
       var n = me.get_bearing_from_Coord(geo.aircraft_position());
       return n;
   },
+  
+  get_relative_bearing : func() {
+        return geo.normdeg180(me.get_bearing()-getprop("orientation/heading-deg"));
+	},
 
   get_altitude: func(){
       #Return Alt in feet

@@ -11,6 +11,7 @@ var myGroundTarget = nil;
 var Mp = props.globals.getNode("ai/models");
 var MyActualview = props.globals.getNode("/sim/current-view/view-number");
 
+
 var listOfGroundOrShipVehicleModels = {
                                         "buk-m2":1, 
                                         "depot":1, 
@@ -108,7 +109,7 @@ var ground_target = {
             }
         }
         m.ai = n.getChild("aircraft", i, 1);
-        m.ai.getNode("valid", 1).setBoolValue(1);
+        #m.ai.getNode("valid", 1).setBoolValue(1);
         
         #We will replace it by a light that will modelize the laser spot
         m.id_model = "Aircraft/Mirage-2000/Models/lights/WhiteLight_LaserSpot.xml";
@@ -120,6 +121,8 @@ var ground_target = {
         
         m.id = m.ai.getNode("id", 1);
         m.callsign = m.ai.getNode("callsign", 1);
+        m.valid = m.ai.getNode("valid", 1);
+        m.valid.setBoolValue(1);
         
         #coordinate tree
         m.lat = m.ai.getNode("position/latitude-deg", 1);
@@ -166,9 +169,11 @@ var ground_target = {
     },
     del: func()
     {
+        
         me.model.remove();
-        me.ai.remove();
-        del_target();
+        me.valid.setBoolValue(0);
+        #me.ai.remove();
+        #del_target();
         
     },
     init: func()
@@ -430,6 +435,7 @@ var view_GPS_target = func(target)
 }
 
 var del_target = func(){
+  myGroundTarget.del();
   myGroundTarget = nil;
 }
 

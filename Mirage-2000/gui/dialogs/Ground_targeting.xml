@@ -120,7 +120,63 @@
     </binding>
   </button>
   
+<!--  <input>
+   <legend>Time to target</legend>
+   <width>75</width>
+   <height>25</height>
+   <label>TTT</label>
+   <property>/sim/dialog/groundtTargeting/time-to-target</property>
+  </input>-->
+    <hrule />
   
+<group>
+    <layout>table</layout>
+    <halign>center</halign>    
+    <text>
+        <row>0</row>
+        <col>0</col>
+        <label>A/G Falling time</label>
+    </text>
+    <text>
+        <row>0</row>
+        <col>1</col>
+        <live>true</live>
+        <property>/sim/dialog/groundtTargeting/time-to-target</property>
+    </text>  
+</group>
+
+  <slider>
+        <name>TTT</name>
+        <property>/sim/dialog/groundtTargeting/time-to-target</property>
+        <live>1</live>
+        <min>10</min>
+        <max>30</max>
+        <step>5</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>
+            gui.popupTip(sprintf("Falling time : %d", getprop("/sim/dialog/groundtTargeting/time-to-target")));
+          </script>
+        </binding>
+   </slider>
+  
+   
+     <hrule />
+     
+     
+  <button>
+    <legend>Delete Ground Target</legend>
+    <binding>
+     <command>dialog-apply</command>
+    </binding>
+    <binding>
+      <command>nasal</command>
+      <script>missile.del_target()</script>
+    </binding>
+  </button>  
   
 
 </PropertyList>
