@@ -51,40 +51,41 @@ var missile_view_handler = {
       me.select(0);
   },
   setup: func(data) {
+    var offset_heading= getprop("/sim/current-view/heading-offset-deg");
+    var offset_pitch= getprop("/sim/current-view/pitch-offset-deg");
+    var ident = '"' ~ data.callsign ~ '"';
+    
     if (data.root == '/') {
       var zoffset = getprop("/sim/chase-distance-m");
-      var ident = '[' ~ data.callsign ~ ']';
     } else {
       var zoffset = 70;
-      #var ident = '"' ~ data.callsign ~ '" (' ~ data.model ~ ')';
-      var ident = '"' ~ data.callsign ~ '"';
     }
 
     me.current = data.callsign;
     me.legendN.setValue(ident);
-    setprop("/sim/current-view/z-offset-m", zoffset);
-    setprop("/sim/current-view/heading-offset-deg", 110);
-    setprop("/sim/current-view/pitch-offset-deg", 30);
+     setprop("/sim/current-view/z-offset-m", zoffset);
+     setprop("/sim/current-view/heading-offset-deg", offset_heading);
+     setprop("/sim/current-view/pitch-offset-deg", offset_pitch);
     
-    #print(me.current);
+    #print("me.current:"~me.current);
+    #print("data.root:"~data.root);
 
     me.viewN.getNode("config").setValues({
-      "eye-lat-deg-path": data.root ~ "/position/latitude-deg",
-      "eye-lon-deg-path": data.root ~ "/position/longitude-deg",
-      "eye-alt-ft-path": data.root ~ "/position/altitude-ft",
-      "eye-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
-      "target-lat-deg-path": data.root ~ "/position/latitude-deg",
-      "target-lon-deg-path": data.root ~ "/position/longitude-deg",
-      "target-alt-ft-path": data.root ~ "/position/altitude-ft",
-      "target-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
-      "target-pitch-deg-path": data.root ~ "/orientation/pitch-deg",
-      "target-roll-deg-path": data.root ~ "/orientation/roll-deg",
-      "heading-offset-deg":180
+      "root":data.root,
+#       "eye-lat-deg-path": data.root ~ "/position/latitude-deg",
+#       "eye-lon-deg-path": data.root ~ "/position/longitude-deg",
+#       "eye-alt-ft-path": data.root ~ "/position/altitude-ft",
+#       "eye-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
+#       "target-lat-deg-path": data.root ~ "/position/latitude-deg",
+#       "target-lon-deg-path": data.root ~ "/position/longitude-deg",
+#       "target-alt-ft-path": data.root ~ "/position/altitude-ft",
+#       "target-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
+#       "target-pitch-deg-path": data.root ~ "/orientation/pitch-deg",
+#       "target-roll-deg-path": data.root ~ "/orientation/roll-deg",
+#       "heading-offset-deg":180
     });
   },
 };
-
-
 
 var myModel = ai.AImodel.new();
 myModel.init();
