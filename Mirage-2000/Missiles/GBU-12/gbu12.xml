@@ -12,18 +12,18 @@ Used for non fired GBU-12
     <object-name>GBU-12_Glass</object-name> 
   </effect>
 
-  <animation>
+<!--  <animation>
     <type>select</type>
-    <object-name>wing1</object-name>
-    <object-name>wing2</object-name>
-    <object-name>wing3</object-name>
-    <object-name>wing4</object-name>
+    <object-name>GBU-12_Wing.001</object-name>
+    <object-name>GBU-12_Wing.002</object-name>
+    <object-name>GBU-12_Wing.003</object-name>
+    <object-name>GBU-12_Wing.004</object-name>
     <condition>
       <equals>
         <value>0</value>
         <value>1</value>
       </equals>
     </condition>
-  </animation>
+  </animation>-->
 
 </PropertyList>
