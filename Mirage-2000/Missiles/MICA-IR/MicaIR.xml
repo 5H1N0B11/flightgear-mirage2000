@@ -12,16 +12,20 @@
        Weight   : 112 kg (246.91 lb)
   -->
   <path>Aircraft/Mirage-2000/Missiles/MICA-IR/mica_ir.ac</path>
+<!--
   <animation>
-    <!-- Objets opaques -->
-    <object-name>mica_ir</object-name>
-    <!-- Objets transparents -->
-    <object-name>mica_ir.optique</object-name>
+    
+    <object-name>MICA-IR</object-name>
+    
+    <object-name>Glass</object-name>
   </animation>
+-->
   <effect>
     <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
-    <object-name>mica_ir.optique</object-name>
+    <object-name>Glass</object-name>
   </effect>
+
+  
   <animation>
     <enable-hot type="bool">false</enable-hot>
   </animation>
