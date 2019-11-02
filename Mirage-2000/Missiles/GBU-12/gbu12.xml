@@ -9,7 +9,7 @@ Used for non fired GBU-12
   
   <effect>
     <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
-    <object-name>mica_ir.optique</object-name>
+    <object-name>GBU-12_Glass</object-name> 
   </effect>
 
   <animation>
