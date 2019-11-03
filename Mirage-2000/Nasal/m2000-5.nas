@@ -124,7 +124,8 @@ var main_Init_Loop = func()
     {
         mirage2000.mdfselection();
     }
-    
+    print("Missile view Check");
+    settimer(view.init_missile_view, 3);
     
     settimer(environment.environment, 20);
     #Should be replaced by an object creation
