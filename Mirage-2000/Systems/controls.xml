@@ -8,7 +8,9 @@
     <cat type="int">true</cat>
     <activated type="bool">true</activated>
   </SAS>
-
+  <armament>
+    <master-arm type="bool">false</master-arm>
+  </armament>
   <lighting>
     <landing-lights n="0" type="bool">false</landing-lights>
     <landing-lights n="1" type="bool">false</landing-lights>
@@ -144,7 +146,7 @@
     <trigger type="bool">false</trigger>
     <gunQuality type="bool">true</gunQuality>
     
-    <master-arm type="bool">true</master-arm>
+   <!-- <master-arm type="bool">true</master-arm>-->
     <dual type="int">1</dual> <!-- Double release or 1 by 1    -->
     <!-- ' 0=OFF, 1=GUN, 2=A/A, 3=A/G -->
     

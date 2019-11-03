@@ -24,14 +24,16 @@
     <name>Missile view</name>
     <type>lookat</type>
     <config>
+      <from-model type="bool">false</from-model>
+      <from-model-idx type="int">0</from-model-idx>
       <eye-lat-deg-path>/position/latitude-deg</eye-lat-deg-path>
       <eye-lon-deg-path>/position/longitude-deg</eye-lon-deg-path>
       <eye-alt-ft-path>/position/altitude-ft</eye-alt-ft-path>
       <eye-heading-deg-path>/orientation/heading-deg</eye-heading-deg-path>
       <at-model type="bool">true</at-model>
 
-      <!--    <heading-offset-deg>180</heading-offset-deg>
-    <pitch-offset-deg>10</pitch-offset-deg>-->
+      <heading-offset-deg>310</heading-offset-deg>
+      <!--<pitch-offset-deg>10</pitch-offset-deg>-->
     </config>
   </view>
   

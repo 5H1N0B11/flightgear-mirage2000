@@ -51,10 +51,9 @@ var missile_view_handler = {
       me.select(0);
   },
   setup: func(data) {
-    var offset_heading= getprop("/sim/current-view/heading-offset-deg");
-    var offset_pitch= getprop("/sim/current-view/pitch-offset-deg");
     var ident = '"' ~ data.callsign ~ '"';
-    
+#     var offset_heading= getprop("/sim/current-view/heading-offset-deg");
+#     var offset_pitch= getprop("/sim/current-view/pitch-offset-deg");
     if (data.root == '/') {
       var zoffset = getprop("/sim/chase-distance-m");
     } else {
@@ -64,8 +63,8 @@ var missile_view_handler = {
     me.current = data.callsign;
     me.legendN.setValue(ident);
      setprop("/sim/current-view/z-offset-m", zoffset);
-     setprop("/sim/current-view/heading-offset-deg", offset_heading);
-     setprop("/sim/current-view/pitch-offset-deg", offset_pitch);
+#      setprop("/sim/current-view/heading-offset-deg", offset_heading);
+#      setprop("/sim/current-view/pitch-offset-deg", offset_pitch);
     
     #print("me.current:"~me.current);
     #print("data.root:"~data.root);
@@ -106,6 +105,7 @@ var view_firing_missile = func(myMissile)
 
     # We activate the AI view (on this aircraft it is the number 9)
     setprop("/sim/current-view/view-number",9);
+#     setprop("/sim/current-view/heading-offset-deg", 160);
 
     # We feed the handler
     view.missile_view_handler.setup(data);
