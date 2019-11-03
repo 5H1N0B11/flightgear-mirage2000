@@ -53,22 +53,40 @@ var missile_view_handler = {
   setup: func(data) {
     var ident = '"' ~ data.callsign ~ '"';
 #     var offset_heading= getprop("/sim/current-view/heading-offset-deg");
+# print("Missile heading tree:" ~ data.root ~ "/orientation/true-heading-deg");
+    #var load_heading = int(getprop(data.root ~ "/orientation/true-heading-deg"));
+   # var myTest = load_heading>180? 540-load_heading :(180 - load_heading);
+    #print("Missile heading : "~ load_heading ~" view heading offstet should be : "~ 360 - load_heading - 180 ~ " MyTest:" ~ myTest);
+    
 #     var offset_pitch= getprop("/sim/current-view/pitch-offset-deg");
     if (data.root == '/') {
       var zoffset = getprop("/sim/chase-distance-m");
     } else {
-      var zoffset = 70;
+      var zoffset = 30;
+      var load_heading = int(getprop(data.root ~ "/orientation/true-heading-deg"));
+      var offset_heading = load_heading>180? 540-load_heading :(180 - load_heading);
+      var offset_pitch = int(getprop(data.root ~ "/orientation/pitch-deg")) - 5;
+#       print("Missile heading : "~ load_heading ~" view heading offstet should be : "~ (360 - load_heading - 180) ~ " MyTest:" ~ myTest);
+      
+      
+      setprop("/sim/current-view/heading-offset-deg", offset_heading);
+      setprop("/sim/current-view/pitch-offset-deg", offset_pitch);
+      
+      setprop("/sim/current-view/config/heading-offset-deg", offset_heading);
+      setprop("/sim/current-view/config/pitch-offset-deg", offset_pitch);
     }
 
     me.current = data.callsign;
-    me.legendN.setValue(ident);
-     setprop("/sim/current-view/z-offset-m", zoffset);
-#      setprop("/sim/current-view/heading-offset-deg", offset_heading);
-#      setprop("/sim/current-view/pitch-offset-deg", offset_pitch);
+    me.legendN.setValue(ident);  
+
+    setprop("/sim/current-view/z-offset-m", zoffset);
+
     
     #print("me.current:"~me.current);
     #print("data.root:"~data.root);
 
+#      print("Missile heading treeV2:" ~ data.root ~ "/orientation/true-heading-deg");
+     
     me.viewN.getNode("config").setValues({
       "root":data.root,
 #       "eye-lat-deg-path": data.root ~ "/position/latitude-deg",
@@ -110,3 +128,6 @@ var view_firing_missile = func(myMissile)
     # We feed the handler
     view.missile_view_handler.setup(data);
 }
+
+
+

@@ -32,7 +32,7 @@
       <eye-heading-deg-path>/orientation/heading-deg</eye-heading-deg-path>
       <at-model type="bool">true</at-model>
 
-      <heading-offset-deg>310</heading-offset-deg>
+      <!--<heading-offset-deg>310</heading-offs/et-deg>-->
       <!--<pitch-offset-deg>10</pitch-offset-deg>-->
     </config>
   </view>
