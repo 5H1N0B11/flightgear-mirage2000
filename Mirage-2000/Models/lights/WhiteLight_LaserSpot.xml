@@ -7,6 +7,10 @@
   <animation>
     <object-name>Light</object-name>
   </animation>
+  
+  <animation>
+    <enable-hot type="bool">true</enable-hot>
+  </animation>
 
 
 
