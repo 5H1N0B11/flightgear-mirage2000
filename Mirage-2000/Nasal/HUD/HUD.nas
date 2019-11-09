@@ -132,7 +132,7 @@ var wideMeters = math.abs(-0.02038 - (-0.15438));
 
 #var raw_list = props.globals.getNode("instrumentation/radar2/targets").getChildren();
 #print("Size:" ~ size(raw_list));
-var MaxTarget = 15;
+# var MaxTarget = 30;
 
 
 #center of the hud
@@ -167,6 +167,8 @@ var HUD = {
     m.red = 0.3;
     m.green = 1.0;
     m.blue = 0.3;
+    
+    m.MaxTarget = 30;
     
     m.myGreen = [0.3,1.0,0.3,1];
     
@@ -850,7 +852,7 @@ var HUD = {
    ##################################### Target Circle ####################################
     m.targetArray = [];
     m.circle_group2 = m.radarStuffGroup.createChild("group");
-    for(var i = 1; i <= MaxTarget; i += 1){
+    for(var i = 1; i <= m.MaxTarget; i += 1){
       myCircle = m.circle_group2.createChild("path")
         .setColor(m.myGreen)
         .moveTo(25, 0)
@@ -866,7 +868,7 @@ var HUD = {
     m.TextInfoArray = [];
     m.TextInfoGroup = m.radarStuffGroup.createChild("group");
     
-    for(var i = 1; i <= MaxTarget; i += 1){
+    for(var i = 1; i <= m.MaxTarget; i += 1){
         # on affiche des infos de la cible a cote du cercle
         text_info = m.TextInfoGroup.createChild("text", "infos")
           .setColor(m.myGreen)

@@ -114,7 +114,8 @@ var Target = {
           obj.ID = TestID.getValue();
           #print("Id already exist:" ~ obj.ID);
         }else{
-          obj.ID = int(1000000 * rand());
+          #print(int(10000000 * getprop("sim/time/elapsed-sec")* rand()));
+          obj.ID = int(10000000 * getprop("sim/time/elapsed-sec")*rand());
           TestID.setValue(obj.ID);
           #print("Id Creation" ~ obj.ID);
         }
