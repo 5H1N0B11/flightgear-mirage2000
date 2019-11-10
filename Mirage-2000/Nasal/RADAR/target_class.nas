@@ -109,16 +109,16 @@ var Target = {
         
         
         
-        var TestID = c.getNode("unicId",1);
-        if(TestID.getValue() != nil) {
-          obj.ID = TestID.getValue();
-          #print("Id already exist:" ~ obj.ID);
-        }else{
-          #print(int(10000000 * getprop("sim/time/elapsed-sec")* rand()));
-          obj.ID = int(10000000 * getprop("sim/time/elapsed-sec")*rand());
-          TestID.setValue(obj.ID);
-          #print("Id Creation" ~ obj.ID);
-        }
+#         var TestID = c.getNode("unicId",1);
+# #         if(TestID.getValue() != nil) {
+#           obj.ID = TestID.getValue();
+#           #print("Id already exist:" ~ obj.ID);
+#         }else{
+#           #print(int(10000000 * getprop("sim/time/elapsed-sec")* rand()));
+#           obj.ID = int(10000000 * getprop("sim/time/elapsed-sec")*rand());
+#           TestID.setValue(obj.ID);
+#           #print("Id Creation" ~ obj.ID);
+#         }
 
         
         
@@ -738,7 +738,9 @@ var Target = {
 
     getUnique: func () {
       #var myIndex = me.getIndex();
-      return me.fname~me.ID;
+#       print("getUnique:"~me.fname~me.Callsign.getValue());
+      return me.fname~me.Callsign.getValue();
+      #~me.ID;
         #return me.get_type()~me.fname~me.ID;
     },
 

@@ -103,7 +103,8 @@ var Encode_Bool = func(){
   mycomp       = props.globals.getNode("/gear/gear[1]/wow").getValue()          ~ mycomp;
   mycomp       = props.globals.getNode("/gear/gear[2]/wow").getValue()          ~ mycomp;
   mycomp       = props.globals.getNode("/controls/ground-equipment").getValue() ~ mycomp;
-
+  
+#   print("Sended String :"~mycomp);
   var myIntBool = bits.value(mycomp);
   setprop("sim/multiplay/generic/int[8]",myIntBool);
 }
@@ -143,12 +144,12 @@ var Decode_Bool = {
         
         var receivedString = bits.string(myLocalIntObject, 10);
         #print("myLocalIntObject"~myLocalIntObject);
-        #print("receivedString"~receivedString);
+#         print("receivedString:"~receivedString);
         
         me.mySelf.getNode("controls/ground-equipment", 1).setValue(chr(receivedString[size(receivedString)-10]));
-        me.mySelf.getNode("gear/gear[0]/wow", 1).setValue(chr(receivedString[size(receivedString)-9]));
+        me.mySelf.getNode("gear/gear[2]/wow", 1).setValue(chr(receivedString[size(receivedString)-9]));
         me.mySelf.getNode("gear/gear[1]/wow", 1).setValue(chr(receivedString[size(receivedString)-8]));
-        me.mySelf.getNode("gear/gear[2]/wow", 1).setValue(chr(receivedString[size(receivedString)-7]));
+        me.mySelf.getNode("gear/gear[0]/wow", 1).setValue(chr(receivedString[size(receivedString)-7]));
         
         
         me.mySelf.getNode("systems/electrical/outputs/strobe", 1).setValue(chr(receivedString[size(receivedString)-6]));

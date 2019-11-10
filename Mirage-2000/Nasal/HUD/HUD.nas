@@ -1121,88 +1121,10 @@ var HUD = {
     #me.acc.hide();
     #me.vertical_speed.hide();
     
-  
+    #Displaying the circles, the squares or even the triangles (triangles will be for a IR lock without radar)
+    me.displayTarget();
     
-    #To put a triangle on the selected target
-    #This should be changed by calling directly the radar object (in case of multi targeting)
-    
-    var closestCallsign = getprop("ai/closest/callsign");
-    var closestRange = getprop("ai/closest/range");
-    var Token = 0;
-    
-
-    raw_list = mirage2000.myRadar3.ContactsList;
-    #print("Size:" ~ size(raw_list));
-    
-    i = 0;
-    
-    me.designatedDistanceFT = nil;
-    
-    foreach(var c; raw_list){
-      
-      if(i<size(me.targetArray)){
-
-
-        displayIt = c.objectDisplay;
-        #var myTest = c.isPainted();
-        
-        #print("Display it : %d",displayIt);
-        
-        if(displayIt==1){
-
-
-          target_callsign = c.get_Callsign();
-          #print("Paint : " ~ target_callsign ~ " : "~ myTest);
-          
-          target_altitude = c.get_altitude();
-          target_heading_deg = c.get_heading();
-          target_Distance = c.get_range();
-          
-          var triPos = HudMath.getPosFromCoord(c.get_Coord());
-          
-          #If we have a selected target we display a triangle
-          if(target_callsign == closestCallsign and closestRange > 0){
-            Token = 1;
-            #me.TriangleGroupe.show();
-            #me.triangle.setTranslation(triPos);
-            #me.triangle2.setTranslation(triPos);
-            me.Square_Group.show();
-            me.Locked_Square.setTranslation(triPos);
-            me.Locked_Square_Dash.setTranslation(clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
-            
-            #And we hide the circle
-            me.targetArray[i].hide();
-            if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
-              me.designatedDistanceFT = c.get_Coord().direct_distance_to(geo.aircraft_position())*M2FT;
-            }
-          }else{
-            #Else  the circle
-            me.targetArray[i].show();
-            me.targetArray[i].setTranslation(triPos);
-          }
-          #here is the text display
-          me.TextInfoArray[i].show();
-          me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
-          
-          me.TextInfoArray[i].setText(sprintf("  %s \n   %d nm \n   %d ft / %d", target_callsign, target_Distance, target_altitude, target_heading_deg));
-
-        }else{
-          me.targetArray[i].hide();
-          me.TextInfoArray[i].hide();
-        }
-        #The token has 1 when we have a selected target
-        if(Token == 0){
-            #me.TriangleGroupe.hide();
-            me.Square_Group.hide();
-        }
-      }
-      
-      i+=1;
-    }
-    for(var y=i;y<size(me.targetArray);y+=1){
-      me.targetArray[y].hide();
-      me.TextInfoArray[y].hide();
-    }
+   
     
     #--------------------- Selecting the Airport and the runway -------------
     #------------------------------------------------------------------------
@@ -1512,6 +1434,106 @@ var HUD = {
     }
       
   },
+  
+  displayTarget:func(){
+    #To put a triangle on the selected target
+    #This should be changed by calling directly the radar object (in case of multi targeting)
+    
+#     var closestCallsign = getprop("ai/closest/callsign");
+#     var closestRange = getprop("ai/closest/range");
+    
+    
+    #Getting the radar target from radar tgts_list
+    var MytargetIndex = mirage2000.myRadar3.Target_Index;
+    var closestCallsign = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].get_Callsign():"";
+    var is_Painted = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].isPainted():0;
+    var closestRange = MytargetIndex != -1 and is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[MytargetIndex]):0;
+    var Token = 0;
+    
+
+    raw_list = mirage2000.myRadar3.ContactsList;
+#     print("Size:" ~ size(raw_list));
+    
+    i = 0;
+    
+    me.designatedDistanceFT = nil;
+    
+    foreach(var c; raw_list){
+      
+      if(i<size(me.targetArray) and size(raw_list)>0){
+
+
+        displayIt = c.objectDisplay;
+        #var myTest = c.isPainted();
+        
+        #print("Display it : %d",displayIt);
+        
+        if(displayIt==1 ){
+
+
+          target_callsign = c.get_Callsign();
+          #print("Paint : " ~ target_callsign ~ " : "~ myTest);
+          
+          target_altitude = c.get_altitude();
+          target_heading_deg = c.get_heading();
+          target_Distance = c.get_range();
+          
+          var triPos = HudMath.getPosFromCoord(c.get_Coord());
+          
+          #If we have a selected target we display a triangle
+          if(target_callsign == closestCallsign and closestRange > 0){
+            Token = 1;
+            #me.TriangleGroupe.show();
+            #me.triangle.setTranslation(triPos);
+            #me.triangle2.setTranslation(triPos);
+            me.Square_Group.show();
+            me.Locked_Square.setTranslation(triPos);
+            me.Locked_Square_Dash.setTranslation(clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
+            
+            #And we hide the circle
+            me.targetArray[i].hide();
+            if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
+              me.designatedDistanceFT = c.get_Coord().direct_distance_to(geo.aircraft_position())*M2FT;
+            }
+          }else{
+            #Else  the circle
+            me.targetArray[i].show();
+            me.targetArray[i].setTranslation(triPos);
+          }
+          #here is the text display
+          me.TextInfoArray[i].show();
+          me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
+          
+          me.TextInfoArray[i].setText(sprintf("  %s \n   %d nm \n   %d ft / %d", target_callsign, target_Distance, target_altitude, target_heading_deg));
+
+        }else{
+          me.targetArray[i].hide();
+          me.TextInfoArray[i].hide();
+        }
+        #The token has 1 when we have a selected target
+        if(Token == 0){
+          #me.TriangleGroupe.hide();
+          me.Square_Group.hide();
+        }
+      }
+      i+=1;
+    }
+#     print("Size2:" ~ size(raw_list));
+#     print("MyToken:" ~Token);
+    #The token has 1 when we have a selected target
+    if(Token == 0){
+      #me.TriangleGroupe.hide();
+      me.Square_Group.hide();
+    }
+    
+    
+    
+    for(var y=i;y<size(me.targetArray);y+=1){
+      me.targetArray[y].hide();
+      me.TextInfoArray[y].hide();
+    } 
+  },
+  
   
   displayRunway:func( info, rwy){
     

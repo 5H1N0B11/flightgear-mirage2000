@@ -248,6 +248,7 @@ var Radar = {
 #                 print("Radar refreshing done");
             }else{
               setprop("sim/multiplay/generic/int[2]",1);
+              me.ContactsList  = [];
             }
             #me.Global_janitor();
             
@@ -275,6 +276,8 @@ var Radar = {
       missileIndex = 0;
       MytargetVariable = nil;
       completeList     = [];
+      me.ContactsList  = [];
+      
       
       #rwr Stuff
       rwrList   = [];
@@ -949,20 +952,20 @@ var Radar = {
             {
                  me.Target_Index = size(me.tgts_list) - 1;
                  me.Target_Callsign = nil;
-                 setprop("/ai/closest/range", 0);
+#                  setprop("/ai/closest/range", 0);
                  return;#me.Target_Index = size(me.tgts_list) - 1;
             }
             if( me.Target_Index > size(me.tgts_list) - 1)
             {
                  me.Target_Index = 0;
                  me.Target_Callsign = nil;
-                 setprop("/ai/closest/range", 0);
+#                  setprop("/ai/closest/range", 0);
                  return;#me.Target_Index = 0;
             }
             if (me.Target_Callsign != me.tgts_list[me.Target_Index].getUnique()) {
                 me.Target_Callsign = nil;
                 me.Target_Callsign = nil;
-                setprop("/ai/closest/range", 0);
+#                 setprop("/ai/closest/range", 0);
                 return;
              }
             
