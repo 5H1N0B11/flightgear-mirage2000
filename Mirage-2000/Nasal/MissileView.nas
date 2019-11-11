@@ -89,16 +89,17 @@ var missile_view_handler = {
      
     me.viewN.getNode("config").setValues({
       "root":data.root,
-#       "eye-lat-deg-path": data.root ~ "/position/latitude-deg",
-#       "eye-lon-deg-path": data.root ~ "/position/longitude-deg",
-#       "eye-alt-ft-path": data.root ~ "/position/altitude-ft",
-#       "eye-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
-#       "target-lat-deg-path": data.root ~ "/position/latitude-deg",
-#       "target-lon-deg-path": data.root ~ "/position/longitude-deg",
-#       "target-alt-ft-path": data.root ~ "/position/altitude-ft",
-#       "target-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
-#       "target-pitch-deg-path": data.root ~ "/orientation/pitch-deg",
-#       "target-roll-deg-path": data.root ~ "/orientation/roll-deg",
+      #legacy code, for older FG version
+      "eye-lat-deg-path": data.root ~ "/position/latitude-deg",
+      "eye-lon-deg-path": data.root ~ "/position/longitude-deg",
+      "eye-alt-ft-path": data.root ~ "/position/altitude-ft",
+      "eye-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
+      "target-lat-deg-path": data.root ~ "/position/latitude-deg",
+      "target-lon-deg-path": data.root ~ "/position/longitude-deg",
+      "target-alt-ft-path": data.root ~ "/position/altitude-ft",
+      "target-heading-deg-path": data.root ~ "/orientation/true-heading-deg",
+      "target-pitch-deg-path": data.root ~ "/orientation/pitch-deg",
+      "target-roll-deg-path": data.root ~ "/orientation/roll-deg",
 #       "heading-offset-deg":180
     });
   },
