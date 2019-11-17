@@ -122,6 +122,7 @@ input = {
   MPint9:           "sim/multiplay/generic/int[9]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
+  reheatAB:         "/controls/engines/engine[0]/afterburner",
   nearby:           "damage/sounds/nearby-explode-on",
   explode:          "damage/sounds/explode-on",
   rad_alt:          "position/altitude-agl-ft",
@@ -140,6 +141,7 @@ input = {
   serviceElec:      "systems/electrical/serviceable",
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
+  groudSpeed:       "/velocities/groundspeed-kt",
   srvHead:          "instrumentation/heading-indicator/serviceable",
   starter:          "controls/engines/engine[0]/starter-cmd",
   stationSelect:    "controls/armament/station-select",
@@ -451,4 +453,28 @@ var TempInterpolation = func(){
 # controls/ventilation/airconditioning-temperature
   input.airconditioningtemperature.setValue(8*math.sin(input.airConditionKnob.getValue()*D2R)+22);
   input.airconditioningtype.setValue(math.cos(input.airConditionKnob.getValue()*D2R)<0?1:0);
+}
+
+
+var low_loop = func {
+
+  var calt = input.rad_alt.getValue();
+  var cspd = input.groudSpeed.getValue();
+  var burn0 = input.reheatAB.getValue();
+  var coord = geo.aircraft_position();
+  var myGeo = geodinfo(coord.lat(), coord.lon(),coord.alt());
+  foreach(toto;myGeo[1].names){
+    print(toto);
+  }
+  print(myGeo[1].load_resistance);
+
+
+  if((calt <= 300) and (cspd >= 450)) {
+      setprop("controls/state/low_level", 1);
+  } elsif (calt <= 300 and burn0 == 1 ) {
+      setprop("controls/state/low_level", 1);
+  } else {
+      setprop("controls/state/low_level", 0);
+  }
+
 }

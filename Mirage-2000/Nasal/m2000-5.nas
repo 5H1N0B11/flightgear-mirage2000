@@ -196,6 +196,11 @@ var updatefunction = func()
       mp_messaging();
       #mirage2000.weather_effects_loop();
       #environment.environment();
+      
+#       call(environment.low_loop,nil,nil,nil, myErr);
+#       if(size(myErr)>0){
+#         #debug.printerror(myErr);
+#       }
     }
     
 
@@ -226,6 +231,8 @@ var updatefunction = func()
       if(size(myErr)>0){
         #debug.printerror(myErr);
       }
+
+ 
       myFramerate.e = AbsoluteTime;
     }
     ###################### rate 2 ###########################

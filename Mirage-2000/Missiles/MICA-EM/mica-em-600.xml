@@ -18,6 +18,31 @@
     </condition>
   </animation>
   
+  <model>
+		<name>flaminghot</name>
+		<path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/combustion.xml</path>
+		<offsets>
+			<x-m>1.58</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+  
+  	<animation>
+      <type>select</type>
+      <object-name>flaminghot</object-name>
+      <condition>
+           <property>payload/armament/mica-em/flags/smoke-id-600</property>
+     </condition>
+  </animation>
+  
+  <animation>
+      <type>scale</type>
+      <object-name>flaminghot</object-name>
+      <x-offset>1.0</x-offset>
+      <y-offset>0.14</y-offset>
+      <z-offset>0.14</z-offset>
+  </animation>
   
   <model>
     <name>Smoke_mica-em-600</name>

@@ -312,6 +312,46 @@
     </offsets>
   </model>
 
+    <!-- aircraft wash modeled in the lines below -->
+<!--  <model>
+    <name>aircraft_wash</name>
+    <path>Aircraft/Mirage-2000/Models/Effects/Wash/aircraft_wash.xml</path>
+    <condition>
+    <equals>
+    <property>controls/state/low_level</property>
+    <value>1</value>
+    </equals>
+    </condition>
+    <offsets>
+      <x-m> 25.00 </x-m>
+      <y-m>  0.00 </y-m>
+      <z-m>  0.00 </z-m>
+      <pitch-deg> 0 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <animation>
+    <type>translate</type>
+    <object-name>aircraft_wash</object-name>
+    <property>position/altitude-agl-ft</property>
+    <condition>
+      <equals>
+        <property>controls/state/low_level</property>
+        <value>1</value>
+      </equals>
+    </condition>
+    <interpolation>
+      <entry><ind>   0 </ind><dep>   0 </dep></entry>
+      <entry><ind> 300 </ind><dep> -90 </dep></entry>
+    </interpolation>
+    <axis>
+      <x> -1 </x>
+      <y>  0 </y>
+      <z>  1 </z>
+    </axis>
+  </animation>-->
+  
+  
   <model>
     <path>Aircraft/Mirage-2000/Models/Exhausts/exhausts.xml</path>
     <offsets>

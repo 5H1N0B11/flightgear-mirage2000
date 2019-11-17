@@ -19,22 +19,75 @@
   </animation>
   
   
+  
   <model>
-    <name>Smoke_as30l_200</name>
+		<name>flammes_200</name>
+		<path>AS30L_flamme.xml</path>
+	</model>
+	
+	<animation>
+      <type>select</type>
+      <object-name>flammes_200</object-name>
+      <condition>
+           <property>payload/armament/as30l/flags/smoke-id-200</property>
+     </condition>
+  </animation>
+  
+  <animation>
+    <object-name>flammes_200</object-name>
+    <type>rotate</type>
+    <offset-deg>45</offset-deg>
+    <center>
+      <x-m> 0   </x-m>
+      <y-m> 0   </y-m>
+      <z-m> 0   </z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  
+  
+  
+  
+  <model>
+    <name>Smoke_as30l_200_1</name>
     <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/smoke.xml</path>
     <offsets>
       <x-m>3</x-m>
       <y-m>0</y-m>
-      <z-m>0</z-m>
+      <z-m>2</z-m>
     </offsets>
   </model>
   <animation>
     <type>select</type>
-    <object-name>Smoke_as30l_200</object-name>
+    <object-name>Smoke_as30l_200_1</object-name>
     <condition>
         <property>payload/armament/as30l/flags/smoke-id-200</property>
     </condition>
   </animation>
+  
+  
+    <model>
+    <name>Smoke_as30l_200_2</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/smoke.xml</path>
+    <offsets>
+      <x-m>3</x-m>
+      <y-m>0</y-m>
+      <z-m>-2</z-m>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>Smoke_as30l_200_2</object-name>
+    <condition>
+        <property>payload/armament/as30l/flags/smoke-id-200</property>
+    </condition>
+  </animation>
+  
+  
   
   <model>
     <name>explosionFire_as30l_200</name>
