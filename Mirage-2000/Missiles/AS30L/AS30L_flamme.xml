@@ -13,7 +13,7 @@
   <animation>
     <object-name>flaminghot_Left</object-name>
     <type>rotate</type>
-    <offset-deg>-7</offset-deg>
+    <offset-deg>-4</offset-deg>
     <center>
       <x-m> 1.78</x-m>
       <y-m> 1   </y-m>
@@ -49,7 +49,7 @@
   <animation>
     <object-name>flaminghot_Right</object-name>
     <type>rotate</type>
-    <offset-deg>7</offset-deg>
+    <offset-deg>4</offset-deg>
     <center>
       <x-m> 1.78</x-m>
       <y-m> 1   </y-m>
