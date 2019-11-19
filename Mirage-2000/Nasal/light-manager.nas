@@ -38,9 +38,16 @@ var light_manager = {
 #     light_b= 0.0,
 #     light_is_on= 0,
 #     number = 0
-    
-    me.light1 = ALS_light_spot.new(70,-1,2,2,12,5,0.7,0.7,0.7,1,0);
-    me.light2 = ALS_light_spot.new(70, 1,2,-2,12,5,0.7,0.7,0.7,1,1);
+      me.data_light = [
+        ALS_light_spot.new(70,-3,2,2,12,5,0.7,0.7,0.7,1,0),
+        ALS_light_spot.new(70, 3,2,-2,12,5,0.7,0.7,0.7,1,1),
+        ALS_light_spot.new(-4,5,2,0,3.5,0,0.4,0,0,1,2),
+        ALS_light_spot.new(-4,-5,2,0,3.5,0,0,0.4,0,1,3)
+      ];
+
+     
+#     me.light1 = ALS_light_spot.new(70,-3,2,2,12,5,0.7,0.7,0.7,1,0);
+#     me.light2 = ALS_light_spot.new(70, 3,2,-2,12,5,0.7,0.7,0.7,1,1);
     
 # 		me.light1_xpos =  -3.10000;
 # 		me.light1_ypos =  -0.10927;
@@ -68,7 +75,7 @@ var light_manager = {
 	},
 
 	start: func {
-		setprop("/sim/rendering/als-secondary-lights/num-lightspots", 2);
+		setprop("/sim/rendering/als-secondary-lights/num-lightspots", size(me.data_light));
  
  
 		me.run = 1;		
@@ -134,10 +141,16 @@ var light_manager = {
   # 				me.light5_off();
   # 			}
         
-        me.light1.position();
+        for(var i = 0; i < size(me.data_light); i += 1)
+        {
+          me.data_light[i].position();
+        }
+        
+        
+#         me.light1.position();
         #call(me.light2.position,nil,nil,nil, myErr= []);
 #         print("Toto:");
-        me.light2.position();
+#         me.light2.position();
 
         # light 1 position
   # 			var proj_x = cur_alt;
