@@ -1590,7 +1590,7 @@
   </model>
   
     <model>
-    <name>landing light left</name>
+    <name>landing_light_left</name>
     <path>Aircraft/Mirage-2000/Models/lights/light_landing.xml</path>
     <offsets>
       <x-m> -3.10000 </x-m>
@@ -1600,7 +1600,7 @@
   </model>
   
   <model>
-    <name>landing light right</name>
+    <name>landing_light_right</name>
     <path>Aircraft/Mirage-2000/Models/lights/light_landing.xml</path>
     <offsets>
       <x-m> -3.10000 </x-m>

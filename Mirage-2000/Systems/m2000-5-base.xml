@@ -205,7 +205,9 @@
     <assistance>
       <file>Aircraft/Mirage-2000/Nasal/assistance.nas</file>
     </assistance>
-
+    <light>
+      <file>Aircraft/Mirage-2000/Nasal/light-manager.nas</file>
+    </light>
   </nasal>
 
 </PropertyList>
