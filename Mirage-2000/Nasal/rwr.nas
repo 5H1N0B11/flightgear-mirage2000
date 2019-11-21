@@ -165,37 +165,37 @@ RWRCanvas = {
 #                   .hide();
 #        }
 # Threat list ID:
-        rwr.AIRCRAFT_VIGGEN = "37";
-        rwr.AIRCRAFT_EAGLE = "15";
-        rwr.AIRCRAFT_TOMCAT = "14";
-        rwr.AIRCRAFT_BUK = "11";
-	rwr.AIRCRAFT_GARGOYLE    = "20"; # Other namings for tracking and radar: BB, CS.
-	rwr.AIRCRAFT_FAGOT    = "MG";
+        rwr.AIRCRAFT_VIGGEN   = "37";
+        rwr.AIRCRAFT_EAGLE    = "15";
+        rwr.AIRCRAFT_TOMCAT   = "14";
+        rwr.ASSET_BUK         = "11";
+        rwr.ASSET_GARGOYLE    = "20"; # Other namings for tracking and radar: BB, CS.
+        rwr.AIRCRAFT_FAGOT    = "MG";
         rwr.AIRCRAFT_FISHBED  = "21";
         rwr.AIRCRAFT_FULCRUM  = "29";
         rwr.AIRCRAFT_FLANKER  = "27";
-	rwr.AIRCRAFT_PAKFA    = "57";
-        rwr.AIRCRAFT_MIRAGE = "M2";
-        rwr.AIRCRAFT_FALCON = "16";
-        rwr.AIRCRAFT_WARTHOG = "10";
-        rwr.AIRCRAFT_FRIGATE = "SH";
-        #rwr.AIRCRAFT_TANKER = "KC";
-        rwr.AIRCRAFT_AWACS = "S";
-	rwr.AIRCRAFT_BLACKBIRD = "71";
-        rwr.AIRCRAFT_TYPHOON = "EF";
-	rwr.AIRCRAFT_HORNET   = "18";
+        rwr.AIRCRAFT_PAKFA    = "57";
+        rwr.AIRCRAFT_MIRAGE   = "M2";
+        rwr.AIRCRAFT_FALCON   = "16";
+        rwr.AIRCRAFT_WARTHOG  = "10";
+        rwr.ASSET_FRIGATE     = "SH";
+        rwr.AIRCRAFT_AWACS    = "S";
+        rwr.AIRCRAFT_SENTRY   = "E3";
+        rwr.AIRCRAFT_BLACKBIRD = "71";
+        rwr.AIRCRAFT_TYPHOON  = "EF";
+        rwr.AIRCRAFT_HORNET   = "18";
         rwr.AIRCRAFT_FLAGON   = "SU";
         rwr.SCENARIO_OPPONENT = "28";
-        rwr.AIRCRAFT_JAGUAR   = "JG";
+        rwr.AIRCRAFT_JAGUAR   = "JA";
         rwr.AIRCRAFT_PHANTOM  = "F4";
         rwr.AIRCRAFT_SKYHAWK  = "A4";
         rwr.AIRCRAFT_TIGER    = "F5";
-        rwr.AIRCRAFT_TONKA	  = "TN";
+        rwr.AIRCRAFT_TONKA	  = "TO";
         rwr.AIRCRAFT_RAFALE	  = "RF";
-        rwr.AIRCRAFT_HARRIER  = "HR";
+        rwr.AIRCRAFT_HARRIER  = "HA";
         rwr.AIRCRAFT_HARRIERII = "AV";
         rwr.AIRCRAFT_GINA	  = "91";
-        rwr.AIRCRAFT_MB339    = "MB";
+        rwr.AIRCRAFT_MB339    = "M3";
         rwr.AIRCRAFT_ALPHAJET = "AJ";
         rwr.AIRCRAFT_INTRUDER = "A6";
         rwr.AIRCRAFT_FROGFOOT = "25";
@@ -203,12 +203,13 @@ RWRCanvas = {
         rwr.AIRCRAFT_RAPTOR	  = "22";
         rwr.AIRCRAFT_JSF      = "35";
         rwr.AIRCRAFT_GRIPEN   = "39";
-        rwr.AIRCRAFT_MITTEN   = "YK";
-        rwr.AIRCRAFT_UNKNOWN = "U";
-        rwr.AIRCRAFT_AI = "AI";
+        rwr.AIRCRAFT_MITTEN   = "Y1";
+        rwr.AIRCRAFT_ALCA     = "LC";
+        rwr.AIRCRAFT_UNKNOWN  = "U";
+        rwr.ASSET_AI          = "AI";
         rwr.lookupType = {
         # OPRF fleet and related aircrafts:
-                "f-14b":                    rwr.AIRCRAFT_TOMCAT,     
+                 "f-14b":                    rwr.AIRCRAFT_TOMCAT,     
                 "F-14D":                    rwr.AIRCRAFT_TOMCAT,    
                 "F-15C":                    rwr.AIRCRAFT_EAGLE,     
                 "F-15D":                    rwr.AIRCRAFT_EAGLE,    
@@ -221,27 +222,26 @@ RWRCanvas = {
                 "m2000-5B":                 rwr.AIRCRAFT_MIRAGE,
                 "MiG-21bis":                rwr.AIRCRAFT_FISHBED,
                 "MiG-29":                   rwr.AIRCRAFT_FULCRUM,
-                "SU-27":                    rwr.AIRCRAFT_FLANKER,
-                "buk-m2":                   rwr.AIRCRAFT_BUK,  
-		"s-300":   		    rwr.AIRCRAFT_GARGOYLE,  
-                "missile_frigate":          rwr.AIRCRAFT_FRIGATE,
-                "frigate":                  rwr.AIRCRAFT_FRIGATE,
-                "fleet":                    rwr.AIRCRAFT_FRIGATE, 
-                "EC-137R":                  rwr.AIRCRAFT_AWACS,
+				"SU-27":                    rwr.AIRCRAFT_FLANKER, 
+                "EC-137R":                  rwr.AIRCRAFT_SENTRY,
                 "RC-137R":                  rwr.AIRCRAFT_AWACS,
                 "E-8R":                     rwr.AIRCRAFT_AWACS,
-                "EC-137D":                  rwr.AIRCRAFT_AWACS,
+                "EC-137D":                  rwr.AIRCRAFT_SENTRY,
                 "gci":                      rwr.AIRCRAFT_AWACS,
-		"Blackbird-SR71A":			rwr.AIRCRAFT_BLACKBIRD,
+                "Blackbird-SR71A":			rwr.AIRCRAFT_BLACKBIRD,
                 "Blackbird-SR71A-BigTail":	rwr.AIRCRAFT_BLACKBIRD,
                 "Blackbird-SR71B":			rwr.AIRCRAFT_BLACKBIRD,
-                "AI":                       rwr.AIRCRAFT_AI,
-                #misc threatening aircraft:
                 "A-10":                     rwr.AIRCRAFT_WARTHOG,
                 "A-10-model":               rwr.AIRCRAFT_WARTHOG,
                 "Typhoon":                  rwr.AIRCRAFT_TYPHOON,
-                "f16":"16",
+                "buk-m2":                   rwr.ASSET_BUK,     
+                "s-300":                    rwr.ASSET_GARGOYLE,
+                "missile_frigate":          rwr.ASSET_FRIGATE,
+                "frigate":                  rwr.ASSET_FRIGATE,
+                "fleet":                    rwr.ASSET_FRIGATE,
                 "Mig-28":                   rwr.SCENARIO_OPPONENT,
+        # Other threatening aircrafts (FGAddon, FGUK, etc.):
+                "AI":                       rwr.ASSET_AI,
                 "SU-37":					rwr.AIRCRAFT_FLANKER,
                 "J-11A":                    rwr.AIRCRAFT_FLANKER,
                 "T-50":                     rwr.AIRCRAFT_PAKFA,
@@ -258,7 +258,7 @@ RWRCanvas = {
                 "A-10-modelB":              rwr.AIRCRAFT_WARTHOG,
                 "Su-15":                    rwr.AIRCRAFT_FLAGON,
                 "Jaguar-GR3":               rwr.AIRCRAFT_JAGUAR,
-                "E3B":                      rwr.AIRCRAFT_AWACS,
+                "E3B":                      rwr.AIRCRAFT_SENTRY,
                 "E-2C-Hawkeye":             rwr.AIRCRAFT_AWACS,
                 "F-4S":						rwr.AIRCRAFT_PHANTOM,
                 "F-4EJ_ADTW":				rwr.AIRCRAFT_PHANTOM,
@@ -299,10 +299,11 @@ RWRCanvas = {
                 "F-35B":                    rwr.AIRCRAFT_JSF,
                 "JAS-39C_Gripen":           rwr.AIRCRAFT_GRIPEN,
                 "Yak-130":                  rwr.AIRCRAFT_MITTEN,
-                "mp-nimitz":                rwr.AIRCRAFT_FRIGATE,
-                "mp-eisenhower":            rwr.AIRCRAFT_FRIGATE,
-                "mp-vinson":                rwr.AIRCRAFT_FRIGATE,
-                "mp-clemenceau":            rwr.AIRCRAFT_FRIGATE,
+                "L-159":                    rwr.AIRCRAFT_ALCA,
+                "mp-nimitz":                rwr.ASSET_FRIGATE,
+                "mp-eisenhower":            rwr.ASSET_FRIGATE,
+                "mp-vinson":                rwr.ASSET_FRIGATE,
+                "mp-clemenceau":            rwr.ASSET_FRIGATE,
                 "ufo":                      rwr.AIRCRAFT_UNKNOWN,
         };
         rwr.shownList = [];
@@ -366,7 +367,7 @@ RWRCanvas = {
             #print("show "~me.i~" "~me.typ~" "~contact[0].get_model()~"  "~contact[1]);
             me.threat = me.contact[1];#print(me.threat);
             
-            if (me.threat > 0.5 and me.typ != me.AIRCRAFT_UNKNOWN and me.typ != me.AIRCRAFT_AI) {
+            if (me.threat > 0.5 and me.typ != me.AIRCRAFT_UNKNOWN and me.typ != me.ASSET_AI) {
                 me.threat = me.inner_radius;# inner circle
             } elsif (me.threat > 0) {
                 me.threat = me.outer_radius;# outer circle
@@ -382,12 +383,12 @@ RWRCanvas = {
             me.texts[me.i].setTranslation(me.x,me.y);
             me.texts[me.i].setText(me.typ);
             me.texts[me.i].show();
-            if (me.prio == 0 and me.typ != me.AIRCRAFT_AI and me.typ != me.AIRCRAFT_UNKNOWN) {# 
+            if (me.prio == 0 and me.typ != me.ASSET_AI and me.typ != me.AIRCRAFT_UNKNOWN) {# 
                 me.symbol_priority.setTranslation(me.x,me.y);
                 me.symbol_priority.show();
                 me.prio = 1;
             }
-            if (!(me.typ == me.AIRCRAFT_GARGOYLE or me.typ == me.AIRCRAFT_BUK or me.typ == me.AIRCRAFT_FRIGATE) and me.contact[0].get_Speed()>60) {
+            if (!(me.typ == me.ASSET_GARGOYLE or me.typ == me.ASSET_BUK or me.typ == me.ASSET_FRIGATE) and me.contact[0].get_Speed()>60) {
                 #air-borne
                 me.symbol_hat[me.i].setTranslation(me.x,me.y);
                 me.symbol_hat[me.i].show();

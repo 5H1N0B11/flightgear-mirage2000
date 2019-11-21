@@ -29,9 +29,9 @@ var FireControl = {
 		fc.WeaponNotification = VectorNotification.new("WeaponNotification");
 		fc.setupMFDObservers();
 		fc.dropMode = 0;          # 0=ccrp, 1 = ccip
-		setlistener("controls/armament/trigger",func{fc.trigger();fc.updateDual()});
-		setlistener("controls/armament/master-arm",func{fc.updateCurrent()});
-		setlistener("controls/armament/dual",func{fc.updateDual()});
+		setlistener("controls/armament/trigger",func{fc.trigger();fc.updateDual()},nil,0);
+		setlistener("controls/armament/master-arm",func{fc.updateCurrent()},nil,0);
+		setlistener("controls/armament/dual",func{fc.updateDual()},nil,0);
 		return fc;
 	},
 	
@@ -693,7 +693,7 @@ var FireControl = {
 
 	triggerHold: func (aimer) {
 		# will fire weapon even with no lock
-		if (me.triggerTime == 0 or me.getSelectedWeapon() == nil or me.getSelectedWeapon().parents[0] != armament.AIM) {
+		if (me.triggerTime == 0 or me.getSelectedWeapon() == nil or me.getSelectedWeapon().parents[0] != armament.AIM or me.triggerTime + 1.5 > getprop("sim/time/elapsed-sec")) {
 			return;
 		}
 		aimer = me.pylons[me.selected[0]].fireWeapon(me.selected[1], getCompleteRadarTargetsList());
