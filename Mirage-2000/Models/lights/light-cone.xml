@@ -46,6 +46,10 @@
           <property>gear/gear[0]/position-norm</property>
           <value>0.3</value>
           </greater-than>
+          <equals>
+            <property>/sim/rendering/shaders/skydome</property>
+            <value>false</value>
+          </equals>
       </and>
     </condition>
   </animation>
