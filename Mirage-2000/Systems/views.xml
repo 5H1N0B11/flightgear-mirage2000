@@ -28,12 +28,8 @@
       <eye-lon-deg-path>/position/longitude-deg</eye-lon-deg-path>
       <eye-alt-ft-path>/position/altitude-ft</eye-alt-ft-path>
       <eye-heading-deg-path>/orientation/heading-deg</eye-heading-deg-path>
-
       <at-model type="bool">true</at-model>
 
-      <x-offset-m type="double">0</x-offset-m>
-      <y-offset-m type="double">0</y-offset-m>
-      <z-offset-m type="double">-25</z-offset-m>
       <!--    <heading-offset-deg>180</heading-offset-deg>
     <pitch-offset-deg>10</pitch-offset-deg>-->
     </config>
