@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>right.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>right</object-name>
+
+    <!-- Objets transparents -->
+  </animation>
+
+  <!-- FAILURES -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/Failures/failures.xml</path>
+    <offsets>
+      <x-m> -0.049 </x-m>
+      <y-m>  0.025 </y-m>
+      <z-m>  0.048 </z-m>
+      <pitch-deg> -15 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- TACAN -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/tacan/tacan.xml</path>
+    <offsets>
+      <x-m>  0.07000 </x-m>
+      <y-m> -0.00294 </y-m>
+      <z-m> -0.00130 </z-m>
+      <pitch-deg> -90 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- VOR-ILS -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/vor-ils/vor-ils.xml</path>
+    <offsets>
+      <x-m>  0.07000 </x-m>
+      <y-m>  0.04320 </y-m>
+      <z-m> -0.00130 </z-m>
+      <pitch-deg> -90 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- STARTER -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/starter/starter.xml</path>
+    <offsets>
+      <x-m>  0.310 </x-m>
+      <y-m>  0.022 </y-m>
+      <z-m> -0.001 </z-m>
+      <pitch-deg> -90 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- COND -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/cond/cond.xml</path>
+    <offsets>
+      <x-m>  0.218 </x-m>
+      <y-m>  0.022 </y-m>
+      <z-m> -0.001 </z-m>
+      <pitch-deg> -90 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- MODES -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/modes/modes.xml</path>
+    <offsets>
+      <x-m>  0.18958 </x-m>
+      <y-m>  0.02200 </y-m>
+      <z-m> -0.00100 </z-m>
+      <pitch-deg> -90 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- U.V. -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/banq/banq.xml</path>
+    <offsets>
+      <x-m>  0.249 </x-m>
+      <y-m>  0.022 </y-m>
+      <z-m> -0.001 </z-m>
+      <pitch-deg> -90 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- Fusibles -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fusibles.xml</path>
+    <offsets>
+      <x-m>  0.365 </x-m>
+      <y-m>  0.022 </y-m>
+      <z-m> -0.001 </z-m>
+      <pitch-deg> -90 </pitch-deg>
+    </offsets>
+  </model>
+  
+</PropertyList>

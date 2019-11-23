@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <text>
+    <name>Nav-src</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.073</y-m>
+      <z-m>0.090</z-m>      <!-- 0.102 - 0.012 -->
+    </offsets>
+    <alignment>right-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+    <property>autopilot/internal/nav-type</property>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+    <font-resolution>
+      <width type="int">32</width>
+      <height type="int">32</height>
+    </font-resolution>
+  </text>
+
+  <text>
+    <name>Nav-dst</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.073</y-m>
+      <z-m>0.083</z-m>      <!-- 0.095 - 0.012 -->
+    </offsets>
+    <alignment>right-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type>number-value</type>
+    <property>autopilot/internal/nav-distance</property>
+    <format>%3.0fNM</format>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+    <font-resolution>
+      <width type="int">32</width>
+      <height type="int">32</height>
+    </font-resolution>
+  </text>
+
+  <text>
+    <name>Nav-id</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.073</y-m>
+      <z-m>0.076</z-m>      <!-- 0.088 - 0.012 -->
+    </offsets>
+    <alignment>right-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type>text-value</type>
+    <property>autopilot/internal/nav-id</property>
+    <format>%0.5s</format>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+    <font-resolution>
+      <width type="int">32</width>
+      <height type="int">32</height>
+    </font-resolution>
+  </text>
+
+  <text>
+    <name>Nav-ttw</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.073</y-m>
+      <z-m>0.068</z-m>      <!-- 0.081 - 0.013 -->
+    </offsets>
+    <alignment>right-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type>text-value</type>
+    <property>autopilot/internal/nav-ttw</property>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+    <character-aspect-ratio type="double">1.3</character-aspect-ratio>
+    <font-resolution>
+      <width type="int">32</width>
+      <height type="int">32</height>
+    </font-resolution>
+  </text>
+
+  <animation>
+    <name>magenta</name>
+    <type>material</type>
+    <object-name>Nav-src</object-name>
+    <object-name>Nav-id</object-name>
+    <object-name>Nav-dst</object-name>
+    <object-name>Nav-ttw</object-name>
+    <object-name>GSPD</object-name>
+    <emission>
+      <red>   0.95 </red>
+      <green> 0.20 </green>
+      <blue>  1.00 </blue>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+</PropertyList>

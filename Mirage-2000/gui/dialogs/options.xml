@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <!-- If you put the dialog file in the Aircraft/aircraftname/gui/dialog the dialog box is loaded -->
+  <name>options</name>
+  <modal type="bool">false</modal>
+  <layout>vbox</layout>
+
+  <group>
+    <layout>hbox</layout>
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+
+    <text>
+      <label>Options</label>
+    </text>
+
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend />
+
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
+
+  <hrule />
+
+  <group>
+    <layout>hbox</layout>
+    <text><label>Show Pilot</label></text>
+    <checkbox>
+      <property>/controls/seat/pilot</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/seat/pilot</property>
+      </binding>
+    </checkbox>
+  </group>
+
+  <group>
+    <layout>hbox</layout>
+    <text><label>Cockpit Vibration</label></text>
+    <checkbox>
+      <property>/controls/cabin/shake-effect</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/cabin/shake-effect</property>
+      </binding>
+    </checkbox>
+  </group>
+
+  <hrule />
+
+  <button>
+    <legend>Toggle ground equipment</legend>
+    <binding>
+      <command>property-toggle</command>
+      <property>/controls/ground-equipment</property>
+    </binding>
+  </button>
+
+  <hrule />
+
+    <group>
+    <layout>hbox</layout>
+    <text><label>Command Bug</label></text>
+    <checkbox>
+      <property>/controls/bugs/command-bug</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/bugs/command-bug</property>
+      </binding>
+    </checkbox>
+  </group>
+
+  <hrule />
+
+  <group>
+    <layout>hbox</layout>
+    <text><label>CANVAS MFD</label></text>
+    <checkbox>
+      <property>/instrumentation/efis/Mode</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/efis/Mode</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>
+          aircraft.data.add("/instrumentation/efis/Mode");
+          mirage2000.mdfselection()</script>
+      </binding>
+    </checkbox>
+  </group>
+
+  <hrule />
+  <text><label>Fly-by-wire</label></text>
+  <group>
+    <layout>hbox</layout>
+    <group>
+      <layout>vbox</layout>
+      <halign>left</halign>
+      <text><label>Activate Fly By Wire</label></text>
+      <text><label>A/A - CHARGES</label></text>
+    </group>
+
+    <group>
+      <layout>vbox</layout>
+      <halign>right</halign>
+      <checkbox>
+        <property>controls/SAS/activated</property>
+        <live>true</live>
+        <binding>
+          <command>property-toggle</command>
+          <property>controls/SAS/activated</property>
+        </binding>
+      </checkbox>
+      <slider>
+        <name>CAT</name>
+        <property>controls/SAS/cat</property>
+        <live>1</live>
+        <min>0</min>
+        <max>1</max>
+        <step>1</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+      </slider>
+    </group>
+  </group>
+
+  <hrule />
+  
+    <group>
+    <layout>hbox</layout>
+    <group><text><label>AP TF Smooth (- +)</label></text></group>
+    <group>
+    <layout>vbox</layout>
+    <halign>right</halign>
+      <slider>
+        <name>APTF</name>
+        <property>/autopilot/settings/tf-mode</property>
+        <live>1</live>
+        <min>1</min>
+        <max>10</max>
+        <step>1</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>
+              gui.popupTip(sprintf("AP TF Smooth (- +) : %d", getprop("/autopilot/settings/tf-mode")));
+          </script>
+        </binding>
+      </slider>
+      </group>
+  </group>
+  
+  
+  
+  <group>
+    <layout>hbox</layout>
+    <group><text><label>Predictions (- +)</label></text></group>
+    <group>
+    <layout>vbox</layout>
+    <halign>right</halign>
+      <slider>
+        <name>APTF</name>
+        <property>/instrumentation/tfs/delay-sec</property>
+        <live>1</live>
+        <min>0.5</min>
+        <max>5</max>
+        <step>0.5</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>
+              gui.popupTip(sprintf("Predictions (- +) : %.1f", getprop("/instrumentation/tfs/delay-sec")));
+          </script>
+        </binding>
+      </slider>
+      </group>
+  </group>
+
+  <hrule />
+
+  <group>
+    <layout>hbox</layout>
+    <group><text><label>HUD</label></text></group>
+
+    <group>
+    <layout>vbox</layout>
+    <halign>right</halign>
+      <slider>
+        <name>HUD</name>
+        <property>controls/hud</property>
+        <live>1</live>
+        <min>0</min>
+        <max>1</max>
+        <step>1</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+      </slider>
+      </group>
+  </group>
+
+  <hrule />
+
+  <button>
+    <legend>MAP (toggleing display)</legend>
+    <binding>
+      <command>nasal</command>
+      <script>mirage2000.myRightMfd.changeMfD_Displaying()</script>
+    </binding>
+  </button>
+  
+
+  
+  
+  
+<!--  <button>
+    <legend>RWR (test)</legend>
+    <binding>
+      <command>nasal</command>
+      <script>mirage2000.createRWR()</script>
+    </binding>
+  </button>-->
+
+<!--
+  <button>
+    <legend></legend>
+    <binding>
+      <command>nasal</command>
+      <script>mirage2000.changeindex()</script>
+    </binding>
+  </button>
+-->
+
+  <hrule />
+
+  <button>
+    <legend>REPAIR</legend>
+    <binding>
+      <command>nasal</command>
+      <script>
+        var failure_modes = FailureMgr._failmgr.failure_modes;
+        var mode_list = keys(failure_modes);
+        foreach(var failure_mode_id; mode_list) {
+          FailureMgr.set_failure_level(failure_mode_id, 0);
+        }
+        </script>
+    </binding>
+  </button>
+
+  <hrule />
+
+  <!-- ~~~~~~~~~~~~~~~~~~ assistance -->
+  <group>
+    <layout>table</layout>
+    <halign>left</halign>
+    <button>
+      <row>0</row><col>0</col>
+      <legend>need assistance</legend>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/assistance</property>
+        <value>1</value>
+      </binding>
+    </button>
+    <button>
+      <row>0</row><col>1</col>
+      <legend>it is ok</legend>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/assistance</property>
+        <value>0</value>
+      </binding>
+    </button>
+  </group>
+
+
+</PropertyList>

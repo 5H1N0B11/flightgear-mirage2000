@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Based on F14b seat -->
+<PropertyList>
+
+  <path>stick.ac</path>
+
+
+  <animation>
+    <object-name>stick.box</object-name>
+    <object-name>stick.mast</object-name>
+    <object-name>stick.handle</object-name>
+  </animation>
+  <animation>
+    <name>bloc_stick</name>
+    <object-name>stick.mast</object-name>
+    <object-name>stick.handle</object-name>
+  </animation>
+
+
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_stick</object-name>
+    <property>/controls/flight/elevator</property>
+    <factor>-15</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_stick</object-name>
+    <property>/controls/flight/aileron</property>
+    <factor>-15</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+
+
+</PropertyList>

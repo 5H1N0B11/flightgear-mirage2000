@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>panel_back.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>back_panel</object-name>
+
+    <!-- Objets transparents -->
+
+  </animation>
+
+  <!-- LIGHTS -->
+  <!--Light Top LEFT -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Lights/lights.xml</path>
+    <offsets>
+      <x-m>  0.50719 </x-m>
+      <y-m> -0.20777 </y-m>
+      <z-m>  0.03983 </z-m>
+      <roll-deg> 41.51 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Effect Top Left-->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Lights/Light-EffectUp.xml</path>
+    <name>EffectTopLeft</name>
+    <offsets>
+      <x-m>  0.50719 </x-m>
+      <y-m> -0.20777 </y-m>
+      <z-m>  0.03983 </z-m>
+      <pitch-deg>93</pitch-deg>
+      <heading-deg>5</heading-deg>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>select</type>
+    <object-name>EffectTopLeft</object-name>
+    <condition>
+      <and>
+        <property>sim/rendering/rembrandt/enabled</property>
+        <not>
+          <equals>
+            <property>/systems/electrical/outputs/boardLightUV</property>
+            <value>0</value>
+          </equals>
+        </not>
+      </and>
+    </condition>
+  </animation>
+
+  <!--Light Top RIGHT -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Lights/lights.xml</path>
+    <offsets>
+      <x-m> 0.50719 </x-m>
+      <y-m> 0.20777 </y-m>
+      <z-m> 0.03983 </z-m>
+      <roll-deg> -41.51 </roll-deg>
+    </offsets>
+  </model>
+
+  <!-- Effect Top RIGHT-->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Lights/Light-EffectUp.xml</path>
+    <name>EffectTopRight</name>
+    <offsets>
+      <x-m> 0.50719 </x-m>
+      <y-m> 0.20777 </y-m>
+      <z-m> 0.03983 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>select</type>
+    <object-name>EffectTopRight</object-name>
+    <condition>
+      <and>
+        <property>sim/rendering/rembrandt/enabled</property>
+        <not>
+          <equals>
+            <property>/systems/electrical/outputs/boardLightUV</property>
+            <value>0</value>
+          </equals>
+        </not>
+      </and>
+    </condition>
+  </animation>
+  
+  <!-- Effect BANQUETTE RIGHT-->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Lights/Light-EffectSide.xml</path>
+    <name>banqRight</name>
+    <offsets>
+      <x-m>  0.70 </x-m>
+      <y-m>  0.38 </y-m>
+      <z-m> -0.26 </z-m>
+      <pitch-deg> 15 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <animation>
+    <type>select</type>
+    <object-name>banqRight</object-name>
+    <condition>
+      <and>
+        <property>sim/rendering/rembrandt/enabled</property>
+        <not>
+          <equals>
+            <property>/systems/electrical/outputs/sideLightUV</property>
+            <value>0</value>
+          </equals>
+        </not>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- MFD Left -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Mfd/mfdL.xml</path>
+    <offsets>
+      <x-m>  0.390 </x-m>
+      <y-m> -0.197 </y-m>
+      <z-m> -0.118 </z-m>
+    </offsets>
+  </model>
+
+  <!-- MFD Center border  -->
+  <model>
+    <name>MFD_Center_border</name>
+    <condition></condition>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/center-mfd.xml</path>
+    <offsets>
+      <x-m>  0.400 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m> -0.185 </z-m>
+      <pitch-deg> -20 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- MFD Right -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Mfd/mfdR.xml</path>
+    <offsets>
+      <x-m>  0.390 </x-m>
+      <y-m>  0.197 </y-m>
+      <z-m> -0.118 </z-m>
+    </offsets>
+  </model>
+
+  <!-- REVI -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Revi/reviB.xml</path>
+    <offsets>
+      <x-m> 0.456 </x-m>
+      <y-m> 0.000 </y-m>
+      <z-m> 0.159 </z-m>
+    </offsets>
+  </model>
+  <!-- RADAR -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Radar/radar.xml</path>
+    <offsets>
+      <x-m> 0.57800 </x-m>
+      <y-m> 0.00000 </y-m>
+      <z-m> 0.06826 </z-m>
+    </offsets>
+  </model>
+
+  <!-- AP -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/AP/ap.xml</path>
+    <offsets>
+      <x-m>  0.376 </x-m>
+      <y-m> -0.183 </y-m>
+      <z-m>  0.048 </z-m>
+    </offsets>
+  </model>
+
+  <!-- SURF-INDIC -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Surf-indic/surf-indic.xml</path>
+    <offsets>
+      <x-m>  0.37426 </x-m>
+      <y-m> -0.18200 </y-m>
+      <z-m>  0.04800 </z-m>
+    </offsets>
+  </model>
+
+  <!-- ADI -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/adi/adi.xml</path>
+    <offsets>
+      <x-m>  0.356 </x-m>
+      <y-m>  0.184 </y-m>
+      <z-m> -0.010 </z-m>
+    </offsets>
+  </model>
+
+  <!-- VSI -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Vsi/vsi.xml</path>
+    <offsets>
+      <x-m> 0.3785 </x-m>
+      <y-m> 0.1250 </y-m>
+      <z-m> 0.0650 </z-m>
+    </offsets>
+  </model>
+
+  <!-- INFOS -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Infos/infos.xml</path>
+    <offsets>
+      <x-m> 0.371 </x-m>
+      <y-m> 0.175 </y-m>
+      <z-m> 0.003 </z-m>
+    </offsets>
+  </model>
+
+  <!-- Carburants -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Carburant/carburant.xml</path>
+    <offsets>
+      <x-m>  0.39000 </x-m>
+      <y-m>  0.14621 </y-m>
+      <z-m> -0.24200 </z-m>
+    </offsets>
+  </model>
+
+  <!-- Tuyere -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Tuyere/tuyere.xml</path>
+    <offsets>
+      <x-m>  0.39000 </x-m>
+      <y-m>  0.24102 </y-m>
+      <z-m> -0.24200 </z-m>
+    </offsets>
+  </model>
+
+  <!-- Transponder -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/transpondeur/transpondeur.xml</path>
+    <offsets>
+      <x-m>  0.444 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m> -0.348 </z-m>
+      <pitch-deg> -10 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- Alerts -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Alerts/alerts.xml</path>
+    <offsets>
+      <x-m>  0.395 </x-m>
+      <y-m> -0.170 </y-m>
+      <z-m> -0.231 </z-m>
+      <pitch-deg> -5 </pitch-deg>
+    </offsets>
+  </model>
+
+  <!-- Clock -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/clock/clock.xml</path>
+    <offsets>
+      <x-m>  0.420 </x-m>
+      <y-m> -0.300 </y-m>
+      <z-m> -0.192 </z-m>
+      <heading-deg> 40 </heading-deg>
+      <pitch-deg>  -10 </pitch-deg>
+    </offsets>
+  </model>
+
+</PropertyList>

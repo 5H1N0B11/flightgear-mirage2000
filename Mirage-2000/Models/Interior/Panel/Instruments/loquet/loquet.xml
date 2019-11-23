@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>loquet.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>base</object-name>
+    <object-name>loquet</object-name>
+    <object-name>bouton</object-name>
+
+    <!-- Objets transparents -->
+  </animation>
+
+  <animation>
+    <name>LoquetComplet</name>
+    <object-name>loquet</object-name>
+    <object-name>bouton</object-name>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>LoquetComplet</object-name>
+    <property>sim/model/door-positions/crew/position-norm</property>
+    <interpolation>
+      <entry><ind> 0.0000 </ind><dep>   0 </dep></entry>
+      <entry><ind> 0.0900 </ind><dep>   0 </dep></entry>
+      <entry><ind> 0.0935 </ind><dep> -80 </dep></entry>
+      <entry><ind> 0.1000 </ind><dep> -80 </dep></entry>
+      <entry><ind> 0.1100 </ind><dep>   0 </dep></entry>
+      <entry><ind> 1.0000 </ind><dep>   0 </dep></entry>
+    </interpolation>
+    <center>
+      <x-m>  0.00141 </x-m>
+      <y-m>  0.00000 </y-m>
+      <z-m> -0.00536 </z-m>
+    </center>
+    <axis>
+      <x> 1 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+</PropertyList>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>vor-ils.ac</path>
+
+  <animation>
+
+    <!-- Objets opaques -->
+    <object-name>base</object-name>
+    <object-name>texte</object-name>
+    <object-name>num-0</object-name>
+    <object-name>num-1</object-name>
+    <object-name>num-2</object-name>
+    <object-name>num-3</object-name>
+    <object-name>num-4</object-name>
+    <object-name>buton1</object-name>
+    <object-name>buton2</object-name>
+
+    <!-- Objets transparents -->
+
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+    </emission>
+  </animation>
+
+	<animation>
+		<type>knob</type>
+		<object-name>button1</object-name>
+		<property>instrumentation/nav/frequencies/selected-mhz</property>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+		<center>
+			<x-m> 0.003574 </x-m>
+			<y-m>-0.012700 </y-m>
+			<z-m>-0.010730 </z-m>
+		</center>
+		<action>
+			<binding>
+				<command>property-adjust</command>
+				<property>instrumentation/nav/frequencies/selected-mhz</property>
+				<factor>1</factor>
+				<min>108.00</min>
+				<max>117.95</max>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>knob</type>
+		<object-name>button2</object-name>
+		<property>instrumentation/nav/frequencies/selected-mhz</property>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+		<center>
+			<x-m> 0.003574 </x-m>
+			<y-m>-0.012700 </y-m>
+			<z-m>-0.010730 </z-m>
+		</center>
+		<action>
+			<binding>
+				<command>property-adjust</command>
+				<property>instrumentation/nav/frequencies/selected-mhz</property>
+				<factor>0.05</factor>
+				<min>108.00</min>
+				<max>117.95</max>
+			</binding>
+		</action>
+	</animation>
+  <!--
+  
+  Position centre button1 (gauche)
+  
+  x :  0.003574
+  y : -0.012700
+  z : -0.010730
+  
+  Position centre button2 (gauche)
+  
+  x :  0.003574
+  y :  0.012700
+  z : -0.010730
+  
+  -->
+
+
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>textosg</name>
+    <type type="string">literal</type>
+    <text type="string">VOR</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>.02</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+</PropertyList>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>fusibles.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>fond</object-name>
+    <object-name>visses</object-name>
+    <object-name>texte</object-name>
+    
+    <!-- Objets transparents -->
+
+  </animation>
+
+  <!-- Objets Lights -->
+  <animation>
+    <type>material</type>
+    <object-name>texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+    </emission>
+  </animation>
+
+  <!-- Line 1 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m> 0.00199 </x-m>
+      <y-m> 0.02395 </y-m>
+      <z-m> 0.02894 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m> 0.00199 </x-m>
+      <y-m> 0.02395 </y-m>
+      <z-m> 0.01914 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m> 0.00199 </x-m>
+      <y-m> 0.02395 </y-m>
+      <z-m> 0.00923 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m>  0.02395 </y-m>
+      <z-m> -0.00051 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m>  0.02395 </y-m>
+      <z-m> -0.00999 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse03.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m>  0.02395 </y-m>
+      <z-m> -0.01977 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse07.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m>  0.02395 </y-m>
+      <z-m> -0.02993 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <!-- Line 2 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse03.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.00324 </y-m>
+      <z-m>  0.02894 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.00324 </y-m>
+      <z-m>  0.01914 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.00324 </y-m>
+      <z-m>  0.00923 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.00324 </y-m>
+      <z-m> -0.00051 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.00324 </y-m>
+      <z-m> -0.00999 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse03.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.00324 </y-m>
+      <z-m> -0.01977 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse03.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.00324 </y-m>
+      <z-m> -0.02993 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <!-- Line 3 -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.02921 </y-m>
+      <z-m>  0.02894 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.02921 </y-m>
+      <z-m>  0.01914 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse10.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.02921 </y-m>
+      <z-m>  0.00923 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse03.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.02921 </y-m>
+      <z-m> -0.00051 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.02921 </y-m>
+      <z-m> -0.00999 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.02921 </y-m>
+      <z-m> -0.01977 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/Instruments/fusibles/fuse05.xml</path>
+    <offsets>
+      <x-m>  0.00199 </x-m>
+      <y-m> -0.02921 </y-m>
+      <z-m> -0.02993 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  
+</PropertyList>

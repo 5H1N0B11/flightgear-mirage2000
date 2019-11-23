@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <name>radar</name>
+  <modal type="bool">false</modal>
+  <layout>vbox</layout>
+  <group>
+    <layout>hbox</layout>
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+    <text>
+      <label>Radar</label>
+    </text>
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
+  
+  <hrule />
+  
+  <group>
+    <layout>hbox</layout>
+
+    <group>
+      <!-- Labels -->
+      <layout>vbox</layout>
+      <halign>left</halign>
+      <text>
+        <label>Radar</label>
+      </text>
+    </group>
+    <group>
+      <layout>vbox</layout>
+      <halign>right</halign>
+      <checkbox>
+        <name>Radar</name>
+        <property>instrumentation/radar/radar-standby</property>
+        <live>true</live>
+        <binding>
+          <command>property-toggle</command>
+          <property>instrumentation/radar/radar-standby</property>
+        </binding>
+      </checkbox>
+    </group>
+  </group>
+
+  <group>
+    <layout>hbox</layout>
+    <!--
+    <group>
+      <layout>vbox</layout>
+      <halign>left</halign>
+      <text>
+        <label>Doppler exclusion</label>
+      </text>
+    </group>
+    <group>
+      <layout>vbox</layout>
+      <halign>right</halign>
+      <checkbox>
+        <name>Doppler_exclusion</name>
+        <property>instrumentation/radar/radar-selection-type-bool</property>
+        <live>true</live>
+        <binding>
+          <command>property-toggle</command>
+          <property>instrumentation/radar/radar-selection-type-bool</property>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>
+if(getprop(instrumentation/radar/radar-selection-type-bool) == 0)
+{
+    mirage2000.myRadar3.setDetectiontype("laser");
+}
+else
+{
+    mirage2000.myRadar3.setDetectiontype("radar");
+}
+            </script>
+        </binding>
+      </checkbox>
+    </group>-->
+  </group>
+  
+  <!--<button>
+    <legend>Toogle Detection Type</legend>
+    <binding>
+      <command>nasal</command>
+      <script>mirage2000.myRadar3.toggle_Type()</script>
+    </binding>
+  </button>-->
+  <button>
+    <legend>Re Init Radar</legend>
+    <binding>
+      <command>nasal</command>
+      <script>
+        mirage2000.myRadar3.delete();
+        mirage2000.myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:1, forcePath:"instrumentation/radar2/targets", NewAutoUpdate:1);
+        <!--mirage2000.myRadar3.AutoUpdate = 1;-->
+        mirage2000.myRadar3.init();
+      </script>
+    </binding>
+  </button>
+  
+  <hrule />
+
+  <group>
+    <layout>hbox</layout>
+    
+    <button>
+      <legend>Close</legend>
+      <default>true</default>
+      <key>Esc</key>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+    </button>
+  </group>
+  
+</PropertyList>
+

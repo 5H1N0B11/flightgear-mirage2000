@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <text>
+    <name>button_b1</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.035</y-m>
+      <z-m>-0.056</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>EICAS</text>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>oat</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.016</y-m>
+      <z-m> 0.032</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>environment/temperature-degc</property>
+    <format>%3.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.004</character-size>
+  </text>
+
+  <text>
+    <name>np</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.015</y-m>
+      <z-m> 0.046</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>engines/engine/rpm</property>
+    <factor>0.01</factor>
+    <format>%3.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.004</character-size>
+  </text>
+
+  <text>
+    <name>volt</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.046</y-m>
+      <z-m>0.011</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>systems/electrical/volts</property>
+    <format>%2.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <animation>
+    <name>green</name>
+    <type>material</type>
+    <object-name>button_b1</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.0 </red>
+      <green> 0.9 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>white</name>
+    <type>material</type>
+    <object-name>oat</object-name>
+    <object-name>np</object-name>
+    <object-name>volt</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.9 </red>
+      <green> 0.9 </green>
+      <blue>  0.9 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+</PropertyList>

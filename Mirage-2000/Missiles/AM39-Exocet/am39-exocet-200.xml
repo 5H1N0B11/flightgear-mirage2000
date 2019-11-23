@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+    
+  <model>
+    <name>exocet_200</name>
+    <path>Aircraft/Mirage-2000/Missiles/AM39-Exocet/exocet.xml</path>
+  </model>
+    
+  <animation>
+    <object-name>exocet_200</object-name>
+    <enable-hot type="bool">false</enable-hot>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>exocet_200</object-name>
+    <condition>
+        <property>payload/armament/am39-exocet/flags/msl-id-200</property>
+    </condition>
+  </animation>
+  
+  
+  <model>
+    <name>Smoke_exocet_200</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/smoke.xml</path>
+    <offsets>
+      <x-m>3</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>Smoke_exocet_200</object-name>
+    <condition>
+        <property>payload/armament/am39-exocet/flags/smoke-id-200</property>
+    </condition>
+  </animation>
+  
+  <model>
+    <name>explosionFire_exocet_200</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionFire.xml</path>
+  </model>
+  <model>
+    <name>explosionSmoke_exocet_200</name>
+    <path>Aircraft/Mirage-2000/Missiles/FlamesAndSmoke/explosionSmoke.xml</path>
+  </model>
+  
+    <animation>
+    <type>select</type>
+    <object-name>explosionFire_exocet_200</object-name>
+    <object-name>explosionSmoke_exocet_200</object-name>
+    <condition>
+        <property>payload/armament/am39-exocet/flags/explode-id-200</property>
+    </condition>
+  </animation>
+  
+
+</PropertyList>

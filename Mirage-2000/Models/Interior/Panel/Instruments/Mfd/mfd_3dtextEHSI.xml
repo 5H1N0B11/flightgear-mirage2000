@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <!--B1 button bottom 1 : label EHSI -->
+  <text>
+    <name>button_b1</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.037</y-m>
+      <z-m>-0.056</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>EHSI</text>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <!--B2 button bottom 2 : bloc NAVSRC, retrieving infos from AP settings -->
+  <text>
+    <name>button_b2</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.011</y-m>
+      <z-m>-0.056</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>NAVSRC</text>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>NAV-SRC</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.018</y-m>
+      <z-m>-0.050</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type type="string">text-value</type>
+
+    <property>autopilot/settings/nav-source</property>
+    <font>helvetica_bold.txf</font>
+
+    <character-size>0.006</character-size>
+    <character-aspect-ratio type="double">1.2</character-aspect-ratio>
+  </text>
+
+  <text>
+    <name>navsrc-id</name>
+    <offsets>
+      <x-m> 0.00</x-m>
+      <y-m> 0.00</y-m>
+      <z-m>-0.05</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>autopilot/internal/nav-id</property>
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>navsrc-nm</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.024</y-m>
+      <z-m>-0.050</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>autopilot/internal/nav-distance</property>
+    <format>%3.1f NM</format>
+    <truncate>false</truncate>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>navsrc-nm</object-name>
+    <condition>
+      <property>autopilot/internal/in-range</property>
+    </condition>
+  </animation>
+
+  <!--H1 button top 1 : display NAV1/TACAN/DME2 -->
+  <text>
+    <name>button_h1</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.058</y-m>
+      <z-m> 0.053</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>instrumentation/mfd/rmi-1-src</property>
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>rmi1-id</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.058</y-m>
+      <z-m> 0.047</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>instrumentation/mfd/rmi-1-ident</property>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>rmi1-dist</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.058</y-m>
+      <z-m> 0.041</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+    <type>number-value</type>
+    <property>instrumentation/mfd/rmi-1-dist</property>
+    <format>%3.1f NM</format>
+    <truncate>false</truncate>
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>rmi1-dist</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>instrumentation/mfd/rmi-1-dist</property>
+          <value>0</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <!--H2 button top 2 : display NAV2/DME1 -->
+  <text>
+    <name>button_h2</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.029</y-m>
+      <z-m> 0.053</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>instrumentation/mfd/rmi-2-src</property>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>rmi2-id</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.029</y-m>
+      <z-m> 0.047</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>instrumentation/mfd/rmi-2-ident</property>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>rmi2-dist</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.029</y-m>
+      <z-m> 0.041</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>instrumentation/mfd/rmi-2-dist</property>
+    <format>%3.1f NM</format>
+    <truncate>false</truncate>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>rmi2-dist</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property>instrumentation/mfd/rmi-2-dist</property>
+          <value>0</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <!--HDG-->
+  <text>
+    <name>hdg_bug</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>-0.060</y-m>
+      <z-m>-0.055</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>autopilot/settings/heading-bug-deg</property>
+    <format>%3.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.008</character-size>
+  </text>
+
+  <!--CRS-->
+  <text>
+    <name>crs-nav1</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.060</y-m>
+      <z-m>-0.055</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>instrumentation/nav/radials/selected-deg</property>
+    <format>%3.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.008</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>crs-nav1</object-name>
+    <condition>
+      <equals>
+        <property>autopilot/settings/nav-source</property>
+        <value>NAV1</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <text>
+    <name>crs-nav2</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.060</y-m>
+      <z-m>-0.055</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>instrumentation/nav[1]/radials/selected-deg</property>
+    <format>%3.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.008</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>crs-nav2</object-name>
+    <condition>
+      <equals>
+        <property>autopilot/settings/nav-source</property>
+        <value>NAV2</value>
+      </equals>
+    </condition>
+  </animation>
+  <!-- TACAN src display-->
+  <text>
+    <name>crs-TACAN</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.060</y-m>
+      <z-m>-0.055</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>instrumentation/tacan/indicated-bearing-true-deg</property>
+    <format>%3.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.008</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>crs-TACAN</object-name>
+    <condition>
+      <equals>
+        <property>autopilot/settings/nav-source</property>
+        <value>TACAN</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!-- FMS src display-->
+  <text>
+    <name>crs-FMS</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.060</y-m>
+      <z-m>-0.055</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>autopilot/route-manager/wp/true-bearing-deg</property>
+    <format>%3.0f'</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.008</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>crs-FMS</object-name>
+    <condition>
+      <equals>
+        <property>autopilot/settings/nav-source</property>
+        <value>FMS</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <text>
+    <name>wind-deg</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.058</y-m>
+      <z-m>0.030</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>environment/wind-from-heading-deg</property>
+    <format>%3.0f'</format>
+    <truncate>true</truncate>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>wind-kt</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.058</y-m>
+      <z-m>0.025</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>environment/wind-speed-kt</property>
+    <format>%3.0f kt</format>
+    <truncate>true</truncate>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>oat</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.058</y-m>
+      <z-m>0.020</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>environment/temperature-degc</property>
+    <format>OAT%2.0fC</format>
+    <truncate>true</truncate>
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>dewpoint</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.058</y-m>
+      <z-m>0.015</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>environment/dewpoint-degc</property>
+    <format>DEW%2.0fC</format>
+    <truncate>true</truncate>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>wind-deg</object-name>
+    <object-name>wind-kt</object-name>
+    <object-name>oat</object-name>
+    <object-name>dewpoint</object-name>
+    <condition>
+      <equals>
+        <property>instrumentation/mfd/wind-display</property>
+        <value>1</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <text>
+    <name>button_h5</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.058</y-m>
+      <z-m>0.053</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>ENV</text>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>button_h5</object-name>
+    <condition>
+      <equals>
+        <property>instrumentation/mfd/wind-display</property>
+        <value>0</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!--COLORS-->
+  <animation>
+    <name>green</name>
+    <type>material</type>
+    <object-name>button_b1</object-name>
+    <object-name>button_b2</object-name>
+    <object-name>button_h5</object-name>
+    <object-name>wind-deg</object-name>
+    <object-name>wind-kt</object-name>
+    <object-name>oat</object-name>
+    <object-name>dewpoint</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.0 </red>
+      <green> 0.9 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>red</name>
+    <type>material</type>
+    <object-name>button_h1</object-name>
+    <object-name>rmi1-id</object-name>
+    <object-name>rmi1-dist</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.9 </red>
+      <green> 0.0 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>blue</name>
+    <type>material</type>
+    <object-name>NAV-SRC</object-name>
+    <object-name>navsrc-id</object-name>
+    <object-name>navsrc-nm</object-name>
+    <object-name>crs-nav1</object-name>
+    <object-name>crs-nav2</object-name>
+    <object-name>crs-TACAN</object-name>
+    <object-name>crs-FMS</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.2 </red>
+      <green> 0.3 </green>
+      <blue>  1.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>yellow</name>
+    <type>material</type>
+    <object-name>button_h2</object-name>
+    <object-name>rmi2-id</object-name>
+    <object-name>rmi2-dist</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.9 </red>
+      <green> 0.9 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>magenta</name>
+    <type>material</type>
+    <object-name>hdg_bug</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.80 </red>
+      <green> 0.05 </green>
+      <blue>  0.50 </blue>
+      <alpha> 1.00 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+</PropertyList>

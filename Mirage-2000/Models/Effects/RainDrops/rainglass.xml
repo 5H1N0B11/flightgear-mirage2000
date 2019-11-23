@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <path>rainglass.ac</path>
+  
+  <animation>
+    <!-- Objets transparents -->
+    <object-name>Rainintvitres1</object-name>
+    <object-name>Rainintverriere1</object-name>
+
+    <object-name>Rainintvitres2</object-name>
+    <object-name>Rainintverriere2</object-name>
+
+    <object-name>Rainintvitres3</object-name>
+    <object-name>Rainintverriere3</object-name>
+  </animation>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>Rainintvitres1</object-name>
+    <object-name>Rainintverriere1</object-name>
+
+    <object-name>Rainintvitres2</object-name>
+    <object-name>Rainintverriere2</object-name>
+
+    <object-name>Rainintvitres3</object-name>
+    <object-name>Rainintverriere3</object-name>
+  </effect>
+
+  <animation>
+    <name>ensemble1</name>
+    <object-name>Rainintvitres1</object-name>
+    <object-name>Rainintverriere1</object-name>
+  </animation>
+
+  <animation>
+    <name>ensemble2</name>
+    <object-name>Rainintvitres2</object-name>
+    <object-name>Rainintverriere2</object-name>
+  </animation>
+
+  <animation>
+    <name>ensemble3</name>
+    <object-name>Rainintvitres3</object-name>
+    <object-name>Rainintverriere3</object-name>
+  </animation>
+
+  <animation>
+    <type>timed</type>
+    <object-name>ensemble1</object-name>
+    <object-name>ensemble2</object-name>
+    <object-name>ensemble3</object-name>
+    <use-personality type="bool">true</use-personality>
+    <branch-duration-sec>0.1</branch-duration-sec>
+    <branch-duration-sec>0.1</branch-duration-sec>
+    <branch-duration-sec>0.1</branch-duration-sec>
+  </animation>
+
+  <!-- Animation windows -->
+  <!-- Canopy -->
+  <animation>
+    <name>RainIntCanope</name>
+    <object-name>Rainintverriere1</object-name>
+    <object-name>Rainintverriere2</object-name>
+    <object-name>Rainintverriere3</object-name>
+  </animation>
+
+  <!--
+  <animation>
+    <type>pick</type>
+    <object-name>RainIntCanope</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>doors.move_canopy();</script>
+      </binding>
+    </action>
+  </animation>
+  -->
+
+  <animation>
+    <type>rotate</type>
+    <object-name>RainIntCanope</object-name>
+    <property>sim/model/door-positions/crew/position-norm</property>
+    <interpolation>
+      <entry><ind>0</ind><dep> 0</dep></entry>
+      <entry><ind>1</ind><dep>45</dep></entry>
+    </interpolation>
+    <center>
+      <x-m> -2.017 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m>  0.225 </z-m>
+    </center>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+</PropertyList>

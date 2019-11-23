@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList include="loads_models.xml">
+  <!--
+'''' note :
+' pylon options
+'
+' BOTTOM VIEW
+'  _________________|___|_________________
+'  \                |   |                /
+'   \               |   |               /
+'    \2.L        4.L|   |4.R        2.R/
+'     (1)        (7)|   |(8)        (5)
+'      \   3.L      |   |      3.R   /
+'       \  (2)      |   |      (4)  /
+'        \          |   |          /
+'         \         |   |         /
+'          \        |   |        /
+'           \       |.C |       /
+'            \      |(3)|      /
+'             \     |   |     /
+'              \ 1.L|   |1.R /
+'               \(0)|   |(6)/
+'                \  |   |  /
+'                 \ |   | /
+'                  \|___|/
+'
+  -->
+
+  <!-- station left 1 (Index 0) -->
+
+  <animation>
+    <type>select</type>
+    <object-name>left-pos-1-MICA</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-0-set</property>
+        <value>MICA EM</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-0-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!-- left GBU16 -->
+  <animation>
+    <type>select</type>
+    <object-name>left-GBU16</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[0]/selected</property>
+          <value>GBU16</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[0]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- Center GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>left-GBU12</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[0]/selected</property>
+          <value>GBU12</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[0]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- station left 2 (Index 1) -->
+  <animation>
+    <type>select</type>
+    <object-name>left-pos-2</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-1-set</property>
+          <value>Matra R550 Magic 2</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-1-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+    <animation>
+    <type>select</type>
+    <object-name>left-pos-2-MICA_IR</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-1-set</property>
+        <value>MICA IR</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-1-count</property>
+          <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  
+  <!-- station left 2 (Index 1) -->
+  <animation>
+    <type>select</type>
+    <object-name>left-pos-2-SmokePod</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[1]/selected</property>
+          <value>SmokePod</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- station left 3 (Index 2) -->
+  <animation>
+    <type>select</type>
+    <object-name>left-large-tank</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-2-set</property>
+          <value>2000 l Droptank</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>left-tank</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-2-set</property>
+          <value>1700 l Droptank</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>left-exocet</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-2-set</property>
+          <value>AM39-Exocet</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>left-martel</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-2-set</property>
+          <value>AS-37-Martel</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>left-as30l</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-2-set</property>
+          <value>AS30L</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>S530D_Left</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-2-set</property>
+          <value>Matra Super 530D</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+
+  <!-- center station (Index 3) -->  
+  <animation>
+    <type>select</type>
+    <object-name>center-tank</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>1300 l Droptank</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+
+  <!-- Center GBU16 -->
+  <animation>
+    <type>select</type>
+    <object-name>Center-GBU16</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[3]/selected</property>
+          <value>GBU16</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[3]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- Center GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>Center-GBU12</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>GBU-12</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+
+  <!-- Center Double GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>Center-Right-GBU12</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>2 x GBU-12</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>Center-Left-GBU12</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>2 x GBU-12</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>1</value>
+        </greater-than>
+    </condition>
+  </animation>
+
+  <!-- Center SCALP -->
+  <animation>
+    <type>select</type>
+    <object-name>SCALP</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>SCALP</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+
+  <!-- Meteor -->
+  <animation>
+    <type>select</type>
+    <object-name>Meteor</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[3]/selected</property>
+          <value>Meteor</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[3]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+    <!-- ASMP -->
+  <animation>
+    <type>select</type>
+    <object-name>ASMP</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-3-set</property>
+        <value>ASMP</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!-- station right 3 (Index 4)-->
+  <animation>
+    <type>select</type>
+    <object-name>right-large-tank</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-4-set</property>
+          <value>2000 l Droptank</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>right-tank</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-4-set</property>
+          <value>1700 l Droptank</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>right-exocet</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-4-set</property>
+          <value>AM39-Exocet</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>right-martel</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-4-set</property>
+          <value>AS-37-Martel</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>right-as30l</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-4-set</property>
+          <value>AS30L</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>S530D_Right</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-4-set</property>
+          <value>Matra Super 530D</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  
+
+  <!-- station right 2 (Index 5) -->
+  <animation>
+    <type>select</type>
+    <object-name>right-pos-2</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-5-set</property>
+          <value>Matra R550 Magic 2</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-5-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>right-pos-2-MICA_IR</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-5-set</property>
+        <value>MICA IR</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-5-count</property>
+          <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+  
+    <animation>
+    <type>select</type>
+    <object-name>right-pos-2-SmokePod</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[5]/selected</property>
+          <value>SmokePod</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- station right 1 (Index 6) -->
+  <animation>
+    <type>select</type>
+    <object-name>right-pos-1-MICA</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-6-set</property>
+        <value>MICA EM</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-6-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!-- right GBU16 -->
+  <animation>
+    <type>select</type>
+    <object-name>right-GBU16</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[6]/selected</property>
+          <value>GBU16</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[6]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- right GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>right-GBU12</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[6]/selected</property>
+          <value>GBU12</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[6]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  
+    <!-- POD -->
+  <animation>
+    <type>select</type>
+    <object-name>PDLCT</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-6-set</property>
+        <value>PDLCT</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!-- station back left (Index 7) -->
+  <animation>
+    <type>select</type>
+    <object-name>MICABL</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-7-set</property>
+        <value>MICA EM</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-7-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!-- right GBU16 -->
+  <animation>
+    <type>select</type>
+    <object-name>GBU16BL</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[7]/selected</property>
+          <value>GBU16</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[7]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- Center GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>GBU12BL</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[7]/selected</property>
+          <value>GBU12</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[7]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- station back right (Index 8) -->
+  <animation>
+    <type>select</type>
+    <object-name>MICABR</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-8-set</property>
+        <value>MICA EM</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-8-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+  
+
+  <!-- right GBU16 -->
+  <animation>
+    <type>select</type>
+    <object-name>GBU16BR</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[8]/selected</property>
+          <value>GBU16</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[8]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- Center GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>GBU12BR</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[8]/selected</property>
+          <value>GBU12</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[8]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+</PropertyList>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>exhaust.ac</path>
+
+  <animation>
+    <!-- opaques objects  -->
+    <object-name>tuyere01</object-name>
+    <object-name>tuyere02</object-name>
+
+    <!-- transparents objects  -->
+
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ engine n2 -->
+  <animation>
+    <type>rotate</type>
+    <object-name>tuyere01</object-name>
+    <property>engines/engine[0]/n2</property>
+    <interpolation>
+      <entry><ind>  80 </ind><dep> -6 </dep></entry>
+      <entry><ind>  98 </ind><dep>  8 </dep></entry>
+      <entry><ind> 107 </ind><dep>  8 </dep></entry>
+      <entry><ind> 110 </ind><dep> -8 </dep></entry>
+    </interpolation>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+  <!-- ~~~~~~~~~~~~~~~~~~ engine n2 -->
+  <animation>
+    <type>rotate</type>
+    <object-name>tuyere02</object-name>
+    <property>engines/engine[0]/n1</property>
+    <interpolation>
+      <entry><ind>  60 </ind><dep> -10 </dep></entry>
+      <entry><ind>  88 </ind><dep>  18 </dep></entry>
+      <entry><ind>  96 </ind><dep>  18 </dep></entry>
+      <entry><ind> 105 </ind><dep> -10 </dep></entry>
+    </interpolation>
+    <center>
+      <x-m>  0.00000 </x-m>
+      <y-m>  0.00000 </y-m>
+      <z-m> -0.05700 </z-m>
+    </center>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+</PropertyList>

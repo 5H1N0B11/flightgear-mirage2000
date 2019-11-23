@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>WhiteLight.ac</path>
+
+  <animation>
+    <object-name>Light</object-name>
+  </animation>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>Light</object-name>
+  </effect>
+
+  <animation>
+    <type>alpha-test</type>
+    <alpha-factor> 0.01 </alpha-factor>
+  </animation>
+
+  <animation>
+    <type>billboard</type>
+    <object-name>Light</object-name>
+    <spherical type="bool">true</spherical>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Light</object-name>
+    <condition>
+      <property>sim/model/lights/strobe/state</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>Light</object-name>
+    <emission>
+      <red>   2 </red>
+      <green> 2 </green>
+      <blue>  2 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>dist-scale</type>
+    <object-name>Light</object-name>
+    <interpolation>
+      <entry><ind>    0 </ind><dep>  1 </dep></entry>
+      <entry><ind> 5000 </ind><dep> 50 </dep></entry>
+    </interpolation>
+  </animation>
+
+  <!--
+  <animation>
+    <type>material</type>
+    <object-name>Light</object-name>
+    <threshold>0.001</threshold>
+  </animation>
+  <animation>
+    <type>scale</type>
+    <object-name>Light</object-name>
+    <property>/sim/time/sun-angle-rad</property>
+    <x-min> 1 </x-min>
+    <y-min> 1 </y-min>
+    <z-min> 1 </z-min>
+    <x-offset> -1 </x-offset>
+    <y-offset> -1 </y-offset>
+    <z-offset> -1 </z-offset>
+    <x-factor> 10 </x-factor>
+    <y-factor> 10 </y-factor>
+    <z-factor> 10 </z-factor>
+  </animation>
+  -->
+</PropertyList>

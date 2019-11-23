@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <!-- Pilote -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Pilot/pilot.xml</path>
+    <offsets>
+      <x-m> -2.518 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m> -0.464 </z-m>
+    </offsets>
+  </model>
+
+  <!-- Seat -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/seat/seat.xml</path>
+    <offsets>
+      <x-m> -2.555 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m> -0.502 </z-m>
+    </offsets>
+  </model>
+
+</PropertyList>

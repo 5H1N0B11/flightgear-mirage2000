@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Additional Radar features in the HUD -->
+<PropertyList>
+
+  <path>hud.ac</path>
+
+  <animation>
+    <object-name>lock-1</object-name>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>lock-1</object-name>
+    <condition>
+      <equals>
+        <property>sim/current-view/name</property>
+        <value>Cockpit View</value>
+      </equals>
+      <property>sim/hud/visibility[1]</property>
+    </condition>
+  </animation>
+
+  <!-- Diamond -->
+  <animation>
+    <type>select</type>
+    <object-name>lock-1</object-name>
+    <condition>
+      <property>instrumentation/radar2/hud/target-display</property>
+      <not>
+        <property>instrumentation/radar/radar-standby</property>
+      </not>
+      <property>instrumentation/radar2/hud/target-clamped-blinker/state</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>lock-1</object-name>
+    <property>instrumentation/radar2/hud/target-total-angle</property>
+    <axis>
+      <x>-1</x>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>lock-1</object-name>
+    <property>instrumentation/radar2/hud/target-total-deviation</property>
+    <factor>1</factor>
+    <axis>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <!-- post-rotate in inverse direction to keep the diamond vertical -->
+    <type>rotate</type>
+    <object-name>lock-1</object-name>
+    <property>instrumentation/radar2/hud/target-total-angle</property>
+    <axis>
+      <x>1</x>
+    </axis>
+  </animation>
+
+  <animation>
+    <!-- post-rotate in inverse direction to keep the diamond vertical -->
+    <type>scale</type>
+    <object-name>lock-1</object-name>
+    <x-offset>1.0</x-offset>
+    <y-offset>1.7</y-offset>
+    <z-offset>1.7</z-offset>
+  </animation>
+
+</PropertyList>

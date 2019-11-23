@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>autre.ac</path>
+
+  <animation>
+    <object-name>autre</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>autre</object-name>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+</PropertyList>
+

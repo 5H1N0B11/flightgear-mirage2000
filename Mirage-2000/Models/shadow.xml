@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>shadow.ac</path>
+
+  <animation>
+    <!-- opaques objects  -->
+
+    <!-- transparents objects  -->
+    <object-name>shadow</object-name>
+  </animation>
+
+  <animation>
+    <type>noshadow</type>
+    <object-name>shadow</object-name>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>shadow</object-name>
+    <condition>
+      <and>
+        <not><property>sim/freeze/replay-state</property></not>
+        <not><property>sim/rendering/shadows/enabled</property></not>
+        <less-than>
+          <property>sim/multiplay/generic/float[3]</property>
+          <value>2000</value>
+        </less-than>
+        <and>
+          <greater-than>
+            <property>orientation/roll-deg</property>
+            <value>-90</value>
+          </greater-than>
+          <less-than>
+            <property>orientation/roll-deg</property>
+            <value>90</value>
+          </less-than>
+      </and>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- A shadow for OSG waiting better ;) based on DC3's shadow -->
+  <!-- pitch -->
+  <animation>
+    <type>rotate</type>
+    <object-name>shadow</object-name>
+    <property>orientation/pitch-deg</property>
+    <condition>
+      <and>
+        <greater-than>
+          <property>orientation/roll-deg</property>
+          <value>-90</value>
+        </greater-than>
+        <less-than>
+          <property>orientation/roll-deg</property>
+          <value>90</value>
+        </less-than>
+      </and>
+      </condition>
+    <factor> -1 </factor>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+  
+
+
+  <!-- roll -->
+  <animation>
+    <type>rotate</type>
+    <object-name>shadow</object-name>
+    <property>orientation/roll-deg</property>
+    <factor> 1 </factor>
+    <axis>
+      <x> 1 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+  <!-- translate to ground level -->
+  <animation>
+    <type>translate</type>
+    <object-name>shadow</object-name>
+    <property>sim/multiplay/generic/float[2]</property>
+    <factor> -1 </factor>
+    <offset-m>0</offset-m>
+    <axis>
+      <x> 0 </x>
+      <y> 0 </y>
+      <z> 1 </z>
+    </axis>
+  </animation>
+
+</PropertyList>

@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <text>
+    <name>button_b1</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.035</y-m>
+      <z-m>-0.056</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>EADI</text>
+
+    <font>helvetica.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>ap-mode</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.000</y-m>
+      <z-m>0.053</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>autopilot/locks/AP-status</property>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>ap-altitude-arm</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.016</y-m>
+      <z-m> 0.047</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>autopilot/locks/altitude-arm</property>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>ap-altitude</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.016</y-m>
+      <z-m>0.047</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>autopilot/locks/altitude</property>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>ap-heading_arm</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.016</y-m>
+      <z-m> 0.041</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>autopilot/locks/heading-arm</property>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <text>
+    <name>ap-heading</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.016</y-m>
+      <z-m>0.041</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>autopilot/locks/heading</property>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <!--GS in range-->
+  <text>
+    <name>gs-inrange</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.000</y-m>
+      <z-m>-0.037</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>literal</type>
+    <text>GS IN RANGE</text>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.005</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>gs-inrange</object-name>
+    <condition>
+
+      <property>autopilot/internal/gs-in-range</property>
+
+    </condition>
+  </animation>
+
+  <!--Altitude-->
+  <text>
+    <name>alt</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.058</y-m>
+      <z-m>-0.000</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <format>%5.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.009</character-size>
+  </text>
+
+  <!--Vertical speed plus-->
+  <text>
+    <name>vs+</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.057</y-m>
+      <z-m>0.008</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>autopilot/internal/vert-speed-fpm</property>
+    <format>+%5.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.008</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>vs+</object-name>
+    <condition>
+      <greater-than>
+        <property>autopilot/internal/vert-speed-fpm</property>
+        <value>20</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!--Vertical speed moins-->
+  <text>
+    <name>vs-</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.057</y-m>
+      <z-m>-0.008</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>autopilot/internal/vert-speed-fpm</property>
+    <format>%5.0f</format>
+
+    <truncate>true</truncate>
+    <font>helvetica_bold.txf</font>
+    <character-size>0.008</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>vs-</object-name>
+    <condition>
+      <less-than>
+        <property>autopilot/internal/vert-speed-fpm</property>
+        <value>-20</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!--Airspeed-->
+  <text>
+    <name>as</name>
+    <offsets>
+      <x-m> 0.00</x-m>
+      <y-m>-0.06</y-m>
+      <z-m>-0.00</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>velocities/airspeed-kt</property>
+    <format>%3.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.009</character-size>
+  </text>
+
+  <!--Mach-->
+  <text>
+    <name>mach</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.060</y-m>
+      <z-m> 0.009</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>velocities/mach</property>
+    <format>M %1.2f</format>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <!--Nav-id-->
+  <text>
+    <name>nav_id</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.000</y-m>
+      <z-m>-0.043</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type type="string">text-value</type>
+    <property>autopilot/internal/nav-id</property>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <!--INHG-HPA-->
+  <text>
+    <name>inhg</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.049</y-m>
+      <z-m>-0.055</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>instrumentation/altimeter/setting-inhg</property>
+    <format>INGH %2.2f</format>
+    <truncate>false</truncate>
+
+    <font>helvetica.txf</font>
+    <character-size>0.007</character-size>
+  </text>
+
+  <text>
+    <name>hpa</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.048</y-m>
+      <z-m>-0.055</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>instrumentation/altimeter/setting-hpa</property>
+    <format>HPA%4.2f</format>
+
+    <truncate>false</truncate>
+    <font>helvetica.txf</font>
+    <character-size>0.007</character-size>
+  </text>
+
+  <animation>
+    <type>select</type>
+    <object-name>inhg</object-name>
+    <condition>
+      <property>instrumentation/mfd/inhg-hpa</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>hpa</object-name>
+    <condition>
+      <not>
+        <property>instrumentation/mfd/inhg-hpa</property>
+      </not>
+    </condition>
+  </animation>
+
+  <!--AP-Target-Altitude-->
+  <text>
+    <name>tg_alt</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>0.048</y-m>
+      <z-m>0.042</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>autopilot/settings/target-altitude-ft</property>
+    <format>AP-alt:%5.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <!--AP-Target-Speed-->
+  <text>
+    <name>tg_spd</name>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m>-0.052</y-m>
+      <z-m> 0.042</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>autopilot/settings/target-speed-kt</property>
+    <format>AP-spd:%3.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.006</character-size>
+  </text>
+
+  <!--Ground-Speed-->
+  <text>
+    <name>g_spd</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>-0.056</y-m>
+      <z-m>-0.025</z-m>
+    </offsets>
+    <alignment>center-center</alignment>
+    <axis-alignment>yz-plane</axis-alignment>
+
+    <type>number-value</type>
+    <property>velocities/groundspeed-kt</property>
+    <format>Gspd:%3.0f</format>
+    <truncate>true</truncate>
+
+    <font>helvetica_bold.txf</font>
+    <character-size>0.007</character-size>
+  </text>
+
+  <!--COLORS-->
+  <animation>
+    <name>green</name>
+    <type>material</type>
+    <object-name>alt</object-name>
+    <object-name>as</object-name>
+    <object-name>mach</object-name>
+    <object-name>gs-inrange</object-name>
+    <object-name>nav_id</object-name>
+    <object-name>g_spd</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.0 </red>
+      <green> 0.9 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>red</name>
+    <type>material</type>
+    <object-name>vs+</object-name>
+    <object-name>vs-</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.9 </red>
+      <green> 0.0 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>green</name>
+    <type>material</type>
+    <object-name>button_b1</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.0 </red>
+      <green> 0.9 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>magenta</name>
+    <type>material</type>
+    <object-name>tg_alt</object-name>
+    <object-name>tg_spd</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.80 </red>
+      <green> 0.05 </green>
+      <blue>  0.50 </blue>
+      <alpha> 1.00 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>white</name>
+    <type>material</type>
+    <object-name>ap-mode</object-name>
+    <object-name>ap-altitude</object-name>
+    <object-name>ap-altitude-arm</object-name>
+    <object-name>ap-heading</object-name>
+    <object-name>ap-heading-arm</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.9 </red>
+      <green> 0.9 </green>
+      <blue>  0.9 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+  <animation>
+    <name>yellow</name>
+    <type>material</type>
+    <object-name>inhg</object-name>
+    <object-name>hpa</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.9 </red>
+      <green> 0.9 </green>
+      <blue>  0.0 </blue>
+      <alpha> 1.0 </alpha>
+    </emission>
+    <ambient>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </ambient>
+    <diffuse>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </diffuse>
+    <specular>
+      <red>   0 </red>
+      <green> 0 </green>
+      <blue>  0 </blue>
+    </specular>
+  </animation>
+
+</PropertyList>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>cond.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>base</object-name>
+    <object-name>texte</object-name>
+    <object-name>visses</object-name>
+    <object-name>switch0</object-name>
+    <object-name>switch1</object-name>
+    <object-name>switch2</object-name>
+    <object-name>switch3</object-name>
+    <object-name>molette</object-name>
+    <object-name>lampeC-ON</object-name>
+    <object-name>lampeF-ON</object-name>
+    <object-name>lampeC-OFF</object-name>
+    <object-name>lampeF-OFF</object-name>
+
+    <!-- Objets transparents -->
+
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>lampeC-ON</object-name>
+    <object-name>lampeF-ON</object-name>
+    <emission>
+      <red>   2 </red>
+      <green> 2 </green>
+      <blue>  2 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>lampeC-OFF</object-name>
+    <object-name>lampeF-OFF</object-name>
+    <emission>
+      <red>   0.2 </red>
+      <green> 0.2 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+
+  <!-- Objets Lights -->
+  <animation>
+    <type>material</type>
+    <object-name>texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.50 </red>
+      <green> 0.25 </green>
+      <blue>  0.25 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>base</object-name>
+    <object-name>visses</object-name>
+    <object-name>visses</object-name>
+    <object-name>switch0</object-name>
+    <object-name>switch1</object-name>
+    <object-name>switch2</object-name>
+    <object-name>switch3</object-name>
+    <object-name>molette</object-name>
+    <condition>
+      <not>
+        <property>sim/rendering/rembrandt/enabled</property>
+      </not>
+    </condition>
+    <emission>
+      <red>   0.13 </red>
+      <green> 0.13 </green>
+      <blue>  0.13 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>switch2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/environment/aircraft-effects/cabin-heat-set</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/ventilation/airconditioning-enabled</property>
+      </binding>  
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>ac</tooltip-id>
+        <label>AC</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch2</object-name>
+    <property>/environment/aircraft-effects/cabin-heat-set</property>
+    <offset-deg>50</offset-deg>
+    <factor>-50</factor>
+    <center>
+      <x-m>0.00127</x-m>
+      <y-m>-0.00820</y-m>
+      <z-m>0.00885</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>switch3</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/environment/aircraft-effects/cabin-air-set</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/ventilation/windshield-hot-air-knob</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>ac</tooltip-id>
+        <label>FOG</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch3</object-name>
+    <property>/environment/aircraft-effects/cabin-air-set</property>
+    <offset-deg>50</offset-deg>
+    <factor>-50</factor>
+    <center>
+      <x-m>0.00127</x-m>
+      <y-m>-0.00820</y-m>
+      <z-m>0.00885</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  
+  <animation>
+    <type>knob</type>
+    <object-name>molette</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-adjust</command>
+        <property>/controls/ventilation/knob</property>
+        <factor>10</factor>
+        <min>0</min>
+        <max>360</max>                
+        <wrap>true</wrap>
+      </binding>
+      <binding>
+          <command>nasal</command>
+          <script>
+              #gui.popupTip(sprintf("Knob : %.1f", getprop("/controls/ventilation/knob")));
+              environment.TempInterpolation();
+              gui.popupTip(sprintf("Temp : %.1f, Manual %d", getprop("/controls/ventilation/airconditioning-temperature"),getprop("/controls/ventilation/airconditioning-type")));
+          </script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>molette</object-name>
+    <property>/controls/ventilation/knob</property>
+    <factor>1</factor>
+    <center>
+      <x-m>0.00162</x-m>
+      <y-m>0.01128</y-m>
+      <z-m>0.00068</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  
+  
+  
+  <!--
+  Centre de rotation de molette
+  
+  Objet : ?
+  
+  x : 0.00162
+  y : 0.01128
+  z : 0.00068
+  
+    0° on X axis -> top
+   90° on X axis -> right
+  180° on X axis -> bottom
+  270° on X axis -> left
+  
+  Centre de rotation de switch0
+  
+  Objet : AUTO/MAN
+  
+  x :  0.00127
+  y : -0.03364
+  z :  0.00097
+  
+  50 ° sur axe Y
+  
+  Centre de rotation de switch1
+  
+  Objet : DEPOLL
+  
+  x :  0.00127
+  y : -0.00820
+  z : -0.00523
+  
+  50 ° sur axe Y
+  
+  Centre de rotation de switch2
+  
+  Objet : COND
+  
+  x :  0.00127
+  y : -0.00820
+  z :  0.00885
+  
+  50 ° sur axe Y
+  
+  Centre de rotation de switch3
+  
+  Objet : DESEMB
+  
+  x :  0.00127
+  y : -0.03418
+  z :  0.00877
+  
+  50 ° sur axe Y
+  -->
+
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Air Cond</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>.02</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+</PropertyList>

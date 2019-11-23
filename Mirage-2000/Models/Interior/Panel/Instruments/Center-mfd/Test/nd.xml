@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <name>Nav Panel</name>
+  <background>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/transparent.png</background>
+  <w>512</w>
+  <h>602</h>
+
+  <instruments>
+
+    <instrument include="Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/nd1.xml">
+      <condition>
+        <property>instrumentation/nd/serviceable</property>
+      </condition>
+    </instrument>
+
+    <instrument include="Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/nd2.xml">
+      <condition>
+        <property>instrumentation/nd/serviceable</property>
+      </condition>
+    </instrument>
+
+    <instrument include="Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/tcas1.xml">
+      <condition>
+        <and>
+          <property>instrumentation/nd/serviceable</property>
+          <property>instrumentation/primus2000/dc840/tcas</property>
+        </and>
+      </condition>
+    </instrument>
+
+  </instruments>
+
+</PropertyList>

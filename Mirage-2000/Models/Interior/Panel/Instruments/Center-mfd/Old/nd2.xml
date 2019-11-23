@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <name>nd2</name>
+  <x>256</x>
+  <y>166</y>
+  <w-base>290</w-base>
+  <h-base>142</h-base>
+
+  <layers>
+
+    <layer>
+      <texture>
+        <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/Old/radar.png</path>
+        <x1>0.170</x1>
+        <y1>0.000</y1>
+        <x2>0.830</x2>
+        <y2>0.336</y2>
+      </texture>
+      <emissive>true</emissive>
+    </layer>
+
+  </layers>
+
+</PropertyList>

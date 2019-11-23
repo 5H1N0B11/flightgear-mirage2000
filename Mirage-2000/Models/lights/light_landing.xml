@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PropertyList>
+
+  <path>als_light.ac</path>
+  <nopreview />
+
+  <effect>
+    <inherits-from>procedural-light-landing</inherits-from>
+    <object-name>als_light</object-name>
+  </effect>
+
+  <animation>
+    <type>select</type>
+    <object-name>als_light</object-name>
+    <condition>
+      <and>
+        <or>
+          <property>sim/model/lights/landing/state</property>
+          <property>/sim/rendering/als-secondary-lights/use-landing-light</property>
+        </or>
+        <greater-than>
+          <property>gear/gear[0]/position-norm</property>
+          <value>0.3</value>
+          </greater-than>
+      </and>
+    </condition>
+  </animation>
+
+</PropertyList>

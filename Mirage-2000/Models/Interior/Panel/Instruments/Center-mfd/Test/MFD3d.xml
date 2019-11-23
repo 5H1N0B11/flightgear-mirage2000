@@ -1,0 +1,704 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+Author  : Syd Adams Primus 2000 MFD
+Updated : Helijah January 2014
+-->
+<PropertyList>
+
+  <path>mfd3d.ac</path>
+
+  <animation>
+    <object-name>MFD.hsi</object-name>
+    <object-name>MFD.bkg</object-name>
+    <object-name>MFD.hsi</object-name>
+    <object-name>MFD.plane</object-name>
+    <object-name>MFD.staticplane</object-name>
+    <object-name>MFD.tcas-off</object-name>
+    <object-name>MFD.hdg-bracket</object-name>
+    <object-name>MagHdg</object-name>
+    <object-name>MFD.hdg-bug</object-name>
+    <object-name>Lhdg-arrow</object-name>
+    <object-name>Rhdg-arrow</object-name>
+    <object-name>MFD.trunorth</object-name>
+    <object-name>MFD.apt</object-name>
+    <object-name>MFD.vor</object-name>
+    <object-name>MFD.wxoff</object-name>
+    <object-name>MFD.clock</object-name>
+    <object-name>MFD.ete</object-name>
+    <object-name>MFD.sat</object-name>
+    <object-name>MFD.tcas-auto</object-name>
+    <object-name>MFD.menu</object-name>
+    <object-name>heading100</object-name>
+    <object-name>heading10</object-name>
+    <object-name>heading1</object-name>
+    <object-name>hdg100</object-name>
+    <object-name>hdg10</object-name>
+    <object-name>hdg1</object-name>
+    <object-name>sat10</object-name>
+    <object-name>sat1</object-name>
+    <object-name>tas100</object-name>
+    <object-name>tas10</object-name>
+    <object-name>tas1</object-name>
+    <object-name>gspd100</object-name>
+    <object-name>gspd10</object-name>
+    <object-name>gspd1</object-name>
+    <object-name>rng1.100</object-name>
+    <object-name>rng1.10</object-name>
+    <object-name>rng1.1</object-name>
+    <object-name>rng2.100</object-name>
+    <object-name>rng2.10</object-name>
+    <object-name>rng2.1</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>MFD.hsi</object-name>
+    <object-name>MFD.bkg</object-name>
+    <object-name>MFD.hsi</object-name>
+    <object-name>MFD.plane</object-name>
+    <object-name>MFD.staticplane</object-name>
+    <object-name>MFD.tcas-off</object-name>
+    <object-name>MFD.hdg-bracket</object-name>
+    <object-name>MagHdg</object-name>
+    <object-name>MFD.hdg-bug</object-name>
+    <object-name>Lhdg-arrow</object-name>
+    <object-name>Rhdg-arrow</object-name>
+    <object-name>MFD.trunorth</object-name>
+    <object-name>MFD.apt</object-name>
+    <object-name>MFD.vor</object-name>
+    <object-name>MFD.wxoff</object-name>
+    <object-name>MFD.clock</object-name>
+    <object-name>MFD.ete</object-name>
+    <object-name>MFD.sat</object-name>
+    <object-name>MFD.tcas-auto</object-name>
+    <object-name>MFD.menu</object-name>
+    <object-name>heading100</object-name>
+    <object-name>heading10</object-name>
+    <object-name>heading1</object-name>
+    <object-name>hdg100</object-name>
+    <object-name>hdg10</object-name>
+    <object-name>hdg1</object-name>
+    <object-name>sat10</object-name>
+    <object-name>sat1</object-name>
+    <object-name>tas100</object-name>
+    <object-name>tas10</object-name>
+    <object-name>tas1</object-name>
+    <object-name>gspd100</object-name>
+    <object-name>gspd10</object-name>
+    <object-name>gspd1</object-name>
+    <object-name>rng1.100</object-name>
+    <object-name>rng1.10</object-name>
+    <object-name>rng1.1</object-name>
+    <object-name>rng2.100</object-name>
+    <object-name>rng2.10</object-name>
+    <object-name>rng2.1</object-name>
+    <emission>
+      <red>   2 </red>
+      <green> 2 </green>
+      <blue>  2 </blue>
+    </emission>
+  </animation>
+
+  <panel>
+    <name>panel-area</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/nd.xml</path>
+    <bottom-left>
+      <x-m> 0.00025</x-m>
+      <y-m>-0.08000</y-m>
+      <z-m>-0.08000</z-m>
+    </bottom-left>
+    <bottom-right>
+      <x-m> 0.00025</x-m>
+      <y-m> 0.08000</y-m>
+      <z-m>-0.08000</z-m>
+    </bottom-right>
+    <top-left>
+      <x-m> 0.00025</x-m>
+      <y-m>-0.08000</y-m>
+      <z-m> 0.10800</z-m>
+    </top-left>
+  </panel>
+
+  <model>
+    <name>Mtext3d</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/Mtext3d.xml</path>
+    <offsets>
+      <x-m>0.0005</x-m>
+      <y-m>0.0000</y-m>
+      <z-m>0.0000</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>texrotate</type>
+    <object-name>MFD.hsi</object-name>
+    <property>orientation/heading-magnetic-deg</property>
+    <center>
+      <x>0.5</x>
+      <y>0.5</y>
+      <z>0.0</z>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y> 0</y>
+      <z>-1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>MFD.tcas-off</object-name>
+    <condition>
+      <not>
+        <property>instrumentation/primus2000/dc840/tcas</property>
+      </not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>MFD.hdg-bug</object-name>
+    <property>autopilot/internal/heading-bug-error-deg</property>
+    <center>
+      <x-m>0.000</x-m>
+      <y-m>0.000</y-m>
+      <z-m>0.018</z-m>
+    </center>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>MFD.vor</object-name>
+    <condition>
+      <property>instrumentation/primus2000/dc840/mfd-wx</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>MFD.apt</object-name>
+    <condition>
+      <property>instrumentation/primus2000/dc840/mfd-wx</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>MFD.hdg-bug</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>autopilot/internal/heading-bug-error-deg</property>
+          <value>-55.0</value>
+        </greater-than>
+        <less-than>
+          <property>autopilot/internal/heading-bug-error-deg</property>
+          <value>55.0</value>
+        </less-than>
+        <property>instrumentation/primus2000/dc840/mfd-map</property>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Lhdg-arrow</object-name>
+    <condition>
+      <and>
+        <less-than>
+          <property>autopilot/internal/heading-bug-error-deg</property>
+          <value>-55</value>
+        </less-than>
+        <property>instrumentation/primus2000/dc840/mfd-map</property>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Rhdg-arrow</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>autopilot/internal/heading-bug-error-deg</property>
+          <value>55</value>
+        </greater-than>
+        <property>instrumentation/primus2000/dc840/mfd-map</property>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>MFD.tcas-auto</object-name>
+    <condition>
+      <property>instrumentation/primus2000/dc840/tcas</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>MFD.hsi</object-name>
+    <object-name>MFD.hdg-bracket</object-name>
+    <object-name>MagHdg</object-name>
+    <object-name>MFD.staticplane</object-name>
+    <condition>
+      <property>instrumentation/primus2000/dc840/mfd-map</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>MFD.trunorth</object-name>
+    <object-name>MFD.plane</object-name>
+    <condition>
+      <not>
+        <property>instrumentation/primus2000/dc840/mfd-map</property>
+      </not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>MFD.menu</object-name>
+    <property>instrumentation/primus2000/mfd/menu-num</property>
+    <factor>0.05</factor>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>MFD.plane</object-name>
+    <property>orientation/heading-deg</property>
+    <center>
+      <x-m>0.000</x-m>
+      <y-m>0.000</y-m>
+      <z-m>0.018</z-m>
+    </center>
+    <axis>
+      <x>-1</x>
+      <y> 0</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!-- Heading magnetic deg -->
+  <animation>
+    <type>select</type>
+    <object-name>hdg10</object-name>
+    <condition>
+      <greater-than>
+        <property>autopilot/settings/heading-bug-deg</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>hdg100</object-name>
+    <condition>
+      <greater-than>
+        <property>autopilot/settings/heading-bug-deg</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>hdg1</object-name>
+    <property>autopilot/settings/heading-bug-deg</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>hdg10</object-name>
+    <property>autopilot/settings/heading-bug-deg</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>hdg100</object-name>
+    <property>autopilot/settings/heading-bug-deg</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Heading bug deg -->
+  <animation>
+    <type>select</type>
+    <object-name>heading10</object-name>
+    <condition>
+      <greater-than>
+        <property>orientation/heading-magnetic-deg</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>heading100</object-name>
+    <condition>
+      <greater-than>
+        <property>orientation/heading-magnetic-deg</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>heading1</object-name>
+    <property>orientation/heading-magnetic-deg</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>heading10</object-name>
+    <property>orientation/heading-magnetic-deg</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>heading100</object-name>
+    <property>orientation/heading-magnetic-deg</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- SAT -->
+  <animation>
+    <type>select</type>
+    <object-name>sat10</object-name>
+    <condition>
+      <greater-than>
+        <property>environment/temperature-degc</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>sat1</object-name>
+    <property>environment/temperature-degc</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>sat10</object-name>
+    <property>environment/temperature-degc</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- TAS -->
+  <animation>
+    <type>select</type>
+    <object-name>tas10</object-name>
+    <condition>
+      <greater-than>
+        <property>velocities/uBody-fps</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>tas100</object-name>
+    <condition>
+      <greater-than>
+        <property>velocities/uBody-fps</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tas1</object-name>
+    <property>velocities/uBody-fps</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tas10</object-name>
+    <property>velocities/uBody-fps</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tas100</object-name>
+    <property>velocities/uBody-fps</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- GSPD -->
+  <animation>
+    <type>select</type>
+    <object-name>gspd10</object-name>
+    <condition>
+      <greater-than>
+        <property>velocities/groundspeed-kt</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>gspd100</object-name>
+    <condition>
+      <greater-than>
+        <property>velocities/groundspeed-kt</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>gspd1</object-name>
+    <property>velocities/groundspeed-kt</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>gspd10</object-name>
+    <property>velocities/groundspeed-kt</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>gspd100</object-name>
+    <property>velocities/groundspeed-kt</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- RNG1 -->
+  <animation>
+    <type>select</type>
+    <object-name>rng1.10</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/nd/range</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>rng1.100</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/nd/range</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>rng1.1</object-name>
+    <property>instrumentation/nd/range</property>
+    <factor>0.05</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>rng1.10</object-name>
+    <property>instrumentation/nd/range</property>
+    <factor>0.005</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>rng1.100</object-name>
+    <property>instrumentation/nd/range</property>
+    <factor>0.0005</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- RNG2 -->
+  <animation>
+    <type>select</type>
+    <object-name>rng2.10</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/nd/range</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>rng2.100</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/nd/range</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>rng2.1</object-name>
+    <property>instrumentation/nd/range</property>
+    <factor>0.05</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>rng2.10</object-name>
+    <property>instrumentation/nd/range</property>
+    <factor>0.005</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>rng2.100</object-name>
+    <property>instrumentation/nd/range</property>
+    <factor>0.0005</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

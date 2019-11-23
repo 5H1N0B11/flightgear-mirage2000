@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <engine n="0">
+    <engine-num type="int">0</engine-num>
+    <egt-degC type="float">0</egt-degC>
+    <massic-debit_div2>0</massic-debit_div2>
+    <pelle  type="float">0</pelle><!--This is created to animate ecope/pelle. This variable have to stay = 0-->
+    <running>false</running>
+  </engine>
+  
+</PropertyList>

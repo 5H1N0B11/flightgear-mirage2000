@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>Lamp.ac</path>
+
+  <animation>
+    <!-- Objets opaques -->
+    <object-name>Reflector</object-name>
+    <object-name>LightVolume2</object-name>
+    <!-- Objets transparents -->
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Reflector</object-name>
+  </animation>
+
+  <!--light effect-->
+  <animation>
+    <type>light</type>
+    <light-type>spot</light-type>
+    <name>RoofLamp</name>
+    <object-name>LightVolume2</object-name>
+    <nopreview />
+    <position>
+      <x>-0.003539</x>
+      <y> 0.000017</y>
+      <z>-0.004924</z>
+    </position>
+    <direction>
+      <x> 0.00</x>
+      <y> 0.00</y>
+      <z>-11.037</z>
+    </direction>
+    <ambient>
+      <r>0.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>1.0</a>
+    </ambient>
+    <diffuse>
+      <r>0.5</r>
+      <g>0.4</g>
+      <b>0.8</b>
+      <a>1.0</a>
+    </diffuse>
+    <specular>
+      <r>0.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>1.0</a>
+    </specular>
+    <dim-factor>
+      <property>/systems/electrical/outputs/sideLightUV</property>
+      <!-- optional begin -->
+      <factor>0.0833</factor>
+      <!-- optional end -->
+    </dim-factor>
+    <attenuation>
+      <c>0.5</c>
+      <l>0.002</l>
+      <q>0.00005</q>
+    </attenuation>
+    <exponent>3.0</exponent>
+    <near-m>0.001</near-m>
+    <far-m>0.51</far-m>
+    <cutoff>100</cutoff>
+  </animation>
+
+</PropertyList>

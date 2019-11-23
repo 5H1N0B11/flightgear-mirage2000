@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>combustion.ac</path>
+
+  <animation>
+    <object-name>ReheatInner</object-name>
+    <object-name>ReheatOuter</object-name>
+    <object-name>ExternalFlame</object-name>
+  </animation>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>ReheatInner</object-name>
+    <object-name>ReheatOuter</object-name>
+    <object-name>ExternalFlame</object-name>
+  </effect>
+
+  <animation>
+    <name>HeatblurOuter</name>
+    <object-name>ReheatInner</object-name>
+    <object-name>ReheatOuter</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>HeatblurOuter</object-name>
+    <emission>
+      <red>   0.4 </red>
+      <green> 0.2 </green>
+      <blue>  1.0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ExternalFlame</object-name>
+    <object-name>ReheatInner</object-name>
+    <object-name>ReheatOuter</object-name>
+    <condition>
+      <greater-than>
+        <!-- controls/engines/engine[0]/afterburner -->
+        <property>sim/multiplay/generic/float[14]</property>
+        <value>0.2</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>scale</type>
+    <object-name>ExternalFlame</object-name>
+    <!-- controls/engines/engine[0]/afterburner -->
+    <property>sim/multiplay/generic/float[14]</property>
+    <x-min>    0.5 </x-min>
+    <y-min>    1.0 </y-min>
+    <z-min>    1.0 </z-min>
+    <x-factor> 1.5 </x-factor>
+    <y-factor> 1.0 </y-factor>
+    <z-factor> 1.0 </z-factor>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>ExternalFlame</object-name>
+    <!-- engines/engine[0]/n1 -->
+    <property>sim/multiplay/generic/float[4]</property>
+    <factor> 240 </factor>
+    <axis>
+      <x> 1 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>ReheatOuter</object-name>
+    <!-- engines/engine[0]/n1 -->
+    <property>sim/multiplay/generic/float[4]</property>
+    <factor> 437 </factor>
+    <axis>
+      <x> -1 </x>
+      <y>  0 </y>
+      <z>  0 </z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>ReheatInner</object-name>
+    <!-- engines/engine[0]/n1 -->
+    <property>sim/multiplay/generic/float[4]</property>
+    <factor> 437 </factor>
+    <axis>
+      <x> 1 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+  <!-- ############### NIGHT FLAMME ####################-->
+  <animation>
+    <type>material</type>
+    <object-name>ReheatInner</object-name>
+    <condition>
+      <greater-than>
+        <property>/sim/time/sun-angle-rad</property>
+        <value>1.7</value>
+      </greater-than>
+    </condition>
+    <emission>
+      <red>   0.6 </red>
+      <green> 0.5 </green>
+      <blue>  1.0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>ReheatOuter</object-name>
+    <condition>
+      <greater-than>
+        <property>/sim/time/sun-angle-rad</property>
+        <value>1.7</value>
+      </greater-than>
+    </condition>
+    <emission>
+      <red>   0.85 </red>
+      <green> 0.70 </green>
+      <blue>  1.00 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>ExternalFlame</object-name>
+    <condition>
+      <greater-than>
+        <property>/sim/time/sun-angle-rad</property>
+        <value>1.7</value>
+      </greater-than>
+    </condition>
+    <emission>
+      <!-- controls/engines/engine[0]/afterburner -->
+      <!--<factor-prop>sim/multiplay/generic/float[14]</factor-prop>-->
+      <red>   0.95 </red>
+      <green> 0.90 </green>
+      <blue>  1.00 </blue>
+    </emission>
+  </animation>
+
+  <!-- ############### DAY FLAMME ####################-->
+  <animation>
+    <type>material</type>
+    <object-name>ReheatInner</object-name>
+    <condition>
+      <less-than>
+        <property>sim/time/sun-angle-rad</property>
+        <value>1.45</value>
+      </less-than>
+    </condition>
+    <emission>
+      <red>   1.0 </red>
+      <green> 0.4 </green>
+      <blue>  0.0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>ReheatOuter</object-name>
+    <condition>
+      <less-than>
+        <property>sim/time/sun-angle-rad</property>
+        <value>1.45</value>
+      </less-than>
+    </condition>
+    <emission>
+      <red>   1.0 </red>
+      <green> 0.3 </green>
+      <blue>  0.0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>ExternalFlame</object-name>
+    <condition>
+      <less-than>
+        <property>sim/time/sun-angle-rad</property>
+        <value>1.45</value>
+      </less-than>
+    </condition>
+    <emission>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  0 </blue>
+    </emission>
+  </animation>
+
+  <!-- ############### DUSK FLAMME ####################-->
+  <animation>
+    <type>material</type>
+    <object-name>ReheatInner</object-name>
+    <condition>
+      <and>
+        <less-than>
+          <property>/sim/time/sun-angle-rad</property>
+          <value>1.7</value>
+        </less-than>
+        <greater-than>
+          <property>/sim/time/sun-angle-rad</property>
+          <value>1.45</value>
+        </greater-than>
+      </and>
+    </condition>
+    <emission>
+      <red>   1.00 </red>
+      <green> 0.20 </green>
+      <blue>  0.05 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>ReheatOuter</object-name>
+    <condition>
+      <and>
+        <less-than>
+          <property>/sim/time/sun-angle-rad</property>
+          <value>1.7</value>
+        </less-than>
+        <greater-than>
+          <property>/sim/time/sun-angle-rad</property>
+          <value>1.45</value>
+        </greater-than>
+      </and>
+    </condition>
+    <emission>
+      <red>   0.4 </red>
+      <green> 0.2 </green>
+      <blue>  0.8 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>ExternalFlame</object-name>
+    <condition>
+      <and>
+        <less-than>
+          <property>/sim/time/sun-angle-rad</property>
+          <value>1.7</value>
+        </less-than>
+        <greater-than>
+          <property>/sim/time/sun-angle-rad</property>
+          <value>1.45</value>
+        </greater-than>
+      </and>
+    </condition>
+    <emission>
+      <red>   1.00 </red>
+      <green> 0.20 </green>
+      <blue>  0.00 </blue>
+    </emission>
+  </animation>
+
+</PropertyList>

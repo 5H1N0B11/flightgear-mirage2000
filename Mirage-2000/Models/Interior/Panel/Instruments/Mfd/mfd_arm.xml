@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>mfd_arm.ac</path>
+
+  <!-- *************Text*************** -->
+  <model>
+    <name>text3dEADI</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Mfd/mfd_3dtextARM.xml</path>
+    <offsets>
+      <x-m>-0.008</x-m>
+      <y-m> 0.000</y-m>
+      <z-m> 0.000</z-m>
+      <pitch-deg>0</pitch-deg>
+    </offsets>
+    <condition>
+      <equals>
+        <property>/instrumentation/mfd/modeL</property>
+        <value>1</value>
+      </equals>
+    </condition>
+  </model>
+
+  <!-- ARM -->
+  <animation>
+    <object-name>ARM-ecran</object-name>
+    <object-name>ARM-1L</object-name>
+    <object-name>ARM-1L-arm</object-name>
+    <object-name>ARM-2L</object-name>
+    <object-name>ARM-2L-arm</object-name>
+    <object-name>ARM-3L</object-name>
+    <object-name>ARM-3L-arm</object-name>
+    <object-name>ARM-BL</object-name>
+    <object-name>ARM-BL-arm</object-name>
+    <object-name>ARM-1R</object-name>
+    <object-name>ARM-1R-arm</object-name>
+    <object-name>ARM-2R</object-name>
+    <object-name>ARM-2R-arm</object-name>
+    <object-name>ARM-3R</object-name>
+    <object-name>ARM-3R-arm</object-name>
+    <object-name>ARM-BR</object-name>
+    <object-name>ARM-BR-arm</object-name>
+    <object-name>ARM-C</object-name>
+    <object-name>ARM-C-arm</object-name>
+    <object-name>ARM-C-t1300</object-name>
+    <object-name>ARM-3L-t1300</object-name>
+    <object-name>ARM-3R-t1300</object-name>
+    <object-name>ARM-3L-t1700</object-name>
+    <object-name>ARM-3R-t1700</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>ARM-ecran</object-name>
+    <object-name>ARM-1L</object-name>
+    <object-name>ARM-1L-arm</object-name>
+    <object-name>ARM-2L</object-name>
+    <object-name>ARM-2L-arm</object-name>
+    <object-name>ARM-3L</object-name>
+    <object-name>ARM-3L-arm</object-name>
+    <object-name>ARM-BL</object-name>
+    <object-name>ARM-BL-arm</object-name>
+    <object-name>ARM-1R</object-name>
+    <object-name>ARM-1R-arm</object-name>
+    <object-name>ARM-2R</object-name>
+    <object-name>ARM-2R-arm</object-name>
+    <object-name>ARM-3R</object-name>
+    <object-name>ARM-3R-arm</object-name>
+    <object-name>ARM-BR</object-name>
+    <object-name>ARM-BR-arm</object-name>
+    <object-name>ARM-C</object-name>
+    <object-name>ARM-C-arm</object-name>
+    <object-name>ARM-C-t1300</object-name>
+    <object-name>ARM-3L-t1300</object-name>
+    <object-name>ARM-3R-t1300</object-name>
+    <object-name>ARM-3L-t1700</object-name>
+    <object-name>ARM-3R-t1700</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.5 </red>
+      <green> 0.5 </green>
+      <blue>  0.5 </blue>
+    </emission>
+    <ambient>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </ambient>
+    <diffuse>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </diffuse>
+    <specular>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </specular>
+  </animation>
+
+  <!--Pylon 1L-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-1L</object-name>
+    <condition>
+      <greater-than>
+        <property>sim/weight/weight-lb</property>
+        <value>1</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!--Pylon 2L-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-2L</object-name>
+    <condition>
+      <greater-than>
+        <property>sim/weight[1]/weight-lb</property>
+        <value>1</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!--Pylon 3L-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-3L</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>sim/weight[2]/weight-lb</property>
+          <value>1</value>
+        </greater-than>
+        <not>
+          <equals>
+            <property>sim/weight[2]/selected</property>
+            <value>1300 l Droptank</value>
+          </equals>
+        </not>
+        <not>
+          <equals>
+            <property>sim/weight[2]/selected</property>
+            <value>1700 l Droptank</value>
+          </equals>
+        </not>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ARM-3L-t1300</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>sim/weight[2]/weight-lb</property>
+          <value>1</value>
+        </greater-than>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>1300 l Droptank</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ARM-3L-t1700</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>sim/weight[2]/weight-lb</property>
+          <value>1</value>
+        </greater-than>
+        <equals>
+          <property>sim/weight[2]/selected</property>
+          <value>1700 l Droptank</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!--Pylon C-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-C</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>sim/weight[3]/weight-lb</property>
+          <value>1</value>
+        </greater-than>
+        <not>
+          <equals>
+            <property>sim/weight[3]/selected</property>
+            <value>1300 l Droptank</value>
+          </equals>
+        </not>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ARM-C-t1300</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>sim/weight[3]/weight-lb</property>
+          <value>1</value>
+        </greater-than>
+        <equals>
+          <property>sim/weight[3]/selected</property>
+          <value>1300 l Droptank</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!--Pylon 3R-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-3R</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>sim/weight[4]/weight-lb</property>
+          <value>1</value>
+        </greater-than>
+        <not>
+          <equals>
+            <property>sim/weight[4]/selected</property>
+            <value>1300 l Droptank</value>
+          </equals>
+        </not>
+        <not>
+          <equals>
+            <property>sim/weight[4]/selected</property>
+            <value>1700 l Droptank</value>
+          </equals>
+        </not>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ARM-3R-t1300</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>sim/weight[4]/weight-lb</property>
+          <value>1</value>
+        </greater-than>
+        <equals>
+          <property>sim/weight[4]/selected</property>
+          <value>1300 l Droptank</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>ARM-3R-t1700</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>sim/weight[4]/weight-lb</property>
+          <value>1</value>
+        </greater-than>
+        <equals>
+          <property>sim/weight[4]/selected</property>
+          <value>1700 l Droptank</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!--Pylon 2R-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-2R</object-name>
+    <condition>
+      <greater-than>
+        <property>sim/weight[5]/weight-lb</property>
+        <value>1</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!--Pylon 1R-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-1R</object-name>
+    <condition>
+      <greater-than>
+        <property>sim/weight[6]/weight-lb</property>
+        <value>1</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!--Pylon BL-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-BL</object-name>
+    <condition>
+      <greater-than>
+        <property>sim/weight[7]/weight-lb</property>
+        <value>1</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!--Pylon BR-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-BR</object-name>
+    <condition>
+      <greater-than>
+        <property>sim/weight[8]/weight-lb</property>
+        <value>1</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!--
+  <animation>
+    <type>select</type>
+    <object-name>ARM-1L-arm</object-name>
+    <object-name>ARM-2L-arm</object-name>
+    <object-name>ARM-3L-arm</object-name>
+    <object-name>ARM-BL-arm</object-name>
+    <object-name>ARM-1R-arm</object-name>
+    <object-name>ARM-2R-arm</object-name>
+    <object-name>ARM-3R-arm</object-name>
+    <object-name>ARM-BR-arm</object-name>
+    <object-name>ARM-C-arm</object-name>
+  </animation>
+  -->
+
+  <!--Pylon 1L arm-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-1L-arm</object-name>
+    <condition>
+      <equals>
+        <property>controls/armament/missile/current-pylon</property>
+        <value>0</value>
+      </equals>
+      <greater-than>
+        <property>sim/weight[0]/weight-lb</property>
+        <value>1</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <!--Pylon 2L arm-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-2L-arm</object-name>
+    <condition>
+      <equals>
+        <property>controls/armament/missile/current-pylon</property>
+        <value>1</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!--Pylon 3L arm-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-3L-arm</object-name>
+    <condition>
+      <equals>
+        <property>controls/armament/missile/current-pylon</property>
+        <value>2</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!--Pylon C arm-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-C-arm</object-name>
+    <condition>
+      <equals>
+        <property>controls/armament/missile/current-pylon</property>
+        <value>3</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!--Pylon 1R arm-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-1R-arm</object-name>
+    <condition>
+      <equals>
+        <property>controls/armament/missile/current-pylon</property>
+        <value>6</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!--Pylon 2R arm-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-2R-arm</object-name>
+    <condition>
+      <equals>
+        <property>controls/armament/missile/current-pylon</property>
+        <value>5</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!--Pylon 3R arm-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-3R-arm</object-name>
+    <condition>
+      <equals>
+        <property>controls/armament/missile/current-pylon</property>
+        <value>4</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!--Pylon BL arm-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-BL-arm</object-name>
+    <condition>
+      <equals>
+        <property>controls/armament/missile/current-pylon</property>
+        <value>7</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!--Pylon BR arm-->
+  <animation>
+    <type>select</type>
+    <object-name>ARM-BR-arm</object-name>
+    <condition>
+      <equals>
+        <property>controls/armament/missile/current-pylon</property>
+        <value>8</value>
+      </equals>
+    </condition>
+  </animation>
+
+</PropertyList>

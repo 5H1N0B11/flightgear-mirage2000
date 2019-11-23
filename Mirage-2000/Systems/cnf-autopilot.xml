@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <settings>
+    <minimums type="int"> 200 </minimums>
+    <target-roll-deg type="double"> 0 </target-roll-deg>
+    <target-pitch-deg type="double"> 0 </target-pitch-deg>
+    <vertical-speed-fpm type="double"> 0 </vertical-speed-fpm>
+    <nav-source type="string">NAV1</nav-source>
+    <bank-limit type="int"> 47 </bank-limit>
+    <target-speed-kt type="int"> 350 </target-speed-kt>
+    <target-speed-mach type="double"> 0.40 </target-speed-mach>
+    <changeover type="bool"> 0 </changeover>
+    <heading-bug-deg type="int"> 0 </heading-bug-deg>
+    <tf-mode type="int">8</tf-mode> <!-- Larger values give smoother results -->
+  </settings>
+  
+  <locks>
+    <heading>ROLL</heading>
+    <heading-arm type="string"></heading-arm>
+    <altitude>PTCH</altitude>
+    <altitude-arm type="string"></altitude-arm>
+    <AP-status type="string"></AP-status>
+    <FD-status type="bool"> 1 </FD-status>
+    <yaw-damper type="bool"> 0 </yaw-damper>
+    <m-trim type="bool"> 0 </m-trim>
+  </locks>
+  
+  <internal>
+    <selected-crs type="int"> 0 </selected-crs>
+    <nav-distance type="double"> 0 </nav-distance>
+    <nav-type type="string"></nav-type>
+    <nav-id type="string"></nav-id>
+    <course-deflection type="double"> 0.0 </course-deflection>
+    <gs-valid type="bool"> 0 </gs-valid>
+    <gs-deflection type="double"> 0.0 </gs-deflection>
+    <in-range type="bool"> 0 </in-range>
+    <gs-in-range type="bool"> 0 </gs-in-range>
+
+    <aileron-pid>
+      <kp-low type="double">0.31</kp-low>
+      <kp-high type="double">0.128</kp-high>
+      <ki-low type="double">0.98</ki-low>
+      <ki-high type="double">2.12</ki-high>
+      <kd-low type="double">0.0654</kd-low>
+      <kd-high type="double">0.00515</kd-high>
+    </aileron-pid>
+
+    <target-pitch-pid>
+      <kp-low type="double">0.7</kp-low>
+      <kp-high type="double">0.16</kp-high>
+      <ki-low type="double">4.34</ki-low>
+      <ki-high type="double">1.984</ki-high>
+      <kd-low type="double">0.0753</kd-low>
+      <kd-high type="double">0.00861</kd-high>
+    </target-pitch-pid>
+
+    <vertical-speed-pid>
+      <kp type="double">0.034</kp>
+      <ki type="double">0.164</ki>
+      <kd type="double">0.00470</kd>
+    </vertical-speed-pid>
+  </internal>
+
+</PropertyList>

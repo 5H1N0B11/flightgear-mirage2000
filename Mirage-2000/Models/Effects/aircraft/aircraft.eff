@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <name>aircraft</name>
+  <inherits-from>Effects/model-combined-deferred</inherits-from>
+
+  <parameters>
+    <rain-enabled type="int">2</rain-enabled>
+  </parameters>
+
+</PropertyList>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+
+  <filter>
+    <name>splash-x</name>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/environment/rain-norm</property>
+            <value>0.1</value>
+          </greater-than>
+          <greater-than>
+            <property>/environment/maxCloudLayer</property>
+            <property>/position/altitude-ft</property>
+          </greater-than>
+        </and>
+      </condition>
+      <expression>
+        <table>
+          <property>/velocities/airspeed-kt</property>
+          <entry><ind>0</ind><dep>0.1</dep></entry>
+          <entry><ind>5</ind><dep>0.9</dep></entry>
+          <entry><ind>50</ind><dep>2</dep></entry>
+          <entry><ind>100</ind><dep>3</dep></entry>
+          <entry><ind>200</ind><dep>6</dep></entry>
+        </table>
+      </expression>
+    </input>
+    <output>
+      <property>/environment/aircraft-effects/splash-vector-x</property>
+    </output>
+  </filter>
+
+  <filter>
+    <name>splash-z</name>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/environment/rain-norm</property>
+            <value>0.1</value>
+          </greater-than>       
+          <greater-than>
+            <property>/environment/maxCloudLayer</property>
+            <property>/position/altitude-ft</property>
+          </greater-than>
+        </and>
+      </condition>
+      <expression>
+        <table>
+          <property>/velocities/airspeed-kt</property>
+          <entry><ind>0</ind><dep>-0.8</dep></entry>
+          <entry><ind>5</ind><dep>-1</dep></entry>
+          <entry><ind>50</ind><dep>-2</dep></entry>
+          <entry><ind>100</ind><dep>-3</dep></entry>
+          <entry><ind>200</ind><dep>-3.5</dep></entry>
+        </table>
+      </expression>
+    </input>
+    <output>
+      <property>/environment/aircraft-effects/splash-vector-z</property>
+    </output>
+  </filter>
+
+  <filter>
+    <name>ground-splash</name>
+    <update-interval-secs type="double">0.1</update-interval-secs>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/environment/rain-norm</property>
+            <value>0.1</value>
+          </greater-than>          
+          <greater-than>
+            <property>/environment/maxCloudLayer</property>
+            <property>/position/altitude-ft</property>
+          </greater-than>
+        </and>
+      </condition>
+      <expression>
+        <table>
+          <property>/velocities/airspeed-kt</property>
+          <entry><ind>0</ind><dep>0</dep></entry>
+          <entry><ind>5</ind><dep>0.25</dep></entry>
+          <entry><ind>50</ind><dep>0.5</dep></entry>
+          <entry><ind>100</ind><dep>0.9</dep></entry>
+          <entry><ind>200</ind><dep>1.1</dep></entry>
+        </table>
+      </expression>
+    </input>
+    <output>
+      <property>/environment/aircraft-effects/ground-splash-norm</property>
+    </output>
+  </filter>
+
+
+</PropertyList>
