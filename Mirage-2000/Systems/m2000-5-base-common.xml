@@ -269,5 +269,4 @@
   </weight>
 
   <systems include="systems.xml" />
-
-</PropertyList>
+:</PropertyList>
