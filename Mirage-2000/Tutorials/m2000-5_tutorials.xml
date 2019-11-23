@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-
-<!-- http://wiki.flightgear.org/Tutorials#Structure -->
-<PropertyList>
-
-  <tutorial include="engine_starting_tutorial.xml" />
-  <!--tutorial include="autopilot_beginner_tutorial.xml" /-->
-
-</PropertyList>
