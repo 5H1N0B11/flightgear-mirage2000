@@ -368,7 +368,9 @@
         <desc>Enable automatic tracking by FLIR camera</desc>
         <binding>
             <condition>
+              <and>
                 <property>/aircraft/flir/target/view-enabled</property>
+              </and>
             </condition>
             <command>property-toggle</command>
             <property>/aircraft/flir/locks/auto-track</property>
@@ -481,14 +483,20 @@
     </key>
 
     
-    <key n="262">
-      <name>F6</name>
+    <key n="265">
+      <name>F9</name>
       <repeatable type="bool">true</repeatable>
       <desc>Request Picture</desc>
       <binding>
-	<command>property-assign</command>
-	<property>/instrumentation/gci/picture</property>
-	<value>1</value>
+        <condition>
+          <not><equals>
+              <property>/sim/current-view/name</property>
+              <value>Sniping cam</value>
+          </equals></not>
+        </condition>
+        <command>property-assign</command>
+        <property>/instrumentation/gci/picture</property>
+        <value>1</value>
       </binding>
     </key>
 
