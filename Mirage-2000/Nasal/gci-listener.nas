@@ -37,7 +37,7 @@
 # 
 # The receiving aircraft will then parse these messages. Upon all messages read,
 # the receiving aircraft will set the boolean property to 0.
-
+print("GCI loaded");
 var picture_prop = props.globals.getNode("/instrumentation/gci/picture");
 var bogeydope_prop = props.globals.getNode("/instrumentation/gci/bogeydope");
 var cutoff_prop = props.globals.getNode("/instrumentation/gci/cutoff");

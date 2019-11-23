@@ -273,10 +273,4 @@
   </weight>
 
   <systems include="systems.xml" />
-
-  <nasal>
-    <gci>
-      <file>Aircraft/Mirage-2000/Nasal/gci-listener.nas</file>
-    </gci>
-  </nasal>
 </PropertyList>

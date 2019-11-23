@@ -205,7 +205,9 @@
     <assistance>
       <file>Aircraft/Mirage-2000/Nasal/assistance.nas</file>
     </assistance>
-
+    <gci>
+      <file>Aircraft/Mirage-2000/Nasal/gci-listener.nas</file>
+    </gci>
   </nasal>
 
 </PropertyList>
