@@ -208,6 +208,9 @@
     <light>
       <file>Aircraft/Mirage-2000/Nasal/light-manager.nas</file>
     </light>
+    <gci>
+      <file>Aircraft/Mirage-2000/Nasal/gci-listener.nas</file>
+    </gci>
   </nasal>
 
 </PropertyList>
