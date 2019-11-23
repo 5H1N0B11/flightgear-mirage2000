@@ -78,6 +78,10 @@
       <string type="string" n="9" />
       <string n="13" type="string"></string>
       <string n="15" type="string"></string>
+      <bool n="0" alias ="/instrumentation/gci/picture"/> <!-- gci request -->
+      <bool n="1" alias ="/instrumentation/gci/bogeydope"/> <!-- gci request
+      -->
+      <bool n="2" alias ="/instrumentation/gci/cutoff"/> <!-- gci request -->
     </generic>
   </multiplay>
 
@@ -270,4 +274,9 @@
 
   <systems include="systems.xml" />
 
+  <nasal>
+    <gci>
+      <file>Aircraft/Mirage-2000/Nasal/gci-listener.nas</file>
+    </gci>
+  </nasal>
 </PropertyList>
