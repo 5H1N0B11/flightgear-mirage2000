@@ -368,14 +368,22 @@
         <desc>Enable automatic tracking by FLIR camera</desc>
         <binding>
             <condition>
-              <and>
                 <property>/aircraft/flir/target/view-enabled</property>
-              </and>
             </condition>
             <command>property-toggle</command>
-            <property>/aircraft/flir/locks/auto-track</property>
+              <property>/aircraft/flir/locks/auto-track</property>
         </binding>
+        <binding>
+            <condition>
+                <property>/aircraft/flir/target/view-enabled</property>
+            </condition>
+          <command>property-assign</command>
+            <property>/instrumentation/gci/picture</property>
+            <value>1</value>
+      </binding>
     </key>
+    
+    
     
     <key n="261">
       <name>F5</name>
@@ -482,9 +490,9 @@
         </mod-up>
     </key>
 
-    
-    <key n="265">
-      <name>F9</name>
+<!--     Copyinng this to the first key F6 binding -->
+<!--    <key n="262">
+      <name>F6</name>
       <repeatable type="bool">true</repeatable>
       <desc>Request Picture</desc>
       <binding>
@@ -498,7 +506,7 @@
         <property>/instrumentation/gci/picture</property>
         <value>1</value>
       </binding>
-    </key>
+    </key>-->
 
     <key n="263">
       <name>F7</name>

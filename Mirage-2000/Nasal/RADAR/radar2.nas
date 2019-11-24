@@ -515,7 +515,8 @@ var Radar = {
                     }
                     
                     #print("Update contactList");
-                    me.ContactsList = me.update_array(u,me.ContactsList);
+#                     me.ContactsList = 
+                    me.update_array(u,me.ContactsList);
                     #me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
                     #me.ContactsList[me.tempo_Index].set_display(1);
                     u.set_display(1);
@@ -583,7 +584,7 @@ var Radar = {
                 
         me.ContactsList = me.decrease_life(me.ContactsList);
         #print("Test");
-        me.sorting_and_suppr(me.ContactsList);
+#         me.sorting_and_suppr(me.ContactsList);
         #me.ContactsList = me.cut_array(me.radarMaxSize,me.ContactsList);
         #me.Global_janitor();
         #print("Side in RADAR : "~ size(me.ContactsList));
