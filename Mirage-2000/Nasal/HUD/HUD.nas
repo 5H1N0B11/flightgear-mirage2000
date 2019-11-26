@@ -157,6 +157,9 @@ var HUD = {
     HudMath.init([-3.26163,-0.067,0.099216], [-3.26163,0.067,-0.062785], [1024,1024], [0,1.0], [0.8265,0.0], 0);
     #HudMath.init([-3.22012,-0.07327,0.101839], [-3.32073,0.07327,-0.093358], [1024,1024], [0.166803,1.0], [0.834003,0.0], 0); wrong HUD
         
+    m.sy = 1024/2;                        
+    m.sx = 1024/2;
+    
     m.viewPlacement = 480;
     m.min = -m.viewPlacement * 0.846;
     m.max = m.viewPlacement * 0.846;
@@ -931,9 +934,66 @@ var HUD = {
       .vert(-50)
       .horiz(-50)
       .setStrokeDashArray([10,10])
-      .setStrokeLineWidth(5);
+      .setStrokeLineWidth(5);  
+    m.Square_Group.hide();    
       
-    m.Square_Group.hide();  
+    
+    
+    m.missileFireRange = m.root.createChild("group");
+    m.MaxFireRange = m.missileFireRange.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(200,0)
+      .horiz(-30)
+      .setStrokeLineWidth(6); 
+    m.MinFireRange = m.missileFireRange.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(200,0)
+      .horiz(-30)
+      .setStrokeLineWidth(6); 
+    m.missileFireRange.hide();
+      
+    
+    m.distanceToTargetLineGroup = m.root.createChild("group");
+    m.distanceToTargetLineMin = -100;
+    m.distanceToTargetLineMax = 100;
+    m.distanceToTargetLine = m.distanceToTargetLineGroup.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(200,m.distanceToTargetLineMin)
+      .horiz(30)
+      .moveTo(200,m.distanceToTargetLineMin)
+      .vert(m.distanceToTargetLineMax-m.distanceToTargetLineMin)
+      .horiz(30)
+      .setStrokeLineWidth(5); 
+    
+    m.distanceToTargetLineTextGroup = m.distanceToTargetLineGroup.createChild("group");
+      
+    m.distanceToTargetLineChevron = m.distanceToTargetLineTextGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(200,0)
+      .setDouble("character-size", 60)
+      .setAlignment("left-center")
+      .setText("<"); 
+      
+    m.distanceToTargetLineChevronText = m.distanceToTargetLineTextGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(230,0)
+      .setDouble("character-size", 40)
+      .setAlignment("left-center")
+      .setText("x");
+    
+    m.distanceToTargetLineGroup.hide(); 
+
+    
+      
+#       obj.ASC = obj.svg.createChild("path")# (Attack Steering Cue (ASC))
+#       .moveTo(-8*mr,0)
+#       .arcSmallCW(8*mr,8*mr, 0, 8*mr*2, 0)
+#       .arcSmallCW(8*mr,8*mr, 0, -8*mr*2, 0)
+#       .setStrokeLineWidth(1)
+#       .setColor(0,1,0).hide();
+#       append(obj.total, obj.ASC);  
+      
+ 
       
     
     
@@ -1489,6 +1549,8 @@ var HUD = {
             me.Square_Group.show();
             me.Locked_Square.setTranslation(triPos);
             me.Locked_Square_Dash.setTranslation(clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
+            me.distanceToTargetLineGroup.show(); 
+            me.displayDistanceToTargetLine(c);
             
             #And we hide the circle
             me.targetArray[i].hide();
@@ -1504,7 +1566,7 @@ var HUD = {
           me.TextInfoArray[i].show();
           me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
           
-          me.TextInfoArray[i].setText(sprintf("  %s \n   %d nm \n   %d ft / %d", target_callsign, target_Distance, target_altitude, target_heading_deg));
+          me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", target_callsign, target_Distance, target_altitude, target_heading_deg));
 
         }else{
           me.targetArray[i].hide();
@@ -1514,6 +1576,8 @@ var HUD = {
         if(Token == 0){
           #me.TriangleGroupe.hide();
           me.Square_Group.hide();
+          me.distanceToTargetLineGroup.hide(); 
+          me.missileFireRange.hide();
         }
       }
       i+=1;
@@ -1532,6 +1596,44 @@ var HUD = {
       me.targetArray[y].hide();
       me.TextInfoArray[y].hide();
     } 
+  },
+  
+  displayDistanceToTargetLine : func(contact){
+    var MaxRadarRange = mirage2000.myRadar3.rangeTab[mirage2000.myRadar3.rangeIndex];
+    var myString ="";
+    #< 10 nm should be a float
+    #< 1000 m should be in meters 
+    if(contact.get_range()<= MaxRadarRange){
+      #Text for distance to target
+      if(contact.get_range()*NM2M<1200){
+        myString = sprintf("%dm",contact.get_range()*NM2M);
+      }elsif(contact.get_range()<10){
+        myString = sprintf("%.1fnm",contact.get_range());
+      }else{
+        myString = sprintf("%dnm",contact.get_range());
+      }
+      #Need to be an AA missile
+      if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
+        if(me.selectedWeap.type != "30mm Cannon" and me.selectedWeap.class == "A"){
+          #Max
+          me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+          
+          #MmiFireRange
+          me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.min_fire_range_nm*(me.distanceToTargetLineMax-        me.distanceToTargetLineMin)/ MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+          
+          me.missileFireRange.show();
+        }else{
+          me.missileFireRange.hide();
+        }
+      }
+        
+      me.distanceToTargetLineChevronText.setText(myString);
+      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ MaxRadarRange)-100);
+      
+      
+      
+      
+    }
   },
   
   
