@@ -24,8 +24,8 @@
       <class type="string">A</class>
       <cross-section-sqft type="double"> 0.30 </cross-section-sqft>
       <DLZ type="bool">true</DLZ>
-      <DLZ-optimal-alt-feet type="double">33000</DLZ-optimal-alt-feet>
-      <DLZ-optimal-closing-mach type="double">4.0</DLZ-optimal-closing-mach>
+      <DLZ-optimal-alt-feet type="double">10000</DLZ-optimal-alt-feet>
+      <DLZ-optimal-closing-mach type="double">1.5</DLZ-optimal-closing-mach>
       <drag-coeff type="double"> 0.19 </drag-coeff>
       <FCS-field-deg type="int"> 40 </FCS-field-deg>
       <fire-msg type="string">Fox 3</fire-msg>
@@ -75,8 +75,8 @@
       <class type="string">A</class>
       <cross-section-sqft type="double"> 0.30 </cross-section-sqft>
       <DLZ type="bool">true</DLZ>
-      <DLZ-optimal-alt-feet type="double">33000</DLZ-optimal-alt-feet>
-      <DLZ-optimal-closing-mach type="double">4.0</DLZ-optimal-closing-mach>
+      <DLZ-optimal-alt-feet type="double">10000</DLZ-optimal-alt-feet>
+      <DLZ-optimal-closing-mach type="double">1.5</DLZ-optimal-closing-mach>
       <drag-coeff type="double"> 0.19 </drag-coeff>
       <FCS-field-deg type="int"> 40 </FCS-field-deg>
       <fire-msg type="string">Fox 2</fire-msg>
@@ -129,7 +129,7 @@
       <terrain-follow type="bool">false</terrain-follow>
       <FCS-field-deg type="int"> 25 </FCS-field-deg>
       <seeker-field-deg type="int"> 110 </seeker-field-deg>
-      <max-g type="int"> 50 </max-g>
+      <max-g type="int"> 20 </max-g>
       <thrust-lbf-stage-1 type="double"> 4400 </thrust-lbf-stage-1> <!-- To be changed -->
       <thrust-lbf-stage-2 type="double"> 460 </thrust-lbf-stage-2><!-- To be changed -->
       <stage-1-duration-sec type="double"> 10 </stage-1-duration-sec>
@@ -139,6 +139,10 @@
       <weight-fuel-lbm type="double"> 280 </weight-fuel-lbm> <!-- To be changed -->
       <drag-coeff type="double"> 0.29 </drag-coeff> <!-- To be changed -->
       <cross-section-sqft type="double"> 0.30 </cross-section-sqft>
+      <DLZ type="bool">true</DLZ>
+      <DLZ-optimal-alt-feet type="double">25000</DLZ-optimal-alt-feet>
+      <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
+      <reaquire type="bool">true</reaquire>
       <arming-time-sec type="double"> 1.2  </arming-time-sec>
       <min-speed-for-guiding-mach type="double"> 0.7 </min-speed-for-guiding-mach>
       <self-destruct-time-sec type="double"> 110 </self-destruct-time-sec>
@@ -153,7 +157,7 @@
       <sound-on-off type="bool">false</sound-on-off>
       <sound-fire-on-off type="bool">false</sound-fire-on-off>
       <sound-volume type="double"> 0.0 </sound-volume>
-      <vector-thrust type="bool">true</vector-thrust>
+      <vector-thrust type="bool">false</vector-thrust>
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>

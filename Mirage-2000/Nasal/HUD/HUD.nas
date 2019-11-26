@@ -942,14 +942,19 @@ var HUD = {
     m.missileFireRange = m.root.createChild("group");
     m.MaxFireRange = m.missileFireRange.createChild("path")
       .setColor(m.myGreen)
-      .moveTo(200,0)
+      .moveTo(210,0)
       .horiz(-30)
       .setStrokeLineWidth(6); 
     m.MinFireRange = m.missileFireRange.createChild("path")
       .setColor(m.myGreen)
-      .moveTo(200,0)
+      .moveTo(210,0)
       .horiz(-30)
       .setStrokeLineWidth(6); 
+    m.NEZFireRange = m.missileFireRange.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(215,0)
+      .horiz(-40)
+      .setStrokeLineWidth(4);   
     m.missileFireRange.hide();
       
     
@@ -1599,11 +1604,11 @@ var HUD = {
   },
   
   displayDistanceToTargetLine : func(contact){
-    var MaxRadarRange = mirage2000.myRadar3.rangeTab[mirage2000.myRadar3.rangeIndex];
+    me.MaxRadarRange = mirage2000.myRadar3.rangeTab[mirage2000.myRadar3.rangeIndex];
     var myString ="";
     #< 10 nm should be a float
     #< 1000 m should be in meters 
-    if(contact.get_range()<= MaxRadarRange){
+    if(contact.get_range()<= me.MaxRadarRange){
       #Text for distance to target
       if(contact.get_range()*NM2M<1200){
         myString = sprintf("%dm",contact.get_range()*NM2M);
@@ -1612,28 +1617,46 @@ var HUD = {
       }else{
         myString = sprintf("%dnm",contact.get_range());
       }
-      #Need to be an AA missile
-      if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
-        if(me.selectedWeap.type != "30mm Cannon" and me.selectedWeap.class == "A"){
-          #Max
-          me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
-          
-          #MmiFireRange
-          me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.min_fire_range_nm*(me.distanceToTargetLineMax-        me.distanceToTargetLineMin)/ MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
-          
-          me.missileFireRange.show();
-        }else{
-          me.missileFireRange.hide();
-        }
+
+      if (me.displayDLZ(me.MaxRadarRange)){
+        me.missileFireRange.show();
+      }else{
+        me.missileFireRange.hide();
       }
         
+        
       me.distanceToTargetLineChevronText.setText(myString);
-      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ MaxRadarRange)-100);
-      
-      
-      
-      
+      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
     }
+  },
+  
+  
+  displayDLZ:func(){
+    if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
+        
+        #Testings
+        if(me.selectedWeap.type != "30mm Cannon" and me.selectedWeap.class == "A" and me.selectedWeap.parents[0] == armament.AIM){
+          #Taking back the DLZ
+          
+          me.myDLZ = pylons.getDLZ();
+          
+
+          if(me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*1.5){
+            #Max
+            me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+
+            #MmiFireRange
+            me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+
+            #NEZFireRange           
+            me.NEZFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+
+            me.missileFireRange.show();
+            return 1;
+          }
+        }
+      }
+      return 0;
   },
   
   
