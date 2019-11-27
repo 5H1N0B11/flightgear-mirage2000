@@ -305,7 +305,6 @@ var AIM = {
 		m.stage_1_duration      = getprop(m.nodeString~"stage-1-duration-sec");       # stage 1 duration [optional]
 		m.stage_2_duration      = getprop(m.nodeString~"stage-2-duration-sec");       # stage 2 duration [optional]
 		m.weight_fuel_lbm       = getprop(m.nodeString~"weight-fuel-lbm");            # fuel weight [optional]. If this property is not present, it won't lose weight as the fuel is used.
-		m.thrust_lbf           = 0;
 		m.vector_thrust         = getprop(m.nodeString~"vector-thrust");              # Boolean. [optional]
 		m.engineEnabled         = getprop(m.nodeString~"engine-enabled");             # Boolean. If engine will start when launched. [optional]
 		# aerodynamic
@@ -685,6 +684,9 @@ var AIM = {
 		m.nextGroundElevation = 0; # next Ground Elevation
 		m.nextGroundElevationMem = [-10000, -1];
 		m.terrainStage = 0;
+		
+		# DLZ needs this for vector thrust missiles
+		m.thrust_lbf = 0;
 
 		#rail
 		m.rail_passed = FALSE;
@@ -2436,7 +2438,7 @@ var AIM = {
 		# extra/inter-polation:
 		# f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
 		# calculate its performance at current air density:
-    if (me.vector_thrust and me.thrust_lbf==0) max_g_sealevel=max_g_sealevel*0.666;
+		if (me.vector_thrust and me.thrust_lbf==0) max_g_sealevel=max_g_sealevel*0.666;
 		return me.clamp(max_g_sealevel+((rho-0.0023769)/(0.00036159-0.0023769))*(max_g_sealevel*0.5909-max_g_sealevel),0.25,100);
 	},
 
@@ -3852,7 +3854,10 @@ var AIM = {
 		if(me.uncage_auto) {
 			me.caged = TRUE;
 		}
-		if (me.status != MISSILE_STARTING) me.standby();
+		if (me.status != MISSILE_STARTING) {
+			me.standby();
+			return;
+		}
 		if (me.ready_standby_time != 0 and getprop("sim/time/elapsed-sec") > (me.ready_standby_time+me.ready_time)) {
 			me.status = MISSILE_SEARCH;
 			me.search();
