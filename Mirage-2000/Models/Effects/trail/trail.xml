@@ -73,9 +73,9 @@
 
       <start>
         <color>
-          <red><value>   1 </value></red>
-          <green><value> 1 </value></green>
-          <blue><value>  1 </value></blue>
+          <red><expression><product><value>1.0</value><property>rendering/scene/diffuse/red</property></product></expression></red>
+          <green><expression><product><value>1.0</value><property>rendering/scene/diffuse/red</property></product></expression></green>
+          <blue><expression><product><value>1.0</value><property>rendering/scene/diffuse/red</property></product></expression></blue>
           <alpha><value> 0.3 </value></alpha>
         </color>
         <size>
@@ -86,9 +86,9 @@
 
       <end>
         <color>
-          <red><value>   1 </value></red>
-          <green><value> 1 </value></green>
-          <blue><value>  1 </value></blue>
+          <red><expression><product><value>1.0</value><property>rendering/scene/diffuse/red</property></product></expression></red>
+          <green><expression><product><value>1.0</value><property>rendering/scene/diffuse/red</property></product></expression></green>
+          <blue><expression><product><value>1.0</value><property>rendering/scene/diffuse/red</property></product></expression></blue>
           <alpha><value> 1 </value></alpha>
         </color>
         <size>
