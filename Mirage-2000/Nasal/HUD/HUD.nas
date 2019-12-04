@@ -228,16 +228,16 @@ var HUD = {
         
         
          
-      #Little House pointing  Waypoint
-      m.HouseSize = 4;
-      m.HeadingHouse = m.root.createChild("path")
-      .setColor(m.myGreen)
-      .setStrokeLineWidth(5)
-      .moveTo(-20,0)
-      .vert(-30)
-      .lineTo(0,-50)
-      .lineTo(20,-30)
-      .vert(30);
+  #Little House pointing  Waypoint
+  m.HouseSize = 4;
+  m.HeadingHouse = m.root.createChild("path")
+    .setColor(m.myGreen)
+    .setStrokeLineWidth(5)
+    .moveTo(-20,0)
+    .vert(-30)
+    .lineTo(0,-50)
+    .lineTo(20,-30)
+    .vert(30);
  
         
    #Chevrons Acceleration Vector (AV)
@@ -652,6 +652,23 @@ var HUD = {
       .setText("0.0");
     
       
+    m.alphaGloadGroup = m.root.createChild("group");  
+    m.gload_Text = m.alphaGloadGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(- m.maxladderspan-50,-100)
+      .setDouble("character-size", 35)
+      .setAlignment("right-center")
+      .setText("0.0");
+      
+    m.alpha_Text = m.alphaGloadGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(- m.maxladderspan-50,-50)
+      .setDouble("character-size", 35)
+      .setAlignment("right-center")
+      .setText("0.0");  
+      
+      m.alphaGloadGroup.hide();
+      
       #Take off Acceleration
       m.accBoxGroup = m.root.createChild("group");  
         
@@ -1017,6 +1034,7 @@ var HUD = {
       speed_d:    "velocities/speed-down-fps",
       alpha:      "/orientation/alpha-deg",
       beta:       "/orientation/side-slip-deg",
+      gload:      "/accelerations/pilot-g",
       ias:        "/velocities/airspeed-kt",
       mach:       "/velocities/mach",
       gs:         "/velocities/groundspeed-kt",
@@ -1174,6 +1192,9 @@ var HUD = {
     
     #Display aoa
     me.display_alpha();
+    
+    #Display gload
+    me.display_gload();
     
     #Display Route dist and waypoint number
     me.display_Waypoint();
@@ -1405,7 +1426,7 @@ var HUD = {
   display_Acceleration_Box:func(){
     #Acc accBoxGroup in G(so I guess /9,8)
     if(me.input.wow_nlg.getValue()){
-      me.acceleration_Box.setText(sprintf("%.2f", me.input.acc_yas.getValue()/9.8));
+      me.acceleration_Box.setText(sprintf("%.2f", int(me.input.acc_yas.getValue()/9.8*1000+1)/1000));
       me.accBoxGroup.show();
     }else{
       me.accBoxGroup.hide();
@@ -1459,13 +1480,24 @@ var HUD = {
     }
   },
   display_alpha:func(){
-    if(me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2){
+    if(me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2 and me.input.MasterArm.getValue() == 0){
       me.aoa.setText(sprintf("%0.1f",me.input.alpha.getValue()));
       me.alphaGroup.show();
     }else{
       me.alphaGroup.hide();
     }
   },
+  
+  display_gload:func(){
+    if(me.input.MasterArm.getValue()){
+      me.gload_Text.setText(sprintf("%0.1f G",me.input.gload.getValue()));
+      me.alpha_Text.setText(sprintf("%0.1f α",me.input.alpha.getValue()));
+      me.alphaGloadGroup.show();
+    }else{
+      me.alphaGloadGroup.hide();
+    }
+  },
+  
   
   display_Waypoint:func(){
     
