@@ -531,7 +531,7 @@
   </label>
 
   <!-- ~~~~~~~~~~~~~~~~~~ guns -->
-  <label>
+<!--  <label>
     <name>Guns</name>
     <x>-60</x>
     <y>-115</y>
@@ -552,10 +552,10 @@
     </input>
     <format>guns:%3.0f</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ missiles aa -->
-  <label>
+<!--  <label>
     <name>Missiles</name>
     <x>-58</x>
     <y>-115m</y>
@@ -575,7 +575,7 @@
     </input>
     <format>%s</format>
     <halign>left</halign>
-  </label>
+  </label>-->
 
 
 </PropertyList>
