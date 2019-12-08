@@ -23,8 +23,17 @@
           <dialog-name>config</dialog-name>
         </binding>
       </item>
-
+      
       <item n="3">
+        <label>Link16</label>
+        <name>AboutMirage</name>
+        <binding>
+          <command>dialog-show</command>
+          <dialog-name>link16</dialog-name>
+        </binding>
+      </item>
+   
+      <item n="4">
         <label>Lights</label>
         <name>lights</name>
         <binding>
@@ -35,7 +44,8 @@
 
       <label>Mirage 2000</label>
       <enabled type="bool">true</enabled>
-      <item n="4">
+      
+      <item n="5">
         <label>Select Livery</label>
         <binding>
           <command>nasal</command>
@@ -43,7 +53,7 @@
         </binding>
       </item>
 
-      <item n="5">
+      <item n="6">
         <label>Select Logos</label>
         <binding>
           <command>nasal</command>
@@ -51,7 +61,7 @@
         </binding>
       </item>
 
-      <item n="6">
+      <item n="7">
         <label>Options</label>
         <name>options</name>
         <binding>
@@ -60,7 +70,7 @@
         </binding>
       </item>
 
-      <item n="7">
+      <item n="8">
         <label>Radar</label>
         <name>radar</name>
         <binding>
@@ -69,7 +79,7 @@
         </binding>
       </item>
       
-     <item n="8">
+     <item n="9">
         <label>Rwr</label>
         <binding>
           <command>nasal</command>
@@ -77,7 +87,7 @@
         </binding>
       </item>
 
-      <item n="9">
+      <item n="10">
         <label>About</label>
         <name>AboutMirage</name>
         <binding>
@@ -86,7 +96,7 @@
         </binding>
       </item>
 
-      <item n="10">
+      <item n="11">
         <label>wingmen</label>
         <name>wingmen</name>
         <binding>

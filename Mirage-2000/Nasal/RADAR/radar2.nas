@@ -1195,7 +1195,7 @@ var RWR_APG = {
 #             print("Will test  : "~ me.u.get_Callsign()~" as Type: " ~ me.u.type);
             me.rn = me.u.get_range();
             me.l16 = 0;
-            if (getprop("link16/wingman-1")==me.cs or getprop("link16/wingman-2")==me.cs or getprop("link16/wingman-3")==me.cs or me.rn > 150) {
+           if (getprop("link16/wingman-1")==me.cs or getprop("link16/wingman-2")==me.cs or getprop("link16/wingman-3")==me.cs or getprop("link16/wingman-4")==me.cs  or getprop("link16/wingman-5")==me.cs  or getprop("link16/wingman-6")==me.cs  or getprop("link16/wingman-7")==me.cs  or getprop("link16/wingman-8")==me.cs  or getprop("link16/wingman-9")==me.cs or me.rn > 150) {
                 me.l16 = 1;
             }
             me.bearing = geo.aircraft_position().course_to(me.u.get_Coord());
