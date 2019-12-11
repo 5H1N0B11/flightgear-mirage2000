@@ -695,6 +695,55 @@ var HUD = {
       .setAlignment("center-center")
       .setText("0.0");  
     m.bullet_CountGroup.hide();
+    
+    # Pylon selection letters
+    m.pylons_Group = m.root.createChild("group");  
+    m.Left_pylons = m.pylons_Group.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(-m.maxladderspan+60,100)
+      .setDouble("character-size", 35)
+      .setFont("LiberationFonts/LiberationMono-Bold.ttf")
+      .setAlignment("center-center")
+      .setText("L");  
+    m.Right_pylons = m.pylons_Group.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(m.maxladderspan-60,100)
+      .setDouble("character-size", 35)
+      .setFont("LiberationFonts/LiberationMono-Bold.ttf")
+      .setAlignment("center-center")
+      .setText("D");
+    m.Center_pylons = m.pylons_Group.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(0,100)
+      .setDouble("character-size", 35)
+      .setFont("LiberationFonts/LiberationMono-Bold.ttf")
+      .setAlignment("center-center")
+      .setText("C");  
+    m.pylons_Group.hide();
+    
+    # Pylon selection letters
+    m.pylons_Circle_Group = m.root.createChild("group");  
+    m.LeftCircle = m.pylons_Circle_Group.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(-m.maxladderspan+60+25, 100)
+      .arcSmallCW(25,25, 0, -50, 0)
+      .arcSmallCW(25,25, 0, 50, 0)
+      .setStrokeLineWidth(5);
+    m.RightCircle = m.pylons_Circle_Group.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(m.maxladderspan-60+25, 100)
+      .arcSmallCW(25,25, 0, -50, 0)
+      .arcSmallCW(25,25, 0, 50, 0)
+      .setStrokeLineWidth(5);
+    m.CenterCircle = m.pylons_Circle_Group.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(25, 100)
+      .arcSmallCW(25,25, 0, -50, 0)
+      .arcSmallCW(25,25, 0, 50, 0)
+      .setStrokeLineWidth(5);
+    m.pylons_Circle_Group.hide();
+    
+    
       
       #Take off Acceleration
       m.accBoxGroup = m.root.createChild("group");  
@@ -1061,6 +1110,18 @@ var HUD = {
      "AS30L" :"ASL30",
     };
     
+    m.pylonsSide_hash = {
+      0 : "L",
+      1 : "L",
+      2 : "L",
+      7 : "L",
+      3 : "C",
+      4 : "R",
+      5 : "R",
+      6 : "R",
+      8 : "R",
+    };
+    
     
     m.input = {
       pitch:      "/orientation/pitch-deg",
@@ -1242,6 +1303,9 @@ var HUD = {
     #Display bullet Count
     me.display_BulletCount();
     
+    #Display selected
+    me.displaySelectedPylons();
+    
     #Display Route dist and waypoint number
     me.display_Waypoint();
     
@@ -1283,7 +1347,7 @@ var HUD = {
         }  
     }
     #Then, trying with route manager
-    if(me.selectedRunway == "0"){
+    if(me.selectedRunway == "0" and !me.input.MasterArm.getValue()){
       if(me.input.destRunway.getValue() != ""){
          
         if(me.fp.getPlanSize() == me.fp.indexOfWP(me.fp.currentWP())+1){
@@ -1294,7 +1358,7 @@ var HUD = {
       }
     }
     #print("Test : ",me.selectedRunway != "0");
-    if(me.selectedRunway != "0"){
+    if(me.selectedRunway != "0" and !me.input.MasterArm.getValue()){
       var (courseToAiport, distToAirport) = courseAndDistance(me.info);
       if(  distToAirport < 10 and me.input.wow_nlg.getValue() == 0){
         me.displayRunway();
@@ -1326,7 +1390,7 @@ var HUD = {
     #settimer(func me.update(), 0.1);
   },
   display_ILS_STUFF:func(){
-    if(me.input.ILS_valid.getValue()){
+    if(me.input.ILS_valid.getValue() and !me.input.MasterArm.getValue()){
       me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading - me.input.NavHeadingRunwayILS.getValue() ));
 
       me.ILS_Scale_dependant.setTranslation(me.runwayPosHrizonOnHUD,0);
@@ -1343,7 +1407,7 @@ var HUD = {
 
   },
   display_ILS_Square:func(){
-    if(me.input.ILS_gs_in_range.getValue()){
+    if(me.input.ILS_gs_in_range.getValue()and !me.input.MasterArm.getValue()){
       me.ILS_Square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
       #me.ILS_Square.update();
       me.brackets.setTranslation(0,HudMath.getCenterPosFromDegs(0,me.input.pitch.getValue()-14)[1]);
@@ -1573,6 +1637,48 @@ var HUD = {
     
   },
   
+  displaySelectedPylons:func{
+    #Showing the circle around the L or R if the weapons is under the wings.
+    #A circle around a C is also done for center loads, but I couldn't find any docs on that, so it is conjecture
+    if(me.input.MasterArm.getValue() and me.selectedWeap != nil){
+      if(me.selectedWeap.type != "30mm Cannon"){
+        me.pylons_Group.show();
+        me.pylons_Circle_Group.show();
+#         print("Type:"~me.loads_hash[me.selectedWeap.type]);
+#         print("Pylons:"~pylons.fcs.getSelectedPylonNumber());
+#         print("Side:"~me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()]);
+        if( me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] != "C"){
+          me.Left_pylons.show();
+          me.Right_pylons.show();
+          if( me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L"){
+            me.LeftCircle.show();
+            me.RightCircle.hide();
+          }else{
+            me.LeftCircle.hide();
+            me.RightCircle.show();
+          }
+          me.Center_pylons.hide();
+          me.CenterCircle.hide();
+        }else{
+          me.Center_pylons.show();
+          me.CenterCircle.show();
+          
+          #Hide external
+          me.Left_pylons.hide();
+          me.Right_pylons.hide();
+          me.LeftCircle.hide();
+          me.RightCircle.hide(); 
+        }
+      }else{
+        me.pylons_Group.hide();
+        me.pylons_Circle_Group.hide();
+      } 
+    }else{
+      me.pylons_Group.hide();
+      me.pylons_Circle_Group.hide();
+    }
+  },
+  
   
   display_Waypoint:func(){
     
@@ -1729,39 +1835,51 @@ var HUD = {
         me.missileFireRange.show();
       }else{
         me.missileFireRange.hide();
-      }
-        
-        
+      }   
       me.distanceToTargetLineChevronText.setText(myString);
       me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
     }
   },
+  
+
   
   
   displayDLZ:func(){
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
         
         #Testings
-        if(me.selectedWeap.type != "30mm Cannon" and me.selectedWeap.class == "A" and me.selectedWeap.parents[0] == armament.AIM){
-          #Taking back the DLZ
-          
-          me.myDLZ = pylons.getDLZ();
-          
+        if(me.selectedWeap.type != "30mm Cannon"){ 
+            if(me.selectedWeap.class == "A" and me.selectedWeap.parents[0] == armament.AIM){
+            #Taking back the DLZ
+            
+            me.myDLZ = pylons.getDLZ();
 
-          if(me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*1.5){
-            #Max
-            me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+            if(me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*2){
+              #Max
+              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-            #MmiFireRange
-            me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              #MmiFireRange
+              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-            #NEZFireRange           
-            me.NEZFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              #NEZFireRange           
+              me.NEZFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-            me.missileFireRange.show();
-            return 1;
+              me.missileFireRange.show();
+              return 1;
+            }
+          }elsif(me.selectedWeap.class == "GM" or me.selectedWeap.class == "M"){
+              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              
+              #MmiFireRange
+              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.min_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              
+              me.NEZFireRange.hide();
+              me.MaxFireRange.show();
+              me.MinFireRange.show();
+              
+              return 1;   
           }
-        }
+        } 
       }
       return 0;
   },
