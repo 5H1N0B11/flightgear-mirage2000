@@ -1105,9 +1105,9 @@ var HUD = {
      "MICA-EM":"MIC-E",
      "GBU-12": "GBU",
      "SCALP": "SCALP",
-     "AM39-Exocet":"EXCT",
-     "AS-37-Martel":"MART",
-     "AS30L" :"ASL30",
+     "AM39-Exocet":"AM39",
+     "AS-37-Martel":"AS37",
+     "AS30L" :"AS30",
     };
     
     m.pylonsSide_hash = {
@@ -1121,7 +1121,6 @@ var HUD = {
       6 : "R",
       8 : "R",
     };
-    
     
     m.input = {
       pitch:      "/orientation/pitch-deg",
@@ -1638,37 +1637,40 @@ var HUD = {
   },
   
   displaySelectedPylons:func{
+    #Init the vector
+    me.pylonRemainAmmo_hash = {
+      "L":0,
+      "C":0,
+      "R":0,
+    };
+    
     #Showing the circle around the L or R if the weapons is under the wings.
     #A circle around a C is also done for center loads, but I couldn't find any docs on that, so it is conjecture
     if(me.input.MasterArm.getValue() and me.selectedWeap != nil){
       if(me.selectedWeap.type != "30mm Cannon"){
         me.pylons_Group.show();
         me.pylons_Circle_Group.show();
-#         print("Type:"~me.loads_hash[me.selectedWeap.type]);
-#         print("Pylons:"~pylons.fcs.getSelectedPylonNumber());
-#         print("Side:"~me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()]);
-        if( me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] != "C"){
-          me.Left_pylons.show();
-          me.Right_pylons.show();
-          if( me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L"){
-            me.LeftCircle.show();
-            me.RightCircle.hide();
-          }else{
-            me.LeftCircle.hide();
-            me.RightCircle.show();
-          }
-          me.Center_pylons.hide();
-          me.CenterCircle.hide();
-        }else{
-          me.Center_pylons.show();
-          me.CenterCircle.show();
-          
-          #Hide external
-          me.Left_pylons.hide();
-          me.Right_pylons.hide();
-          me.LeftCircle.hide();
-          me.RightCircle.hide(); 
-        }
+#          print("Type:"~me.loads_hash[me.selectedWeap.type]);
+#          print("Pylons:"~pylons.fcs.getSelectedPylonNumber());
+#          print("Side:"~me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()]);
+         #create the remainingAmmo vector and starting to count L and R
+         me.RemainingAmmoVector = pylons.fcs.getAllAmmo();
+         for(i = 0 ; i < size(me.RemainingAmmoVector)-1 ; i += 1){
+#               print("NumPylons="~ i ~ " :"~me.RemainingAmmoVector[i]);
+              me.pylonRemainAmmo_hash[me.pylonsSide_hash[i]] += me.RemainingAmmoVector[i];
+         }
+#          print("Number Left Side :"~me.pylonRemainAmmo_hash["L"]);
+#          print("Number Right Side :"~me.pylonRemainAmmo_hash["R"]);
+        #Showing the pylon
+        if(me.pylonRemainAmmo_hash["L"]>0){me.Left_pylons.show();}else{me.Left_pylons.hide();}
+        if(me.pylonRemainAmmo_hash["C"]>0){me.Center_pylons.show();}else{me.Center_pylons.hide();}
+        if(me.pylonRemainAmmo_hash["R"]>0){me.Right_pylons.show();}else{me.Right_pylons.hide();}
+        
+        #Showing the Circle for the selected pylon
+        if(me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L"){me.LeftCircle.show();}else{me.LeftCircle.hide();}
+        if(me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "C"){me.CenterCircle.show();}else{me.CenterCircle.hide();}
+        if(me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "R"){me.RightCircle.show();}else{me.RightCircle.hide();}
+        
       }else{
         me.pylons_Group.hide();
         me.pylons_Circle_Group.hide();
