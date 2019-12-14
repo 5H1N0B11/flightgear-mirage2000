@@ -21,6 +21,7 @@ var nearest_u         = nil;
 var missileIndex = 0;
 var MytargetVariable = nil;
 var completeList     = [];
+var tempo            = nil;
 #var LoopElapsed =0;
 
 
@@ -36,7 +37,7 @@ if ((major == 2017 and minor == 2 and pica >= 1) or (major == 2017 and minor > 2
 }
 #print("Version is "~ versionString ~ " So Picking method : "~pickingMethod);
 
-
+  
 var weaponRadarNames = {
     # 
     # this should match weaponNames in ext_stores.nas
@@ -66,9 +67,74 @@ listOfAIRadarEchoes2 = keys(weaponRadarNames);
 listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
 #listOfGroundVehicleModels = ["GROUND_TARGET"];
 listOfShipModels          = ["frigate", "missile_frigate", "USS-LakeChamplain", "USS-NORMANDY", "USS-OliverPerry", "USS-SanAntonio"];
+# 
+listOfShipModels_hash = {
+  "carrier":"MARINE",
+  "ship"   :"MARINE",
+  "frigate":"MARINE", 
+  "missile_frigate":"MARINE", 
+  "USS-LakeChamplain":"MARINE", 
+  "USS-NORMANDY":"MARINE", 
+  "USS-OliverPerry":"MARINE", 
+  "USS-SanAntonio":"MARINE",
+};
+listOfGroundTargetNames_hash = {
+  "groundvehicle":"GROUND_TARGET",
+  "buk-m2":"GROUND_TARGET",
+  "depot":"GROUND_TARGET",
+  "truck":"GROUND_TARGET",
+  "tower":"GROUND_TARGET",
+  "germansemidetached1":"GROUND_TARGET",
+  "GROUND_TARGET":"GROUND_TARGET",
+};
+var shouldHaveRadarNodearray = ["tanker","aircraft","missile"];
+#   
+  
+#WTF ?
 foreach(var addMe ; listOfAIRadarEchoes2) {
     append(listOfAIRadarEchoes, addMe);
 }
+
+var scan_update_tgt_list = 1;
+# use listeners to define when to update the radar return list.
+setlistener("/ai/models/model-added", func(v){
+    if (!scan_update_tgt_list) {
+        scan_update_tgt_list = 1;
+    }
+});
+
+setlistener("/ai/models/model-removed", func(v){
+    if (!scan_update_tgt_list) {
+        scan_update_tgt_list = 1;
+    }
+});
+
+var extraUpdate = func {
+    # need this to get targets type reevaluated once in a while.
+    scan_update_tgt_list = 1;
+    settimer(extraUpdate,7.5);
+}
+extraUpdate();
+
+var link16_array = [];
+
+var updatelink16 = func(){
+  #print("Link16");
+  link16_array = [];
+  var mylink16 = props.globals.getNode("/link16");
+  if(mylink16 != nil){
+    var mylink16_raw_list = mylink16.getChildren();
+    foreach(var callsign_Ally ; mylink16_raw_list)
+    {
+      append(link16_array,callsign_Ally.getValue());
+      #print("Toto:"~callsign_Ally.getValue());
+    }
+  }
+  settimer(updatelink16,10);
+}
+settimer(updatelink16,10);
+
+
 
 
 # radar : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, doppler, isNotBehindTerrain
@@ -136,6 +202,7 @@ var Radar = {
         m.az_fld        = m.unfocused_az_fld;
         #m.vt_az_fld     = m.az_fld;
 
+        m.raw_selection   = [];
         # for Target Selection
         m.tgts_list       = [];
         m.ContactsList    = [];
@@ -194,6 +261,57 @@ var Radar = {
         m.updating_now = 0;
         m.UPDATE_PERIOD = 0.05; 
         
+            #Some are not need there
+            m.input = {
+              pitch:      "/orientation/pitch-deg",
+              roll:       "/orientation/roll-deg",
+              hdg:        "/orientation/heading-magnetic-deg",
+              hdgReal:    "/orientation/heading-deg",
+              hdgBug:     "/autopilot/settings/heading-bug-deg",
+              hdgDisplay: "/instrumentation/efis/mfd/true-north",
+              speed_n:    "velocities/speed-north-fps",
+              speed_e:    "velocities/speed-east-fps",
+              speed_d:    "velocities/speed-down-fps",
+              alpha:      "/orientation/alpha-deg",
+              beta:       "/orientation/side-slip-deg",
+              gload:      "/accelerations/pilot-g",
+              ias:        "/velocities/airspeed-kt",
+              mach:       "/velocities/mach",
+              gs:         "/velocities/groundspeed-kt",
+              vs:         "/velocities/vertical-speed-fps",
+              alt:        "/position/altitude-ft",
+              alt_instru: "/instrumentation/altimeter/indicated-altitude-ft",
+              rad_alt:    "position/altitude-agl-ft", #"/instrumentation/radar-altimeter/radar-altitude-ft",
+              wow_nlg:    "/gear/gear[1]/wow",
+              gearPos:    "/gear/gear[1]/position-norm",
+              airspeed:   "/velocities/airspeed-kt",
+              target_spd: "/autopilot/settings/target-speed-kt",
+              acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
+              acc_yas:    "/fdm/yasim/accelerations/a-x",
+              NavFreq:    "/instrumentation/nav/frequencies/selected-mhz",
+              destRunway: "/autopilot/route-manager/destination/runway",
+              destAirport:"/autopilot/route-manager/destination/airport",
+              distNextWay:"/autopilot/route-manager/wp/dist",
+              NextWayNum :"/autopilot/route-manager/current-wp",
+              NextWayTrueBearing:"/autopilot/route-manager/wp/true-bearing-deg",
+              NextWayBearing:"/autopilot/route-manager/wp/bearing-deg",
+              AutopilotStatus:"/autopilot/locks/AP-status",
+              currentWp     : "/autopilot/route-manager/current-wp",
+              ILS_valid     :"/instrumentation/nav/data-is-valid",
+              NavHeadingRunwayILS:"/instrumentation/nav/heading-deg",
+              ILS_gs_in_range :"/instrumentation/nav/gs-in-range",
+              ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
+              NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
+              MasterArm      :"/controls/armament/master-arm",
+              TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
+              AbsoluteElapsedtime : "sim/time/elapsed-sec",
+            };
+    
+            foreach(var name; keys(m.input))
+              m.input[name] = props.globals.getNode(m.input[name], 1);
+        
+        
+        
         # return our new object
         return m;
     },
@@ -236,6 +354,8 @@ var Radar = {
               #These line bellow are error management.
               var UpdateErr = [];
 #                 print("Calling radar");
+              call(me.scan_update_tgt_list_func,[],me,nil,UpdateErr);
+              
               call(me.update,[],me,nil,UpdateErr);
               if(size(UpdateErr) > 0)
               {
@@ -284,6 +404,113 @@ var Radar = {
       rwrList16 = [];
     },
 
+    scan_update_tgt_list_func:func(){
+      if(scan_update_tgt_list){
+        me.temp_raw_list = me.Mp.getChildren();
+        foreach(var c ; me.temp_raw_list)
+        {
+              # FIXME: At that time a multiplayer node may have been deleted while still
+              # existing as a displayable target in the radar targets nodes.
+              # FIXED, with janitor. 5H1N0B1
+              var type = me.type_selector(c);
+              if(c.getNode("valid") == nil or c.getNode("valid").getValue() != 1)
+              {
+                  continue;
+              }
+              
+              # the 2 following line are needed : If not, it would detects our own missiles...
+              # this will come soon
+  #             var HaveRadarNode = c.getNode("radar");
+              #print(me.check_selected_type(c));
+              #if(type == "multiplayer"
+              #    or (type == "tanker" and HaveRadarNode != nil)
+              #    or (type == "aircraft" and me.showAI == 1)
+              #    or type == "carrier"
+              #    or type == "ship"
+              #    or (type == "missile" and HaveRadarNode != nil))
+              #
+              var Tree_Name = c.getName();
+              #print("folderName:" ~ c.getName());
+              
+              
+              if(me.check_selected_type(c))
+              {
+                  # creation of the tempo object Target
+                  var u = Target.new(c,me.myTree.getPath());
+                
+
+                  folderName = c.getName();
+
+                  #print("test : " ~ c.pathNode.getValue());
+                  #print("folderName:" ~ folderName);
+                  # important Shinobi:
+                  # expand this so multiplayer that is on sea or ground is also set correct.
+                  # also consider if doppler do not see them that they are either SURFACE or MARINE, depending on if they have alt = ~ 0
+                  # notice that GROUND_TARGET is set inside Target.new().
+                  me.skipDoppler = 0;
+                  # now we test the property folder name to guess what type it is:
+                  #Should be done with an hash
+                  if(listOfShipModels_hash[folderName] != nil and u.get_altitude()<100){
+                    #print(folderName ~":Not Marine");
+                    u.setType(armament.MARINE);
+                    me.skipDoppler = 1;
+                  }
+
+                  #If not MARINE skipDoppler still == 0
+                  if(listOfGroundTargetNames_hash[folderName] != nil){
+                    u.setType(armament.SURFACE);
+                    me.skipDoppler = 0;
+                  }
+                  
+                  if(u.get_type() == 0){
+                  # now we test the model name to guess what type it is:
+                        me.pathNode = c.getNode("sim/model/path");
+                        if (me.pathNode != nil) {
+                            me.path = me.pathNode.getValue();
+                            me.model = split(".", split("/", me.path)[-1])[0];
+                            u.set_model(me.model);#used for RCS
+                            
+                            if(listOfShipModels_hash[me.model] != nil and u.get_altitude()<100){
+                              # Its a ship, Mirage ground radar will pick it up
+                              u.setType(armament.MARINE);
+                              me.skipDoppler = 1;
+                            }            
+
+                            if(listOfGroundTargetNames_hash[me.model] != nil){
+                              # its a ground vehicle, Mirage ground radar will not pick it up
+                              u.setType(armament.SURFACE);
+                              me.skipDoppler = 0;
+                            }
+                        }
+                  }
+                  #Testing if ORDNANCE
+                  if (c.getNode("missile") != nil and c.getNode("missile").getValue()) {
+                      u.setType(armament.ORDNANCE);
+                      me.skipDoppler = 0;
+#                       print("missile:"~ folderName ~":"~ "armament.ORDNANCE");
+                  }
+                  if (c.getNode("munition") != nil and c.getNode("munition").getValue()) {
+                      u.setType(armament.ORDNANCE);
+                      me.skipDoppler = 0;
+#                       print("munition:" ~ folderName ~":"~ "armament.ORDNANCE");
+                  }
+                  #Testing Ground Target
+                  if(u.get_Callsign() == "GROUND_TARGET"){
+                    u.setType(armament.SURFACE);
+                  }
+#                   if(Tree_Name != "munition"){ 
+#                     print("Test Important:");
+                    me.update_array(u,me.raw_selection);
+                    me.update_array(u,completeList);
+#                   }
+              }
+          }
+      }
+      
+      scan_update_tgt_list = 0;
+    },
+    
+    
     ############
     #  UPDATE  #
     ############
@@ -323,159 +550,40 @@ var Radar = {
     update: func(tempCoord = nil, tempHeading = nil, tempPitch = nil) {
       
 
-
-      
-      
-        if(me.updating_now == 1)
-        {
-          return;
-        }else{
-          me.updating_now = 1;
-        }
-
+        #Double Run prevention
+        if(me.updating_now == 1){return;}else{me.updating_now = 1;}
+        
+        #Interval calculation
+        me.LoopElapsed = me.input.AbsoluteElapsedtime.getValue() - me.TimeWhenUpdate;
+        # This is to know when was the last time we called the update
+        me.TimeWhenUpdate = me.input.AbsoluteElapsedtime.getValue();
+        
+        
         # First update Coord, Alt, heeading and Pitch. 
         # The code pout the aircraft properties if nothing has been passed in parameters
         # Coord update ! Should be filled with altitude
-        if(tempCoord == nil)
-        {
-            me.MyCoord = geo.aircraft_position();
-        }
-        else
-        {
-            me.MyCoord = tempCoord;
-        }
-        
-        me.LoopElapsed = getprop("sim/time/elapsed-sec") - me.TimeWhenUpdate;
-        # This is to know when was the last time we called the update
-        me.TimeWhenUpdate = getprop("sim/time/elapsed-sec");
-        
-        
-        # Altitude update (in meters)
+        if(tempCoord == nil){me.MyCoord = geo.aircraft_position();}else{me.MyCoord = tempCoord;}
 
+        # Altitude update (in meters)
         me.our_alt = me.MyCoord.alt();
         
         # Heading Update (should be the airplane heading, not the radar look direction)
-        if(tempHeading == nil)
-        {
-            me.OurHdg = getprop("orientation/heading-deg");
-        }
-        else
-        {
-            me.OurHdg = tempHeading;
-        }
+        if(tempHeading == nil){me.OurHdg = me.input.hdgReal.getValue();}else{me.OurHdg = tempHeading;}
         
         # Pitch Update (should be the airplane heading, not the radar look direction)
-        if(tempPitch == nil)
-        {
-            me.OurPitch = getprop("orientation/pitch-deg");
-        }
-        else
-        {
-            me.OurPitch = tempPitch;
-        }
+        if(tempPitch == nil){me.OurPitch = me.input.pitch.getValue();}else{me.OurPitch = tempPitch;}
         # Variable initialized
         
         # This is the return array. Made First for Canvas, but can be usefull to a lot of other things
-        var CANVASARRAY = [];
+#         var CANVASARRAY = [];
         
         #This is the missile index. It is reset on each loop.
-        missileIndex = 0;
+        me.missileIndex = 0;
         
-        var raw_list = me.Mp.getChildren();
-        foreach(var c ; raw_list)
+#         var raw_list = me.Mp.getChildren();
+        foreach(var u ; me.raw_selection)
         {
-            # FIXME: At that time a multiplayer node may have been deleted while still
-            # existing as a displayable target in the radar targets nodes.
-            # FIXED, with janitor. 5H1N0B1
-            var type = me.type_selector(c);
-            if(c.getNode("valid") == nil or c.getNode("valid").getValue() != 1)
-            {
-                continue;
-            }
-            
-            # the 2 following line are needed : If not, it would detects our own missiles...
-            # this will come soon
-            var HaveRadarNode = c.getNode("radar");
-            #print(me.check_selected_type(c));
-            #if(type == "multiplayer"
-            #    or (type == "tanker" and HaveRadarNode != nil)
-            #    or (type == "aircraft" and me.showAI == 1)
-            #    or type == "carrier"
-            #    or type == "ship"
-            #    or (type == "missile" and HaveRadarNode != nil))
-            #
-            if(me.check_selected_type(c))
-            {
-                # creation of the tempo object Target
-                var u = Target.new(c,me.myTree.getPath());
-               
-
-                folderName = c.getName();
-
-                # important Shinobi:
-                # expand this so multiplayer that is on sea or ground is also set correct.
-                # also consider if doppler do not see them that they are either SURFACE or MARINE, depending on if they have alt = ~ 0
-                # notice that GROUND_TARGET is set inside Target.new().
-                me.skipDoppler = 0;
-                # now we test the property folder name to guess what type it is:
-                foreach (var testMe ; listOfShipNames) {
-                    if (testMe == folderName) {
-                        if(u.get_altitude()<100){
-                          u.setType(armament.MARINE);
-                          me.skipDoppler = 1;
-                        }
-                        break;
-                          
-                    }
-                }
-
-                #If not MARINE skipDoppler still == 0
-                if (me.skipDoppler == 0) {
-                    foreach (var testMe ; listOfGroundTargetNames) {
-                        if (testMe == folderName) {
-                            u.setType(armament.SURFACE);
-                            me.skipDoppler = 0;
-                            break;
-                        }
-                    }
-                    
-                 }
-                if(u.get_type() == 0){
-                # now we test the model name to guess what type it is:
-                      me.pathNode = c.getNode("sim/model/path");
-                      if (me.pathNode != nil) {
-                          me.path = me.pathNode.getValue();
-                          me.model = split(".", split("/", me.path)[-1])[0];
-                          u.set_model(me.model);#used for RCS
-                          foreach (var testMe ; listOfShipModels) {
-                              if (testMe == me.model) {
-                                # Its a ship, Mirage ground radar will pick it up
-                                if(u.get_altitude()<100){
-                                  u.setType(armament.MARINE);
-                                  me.skipDoppler = 1;
-                                }
-                                break;
-                              }
-                          }
-                          foreach (var testMe ; listOfGroundVehicleModels) {
-                              if (testMe == me.model) {
-                                # its a ground vehicle, Mirage ground radar will not pick it up
-                                u.setType(armament.SURFACE);
-                                me.skipDoppler = 0;
-                                break;
-                              }
-                          }
-                      }
-                  }
-                  
-                 #Testing if ORDNANCE
-                 if (c.getNode("missile") != nil and c.getNode("missile").getValue()) {
-                    u.setType(armament.ORDNANCE);
-                 }
-                 #Testing Ground Target
-                  if(u.get_Callsign() == "GROUND_TARGET"){
-                    u.setType(armament.SURFACE);
-                  }
+           
  
 
                 
@@ -499,11 +607,11 @@ var Radar = {
                 #print("End Testing "~ u.get_Callsign());
                 
                 # then a function just check it all
-                if(me.get_check())
+                if(me.get_check() and u.isValid())
                 {
                                         
                     #Is in Range : Should be added to the main ARRAY1 (Here : ContactsList)
-                    var HaveRadarNode = c.getNode("radar");
+#                     var HaveRadarNode = c.getNode("radar");
 
                     #Update ContactList : Only updated when target is valid
                     #Should return an Index, in order to take the object from the table and not the property tree
@@ -529,11 +637,13 @@ var Radar = {
                     # CANVASARRAY => ARRAY2
                     
                     
-                    if(type != "missile" and !contains(weaponRadarNames, type))
+                    
+                    if(u.get_type != armament.ORDNANCE and !contains(weaponRadarNames, u.get_Callsign) and !contains(link16_array,u.get_Callsign))
                     {
                         #tgts_list => ARRAY4
                         
-                        #print("Update targetList" ~ u.get_Callsign());
+#                       print("Update targetList" ~ u.get_Callsign());
+                        
                         me.TargetList_Update(u);
                         me.TargetList_AddingTarget(u);
                         
@@ -547,7 +657,7 @@ var Radar = {
                           #print(armament.contact.get_type());
                         }
                     }
-                    append(CANVASARRAY, u); 
+#                     append(CANVASARRAY, u); 
                     me.displayTarget();
                 }
                 else
@@ -558,14 +668,14 @@ var Radar = {
                  #Here we shouldn't see the target anymore. It should disapear. So this is calling the Tempo_Janitor      
                     if(u.get_Validity() == 1)
                     {
-                        if(getprop("sim/time/elapsed-sec") - u.get_TimeLast() > me.MyTimeLimit)
+                        if(me.input.AbsoluteElapsedtime.getValue() - u.get_TimeLast() > me.MyTimeLimit)
                         {
                           me.Tempo_janitor(u);
                         }
                     }
                     
                 }    
-                completeList = me.update_array_no_life_reset(u,completeList);
+#                 completeList = me.update_array_no_life_reset(u,completeList);
             }
             #Temporary adding this in order to make the whole new firesystem work
             #print("Update completeList");
@@ -579,12 +689,11 @@ var Radar = {
 #             }
             
             
-        }#For Each End
-;
+        #For Each End
                 
         me.ContactsList = me.decrease_life(me.ContactsList);
         #print("Test");
-#         me.sorting_and_suppr(me.ContactsList);
+        #me.sorting_and_suppr(me.ContactsList);
         #me.ContactsList = me.cut_array(me.radarMaxSize,me.ContactsList);
         #me.Global_janitor();
         #print("Side in RADAR : "~ size(me.ContactsList));
@@ -597,7 +706,7 @@ var Radar = {
         
 
         
-        return CANVASARRAY;
+#         return CANVASARRAY;
     },
     
 
@@ -665,44 +774,44 @@ var Radar = {
 
     get_check: func(){
         # This function allow to display multi check
-        var checked = 1;
-        var CheckTable = ["InRange:", "inAzimuth:", "inElevation:", "Horizon:", "RCS","Doppler:", "NotBtBehindTerrain:"];
+        me.checked = 1;
+        me.CheckTable = ["InRange:", "inAzimuth:", "inElevation:", "Horizon:", "RCS","Doppler:", "NotBtBehindTerrain:"];
         var i = 0;
         foreach(myCheck ; me.Check_List)
         {
-            if(i<size(CheckTable)){
-              #print("i : "~ i ~"|" ~ CheckTable[i] ~ " " ~ myCheck);
+            if(i<size(me.CheckTable)){
+              #print("i : "~ i ~"|" ~ me.CheckTable[i] ~ " " ~ myCheck);
             }else{
               #print("i : "~ i ~"|myCheck : " ~ myCheck);
             }
             i +=1;
-            checked = (myCheck and checked);
+            me.checked = (myCheck and me.checked);
         }
-        return checked;
+        return me.checked;
     },
     #function in order to make it work with unified missile method in FG
     type_selector: func(SelectedObject){
-        var selectedType = SelectedObject.getName();
+        me.type_selector_selectedType = SelectedObject.getName();
         
         #Overwrite selectedType if missile
-        var TestIfMissileNode = SelectedObject.getNode("missile");
-        if(TestIfMissileNode != nil) {
-          if(TestIfMissileNode.getValue()){
+        me.type_selector_TestIfMissileNode = SelectedObject.getNode("missile");
+        if(me.type_selector_TestIfMissileNode != nil) {
+          if(me.type_selector_TestIfMissileNode.getValue()){
             #print("It is a missile");
-            selectedType = "missile";
+            me.type_selector_selectedType = "missile";
           }
         }
     
-        return selectedType;
+        return me.type_selector_selectedType;
     },
     check_selected_type: func(SelectedObject)
     {
-      var result = 0;
+      me.check_selected_type_result = 0;
       #Variable for the selection Type test
-      var selectedType = SelectedObject.getName();
+      me.check_selected_type_selectedType = SelectedObject.getName();
       
 
-      selectedType = me.type_selector(SelectedObject);
+      me.check_selected_type_selectedType = me.type_selector(SelectedObject);
 
       #print("MY type  IS  : "~selectedType);
 
@@ -713,20 +822,20 @@ var Radar = {
       #We test the type of target
       foreach(myType;me.typeTarget)
       {
-        if(myType == selectedType){
-           result = 1;
+        if(myType == me.check_selected_type_selectedType){
+           me.check_selected_type_result = 1;
         }
       }
 
       #We test if they have a radar Node (they should all have one, but unconventionnal model like ATC or else could have these issue)
       foreach(myType;shouldHaveRadarNode)
       {
-        if(myType == selectedType and HaveRadarNode == nil){
-          result = 0;
+        if(myType == me.check_selected_type_selectedType and HaveRadarNode == nil){
+          me.check_selected_type_result = 0;
         }
       }
 
-      return result;
+      return me.check_selected_type_result;
     },
 
     go_check: func(SelectedObject, skipDoppler){
@@ -1026,7 +1135,7 @@ var Radar = {
     
     ###   update array : update element, or add it if there aren't present
     update_array: func(SelectedObject,myArray){
-      var tempo = nil;
+      tempo = nil;
       if(size(myArray) > 0){
         myArray = me.update_Element_of_array(SelectedObject,myArray);
         tempo = me.find_index_inArray(SelectedObject,myArray);
@@ -1047,7 +1156,7 @@ var Radar = {
     },
     
     update_array_no_life_reset: func(SelectedObject,myArray){
-      var tempo = nil;
+      tempo = nil;
       if(size(myArray) > 0){
           #The idea is to keep the values of the variables and not reseting them
           #This way it does not impact the radar
@@ -1195,7 +1304,7 @@ var RWR_APG = {
 #             print("Will test  : "~ me.u.get_Callsign()~" as Type: " ~ me.u.type);
             me.rn = me.u.get_range();
             me.l16 = 0;
-           if (getprop("link16/wingman-1")==me.cs or getprop("link16/wingman-2")==me.cs or getprop("link16/wingman-3")==me.cs or getprop("link16/wingman-4")==me.cs  or getprop("link16/wingman-5")==me.cs  or getprop("link16/wingman-6")==me.cs  or getprop("link16/wingman-7")==me.cs  or getprop("link16/wingman-8")==me.cs  or getprop("link16/wingman-9")==me.cs or me.rn > 150) {
+            if (contains(link16_array,me.cs) or me.rn > 150) {
                 me.l16 = 1;
             }
             me.bearing = geo.aircraft_position().course_to(me.u.get_Coord());
@@ -1221,8 +1330,8 @@ var RWR_APG = {
                   me.show = 1;
               }
             }
-            
-            #print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show ~ " Name:"~me.u.propNode.getName()~" Model:"~me.u.get_model());
+            if(!me.u.isValid()){me.show = 0;}
+            #print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show ~ " Name:"~me.u.propNode.getName()~" Model:"~me.u.get_model() ~ " isValid:"~me.u.isValid());
             
             if (me.show == 1) {
                 me.threat = 0;

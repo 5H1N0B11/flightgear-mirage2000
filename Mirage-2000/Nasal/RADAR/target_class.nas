@@ -245,7 +245,7 @@ var Target = {
         if(me.life<1){
           me.ispainted       = c.ispainted;
           me.Display         = c.Display;
-          me.type            = c.type ;
+          me.type            = c.type;
         }else{
           #if(me.get_Callsign() != ""){print("Update Target :" ~ me.get_Callsign() ~ " Paiting : " ~ me.ispainted ~" and Display : " ~ me.Display);}
         }
@@ -384,7 +384,7 @@ var Target = {
         return TgTCoord;
     },
 
-    get_Callsign: func{
+    get_Callsign: func(){
         return me.myCallsign;# callsigns are probably not dynamic, so its defined at Target creation.
         if (me.Callsign == nil or me.Callsign.getValue() == "") {
             if (me.name == nil or me.name.getValue() == "") {
@@ -393,6 +393,13 @@ var Target = {
             return me.name.getValue();# for AI ships.
         }
         return me.Callsign.getValue();
+    },
+    
+    get_Name:func(){
+            if (me.name == nil or me.name.getValue() == "") {
+                return me.get_model();
+            }
+            return me.name.getValue();# for AI ships.
     },
 
     get_Speed: func(){
@@ -738,8 +745,8 @@ var Target = {
 
     getUnique: func () {
       #var myIndex = me.getIndex();
-#       print("getUnique:"~me.fname~me.Callsign.getValue());
-      return me.fname~me.Callsign.getValue();
+       #print("getUnique:"~me.propNode.getName()~me.fname~me.Callsign.getValue());
+      return me.propNode.getName()~me.fname~me.Callsign.getValue();
       #~me.ID;
         #return me.get_type()~me.fname~me.ID;
     },
