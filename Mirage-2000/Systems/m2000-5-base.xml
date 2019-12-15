@@ -56,6 +56,28 @@
         <time-to-target>20</time-to-target>
       </groundtTargeting>
     </dialog>
+    <aircraft-data>
+      <!-- Here is if we want to save properties from one session to another -->
+      <path>/link16/wingman-1</path>
+      <path>/link16/wingman-2</path>
+      <path>/link16/wingman-3</path>
+      <!-- wingman #4 excluded on purpose -->
+      <path>/link16/wingman-5</path>
+      <path>/link16/wingman-6</path>
+      <path>/link16/wingman-7</path>
+      <path>/link16/wingman-8</path>
+      <path>/link16/wingman-9</path>
+      <path>/link16/wingman-10</path>
+<!--      <path>/instrumentation/transponder/inputs/digit[0]</path>
+      <path>/instrumentation/transponder/inputs/digit[1]</path>
+      <path>/instrumentation/transponder/inputs/digit[2]</path>
+      <path>/instrumentation/transponder/inputs/digit[3]</path>
+      <path>/instrumentation/tacan/frequencies/selected-channel[1]</path>
+      <path>/instrumentation/tacan/frequencies/selected-channel[2]</path>
+      <path>/instrumentation/tacan/frequencies/selected-channel[3]</path>
+      <path>/instrumentation/tacan/frequencies/selected-channel[4]</path>-->
+    </aircraft-data>
+    
 
   </sim>
 
