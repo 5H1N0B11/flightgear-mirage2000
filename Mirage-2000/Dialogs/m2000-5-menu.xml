@@ -78,14 +78,14 @@
           <dialog-name>radar</dialog-name>
         </binding>
       </item>
-      
+<!--      
      <item n="9">
         <label>Rwr</label>
         <binding>
           <command>nasal</command>
           <script>rwr.openDialog()</script>
         </binding>
-      </item>
+      </item>-->
 
       <item n="10">
         <label>About</label>
@@ -97,7 +97,7 @@
       </item>
 
       <item n="11">
-        <label>wingmen</label>
+        <label>Wingmen</label>
         <name>wingmen</name>
         <binding>
           <command>dialog-show</command>

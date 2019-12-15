@@ -130,9 +130,12 @@ var updatelink16 = func(){
       #print("Toto:"~callsign_Ally.getValue());
     }
   }
-  settimer(updatelink16,10);
+  mirage2000.myRadar3.ContactsList  = [];
+  mirage2000.myRadar3.tgts_list     = [];
+  mirage2000.myRadar3.Target_Index  = -1;
+  #settimer(updatelink16,60);
 }
-settimer(updatelink16,10);
+#settimer(updatelink16,10);
 
 
 
@@ -369,6 +372,8 @@ var Radar = {
             }else{
               setprop("sim/multiplay/generic/int[2]",1);
               me.ContactsList  = [];
+              me.tgts_list     = [];
+              me.Target_Index    = -1;
             }
             #me.Global_janitor();
             
@@ -581,7 +586,7 @@ var Radar = {
         me.missileIndex = 0;
         
 #         var raw_list = me.Mp.getChildren();
-        foreach(var u ; me.raw_selection)
+        foreach(me.update_u  ; me.raw_selection)
         {
            
  
@@ -595,7 +600,7 @@ var Radar = {
                 # this function do all the checks and put all result of each
                 # test on an array[] named Check_List
 
-                me.go_check(u, me.skipDoppler);
+                me.go_check(me.update_u, me.skipDoppler);
                 
                 #print("Complete liste after update : " ~ size(completeList));
                 #me.decrease_life(completeList);
@@ -607,7 +612,7 @@ var Radar = {
                 #print("End Testing "~ u.get_Callsign());
                 
                 # then a function just check it all
-                if(me.get_check() and u.isValid())
+                if(me.get_check() and me.update_u.isValid())
                 {
                                         
                     #Is in Range : Should be added to the main ARRAY1 (Here : ContactsList)
@@ -617,17 +622,17 @@ var Radar = {
                     #Should return an Index, in order to take the object from the table and not the property tree
                     
                     if(me.UseATree){
-                      u.create_tree(me.MyCoord, me.OurHdg);
-                      u.set_all(me.MyCoord);
-                      me.calculateScreen(u);
+                      me.update_u.create_tree(me.MyCoord, me.OurHdg);
+                      me.update_u.set_all(me.MyCoord);
+                      me.calculateScreen(me.update_u);
                     }
                     
                     #print("Update contactList");
 #                     me.ContactsList = 
-                    me.update_array(u,me.ContactsList);
+                    me.update_array(me.update_u,me.ContactsList);
                     #me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
                     #me.ContactsList[me.tempo_Index].set_display(1);
-                    u.set_display(1);
+                    me.update_u.set_display(1);
                     
                     #if(me.tempo_Index != nil){ u = me.ContactsList[me.tempo_Index];}
                     
@@ -637,24 +642,29 @@ var Radar = {
                     # CANVASARRAY => ARRAY2
                     
                     
-                    
-                    if(u.get_type != armament.ORDNANCE and !contains(weaponRadarNames, u.get_Callsign) and !contains(link16_array,u.get_Callsign))
+                    #print("isFriend :" ~ u.isFriend());
+                    if(me.update_u.get_type != armament.ORDNANCE and !contains(weaponRadarNames, me.update_u.get_Callsign) and !me.update_u.isFriend())
                     {
                         #tgts_list => ARRAY4
                         
 #                       print("Update targetList" ~ u.get_Callsign());
                         
-                        me.TargetList_Update(u);
-                        me.TargetList_AddingTarget(u);
+                        me.TargetList_Update(me.update_u);
+                        me.TargetList_AddingTarget(me.update_u);
                         
                         #We should UPDATE tgts_list here
                         
-                        #This shouldn't be here. See how to delet it
-                        if(u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and u.getUnique() == me.Target_Callsign){
-                          #print("Picasso painting");
-                          u.setPainted(1);
-                          armament.contact = me.tgts_list[me.Target_Index];
-                          #print(armament.contact.get_type());
+
+                        if(size(me.tgts_list)>me.Target_Index){
+                          #This shouldn't be here. See how to delete it
+                          if(me.update_u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and me.update_u.getUnique() == me.Target_Callsign){
+                            #print("Picasso painting");
+                            me.update_u.setPainted(1);
+                            armament.contact = me.tgts_list[me.Target_Index];
+                            #print(armament.contact.get_type());
+                          }
+                        }else{
+                          me.next_Target_Index();
                         }
                     }
 #                     append(CANVASARRAY, u); 
@@ -666,11 +676,11 @@ var Radar = {
                     #if(me.tempo_Index != nil){me.ContactsList[me.tempo_Index].set_display(1,me.myTree);}
                   
                  #Here we shouldn't see the target anymore. It should disapear. So this is calling the Tempo_Janitor      
-                    if(u.get_Validity() == 1)
+                    if(me.update_u.get_Validity() == 1)
                     {
-                        if(me.input.AbsoluteElapsedtime.getValue() - u.get_TimeLast() > me.MyTimeLimit)
+                        if(me.input.AbsoluteElapsedtime.getValue() - me.update_u.get_TimeLast() > me.MyTimeLimit)
                         {
-                          me.Tempo_janitor(u);
+                          me.Tempo_janitor(me.update_u);
                         }
                     }
                     
@@ -1304,7 +1314,7 @@ var RWR_APG = {
 #             print("Will test  : "~ me.u.get_Callsign()~" as Type: " ~ me.u.type);
             me.rn = me.u.get_range();
             me.l16 = 0;
-            if (contains(link16_array,me.cs) or me.rn > 150) {
+            if (me.u.isFriend() or me.rn > 150) {
                 me.l16 = 1;
             }
             me.bearing = geo.aircraft_position().course_to(me.u.get_Coord());

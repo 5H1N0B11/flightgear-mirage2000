@@ -1716,18 +1716,22 @@ var HUD = {
   },
   
   displayTarget:func(){
+#     if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list)>mirage2000.myRadar3.Target_Index){
+#       me.radarStuffGroup.show();
     #To put a triangle on the selected target
     #This should be changed by calling directly the radar object (in case of multi targeting)
     
 #     var closestCallsign = getprop("ai/closest/callsign");
 #     var closestRange = getprop("ai/closest/range");
-    
-    
+    closestCallsign = "";
+    closestRange = -1;
     #Getting the radar target from radar tgts_list
-    var MytargetIndex = mirage2000.myRadar3.Target_Index;
-    var closestCallsign = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].get_Callsign():"";
-    var is_Painted = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].isPainted():0;
-    var closestRange = MytargetIndex != -1 and is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[MytargetIndex]):0;
+    if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list)>mirage2000.myRadar3.Target_Index){
+      var MytargetIndex = mirage2000.myRadar3.Target_Index;
+      var closestCallsign = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].get_Callsign():"";
+      var is_Painted = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].isPainted():0;
+      var closestRange = MytargetIndex != -1 and is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[MytargetIndex]):0;
+    }
     var Token = 0;
     
 
@@ -1816,6 +1820,12 @@ var HUD = {
       me.targetArray[y].hide();
       me.TextInfoArray[y].hide();
     } 
+#     }else{
+#       
+#       me.radarStuffGroup.hide();
+#       me.distanceToTargetLineGroup.hide(); 
+#       me.missileFireRange.hide();    
+#     }
   },
   
   displayDistanceToTargetLine : func(contact){

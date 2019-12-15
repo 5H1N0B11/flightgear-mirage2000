@@ -754,6 +754,13 @@ var Target = {
     isValid: func() {
         return me.Valid.getValue();
     },
+    isFriend: func(){
+      #link16 is declared in radar2.nas
+      foreach(var callsign_Ally;link16_array){
+        if(me.Callsign.getValue()==callsign_Ally){return 1;}
+      }
+      return 0;
+    },
     
     isRadiating: func (coord) {
       me.rn = me.get_range();
