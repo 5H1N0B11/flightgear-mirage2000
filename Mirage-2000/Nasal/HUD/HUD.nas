@@ -1654,7 +1654,7 @@ var HUD = {
 #          print("Pylons:"~pylons.fcs.getSelectedPylonNumber());
 #          print("Side:"~me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()]);
          #create the remainingAmmo vector and starting to count L and R
-         me.RemainingAmmoVector = pylons.fcs.getAllAmmo();
+         me.RemainingAmmoVector = pylons.fcs.getAllAmmo(pylons.fcs.getSelectedType());
          for(i = 0 ; i < size(me.RemainingAmmoVector)-1 ; i += 1){
 #               print("NumPylons="~ i ~ " :"~me.RemainingAmmoVector[i]);
               me.pylonRemainAmmo_hash[me.pylonsSide_hash[i]] += me.RemainingAmmoVector[i];
