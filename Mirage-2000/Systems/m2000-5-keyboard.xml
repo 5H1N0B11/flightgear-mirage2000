@@ -375,7 +375,7 @@
         </binding>
         <binding>
             <condition>
-                <property>/aircraft/flir/target/view-enabled</property>
+              <not><property>/aircraft/flir/target/view-enabled</property></not>
             </condition>
           <command>property-assign</command>
             <property>/instrumentation/gci/picture</property>

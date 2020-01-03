@@ -534,6 +534,40 @@ var FireControl = {
 			pyl.jettisonAll();
 		}
 	},
+	
+	jettisonSpecificPylons: func (list, also_heat) {
+		# jettison commanded pylons
+		foreach (pyl;me.pylons) {
+			if (list !=nil and me.vectorIndex(list, pyl.id) != -1) {
+				if (!also_heat) {
+					me.myWeaps = pyl.getWeapons();
+					if (me.myWeaps != nil and size(me.myWeaps)>0) {
+						if (me.myWeaps[0] != nil and me.myWeaps[0].parents[0] == armament.AIM and me.myWeaps[0].guidance == "heat") {
+							continue;
+						}
+					}
+				}
+				pyl.jettisonAll();
+			}			
+		}
+	},
+	
+	jettisonAllButHeat: func (exclude = nil) {
+		# jettison all but heat seekers.
+		foreach (pyl;me.pylons) {
+			me.myWeaps = pyl.getWeapons();
+			if (me.myWeaps != nil and size(me.myWeaps)>0) {
+				if (me.myWeaps[0] != nil and me.myWeaps[0].parents[0] == armament.AIM and me.myWeaps[0].guidance == "heat") {
+					continue;
+				}
+			}
+			if (exclude!=nil and me.vectorIndex(exclude, pyl.id) != -1) {
+				# excluded
+				continue;
+			}
+			pyl.jettisonAll();
+		}
+	},
 
 	jettisonFuel: func {
 		# jettison all fuel stations
@@ -555,7 +589,19 @@ var FireControl = {
 		}
 		return me.selected[0];
 	},
-
+	
+	selectWeapon: func (w) {
+		me.stopCurrent();
+		me.selectedType = w;
+		return me.nextWeapon(w);
+	},
+	
+	selectNothing: func {
+		me.stopCurrent();
+		me.selectedType = nil;
+		me.selected = nil;
+	},
+	
 	selectPylon: func (p, w=nil) {
 		# select a specified pylon
 		# will stop previous weapon, will start next.
@@ -606,10 +652,17 @@ var FireControl = {
 				
 				# start ripple if set
 				me.idx = me.vectorIndex(dualWeapons,me.selectedType);
-				if (me.idx != -1 and me.ripple > 1) {
-					me.isRippling = 1;
-					me.rippleThis = 2;
-					me.rippleFireStart();
+				if (me.idx != -1) {
+					# gravity assisted munition dropping.
+					setprop("payload/armament/gravity-dropping", 1);
+					if (me.ripple > 1) {
+						me.isRippling = 1;
+						me.rippleThis = 2;
+						me.rippleFireStart();
+					} else {
+						# gravity assisted munition finished dropping.
+						setprop("payload/armament/gravity-dropping", 0);
+					}
 				}
 				
 				me.triggerTime = 0;
@@ -677,6 +730,8 @@ var FireControl = {
 				me.rippleThis += 1;
 				if (me.rippleThis > me.ripple or me.getSelectedWeapon() == nil) {
 					me.isRippling = 0;
+					# gravity assisted munition finished dropping.
+					setprop("payload/armament/gravity-dropping", 0);
 					screen.log.write("Finished ripple", 0.5, 0.5, 1);
 					return;
 				}
@@ -685,6 +740,7 @@ var FireControl = {
 		if (me.rippleCount > 30) {
 			# after 7.5 seconds if its not finished rippling, cancel it. Might happen if the aircraft is still.
 			me.isRippling = 0;
+			setprop("payload/armament/gravity-dropping", 0);
 			screen.log.write("Cancelled ripple", 0.5, 0.5, 1);
 			return;
 		}
@@ -884,6 +940,15 @@ var FireControl = {
 		return me.count;
 	},
 	
+	getAllAmmo: func (type = nil) {
+        # return ammo count of all pylons in a vector
+        me.ammoVector = [];
+        foreach (p;me.pylons) {
+            append(me.ammoVector, p.getAmmo(type));
+        }
+        return me.ammoVector;
+    },
+	
 	getActiveAmmo: func {
 		# return ammo count of currently selected type that are on active pylons
 		me.count = 0;
@@ -962,7 +1027,6 @@ var FireControl = {
 var debug = 0;
 var printDebug = func (msg) {if (debug == 1) print(msg);};
 var printfDebug = func {if (debug == 1) call(printf,arg);};
-
 
 
 # This is non-generic methods, please edit it to fit your radar setup:

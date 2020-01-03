@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>lights_switchs.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>lights_switchs.button1</object-name>
+    <object-name>lights_switchs.button2</object-name>
+    <object-name>lights_switchs.button3</object-name>
+    <object-name>lights_switchs.button4</object-name>
+    <object-name>lights_switchs.button5</object-name>
+    <object-name>lights_switchs.button6</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>lights_switchs.button1</object-name>
+    <object-name>lights_switchs.button2</object-name>
+    <object-name>lights_switchs.button3</object-name>
+    <object-name>lights_switchs.button4</object-name>
+    <object-name>lights_switchs.button5</object-name>
+    <object-name>lights_switchs.button6</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+
+
+  <!--#####   Landing Lights   ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>lights_switchs.button2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/lighting/landing-lights</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/lighting/landing-lights[1]</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>bp</tooltip-id>
+        <label>Landing Lights</label>
+      </binding>
+    </hovered>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>lights_switchs.button2</object-name>
+    <property>/controls/lighting/landing-lights</property>
+    <offset-deg>-50</offset-deg>
+    <factor>50</factor>
+    <center>
+      <x-m>-3.3885</x-m>
+      <y-m>-0.3645</y-m>
+      <z-m>-0.57719</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  
+  <!--#####   Flash Lights   ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>lights_switchs.button3</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/lighting/strobe</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/lighting/strobeBelly</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>bp</tooltip-id>
+        <label>Dorsal Flash Lights</label>
+      </binding>
+    </hovered>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>lights_switchs.button3</object-name>
+    <property>/controls/lighting/strobe</property>
+    <offset-deg>-50</offset-deg>
+    <factor>50</factor>
+    <center>
+      <x-m>-3.3657</x-m>
+      <y-m>-0.3645</y-m>
+      <z-m>-0.58535</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--#####   Formation Lights   ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>lights_switchs.button4</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/lighting/formation-lights</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>bp</tooltip-id>
+        <label>Formation Lights</label>
+      </binding>
+    </hovered>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>lights_switchs.button4</object-name>
+    <property>/controls/lighting/formation-lights</property>
+    <offset-deg>-50</offset-deg>
+    <factor>50</factor>
+    <center>
+      <x-m>-3.3706</x-m>
+      <y-m>-0.34205</y-m>
+      <z-m>-0.599326</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--#####   Tail Lights   ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>lights_switchs.button5</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/lighting/tailLight</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>bp</tooltip-id>
+        <label>Tail Position Lights</label>
+      </binding>
+    </hovered>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>lights_switchs.button5</object-name>
+    <property>/controls/lighting/tailLight</property>
+    <offset-deg>-50</offset-deg>
+    <factor>50</factor>
+    <center>
+      <x-m>-3.3706</x-m>
+      <y-m>-0.32633</y-m>
+      <z-m>-0.59932</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--#####   Wings Lights   ########-->
+  <animation>
+    <type>pick</type>
+    <object-name>lights_switchs.button6</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/lighting/position</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>bp</tooltip-id>
+        <label>Wings Position Lights</label>
+      </binding>
+    </hovered>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>lights_switchs.button6</object-name>
+    <property>/controls/lighting/position</property>
+    <offset-deg>-50</offset-deg>
+    <factor>50</factor>
+    <center>
+      <x-m>-3.3706</x-m>
+      <y-m>-0.31094</y-m>
+      <z-m>-0.59932</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>lights_switchs.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Lights</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.37</x-m>
+      <y-m>-0.34</y-m>
+      <z-m>-.58</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>lights_switchs.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>lights_switchs.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+</PropertyList>

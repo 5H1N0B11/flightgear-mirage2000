@@ -4,7 +4,8 @@
 <PropertyList>
 
    <nasal>
-    <load><![CDATA[
+    <load>
+      <![CDATA[
 
       ########################################################################################
       # WARNING : The on-load Nasal is not executed when this file is loaded as the
@@ -59,8 +60,6 @@
       }, 1, 0); 
       var myMP_light = m2000_mp.MP_light.new(self);
       
-
-      
       crew_door.alias(float_0);
       passenger_door.alias(float_1);
       #print("multiplay");
@@ -68,7 +67,7 @@
       ]]>
     </load>
     <unload>
-    <![CDATA[
+      <![CDATA[
       #myDecodeur.stop();
       #myBoolDecodeur.stop();
       removelistener(LoadListening);
@@ -82,11 +81,11 @@
       ]]>
     </unload>
   </nasal>
-  
+
   <model>
     <path>Aircraft/Mirage-2000/Models/main.xml</path>
   </model>
-  
+
   <model>
     <path>Aircraft/Mirage-2000/Models/Logos/logos.xml</path>
   </model>
@@ -125,46 +124,12 @@
     </axis>
   </animation>
 
-  <!-- Canopy pilot-->
+  <!-- open canopy pilot-->
   <animation>
     <name>EnsembleCanope</name>
     <object-name>canope-MONOPLACE</object-name>
     <object-name>verriere-MONOPLACE</object-name>
   </animation>
-  
-  
-  <animation>
-    <type>select</type>
-    <object-name>intcanopy-MONOPLACE</object-name>
-    <object-name>intverriere-MONOPLACE</object-name>
-    <object-name>attaches-MONOPLACE</object-name>
-    <object-name>Retroviseur</object-name>
-    <object-name>poignees-MONOPLACE</object-name>
-    <object-name>LeLoquet</object-name>
-    <object-name>intvitres</object-name>
-    <object-name>frontseat</object-name>
-    <object-name>pilot</object-name>
-    <object-name>canope-MONOPLACE</object-name>
-    <object-name>verriere-MONOPLACE</object-name>
-    <condition>
-      <not><property>instrumentation/ejection/done</property></not>
-    </condition>
-  </animation>
-
-  
-  <!-- <animation>
-    <type>pick</type>
-    <object-name>EnsembleCanope</object-name>
-    <visible>true</visible>
-    <action>
-      <button>0</button>
-      <repeatable>false</repeatable>
-      <binding>
-        <command>nasal</command>
-        <script>doors.move_canopy();</script>
-      </binding>
-    </action>
-  </animation> -->
   
   <animation>
     <type>rotate</type>
@@ -185,5 +150,19 @@
       <z> 0 </z>
     </axis>
   </animation>
-  
+
+  <!-- remove canopy if ejection -->
+  <animation>
+    <type>select</type>
+    <object-name>EnsembleCanope</object-name>
+    <object-name>IntEnsembleCanope</object-name>
+    <object-name>retro</object-name>
+    <object-name>loquet</object-name>
+    <object-name>pilot</object-name>
+    <object-name>seat.seat-MONOPLACE</object-name>
+    <condition>
+      <not><property>instrumentation/ejection/done</property></not>
+    </condition>
+  </animation>
+
 </PropertyList>

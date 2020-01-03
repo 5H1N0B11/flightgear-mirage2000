@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>left_mfd.ac</path>
+
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>left_mfd.bl-dec</object-name>
+    <object-name>left_mfd.bl-inc</object-name>
+    <object-name>left_mfd.bl-knob</object-name>
+    <object-name>left_mfd.black_screen</object-name>
+    <object-name>left_mfd.br-dec</object-name>
+    <object-name>left_mfd.br-inc</object-name>
+    <object-name>left_mfd.br-knob</object-name>
+    <object-name>left_mfd.bt-b1</object-name>
+    <object-name>left_mfd.bt-b2</object-name>
+    <object-name>left_mfd.bt-b3</object-name>
+    <object-name>left_mfd.bt-b4</object-name>
+    <object-name>left_mfd.bt-h1</object-name>
+    <object-name>left_mfd.bt-h2</object-name>
+    <object-name>left_mfd.bt-h3</object-name>
+    <object-name>left_mfd.bt-h4</object-name>
+    <object-name>left_mfd.bt-h5</object-name>
+    <object-name>left_mfd.canvasCadre</object-name>
+    <object-name>left_mfd.light</object-name>
+    <object-name>left_mfd.pot-l1</object-name>
+    <object-name>left_mfd.pot-l2</object-name>
+    <object-name>left_mfd.pot-l3</object-name>
+    <object-name>left_mfd.pot-l4</object-name>
+    <object-name>left_mfd.pot-r1</object-name>
+    <object-name>left_mfd.pot-r2</object-name>
+    <object-name>left_mfd.pot-r3</object-name>
+    <object-name>left_mfd.pot-r4</object-name>
+    <object-name>left_mfd.vitre</object-name>
+  </animation>
+
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>left_mfd.light</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>left_mfd.bl-dec</object-name>
+    <object-name>left_mfd.bl-inc</object-name>
+    <object-name>left_mfd.bl-knob</object-name>
+    <object-name>left_mfd.br-dec</object-name>
+    <object-name>left_mfd.br-inc</object-name>
+    <object-name>left_mfd.br-knob</object-name>
+    <object-name>left_mfd.bt-b1</object-name>
+    <object-name>left_mfd.bt-b2</object-name>
+    <object-name>left_mfd.bt-b3</object-name>
+    <object-name>left_mfd.bt-b4</object-name>
+    <object-name>left_mfd.bt-h1</object-name>
+    <object-name>left_mfd.bt-h2</object-name>
+    <object-name>left_mfd.bt-h3</object-name>
+    <object-name>left_mfd.bt-h4</object-name>
+    <object-name>left_mfd.bt-h5</object-name>
+    <object-name>left_mfd.pot-l1</object-name>
+    <object-name>left_mfd.pot-l2</object-name>
+    <object-name>left_mfd.pot-l3</object-name>
+    <object-name>left_mfd.pot-l4</object-name>
+    <object-name>left_mfd.pot-r1</object-name>
+    <object-name>left_mfd.pot-r2</object-name>
+    <object-name>left_mfd.pot-r3</object-name>
+    <object-name>left_mfd.pot-r4</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+  <!-- working for Rembrandt -->
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
+    <object-name>left_mfd.vitre</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>left_mfd.vitre</object-name>
+  </effect>
+
+  <!--temporary hide windshield waiting anti-fog :)-->
+  <animation>
+    <type>select</type>
+    <object-name>left_mfd.vitre</object-name>
+    <condition>
+      <property>instrumentation/mfd/mfd-glass</property>
+    </condition>
+  </animation>
+
+
+   <animation>
+    <type>select</type>
+    <object-name>left_mfd.black_screen</object-name>
+    <condition>
+      <less-than>
+        <property>/systems/electrical/volts</property>
+        <value>22</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <!-- __________________ Buttons _____________________-->
+  <!--Pages-->
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.bt-b1</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/mfd/modeL</property>
+        <step>1</step>
+        <min>0</min>
+        <max>2</max>
+        <wrap>true</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <!--Pot r1 Altitude-->
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.pot-r1</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/settings/target-altitude-ft</property>
+        <step>50</step>
+        <min>200</min>
+        <max>60000</max>
+        <wrap>false</wrap>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeL</property>
+            <value>0</value>
+          </equals>
+        </condition>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.pot-r1</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/settings/target-altitude-ft</property>
+        <step>-50</step>
+        <min>300</min>
+        <max>55000</max>
+        <wrap>false</wrap>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeL</property>
+            <value>0</value>
+          </equals>
+        </condition>
+      </binding>
+    </action>
+  </animation>
+
+  <!--Pot l1 Speed-->
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.pot-l1</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/settings/target-speed-kt</property>
+        <step>5</step>
+        <min>150</min>
+        <max>600</max>
+        <wrap>false</wrap>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeL</property>
+            <value>0</value>
+          </equals>
+        </condition>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.pot-l1</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/settings/target-speed-kt</property>
+        <step>-5</step>
+        <min>150</min>
+        <max>600</max>
+        <wrap>false</wrap>
+        <condition>
+          <equals>
+            <property>instrumentation/mfd/modeL</property>
+            <value>0</value>
+          </equals>
+        </condition>
+      </binding>
+    </action>
+  </animation>
+
+  <!--DIMM-->
+  <!--Pot r4 Luminosite-->
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.pot-r4</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/mfd/dimm-l</property>
+        <step>0.05</step>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.pot-r4</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/mfd/dimm-l</property>
+        <step>-0.05</step>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <!--Hide/show MFD glass-->
+  <!--temporary hide windshield waiting anti-fog :)-->
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.pot-l4</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>instrumentation/mfd/mfd-glass</property>
+      </binding>
+    </action>
+  </animation>
+
+  <!--toggle INHG/HPA display-->
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.bt-b4</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>instrumentation/mfd/inhg-hpa</property>
+        <condition>
+          <equals>
+            <property>instrumentation/mfd/modeL</property>
+            <value>0</value>
+          </equals>
+        </condition>
+      </binding>
+    </action>
+  </animation>
+
+  <!--Altimeter-setting-->
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.br-knob</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/altimeter/setting-inhg</property>
+        <step>0.01</step>
+        <min>25</min>
+        <max>36</max>
+        <wrap>true</wrap>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeL</property>
+            <value>0</value>
+          </equals>
+        </condition>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.br-knob</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/altimeter/setting-inhg</property>
+        <step>-0.01</step>
+        <min>25</min>
+        <max>36</max>
+        <wrap>true</wrap>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeL</property>
+            <value>0</value>
+          </equals>
+        </condition>
+      </binding>
+    </action>
+  </animation>
+
+  <!-- Select missile -->
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.bt-h1</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeL</property>
+            <value>1</value>
+          </equals>
+        </condition>
+        <command>nasal</command>
+        <script>m2000_load.inscreased_selected_pylon();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <!-- Select A/A
+  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.bt-h1</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+       <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeL</property>
+            <value>1</value>
+          </equals>
+        </condition>
+        <command>property-adjust</command>
+        <property>controls/armament/stick-selector</property>
+        <step>1</step>
+        <min>1</min>
+        <max>1</max>
+        <wrap>true</wrap>
+      </binding>
+    </action>
+  </animation>  -->
+
+  <animation>
+    <type>select</type>
+    <object-name>left_mfd.br-dec</object-name>
+    <object-name>left_mfd.br-inc</object-name>
+    <object-name>left_mfd.bl-dec</object-name>
+    <object-name>left_mfd.bl-inc</object-name>
+  </animation>
+
+  <!-- __________________ End Buttons _____________________-->
+  <!--EADI-->
+  <model>
+    <name>EADI</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/mfd/mfd_eadi.xml</path>
+    <condition>
+      <and>
+        <equals>
+          <property>/instrumentation/mfd/modeL</property>
+          <value>0</value>
+        </equals>
+        <greater-than>
+          <property>/systems/electrical/volts</property>
+          <value>12</value>
+        </greater-than>
+      </and>
+    </condition>
+    <offsets>
+      <x-m>-3.51</x-m>
+      <y-m>-0.183</y-m>
+      <z-m>-0.3244</z-m>
+      <pitch-deg>-7</pitch-deg>
+    </offsets>
+  </model>
+
+
+  <!--ARM-->
+  <model>
+    <name>ARM</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/mfd/mfd_arm.xml</path>
+    <condition>
+      <and>
+        <equals>
+          <property>/instrumentation/mfd/modeL</property>
+          <value>1</value>
+        </equals>
+        <greater-than>
+          <property>/systems/electrical/volts</property>
+          <value>12</value>
+        </greater-than>
+      </and>
+    </condition>
+    <offsets>
+      <x-m>-3.51</x-m>
+      <y-m>-0.183</y-m>
+      <z-m>-0.3244</z-m>
+      <pitch-deg>-7</pitch-deg>
+    </offsets>
+  </model>
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>left_mfd.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Left MFD</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.5</x-m>
+      <y-m>-.18</y-m>
+      <z-m>-.33</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>left_mfd.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>left_mfd.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+</PropertyList>

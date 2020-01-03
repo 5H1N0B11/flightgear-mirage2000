@@ -228,16 +228,16 @@ var HUD = {
         
         
          
-      #Little House pointing  Waypoint
-      m.HouseSize = 4;
-      m.HeadingHouse = m.root.createChild("path")
-      .setColor(m.myGreen)
-      .setStrokeLineWidth(5)
-      .moveTo(-20,0)
-      .vert(-30)
-      .lineTo(0,-50)
-      .lineTo(20,-30)
-      .vert(30);
+  #Little House pointing  Waypoint
+  m.HouseSize = 4;
+  m.HeadingHouse = m.root.createChild("path")
+    .setColor(m.myGreen)
+    .setStrokeLineWidth(5)
+    .moveTo(-20,0)
+    .vert(-30)
+    .lineTo(0,-50)
+    .lineTo(20,-30)
+    .vert(30);
  
         
    #Chevrons Acceleration Vector (AV)
@@ -652,6 +652,99 @@ var HUD = {
       .setText("0.0");
     
       
+    m.alphaGloadGroup = m.root.createChild("group");  
+    m.gload_Text = m.alphaGloadGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(- m.maxladderspan-50,-120)
+      .setDouble("character-size", 35)
+      .setAlignment("right-center")
+      .setText("0.0");
+      
+    m.alpha_Text = m.alphaGloadGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(- m.maxladderspan-50,-90)
+      .setDouble("character-size", 35)
+      .setAlignment("right-center")
+      .setText("0.0");  
+      
+      m.alphaGloadGroup.hide();
+      
+    m.loads_Type_text = m.root.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(- m.maxladderspan-90,-150)
+      .setDouble("character-size", 35)
+      .setAlignment("right-center")
+      .setText("0.0");  
+    m.loads_Type_text.hide();
+    
+    
+    # Bullet count when CAN is selected
+    m.bullet_CountGroup = m.root.createChild("group");  
+    m.Left_bullet_Count = m.bullet_CountGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(-m.maxladderspan+60,100)
+      .setDouble("character-size", 35)
+      .setFont("LiberationFonts/LiberationMono-Bold.ttf")
+      .setAlignment("center-center")
+      .setText("0.0");  
+    m.Right_bullet_Count = m.bullet_CountGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(m.maxladderspan-60,100)
+      .setDouble("character-size", 35)
+      .setFont("LiberationFonts/LiberationMono-Bold.ttf")
+      .setAlignment("center-center")
+      .setText("0.0");  
+    m.bullet_CountGroup.hide();
+    
+    # Pylon selection letters
+    m.pylons_Group = m.root.createChild("group");  
+    m.Left_pylons = m.pylons_Group.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(-m.maxladderspan+60,100)
+      .setDouble("character-size", 35)
+      .setFont("LiberationFonts/LiberationMono-Bold.ttf")
+      .setAlignment("center-center")
+      .setText("L");  
+    m.Right_pylons = m.pylons_Group.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(m.maxladderspan-60,100)
+      .setDouble("character-size", 35)
+      .setFont("LiberationFonts/LiberationMono-Bold.ttf")
+      .setAlignment("center-center")
+      .setText("D");
+    m.Center_pylons = m.pylons_Group.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(0,100)
+      .setDouble("character-size", 35)
+      .setFont("LiberationFonts/LiberationMono-Bold.ttf")
+      .setAlignment("center-center")
+      .setText("C");  
+    m.pylons_Group.hide();
+    
+    # Pylon selection letters
+    m.pylons_Circle_Group = m.root.createChild("group");  
+    m.LeftCircle = m.pylons_Circle_Group.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(-m.maxladderspan+60+25, 100)
+      .arcSmallCW(25,25, 0, -50, 0)
+      .arcSmallCW(25,25, 0, 50, 0)
+      .setStrokeLineWidth(5);
+    m.RightCircle = m.pylons_Circle_Group.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(m.maxladderspan-60+25, 100)
+      .arcSmallCW(25,25, 0, -50, 0)
+      .arcSmallCW(25,25, 0, 50, 0)
+      .setStrokeLineWidth(5);
+    m.CenterCircle = m.pylons_Circle_Group.createChild("path")
+      .setColor(m.myGreen)
+      .moveTo(25, 100)
+      .arcSmallCW(25,25, 0, -50, 0)
+      .arcSmallCW(25,25, 0, 50, 0)
+      .setStrokeLineWidth(5);
+    m.pylons_Circle_Group.hide();
+    
+    
+      
       #Take off Acceleration
       m.accBoxGroup = m.root.createChild("group");  
         
@@ -1004,7 +1097,31 @@ var HUD = {
     
     m.root.setColor(m.red,m.green,m.blue,1);
     
-
+    m.loads_hash =  {
+     "30mm Cannon":"CAN",
+     "Magic-2": "MAG",
+     "S530D":"530",
+     "MICA-IR":"MIC-I",
+     "MICA-EM":"MIC-E",
+     "GBU-12": "GBU",
+     "SCALP": "SCALP",
+     "AM39-Exocet":"AM39",
+     "AS-37-Martel":"AS37",
+     "AS30L" :"AS30",
+    };
+    
+    m.pylonsSide_hash = {
+      0 : "L",
+      1 : "L",
+      2 : "L",
+      7 : "L",
+      3 : "C",
+      4 : "R",
+      5 : "R",
+      6 : "R",
+      8 : "R",
+    };
+    
     m.input = {
       pitch:      "/orientation/pitch-deg",
       roll:       "/orientation/roll-deg",
@@ -1017,6 +1134,7 @@ var HUD = {
       speed_d:    "velocities/speed-down-fps",
       alpha:      "/orientation/alpha-deg",
       beta:       "/orientation/side-slip-deg",
+      gload:      "/accelerations/pilot-g",
       ias:        "/velocities/airspeed-kt",
       mach:       "/velocities/mach",
       gs:         "/velocities/groundspeed-kt",
@@ -1117,7 +1235,7 @@ var HUD = {
     me.h_rot.setRotation(me.horizStuff[1]);
     me.horizon_sub_group.setTranslation(me.horizStuff[2]);
     
-    var rot = -me.input.roll.getValue() * math.pi / 180.0;
+#     var rot = -me.input.roll.getValue() * math.pi / 180.0;
     #me.Textrot.setRotation(rot);
 
     #Displaying ILS STUFF (but only show after LOCALIZER capture)
@@ -1153,12 +1271,12 @@ var HUD = {
     me.display_Chevron();
 
     #Don't know what that does ...
-    var speed_error = 0;
-    if( me.input.target_spd.getValue() != nil )
-      speed_error = 4 * clamp(
-        me.input.target_spd.getValue() - me.input.airspeed.getValue(),
-        -15, 15
-      );
+#     var speed_error = 0;
+#     if( me.input.target_spd.getValue() != nil )
+#       speed_error = 4 * clamp(
+#         me.input.target_spd.getValue() - me.input.airspeed.getValue(),
+#         -15, 15
+#       );
       
     #Acc accBoxGroup in G(so I guess /9,8)
     me.display_Acceleration_Box();
@@ -1174,6 +1292,18 @@ var HUD = {
     
     #Display aoa
     me.display_alpha();
+    
+    #Display gload
+    me.display_gload();
+    
+    #Diplay Load type
+    me.display_loadsType();
+    
+    #Display bullet Count
+    me.display_BulletCount();
+    
+    #Display selected
+    me.displaySelectedPylons();
     
     #Display Route dist and waypoint number
     me.display_Waypoint();
@@ -1209,28 +1339,28 @@ var HUD = {
     #var NavFrequency = getprop("/instrumentation/nav/frequencies/selected-mhz");
     me.selectedRunway  = "0";
     #print("-- Lengths of the runways at ", info.name, " (", info.id, ") --");
-    var info = airportinfo();
-    foreach(var rwy; keys(info.runways)){
-        if(sprintf("%.2f",info.runways[rwy].ils_frequency_mhz) == sprintf("%.2f",me.input.NavFreq.getValue())){
+    me.info = airportinfo();
+    foreach(var rwy; keys(me.info.runways)){
+        if(sprintf("%.2f",me.info.runways[rwy].ils_frequency_mhz) == sprintf("%.2f",me.input.NavFreq.getValue())){
           me.selectedRunway = rwy;
         }  
     }
     #Then, trying with route manager
-    if(me.selectedRunway == "0"){
+    if(me.selectedRunway == "0" and !me.input.MasterArm.getValue()){
       if(me.input.destRunway.getValue() != ""){
          
         if(me.fp.getPlanSize() == me.fp.indexOfWP(me.fp.currentWP())+1){
           
-          info = airportinfo(me.input.destAirport.getValue());
+          me.info = airportinfo(me.input.destAirport.getValue());
           me.selectedRunway = me.input.destRunway.getValue() ;
         }
       }
     }
     #print("Test : ",me.selectedRunway != "0");
-    if(me.selectedRunway != "0"){
-      var (courseToAiport, distToAirport) = courseAndDistance(info);
+    if(me.selectedRunway != "0" and !me.input.MasterArm.getValue()){
+      var (courseToAiport, distToAirport) = courseAndDistance(me.info);
       if(  distToAirport < 10 and me.input.wow_nlg.getValue() == 0){
-        me.displayRunway(info,me.selectedRunway);
+        me.displayRunway();
       }else{
         me.myRunwayGroup.removeAllChildren();
       }
@@ -1259,7 +1389,7 @@ var HUD = {
     #settimer(func me.update(), 0.1);
   },
   display_ILS_STUFF:func(){
-    if(me.input.ILS_valid.getValue()){
+    if(me.input.ILS_valid.getValue() and !me.input.MasterArm.getValue()){
       me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading - me.input.NavHeadingRunwayILS.getValue() ));
 
       me.ILS_Scale_dependant.setTranslation(me.runwayPosHrizonOnHUD,0);
@@ -1276,7 +1406,7 @@ var HUD = {
 
   },
   display_ILS_Square:func(){
-    if(me.input.ILS_gs_in_range.getValue()){
+    if(me.input.ILS_gs_in_range.getValue()and !me.input.MasterArm.getValue()){
       me.ILS_Square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
       #me.ILS_Square.update();
       me.brackets.setTranslation(0,HudMath.getCenterPosFromDegs(0,me.input.pitch.getValue()-14)[1]);
@@ -1405,7 +1535,7 @@ var HUD = {
   display_Acceleration_Box:func(){
     #Acc accBoxGroup in G(so I guess /9,8)
     if(me.input.wow_nlg.getValue()){
-      me.acceleration_Box.setText(sprintf("%.2f", me.input.acc_yas.getValue()/9.8));
+      me.acceleration_Box.setText(sprintf("%.2f", int(me.input.acc_yas.getValue()/9.8*1000+1)/1000));
       me.accBoxGroup.show();
     }else{
       me.accBoxGroup.hide();
@@ -1459,13 +1589,98 @@ var HUD = {
     }
   },
   display_alpha:func(){
-    if(me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2){
+    if(me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2 and me.input.MasterArm.getValue() == 0){
       me.aoa.setText(sprintf("%0.1f",me.input.alpha.getValue()));
       me.alphaGroup.show();
     }else{
       me.alphaGroup.hide();
     }
   },
+  
+  display_gload:func(){
+    if(me.input.MasterArm.getValue()){
+      me.gload_Text.setText(sprintf("%0.1fG",me.input.gload.getValue()));
+      me.alpha_Text.setText(sprintf("%0.1fα",me.input.alpha.getValue()));
+      me.alphaGloadGroup.show();
+    }else{
+      me.alphaGloadGroup.hide();
+    }
+  },
+  
+  display_loadsType:func{
+    if(me.input.MasterArm.getValue() and me.selectedWeap != nil){
+#       print(me.loads_hash[me.selectedWeap.type]);
+      me.loads_Type_text.setText(me.loads_hash[me.selectedWeap.type]);
+      me.loads_Type_text.show();
+    }else{
+      me.loads_Type_text.hide();
+    }
+  },
+  
+  display_BulletCount:func{
+    if(me.input.MasterArm.getValue() and me.selectedWeap != nil){
+#       print("Test");
+#       print("Test:" ~ me.loads_hash[me.selectedWeap.type] ~ " : " ~ pylons.fcs.getAmmo());
+#       print("Test:" ~ me.selectedWeap.type ~ " : " ~ pylons.fcs.getAmmo());
+      if(me.selectedWeap.type == "30mm Cannon"){
+#         print(me.loads_hash[me.selectedWeap.type] ~ " : " ~ pylons.fcs.getAmmo());
+        me.Left_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
+        me.Right_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
+        me.bullet_CountGroup.show();
+      }else{
+        me.bullet_CountGroup.hide();
+      }
+    }else{
+      me.bullet_CountGroup.hide();
+    }
+    
+  },
+  
+  displaySelectedPylons:func{
+    #Init the vector
+    me.pylonRemainAmmo_hash = {
+      "L":0,
+      "C":0,
+      "R":0,
+    };
+    
+    #Showing the circle around the L or R if the weapons is under the wings.
+    #A circle around a C is also done for center loads, but I couldn't find any docs on that, so it is conjecture
+    if(me.input.MasterArm.getValue() and me.selectedWeap != nil){
+      if(me.selectedWeap.type != "30mm Cannon"){
+        me.pylons_Group.show();
+        me.pylons_Circle_Group.show();
+#          print("Type:"~me.loads_hash[me.selectedWeap.type]);
+#          print("Pylons:"~pylons.fcs.getSelectedPylonNumber());
+#          print("Side:"~me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()]);
+         #create the remainingAmmo vector and starting to count L and R
+         me.RemainingAmmoVector = pylons.fcs.getAllAmmo(pylons.fcs.getSelectedType());
+         for(i = 0 ; i < size(me.RemainingAmmoVector)-1 ; i += 1){
+#               print("NumPylons="~ i ~ " :"~me.RemainingAmmoVector[i]);
+              me.pylonRemainAmmo_hash[me.pylonsSide_hash[i]] += me.RemainingAmmoVector[i];
+         }
+#          print("Number Left Side :"~me.pylonRemainAmmo_hash["L"]);
+#          print("Number Right Side :"~me.pylonRemainAmmo_hash["R"]);
+        #Showing the pylon
+        if(me.pylonRemainAmmo_hash["L"]>0){me.Left_pylons.show();}else{me.Left_pylons.hide();}
+        if(me.pylonRemainAmmo_hash["C"]>0){me.Center_pylons.show();}else{me.Center_pylons.hide();}
+        if(me.pylonRemainAmmo_hash["R"]>0){me.Right_pylons.show();}else{me.Right_pylons.hide();}
+        
+        #Showing the Circle for the selected pylon
+        if(me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L"){me.LeftCircle.show();}else{me.LeftCircle.hide();}
+        if(me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "C"){me.CenterCircle.show();}else{me.CenterCircle.hide();}
+        if(me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "R"){me.RightCircle.show();}else{me.RightCircle.hide();}
+        
+      }else{
+        me.pylons_Group.hide();
+        me.pylons_Circle_Group.hide();
+      } 
+    }else{
+      me.pylons_Group.hide();
+      me.pylons_Circle_Group.hide();
+    }
+  },
+  
   
   display_Waypoint:func(){
     
@@ -1501,18 +1716,22 @@ var HUD = {
   },
   
   displayTarget:func(){
+#     if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list)>mirage2000.myRadar3.Target_Index){
+#       me.radarStuffGroup.show();
     #To put a triangle on the selected target
     #This should be changed by calling directly the radar object (in case of multi targeting)
     
 #     var closestCallsign = getprop("ai/closest/callsign");
 #     var closestRange = getprop("ai/closest/range");
-    
-    
+    closestCallsign = "";
+    closestRange = -1;
     #Getting the radar target from radar tgts_list
-    var MytargetIndex = mirage2000.myRadar3.Target_Index;
-    var closestCallsign = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].get_Callsign():"";
-    var is_Painted = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].isPainted():0;
-    var closestRange = MytargetIndex != -1 and is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[MytargetIndex]):0;
+    if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list)>mirage2000.myRadar3.Target_Index){
+      var MytargetIndex = mirage2000.myRadar3.Target_Index;
+      var closestCallsign = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].get_Callsign():"";
+      var is_Painted = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].isPainted():0;
+      var closestRange = MytargetIndex != -1 and is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[MytargetIndex]):0;
+    }
     var Token = 0;
     
 
@@ -1601,6 +1820,12 @@ var HUD = {
       me.targetArray[y].hide();
       me.TextInfoArray[y].hide();
     } 
+#     }else{
+#       
+#       me.radarStuffGroup.hide();
+#       me.distanceToTargetLineGroup.hide(); 
+#       me.missileFireRange.hide();    
+#     }
   },
   
   displayDistanceToTargetLine : func(contact){
@@ -1622,45 +1847,57 @@ var HUD = {
         me.missileFireRange.show();
       }else{
         me.missileFireRange.hide();
-      }
-        
-        
+      }   
       me.distanceToTargetLineChevronText.setText(myString);
       me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
     }
   },
+  
+
   
   
   displayDLZ:func(){
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
         
         #Testings
-        if(me.selectedWeap.type != "30mm Cannon" and me.selectedWeap.class == "A" and me.selectedWeap.parents[0] == armament.AIM){
-          #Taking back the DLZ
-          
-          me.myDLZ = pylons.getDLZ();
-          
+        if(me.selectedWeap.type != "30mm Cannon"){ 
+            if(me.selectedWeap.class == "A" and me.selectedWeap.parents[0] == armament.AIM){
+            #Taking back the DLZ
+            
+            me.myDLZ = pylons.getDLZ();
 
-          if(me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*1.5){
-            #Max
-            me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+            if(me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*2){
+              #Max
+              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-            #MmiFireRange
-            me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              #MmiFireRange
+              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-            #NEZFireRange           
-            me.NEZFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              #NEZFireRange           
+              me.NEZFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-            me.missileFireRange.show();
-            return 1;
+              me.missileFireRange.show();
+              return 1;
+            }
+          }elsif(me.selectedWeap.class == "GM" or me.selectedWeap.class == "M"){
+              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              
+              #MmiFireRange
+              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.min_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              
+              me.NEZFireRange.hide();
+              me.MaxFireRange.show();
+              me.MinFireRange.show();
+              
+              return 1;   
           }
-        }
+        } 
       }
       return 0;
   },
   
   
-  displayRunway:func( info, rwy){
+  displayRunway:func(){
     
     #Coord of the runways gps coord
     var RunwayCoord =  geo.Coord.new();
@@ -1685,29 +1922,29 @@ var HUD = {
     #print("reciprocal:" , info.runways[rwy].reciprocal, " ICAO:", info.id, " runway:",info.runways[rwy].id);
     
     #Calculating GPS coord of the runway's corners
-    RunwayCoord.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
+    RunwayCoord.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
     
-    RunwaysCoordCornerLeft.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
-    RunwaysCoordCornerLeft.apply_course_distance((info.runways[rwy].heading)-90,(info.runways[rwy].width)/2);
+    RunwaysCoordCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+    RunwaysCoordCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
     
-    RunwaysCoordCornerRight.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
-    RunwaysCoordCornerRight.apply_course_distance((info.runways[rwy].heading)+90,(info.runways[rwy].width)/2);
+    RunwaysCoordCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+    RunwaysCoordCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
     
-    RunwaysCoordEndCornerLeft.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
-    RunwaysCoordEndCornerLeft.apply_course_distance((info.runways[rwy].heading)-90,(info.runways[rwy].width)/2);
-    RunwaysCoordEndCornerLeft.apply_course_distance((info.runways[rwy].heading),info.runways[rwy].length);
+    RunwaysCoordEndCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+    RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
+    RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
     
-    RunwaysCoordEndCornerRight.set_latlon(info.runways[rwy].lat, info.runways[rwy].lon, info.elevation);
-    RunwaysCoordEndCornerRight.apply_course_distance((info.runways[rwy].heading)+90,(info.runways[rwy].width)/2);
-    RunwaysCoordEndCornerRight.apply_course_distance((info.runways[rwy].heading),info.runways[rwy].length);
+    RunwaysCoordEndCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+    RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
+    RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
     
     
     #Calculating the HUD coord of the runways coord
-    var MyRunwayTripos                     = HudMath.getPosFromCoord(RunwayCoord);
-    var MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(RunwaysCoordCornerLeft);
-    var MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(RunwaysCoordCornerRight);
-    var MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(RunwaysCoordEndCornerLeft);
-    var MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(RunwaysCoordEndCornerRight);
+    me.MyRunwayTripos                     = HudMath.getPosFromCoord(RunwayCoord);
+    me.MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(RunwaysCoordCornerLeft);
+    me.MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(RunwaysCoordCornerRight);
+    me.MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(RunwaysCoordEndCornerLeft);
+    me.MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(RunwaysCoordEndCornerRight);
     
     
     
@@ -1717,11 +1954,11 @@ var HUD = {
     #drawing the runway
     me.RunwaysDrawing = me.myRunwayGroup.createChild("path")
     .setColor(me.myGreen)
-    .moveTo(MyRunwayCoordCornerLeftTripos)
-    .lineTo(MyRunwayCoordCornerRightTripos)
-    .lineTo(MyRunwayCoordCornerEndRightTripos)
-    .lineTo(MyRunwayCoordCornerEndLeftTripos)
-    .lineTo(MyRunwayCoordCornerLeftTripos)
+    .moveTo(me.MyRunwayCoordCornerLeftTripos)
+    .lineTo(me.MyRunwayCoordCornerRightTripos)
+    .lineTo(me.MyRunwayCoordCornerEndRightTripos)
+    .lineTo(me.MyRunwayCoordCornerEndLeftTripos)
+    .lineTo(me.MyRunwayCoordCornerLeftTripos)
     .setStrokeLineWidth(4);
     
     me.myRunwayGroup.update();

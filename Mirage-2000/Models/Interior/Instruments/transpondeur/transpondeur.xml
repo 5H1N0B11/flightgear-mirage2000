@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>transpondeur.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>transpondeur.button1.2</object-name>
+    <object-name>transpondeur.button2.2</object-name>
+    <object-name>transpondeur.lignes</object-name>
+    <object-name>transpondeur.molete1</object-name>
+    <object-name>transpondeur.molete2</object-name>
+    <object-name>transpondeur.molete3</object-name>
+    <object-name>transpondeur.molete4</object-name>
+    <object-name>transpondeur.molete5</object-name>
+    <object-name>transpondeur.molete6</object-name>
+    <object-name>transpondeur.switch1</object-name>
+    <object-name>transpondeur.switch2</object-name>
+    <object-name>transpondeur.switch3</object-name>
+    <object-name>transpondeur.switch4</object-name>
+    <object-name>transpondeur.switch5</object-name>
+    <object-name>transpondeur.switch6</object-name>
+    <object-name>transpondeur.switch7</object-name>
+    <object-name>transpondeur.texte</object-name>
+    <object-name>transpondeur.textebutton1</object-name>
+    <object-name>transpondeur.textebutton2</object-name>
+    <object-name>transpondeur.value1</object-name>
+    <object-name>transpondeur.value2</object-name>
+    <object-name>transpondeur.value3</object-name>
+    <object-name>transpondeur.value4</object-name>
+    <object-name>transpondeur.value5</object-name>
+    <object-name>transpondeur.value6</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>transpondeur.lignes</object-name>
+    <object-name>transpondeur.texte</object-name>
+    <object-name>transpondeur.textebutton1</object-name>
+    <object-name>transpondeur.textebutton2</object-name>
+    <object-name>transpondeur.value1</object-name>
+    <object-name>transpondeur.value2</object-name>
+    <object-name>transpondeur.value3</object-name>
+    <object-name>transpondeur.value4</object-name>
+    <object-name>transpondeur.value5</object-name>
+    <object-name>transpondeur.value6</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>transpondeur.button1.2</object-name>
+    <object-name>transpondeur.button2.2</object-name>
+    <object-name>transpondeur.molete1</object-name>
+    <object-name>transpondeur.molete2</object-name>
+    <object-name>transpondeur.molete3</object-name>
+    <object-name>transpondeur.molete4</object-name>
+    <object-name>transpondeur.molete5</object-name>
+    <object-name>transpondeur.molete6</object-name>
+    <object-name>transpondeur.switch1</object-name>
+    <object-name>transpondeur.switch2</object-name>
+    <object-name>transpondeur.switch3</object-name>
+    <object-name>transpondeur.switch4</object-name>
+    <object-name>transpondeur.switch5</object-name>
+    <object-name>transpondeur.switch6</object-name>
+    <object-name>transpondeur.switch7</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+
+  <!--=================================== Molette 1 et valeur 1 =================================-->
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete1</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[0]</property>
+        <step>1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete1</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[0]</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.molete1</object-name>
+    <property>/instrumentation/transponder/inputs/digit[0]</property>
+    <factor>72</factor>
+    <center>
+      <x-m>-3.5167</x-m>
+      <y-m>-0.034943</y-m>
+      <z-m>-0.53408</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>transpondeur.value1</object-name>
+    <property>/instrumentation/transponder/inputs/digit[0]</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Molette 2 et valeur 2 === -->
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete2</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[1]</property>
+        <step>1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete2</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[1]</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.molete2</object-name>
+    <property>/instrumentation/transponder/inputs/digit[1]</property>
+    <factor>72</factor>
+    <center>
+      <x-m>-3.5167</x-m>
+      <y-m>-0.034943</y-m>
+      <z-m>-0.53408</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>transpondeur.value2</object-name>
+    <property>/instrumentation/transponder/inputs/digit[1]</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Molette 3 et valeur 3 -->
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete3</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[2]</property>
+        <step>1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete3</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[2]</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.molete3</object-name>
+    <property>/instrumentation/transponder/inputs/digit[2]</property>
+    <factor>72</factor>
+    <center>
+      <x-m>-3.5167</x-m>
+      <y-m>-0.034943</y-m>
+      <z-m>-0.53408</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>transpondeur.value3</object-name>
+    <property>/instrumentation/transponder/inputs/digit[2]</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Molette 4 et valeur 4 -->
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete4</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[3]</property>
+        <step>1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete4</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/inputs/digit[3]</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>7</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.molete4</object-name>
+    <property>/instrumentation/transponder/inputs/digit[3]</property>
+    <factor>72</factor>
+    <center>
+      <x-m>-3.5167</x-m>
+      <y-m>-0.034943</y-m>
+      <z-m>-0.53408</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>transpondeur.value4</object-name>
+    <property>/instrumentation/transponder/inputs/digit[3]</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete4</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.molete4</object-name>
+    <property>...</property>
+    <factor>36</factor>
+    <center>
+      <x-m>-3.5167</x-m>
+      <y-m>-0.034943</y-m>
+      <z-m>-0.53408</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+ 
+  <animation>
+    <type>textranslate</type>
+    <object-name>transpondeur.value4</object-name>
+    <property>...</property>
+    <factor>...</factor>
+    <step>...</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Molette 5 et valeur 5
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete5</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.molete5</object-name>
+    <property>...</property>
+    <factor>36</factor>
+    <center>
+      <x-m>-3.5167</x-m>
+      <y-m>-0.034943</y-m>
+      <z-m>-0.53408</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+ 
+  <animation>
+    <type>textranslate</type>
+    <object-name>transpondeur.value5</object-name>
+    <property>...</property>
+    <factor>...</factor>
+    <step>...</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Molette 6 et valeur 6
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.molete6</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+  
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.molete6</object-name>
+    <property>...</property>
+    <factor>36</factor>
+    <center>
+      <x-m>-3.5167</x-m>
+      <y-m>-0.034943</y-m>
+      <z-m>-0.53408</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+  
+  <animation>
+    <type>textranslate</type>
+    <object-name>transpondeur.value6</object-name>
+    <property>...</property>
+    <factor>...</factor>
+    <step>...</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <!--  Switch 1-->
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.switch1</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/transponder/inputs/ident-btn</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.switch1</object-name>
+    <property>/instrumentation/transponder/inputs/ident-btn</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-3.5049</x-m>
+      <y-m>-0.05921</y-m>
+      <z-m>-0.5763</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!-- Switch 2
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.switch2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.switch2</object-name>
+    <property>...</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-3.5049</x-m>
+      <y-m>-0.05921</y-m>
+      <z-m>-0.5763</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Switch 3
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.switch3</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.switch3</object-name>
+    <property>...</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-3.5049</x-m>
+      <y-m>-0.05921</y-m>
+      <z-m>-0.5763</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Switch 4 -->
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.switch4</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/transponder/switch/IDENTIFICATION</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.IDENT();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.switch4</object-name>
+    <property>/instrumentation/transponder/switch/IDENTIFICATION</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-3.5049</x-m>
+      <y-m>-0.05921</y-m>
+      <z-m>-0.5763</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!-- Switch 5 -->
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.switch5</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/instrumentation/transponder/switch/ALTITUDE</property>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.ALTITUDE();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.switch5</object-name>
+    <property>/instrumentation/transponder/switch/ALTITUDE</property>
+    <value>1</value>
+    <factor>70</factor>
+    <center>
+      <x-m>-3.5049</x-m>
+      <y-m>-0.05921</y-m>
+      <z-m>-0.5763</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation>
+
+  <!-- Switch 6
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.switch6</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.switch6</object-name>
+    <property>...</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-3.4972</x-m>
+      <y-m>-0.063925</y-m>
+      <z-m>-0.62599</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation> -->
+
+  <!-- Switch 7
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.switch7</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.switch7</object-name>
+    <property>...</property>
+    <factor>70</factor>
+    <center>
+      <x-m>-3.4941</x-m>
+      <y-m>-0.049527</y-m>
+      <z-m>-0.64604</z-m>
+    </center>
+    <axis>
+      <x> 0</x>
+      <y>-1</y>
+      <z> 0</z>
+    </axis>
+  </animation> -->
+
+  <!-- button1.1
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.textebutton2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.textebutton2</object-name>
+    <property>...</property>
+    <factor>45</factor>
+    <center>
+      <x-m> 0.00395</x-m>
+      <y-m>-0.02391</y-m>
+      <z-m>-0.02300</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <!-- button1.2
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.button1.2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>...</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.button1.2</object-name>
+    <property>...</property>
+    <factor>45</factor>
+    <center>
+      <x-m> 0.00395</x-m>
+      <y-m>-0.02391</y-m>
+      <z-m>-0.02300</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation> -->
+
+  <animation>
+    <name>transpondeur.MoletteIFF</name>
+    <object-name>transpondeur.button1.2</object-name>
+    <object-name>transpondeur.textebutton1</object-name>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.MoletteIFF</object-name>
+    <offset-deg>48</offset-deg>
+    <center>
+      <x-m>-3.4811</x-m>
+      <y-m>-0.024328</y-m>
+      <z-m>-0.60631</z-m>
+    </center>
+    <axis>
+      <x1-m>-3.4811</x1-m>
+      <y1-m>-0.024328</y1-m>
+      <z1-m>-0.60631</z1-m>
+      <x2-m>-3.4915</x2-m>
+      <y2-m>-0.024329</y2-m>
+      <z2-m>-0.60792</z2-m>
+    </axis>
+  </animation>
+
+  <animation>
+    <name>transpondeur.MoletteTransponder</name>
+    <object-name>transpondeur.button2.2</object-name>
+    <object-name>transpondeur.textebutton2</object-name>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.button2.2</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/switch/MoletteTrans</property>
+        <step>1</step>
+        <min>0</min>
+        <max>4</max>
+        <wrap>false</wrap>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.MOLETTE_haut();</script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>mode-transp</tooltip-id>
+        <label>Transpondeur : %s</label>
+        <property>/instrumentation/transponder/switch/MoletteTrans</property>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>transpondeur.button2.2</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property>/instrumentation/transponder/switch/MoletteTrans</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>4</max>
+        <wrap>false</wrap>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.MOLETTE_bas();</script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>transpondeur.MoletteTransponder</object-name>
+    <property>/instrumentation/transponder/switch/MoletteTrans</property>
+    <factor>20</factor>
+    <center>
+      <x-m>-3.481</x-m>
+      <y-m>0.033126</y-m>
+      <z-m>-0.60678</z-m>
+    </center>
+    <axis>
+      <x1-m>-3.481</x1-m>
+      <y1-m>0.033126</y1-m>
+      <z1-m>-0.60678</z1-m>
+      <x2-m>-3.4915</x2-m>
+      <y2-m>0.033125</y2-m>
+      <z2-m>-0.60838</z2-m>
+    </axis>
+  </animation>
+
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>transpondeur.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Transponder</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.48</x-m>
+      <y-m>0</y-m>
+      <z-m>-.53</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>transpondeur.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>transpondeur.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+
+
+</PropertyList>

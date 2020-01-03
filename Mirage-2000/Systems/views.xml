@@ -75,6 +75,20 @@
       <z-offset-m archive="y">-2.783</z-offset-m> <!-- Back  -->
       <pitch-offset-deg>-16</pitch-offset-deg>
       <default-field-of-view-deg>83</default-field-of-view-deg>
+      <limits>
+        <right>
+          <heading-max-deg>170</heading-max-deg>
+          <x-offset-threshold-deg>15</x-offset-threshold-deg>
+          <x-offset-threshold-max-m>0.10</x-offset-threshold-max-m>
+          <x-offset-max-m>0.175</x-offset-max-m>
+        </right>
+        <left>
+          <heading-max-deg>170</heading-max-deg>
+          <x-offset-threshold-deg>15</x-offset-threshold-deg>
+          <x-offset-threshold-max-m>0.10</x-offset-threshold-max-m>
+          <x-offset-max-m>0.175</x-offset-max-m>
+        </left>
+      </limits>
     </config>
   </view>
 

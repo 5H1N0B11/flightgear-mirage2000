@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>infos.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>infos.aoa-needle</object-name>
+    <object-name>infos.aoa-scale</object-name>
+    <object-name>infos.ft0</object-name>
+    <object-name>infos.ft1</object-name>
+    <object-name>infos.ft10</object-name>
+    <object-name>infos.ft100</object-name>
+    <object-name>infos.ft1000</object-name>
+    <object-name>infos.ft10000</object-name>
+    <object-name>infos.hdg0</object-name>
+    <object-name>infos.hdg1</object-name>
+    <object-name>infos.hdg10</object-name>
+    <object-name>infos.hdg100</object-name>
+    <object-name>infos.kt0</object-name>
+    <object-name>infos.kt1</object-name>
+    <object-name>infos.kt10</object-name>
+    <object-name>infos.kt100</object-name>
+    <object-name>infos.mach0</object-name>
+    <object-name>infos.mach1</object-name>
+    <object-name>infos.mach10</object-name>
+    <object-name>infos.mach100</object-name>
+    <object-name>infos.text</object-name>
+    <object-name>infos.vsi-needle-down</object-name>
+    <object-name>infos.vsi-needle-up</object-name>
+    <object-name>infos.vsi-scale</object-name>
+  </animation>
+
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>infos.aoa-needle</object-name>
+    <object-name>infos.aoa-scale</object-name>
+    <object-name>infos.ft0</object-name>
+    <object-name>infos.ft1</object-name>
+    <object-name>infos.ft10</object-name>
+    <object-name>infos.ft100</object-name>
+    <object-name>infos.ft1000</object-name>
+    <object-name>infos.ft10000</object-name>
+    <object-name>infos.hdg0</object-name>
+    <object-name>infos.hdg1</object-name>
+    <object-name>infos.hdg10</object-name>
+    <object-name>infos.hdg100</object-name>
+    <object-name>infos.kt0</object-name>
+    <object-name>infos.kt1</object-name>
+    <object-name>infos.kt10</object-name>
+    <object-name>infos.kt100</object-name>
+    <object-name>infos.mach0</object-name>
+    <object-name>infos.mach1</object-name>
+    <object-name>infos.mach10</object-name>
+    <object-name>infos.mach100</object-name>
+    <object-name>infos.text</object-name>
+    <object-name>infos.vsi-needle-down</object-name>
+    <object-name>infos.vsi-needle-up</object-name>
+    <object-name>infos.vsi-scale</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+
+
+
+  <!-- aoa -->
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.aoa-needle</object-name>
+    <property>orientation/alpha-deg</property>
+    <interpolation>
+      <entry><ind>-5</ind><dep>  0</dep></entry>
+      <entry><ind> 0</ind><dep>  0</dep></entry>
+      <entry><ind> 5</ind><dep>0.09</dep></entry>
+      <entry><ind>10</ind><dep>0.18</dep></entry>
+      <entry><ind>15</ind><dep>0.27</dep></entry>
+      <entry><ind>20</ind><dep>0.315</dep></entry>
+      <entry><ind>25</ind><dep>0.36</dep></entry>
+      <entry><ind>30</ind><dep>0.41</dep></entry>
+      <entry><ind>40</ind><dep>0.45</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.vsi-needle-down</object-name>
+    <property>autopilot/internal/vert-speed-fpm</property>
+    <interpolation>
+      <entry><ind>-200000</ind><dep>0.500</dep></entry>
+      <entry><ind>  -2000</ind><dep>0.500</dep></entry>
+      <entry><ind>   -1000</ind><dep>0.250</dep></entry>
+      <entry><ind>    -500</ind><dep>0.125</dep></entry>
+      <entry><ind>      0</ind><dep>  0</dep></entry>
+      <entry><ind>   2000</ind><dep>  0</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- vsi -->
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.vsi-needle-up</object-name>
+    <property>autopilot/internal/vert-speed-fpm</property>
+    <interpolation>
+      <entry><ind> -2000</ind><dep>  0</dep></entry>
+      <entry><ind>     0</ind><dep>  0</dep></entry>
+      <entry><ind>   500</ind><dep>0.125</dep></entry>
+      <entry><ind>  1000</ind><dep>0.250</dep></entry>
+      <entry><ind>  2000</ind><dep>0.500</dep></entry>
+      <entry><ind>200000</ind><dep>0.500</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.vsi-needle-down</object-name>
+    <property>autopilot/internal/vert-speed-fpm</property>
+    <interpolation>
+      <entry><ind>-200000</ind><dep>0.500</dep></entry>
+      <entry><ind>  -2000</ind><dep>0.500</dep></entry>
+      <entry><ind>   -1000</ind><dep>0.250</dep></entry>
+      <entry><ind>    -500</ind><dep>0.125</dep></entry>
+      <entry><ind>      0</ind><dep>  0</dep></entry>
+      <entry><ind>   2000</ind><dep>  0</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- hdg -->
+  <animation>
+    <type>select</type>
+    <object-name>infos.hdg10</object-name>
+    <condition>
+      <greater-than>
+        <property>/orientation/heading-deg</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>infos.hdg100</object-name>
+    <condition>
+      <greater-than>
+        <property>/orientation/heading-deg</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.hdg1</object-name>
+    <property>/orientation/heading-deg</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.hdg10</object-name>
+    <property>/orientation/heading-deg</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.hdg100</object-name>
+    <property>/orientation/heading-deg</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Altitude -->
+  <animation>
+    <type>select</type>
+    <object-name>infos.ft10</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>infos.ft100</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>infos.ft1000</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+        <value>999.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>infos.ft10000</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+        <value>9999.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.ft1</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.ft10</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.ft100</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.ft1000</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.0001</factor>
+    <step>1000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.ft10000</object-name>
+    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+    <factor>0.00001</factor>
+    <step>10000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- Airspeed -->
+  <animation>
+    <type>select</type>
+    <object-name>infos.kt10</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <value>9.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>infos.kt100</object-name>
+    <condition>
+      <greater-than>
+        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <value>99.999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.kt1</object-name>
+    <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.kt10</object-name>
+    <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.kt100</object-name>
+    <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+
+  <!-- Mach -->
+  <animation>
+    <type>select</type>
+    <object-name>infos.mach10</object-name>
+    <condition>
+      <greater-than>
+        <property>velocities/mach</property>
+        <value>0.09999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>infos.mach100</object-name>
+    <condition>
+      <greater-than>
+        <property>velocities/mach</property>
+        <value>0.99999</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.mach1</object-name>
+    <property>velocities/mach</property>
+    <factor>10</factor>
+    <step>0.01</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.mach10</object-name>
+    <property>velocities/mach</property>
+    <factor>1</factor>
+    <step>0.1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>infos.mach100</object-name>
+    <property>velocities/mach</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

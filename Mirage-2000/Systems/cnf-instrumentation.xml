@@ -145,8 +145,8 @@
       Thanks to the CitationX guy !!
   -->
   <nd>
-    <radar-texture-path type="string">Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/Old/radar.png</radar-texture-path>
-    <symbol-texture-path type="string">Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Center-mfd/Old/symbols.png</symbol-texture-path>
+    <radar-texture-path type="string">Aircraft/Mirage-2000/Models/Interior/Instruments/center_mfd/Old/radar.png</radar-texture-path>
+    <symbol-texture-path type="string">Aircraft/Mirage-2000/Models/Interior/Instruments/center_mfd/Old/symbols.png</symbol-texture-path>
     <font>
       <color>
         <red type="float">   0.7 </red>

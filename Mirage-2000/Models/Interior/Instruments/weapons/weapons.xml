@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>weapons.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>weapons.Text</object-name>
+    <object-name>weapons.clapet</object-name>
+    <object-name>weapons.light</object-name>
+    <object-name>weapons.switch</object-name>
+    <object-name>weapons.switch2</object-name>
+    <object-name>weapons.texte.1</object-name>
+    <object-name>weapons.texte.2</object-name>
+    <object-name>weapons.texte.3</object-name>
+    <object-name>weapons.texte.4</object-name>
+    <object-name>weapons.texte.5</object-name>
+    <object-name>weapons.texte.6</object-name>
+    <object-name>weapons.texte.7</object-name>
+    <object-name>weapons.texte.8</object-name>
+    <object-name>weapons.texte.9</object-name>
+    <object-name>weapons.texte.app</object-name>
+    <object-name>weapons.texte.idf</object-name>
+    <object-name>weapons.texte.jet</object-name>
+    <object-name>weapons.texte.mic</object-name>
+    <object-name>weapons.texte.mrk</object-name>
+    <object-name>weapons.texte.off</object-name>
+    <object-name>weapons.texte.rwm</object-name>
+    <object-name>weapons.texte.upd</object-name>
+    <object-name>weapons.texte.vs</object-name>
+    <object-name>weapons.texte.wrf</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>weapons.Text</object-name>
+    <object-name>weapons.light</object-name>
+    <object-name>weapons.texte.1</object-name>
+    <object-name>weapons.texte.2</object-name>
+    <object-name>weapons.texte.3</object-name>
+    <object-name>weapons.texte.4</object-name>
+    <object-name>weapons.texte.5</object-name>
+    <object-name>weapons.texte.6</object-name>
+    <object-name>weapons.texte.7</object-name>
+    <object-name>weapons.texte.8</object-name>
+    <object-name>weapons.texte.9</object-name>
+    <object-name>weapons.texte.app</object-name>
+    <object-name>weapons.texte.idf</object-name>
+    <object-name>weapons.texte.jet</object-name>
+    <object-name>weapons.texte.mic</object-name>
+    <object-name>weapons.texte.mrk</object-name>
+    <object-name>weapons.texte.off</object-name>
+    <object-name>weapons.texte.rwm</object-name>
+    <object-name>weapons.texte.upd</object-name>
+    <object-name>weapons.texte.vs</object-name>
+    <object-name>weapons.texte.wrf</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>weapons.clapet</object-name>
+    <object-name>weapons.switch</object-name>
+    <object-name>weapons.switch2</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+
+
+
+  <animation>
+    <name>weapons.msarm</name>
+      <object-name>weapons.switch</object-name>
+      <object-name>weapons.light</object-name>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+      <object-name>weapons.msarm</object-name>
+    <property>/controls/armament/master-arm</property>
+    <factor>-30</factor>
+    <offset-deg>15</offset-deg>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-3.5219</x-m>
+      <y-m>-0.25914</y-m>
+      <z-m>-0.42931</z-m>
+    </center>
+  </animation>
+
+  
+  <animation>
+    <type>pick</type>
+      <object-name>weapons.msarm</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/armament/master-arm</property>
+      </binding>
+    </action>
+  </animation>
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>weapons.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Weapons Panel</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.48</x-m>
+      <y-m>-.2</y-m>
+      <z-m>-.44</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+      <object-name>weapons.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+      <object-name>weapons.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+</PropertyList>

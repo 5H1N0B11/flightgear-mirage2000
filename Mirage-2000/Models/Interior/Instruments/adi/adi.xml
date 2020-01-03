@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>adi.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>adi.bank-index</object-name>
+    <object-name>adi.bkg</object-name>
+    <object-name>adi.button</object-name>
+    <object-name>adi.drum</object-name>
+    <object-name>adi.plane</object-name>
+    <object-name>adi.ring</object-name>
+    <object-name>adi.scale</object-name>
+    <object-name>adi.vitre</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>adi.bank-index</object-name>
+    <object-name>adi.drum</object-name>
+    <object-name>adi.plane</object-name>
+    <object-name>adi.ring</object-name>
+    <object-name>adi.scale</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>adi.button</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+  <!-- working for Rembrandt -->
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
+    <object-name>adi.vitre</object-name>
+  </effect>
+
+
+  <animation>
+    <type>rotate</type>
+    <object-name>adi.drum</object-name>
+    <property>orientation/roll-deg</property>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-3.554</x-m>
+      <y-m>0.14737</y-m>
+      <z-m>-0.19749</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>adi.bkg</object-name>
+    <property>orientation/roll-deg</property>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-3.554</x-m>
+      <y-m>0.14737</y-m>
+      <z-m>-0.19749</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>adi.drum</object-name>
+    <property>orientation/pitch-deg</property>
+    <factor>1.5</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-3.554</x-m>
+      <y-m>0.14737</y-m>
+      <z-m>-0.19749</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>adi.bank-index</object-name>
+    <property>orientation/roll-deg</property>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-3.554</x-m>
+      <y-m>0.14737</y-m>
+      <z-m>-0.19749</z-m>
+    </center>
+  </animation>
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>adi.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">AI - Heading - Speed - Alt</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.49</x-m>
+      <y-m>0.15</y-m>
+      <z-m>-.2</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>adi.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>adi.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+</PropertyList>

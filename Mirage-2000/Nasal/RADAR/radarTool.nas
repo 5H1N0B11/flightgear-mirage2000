@@ -320,7 +320,7 @@ var RadarTool = {
     IsFriendlink16: func(SelectedObject){
       cs = SelectedObject.get_Callsign();
       rn = SelectedObject.get_range();
-      if (getprop("link16/wingman-1")==cs or getprop("link16/wingman-2")==cs or getprop("link16/wingman-3")==cs or rn > 150) {
+      if (getprop("link16/wingman-1")==cs or getprop("link16/wingman-2")==cs or getprop("link16/wingman-3")==cs or getprop("link16/wingman-4")==cs  or getprop("link16/wingman-5")==cs  or getprop("link16/wingman-6")==cs  or getprop("link16/wingman-7")==cs  or getprop("link16/wingman-8")==cs  or getprop("link16/wingman-9")==cs or rn > 150) {
         return 1;
       }else{
         return 0;

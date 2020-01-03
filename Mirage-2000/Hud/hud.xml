@@ -2,11 +2,6 @@
 
 <!-- http://wiki.flightgear.org/Head-up_display
      http://wiki.flightgear.org/Canvas_HUD
-
-     changelog
-
-       19/07/2015 Updated by Hardball : added new indicators
-       11/07/2019 Updating
 -->
 <PropertyList>
 
@@ -531,6 +526,7 @@
   </label>
 
   <!-- ~~~~~~~~~~~~~~~~~~ guns -->
+<!--
   <label>
     <name>Guns</name>
     <x>-60</x>
@@ -553,8 +549,10 @@
     <format>guns:%3.0f</format>
     <halign>left</halign>
   </label>
+-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ missiles aa -->
+<!--
   <label>
     <name>Missiles</name>
     <x>-58</x>
@@ -576,6 +574,7 @@
     <format>%s</format>
     <halign>left</halign>
   </label>
+-->
 
 
 </PropertyList>

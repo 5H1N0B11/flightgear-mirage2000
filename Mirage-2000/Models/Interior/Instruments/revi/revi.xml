@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>revi.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>revi.canvasHUD</object-name>
+    <object-name>revi.verre1</object-name>
+    <object-name>revi.verre2</object-name>
+    <object-name>revi.verre3</object-name>
+  </animation>
+
+  <!--  REMBRANDT support for transparent objects-->
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>revi.verre1</object-name>
+    <object-name>revi.verre2</object-name>
+    <object-name>revi.verre3</object-name>
+    <object-name>revi.canvasHUD</object-name>
+  </effect>
+
+  <animation>
+    <type>material</type>
+    <object-name>revi.canvasHUD</object-name>
+    <emission>
+      <red> 1 </red>
+      <green> 1 </green>
+      <blue> 1 </blue>
+    </emission>
+  </animation>
+
+
+</PropertyList>

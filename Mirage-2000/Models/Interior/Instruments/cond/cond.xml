@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>cond.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>cond.lampeC-OFF</object-name>
+    <object-name>cond.lampeC-ON</object-name>
+    <object-name>cond.lampeF-OFF</object-name>
+    <object-name>cond.lampeF-ON</object-name>
+    <object-name>cond.molette</object-name>
+    <object-name>cond.switch0</object-name>
+    <object-name>cond.switch1</object-name>
+    <object-name>cond.switch2</object-name>
+    <object-name>cond.switch3</object-name>
+    <object-name>cond.texte</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>cond.texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>cond.molette</object-name>
+    <object-name>cond.switch0</object-name>
+    <object-name>cond.switch1</object-name>
+    <object-name>cond.switch2</object-name>
+    <object-name>cond.switch3</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+<!-- TODO : need animation -->
+  <animation>
+    <type>material</type>
+    <object-name>cond.lampeC-ON</object-name>
+    <object-name>cond.lampeF-ON</object-name>
+    <emission>
+      <red>   2 </red>
+      <green> 2 </green>
+      <blue>  2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>material</type>
+    <object-name>cond.lampeC-OFF</object-name>
+    <object-name>cond.lampeF-OFF</object-name>
+    <emission>
+      <red>   0.2 </red>
+      <green> 0.2 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+
+
+  <animation>
+    <type>pick</type>
+    <object-name>cond.switch2</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/environment/aircraft-effects/cabin-heat-set</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/ventilation/airconditioning-enabled</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>ac</tooltip-id>
+        <label>AC</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>cond.switch2</object-name>
+    <property>/environment/aircraft-effects/cabin-heat-set</property>
+    <offset-deg>50</offset-deg>
+    <factor>-50</factor>
+    <center>
+      <x-m>-3.2919</x-m>
+      <y-m>0.30321</y-m>
+      <z-m>-0.59785</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>cond.switch3</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/environment/aircraft-effects/cabin-air-set</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/ventilation/windshield-hot-air-knob</property>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>ac</tooltip-id>
+        <label>FOG</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>cond.switch3</object-name>
+    <property>/environment/aircraft-effects/cabin-air-set</property>
+    <offset-deg>50</offset-deg>
+    <factor>-50</factor>
+    <center>
+      <x-m>-3.2919</x-m>
+      <y-m>0.30321</y-m>
+      <z-m>-0.59785</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+
+  <animation>
+    <type>knob</type>
+    <object-name>cond.molette</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-adjust</command>
+        <property>/controls/ventilation/knob</property>
+        <factor>10</factor>
+        <min>0</min>
+        <max>360</max>
+        <wrap>true</wrap>
+      </binding>
+      <binding>
+          <command>nasal</command>
+          <script>
+              #gui.popupTip(sprintf("Knob : %.1f", getprop("/controls/ventilation/knob")));
+              environment.TempInterpolation();
+              gui.popupTip(sprintf("Temp : %.1f, Manual %d", getprop("/controls/ventilation/airconditioning-temperature"),getprop("/controls/ventilation/airconditioning-type")));
+          </script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>cond.molette</object-name>
+    <property>/controls/ventilation/knob</property>
+    <factor>1</factor>
+    <center>
+      <x-m>-3.2837</x-m>
+      <y-m>0.32269</y-m>
+      <z-m>-0.59305</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>cond.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Air Cond</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.23</x-m>
+      <y-m>0.3</y-m>
+      <z-m>-0.56</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>cond.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>cond.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+</PropertyList>

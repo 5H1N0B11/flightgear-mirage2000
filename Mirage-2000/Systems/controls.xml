@@ -18,6 +18,8 @@
     <recognition-lights n="0">0</recognition-lights>
     <recognition-lights n="1">0</recognition-lights>
     <recognition-lights n="2">0</recognition-lights>
+    <sideLightUV>0.0</sideLightUV>
+    <boardLightUV>0.0</boardLightUV>
     <tail-lights>0 </tail-lights>
     <cabin-lights>0</cabin-lights>
     <strobe type="bool">true</strobe>
@@ -202,6 +204,10 @@
   <seat>
     <pilot type="bool">true</pilot>
   </seat>
+
+  <retro>
+    <folded type="bool">false</folded>
+  </retro>
 
   <ground-equipment type="bool">true</ground-equipment>
 

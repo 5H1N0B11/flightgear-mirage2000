@@ -195,7 +195,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
   <submodel>
     <name>center-tank</name>
     <model>Aircraft/Mirage-2000/Models/External-objects/tank1300l/tank1300l.xml</model>
-    <trigger>controls/armament/station[3]/release-C1300</trigger>
+    <trigger>controls/armament/station[3]/RP522</trigger>
     <speed>0</speed>
     <cd>0.035</cd>
     <eda>2.8</eda>
@@ -212,16 +212,21 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[3]</contents>
     <life>1000</life>
+<!--
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
+    <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
+<!--
     <impact-report>sim/ai/aircraft/impact/droptank1300C</impact-report>
+-->
   </submodel>
 
   <submodel>
     <name>left-tank-1700</name>
     <model>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</model>
-    <trigger>controls/armament/station[2]/release-L1700</trigger>
+    <trigger>controls/armament/station[2]/RP502</trigger>
     <speed>1</speed>
     <cd>0.035</cd>
     <eda>2.8</eda>
@@ -238,16 +243,21 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[2]</contents>
     <life>1000</life>
+<!--
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
+    <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
+<!--
     <impact-report>sim/ai/aircraft/impact/droptank1700l</impact-report>
+-->
   </submodel>
 
   <submodel>
     <name>right-tank-1700</name>
     <model>Aircraft/Mirage-2000/Models/External-objects/tank1700l/tank1700l.xml</model>
-    <trigger>controls/armament/station[4]/release-R1700</trigger>
+    <trigger>controls/armament/station[4]/RP501</trigger>
     <speed>1</speed>
     <cd>0.035</cd>
     <eda>2.8</eda>
@@ -264,16 +274,21 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[4]</contents>
     <life>1000</life>
+<!--
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
+    <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
+<!--
     <impact-report>sim/ai/aircraft/impact/droptank1700r</impact-report>
+-->
   </submodel>
 
   <submodel>
     <name>left-tank-2000</name>
     <model>Aircraft/Mirage-2000/Models/External-objects/tank2000l/tank2000l.xml</model>
-    <trigger>controls/armament/station[2]/release-L2000</trigger>
+    <trigger>controls/armament/station[2]/RP542</trigger>
     <speed>1</speed>
     <cd>0.035</cd>
     <eda>2.8</eda>
@@ -290,16 +305,21 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[2]</contents>
     <life>1000</life>
+<!--
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/droptank2000l</impact-report>
+    <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
+<!--
+  <impact-report>sim/ai/aircraft/impact/droptank2000l</impact-report>
+-->
   </submodel>
 
   <submodel>
     <name>right-tank-2000</name>
     <model>Aircraft/Mirage-2000/Models/External-objects/tank2000l/tank2000l.xml</model>
-    <trigger>controls/armament/station[4]/release-R2000</trigger>
+    <trigger>controls/armament/station[4]/RP541</trigger>
     <speed>1</speed>
     <cd>0.035</cd>
     <eda>2.8</eda>
@@ -316,10 +336,15 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[4]</contents>
     <life>1000</life>
+<!--
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
+    <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
+<!--
     <impact-report>sim/ai/aircraft/impact/droptank2000r</impact-report>
+-->
   </submodel>
 
   <!--

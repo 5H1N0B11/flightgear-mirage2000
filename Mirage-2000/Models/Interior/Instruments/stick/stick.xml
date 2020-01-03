@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Based on F14b seat -->
+<PropertyList>
+
+  <path>stick.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>stick.handle</object-name>
+    <object-name>stick.leg</object-name>
+    <object-name>stick.mast</object-name>
+  </animation>
+
+  <animation>
+    <name>bloc_stick_pitch</name>
+    <object-name>stick.leg</object-name>
+    <object-name>stick.mast</object-name>
+    <object-name>stick.handle</object-name>
+  </animation>
+  <animation>
+    <name>bloc_stick_roll</name>
+    <object-name>stick.mast</object-name>
+    <object-name>stick.handle</object-name>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_stick_pitch</object-name>
+    <property>/controls/flight/elevator</property>
+    <factor>-15</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-3.3476</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.76468</z-m>
+    </center>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>bloc_stick_roll</object-name>
+    <property>/controls/flight/aileron</property>
+    <factor>-15</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-3.3243</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.70176</z-m>
+    </center>
+  </animation>
+
+
+
+</PropertyList>

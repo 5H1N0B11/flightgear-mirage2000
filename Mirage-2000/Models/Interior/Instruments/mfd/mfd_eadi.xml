@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>mfd_eadi.ac</path>
+
+  <!-- *************Text*************** -->
+  <model>
+    <name>text3dEADI</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/mfd/mfd_3dtextEADI.xml</path>
+    <offsets>
+      <x-m>-0.008</x-m>
+      <y-m> 0.000</y-m>
+      <z-m> 0.000</z-m>
+      <pitch-deg>0</pitch-deg>
+    </offsets>
+    <condition>
+      <equals>
+        <property>/instrumentation/mfd/modeL</property>
+        <value>0</value>
+      </equals>
+    </condition>
+  </model>
+
+  <animation>
+    <!-- EADI -->
+    <object-name>EADI-Imarker</object-name>
+    <object-name>EADI-Mmarker</object-name>
+    <object-name>EADI-Omarker</object-name>
+    <object-name>EADI-center</object-name>
+    <object-name>EADI-att</object-name>
+    <object-name>EADI-gs.needle</object-name>
+    <object-name>EADI-gs.scale</object-name>
+    <object-name>EADI-yaw-line</object-name>
+    <object-name>EADI-index</object-name>
+    <object-name>EADI-rep</object-name>
+    <object-name>EADI-alt-marker+</object-name>
+    <object-name>EADI-alt-marker---</object-name>
+    <object-name>EADI-ais-marker</object-name>
+    <object-name>EADI-ecran</object-name>
+    <object-name>text3dEADI</object-name>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>EADI-ecran</object-name>
+    <object-name>EADI-Imarker</object-name>
+    <object-name>EADI-Mmarker</object-name>
+    <object-name>EADI-Omarker</object-name>
+    <object-name>EADI-center</object-name>
+    <object-name>EADI-att</object-name>
+    <object-name>EADI-gs.needle</object-name>
+    <object-name>EADI-gs.scale</object-name>
+    <object-name>EADI-yaw-line</object-name>
+    <object-name>EADI-index</object-name>
+    <object-name>EADI-rep</object-name>
+    <object-name>EADI-alt-marker+</object-name>
+    <object-name>EADI-alt-marker---</object-name>
+    <object-name>EADI-ais-marker</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.5 </red>
+      <green> 0.5 </green>
+      <blue>  0.5 </blue>
+    </emission>
+    <ambient>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </ambient>
+    <diffuse>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </diffuse>
+    <specular>
+      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <red>   1 </red>
+      <green> 1 </green>
+      <blue>  1 </blue>
+    </specular>
+  </animation>
+
+  <!-- ***************EADI************* -->
+  <animation>
+    <type>texmultiple</type>
+    <object-name>EADI-att</object-name>
+    <transform>
+      <property>orientation/pitch-deg</property>
+      <subtype>textranslate</subtype>
+      <factor>0.0055</factor>
+      <axis>
+        <x>0</x>
+        <y>1</y>
+        <z>0</z>
+      </axis>
+    </transform>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>EADI-att</object-name>
+    <property>orientation/roll-deg</property>
+    <factor>1</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>EADI-index</object-name>
+    <property>orientation/roll-deg</property>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- GS -->
+  <animation>
+    <type>select</type>
+    <object-name>EADI-gs.needle</object-name>
+    <condition>
+      <property>autopilot/internal/gs-valid</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>EADI-gs.needle</object-name>
+    <property>autopilot/internal/gs-deflection</property>
+    <interpolation>
+      <entry><ind>-1</ind><dep>-0.0162</dep></entry>
+      <entry><ind> 0</ind><dep> 0.0000</dep></entry>
+      <entry><ind> 1</ind><dep> 0.0162</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <!-- ILS -->
+  <animation>
+    <type>select</type>
+    <object-name>EADI-yaw-line</object-name>
+    <condition>
+      <property>autopilot/internal/gs-valid</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>EADI-yaw-line</object-name>
+    <property>autopilot/internal/heading-needle-deflection</property>
+    <interpolation>
+      <entry><ind>-999</ind><dep>-0.02</dep></entry>
+      <entry><ind> -10</ind><dep>-0.02</dep></entry>
+      <entry><ind>   0</ind><dep> 0.00</dep></entry>
+      <entry><ind>  10</ind><dep> 0.02</dep></entry>
+      <entry><ind> 999</ind><dep> 0.02</dep>
+      </entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--Vertical speed-->
+  <!--montee-->
+  <animation>
+    <type>select</type>
+    <object-name>EADI-alt-marker+</object-name>
+    <condition>
+      <greater-than>
+        <property>autopilot/internal/vert-speed-fpm</property>
+        <value>100</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>EADI-alt-marker+</object-name>
+    <property>autopilot/internal/vert-speed-fpm</property>
+    <interpolation>
+      <entry><ind>    0</ind><dep>0.000</dep></entry>
+      <entry><ind>15000</ind><dep>0.022</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>EADI-alt-marker+</object-name>
+    <property>autopilot/internal/vert-speed-fpm</property>
+    <interpolation>
+      <entry><ind>    0</ind><dep>0.0000</dep></entry>
+      <entry><ind>15000</ind><dep>0.0019</dep></entry>
+    </interpolation>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--descente-->
+  <animation>
+    <type>select</type>
+    <object-name>EADI-alt-marker---</object-name>
+    <condition>
+      <less-than>
+        <property>autopilot/internal/vert-speed-fpm</property>
+        <value>-100</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>EADI-alt-marker---</object-name>
+    <property>autopilot/internal/vert-speed-fpm</property>
+    <interpolation>
+      <entry><ind>-15000</ind><dep>-0.022</dep></entry>
+      <entry><ind>     0</ind><dep> 0.000</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>EADI-alt-marker---</object-name>
+    <property>autopilot/internal/vert-speed-fpm</property>
+    <interpolation>
+      <entry><ind>     0</ind><dep>0.000</dep></entry>
+      <entry><ind>-15000</ind><dep>0.002</dep></entry>
+    </interpolation>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>EADI-Imarker</object-name>
+    <condition>
+      <property>/instrumentation/marker-beacon/inner</property>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>EADI-Mmarker</object-name>
+    <condition>
+      <property>/instrumentation/marker-beacon/middle</property>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>EADI-Omarker</object-name>
+    <condition>
+      <property>/instrumentation/marker-beacon/outer</property>
+    </condition>
+  </animation>
+
+</PropertyList>

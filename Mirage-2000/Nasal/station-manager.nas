@@ -125,14 +125,21 @@ var Station = {
 	setPylonListener: func (ml) {
 		me.myListener = ml;
 	},
+	
+	getMass: func {
+		if (me["weaponsMass"] == nil) me.weaponsMass = 0;
+		return [me.weaponsMass, me.launcherMass];
+	},
 
 	calculateMass: func {
 		# do mass
 		me.totalMass = 0;
+		me.weaponsMass = 0;
 		me.singleName = "";#this is hack to show stores locally
 		foreach(me.weapon;me.weapons) {
 			if (me.weapon != nil) {
 				me.totalMass += me.weapon.weight_launch_lbm;
+				me.weaponsMass += me.weapon.weight_launch_lbm;
 				me.singleName = me.weapon.type;#this is hack to show stores locally
 			}
 		}
@@ -186,26 +193,12 @@ var Station = {
 		return nil;
 	},
 
-	getAmmo: func {
-		me.ammo = [];
-		foreach(me.weapon ; me.getWeapons()) {
-			if (me.weapon != nil and me.weapon.parents[0] == armament.AIM) {
-				append(me.ammo, 1);
-			} elsif (me.weapon != nil and me.weapon.parents[0] == SubModelWeapon) {
-				append(me.ammo, me.weapon.getAmmo());
-			} else {
-				append(me.ammo, 0);
-			}
-		}
-		return me.ammo;
-	},
-
-	getAmmo: func (type) {
+	getAmmo: func (type = nil) {
 		me.ammo = 0;
 		foreach(me.weapon ; me.getWeapons()) {
-			if (me.weapon != nil and me.weapon.parents[0] == armament.AIM and me.weapon.type == type) {
+			if (me.weapon != nil and me.weapon.parents[0] == armament.AIM and (type == nil or me.weapon.type == type)) {
 				me.ammo += 1;
-			} elsif (me.weapon != nil and me.weapon.parents[0] == SubModelWeapon and me.weapon.type == type) {
+			} elsif (me.weapon != nil and me.weapon.parents[0] == SubModelWeapon and (type == nil or me.weapon.type == type)) {
 				me.ammo += me.weapon.getAmmo();
 			}
 		}
@@ -437,7 +430,7 @@ var Pylon = {
 			me.launcherDA   = 0;
 		}
 	},
-
+	
 	loadingSet: func (set) {
 		# override this method to set custom attributes, before calculateFDM is ran after a set is loaded.
 		if (set != nil) {
@@ -564,7 +557,7 @@ var SubModelWeapon = {
 		me.trigger.setBoolValue(0);
 	},
 
-	getAmmo: func {
+	getAmmo: func () {
 		# return ammo count
 		var ammo = 0;
 		for(me.i = 0;me.i<size(me.subModelNumbers);me.i+=1) {
