@@ -8,16 +8,19 @@
     <!-- object name in ac file -->
     <object-name>panel.board_asymetric</object-name>
     <object-name>panel.board_asymetric_light</object-name>
+    <object-name>panel.board_asymetric_transparent</object-name>
     <object-name>panel.board_symetric</object-name>
     <object-name>panel.casquette</object-name>
     <object-name>panel.hud</object-name>
     <object-name>panel.sideparts</object-name>
+    <object-name>panneaux</object-name>
   </animation>
 
   <animation>
     <!-- lights : illuminations -->
     <type>material</type>
     <object-name>panel.board_asymetric_light</object-name>
+    <object-name>panel.board_inscriptions</object-name>
     <emission>
       <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
       <red>   0.1 </red>
@@ -38,16 +41,27 @@
     </emission>
   </animation>
 
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
+    <object-name>panel.board_asymetric_transparent</object-name>
+  </effect>
+
   <!-- HIDING PANEL PARTS for backseat -->
   <animation>
     <type>select</type>
     <object-name>panel.sideparts</object-name>
     <object-name>panel.casquette</object-name>
     <object-name>panel.hud</object-name>
+    <object-name>panneaux</object-name>
     <condition>
       <false />
     </condition>
   </animation>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>panel.board_asymetric_transparent</object-name>
+  </effect>
 
   <model>
     <name>stick</name>

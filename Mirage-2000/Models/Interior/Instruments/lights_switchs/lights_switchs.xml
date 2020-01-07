@@ -6,13 +6,27 @@
   <animation>
     <!-- object name in ac file -->
     <object-name>lights_switchs.button1</object-name>
+    <object-name>lights_switchs.button1_light</object-name>
     <object-name>lights_switchs.button2</object-name>
+    <object-name>lights_switchs.button2_light</object-name>
     <object-name>lights_switchs.button3</object-name>
     <object-name>lights_switchs.button4</object-name>
     <object-name>lights_switchs.button5</object-name>
     <object-name>lights_switchs.button6</object-name>
   </animation>
 
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>lights_switchs.button1_light</object-name>
+    <object-name>lights_switchs.button2_light</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
   <animation>
     <!-- lights : flood -->
     <type>material</type>
@@ -58,6 +72,7 @@
   <animation>
     <type>rotate</type>
     <object-name>lights_switchs.button2</object-name>
+    <object-name>lights_switchs.button2_light</object-name>
     <property>/controls/lighting/landing-lights</property>
     <offset-deg>-50</offset-deg>
     <factor>50</factor>
