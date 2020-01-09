@@ -6,8 +6,6 @@
 
   <animation>
     <!-- object name in ac file -->
-    <object-name>attachesArriere-BIPLACE</object-name>
-    <object-name>attachesAvant-BIPLACE</object-name>
     <object-name>intcanopyArriere-BIPLACE</object-name>
     <object-name>intcanopyAvant-BIPLACE</object-name>
     <object-name>interieur-BIPLACE</object-name>
@@ -163,7 +161,6 @@
     <name>IntEnsembleCanopeAvant</name>
     <object-name>intcanopyAvant-BIPLACE</object-name>
     <object-name>intverriereAvant-BIPLACE</object-name>
-    <object-name>attachesAvant-BIPLACE</object-name>
     <object-name>Retroviseur</object-name>
     <object-name>poigneesAvant-BIPLACE</object-name>
     <object-name>loquet_canopy</object-name>
@@ -208,7 +205,6 @@
     <name>IntEnsembleCanopeArriere</name>
     <object-name>intcanopyArriere-BIPLACE</object-name>
     <object-name>intverriereArriere-BIPLACE</object-name>
-    <object-name>attachesArriere-BIPLACE</object-name>
     <object-name>poigneesArriere-BIPLACE</object-name>
   </animation>
 

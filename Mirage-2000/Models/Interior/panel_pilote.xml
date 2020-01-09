@@ -9,7 +9,9 @@
     <object-name>panel.board_asymetric</object-name>
     <object-name>panel.board_asymetric_light</object-name>
     <object-name>panel.board_asymetric_transparent</object-name>
+    <object-name>panel.board_inscriptions</object-name>
     <object-name>panel.board_symetric</object-name>
+    <object-name>panel.buttons_statics</object-name>
     <object-name>panel.casquette</object-name>
     <object-name>panel.hud</object-name>
     <object-name>panel.sideparts</object-name>
@@ -33,6 +35,7 @@
     <type>material</type>
     <object-name>panel.board_asymetric</object-name>
     <object-name>panel.board_symetric</object-name>
+    <object-name>panel.buttons_statics</object-name>
     <emission>
       <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
       <red>   0.012 </red>

@@ -6,6 +6,7 @@
   <animation>
     <!-- object name in ac file -->
     <object-name>fusibles.texte</object-name>
+    <object-name>fusibles.fusibles</object-name>
   </animation>
 
   <animation>

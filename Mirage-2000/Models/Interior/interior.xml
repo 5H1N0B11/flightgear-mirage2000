@@ -6,7 +6,6 @@
 
   <animation>
     <!-- object name in ac file -->
-    <object-name>attaches-MONOPLACE</object-name>
     <object-name>intcanopy-MONOPLACE</object-name>
     <object-name>interieur-MONOPLACE</object-name>
     <object-name>intverriere-MONOPLACE</object-name>
@@ -111,7 +110,6 @@
     <name>IntEnsembleCanope</name>
     <object-name>intcanopy-MONOPLACE</object-name>
     <object-name>intverriere-MONOPLACE</object-name>
-    <object-name>attaches-MONOPLACE</object-name>
     <object-name>Retroviseur</object-name>
     <object-name>poignees-MONOPLACE</object-name>
     <object-name>loquet_canopy</object-name>

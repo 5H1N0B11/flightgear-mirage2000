@@ -50,6 +50,7 @@
   <animation>
     <type>rotate</type>
     <object-name>switch.switch_bat</object-name>
+    <object-name>switch.switch_bat_light</object-name>
     <offset-deg>-25</offset-deg>
     <property>/controls/switches/battery-switch</property>
     <factor>50</factor>
