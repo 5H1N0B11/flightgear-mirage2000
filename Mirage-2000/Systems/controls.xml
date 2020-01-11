@@ -27,6 +27,8 @@
     <tailLight type="bool">true</tailLight>
     <position type="bool">true</position>
     <formation-lights type="bool">true</formation-lights>
+    <cockpit-lights-top type="float">0</cockpit-lights-top>   <!-- 0 or 0.9 -->
+    <cockpit-lights-side type="float">0</cockpit-lights-side> <!-- 0 or 0.9 -->
   </lighting>
   
   <circuit-breakers>

@@ -142,6 +142,8 @@ Electrical_init = func()
     props.globals.getNode("/controls/lighting/landing-lights", 1).setBoolValue(0);
     props.globals.getNode("/controls/lighting/landing-lights[0]", 1).setBoolValue(0);
     props.globals.getNode("/controls/lighting/instrument-lights", 1).setBoolValue(1);
+    props.globals.getNode("/controls/lighting/cockpit-lights-top", 1).setValue(0);
+    props.globals.getNode("/controls/lighting/cockpit-lights-side", 1).setValue(0);
     props.globals.getNode("/controls/anti-ice/prop-heat", 1).setBoolValue(0);
     props.globals.getNode("/controls/anti-ice/pitot-heat", 1).setBoolValue(0);
     props.globals.getNode("/controls/cabin/fan", 1).setBoolValue(0);

@@ -52,6 +52,12 @@
     </condition>
   </model>
 
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/interieur-BIPLACE_lighting</inherits-from>
+    <object-name>interieur-BIPLACE</object-name>
+  </effect>
+
+
   <!-- Tableau de bord pilote -->
   <model>
     <name>panel_pilote</name>

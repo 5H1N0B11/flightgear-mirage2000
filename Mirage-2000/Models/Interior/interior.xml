@@ -15,7 +15,6 @@
     <object-name>seat.seat-MONOPLACE</object-name>
   </animation>
 
-
   <effect>
     <inherits-from>Effects/glass</inherits-from>
     <object-name>intvitres</object-name>
@@ -42,6 +41,12 @@
       </greater-than>
     </condition>
   </model>
+
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/interieur-MONOPLACE_lighting</inherits-from>
+    <object-name>interieur-MONOPLACE</object-name>
+  </effect>
+
 
   <!-- Tableau de bord pilote -->
   <model>

@@ -66,6 +66,19 @@
     <object-name>panel.board_asymetric_transparent</object-name>
   </effect>
 
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/panel.board_asymetric_lighting</inherits-from>
+    <object-name>panel.board_asymetric</object-name>
+  </effect>
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/panel.board_symetric_lighting</inherits-from>
+    <object-name>panel.board_symetric</object-name>
+  </effect>
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/panel.sideparts_lighting</inherits-from>
+    <object-name>panel.sideparts</object-name>
+  </effect>
+
   <model>
     <name>stick</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/stick/stick.xml</path>
