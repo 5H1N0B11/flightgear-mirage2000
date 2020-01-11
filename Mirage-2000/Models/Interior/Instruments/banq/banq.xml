@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>banq.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>banq.bigbut0</object-name>
+    <object-name>banq.bigbut1</object-name>
+    <object-name>banq.but0</object-name>
+    <object-name>banq.but1</object-name>
+    <object-name>banq.but2</object-name>
+    <object-name>banq.but3</object-name>
+    <object-name>banq.texte</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>banq.texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>banq.bigbut0</object-name>
+    <object-name>banq.bigbut1</object-name>
+    <object-name>banq.but0</object-name>
+    <object-name>banq.but1</object-name>
+    <object-name>banq.but2</object-name>
+    <object-name>banq.but3</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+
+  <animation>
+    <type>pick</type>
+    <object-name>banq.but0</object-name>
+    <condition><property>sim/rendering/rembrandt/enabled</property></condition>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <binding>
+        <command>property-adjust</command>
+        <property>/controls/lighting/boardLightUV</property>
+        <step>0.04</step>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>banq.but0</object-name>
+    <condition><property>sim/rendering/rembrandt/enabled</property></condition>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <binding>
+        <command>property-adjust</command>
+        <property>/controls/lighting/boardLightUV</property>
+        <step>-0.04</step>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>banq.but0</object-name>
+    <object-name>banq.bigbut0</object-name>
+    <condition><property>sim/rendering/rembrandt/enabled</property></condition>
+    <property>/controls/lighting/boardLightUV</property>
+    <factor>180</factor>
+    <offset-deg>-180</offset-deg>
+    <center>
+      <x-m>-3.2528</x-m>
+      <y-m>0.28745</y-m>
+      <z-m>-0.59079</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+
+  <animation>
+    <type>pick</type>
+    <object-name>banq.but1</object-name>
+    <condition><property>sim/rendering/rembrandt/enabled</property></condition>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <binding>
+        <command>property-adjust</command>
+        <property>/controls/lighting/sideLightUV</property>
+        <step>0.04</step>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>banq.but1</object-name>
+    <condition><property>sim/rendering/rembrandt/enabled</property></condition>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <binding>
+        <command>property-adjust</command>
+        <property>/controls/lighting/sideLightUV</property>
+        <step>-0.04</step>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>banq.but1</object-name>
+    <object-name>banq.bigbut1</object-name>
+    <condition><property>sim/rendering/rembrandt/enabled</property></condition>
+    <property>/controls/lighting/sideLightUV</property>
+    <factor>180</factor>
+    <offset-deg>-180</offset-deg>
+    <center>
+      <x-m>-3.2528</x-m>
+      <y-m>0.3111</y-m>
+      <z-m>-0.59079</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>banq.but2</object-name>
+    <action>
+      <button>4</button>
+      <!--  scroll up -->
+      <binding>
+        <command>property-adjust</command>
+        <property>/controls/lighting/instruments-norm</property>
+        <step>0.04</step>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>banq.but2</object-name>
+    <action>
+      <button>3</button>
+      <!--  scroll down -->
+      <binding>
+        <command>property-adjust</command>
+        <property>/controls/lighting/instruments-norm</property>
+        <step>-0.04</step>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>banq.but2</object-name>
+    <property>/controls/lighting/instruments-norm</property>
+    <factor>270</factor>
+    <offset-deg>-270</offset-deg>
+    <center>
+      <x-m>-3.2528</x-m>
+      <y-m>0.32762</y-m>
+      <z-m>-0.59152</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>-1</z>
+    </axis>
+  </animation>
+
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>banq.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Cockpit Lights</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.27</x-m>
+      <y-m>0.3</y-m>
+      <z-m>-0.57</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>banq.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>banq.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+</PropertyList>

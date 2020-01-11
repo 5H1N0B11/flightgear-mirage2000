@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>panel.ac</path>
+
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>panel.board_asymetric</object-name>
+    <object-name>panel.board_asymetric_light</object-name>
+    <object-name>panel.board_asymetric_transparent</object-name>
+    <object-name>panel.board_inscriptions</object-name>
+    <object-name>panel.board_symetric</object-name>
+    <object-name>panel.buttons_statics</object-name>
+    <object-name>panel.casquette</object-name>
+    <object-name>panel.hud</object-name>
+    <object-name>panel.sideparts</object-name>
+    <object-name>panneaux</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>panel.board_asymetric_light</object-name>
+    <object-name>panel.board_inscriptions</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>panel.board_asymetric</object-name>
+    <object-name>panel.board_symetric</object-name>
+    <object-name>panel.buttons_statics</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>panel.board_asymetric_transparent</object-name>
+  </effect>
+
+  <!-- HIDING PANEL PARTS for backseat -->
+  <animation>
+    <type>select</type>
+    <object-name>panel.sideparts</object-name>
+    <object-name>panel.casquette</object-name>
+    <object-name>panel.hud</object-name>
+    <object-name>panneaux</object-name>
+    <condition>
+      <false />
+    </condition>
+  </animation>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>panel.board_asymetric_transparent</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/panel.board_asymetric_lighting</inherits-from>
+    <object-name>panel.board_asymetric</object-name>
+  </effect>
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/panel.board_symetric_lighting</inherits-from>
+    <object-name>panel.board_symetric</object-name>
+  </effect>
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/panel.sideparts_lighting</inherits-from>
+    <object-name>panel.sideparts</object-name>
+  </effect>
+
+  <model>
+    <name>stick</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/stick/stick.xml</path>
+  </model>
+
+<!--
+  <model>
+    <name>revi</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/revi/revi.xml</path>
+  </model>
+-->
+
+  <model>
+    <name>left_mfd</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/mfd/left_mfd.xml</path>
+  </model>
+
+  <model>
+    <name>right_mfd</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/mfd/right_mfd.xml</path>
+  </model>
+
+  <model>
+    <name>transpondeur</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/transpondeur/transpondeur.xml</path>
+  </model>
+
+  <model>
+    <name>adi</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/adi/adi.xml</path>
+  </model>
+
+  <model>
+    <name>infos</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/infos/infos.xml</path>
+  </model>
+
+  <model>
+    <name>carburant</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/carburant/carburant.xml</path>
+  </model>
+
+  <model>
+    <name>tuyere</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/tuyere/tuyere.xml</path>
+  </model>
+
+  <model>
+    <name>ap</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/ap/ap.xml</path>
+  </model>
+
+  <model>
+    <name>weapons</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/weapons/weapons.xml</path>
+  </model>
+
+  <model>
+    <name>center_mfd</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/center_mfd/center_mfd.xml</path>
+  </model>
+
+<!--
+  <model>
+    <name>manette</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/manette/manette.xml</path>
+  </model>
+-->
+
+  <model>
+    <name>radar</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/radar/radar.xml</path>
+    <offsets>
+      <x-m>-3.35</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.116</z-m>
+      <pitch-deg>-8</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <name>surf-indic</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/surf-indic/surf-indic.xml</path>
+    <offsets>
+      <x-m>-3.523</x-m>
+      <y-m>-0.16</y-m>
+      <z-m>-0.164</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <name>clock</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/clock/clock.xml</path>
+    <offsets>
+      <x-m>-3.425</x-m>
+      <y-m>0.05</y-m>
+      <z-m>-0.04</z-m>
+    </offsets>
+  </model>
+
+<!--
+TODO: place lights
+-->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/lights/Light-EffectUp.xml</path>
+    <name>EffectTopLeft</name>
+    <offsets>
+      <x-m>  0.50719 </x-m>
+      <y-m> -0.20777 </y-m>
+      <z-m>  0.03983 </z-m>
+      <pitch-deg>93</pitch-deg>
+      <heading-deg>5</heading-deg>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>EffectTopLeft</object-name>
+    <condition>
+      <and>
+        <property>sim/rendering/rembrandt/enabled</property>
+        <not>
+          <equals>
+            <property>/systems/electrical/outputs/boardLightUV</property>
+            <value>0</value>
+          </equals>
+        </not>
+      </and>
+    </condition>
+  </animation>
+
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/lights/Light-EffectUp.xml</path>
+    <name>EffectTopRight</name>
+    <offsets>
+      <x-m> 0.50719 </x-m>
+      <y-m> 0.20777 </y-m>
+      <z-m> 0.03983 </z-m>
+      <pitch-deg> 90 </pitch-deg>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>EffectTopRight</object-name>
+    <condition>
+      <and>
+        <property>sim/rendering/rembrandt/enabled</property>
+        <not>
+          <equals>
+            <property>/systems/electrical/outputs/boardLightUV</property>
+            <value>0</value>
+          </equals>
+        </not>
+      </and>
+    </condition>
+  </animation>
+  
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/lights/Light-EffectSide.xml</path>
+    <name>banqRight</name>
+    <offsets>
+      <x-m>  0.70 </x-m>
+      <y-m>  0.38 </y-m>
+      <z-m> -0.26 </z-m>
+      <pitch-deg> 15 </pitch-deg>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>banqRight</object-name>
+    <condition>
+      <and>
+        <property>sim/rendering/rembrandt/enabled</property>
+        <not>
+          <equals>
+            <property>/systems/electrical/outputs/sideLightUV</property>
+            <value>0</value>
+          </equals>
+        </not>
+      </and>
+    </condition>
+  </animation>
+
+<!--
+  <model>
+    <name>HUD_ADDS</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/hud/hud.xml</path>
+    <offsets>
+      <x-m>0.6000</x-m>
+      <y-m>0.0000</y-m>
+      <z-m>0.1945</z-m>
+    </offsets>
+  </model>
+-->
+
+  <model>
+    <name>switchs</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/switchs/switchs.xml</path>
+  </model>
+
+  <model>
+    <name>failures</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/failures/failures.xml</path>
+  </model>
+
+  <model>
+    <name>vor-ils</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/vor-ils/vor-ils.xml</path>
+  </model>
+
+  <model>
+    <name>tacan</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/tacan/tacan.xml</path>
+  </model>
+
+  <model>
+    <name>cond</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/cond/cond.xml</path>
+  </model>
+
+  <model>
+    <name>banq</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/banq/banq.xml</path>
+  </model>
+
+  <model>
+    <name>modes</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/modes/modes.xml</path>
+  </model>
+
+  <model>
+    <name>starter</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/starter/starter.xml</path>
+  </model>
+
+  <model>
+    <name>fusibles</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/fusibles/fusibles.xml</path>
+  </model>
+
+  <model>
+    <name>gear_lever</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/gear_lever/gear_lever.xml</path>
+  </model>
+
+  <model>
+    <name>gears</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/gears/gears.xml</path>
+  </model>
+
+  <model>
+    <name>jettison</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/jettison/jettison.xml</path>
+  </model>
+
+  <model>
+    <name>lights_switchs</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/lights_switchs/lights_switchs.xml</path>
+  </model>
+
+  <model>
+    <name>poignee</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/poignee/poignee.xml</path>
+  </model>
+
+  <model>
+    <name>throttle</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/throttle/throttle.xml</path>
+  </model>
+
+
+</PropertyList>

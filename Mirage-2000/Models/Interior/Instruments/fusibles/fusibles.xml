@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>fusibles.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>fusibles.texte</object-name>
+    <object-name>fusibles.fusibles</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>fusibles.texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+
+</PropertyList>

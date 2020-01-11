@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>manette.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>manette.manette1</object-name>
+    <object-name>manette.manette2</object-name>
+  </animation>
+
+  <animation>
+    <name>manette.Manette</name>
+    <object-name>manette.manette1</object-name>
+    <object-name>manette.manette2</object-name>
+  </animation>
+  
+  <animation>
+    <type>pick</type>
+    <object-name>manette.Manette</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>doors.move_canopy_lock();</script>
+      </binding>
+    </action>
+  </animation>
+  
+  <animation>
+    <type>rotate</type>
+    <object-name>manette.Manette</object-name>
+    <property>sim/model/door-positions/crew/position-norm</property>
+    <interpolation>
+      <entry><ind> 0.00 </ind><dep> -60 </dep></entry>
+      <entry><ind> 0.02 </ind><dep> -60 </dep></entry>
+      <entry><ind> 0.05 </ind><dep>   0 </dep></entry>
+      <entry><ind> 1.00 </ind><dep>   0 </dep></entry>
+    </interpolation>
+    <center>
+      <x-m>-3.1004</x-m>
+      <y-m>0.34835</y-m>
+      <z-m>-0.358</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  
+  <animation>
+    <type>rotate</type>
+    <object-name>manette.manette2</object-name>
+    <property>sim/model/door-positions/crew/position-norm</property>
+    <interpolation>
+      <entry><ind> 0.00 </ind><dep>  0 </dep></entry>
+      <entry><ind> 0.02 </ind><dep> 70 </dep></entry>
+      <entry><ind> 1.00 </ind><dep> 70 </dep></entry>
+    </interpolation>
+    <center>
+      <x-m>-3.1004</x-m>
+      <y-m>0.33701</y-m>
+      <z-m>-0.3041</z-m>
+    </center>
+    <axis>
+      <x> 1 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>manette.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Canopy Lock</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.1</x-m>
+      <y-m>.32</y-m>
+      <z-m>-0.23</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>manette.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>manette.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+</PropertyList>

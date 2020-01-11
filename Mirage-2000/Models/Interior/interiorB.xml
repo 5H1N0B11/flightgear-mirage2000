@@ -1,29 +1,26 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
 
   <path>interiorB.ac</path>
 
   <animation>
-
-    <!-- Objets opaques -->
-    <object-name>interieur-BIPLACE</object-name>
-    <object-name>intcanopyAvant-BIPLACE</object-name>
+    <!-- object name in ac file -->
     <object-name>intcanopyArriere-BIPLACE</object-name>
-    <object-name>attachesAvant-BIPLACE</object-name>
-    <object-name>poigneesAvant-BIPLACE</object-name>
-    <object-name>attachesArriere-BIPLACE</object-name>
-    <object-name>poigneesArriere-BIPLACE</object-name>
-
-    <!-- Objets transparents -->
+    <object-name>intcanopyAvant-BIPLACE</object-name>
+    <object-name>interieur-BIPLACE</object-name>
+    <object-name>intverriereArriere-BIPLACE</object-name>
+    <object-name>intverriereAvant-BIPLACE</object-name>
     <object-name>intvitres</object-name>
     <object-name>intvitres-BIPLACE</object-name>
-    <object-name>intverriereAvant-BIPLACE</object-name>
-    <object-name>intverriereArriere-BIPLACE</object-name>
-
+    <object-name>poigneesArriere-BIPLACE</object-name>
+    <object-name>poigneesAvant-BIPLACE</object-name>
+    <object-name>seat.backframe-BIPLACE</object-name>
+    <object-name>seat.backseat-BIPLACE</object-name>
+    <object-name>seat.frame-BIPLACE</object-name>
+    <object-name>seat.seat-BIPLACE</object-name>
   </animation>
 
-  <!-- working for Rembrandt -->
   <effect>
     <inherits-from>Effects/glass</inherits-from>
     <object-name>intvitres</object-name>
@@ -32,7 +29,7 @@
     <object-name>intverriereArriere-BIPLACE</object-name>
   </effect>
   
-  <!--animation>
+  <animation>
     <type>select</type>
     <object-name>intvitres</object-name>
     <object-name>intvitres-BIPLACE</object-name>
@@ -53,127 +50,46 @@
         <value>0.1</value>
       </greater-than>
     </condition>
-  </model-->
-
-
-  <model>
-    <name>Stick</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/stick/stick.xml</path>
-    <offsets>
-      <x-m> -3.0 </x-m>
-      <y-m>  0.000 </y-m>
-      <z-m> -0.65 </z-m>
-    </offsets>
   </model>
-  
-  <!-- REVI -->
-  <model>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Revi/revi.xml</path>
-  </model>
-  
+
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/interieur-BIPLACE_lighting</inherits-from>
+    <object-name>interieur-BIPLACE</object-name>
+  </effect>
 
 
   <!-- Tableau de bord pilote -->
   <model>
-    <name>Panel</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/panel.xml</path>
-    <offsets>
-      <x-m> -3.653 </x-m>
-      <y-m>  0.000 </y-m>
-      <z-m> -0.297 </z-m>
-      <pitch-deg> -14 </pitch-deg>
-    </offsets>
+    <name>panel_pilote</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/panel_pilote.xml</path>
   </model>
+
   <!-- Tableau de bord copilote -->
   <model>
-    <name>Panel_Back</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/panel_back.xml</path>
+    <name>panel_copilote</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/panel_copilote.xml</path>
     <offsets>
-      <x-m> -2 </x-m>
-      <y-m>  0.0 </y-m>
-      <z-m> -0.1 </z-m>
-      <pitch-deg> -14 </pitch-deg>
+      <x-m>1.62 </x-m>
+      <y-m>0</y-m>
+      <z-m>0.26</z-m>
     </offsets>
   </model>
 
-  <!-- left part pilote -->
+  <!-- retro -->
   <model>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Left-Panel/left.xml</path>
+    <name>retro</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/retro/retro.xml</path>
     <offsets>
-      <x-m> -3.105 </x-m>
-      <y-m> -0.281 </y-m>
-      <z-m> -0.503 </z-m>
-    </offsets>
-  </model>
-  <!-- left part copilote -->
-  <model>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Left-Panel/left.xml</path>
-    <offsets>
-      <x-m> -1.478 </x-m>
-      <y-m> -0.268 </y-m>
-      <z-m> -0.390 </z-m>
-      <heading-deg> 2 </heading-deg>
+      <x-m>-3.28 </x-m>
+      <y-m>0.00000</y-m>
+      <z-m>0.2</z-m>
     </offsets>
   </model>
 
-  <!-- right part pilote -->
+  <!-- loquet -->
   <model>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/right.xml</path>
-    <offsets>
-      <x-m> -3.105 </x-m>
-      <y-m>  0.281 </y-m>
-      <z-m> -0.503 </z-m>
-    </offsets>
-  </model>
-  <!-- right part copilote -->
-  <model>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Right-Panel/right.xml</path>
-    <offsets>
-      <x-m> -1.478 </x-m>
-      <y-m>  0.268 </y-m>
-      <z-m> -0.390 </z-m>
-      <heading-deg> -2 </heading-deg>
-    </offsets>
-  </model>
-
-  <!-- Retro -->
-  <model>
-    <name>Retroviseur</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Retro/retro.xml</path>
-    <offsets>
-      <x-m> -3.28 </x-m>
-      <y-m>  0.00000 </y-m>
-      <z-m>  0.2 </z-m>
-    </offsets>
-  </model>
-
-  <!-- Manette pilote -->
-  <model>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/manette/manette.xml</path>
-    <offsets>
-      <x-m> -3.070 </x-m>
-      <y-m>  0.364 </y-m>
-      <z-m> -0.350 </z-m>
-      <roll-deg>     5 </roll-deg>
-      <heading-deg> 10 </heading-deg>
-    </offsets>
-  </model>
-  <!-- Manette copilote -->
-  <model>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/manette/manette.xml</path>
-    <offsets>
-      <x-m> -1.400 </x-m>
-      <y-m>  0.320 </y-m>
-      <z-m> -0.150 </z-m>
-      <roll-deg>     5 </roll-deg>
-      <heading-deg> 10 </heading-deg>
-    </offsets>
-  </model>
-
-  <!-- Loquet -->
-  <model>
-    <name>LeLoquet</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/loquet/loquet.xml</path>
+    <name>loquet_canopy</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/loquet/loquet.xml</path>
     <offsets>
       <x-m> -3.323 </x-m>
       <y-m>  0.122 </y-m>
@@ -186,6 +102,7 @@
 
   <!-- pilot -->
   <model>
+    <name>pilot</name>
     <path>Aircraft/Mirage-2000/Models/Pilot/pilot.xml</path>
     <condition>
       <or>
@@ -208,13 +125,15 @@
       </or>
     </condition>
     <offsets>
-      <x-m> -2.518 </x-m>
+      <x-m> -2.8 </x-m>
       <y-m>  0.000 </y-m>
       <z-m> -0.464 </z-m>
     </offsets>
   </model>
+
   <!-- copilot -->
   <model>
+    <name>copilot</name>
     <path>Aircraft/Mirage-2000/Models/Pilot/pilot.xml</path>
     <condition>
       <or>
@@ -237,40 +156,20 @@
       </or>
     </condition>
     <offsets>
-      <x-m> -0.971 </x-m>
+      <x-m> -1.15 </x-m>
       <y-m>  0.000 </y-m>
-      <z-m> -0.276 </z-m>
+      <z-m> -0.23 </z-m>
     </offsets>
   </model>
 
-  <!-- Seat pilot -->
-  <model>
-    <path>Aircraft/Mirage-2000/Models/Interior/seat/seat.xml</path>
-    <offsets>
-      <x-m> -2.555 </x-m>
-      <y-m>  0.000 </y-m>
-      <z-m> -0.502 </z-m>
-    </offsets>
-  </model>
-  <!-- Seat copilot -->
-  <model>
-    <path>Aircraft/Mirage-2000/Models/Interior/seat/seat.xml</path>
-    <offsets>
-      <x-m> -0.971 </x-m>
-      <y-m>  0.000 </y-m>
-      <z-m> -0.276 </z-m>
-    </offsets>
-  </model>
-
-  <!-- Canopy pilot-->
+  <!-- canopy pilot -->
   <animation>
     <name>IntEnsembleCanopeAvant</name>
     <object-name>intcanopyAvant-BIPLACE</object-name>
     <object-name>intverriereAvant-BIPLACE</object-name>
-    <object-name>attachesAvant-BIPLACE</object-name>
     <object-name>Retroviseur</object-name>
     <object-name>poigneesAvant-BIPLACE</object-name>
-    <object-name>LeLoquet</object-name>
+    <object-name>loquet_canopy</object-name>
   </animation>
 
   <animation>
@@ -307,12 +206,11 @@
     </axis>
   </animation>
 
-  <!-- Canopy copilot-->
+  <!-- canopy copilot-->
   <animation>
     <name>IntEnsembleCanopeArriere</name>
     <object-name>intcanopyArriere-BIPLACE</object-name>
     <object-name>intverriereArriere-BIPLACE</object-name>
-    <object-name>attachesArriere-BIPLACE</object-name>
     <object-name>poigneesArriere-BIPLACE</object-name>
   </animation>
 
@@ -352,8 +250,8 @@
 
   <!-- LoD -->
   <animation>
-    <object-name>Panel</object-name>
-    <object-name>Panel_Back</object-name>
+    <object-name>panel_pilote</object-name>
+    <object-name>panel_copilote</object-name>
     <type>range</type>
     <min-m>  0 </min-m>
     <max-m> 100 </max-m>

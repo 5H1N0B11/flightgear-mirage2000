@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>switchs.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>switch.switch_alt</object-name>
+    <object-name>switch.switch_bat</object-name>
+    <object-name>switch.switch_bat_light</object-name>
+    <object-name>switch.switch_test</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>switch.switch_bat_light</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>switch.switch_alt</object-name>
+    <object-name>switch.switch_bat</object-name>
+    <object-name>switch.switch_test</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>switch.switch_bat</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/battery-switch</property>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>switch.switch_bat</object-name>
+    <object-name>switch.switch_bat_light</object-name>
+    <offset-deg>-25</offset-deg>
+    <property>/controls/switches/battery-switch</property>
+    <factor>50</factor>
+    <center>
+      <x-m>-3.4883</x-m>
+      <y-m>0.27801</y-m>
+      <z-m>-0.50112</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>switch.switch_alt</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/transformator-switch</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/ALT1-switch</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/switches/ALT2-switch</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch.switch_alt</object-name>
+    <property>/controls/switches/transformator-switch</property>
+    <factor>40</factor>
+    <center>
+      <x-m>-3.4883</x-m>
+      <y-m>0.27801</y-m>
+      <z-m>-0.50112</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>switch.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Power Switchs</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.48</x-m>
+      <y-m>.28</y-m>
+      <z-m>-.5</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>switch.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>switch.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+
+</PropertyList>

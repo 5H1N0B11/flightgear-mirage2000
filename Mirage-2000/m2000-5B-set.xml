@@ -2,19 +2,19 @@
 
 <PropertyList include="Systems/m2000-5B-base.xml">
 
-
   <scalp-pos-norm type="float">0</scalp-pos-norm>
 
+  <_debug>
+    <x type="float">0</x>
+    <y type="float">0</y>
+    <z type="float">0</z>
+  </_debug>
 
   <sim>
-
-    <description>Mirage 2000 Biplace (B, N, D) (YASim)</description>
-    <author>BARANGER Emmanuel (3D/FDM), Buckaroo (FDM), 5H1N0B1 (Weapons, systems), F-Sig and hardball (3D, systems, dual seat), Joshua Davidson (FCS/FBW/Autopilot)
-    Leto, Richard, onox, legoboyvdlp, Domokos Juttner (Rudolf),ravenclaw_007</author>
-    
+    <description>Mirage 2000 Biplace (YaSim)</description>
+    <author>Elijah (3D/FDM), Buckaroo (FDM), 5H1N0B1 (Weapons, systems), F-Sig, hardball (3D, systems, dual seat), Joshua Davidson (FCS/FBW/Autopilot), Leto, Richard, onox, legoboyvdlp, Domokos Juttner (Rudolf), ravenclaw_007</author>
     <long-description>The Dassault Mirage 2000 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
-
-    <aircraft-version>2015-09-16</aircraft-version>
+    <aircraft-version>2019-12-31</aircraft-version>
     <status>production</status>
     <variant-of>m2000-5</variant-of>
 
@@ -27,8 +27,6 @@
       <cockpit type="int"> 3 </cockpit>
       <model   type="int"> 4 </model>
     </rating>
-    
-    <fallback-model-index type="int">527</fallback-model-index>
 
     <tags>
         <tag>dassault</tag>
@@ -47,6 +45,8 @@
         <tag>hud</tag>
         <tag>afterburner</tag>
     </tags>
+    
+    <fallback-model-index type="int">527</fallback-model-index>
 
   </sim>
 

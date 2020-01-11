@@ -74,7 +74,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/tracer.xml
 
     <submodel-path>Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml</submodel-path>
     <yaw-offset>0</yaw-offset>
-    <!--The m2000-5's guns have a negatif angle : -2°-->
+    <!--The m2000-5's guns have a negatif angle : -2ï¿½-->
     <pitch-offset>0</pitch-offset>
   </cannon>
 
@@ -212,11 +212,15 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[3]</contents>
     <life>1000</life>
-<!--    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/tank</collision-report>-->
+<!--
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
     <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
-<!--    <impact-report>sim/ai/aircraft/impact/droptank1300C</impact-report>-->
+<!--
+    <impact-report>sim/ai/aircraft/impact/droptank1300C</impact-report>
+-->
   </submodel>
 
   <submodel>
@@ -239,11 +243,15 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[2]</contents>
     <life>1000</life>
-<!--    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/tank</collision-report>-->
+<!--
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
     <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
-<!--    <impact-report>sim/ai/aircraft/impact/droptank1700l</impact-report>-->
+<!--
+    <impact-report>sim/ai/aircraft/impact/droptank1700l</impact-report>
+-->
   </submodel>
 
   <submodel>
@@ -266,11 +274,15 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[4]</contents>
     <life>1000</life>
-<!--    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/tank</collision-report>-->
+<!--
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
-		<impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
-<!--     <impact-report>sim/ai/aircraft/impact/droptank1700r</impact-report> -->
+    <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
+<!--
+    <impact-report>sim/ai/aircraft/impact/droptank1700r</impact-report>
+-->
   </submodel>
 
   <submodel>
@@ -293,11 +305,15 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[2]</contents>
     <life>1000</life>
-<!--    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/tank</collision-report>-->
+<!--
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
     <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
-<!--     <impact-report>sim/ai/aircraft/impact/droptank2000l</impact-report> -->
+<!--
+  <impact-report>sim/ai/aircraft/impact/droptank2000l</impact-report>
+-->
   </submodel>
 
   <submodel>
@@ -320,11 +336,15 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
     <pitch-offset>-1</pitch-offset>
     <contents>consumables/fuel/tank[4]</contents>
     <life>1000</life>
-<!--    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/tank</collision-report>-->
+<!--
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/tank</collision-report>
+-->
     <impact>true</impact>
     <impact-reports>sim/ai/aircraft/impact/droptank</impact-reports>
-<!--     <impact-report>sim/ai/aircraft/impact/droptank2000r</impact-report> -->
+<!--
+    <impact-report>sim/ai/aircraft/impact/droptank2000r</impact-report>
+-->
   </submodel>
 
   <!--

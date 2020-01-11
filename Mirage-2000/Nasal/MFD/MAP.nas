@@ -182,7 +182,7 @@ var rightMFDcanvas = {
           (m.num_tiles[1] - 1) / 2
       ];
       # simple aircraft icon at current position/center of the map
-      m.filename = "Aircraft/Mirage-2000/Models/Interior/Panel/Instruments/Mfd/littleaircraftRed.svg";
+      m.filename = "Aircraft/Mirage-2000/Models/Interior/Instruments/mfd/littleaircraftRed.svg";
       m.svg_symbol = m.root.createChild("group").set("z-index",9750);
       canvas.parsesvg(m.svg_symbol, m.filename);
       m.svg_symbol.setScale(0.05);
@@ -385,7 +385,7 @@ var rightMFDcanvas = {
     #Other function like zoom in/out changing tile index, etc
 };
 
-var myRightMfd = mirage2000.rightMFDcanvas.new({"node": "canvasCadre", "texture": "canvasTex.png"});
+var myRightMfd = mirage2000.rightMFDcanvas.new({"node": "right_mfd.canvasCadre", "texture": "canvasTex.png"});
 myRightMfd.update();
 
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>throttle.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>throttle.accrocheradar</object-name>
+    <object-name>throttle.altradio</object-name>
+    <object-name>throttle.calageantenne</object-name>
+    <object-name>throttle.lanceleurres</object-name>
+    <object-name>throttle.rearmcalcul</object-name>
+    <object-name>throttle.selectguns</object-name>
+    <object-name>throttle.throttle</object-name>
+  </animation>
+
+  <animation>
+    <name>throttle.ManetteGaz</name>
+    <object-name>throttle.throttle</object-name>
+    <object-name>throttle.selectguns</object-name>
+    <object-name>throttle.accrocheradar</object-name>
+    <object-name>throttle.altradio</object-name>
+    <object-name>throttle.rearmcalcul</object-name>
+    <object-name>throttle.calageantenne</object-name>
+    <object-name>throttle.lanceleurres</object-name>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>throttle.ManetteGaz</object-name>
+    <property>/controls/engines/engine/throttle</property>
+    <factor>-0.16</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>throttle.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Throttle</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.25</x-m>
+      <y-m>-.27</y-m>
+      <z-m>-.58</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>throttle.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>throttle.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+</PropertyList>

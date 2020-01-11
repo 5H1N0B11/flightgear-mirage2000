@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>tuyere.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>tuyere.needle</object-name>
+    <object-name>tuyere.num1-1</object-name>
+    <object-name>tuyere.num1-2</object-name>
+    <object-name>tuyere.num1-3</object-name>
+    <object-name>tuyere.num2-0</object-name>
+    <object-name>tuyere.num2-1</object-name>
+    <object-name>tuyere.num2-2</object-name>
+    <object-name>tuyere.num2-3</object-name>
+    <object-name>tuyere.num3-0</object-name>
+    <object-name>tuyere.num3-1</object-name>
+    <object-name>tuyere.num3-2</object-name>
+    <object-name>tuyere.num3-3</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>tuyere.needle</object-name>
+    <object-name>tuyere.num1-1</object-name>
+    <object-name>tuyere.num1-2</object-name>
+    <object-name>tuyere.num1-3</object-name>
+    <object-name>tuyere.num2-0</object-name>
+    <object-name>tuyere.num2-1</object-name>
+    <object-name>tuyere.num2-2</object-name>
+    <object-name>tuyere.num2-3</object-name>
+    <object-name>tuyere.num3-0</object-name>
+    <object-name>tuyere.num3-1</object-name>
+    <object-name>tuyere.num3-2</object-name>
+    <object-name>tuyere.num3-3</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+
+
+
+  <!-- ________________ n1 % _________________-->
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num3-0</object-name>
+    <property>/engines/engine/n1</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num3-1</object-name>
+    <property>/engines/engine/n1</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num3-2</object-name>
+    <property>/engines/engine/n1</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num3-3</object-name>
+    <property>/engines/engine/n1</property>
+    <factor>1</factor>
+    <step>0.1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- _______________________EGT C°_____________________-->
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num2-0</object-name>
+    <property>/engines/engine[0]/egt-degC</property>
+    <factor>0.0001</factor>
+    <step>1000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num2-1</object-name>
+    <property>/engines/engine[0]/egt-degC</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num2-2</object-name>
+    <property>engines/engine[0]/egt-degC</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num2-3</object-name>
+    <property>engines/engine[0]/egt-degC</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- _______________________EPR  Engine pressure ratio_____________________-->
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num1-1</object-name>
+    <property>/instrumentation/consumables/consumption_per_min</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num1-2</object-name>
+    <property>/instrumentation/consumables/consumption_per_min</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.num1-3</object-name>
+    <property>/instrumentation/consumables/consumption_per_min</property>
+    <factor>1</factor>
+    <step>0.1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>tuyere.needle</object-name>
+    <property>/controls/engines/engine/n1</property>
+    <factor>0.0049</factor>
+    <step>0.001</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+    </axis>
+  </animation>
+
+
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>tuyere.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Engine</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.49</x-m>
+      <y-m>.22</y-m>
+      <z-m>-.44</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>tuyere.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>tuyere.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+
+
+</PropertyList>

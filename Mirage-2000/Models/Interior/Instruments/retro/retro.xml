@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>retro.ac</path>
+
+  <animation>
+    <object-name>base</object-name>
+    <object-name>retro</object-name>
+  </animation>
+
+  <effect>
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/mirror/mirror</inherits-from>
+    <object-name>retro</object-name>
+  </effect>
+
+
+  <animation>
+    <type>pick</type>
+    <object-name>base</object-name>
+    <object-name>retro</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/retro/folded</property>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>base</object-name>
+    <object-name>retro</object-name>
+    <property>/controls/retro/folded</property>
+    <factor>70</factor>
+    <center>
+      <x-m>0.02</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.001</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

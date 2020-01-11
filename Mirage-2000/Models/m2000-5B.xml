@@ -5,7 +5,7 @@
 
    <nasal>
     <load>
-    <![CDATA[
+      <![CDATA[
 
       ########################################################################################
       # WARNING : The on-load Nasal is not executed when this file is loaded as the
@@ -67,7 +67,7 @@
       ]]>
     </load>
     <unload>
-    <![CDATA[
+      <![CDATA[
       #myDecodeur.stop();
       #myBoolDecodeur.stop();
       removelistener(LoadListening);
@@ -121,13 +121,12 @@
     </axis>
   </animation>
 
-  <!-- Canopy pilot-->
+  <!-- open canopy pilot-->
   <animation>
     <name>EnsembleCanopeAvant</name>
     <object-name>canopeAvant-BIPLACE</object-name>
     <object-name>verriereAvant-BIPLACE</object-name>
   </animation>
-
   <animation>
     <type>rotate</type>
     <object-name>EnsembleCanopeAvant</object-name>
@@ -148,13 +147,12 @@
     </axis>
   </animation>
   
-  <!-- Canopy copilot-->
+  <!-- open canopy copilot-->
   <animation>
     <name>EnsembleCanopeArriere</name>
     <object-name>canopeArriere-BIPLACE</object-name>
     <object-name>verriereArriere-BIPLACE</object-name>
   </animation>
-
   <animation>
     <type>rotate</type>
     <object-name>EnsembleCanopeArriere</object-name>
@@ -173,6 +171,24 @@
       <y> 1 </y>
       <z> 0 </z>
     </axis>
+  </animation>
+
+  <!-- remove canopy if ejection -->
+  <animation>
+    <type>select</type>
+    <object-name>EnsembleCanopeAvant</object-name>
+    <object-name>EnsembleCanopeArriere</object-name>
+    <object-name>IntEnsembleCanopeAvant</object-name>
+    <object-name>IntEnsembleCanopeArriere</object-name>
+    <object-name>retro</object-name>
+    <object-name>loquet</object-name>
+    <object-name>pilot</object-name>
+    <object-name>copilot</object-name>
+    <object-name>seat.backseat-BIPLACE</object-name>
+    <object-name>seat.seat-BIPLACE</object-name>
+    <condition>
+      <not><property>instrumentation/ejection/done</property></not>
+    </condition>
   </animation>
 
 </PropertyList>

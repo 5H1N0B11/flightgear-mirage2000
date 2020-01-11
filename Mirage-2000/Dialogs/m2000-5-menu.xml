@@ -44,7 +44,7 @@
 
       <label>Mirage 2000</label>
       <enabled type="bool">true</enabled>
-      
+
       <item n="5">
         <label>Select Livery</label>
         <binding>
@@ -85,7 +85,8 @@
           <command>nasal</command>
           <script>rwr.openDialog()</script>
         </binding>
-      </item>-->
+      </item>
+-->
 
       <item n="10">
         <label>About</label>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>vor-ils.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>vor-ils.button1</object-name>
+    <object-name>vor-ils.button2</object-name>
+    <object-name>vor-ils.dot</object-name>
+    <object-name>vor-ils.num-0</object-name>
+    <object-name>vor-ils.num-1</object-name>
+    <object-name>vor-ils.num-2</object-name>
+    <object-name>vor-ils.num-3</object-name>
+    <object-name>vor-ils.num-4</object-name>
+    <object-name>vor-ils.texte</object-name>
+  </animation>
+
+  <animation>
+    <!-- lights : illuminations -->
+    <type>material</type>
+    <object-name>vor-ils.dot</object-name>
+    <object-name>vor-ils.num-0</object-name>
+    <object-name>vor-ils.num-1</object-name>
+    <object-name>vor-ils.num-2</object-name>
+    <object-name>vor-ils.num-3</object-name>
+    <object-name>vor-ils.num-4</object-name>
+    <object-name>vor-ils.texte</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.1 </red>
+      <green> 0.5 </green>
+      <blue>  0.2 </blue>
+    </emission>
+  </animation>
+  <animation>
+    <!-- lights : flood -->
+    <type>material</type>
+    <object-name>vor-ils.button1</object-name>
+    <object-name>vor-ils.button2</object-name>
+    <emission>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+      <red>   0.012 </red>
+      <green> 0.06 </green>
+      <blue>  0.02 </blue>
+    </emission>
+  </animation>
+
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>vor-ils.num-0</object-name>
+    <property>instrumentation/nav/frequencies/selected-mhz</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vor-ils.num-1</object-name>
+    <property>instrumentation/nav/frequencies/selected-mhz</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vor-ils.num-2</object-name>
+    <property>instrumentation/nav/frequencies/selected-mhz</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vor-ils.num-3</object-name>
+    <property>instrumentation/nav/frequencies/selected-mhz</property>
+    <factor>1</factor>
+    <step>0.1</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vor-ils.num-4</object-name>
+    <property>instrumentation/nav/frequencies/selected-mhz</property>
+    <factor>10</factor>
+    <step>0.01</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+
+  <animation>
+    <type>knob</type>
+    <object-name>vor-ils.button1</object-name>
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/nav/frequencies/selected-mhz</property>
+        <factor>1</factor>
+        <min>108.00</min>
+        <max>117.95</max>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>vor-ils.button1</object-name>
+    <property>instrumentation/nav/frequencies/selected-mhz</property>
+    <factor>10</factor>
+    <center>
+      <x-m>-3.3447</x-m>
+      <y-m>0.27626</y-m>
+      <z-m>-0.5963</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>vor-ils.button2</object-name>
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/nav/frequencies/selected-mhz</property>
+        <factor>0.05</factor>
+        <min>108.00</min>
+        <max>117.95</max>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>vor-ils.button2</object-name>
+    <property>instrumentation/nav/frequencies/selected-mhz</property>
+    <factor>10</factor>
+    <center>
+      <x-m>-3.3447</x-m>
+      <y-m>0.30164</y-m>
+      <z-m>-0.5963</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+
+  <!--
+================================================================================
+                                                                        TEXT OSG
+================================================================================
+  -->
+  <text>
+    <name>vor-ils.textosg</name>
+    <type type="string">literal</type>
+    <text type="string">VOR</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.016</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.08</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>-3.3</x-m>
+      <y-m>.3</y-m>
+      <z-m>-58</z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+      <object-name>vor-ils.textosg</object-name>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.2</blue>
+    </emission>
+  </animation>
+  <animation>
+    <type>select</type>
+      <object-name>vor-ils.textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
+
+</PropertyList>

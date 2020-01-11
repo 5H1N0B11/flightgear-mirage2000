@@ -40,7 +40,7 @@ var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:
 #var LaserDetection = radar.Radar.new(NewRangeTab:[20], NewVerticalAzimuth:180, NewRangeIndex:0, NewTypeTarget:["aircraft", "multiplayer", "carrier", "ship", "missile", "aim120", "aim-9"], NewRadarType:"laser", NewhaveSweep:0, NewAutoUpdate:0, forcePath:"instrumentation/radar2/targets");
 setprop("/instrumentation/radar/az-fieldCenter", 0);
 
-var hud_pilot = hud.HUD.new({"node": "canvasHUD", "texture": "hud.png"});
+var hud_pilot = hud.HUD.new({"node": "revi.canvasHUD", "texture": "hud.png"});
 # var rwr = hud.HUD.new({"node": "canvasRWR", "texture": "hud.png"});
 
 var prop = "payload/armament/fire-control";
