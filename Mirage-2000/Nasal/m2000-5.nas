@@ -608,3 +608,29 @@ var pilot_view_limiter = {
     return 0;
   },
 };
+
+
+var flightmode = func (){
+  #print("Called");
+ if(getprop("/instrumentation/flightmode/app")){
+  setprop("/sim/current-view/x-offset-m",0);
+  setprop("/sim/current-view/y-offset-m",0.1019);
+  
+  
+ }elsif(getprop("/instrumentation/flightmode/to")){
+  
+  setprop("/sim/current-view/x-offset-m",0);
+  setprop("/sim/current-view/y-offset-m",0.1019);
+
+   
+ }elsif(getprop("/instrumentation/flightmode/nav")){
+  setprop("/sim/current-view/x-offset-m",0);
+  setprop("/sim/current-view/y-offset-m",0.025);
+   
+ }else{
+  setprop("/sim/current-view/x-offset-m",0);
+  setprop("/sim/current-view/y-offset-m",0.025);
+  
+ }
+ gui.dialog_update("flightmode");
+}
