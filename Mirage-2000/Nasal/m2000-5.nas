@@ -626,6 +626,10 @@ var flightmode = func (){
  }elsif(getprop("/instrumentation/flightmode/nav")){
   setprop("/sim/current-view/x-offset-m",0);
   setprop("/sim/current-view/y-offset-m",0.025);
+  
+ }elsif(getprop("/instrumentation/flightmode/arm")){
+  setprop("/sim/current-view/x-offset-m",0);
+  setprop("/sim/current-view/y-offset-m",0.084);
    
  }else{
   setprop("/sim/current-view/x-offset-m",0);
