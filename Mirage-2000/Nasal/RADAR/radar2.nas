@@ -77,6 +77,10 @@ listOfShipModels_hash = {
   "USS-NORMANDY":"MARINE", 
   "USS-OliverPerry":"MARINE", 
   "USS-SanAntonio":"MARINE",
+  "san_antonio":"MARINE",
+  "oliver_perry":"MARINE",
+  "normandy":"MARINE",
+  "lake_champlain":"MARINE",
 };
 listOfGroundTargetNames_hash = {
   "groundvehicle":"GROUND_TARGET",
@@ -456,7 +460,7 @@ var Radar = {
                   # now we test the property folder name to guess what type it is:
                   #Should be done with an hash
                   if(listOfShipModels_hash[folderName] != nil and u.get_altitude()<100){
-                    #print(folderName ~":Not Marine");
+                    #print(folderName ~":Not Marine Yet");
                     u.setType(armament.MARINE);
                     me.skipDoppler = 1;
                   }
@@ -503,6 +507,7 @@ var Radar = {
                   if(u.get_Callsign() == "GROUND_TARGET"){
                     u.setType(armament.SURFACE);
                   }
+                  #print(folderName ~ " type:" ~ u.get_type()~ " Skipping Doppler: " ~ me.skipDoppler);
 #                   if(Tree_Name != "munition"){ 
 #                     print("Test Important:");
                     me.update_array(u,me.raw_selection);
@@ -592,7 +597,7 @@ var Radar = {
  
 
                 
-                #print("Start Testing "~ u.get_Callsign()~"Type: " ~ u.type);
+                #print("Start Testing "~ me.update_u.get_Callsign()~"Type: " ~ me.update_u.type);
                 
                               
                 # set Check_List to void
@@ -607,7 +612,7 @@ var Radar = {
                 #me.sorting_and_suppr(completeList);
                 
                 #Displaying Check
-                #print("Testing "~ u.get_Callsign()~"Check: " ~ me.get_check());
+                #print("Testing "~ me.update_u.get_Callsign()~"Check: " ~ me.get_check());
                 
                 #print("End Testing "~ u.get_Callsign());
                 

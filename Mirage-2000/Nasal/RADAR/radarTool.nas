@@ -342,15 +342,17 @@ var RadarTool = {
     },
     
     targetRange: func(SelectedObject){
+      me.MyCoord = geo.aircraft_position();
         # This is a way to shortcurt the issue that some of node have : in-range =0
         # So by giving the second fucntion our coord, we just have to calculate it
         var myRange = 0;
-        myRange = SelectedObject.get_range();
-        if(myRange == 0)
-        {
+#         myRange = SelectedObject.get_range();
+#         if(myRange == 0)
+#         {
             myRange = SelectedObject.get_range_from_Coord(me.MyCoord);
-        }
-        #print("myRange="~myRange);
+            #print("Pouet");
+#         }
+        #print("targetRange : " ~ SelectedObject.get_Callsign() ~" longitude : " ~ SelectedObject.get_Longitude() ~ " latitude : " ~ SelectedObject.get_Latitude() ~" result="~myRange);
         return myRange;
     },
     

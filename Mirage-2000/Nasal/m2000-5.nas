@@ -544,6 +544,7 @@ var pilot_view_limiter = {
   },
   start : func {
     var limits = view.current.getNode("config/limits", 1);
+    me.active = props.globals.getNode("sim/disable-custom-view");
     me.left = {
       heading_max : math.abs(limits.getNode("left/heading-max-deg", 1).getValue() or 1000),
       threshold : math.abs(limits.getNode("left/x-offset-threshold-deg", 1).getValue() or 0),
@@ -564,6 +565,7 @@ var pilot_view_limiter = {
     me.needs_start = 0;
   },
   update : func {
+    print("View = " ~ me.active.getValue());
     if (getprop("/devices/status/keyboard/ctrl"))
       return;
 
@@ -612,29 +614,63 @@ var pilot_view_limiter = {
 
 var flightmode = func (){
   #print("Called");
- if(getprop("/instrumentation/flightmode/app")){
-  setprop("/sim/current-view/x-offset-m",0);
-  setprop("/sim/current-view/y-offset-m",0.1019);
-  
-  
- }elsif(getprop("/instrumentation/flightmode/to")){
-  
-  setprop("/sim/current-view/x-offset-m",0);
-  setprop("/sim/current-view/y-offset-m",0.1019);
+  if(getprop("/sim/current-view/view-number") == 0) {
+    if(getprop("/instrumentation/flightmode/app")){
+      setprop("/sim/current-view/x-offset-m",0);
+      setprop("/sim/current-view/y-offset-m",0.1019);
+      setprop("/sim/current-view/z-offset-m",-2.9);  
+      
+    }elsif(getprop("/instrumentation/flightmode/to")){
+      
+      setprop("/sim/current-view/x-offset-m",0);
+      setprop("/sim/current-view/y-offset-m",0.1019);
+      setprop("/sim/current-view/z-offset-m",-2.9);
 
-   
- }elsif(getprop("/instrumentation/flightmode/nav")){
-  setprop("/sim/current-view/x-offset-m",0);
-  setprop("/sim/current-view/y-offset-m",0.025);
-  
- }elsif(getprop("/instrumentation/flightmode/arm")){
-  setprop("/sim/current-view/x-offset-m",0);
-  setprop("/sim/current-view/y-offset-m",0.084);
-   
- }else{
-  setprop("/sim/current-view/x-offset-m",0);
-  setprop("/sim/current-view/y-offset-m",0.025);
-  
+      
+    }elsif(getprop("/instrumentation/flightmode/nav")){
+      setprop("/sim/current-view/x-offset-m",0);
+      setprop("/sim/current-view/y-offset-m",0.025);
+      setprop("/sim/current-view/z-offset-m",-2.9);
+      
+    }elsif(getprop("/instrumentation/flightmode/arm")){
+      setprop("/sim/current-view/x-offset-m",0);
+      setprop("/sim/current-view/y-offset-m",0.099);
+      setprop("/sim/current-view/z-offset-m",-2.67);
+      
+    }else{
+      setprop("/sim/current-view/x-offset-m",0);
+      setprop("/sim/current-view/y-offset-m",0.025);
+      setprop("/sim/current-view/z-offset-m",-2.9);
+
+    }
  }
  gui.dialog_update("flightmode");
+}
+
+var call_flightmode = func(calling){
+  #This function is made to auto switch flight mode when masterarm is switched or gear is switched
+  var app=0;
+  var to=0;
+  var nav=0;
+  var arm=0;
+  if(calling == "m"){
+      if(getprop("controls/armament/master-arm")==1){
+        arm = 1;
+      }else{
+        nav = 1;
+      }
+  }elsif(calling == "g"){nav = 1;
+  }elsif(calling == "G"){to = 1;}
+     ## if(getprop("controls/gear/gear-down")){
+#         to = 1;
+#       }else{
+#         nav = 1;
+#       }
+#   }
+  setprop("/instrumentation/flightmode/app",app);
+  setprop("/instrumentation/flightmode/to",to);
+  setprop("/instrumentation/flightmode/nav",nav);
+  setprop("/instrumentation/flightmode/arm",arm);
+  
+  flightmode();
 }

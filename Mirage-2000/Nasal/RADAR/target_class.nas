@@ -89,14 +89,16 @@ var Target = {
         # let us make callsign a static variable:
         if (obj.Callsign == nil or obj.Callsign.getValue() == "")
         {
-            if (obj.name == nil or obj.name.getValue() == "") {
-                obj.myCallsign = obj.ModelType;# last resort. 
+            #print("----------------------------------- FIRST CONTACT ---------------- " ~ obj.name.getValue());
+            if (obj.name.getValue() == "") {
+                obj.myStaticCallsign = obj.ModelType;# last resort. 
             } else {
-                obj.myCallsign = obj.name.getValue();# for AI ships.
+                obj.myStaticCallsign = obj.name.getValue();# for AI ships.
             }
         } else {
-            obj.myCallsign = obj.Callsign.getValue();
+            obj.myStaticCallsign = obj.Callsign.getValue();
         }
+        #print("----------------------------------- AFTER CONTACT ---------------- " ~ obj.myStaticCallsign);
         
         obj.life = 5; #Have to be given in parameters, but now written in hard
         obj.objectDeviationDeg = 0;
@@ -385,8 +387,10 @@ var Target = {
     },
 
     get_Callsign: func(){
-        return me.myCallsign;# callsigns are probably not dynamic, so its defined at Target creation.
+      #print("TARGET : me.name == " ~ me.name.getValue() ~ " me.myStaticCallsign:" ~ me.myStaticCallsign);
+        return me.myStaticCallsign;# callsigns are probably not dynamic, so its defined at Target creation.
         if (me.Callsign == nil or me.Callsign.getValue() == "") {
+            #print("TARGET : me.name == " ~ me.name.getValue());
             if (me.name == nil or me.name.getValue() == "") {
                 return me.get_model();
             }
@@ -746,7 +750,7 @@ var Target = {
     getUnique: func () {
       #var myIndex = me.getIndex();
        #print("getUnique:"~me.propNode.getName()~me.fname~me.Callsign.getValue());
-      return me.propNode.getName()~me.fname~me.Callsign.getValue();
+      return me.propNode.getName()~me.fname~me.get_Callsign();
       #~me.ID;
         #return me.get_type()~me.fname~me.ID;
     },

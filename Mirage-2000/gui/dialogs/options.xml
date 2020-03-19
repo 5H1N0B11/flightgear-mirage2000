@@ -52,6 +52,22 @@
       </binding>
     </checkbox>
   </group>
+  
+  
+  
+  <group>
+    <layout>hbox</layout>
+    <text><label>Dynamic view Enabled</label></text>
+    <checkbox>
+      <property>sim/disable-custom-view</property>
+      <live>false</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/disable-custom-view</property>
+      </binding>
+    </checkbox>
+  </group>
+  
 
   <group>
     <layout>hbox</layout>
