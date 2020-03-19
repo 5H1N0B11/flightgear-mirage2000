@@ -181,11 +181,9 @@ var findmultiplayer = func(targetCoord, dist = 20) {
         
         if((type == "multiplayer" or type == "tanker" or type == "aircraft") and HavePosition != nil and targetCoord != nil and name != nil)
         {
-            var elev = HavePosition.getNode("altitude-m", 1).getValue();
             var lat = HavePosition.getNode("latitude-deg", 1).getValue();
             var lon = HavePosition.getNode("longitude-deg", 1).getValue();
-            
-            elev = (elev == nil) ? HavePosition.getNode("altitude-ft", 1).getValue() * FT2M : elev;
+            var elev = HavePosition.getNode("altitude-ft", 1).getValue() * FT2M;
             
             #print("name:"~name.getValue());
             #print("lat"~ lat.getValue()~" lon:"~ lon.getValue()~ "elev:"~ elev.getValue());
