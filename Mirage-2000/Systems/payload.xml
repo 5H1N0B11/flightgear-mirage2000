@@ -9,6 +9,7 @@
     <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
     <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
     <hit-interpolation type="bool">false</hit-interpolation>
+    <enable-craters type="bool">true</enable-craters>
     <pylon-offset type="int">0</pylon-offset>
     <pylon-stations type="string">sim</pylon-stations>
     <station-name type="string">weight</station-name>
@@ -222,7 +223,7 @@
       <short-name type="string">GBU12</short-name>
       <long-name type="string">GBU-12 Paveway II</long-name>
       <all-aspect type="bool">true</all-aspect>
-      <enable-craters type="bool">true</enable-craters>
+      
       <arming-time-sec type="double"> 3 </arming-time-sec>
       <auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
       <class type="string">GM</class>
@@ -274,7 +275,6 @@
       <short-name type="string">SCALP</short-name>
       <long-name type="string">SCALP</long-name>
       <all-aspect type="bool">true</all-aspect>
-      <enable-craters type="bool">true</enable-craters>
       <arming-time-sec type="double"> 2.0 </arming-time-sec>
       <class type="string">GM</class>
       <cross-section-sqft type="double"> 7.0 </cross-section-sqft>
@@ -323,7 +323,6 @@
       <short-name type="string">AS37</short-name>
       <long-name type="string">AS-37 Martel</long-name>
       <all-aspect type="bool">true</all-aspect>
-      <enable-craters type="bool">true</enable-craters>
       <arming-time-sec type="double">4.0</arming-time-sec>          
       <auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
       <class type="string">GM</class>
@@ -369,7 +368,6 @@
       <short-name type="string">AS37</short-name>
       <long-name type="string">AS-37 Armat</long-name>
       <all-aspect type="bool">true</all-aspect>
-      <enable-craters type="bool">true</enable-craters>
       <arming-time-sec type="double">4.0</arming-time-sec>          
       <auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
       <class type="string">GM</class>
@@ -415,7 +413,6 @@
       <short-name type="string">AS30l</short-name>
       <long-name type="string">AS-30 Laser</long-name>
       <all-aspect type="bool">true</all-aspect>
-      <enable-craters type="bool">true</enable-craters>
       <arming-time-sec type="double"> 3 </arming-time-sec>
       <auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
       <class type="string">GM</class>
