@@ -70,27 +70,29 @@ var pylonSets = {
     b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
     b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
     b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
+    mk82: {name: "SAMP Mk-82", content: ["Mk-82"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+    dmk82: {name: "2 x SAMP Mk-82", content: ["Mk-82", "Mk-82"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 };
 
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
 #if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10){
 #if (getprop("sim/model/f16/wingmounts") != 0) {
 if(AIRCRAFT != 'm2000D'){
-    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4];
+    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.dmk82];
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82];
     var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
-    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2];
-    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s];
-    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i];
-    var Rearfuselagepylons = [pylonSets.empty, pylonSets.i];
+    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.dmk82];
+    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s, pylonSets.mk82];
+    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.mk82];
+    var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.mk82];
 } else {   
-    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6];
+    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82];
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82];
     var ExteriorWingSet  = [pylonSets.empty,pylonSets.g];
-    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10];
-    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s];
-    var ForwardfuselagepylonsL = [pylonSets.empty];
-    var Rearfuselagepylons = [pylonSets.empty];
+    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, , pylonSets.dmk82];
+    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82];
+    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.mk82];
+    var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82];
 }
 #### note :
 # pylon options
@@ -162,23 +164,21 @@ pylon7 = stations.Pylon.new("pylon1.R", 6, [-1.265,0.824,-1.370], Forwardfuselag
 pylon8 = stations.Pylon.new("pylonB.L", 7, [3.360,-0.920,-1.380], Rearfuselagepylons, 7, props.globals.getNode("yasim/weight[7]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[7]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepylons, 8, props.globals.getNode("yasim/weight[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-
-
 pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("yasim/weight[10]",1));
 
 if (AIRCRAFT == 'm2000-5') {
     var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
     var pylon_order = [9,0,8,1,7,2,6,3,5,4];
-    var wp_order = ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
+    var wp_order = ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82", "GBU-12", "AM39-Exocet"];
 } else {
     var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
     if (AIRCRAFT == 'm2000-5B') {
 	var pylon_order = [0,8,1,7,2,6,3,5,4];
-	var wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
+	var wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82", "GBU-12", "AM39-Exocet"];
     }
     if (AIRCRAFT == 'm2000D') {
 	var pylon_order = [0,8,1,7,2,6,3,5,4];
-	var wp_order = ["Magic-2", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
+	var wp_order = ["Magic-2", "Mk-82", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
     
 }
 }

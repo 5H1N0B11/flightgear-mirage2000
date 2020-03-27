@@ -11,6 +11,8 @@
     <object-name>pylon4.L</object-name>
     <object-name>pylon.C</object-name>
     <object-name>pylon.C.double_gbu</object-name>
+    <object-name>pylon.C.double_gbu.L</object-name>
+    <object-name>pylon.C.double_gbu.R</object-name>
     <object-name>pylon4.R</object-name>
     <object-name>pylon3.R</object-name>
     <object-name>pylon2.R</object-name>
@@ -25,6 +27,8 @@
     <object-name>pylon4.L</object-name>
     <object-name>pylon.C</object-name>
     <object-name>pylon.C.double_gbu</object-name>
+    <object-name>pylon.C.double_gbu.L</object-name>
+    <object-name>pylon.C.double_gbu.R</object-name>
     <object-name>pylon4.R</object-name>
     <object-name>pylon3.R</object-name>
     <object-name>pylon2.R</object-name>
@@ -144,10 +148,16 @@
     <type>select</type>
     <object-name>pylon.C.double_gbu</object-name>
     <condition>
-      <equals>
-        <property>payload/armament/station/id-3-set</property>
-        <value>2 x GBU-12</value>
-      </equals>
+      <or>
+	<equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>2 x GBU-12</value>
+	</equals>
+	<equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>2 x SAMP Mk-82</value>
+	</equals>
+      </or>
     </condition>
   </animation>
 
@@ -225,4 +235,25 @@
     </condition>
   </animation>
 
+  <animation>
+    <type>select</type>
+    <object-name>pylon.C.double_gbu.L</object-name>
+    <condition>
+      <equals>
+	<property>payload/armament/station/id-2-set</property>
+	<value>2 x SAMP Mk-82</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>pylon.C.double_gbu.R</object-name>
+    <condition>
+      <equals>
+	<property>payload/armament/station/id-4-set</property>
+	<value>2 x SAMP Mk-82</value>
+      </equals>
+    </condition>
+  </animation>
 </PropertyList>
