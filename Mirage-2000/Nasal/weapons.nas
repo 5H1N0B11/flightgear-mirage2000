@@ -51,6 +51,10 @@ var stopFiring = func() {
 reload_Cannon = func() {
     setprop("/ai/submodels/submodel/count",    125);
     setprop("/ai/submodels/submodel[1]/count", 125);
+    setprop("/ai/submodels/submodel[7]/count",120);
+    setprop("/ai/submodels/submodel[8]/count",120);
+    screen.log.write("Guns have been reloaded : 125");
+    screen.log.write("Flares have been reloaded : 120");
 }
 
 Cannon_rate = func() {
@@ -226,6 +230,9 @@ var initToken = func(){
   tokenFlare= 0;
 }
 var message_Flare = func() {
-      setprop("/sim/messages/atc", "Flare");
+      #setprop("/sim/messages/atc", "Flare");
+      var flares_remaining = getprop("/ai/submodels/submodel[7]/count");
+      flares_remaining = flares_remaining == nil ? 0 : flares_remaining;
+      screen.log.write("Flares : " ~ flares_remaining);
       tokenMessageFlare =0;
 }
