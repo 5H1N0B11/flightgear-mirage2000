@@ -110,7 +110,7 @@
   <hrule />
 
   <button>
-    <legend>Reload Gun</legend>
+    <legend>Reload Guns & Flares/Chaffs</legend>
     <binding>
       <command>nasal</command>
       <script>
