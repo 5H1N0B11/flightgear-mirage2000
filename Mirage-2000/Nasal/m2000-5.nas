@@ -131,7 +131,7 @@ var main_Init_Loop = func()
     #Should be replaced by an object creation
     #settimer(func(){mirage2000.createMap();},10);
     
-    if (getprop("sim/disable-custom-view") != 1) view.manager.register("Cockpit View", pilot_view_limiter);
+    if (getprop("sim/disable-custom-view") == 1) view.manager.register("Cockpit View", pilot_view_limiter);
 }
 
 var UpdateMain = func
