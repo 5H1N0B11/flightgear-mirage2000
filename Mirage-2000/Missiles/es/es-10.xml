@@ -14,7 +14,7 @@
 
   <model> 
     <name>gamma2</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/seat/seat.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/es/seat.xml</path>
     <offsets>
       <x-m> 0.3959</x-m>
       <y-m> 0.0000</y-m>
