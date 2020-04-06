@@ -71,6 +71,17 @@
       <z-m>-1.490</z-m>
     </offsets>
   </model>
+
+  <model>
+    <name>left-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <offsets>
+      <x-m>-1.265</x-m>
+      <y-m>-0.824</y-m>
+      <z-m>-1.490</z-m>
+    </offsets>
+  </model>
+
   
   <!-- station left 2 (Index 1) -->
   <model>
@@ -193,6 +204,26 @@
       <z-m>-1.706</z-m>
     </offsets>
   </model>
+
+  <model>
+    <name>left-left-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <offsets>
+      <x-m> 1.5</x-m>
+      <y-m>-2.559</y-m>
+      <z-m>-1.706</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <name>left-right-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <offsets>
+      <x-m> 1.5</x-m>
+      <y-m>-2.159</y-m>
+      <z-m>-1.706</z-m>
+    </offsets>
+  </model>
   
 
   <!-- center station (Index 3) -->
@@ -295,6 +326,26 @@
       <z-m>-1.895</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>Center-Right-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <offsets>
+      <x-m> 1.082</x-m>
+      <y-m> -0.200</y-m>
+      <z-m>-1.895</z-m>
+    </offsets>
+  </model>
+  
+  <model>
+    <name>Center-Left-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <offsets>
+      <x-m> 1.082</x-m>
+      <y-m> 0.200</y-m>
+      <z-m>-1.895</z-m>
+    </offsets>
+  </model>
 
   <!-- station right 3 (Index 4)-->
   <model>
@@ -385,6 +436,26 @@
       <z-m>-1.706</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>right-right-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <offsets>
+      <x-m> 1.5</x-m>
+      <y-m> 2.559</y-m>
+      <z-m>-1.706</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <name>right-left-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <offsets>
+      <x-m> 1.5</x-m>
+      <y-m> 2.159</y-m>
+      <z-m>-1.706</z-m>
+    </offsets>
+  </model>
 
   <!-- station right 2 (Index 5) -->
   <model>
@@ -440,6 +511,17 @@
       <z-m>-1.490</z-m>
     </offsets>
   </model>
+
+  <model>
+    <name>right-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <offsets>
+      <x-m>-1.265</x-m>
+      <y-m> 0.824</y-m>
+      <z-m>-1.490</z-m>
+    </offsets>
+  </model>
+
   
   <model>
     <name>right-GBU16</name>
@@ -499,22 +581,15 @@
   </model>
 
   <model>
-    <name>GBU16BL</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU-16/gbu-16.xml</path>
+    <name>left-rear-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
     <offsets>
-      <x-m> 3.360</x-m>
+      <x-m> 3.160</x-m>
       <y-m>-0.920</y-m>
-      <z-m>-1.404</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <name>GBU12BL</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
-    <offsets>
-      <x-m> 3.360</x-m>
-      <y-m>-0.920</y-m>
-      <z-m>-1.404</z-m>
+      <z-m>-1.470</z-m>
+      <heading-deg>1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
 
@@ -535,6 +610,19 @@
   <model>
     <name>right-rear-MK82</name>
     <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <offsets>
+      <x-m> 3.160</x-m>
+      <y-m> 0.920</y-m>
+      <z-m>-1.470</z-m>
+      <heading-deg>-1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
+    </offsets>
+  </model>
+  
+  <model>
+    <name>right-rear-MK82SE</name>
+    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
     <offsets>
       <x-m> 3.160</x-m>
       <y-m> 0.920</y-m>

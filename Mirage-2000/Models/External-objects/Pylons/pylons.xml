@@ -157,6 +157,10 @@
           <property>payload/armament/station/id-3-set</property>
           <value>2 x SAMP Mk-82</value>
 	</equals>
+	<equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>2 x SAMP Mk-82 Snake-eye</value>
+	</equals>
       </or>
     </condition>
   </animation>
@@ -239,10 +243,16 @@
     <type>select</type>
     <object-name>pylon.C.double_gbu.L</object-name>
     <condition>
-      <equals>
-	<property>payload/armament/station/id-2-set</property>
-	<value>2 x SAMP Mk-82</value>
-      </equals>
+      <or>
+	<equals>
+	  <property>payload/armament/station/id-2-set</property>
+	  <value>2 x SAMP Mk-82</value>
+	</equals>
+	<equals>
+	  <property>payload/armament/station/id-2-set</property>
+	  <value>2 x SAMP Mk-82 Snake-eye</value>
+	</equals>
+      </or>
     </condition>
   </animation>
 
@@ -250,10 +260,16 @@
     <type>select</type>
     <object-name>pylon.C.double_gbu.R</object-name>
     <condition>
-      <equals>
-	<property>payload/armament/station/id-4-set</property>
-	<value>2 x SAMP Mk-82</value>
-      </equals>
+      <or>
+	<equals>
+	  <property>payload/armament/station/id-4-set</property>
+	  <value>2 x SAMP Mk-82</value>
+	</equals>
+	<equals>
+	  <property>payload/armament/station/id-4-set</property>
+	  <value>2 x SAMP Mk-82 Snake-eye</value>
+	</equals>
+      </or>
     </condition>
   </animation>
 </PropertyList>

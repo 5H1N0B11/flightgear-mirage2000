@@ -71,28 +71,30 @@ var pylonSets = {
     b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
     b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
     mk82: {name: "SAMP Mk-82", content: ["Mk-82"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-    dmk82: {name: "2 x SAMP Mk-82", content: ["Mk-82", "Mk-82"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    dmk82: {name: "2 x SAMP Mk-82", content: ["Mk-82", "Mk-82"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},    mk82se: {name: "SAMP Mk-82 Snake-eye", content: ["Mk-82SE"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+    mk82se: {name: "SAMP Mk-82 Snake-eye", content: ["Mk-82SE"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    dmk82se: {name: "2 x SAMP Mk-82 Snake-eye", content: ["Mk-82SE", "Mk-82SE"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 };
 
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
 #if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10){
 #if (getprop("sim/model/f16/wingmounts") != 0) {
 if(AIRCRAFT != 'm2000D'){
-    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.dmk82];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82];
+    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
     var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
-    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.dmk82];
-    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s, pylonSets.mk82];
-    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.mk82];
-    var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.mk82];
+    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.dmk82, pylonSets.dmk82se];
+    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
+    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.mk82, pylonSets.mk82se];
+    var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.mk82, pylonSets.mk82se];
 } else {   
-    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82];
+    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
     var ExteriorWingSet  = [pylonSets.empty,pylonSets.g];
-    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.dmk82];
-    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82];
-    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.mk82];
-    var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82];
+    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.dmk82, pylonSets.dmk82se];
+    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
+    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se];
+    var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se];
 }
 #### note :
 # pylon options
@@ -169,16 +171,16 @@ pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], pr
 if (AIRCRAFT == 'm2000-5') {
     var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
     var pylon_order = [9,0,8,1,7,2,6,3,5,4];
-    var wp_order = ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82", "GBU-12", "AM39-Exocet"];
+    var wp_order = ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82", "Mk-82SE", "GBU-12", "AM39-Exocet"];
 } else {
     var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
     if (AIRCRAFT == 'm2000-5B') {
 	var pylon_order = [0,8,1,7,2,6,3,5,4];
-	var wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82", "GBU-12", "AM39-Exocet"];
+	var wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82", "Mk-82SE", "GBU-12", "AM39-Exocet"];
     }
     if (AIRCRAFT == 'm2000D') {
 	var pylon_order = [0,8,1,7,2,6,3,5,4];
-	var wp_order = ["Magic-2", "Mk-82", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
+	var wp_order = ["Magic-2", "Mk-82", "Mk-82SE", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
     }
 }
 
@@ -201,8 +203,6 @@ pylon6.setAIMListener(aimListener);
 pylon7.setAIMListener(aimListener);
 pylon8.setAIMListener(aimListener);
 pylon9.setAIMListener(aimListener);
-
-
 
 #print("** Pylon & fire control system started. **");
 var getDLZ = func {

@@ -80,24 +80,24 @@
     </condition>
   </animation>
 
-  <!-- Center GBU12 -->
+  <!-- left Mk-82SE -->
   <animation>
     <type>select</type>
-    <object-name>left-GBU12</object-name>
+    <object-name>left-MK82SE</object-name>
     <condition>
       <and>
         <equals>
-          <property>sim/weight[0]/selected</property>
-          <value>GBU12</value>
+          <property>payload/armament/station/id-0-type</property>
+          <value>Mk-82SE</value>
         </equals>
         <equals>
-          <property>controls/armament/station[0]/release</property>
-          <value>false</value>
+          <property>payload/armament/station/id-0-count</property>
+          <value>1</value>
         </equals>
       </and>
     </condition>
   </animation>
-
+  
   <!-- station left 2 (Index 1) -->
   <animation>
     <type>select</type>
@@ -114,7 +114,7 @@
     </condition>
   </animation>
   
-    <animation>
+  <animation>
     <type>select</type>
     <object-name>left-pos-2-MICA_IR</object-name>
     <condition>
@@ -264,6 +264,38 @@
         </greater-than>
     </condition>
   </animation>
+
+  <!-- Left dual Mk-82SE -->
+  <animation>
+    <type>select</type>
+    <object-name>left-left-MK82SE</object-name>
+    <condition>
+      <equals>
+	<property>payload/armament/station/id-2-set</property>
+        <value>2 x SAMP Mk-82 Snake-eye</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-2-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>left-right-MK82SE</object-name>
+    <condition>
+      <equals>
+	<property>payload/armament/station/id-2-set</property>
+          <value>2 x SAMP Mk-82 Snake-eye</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>1</value>
+        </greater-than>
+    </condition>
+  </animation>
+
   
   <!-- center station (Index 3) -->  
   <animation>
@@ -370,6 +402,37 @@
         <equals>
           <property>payload/armament/station/id-3-type</property>
           <value>Mk-82</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>1</value>
+        </greater-than>
+    </condition>
+  </animation>
+
+  <!-- Center Double MK82 -->
+  <animation>
+    <type>select</type>
+    <object-name>Center-Right-MK82SE</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-3-type</property>
+          <value>Mk-82SE</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>Center-Left-MK82SE</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-3-type</property>
+          <value>Mk-82SE</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-3-count</property>
@@ -544,6 +607,37 @@
         </greater-than>
     </condition>
   </animation>
+
+  <!-- Right dual Mk-82 Snake-eye -->
+  <animation>
+    <type>select</type>
+    <object-name>right-left-MK82SE</object-name>
+    <condition>
+      <equals>
+	<property>payload/armament/station/id-4-set</property>
+          <value>2 x SAMP Mk-82 Snake-eye</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>right-right-MK82SE</object-name>
+    <condition>
+      <equals>
+	<property>payload/armament/station/id-4-set</property>
+          <value>2 x SAMP Mk-82 Snake-eye</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>1</value>
+        </greater-than>
+    </condition>
+  </animation>
   
   
   
@@ -583,12 +677,10 @@
     <type>select</type>
     <object-name>right-pos-2-SmokePod</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[5]/selected</property>
-          <value>SmokePod</value>
-        </equals>
-      </and>
+      <equals>
+	<property>payload/armament/station/id-5-set</property>
+	<value>Smokepod</value>
+      </equals>
     </condition>
   </animation>
 
@@ -653,6 +745,24 @@
         <equals>
           <property>payload/armament/station/id-6-type</property>
           <value>Mk-82</value>
+        </equals>
+        <equals>
+          <property>payload/armament/station/id-6-count</property>
+          <value>1</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- left Mk-82SE -->
+  <animation>
+    <type>select</type>
+    <object-name>right-MK82SE</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>payload/armament/station/id-6-type</property>
+          <value>Mk-82SE</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-6-count</property>
@@ -726,24 +836,24 @@
     </condition>
   </animation>
 
-  <!-- Center GBU12 -->
+  <!-- left Mk-82SE -->
   <animation>
     <type>select</type>
-    <object-name>GBU12BL</object-name>
+    <object-name>left-rear-MK82SE</object-name>
     <condition>
       <and>
         <equals>
-          <property>sim/weight[7]/selected</property>
-          <value>GBU12</value>
+          <property>payload/armament/station/id-7-type</property>
+          <value>Mk-82SE</value>
         </equals>
         <equals>
-          <property>controls/armament/station[7]/release</property>
-          <value>false</value>
+          <property>payload/armament/station/id-7-count</property>
+          <value>1</value>
         </equals>
       </and>
     </condition>
   </animation>
-
+  
   <!-- station back right (Index 8) -->
   <animation>
     <type>select</type>
@@ -760,7 +870,7 @@
     </condition>
   </animation>
 
-    <!-- left Mk-82 -->
+  <!-- right rear Mk-82 -->
   <animation>
     <type>select</type>
     <object-name>right-rear-MK82</object-name>
@@ -769,6 +879,24 @@
         <equals>
           <property>payload/armament/station/id-8-type</property>
           <value>Mk-82</value>
+        </equals>
+        <equals>
+          <property>payload/armament/station/id-8-count</property>
+          <value>1</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
+  <!-- right rear Mk-82SE -->
+  <animation>
+    <type>select</type>
+    <object-name>right-rear-MK82SE</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>payload/armament/station/id-8-type</property>
+          <value>Mk-82SE</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-8-count</property>
