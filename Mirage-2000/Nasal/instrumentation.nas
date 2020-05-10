@@ -247,7 +247,9 @@ var display_heading = func(){
       setprop("instrumentation/mfd/heading-displayed",trueNorth);
       if(bugbug != nil){setprop("instrumentation/mfd/bug-heading-displayed",math.mod(bugbug + magneticNorth-trueNorth, 360));}
     }else{
-      setprop("instrumentation/mfd/heading-displayed",getprop("orientation/heading-magnetic-deg"));
+      #To prevent bug detected by Chris
+      magneticNorth = magneticNorth==nil?0:magneticNorth;
+      setprop("instrumentation/mfd/heading-displayed",magneticNorth);
       if(bugbug != nil){setprop("instrumentation/mfd/bug-heading-displayed",bugbug);}
     }
     
