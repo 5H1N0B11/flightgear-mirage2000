@@ -584,7 +584,7 @@ AIContact = {
 
 
 
-Radar = {
+Radar_Prototype = {
 # master radar class
 #
 # Attributes:
@@ -595,7 +595,7 @@ Radar = {
 
 NoseRadar = {
 	new: func (range_m, radius, rate) {
-		var nr = {parents: [NoseRadar, Radar]};
+		var nr = {parents: [NoseRadar, Radar_Prototype]};
 
 		nr.forRadius_deg  = radius;
 		nr.forDist_m      = range_m;#range setting
@@ -678,7 +678,7 @@ NoseRadar = {
 
 OmniRadar = {
 	new: func (rate) {
-		var nr = {parents: [OmniRadar, Radar]};
+		var nr = {parents: [OmniRadar, Radar_Prototype]};
 
 		nr.vector_aicontacts = [];
 		nr.vector_aicontacts_for = [];
@@ -835,7 +835,7 @@ ActiveDiscRadar = {
 #   soft/hard lock
 #   painted (is the hard lock) of type Contact
 	new: func () {
-		var ar = {parents: [ActiveDiscRadar, Radar]};
+		var ar = {parents: [ActiveDiscRadar, Radar_Prototype]};
 		ar.timer          = maketimer(1, ar, func ar.loop());
 		ar.lock           = NONE;# NONE, SOFT, HARD
 		ar.locks          = [];
@@ -1159,7 +1159,7 @@ var RWR = {
 # will detect launches (MLW) or (active) incoming missiles (MAW)
 # loop (0.5 sec)
 	new: func () {
-		var rr = {parents: [RWR, Radar]};
+		var rr = {parents: [RWR, Radar_Prototype]};
 
 		rr.vector_aicontacts = [];
 		rr.vector_aicontacts_threats = [];

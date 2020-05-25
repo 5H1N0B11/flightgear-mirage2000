@@ -284,8 +284,11 @@ var computeSAS = func() {
     var myThrottle = RawThrottle.getValue();
     
     var reheatlimit = 95;
-    myThrottle = myThrottle > reheatlimit / 100 ? 1 : myThrottle / (reheatlimit / 100);
-    var reheat = myThrottle > reheatlimit / 100 and getprop("/controls/engines/engine[0]/n1") > 96 ? ((myThrottle - (reheatlimit / 100)) * 100) / 0.05 : 0;
+    #myThrottle = myThrottle > reheatlimit / 100 ? 1 : myThrottle / (reheatlimit / 100);
+    #var reheat = myThrottle > reheatlimit / 100 and getprop("/controls/engines/engine[0]/n1") > 96 ? ((myThrottle - (reheatlimit / 100)) * 100) / 0.05 : 0;
+    
+    var reheat = myThrottle >=  reheatlimit / 100 ? 1 : 0;
+    
     
     #var reheat = (getprop("/controls/engines/engine[0]/n1") >= reheatlimit) ? (getprop("/controls/engines/engine[0]/n1") - reheatlimit) / (100 - reheatlimit) : 0;
     setprop("/controls/engines/engine[0]/reheat", reheat);

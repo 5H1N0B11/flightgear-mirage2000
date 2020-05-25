@@ -753,10 +753,12 @@ var FireControl = {
 			return;
 		}
 		aimer = me.pylons[me.selected[0]].fireWeapon(me.selected[1], getCompleteRadarTargetsList());
-		aimer.sendMessage(aimer.brevity~" Maddog released");
-		me.aimNext = me.nextWeapon(me.selectedType);
-		if (me.aimNext != nil) {
-			me.aimNext.start();
+		if (aimer != nil) {
+			aimer.sendMessage(aimer.brevity~" Maddog released");
+			me.aimNext = me.nextWeapon(me.selectedType);
+			if (me.aimNext != nil) {
+				me.aimNext.start();
+			}
 		}
 		return;
 	},
@@ -1030,7 +1032,7 @@ var printfDebug = func {if (debug == 1) call(printf,arg);};
 
 
 # This is non-generic methods, please edit it to fit your radar setup:
-var dualWeapons = ["MK-82","MK-83","MK-84","GBU-12","GBU-24","GBU-54","CBU-87","GBU-31","B61-7","B61-12"];
+var dualWeapons = ["MK-82","MK-83","MK-84","GBU-12","GBU-24","GBU-54","CBU-87","CBU-105","GBU-31","AGM-154A","B61-7","B61-12"];
 var getCompleteRadarTargetsList = func {
 	# A list of all MP/AI aircraft/ships/surface-targets around the aircraft.
 	return radar.completeList;
@@ -1043,6 +1045,11 @@ var ContactTGP = {
     obj.coord.set_alt(coord.alt()+1);#avoid z fighting
     obj.callsign        = callsign;
     obj.unique          = rand();
+    
+    obj.tacobj = {parents: [tacview.tacobj]};
+    obj.tacobj.tacviewID = right((obj.unique~""),5);
+    obj.tacobj.valid = 1;
+    
     obj.laser = laser;
     return obj;
   },
@@ -1111,6 +1118,16 @@ var ContactTGP = {
       # return true airspeed
       return 0;
   },
+  
+  get_uBody: func {
+      return 0;
+	},    
+	get_vBody: func {
+	  return 0;
+	},    
+	get_wBody: func {
+	  return 0;
+	},
 
   get_Longitude: func(){
       var n = me.coord.lon();
@@ -1147,6 +1164,13 @@ var ContactTGP = {
       #Return Alt in feet
       return me.coord.alt()*M2FT;
   },
+  
+  get_Longitude: func {
+        return me.coord.lon()*M2FT;
+	},
+	get_Latitude: func {
+	    return me.coord.lat();
+	},
 
   get_range: func() {
       var r = me.coord.direct_distance_to(geo.aircraft_position()) * M2NM;

@@ -31,7 +31,7 @@
       <eye-alt-ft-path>/position/altitude-ft</eye-alt-ft-path>
       <eye-heading-deg-path>/orientation/heading-deg</eye-heading-deg-path>
       <!-- This following line have ben changed for legacy missile view -->
-      <!--<at-model type="bool">true</at-model>-->
+      <at-model type="bool">true</at-model>
     </config>
   </view>
   

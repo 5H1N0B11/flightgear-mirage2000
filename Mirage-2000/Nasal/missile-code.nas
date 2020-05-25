@@ -40,7 +40,7 @@
 #   Amraam or Phoenix. Also notice they generally not hit so close against Scenario/AI objects compared to MP aircraft due to the way these are updated.
 # Laser and semi-radar guided munitions need the target to be painted to keep lock. Notice gps guided munition that are all aspect will never lose lock,
 #   whether they can 'see' the target or not. Anti-radiation missiles will need the target to send radiation towards the missile.
-# Remotely controlled guidance is not implemented, but the way it flies can be simulated by setting direct navigation with semi-radar or laser guidance.
+# Remote guidance requires the use of midFlightFunction (see below) to transmit guidance parameters, in the remote_yaw and remote_pitch fields of the output.
 # Set DEBUG_STATS and/or DEBUG_FLIGHT to true to check how the missile works during flight, when you are designing a weapon.
 # 
 #
@@ -50,7 +50,7 @@
 #   controls/armament/station[pylon+1]/offsets, where the position properties must be x-m, y-m and z-m. The type is just a string, the description is a string
 #   that is exposed in its radar properties under AI/models during flight. The function is for changing target, guidance or guidance-law during flight.
 # The mid flight function will be called often during flight with 1 parameter. The param is a hash like {time_s, dist_m, mach, weapon_position}, where the latter is a geo.Coord.
-#   It expects you to return a hash with any or none of these {guidance, guidanceLaw, target}.
+#   It expects you to return a hash with any or none of these {guidance, guidanceLaw, target, remote_yaw, remote_pitch}.
 # The model that is loaded and shown is located in the aircraft folder at the value of property payload/armament/models in a subfolder with same name as type.
 #   Inside the subfolder the xml file is called [lowercase type]-[pylon].xml
 # To start making the missile try to get a lock, call start(), the missile will then keep trying to get a lock on 'contact'.
@@ -78,7 +78,6 @@
 # Lock on jam. (advanced feature)
 # After FG gets HLA: stop using MP chat for hit messages.
 # Allow firing only if certain conditions are met. Like not being inverted when firing ejected weapons.
-# Remote controlled guidance (advanced feature and probably not very practical in FG..yet)
 # Ground launched rails/tubes that rotate towards target before firing.
 # Sub munitions that have their own guidance/FDM. (advanced)
 # GPS guided munitions could have waypoints added.
@@ -198,6 +197,9 @@ var contact = nil;
 # get_Pitch()
 # get_Speed()
 # get_heading()
+# get_uBody()
+# get_vBody()
+# get_wBody()
 # getFlareNode()  - Used for flares.
 # getChaffNode()  - Used for chaff.
 # isPainted()     - Tells if this target is still being radar tracked by the launch platform, only used in semi-radar guided missiles.
@@ -289,7 +291,7 @@ var AIM = {
         m.switchTime            = getprop(m.nodeString~"switch-time-sec");            # auto switch of targets in flight: time to scan FoV.
 		# navigation, guiding and seekerhead
 		m.max_seeker_dev        = getprop(m.nodeString~"seeker-field-deg") / 2;       # missiles own seekers total FOV diameter.
-		m.guidance              = getprop(m.nodeString~"guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided/level/gyro-pitch/radiation/inertial
+		m.guidance              = getprop(m.nodeString~"guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided/level/gyro-pitch/radiation/inertial/remote/remote-stable
 		m.guidanceLaw           = getprop(m.nodeString~"navigation");                 # guidance-law: direct/PN/APN/PNxxyy/APNxxyy (use direct for gravity bombs, use PN for very old missiles, use APN for modern missiles, use PNxxyy/APNxxyy for surface to air where xx is degrees to aim above target, yy is seconds it will do that)
 		m.pro_constant          = getprop(m.nodeString~"proportionality-constant");   # Constant for how sensitive proportional navigation is to target speed/acc. Normally between 3-6. [optional]
 		m.all_aspect            = getprop(m.nodeString~"all-aspect");                 # bool. set to false if missile only locks on reliably to rear of target aircraft
@@ -357,7 +359,6 @@ var AIM = {
 		m.a_ratio               = getprop(m.nodeString~"wing-aspect-ratio");          # 1.5
 		m.wing_eff              = getprop(m.nodeString~"wing-efficiency-relative-to-an-elliptical-planform"); # 1
 		m.Cd_plume              = getprop(m.nodeString~"exhaust-plume-paracitic-drag-factor"); # 15/25
-
         
         m.mode_slave            = TRUE;# if slaved to command seeker directions from radar/helmet/cursor
         m.mode_bore             = FALSE;# if locked to bore locks only
@@ -690,6 +691,8 @@ var AIM = {
 		m.curr_deviation_h       = 0;
 		m.track_signal_e         = 0;
 		m.track_signal_h         = 0;
+		m.remote_control_yaw     = 0;
+		m.remote_control_pitch   = 0;
 
 		# cruise-missiles
 		m.nextGroundElevation = 0; # next Ground Elevation
@@ -738,6 +741,8 @@ var AIM = {
 		m.lostLOS      = FALSE;
 
 		m.prevTarget   = nil;
+		m.counter_last = -2;
+		m.counter      = 0;
 		m.prevGuidance = nil;
 		m.keepPitch    = 0;
 
@@ -1772,6 +1777,7 @@ var AIM = {
 		#
 		#
 		#############################################################################################################
+		me.counter += 1;#main counter for which number of loop we are in.
 		me.pendingSound -= 1;
 		if(me.pendingSound == 0) {
 			me.SwSoundFireOnOff.setBoolValue(TRUE);
@@ -1815,6 +1821,16 @@ var AIM = {
 				} else {
 					me.printStats("Target switch ignored, could not lock on %s",me.settings.target.get_Callsign());
 				}
+			}
+			if (contains(me.settings, "remote_yaw")) {
+				me.remote_control_yaw = me.settings.remote_yaw;
+			} else {
+				me.remote_control_yaw = 0;
+			}
+			if (contains(me.settings, "remote_pitch")) {
+				me.remote_control_pitch = me.settings.remote_pitch;
+			} else {
+				me.remote_control_pitch = 0;
 			}
 		}
 
@@ -1975,7 +1991,19 @@ var AIM = {
 		###################
 		#### Guidance.#####
 		###################
-		if (me.Tgt != nil and me.t_coord !=nil and me.free == FALSE and me.guidance != "unguided"
+		if (me.guidance == "remote" or me.guidance == "remote-stable") {
+			me.printGuide("Remote control");
+			if (me.guidance == "remote-stable") {
+				me.remoteControlStabilized();
+			} else {
+				me.remoteControl();
+			}
+			me.limitG();
+			me.pitch      += me.track_signal_e;
+			me.hdg	      += me.track_signal_h;
+			me.printGuideDetails("%04.1f deg elevation command done, new pitch: %04.1f deg", me.track_signal_e, me.pitch);
+			me.printGuideDetails("%05.1f deg bearing command done, new heading: %05.1f", me.last_track_h, me.hdg);
+		} elsif (me.Tgt != nil and me.t_coord !=nil and me.free == FALSE and me.guidance != "unguided"
 			and (me.rail == FALSE or me.rail_passed == TRUE) and me.guidanceEnabled) {
 				#
 				# Here we figure out how to guide, navigate and steer.
@@ -2354,7 +2382,6 @@ var AIM = {
 		}
 
 		me.last_dt = me.dt;
-		me.prevTarget = me.Tgt;
 		me.prevGuidance = me.guidance;
 		#spawn(me.flight, me)();#, update_loop_time, SIM_TIME);
 		#me.flight(); cannot keep calling itself: call stack error
@@ -2985,7 +3012,7 @@ var AIM = {
 	},
 
 	canSeekerKeepUp: func () {
-		if (!me.newTargetAssigned and me.last_deviation_e != nil and (me.guidance == "heat" or me.guidance == "vision") and me.prevGuidance == me.guidance and me.prevTarget == me.Tgt) {
+		if (me.counter == me.counter_last+1 and !me.newTargetAssigned and me.last_deviation_e != nil and (me.guidance == "heat" or me.guidance == "vision") and me.prevGuidance == me.guidance and me.prevTarget == me.Tgt) {
 			# calculate if the seeker can keep up with the angular change of the target
 			#
 			# missile own movement is subtracted from this change due to seeker being on gyroscope
@@ -3007,6 +3034,8 @@ var AIM = {
 		}
 		me.last_deviation_e = me.curr_deviation_e;
 		me.last_deviation_h = me.curr_deviation_h;
+		me.prevTarget = me.Tgt;
+		me.counter_last = me.counter;# since we use dt as time passed since last we were in this function, we need to be sure only 1 loop has passed.
 	},
 
 	cruiseAndLoft: func () {
@@ -3298,6 +3327,21 @@ var AIM = {
         me.printGuide("Gyro keeping %04.1f deg pitch. Current is %04.1f deg.", me.keepPitch, me.pitch);
 	},
 
+	remoteControl: func () {
+		me.track_signal_e = me.remote_control_pitch * me.dt * !me.free;
+		me.track_signal_h = me.remote_control_yaw * me.dt * !me.free;
+		me.printGuide("Remote input: %04.1f deg/s pitch, %04.1f deg/s yaw.",
+		              me.remote_control_pitch, me.remote_control_yaw);
+	},
+
+	remoteControlStabilized: func () {
+		me.keepPitch += me.remote_control_pitch * me.dt;
+		me.track_signal_e = (me.keepPitch - me.pitch) * !me.free;
+		me.track_signal_h = me.remote_control_yaw * me.dt * !me.free;
+		me.printGuide("Remote input: %04.1f deg/s pitch, %04.1f deg/s yaw.",
+		              me.remote_control_pitch, me.remote_control_yaw);
+	},
+
 	APN: func () {
 		#
 		# augmented proportional navigation
@@ -3350,50 +3394,22 @@ var AIM = {
 
 			me.printGuideDetails("LOS rate: %06.4f rad/s", me.line_of_sight_rate_rps);
 
-			#if (me.before_last_t_coord != nil) {
-			#	var t_heading = me.before_last_t_coord.course_to(me.t_coord);
-			#	var t_dist   = me.before_last_t_coord.distance_to(me.t_coord);
-			#	var t_dist_dir   = me.before_last_t_coord.direct_distance_to(me.t_coord);
-			#	var t_climb      = me.t_coord.alt() - me.before_last_t_coord.alt();
-			#	var t_horz_speed = (t_dist*M2FT)/(me.dt+me.last_dt);
-			#	var t_speed      = (t_dist_dir*M2FT)/(me.dt+me.last_dt);
-			#} else {
-			#	var t_heading = me.last_t_coord.course_to(me.t_coord);
-			#	var t_dist   = me.last_t_coord.distance_to(me.t_coord);
-			#	var t_dist_dir   = me.last_t_coord.direct_distance_to(me.t_coord);
-			#	var t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
-			#	var t_horz_speed = (t_dist*M2FT)/me.dt;
-			#	var t_speed      = (t_dist_dir*M2FT)/me.dt;
-			#}
-			
-			#var t_pitch      = math.atan2(t_climb,t_dist)*R2D;
-			
-			# calculate target acc as normal to LOS line:
+			me.t_velocity = me.myMath.getCartesianVelocity(me.Tgt.get_heading(), me.Tgt.get_Pitch(), me.Tgt.get_Roll(), me.Tgt.get_uBody(), me.Tgt.get_vBody(), me.Tgt.get_wBody());
+						
 			if ((me.flareLock == FALSE and me.chaffLock == FALSE) or me.t_heading == nil) {
-				me.t_heading        = me.Tgt.get_heading();
-				me.t_pitch          = me.Tgt.get_Pitch();
-				me.t_speed_fps      = me.Tgt.get_Speed()*KT2FPS;#true airspeed
+				me.euler = me.myMath.cartesianToEuler(me.t_velocity);
+				if (me.euler[0] != nil) {
+					me.t_heading        = me.euler[0];
+				} else {
+					me.t_heading        = me.Tgt.get_heading();
+				}
+				me.t_pitch          = me.euler[1];
+				me.t_speed_fps      = me.myMath.magnitudeVector(me.t_velocity);#groundspeed
 			} elsif (me.flarespeed_fps != nil) {
 				me.t_speed_fps      = me.flarespeed_fps;#true airspeed
 			}
-
-			#if (me.last_t_coord.direct_distance_to(me.t_coord) != 0) {
-			#	# taking sideslip and AoA into consideration:
-			#	me.t_heading    = me.last_t_coord.course_to(me.t_coord);
-			#	me.t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
-			#	me.t_dist       = me.last_t_coord.distance_to(me.t_coord);
-			#	me.t_pitch      = math.atan2(me.t_climb, me.t_dist) * R2D;
-			#} elsif (me.Tgt.get_Speed() > 25) {
-				# target position was not updated since last loop.
-				# to avoid confusing the navigation, we just fly
-				# straight.
-				#print("not updated");
-			#	return;
-			#}
-
-
 			
-			me.t_horz_speed_fps     = math.abs(math.cos(me.t_pitch*D2R)*me.t_speed_fps);#flawed due to AoA is not taken into account, but dont have that info.
+			me.t_horz_speed_fps     = math.sqrt(me.t_velocity[0]*me.t_velocity[0]+me.t_velocity[1]*me.t_velocity[1]);
 			me.t_LOS_norm_head_deg  = me.t_course + 90;#when looking at target this direction will be 90 deg right of target
 			me.t_LOS_norm_speed_fps = math.cos((me.t_LOS_norm_head_deg - me.t_heading)*D2R)*me.t_horz_speed_fps;
 
@@ -3407,7 +3423,7 @@ var AIM = {
 
 			# time to go calc
 			me.t_away_norm_speed_fps = math.cos((me.t_course - me.t_heading)*D2R)*me.t_horz_speed_fps;
-			me.t_speed_vert_fps      = math.sin(me.t_pitch*D2R)*me.t_speed_fps;
+			me.t_speed_vert_fps      = me.t_velocity[2];
 			me.m_speed_vert_fps      = math.sin(me.pitch*D2R)*me.old_speed_horz_fps;
 			me.t_pos_z               = (me.t_coord.alt()-me.coord.alt())*M2FT;
 			me.Vt   = [me.t_away_norm_speed_fps,me.t_LOS_norm_speed_fps,me.t_speed_vert_fps];

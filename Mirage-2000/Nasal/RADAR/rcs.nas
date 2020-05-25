@@ -24,11 +24,13 @@ var rcs_database = {
     "F-15C":                    10,     #low end of sources
     "F-15D":                    11,     #low end of sources
     "F-16":                     2,      #guess
-    "YF-16":                    5,      
+    "YF-16":                    5,      #higher because earlier blocks had larger RCS
     "F-16CJ":                   2,      #guess
     "f16":                      2,      #guess
     "MiG-29":                   6,      #guess
     "SU-27":                    15,     #some data shows 22
+    "daVinci_SU-34":            15,     #same as Su-27 for now
+    "Su-34":                    15,     #same as Su-27 for now
     "SU-37":                    15,
     "J-11A":                    15,
     "T-50":                     0.3,    #guess
@@ -43,16 +45,22 @@ var rcs_database = {
     "707":                      90,     #guess
     "707-TT":                   90,     #guess
     "EC-137D":                  100,    #guess
+    "onox-tanker":              90,     #guess
     "B-1B":                     10,
-    "b2-spirit":                0.002,  #actual: 0.0001
-    "B-2A":                     0.002,  #actual: 0.0001
+    "b2-spirit":                0.001,  #actual: 0.0001
+    "B-2A":                     0.001,  #actual: 0.0001
     "F-117":                    0.003,
     "Blackbird-SR71A":          0.25,
     "Blackbird-SR71B":          0.30,
     "Blackbird-SR71A-BigTail":  0.30,
-    "u2s":                      0.01,
+    "u-2s":                     0.01,
+    "U-2S-model":               0.01,
     "ch53e":                    35,     #guess
+    "Mil-Mi-8":                 30,     #guess
+    "CH47":                     30,     #guess
+    "mi24":                     35,     #guess
     "MiG-21bis":                3.5,
+    "MiG-21MF-75":              3.5,
     "MiG-21Bison":              3.5,
     "MQ-9":                     0.5,    #guess
     "KC-137R":                  90,     #guess
@@ -66,7 +74,7 @@ var rcs_database = {
     "Voyager-KC":               80,     #guess
     "Typhoon":                  0.5,
     "EF2000":                   0.5,
-    "brsq":                     5,
+    "brsq":                     2.5,
     "C-137R":                   90,     #guess
     "RC-137R":                  95,     #guess
     "EC-137R":                  100,    #guess
@@ -75,31 +83,41 @@ var rcs_database = {
     "SH-60J":                   15,     #guess
     "UH-60J":                   15,     #guess
     "uh60_Blackhawk":           15,     #guess
+    "tigre":                    8,      #guess
     "uh1":                      25,     #guess
     "212-TwinHuey":             20,     #guess
     "412-Griffin":              20,     #guess
     "QF-4E":                    1,      #actual: 6
     "depot":                    170,    #estimated with blender
+    "struct":                   170,    #estimated with blender
+    "rig":                      500,    #guess
+    "point":                    120,    #guess
     "buk-m2":                   7,      #estimated with blender
     "s-300":                    17,     
     "truck":                    1.5,    #estimated with blender
     "missile_frigate":          450,    #estimated with blender
     "frigate":                  450,    #estimated with blender
+    "USS-NORMANDY":             450,    #estimated with blender
+    "USS-LakeChamplain":        450,    #estimated with blender
+    "USS-OliverPerry":          450,    #estimated with blender
+    "USS-SanAntonio":           450,    #estimated with blender
     "tower":                    60,     #estimated with blender
     "gci":                      50,     #guess
-    "FA-18C_Hornet":            1,
-    "FA-18D_Hornet":            1,
-    "F-22-Raptor":				0.002,	#actual: 0.0001
-    "F-35A":					0.001,
-    "F-35B":					0.001,  
+    "FA-18C_Hornet":            3.5,
+    "FA-18D_Hornet":            3.5,
+    "F-22-Raptor":				0.001,	#actual: 0.0001
+    "F-35A":					0.0005,
+    "F-35B":					0.0005,
+    "F-35C":                    0.0005,
+    "Jaguar-GR1":               6,      #guess  
     "Jaguar-GR3":               6,	    #guess
     "f-20A":                    2.5,    #low end of sources
     "f-20C":                    2.5,
     "f-20prototype":            2.5,
     "f-20bmw":                  2.5,
     "f-20-dutchdemo":           2.5,
-    "MiG-15bis":                17,     #guess
-    "G91-R1B":                  8,      #guess
+    "MiG-15bis":                12,     #guess
+    "G91-R1B":                  7,      #guess
 };
 
 var prevVisible = {};

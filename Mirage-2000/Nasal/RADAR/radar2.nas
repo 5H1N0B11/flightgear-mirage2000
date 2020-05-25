@@ -413,114 +413,7 @@ var Radar = {
       rwrList16 = [];
     },
 
-    scan_update_tgt_list_func:func(){
-      if(scan_update_tgt_list){
-        me.temp_raw_list = me.Mp.getChildren();
-        foreach(var c ; me.temp_raw_list)
-        {
-              # FIXME: At that time a multiplayer node may have been deleted while still
-              # existing as a displayable target in the radar targets nodes.
-              # FIXED, with janitor. 5H1N0B1
-              var type = me.type_selector(c);
-              if(c.getNode("valid") == nil or c.getNode("valid").getValue() != 1)
-              {
-                  continue;
-              }
-              
-              # the 2 following line are needed : If not, it would detects our own missiles...
-              # this will come soon
-  #             var HaveRadarNode = c.getNode("radar");
-              #print(me.check_selected_type(c));
-              #if(type == "multiplayer"
-              #    or (type == "tanker" and HaveRadarNode != nil)
-              #    or (type == "aircraft" and me.showAI == 1)
-              #    or type == "carrier"
-              #    or type == "ship"
-              #    or (type == "missile" and HaveRadarNode != nil))
-              #
-              var Tree_Name = c.getName();
-              #print("folderName:" ~ c.getName());
-              
-              
-              if(me.check_selected_type(c))
-              {
-                  # creation of the tempo object Target
-                  var u = Target.new(c,me.myTree.getPath());
-                
 
-                  folderName = c.getName();
-
-                  #print("test : " ~ c.pathNode.getValue());
-                  #print("folderName:" ~ folderName);
-                  # important Shinobi:
-                  # expand this so multiplayer that is on sea or ground is also set correct.
-                  # also consider if doppler do not see them that they are either SURFACE or MARINE, depending on if they have alt = ~ 0
-                  # notice that GROUND_TARGET is set inside Target.new().
-                  me.skipDoppler = 0;
-                  # now we test the property folder name to guess what type it is:
-                  #Should be done with an hash
-                  if(listOfShipModels_hash[folderName] != nil and u.get_altitude()<100){
-                    #print(folderName ~":Not Marine Yet");
-                    u.setType(armament.MARINE);
-                    me.skipDoppler = 1;
-                  }
-
-                  #If not MARINE skipDoppler still == 0
-                  if(listOfGroundTargetNames_hash[folderName] != nil){
-                    u.setType(armament.SURFACE);
-                    me.skipDoppler = 0;
-                  }
-                  
-                  if(u.get_type() == 0){
-                  # now we test the model name to guess what type it is:
-                        me.pathNode = c.getNode("sim/model/path");
-                        if (me.pathNode != nil) {
-                            me.path = me.pathNode.getValue();
-                            me.model = split(".", split("/", me.path)[-1])[0];
-                            u.set_model(me.model);#used for RCS
-                            
-                            if(listOfShipModels_hash[me.model] != nil and u.get_altitude()<100){
-                              # Its a ship, Mirage ground radar will pick it up
-                              u.setType(armament.MARINE);
-                              me.skipDoppler = 1;
-                            }            
-
-                            if(listOfGroundTargetNames_hash[me.model] != nil){
-                              # its a ground vehicle, Mirage ground radar will not pick it up
-                              u.setType(armament.SURFACE);
-                              me.skipDoppler = 0;
-                            }
-                        }
-                  }
-                  #Testing if ORDNANCE
-                  if (c.getNode("missile") != nil and c.getNode("missile").getValue()) {
-                      u.setType(armament.ORDNANCE);
-                      me.skipDoppler = 0;
-#                       print("missile:"~ folderName ~":"~ "armament.ORDNANCE");
-                  }
-                  if (c.getNode("munition") != nil and c.getNode("munition").getValue()) {
-                      u.setType(armament.ORDNANCE);
-                      me.skipDoppler = 0;
-#                       print("munition:" ~ folderName ~":"~ "armament.ORDNANCE");
-                  }
-                  #Testing Ground Target
-                  if(u.get_Callsign() == "GROUND_TARGET"){
-                    u.setType(armament.SURFACE);
-                  }
-                  #print(folderName ~ " type:" ~ u.get_type()~ " Skipping Doppler: " ~ me.skipDoppler);
-#                   if(Tree_Name != "munition"){ 
-#                     print("Test Important:");
-                    me.update_array(u,me.raw_selection);
-                    me.update_array(u,completeList);
-#                   }
-              }
-          }
-      }
-      
-      scan_update_tgt_list = 0;
-    },
-    
-    
     ############
     #  UPDATE  #
     ############
@@ -593,12 +486,6 @@ var Radar = {
 #         var raw_list = me.Mp.getChildren();
         foreach(me.update_u  ; me.raw_selection)
         {
-           
- 
-
-                
-                #print("Start Testing "~ me.update_u.get_Callsign()~"Type: " ~ me.update_u.type);
-                
                               
                 # set Check_List to void
                 me.Check_List = [];
@@ -607,15 +494,7 @@ var Radar = {
 
                 me.go_check(me.update_u, me.skipDoppler);
                 
-                #print("Complete liste after update : " ~ size(completeList));
-                #me.decrease_life(completeList);
-                #me.sorting_and_suppr(completeList);
-                
-                #Displaying Check
-                #print("Testing "~ me.update_u.get_Callsign()~"Check: " ~ me.get_check());
-                
-                #print("End Testing "~ u.get_Callsign());
-                
+                #Displaying Check                
                 # then a function just check it all
                 if(me.get_check() and me.update_u.isValid())
                 {
@@ -631,23 +510,14 @@ var Radar = {
                       me.update_u.set_all(me.MyCoord);
                       me.calculateScreen(me.update_u);
                     }
-                    
-                    #print("Update contactList");
-#                     me.ContactsList = 
+
                     me.update_array(me.update_u,me.ContactsList);
-                    #me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
-                    #me.ContactsList[me.tempo_Index].set_display(1);
+
                     me.update_u.set_display(1);
-                    
-                    #if(me.tempo_Index != nil){ u = me.ContactsList[me.tempo_Index];}
-                    
-                    
+               
                     # for Target Selection
-                    # here we disable the capacity of targeting a missile. But 's possible.
-                    # CANVASARRAY => ARRAY2
+                    # here we disable the capacity of targeting a missile.
                     
-                    
-                    #print("isFriend :" ~ u.isFriend());
                     if(me.update_u.get_type != armament.ORDNANCE and !contains(weaponRadarNames, me.update_u.get_Callsign) and !me.update_u.isFriend())
                     {
                         #tgts_list => ARRAY4
@@ -672,7 +542,6 @@ var Radar = {
                           me.next_Target_Index();
                         }
                     }
-#                     append(CANVASARRAY, u); 
                     me.displayTarget();
                 }
                 else
@@ -680,7 +549,7 @@ var Radar = {
                     #me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
                     #if(me.tempo_Index != nil){me.ContactsList[me.tempo_Index].set_display(1,me.myTree);}
                   
-                 #Here we shouldn't see the target anymore. It should disapear. So this is calling the Tempo_Janitor      
+                 #Here we shouldn't see the target anymore. It should disapear. So for that, we are calling the Tempo_Janitor      
                     if(me.update_u.get_Validity() == 1)
                     {
                         if(me.input.AbsoluteElapsedtime.getValue() - me.update_u.get_TimeLast() > me.MyTimeLimit)
@@ -690,38 +559,13 @@ var Radar = {
                     }
                     
                 }    
-#                 completeList = me.update_array_no_life_reset(u,completeList);
             }
-            #Temporary adding this in order to make the whole new firesystem work
-            #print("Update completeList");
-            
-#             if(u.get_Callsign() == "GROUND_TARGET"){
-#               if(me.inAzimuth(u,0) == 0){
-#                 u.set_display(0,me.myTree);
-#               }else{
-#                 u.set_display(1,me.myTree);
-#               }
-#             }
-            
-            
-        #For Each End
+
                 
         me.ContactsList = me.decrease_life(me.ContactsList);
-        #print("Test");
-        #me.sorting_and_suppr(me.ContactsList);
-        #me.ContactsList = me.cut_array(me.radarMaxSize,me.ContactsList);
-        #me.Global_janitor();
-        #print("Side in RADAR : "~ size(me.ContactsList));
-        #foreach(contact;me.ContactsList){
-        #  print("Last Check : " ~ contact.get_Callsign() ~" 's life : "~ contact.life);
-        #}
 
-        #print("size(completeList) : " ~size(completeList) ~ "; size(me.ContactsList) : " ~ size(me.ContactsList));
         me.updating_now = 0;
-        
 
-        
-#         return CANVASARRAY;
     },
     
 
@@ -1013,10 +857,6 @@ var Radar = {
           return
         } 
       }
-        #if(me.tgts_list[me.Target_Index].get_display()!=1){
-          #me.Target_Index = me.Target_Index==0?size(me.tgts_list)-1:me.Target_Index - 1; 
-          #me.next_Target_Index();
-        #}
     },
     
     next_loop: func(index,factor){

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <path>radar.ac</path>
+  <animation>
+    <!-- object name in ac file -->
+    <object-name>radar.az-field-120</object-name>
+    <object-name>radar.az-field-60</object-name>
+    <object-name>radar.black_screen</object-name>
+    <object-name>radar.ecran</object-name>
+    <object-name>radar.horizon</object-name>
+    <object-name>radar.miles-drum-1</object-name>
+    <object-name>radar.miles-drum-2</object-name>
+    <object-name>radar.miles-drum-3</object-name>
+    <object-name>radar.pulse-srch</object-name>
+    <object-name>radar.radar-markers</object-name>
+    <object-name>radar.radar-screen</object-name>
+    <object-name>radar.scan_marker</object-name>
+    <object-name>radar.stand-by</object-name>
+    <object-name>radar.tws-auto</object-name>
+    <object-name>radar.video</object-name>
+  </animation>
+
+  
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <object-name>radar.radar-screen</object-name>
+    <object-name>radar.scan_marker</object-name>
+    <object-name>radar.radar-markers</object-name>
+    <object-name>radar.horizon</object-name>
+  </effect>
+
+  <animation>
+    <type>select</type>
+    <object-name>radar.black_screen</object-name>
+    <condition>
+      <less-than>
+        <property>/systems/electrical/outputs/radar</property>
+        <value>23</value>
+      </less-than>
+    </condition>
+  </animation>
+  <animation>
+    
+    
+</PropertyList>

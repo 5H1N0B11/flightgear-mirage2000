@@ -1,4 +1,12 @@
 print("*** LOADING MissileView.nas ... ***");
+
+var versionString = getprop("sim/version/flightgear");
+var version = split(".", versionString);
+var major = num(version[0]);
+var minor = num(version[1]);
+var pica  = num(version[2]);
+
+
 var missile_view_handler = {
   init: func(node) {
     me.viewN = node;
@@ -86,7 +94,7 @@ var missile_view_handler = {
     #print("data.root:"~data.root);
 
 #      print("Missile heading treeV2:" ~ data.root ~ "/orientation/true-heading-deg");
-     
+    if(major <= 2020){ 
     me.viewN.getNode("config").setValues({
       "root":data.root,
       #legacy code, for older FG version
@@ -102,6 +110,11 @@ var missile_view_handler = {
       "target-roll-deg-path": data.root ~ "/orientation/roll-deg",
 #       "heading-offset-deg":180
     });
+    }else{
+         me.viewN.getNode("config").setValues({
+      "root":data.root,
+    });      
+    }
   },
 };
 

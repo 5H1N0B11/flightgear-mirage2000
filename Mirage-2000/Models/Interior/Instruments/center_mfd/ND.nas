@@ -71,7 +71,7 @@ var CANVAS_init = func()
     nd_display.cpt.addPlacement({ "node": "center_mfd.blackbkd" });
     var group = nd_display.cpt.createGroup();
     NDCpt.newMFD(group, nd_display.cpt);
-    NDCpt.update();
+    #NDCpt.update();
 }
 
 var showNd = func(pilot='cpt')

@@ -133,7 +133,7 @@
         <file>Aircraft/Mirage-2000/Nasal/vector.nas</file>
     </vector>
     <rcs>
-        <file>Aircraft/Mirage-2000/Nasal/rcs.nas</file>
+        <file>Aircraft/Mirage-2000/Nasal/RADAR/rcs.nas</file>
     </rcs>
     
     <armament>
@@ -146,7 +146,7 @@
       <file>Aircraft/Mirage-2000/Nasal/RADAR/radar2.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/RADAR/target_class.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/RADAR/radarTool.nas</file>
-<!--      <file>Aircraft/Mirage-2000/Nasal/RADAR/radarPrototype.nas</file>-->
+<!--      <file>Aircraft/Mirage-2000/Nasal/RADAR/radarPrototype.nas</file> -->
     </radar>
     
     <!-- First attempt to standardise the weapons system -->
@@ -172,7 +172,7 @@
       <file>Aircraft/Mirage-2000/Nasal/mini-hud.nas</file>
     </hud>
     <rwr>
-      <file>Aircraft/Mirage-2000/Nasal/rwr.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/RADAR/rwr.nas</file>
     </rwr>
     <mirage2000>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5_mfd.nas</file>

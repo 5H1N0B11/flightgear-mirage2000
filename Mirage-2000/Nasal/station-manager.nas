@@ -78,14 +78,36 @@ var Station = {
 				if (typeof(me.weaponName) == "scalar") {
 					#print("attempting to create weapon id="~(me.id*100+me.i));
 					var mf = nil;
-					if (me.weaponName == "AGM-154A" or me.weaponName == "AGM-158") {
+					if (me.weaponName == "AGM-154A") {
+						mf = func (struct) {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 4) {
+								return {"guidanceLaw":"PN"};
+							}
+							return {};
+						};
+					} elsif (me.weaponName == "AGM-158") {
 						mf = func (struct) {
 							if (struct.dist_m != -1 and struct.dist_m*M2NM < 7 and struct.guidance == "gps") {
-								return {"guidance":"vision","class":"GM","target":"nil"};
+								return {"guidance":"vision","class":"GM","target":"nil","guidanceLaw":"PN"};
+							}
+							return {};
+						};
+					} elsif (me.weaponName == "AIM-54") {
+						mf = func (struct) {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 8 and struct.guidance == "semi-radar") {
+								return {"guidance":"radar"};
+							}
+							return {};
+						};
+					} elsif (me.weaponName == "AIM-120") {
+						mf = func (struct) {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "inertial") {
+								return {"guidance":"radar"};
 							}
 							return {};
 						};
 					}
+					
 					me.aim = armament.AIM.new(me.id*100+me.i, me.weaponName, "", mf, me.position);
 					if (me.aim == -1) {
 						print("Pylon could not create "~me.weaponName);
@@ -98,7 +120,7 @@ var Station = {
 					append(me.weapons, me.aim);
 				} else {
 					#print("Added submodel or fuel tank to Pylon");
-					me.weaponName.mount();
+					me.weaponName.mount(me);
 					append(me.weapons, me.weaponName);
 				}
 			}
@@ -196,9 +218,9 @@ var Station = {
 	getAmmo: func (type = nil) {
 		me.ammo = 0;
 		foreach(me.weapon ; me.getWeapons()) {
-			if (me.weapon != nil and me.weapon.parents[0] == armament.AIM and (type == nil or me.weapon.type == type)) {
+			if (me.weapon != nil and me.weapon.parents[0] == armament.AIM and (me.weapon.type == nil or me.weapon.type == type)) {
 				me.ammo += 1;
-			} elsif (me.weapon != nil and me.weapon.parents[0] == SubModelWeapon and (type == nil or me.weapon.type == type)) {
+			} elsif (me.weapon != nil and me.weapon.parents[0] == SubModelWeapon and (me.weapon.type == nil or me.weapon.type == type)) {
 				me.ammo += me.weapon.getAmmo();
 			}
 		}
@@ -298,6 +320,7 @@ var Pylon = {
 		if (me.guiListener != nil) {
 			removelistener(me.guiListener);
 		}
+		me.changingGui = 1;
 		me.guiNode = props.globals.getNode(baseGui~"/weight["~me.guiID~"]",1);
 		me.guiNode.removeAllChildren();
 		me.guiNode.initNode("name",me.name,"STRING");
@@ -306,15 +329,24 @@ var Pylon = {
 		me.i = 0;
 		foreach(set ; me.sets) {
 			me.guiNode.initNode("opt["~me.i~"]/name",set.name,"STRING");
-			#if (fdm=="yasim") { commented out due to fuel dialog changes in FG2018.3
-				# due to fuel dialog has different features in yasim from jsb, this must be done:
-				me.guiNode.initNode("opt["~me.i~"]/lbs",0,"DOUBLE");
-				set.opt = me.i;
-			#}
+
+			# ensure that gals is set in the option for fuel tanks - as this is required
+			# to make the payload dialog auto reload the tank after it is mounted 
+			# because the payload dialog requires /consumables/fuel/tank[#]/capacity-gal_us to
+			# be present and non zero
+			me.guiNode.initNode("opt["~me.i~"]/lbs",0,"DOUBLE");
+			if (size(set.content) == 1) {
+				if (typeof(set.content[0]) != "scalar"){
+					if (set.content[0]["capacity"] != nil)
+						me.guiNode.initNode("opt["~me.i~"]/gals",set.content[0]["capacity"],"DOUBLE");
+				}
+			}
+			set.opt = me.i;
 			me.i += 1;
 		}
 		me.calculateSetMassForOpt();
 		me.guiListener = setlistener(baseGui~"/weight["~me.guiID~"]/selected", func me.guiChanged());
+		me.changingGui = 0;
 	},
 	
 	calculateSetMassForOpt: func {
@@ -529,7 +561,7 @@ var SubModelWeapon = {
 		me.active = 0;
 	},
 
-	mount: func {
+	mount: func(pylon) {
 		me.reloadAmmo();
 		#if (me.timer != nil and me.timer.isRunning) me.timer.stop();
 		#me.timer = nil;
@@ -587,7 +619,7 @@ var FuelTank = {
 		s.capacity = capacity_gal;
 		s.fuelTankNumber = fuelTankNumber;
 		s.modelPath = model_path;
-
+		s.baseProperty = "/consumables/fuel/tank["~s.fuelTankNumber~"]/";
 		# these 3 needs to be here and be 0
 		s.Cd_base = 0;
 		s.ref_area_sqft = 0;
@@ -595,38 +627,46 @@ var FuelTank = {
 		return s;
 	},
 
-	mount: func {
+	mount: func(pylon) {
+#		print(pylon.name);
+		me.guiNode = props.globals.getNode(baseGui~"/weight["~pylon.guiID~"]",1);
+		me.guiNode.initNode("tank",me.fuelTankNumber,"DOUBLE");
+
 		# set capacity in fuel tank
 		if (fdm == "jsb") {
 			setprop("fdm/jsbsim/propulsion/tank["~me.fuelTankNumber~"]/external-flow-rate-pps", 0);
 		}
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/capacity-gal_us", me.capacity);
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/level-gal_us", me.capacity);
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/selected", 1);
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/name", me.typeLong);
+		me.setv("capacity-gal_us", me.capacity);
+		me.setv("level-gal_us", me.capacity);
+		me.setv("selected", 1);
+		me.setv("name", me.typeLong);
 		setprop(me.modelPath, 1);
 		setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload"));
 	},
 
 	eject: func {
 		# spill out all the fuel?
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/capacity-gal_us", 0);
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/level-norm", 0);
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/selected", 0);
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/name", "Not attached");
+		#me.guiNode = props.globals.getNode(baseGui~"/weight["~pylon.guiID~"]",1);
+		me.setv("capacity-gal_us", 0);
+		me.setv("level-norm", 0);
+		me.setv("selected", 0);
+		me.setv("name", "Not attached");
 		setprop(me.modelPath, 0);
 		setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload"));
 		if (fdm == "jsb") {
 			setprop("fdm/jsbsim/propulsion/tank["~me.fuelTankNumber~"]/external-flow-rate-pps", -1000);
 		}
 	},
-
+	setv: func(p,v) {
+    	#print(me.type," -> set ",me.baseProperty,p," = ",v);
+		setprop(me.baseProperty~p,v);
+	},
 	del: func {
 		# delete all the fuel
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/capacity-gal_us", 0);
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/level-norm", 0);
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/selected", 0);
-		setprop("/consumables/fuel/tank["~me.fuelTankNumber~"]/name", "Not attached");
+		me.setv("capacity-gal_us", 0);
+		me.setv("level-norm", 0);
+		me.setv("selected", 0);
+		me.setv("name", "Not attached");
 		setprop(me.modelPath, 0);
 		setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload"));
 		if (fdm == "jsb") {
@@ -663,7 +703,7 @@ var Smoker = {
 		return s;
 	},
 
-	mount: func {
+	mount: func(pylon) {
 		# set capacity in fuel tank
 		setprop(me.modelPath, 1);
 	},
@@ -703,7 +743,7 @@ var Dummy = {
 		return s;
 	},
 
-	mount: func {
+	mount: func(pylon) {
 		
 	},
 

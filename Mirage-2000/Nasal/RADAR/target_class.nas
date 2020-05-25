@@ -13,6 +13,9 @@ var Target = {
         obj.Heading         = c.getNode("orientation/true-heading-deg");
         
         obj.Alt             = c.getNode("position/altitude-ft");
+          obj.ubody           = c.getNode("velocities/uBody-fps");
+          obj.vbody           = c.getNode("velocities/vBody-fps");
+          obj.wbody           = c.getNode("velocities/wBody-fps");
         obj.lat             = c.getNode("position/latitude-deg");
         obj.lon             = c.getNode("position/longitude-deg");
         
@@ -811,6 +814,11 @@ var Target = {
     isLaserPainted: func() {
         return me.ispainted; 
     },
+    
+    setVirtual: func (virt) {
+        me.virtual = virt;
+    },
+    
     isVirtual: func(){
       if(me.get_Callsign() == "GROUND_TARGET"){return 1;}else{return 0;}
     },
@@ -822,6 +830,37 @@ var Target = {
     set_model: func (mdl) {
         me.model = mdl;
     },
+     get_uBody: func {
+      var body = nil;
+      if (me.ubody != nil) {
+        body = me.ubody.getValue();
+      }
+      if(body == nil) {
+        body = me.get_Speed()*KT2FPS;
+      }
+      return body;
+    },    
+    get_vBody: func {
+      var body = nil;
+      if (me.ubody != nil) {
+        body = me.vbody.getValue();
+      }
+      if(body == nil) {
+        body = 0;
+      }
+      return body;
+    },    
+    get_wBody: func {
+      var body = nil;
+      if (me.ubody != nil) {
+        body = me.wbody.getValue();
+      }
+      if(body == nil) {
+        body = 0;
+      }
+      return body;
+    },
+    
 
     list : [],
 };
