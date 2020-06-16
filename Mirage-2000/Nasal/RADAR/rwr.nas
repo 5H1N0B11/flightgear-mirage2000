@@ -174,6 +174,7 @@ RWRCanvas = {
         rwr.AIRCRAFT_FISHBED  = "21";
         rwr.AIRCRAFT_FULCRUM  = "29";
         rwr.AIRCRAFT_FLANKER  = "27";
+        rwr.AIRCRAFT_FULLBACK = "34";
         rwr.AIRCRAFT_PAKFA    = "57";
         rwr.AIRCRAFT_MIRAGE   = "M2";
         rwr.AIRCRAFT_FALCON   = "16";
@@ -190,6 +191,7 @@ RWRCanvas = {
         rwr.AIRCRAFT_SKYHAWK  = "A4";
         rwr.AIRCRAFT_TIGER    = "F5";
         rwr.AIRCRAFT_TONKA    = "TO";
+        rwr.AIRCRAFT_AARDVARK = "F1";
         rwr.AIRCRAFT_RAFALE   = "RF";
         rwr.AIRCRAFT_HARRIER  = "HA";
         rwr.AIRCRAFT_HARRIERII = "AV";
@@ -204,8 +206,10 @@ RWRCanvas = {
         rwr.AIRCRAFT_GRIPEN   = "39";
         rwr.AIRCRAFT_MITTEN   = "Y1";
         rwr.AIRCRAFT_ALCA     = "LC";
-        rwr.AIRCRAFT_UNKNOWN  = "UN";
-        rwr.AIRCRAFT_UFO      = "U";
+        rwr.AIRCRAFT_SPRETNDRD = "ET";
+        rwr.AIRCRAFT_MIRAGEF1 = "M1";
+        rwr.AIRCRAFT_UNKNOWN  = "U";
+        rwr.AIRCRAFT_UFO      = "UK";
         rwr.ASSET_AI          = "AI";
         rwr.lookupType = {
         # OPRF fleet and related aircrafts:
@@ -221,6 +225,7 @@ RWRCanvas = {
                 "m2000-5":                  rwr.AIRCRAFT_MIRAGE,
                 "m2000-5B":                 rwr.AIRCRAFT_MIRAGE,
                 "MiG-21bis":                rwr.AIRCRAFT_FISHBED,
+                "MiG-21MF-75":              rwr.AIRCRAFT_FISHBED,
                 "MiG-29":                   rwr.AIRCRAFT_FULCRUM,
                 "SU-27":                    rwr.AIRCRAFT_FLANKER,
                 "EC-137R":                  rwr.AIRCRAFT_SEARCH,
@@ -240,10 +245,13 @@ RWRCanvas = {
                 "frigate":                  rwr.ASSET_FRIGATE,
                 "fleet":                    rwr.ASSET_FRIGATE,
                 "Mig-28":                   rwr.SCENARIO_OPPONENT,
+                "Jaguar-GR1":               rwr.AIRCRAFT_JAGUAR,
         # Other threatening aircrafts (FGAddon, FGUK, etc.):
                 "AI":                       rwr.ASSET_AI,
                 "SU-37":                    rwr.AIRCRAFT_FLANKER,
                 "J-11A":                    rwr.AIRCRAFT_FLANKER,
+                "daVinci_SU-34":            rwr.AIRCRAFT_FULLBACK,
+                "Su-34":                    rwr.AIRCRAFT_FULLBACK,
                 "T-50":                     rwr.AIRCRAFT_PAKFA,
                 "MiG-21Bison":              rwr.AIRCRAFT_FISHBED,
                 "Mig-29":                   rwr.AIRCRAFT_FULCRUM,
@@ -255,11 +263,16 @@ RWRCanvas = {
                 "F-16CJ":                   rwr.AIRCRAFT_FALCON,
                 "FA-18C_Hornet":            rwr.AIRCRAFT_HORNET,
                 "FA-18D_Hornet":            rwr.AIRCRAFT_HORNET,
+                "f18":                      rwr.AIRCRAFT_HORNET,
+                "F-111C":                   rwr.AIRCRAFT_AARDVARK,
                 "A-10-modelB":              rwr.AIRCRAFT_WARTHOG,
                 "Su-15":                    rwr.AIRCRAFT_FLAGON,
                 "Jaguar-GR3":               rwr.AIRCRAFT_JAGUAR,
                 "E3B":                      rwr.AIRCRAFT_SEARCH,
                 "E-2C-Hawkeye":             rwr.AIRCRAFT_SEARCH,
+                "onox-awacs":               rwr.AIRCRAFT_SEARCH,
+                "u-2s":                     rwr.AIRCRAFT_SEARCH,
+                "U-2S-model":               rwr.AIRCRAFT_SEARCH,
                 "F-4S":                     rwr.AIRCRAFT_PHANTOM,
                 "F-4EJ_ADTW":               rwr.AIRCRAFT_PHANTOM,
                 "FGR2-Phantom":             rwr.AIRCRAFT_PHANTOM,
@@ -297,10 +310,17 @@ RWRCanvas = {
                 "F-22-Raptor":              rwr.AIRCRAFT_RAPTOR,
                 "F-35A":                    rwr.AIRCRAFT_JSF,
                 "F-35B":                    rwr.AIRCRAFT_JSF,
+                "F-35C":                    rwr.AIRCRAFT_JSF,
                 "JAS-39C_Gripen":           rwr.AIRCRAFT_GRIPEN,
                 "gripen":                   rwr.AIRCRAFT_GRIPEN,
                 "Yak-130":                  rwr.AIRCRAFT_MITTEN,
                 "L-159":                    rwr.AIRCRAFT_ALCA,
+                "super-etendard":           rwr.AIRCRAFT_SPRETNDRD,
+                "Mirage_F1-model":          rwr.AIRCRAFT_MIRAGEF1,
+                "USS-NORMANDY":             rwr.ASSET_FRIGATE,
+                "USS-LakeChamplain":        rwr.ASSET_FRIGATE,
+                "USS-OliverPerry":          rwr.ASSET_FRIGATE,
+                "USS-SanAntonio":           rwr.ASSET_FRIGATE,
                 "mp-nimitz":                rwr.ASSET_FRIGATE,
                 "mp-eisenhower":            rwr.ASSET_FRIGATE,
                 "mp-vinson":                rwr.ASSET_FRIGATE,
