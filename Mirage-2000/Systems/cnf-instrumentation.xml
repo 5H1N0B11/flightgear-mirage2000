@@ -7,7 +7,7 @@
     <on type="bool">1</on>
     <inputs>
       <range-nm>20</range-nm>
-      <arpt type="bool">1</arpt>
+      <arpt type="bool">0</arpt>
       <pos type="bool">1</pos>
     </inputs>
   </efis>
