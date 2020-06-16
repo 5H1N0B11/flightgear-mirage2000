@@ -13,6 +13,7 @@ var minihud = func()
     var is_internal    = getprop("/sim/current-view/internal");
     var heading_offset = getprop("/sim/current-view/heading-offset-deg");
     var pitch_offset   = getprop("/sim/current-view/pitch-offset-deg");
+    var armament_msg   = getprop("/payload/armament/msg");
     var internalHUD_selected = getprop("/controls/hud");
     
     var x = math.sin(heading_offset * math.pi / 180);
@@ -20,7 +21,7 @@ var minihud = func()
     var distance_from_center = (x * x) + (y * y);
     
     # we check if internal or not and if pilot view :
-    if((is_internal == 1) and (view_number != 11))
+    if((is_internal == 1) and (view_number != 11) and !armament_msg)
     {
         if(distance_from_center > 0.6)
         {
@@ -55,7 +56,7 @@ var minihud = func()
             }
         }
     }
-    else
+    elsif (!armament_msg)
     {
         if(hud_number != 4)
         {
@@ -65,6 +66,8 @@ var minihud = func()
             setprop("/sim/hud/clipping/top",     2000);
             setprop("/sim/hud/clipping/bottom", -2000);
         }
+    } else {
+        setprop("/sim/hud/current-path",        1);
     }
     settimer(minihud, 0.5);
 }
