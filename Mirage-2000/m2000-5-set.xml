@@ -46,6 +46,8 @@
     </tags>
     
     <fallback-model-index type="int">527</fallback-model-index>
+
+    <gui n="0" include="gui/it-gui.xml"/>
     
     <previews>
       <preview>
