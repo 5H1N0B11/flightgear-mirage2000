@@ -97,7 +97,8 @@
       <path>/instrumentation/tacan/frequencies/selected-channel[4]</path>
 -->
     </aircraft-data>
-    
+
+    <gui n="0" include="gui/it-gui.xml"/>
 
   </sim>
 

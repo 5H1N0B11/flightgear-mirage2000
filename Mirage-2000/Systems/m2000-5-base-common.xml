@@ -85,8 +85,6 @@
     </generic>
   </multiplay>
 
-  <gui n="0" include="gui/it-gui.xml"/>
-
   <panel include="panel.xml" />
 
   <rendering include="rendering.xml" />
