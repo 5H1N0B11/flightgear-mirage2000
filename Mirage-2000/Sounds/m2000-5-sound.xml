@@ -395,11 +395,10 @@ ________________________________________________________________________________
     </rain-->
     
     <!-- ~~~~~~~~~~~~~~~~~~ windshield rain -->
-    <rain>
-            <name>rainHittingFuselage</name>
+    <rain_ext>
+            <name>rain_ext</name>
             <mode>looped</mode>
             <path>Aircraft/Mirage-2000/Sounds/rain.wav</path>
-            <type>avionics</type>
             <condition>
                 <not>
                     <property>sim/current-view/internal</property>
@@ -413,9 +412,9 @@ ________________________________________________________________________________
                 <property>/environment/rain-norm</property>
                 <factor>0.40</factor>
             </volume>
-        </rain>
-        <rain>
-            <name>rainHittingFuselageInt</name>
+      </rain_ext>
+      <rain_int1>
+            <name>rain_int1</name>
             <mode>looped</mode>
             <path>Aircraft/Mirage-2000/Sounds/rain.wav</path>
             <type>avionics</type>
@@ -430,9 +429,9 @@ ________________________________________________________________________________
                 <property>/environment/rain-norm</property>
                 <factor>0.18</factor>
             </volume>
-        </rain>
-        <rain-windshield>
-            <name>rainHittingWindshieldInt</name>
+      </rain_int1>
+      <rain_int2>
+            <name>rain_int2</name>
             <mode>looped</mode>
             <path>Aircraft/Mirage-2000/Sounds/rain-windshield.wav</path>
             <type>avionics</type>
@@ -449,7 +448,7 @@ ________________________________________________________________________________
                 <min>0.06</min>
                 <max>0.40</max>
             </volume>
-        </rain-windshield>
+        </rain_int2>
     
     <wind>
       <name>wind</name>
