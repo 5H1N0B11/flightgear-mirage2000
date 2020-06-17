@@ -198,7 +198,7 @@ ________________________________________________________________________________
         camber="0.03">
         <stall aoa="29" width="8" peak="1.7" />
         <slat    start="0.20"  end="0.80"  aoa="6"     drag=" 2.0" />
-        <flap0   start="0.35"  end="0.90"  lift="1.75" drag=" 1.2" />
+        <flap0   start="0.35"  end="0.90"  lift="1.75" drag=" 4.00" />
         <spoiler start="0"  end="0.05"  lift="1"    drag="150" />
 
     <control-input axis="/it-fbw/output/roll"           control="FLAP0" split="true" />
@@ -254,7 +254,7 @@ ________________________________________________________________________________
          camber="0.07"
          dihedral="-4">
     <stall aoa="29" width="4" peak="1.5" />
-    <flap0 start="0.1" end="0.90" lift="1.68" drag="2.50" />
+    <flap0 start="0.1" end="0.90" lift="1.68" drag="6.0" />
     <spoiler start="0"  end="0.9" lift="0" drag="200" />
 
     <control-input axis="/it-fbw/output/pitch" control="FLAP0" />
@@ -281,7 +281,7 @@ ________________________________________________________________________________
          taper="0.22"
          sweep="38">
     <stall aoa="16" width="4" peak="1.5" />
-    <flap0 start="0.06" end="0.67" lift="1.35" drag="1.3" />
+    <flap0 start="0.06" end="0.67" lift="1.35" drag="2.2" />
 
     <control-input axis="/it-fbw/output/yaw" control="FLAP0" invert="false" />
 
