@@ -462,7 +462,10 @@
     <width>15</width>
     <height>6</height>
     <condition>
-      <property>sim/current-view/internal</property>
+      <equals>
+        <property>sim/current-view/view-number</property>
+        <value>0</value>
+      </equals>
       <equals>
         <property>/sim/alarms/stall-warning</property>
         <value>2</value>
@@ -483,7 +486,10 @@
     <width>15</width>
     <height>6</height>
     <condition>
-      <property>sim/current-view/internal</property>
+      <equals>
+        <property>sim/current-view/view-number</property>
+        <value>0</value>
+      </equals>
       <equals>
         <property>/sim/alarms/stall-warning</property>
         <value>1</value>
@@ -503,7 +509,10 @@
     <y>-35</y>
     <condition>
       <and>
-        <property>sim/current-view/internal</property>
+        <equals>
+          <property>sim/current-view/view-number</property>
+          <value>0</value>
+        </equals>
         <equals>
           <property>/controls/gear/gear-down</property>
           <value>false</value>
