@@ -495,6 +495,7 @@ var mp_messaging = func(){
       setprop("/gui/map/draw-traffic", 0);
       setprop("/sim/gui/dialogs/map-canvas/draw-TFC", 0);
       setprop("/sim/rendering/als-filters/use-filtering", 1);
+      setprop("/controls/SAS/activated", 1);
     
     
   }

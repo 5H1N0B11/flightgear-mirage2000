@@ -6,7 +6,7 @@
   	<draggable>true</draggable>
     <resizable>true</resizable>
     <width>250</width>
-    <height>475</height>
+    <height>480</height>
 
     <group>
 		<layout>hbox</layout>
@@ -35,6 +35,8 @@
       </binding>       
 		</button>
 	</group>
+
+  <hrule/>
 
   	<text>
 	    <label>Friendly callsigns:</label>

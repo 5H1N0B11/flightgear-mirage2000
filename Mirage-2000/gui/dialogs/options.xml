@@ -129,7 +129,7 @@
   </group>
 
   <hrule />
-  <text><label>Fly-by-wire</label></text>
+  <text><label>Fly-by-wire Controls</label></text>
   <group>
     <layout>hbox</layout>
     <group>
@@ -242,37 +242,6 @@
       </slider>
       </group>
   </group>
-
-  <hrule />
-
-  <button>
-    <legend>MAP (toggleing display)</legend>
-    <binding>
-      <command>nasal</command>
-      <script>mirage2000.myRightMfd.changeMfD_Displaying()</script>
-    </binding>
-  </button>
-  
-  
-  
-  
-<!--  <button>
-    <legend>RWR (test)</legend>
-    <binding>
-      <command>nasal</command>
-      <script>mirage2000.createRWR()</script>
-    </binding>
-  </button>-->
-
-<!--
-  <button>
-    <legend></legend>
-    <binding>
-      <command>nasal</command>
-      <script>mirage2000.changeindex()</script>
-    </binding>
-  </button>
--->
 
   <hrule />
 

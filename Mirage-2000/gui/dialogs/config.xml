@@ -172,7 +172,11 @@
       <script>pylons.lisse()</script>
     </binding>
   </button>
+<group>
+  <layout>table</layout>
   <button>
+    <row>0</row>
+    <col>0</col>
     <legend>PO</legend>
     <binding>
       <command>nasal</command>
@@ -180,6 +184,8 @@
     </binding>
   </button>
   <button>
+    <row>1</row>
+    <col>0</col>
     <legend>Fox Old Years</legend>
     <binding>
       <command>nasal</command>
@@ -187,6 +193,8 @@
     </binding>
   </button>
   <button>
+    <row>2</row>
+    <col>0</col>
     <legend>Fox</legend>
     <binding>
       <command>nasal</command>
@@ -194,6 +202,8 @@
     </binding>
   </button>
   <button>
+    <row>3</row>
+    <col>0</col>
     <legend>Fox Full Mica</legend>
     <binding>
       <command>nasal</command>
@@ -201,6 +211,8 @@
     </binding>
   </button>
   <button>
+    <row>4</row>
+    <col>0</col>
     <legend>Bravo</legend>
     <binding>
       <command>nasal</command>
@@ -208,6 +220,8 @@
     </binding>
   </button>
   <button>
+    <row>0</row>
+    <col>1</col>
     <legend>Kilo</legend>
     <binding>
       <command>nasal</command>
@@ -215,6 +229,8 @@
     </binding>
   </button>
   <button>
+    <row>1</row>
+    <col>1</col>
     <legend>Air to Ground</legend>
     <binding>
       <command>nasal</command>
@@ -222,6 +238,8 @@
     </binding>
   </button>
   <button>
+    <row>2</row>
+    <col>1</col>
     <legend>Anti Radar</legend>
     <binding>
       <command>nasal</command>
@@ -229,6 +247,8 @@
     </binding>
   </button>
   <button>
+    <row>3</row>
+    <col>1</col>
     <legend>Air to Sea</legend>
     <binding>
       <command>nasal</command>
@@ -236,11 +256,14 @@
     </binding>
   </button>  
   <button>
+    <row>4</row>
+    <col>1</col>
     <legend>m2000N</legend>
     <binding>
       <command>nasal</command>
       <script>pylons.nuke()</script>
     </binding>
   </button>
+</group>
 
 </PropertyList>
