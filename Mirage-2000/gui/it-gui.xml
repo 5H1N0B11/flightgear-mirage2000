@@ -10,9 +10,9 @@
 		<colors n="0">
 			<background n="0">
 				<alpha>0.95</alpha>
-				<blue>0.31</blue>
-				<green>0.26</green>
-				<red>0.24</red>
+				<blue>0.30</blue>
+				<green>0.25</green>
+				<red>0.23</red>
 			</background>
 			<button n="0">
 				<alpha>0.95</alpha>
@@ -111,9 +111,9 @@
 		<colors n="0">
 			<background n="0">
 				<alpha>0.95</alpha>
-				<blue>0.31</blue>
-				<green>0.26</green>
-				<red>0.24</red>
+				<blue>0.30</blue>
+				<green>0.25</green>
+				<red>0.23</red>
 			</background>
 			<button n="0">
 				<alpha>0.95</alpha>
