@@ -99,6 +99,42 @@
 
   <payload include="payload.xml" />
 
+  <systems n="0">
+    <hydraulical>
+      <circuit1_press alias="/fdm/jsbsim/systems/hydraulics/number1-system-pressure" />
+      <circuit2_press alias="/fdm/jsbsim/systems/hydraulics/number2-system-pressure" />
+    </hydraulical>
+  </systems>
+
+  <fdm n="0">
+    <jsbsim n="0">
+      <metrics>
+        <stores-centre-tank type="double">0</stores-centre-tank>
+        <stores-wing-tank-left type="double">0</stores-wing-tank-left>
+        <stores-wing-tank-right type="double">0</stores-wing-tank-right>
+      </metrics>
+      <systems>
+        <electrics>
+          <ac-left-main-bus>0</ac-left-main-bus>
+          <dc-main-bus>0</dc-main-bus>
+          <dc-essential-bus1>0</dc-essential-bus1>
+        </electrics>
+        <hydraulics>
+          <selected-system type="int">0</selected-system>
+          <electric-pump-normal-pressure>190</electric-pump-normal-pressure>
+          <electric-pump-start-request>0</electric-pump-start-request>
+          <emerg-electric-pump-power>0</emerg-electric-pump-power>
+          <emerg-electric-pump-start-request>0</emerg-electric-pump-start-request>
+          <ep-running-6seconds>0</ep-running-6seconds>
+          <landing-gear-standby-accumulator-psi>0</landing-gear-standby-accumulator-psi>
+          <normal-pressure>280</normal-pressure>
+          <number1-system-pump-failed>0</number1-system-pump-failed>
+          <number2-system-pump-failed>0</number2-system-pump-failed>
+        </hydraulics>
+      </systems>
+    </jsbsim>
+  </fdm>
+
   <nasal>
     <!-- c172p is part of FGDATA and thus always present -->
     <math_ext>
@@ -125,9 +161,6 @@
     <electrics>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-electrical.nas</file>
     </electrics>
-    <engines>
-      <file>Aircraft/Mirage-2000/Nasal/generic-yasim-engine.nas</file>
-    </engines>
     <vector>
         <file>Aircraft/Mirage-2000/Nasal/vector.nas</file>
     </vector>
@@ -162,9 +195,6 @@
     <fuel>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-fuel.nas</file>
     </fuel>
-    <hydraulics>
-      <file>Aircraft/Mirage-2000/Nasal/m2000-5-hydraulical.nas</file>
-    </hydraulics>
     <hud>
       <file>Aircraft/Mirage-2000/Nasal/HUD/hud_math.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>

@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!--
+        Description: Mirage 2000 hydraulics system
+        Author: Richard Harrison (rjh@zaretto.com)
+		Author (revision): Jonathan Redpath (legoboyvdlpATgmailDOTcom)
+    -->
+
+<system name="hydraulic">
+
+     <channel name="Hydraulic System" execrate="30">
+		<scheduled_gain name="systems/hydraulics/number1-system-pump-bar"> <!-- what is accessory relay? For now put on engine! -->
+            <input>propulsion/engine[0]/n2</input>
+            <table>
+                <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
+                <independentVar lookup="column">systems/hydraulics/number1-system-pump-failed</independentVar>
+                <tableData>
+                    0      1
+                    0       0       0
+                    18   	280     0
+                </tableData>
+            </table>
+            <clipto>
+                <min> 0 </min>
+                <max>systems/hydraulics/normal-pressure</max>
+            </clipto>
+        </scheduled_gain>
+		
+        <scheduled_gain name="systems/hydraulics/number2-system-engine-pump-bar">
+            <input>propulsion/engine[0]/n2</input>
+            <table>
+                <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
+                <independentVar lookup="column">systems/hydraulics/number2-system-pump-failed</independentVar>
+                <tableData>
+                    0      1
+                    0       0       0
+                    18   	280     0
+                </tableData>
+            </table>
+            <clipto>
+                <min> 0 </min>
+                <max>systems/hydraulics/normal-pressure</max>
+            </clipto>
+        </scheduled_gain>
+		
+        <fcs_function name="systems/hydraulics/number2-system-electric-pump-bar">
+            <function>
+                <ifthen>
+                    <and>
+                        <gt>
+                            <property>/systems/electrical/volts</property>
+                            <value>0</value>
+                        </gt>
+                        <gt>
+                            <property>systems/hydraulics/electric-pump-start-request</property>
+                            <value>0</value>
+                        </gt>
+                    </and>
+                    <value>190</value>
+                    <value>0</value>
+                </ifthen>
+            </function>
+            <clipto>
+                <min> 0 </min>
+                <max>systems/hydraulics/electric-pump-normal-pressure</max>
+            </clipto>
+        </fcs_function>
+		
+		<scheduled_gain name="systems/hydraulics/number2-system-emergency-electric-pump-bar">
+            <input>systems/hydraulics/emerg-electric-pump-power</input>
+            <table>
+                <independentVar lookup="row">systems/hydraulics/emerg-electric-pump-power</independentVar>
+                <independentVar lookup="column">systems/hydraulics/emerg-electric-pump-start-request</independentVar>
+                <tableData>
+                    0      1
+                    0       0       0
+                    1   	0     	280
+                </tableData>
+            </table>
+            <clipto>
+                <min> 0 </min>
+                <max>systems/hydraulics/electric-pump-normal-pressure</max>
+            </clipto>
+        </scheduled_gain>
+		
+        <switch name="systems/hydraulics/electric-pump-start-request">
+            <default value="0"/>
+            <test  logic="AND" value="1">
+               systems/hydraulics/number2-system-engine-pump-bar le 160
+			   /controls/hydraulics/electric-pump-switch ne 0
+            </test>
+        </switch>
+		
+		<switch name="systems/hydraulics/emerg-electric-pump-start-request">
+            <default value="0"/>
+			<test  logic="AND" value="1">
+               /controls/hydraulics/emerg-electric-pump-switch eq 1
+            </test>
+            <test  logic="AND" value="1">
+               propulsion/engine[0]/n1 ge 5
+			   propulsion/engine[0]/n1 le 15
+			   gear/gear-pos-norm eq 0
+			   /position/altitude-agl-ft gt 10000
+			   /instrumentation/airspeed-indicator/indicated-speed-kt gt 100
+            </test>
+        </switch>
+		
+        <switch name="systems/hydraulics/number1-system-pressure">
+            <default value="systems/hydraulics/number1-system-pump-bar"/>
+        </switch>
+
+        <switch name="systems/hydraulics/number2-system-pressure">
+            <default value="systems/hydraulics/number2-system-engine-pump-bar"/>
+			<test value="systems/hydraulics/number2-system-electric-pump-bar">
+				systems/hydraulics/electric-pump-start-request == 1
+				systems/hydraulics/number2-system-electric-pump-bar ge 150
+			</test>
+			<test value="systems/hydraulics/number2-system-emergency-electric-pump-bar">
+				systems/hydraulics/emerg-electric-pump-start-request == 1
+				systems/hydraulics/number2-system-emergency-electric-pump-bar ge 150
+			</test>
+        </switch>
+		
+		<switch name="systems/hydraulics/number1-system-available">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                systems/hydraulics/number1-system-pressure ge 180
+				<!-- systems/electrics/dc-main-bus ge 25 fixme, what is accessory relay? -->
+            </test>
+        </switch>
+
+        <switch name="systems/hydraulics/number2-system-available">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                systems/hydraulics/number2-system-pressure ge 180
+            </test>
+        </switch>
+		
+		<switch name="systems/hydraulics/ep-running">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                systems/hydraulics/number2-system-electric-pump-bar ge 150
+            </test>
+        </switch>
+
+        <switch name="systems/hydraulics/system-pressure">
+            <default value="0"/>
+            <test  logic="OR" value="1">
+                systems/hydraulics/number1-system-pressure ge 180
+                systems/hydraulics/number2-system-pressure ge 180
+            </test>
+        </switch>
+    </channel>
+</system>

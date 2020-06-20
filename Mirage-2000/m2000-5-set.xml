@@ -11,14 +11,28 @@
   </_debug>
 
   <sim>
-    <description>Mirage 2000 (YASim)</description>
-    <author>Elijah (3D/FDM), Buckaroo (FDM), 5H1N0B1 (Weapons, systems), F-Sig, hardball (3D, systems, dual seat), Joshua Davidson (FCS/FBW/Autopilot), Leto, Richard, onox, legoboyvdlp, Domokos Juttner (Rudolf), ravenclaw_007, J Maverick 16</author>
-    <long-description>The Dassault Mirage 2000 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
+    <description>Mirage 2000-5</description>
+    <author>Helijah, 5H1N0B1, Richard Harrison, Leto, Joshua Davidson, hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007</author>
+
+      <!-- 
+          Elijah (3D/FDM)
+          5H1N0B1 (Weapons, systems)
+          F-Sig
+          hardball (3D, systems, dual seat)
+          Joshua Davidson (FCS, Autopilot)
+          Leto
+          Richard Harrison (Flight Model)
+          onox
+          legoboyvdlp
+          Domokos "Rudolf" Juttner
+          ravenclaw_007
+          J Maverick 16
+      -->
+    <long-description>The Dassault Mirage 2000-5 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
     <aircraft-version>2019-12-31</aircraft-version>
     <status>production</status>
 
-    <flight-model>yasim</flight-model>
-    <aero>Systems/m2000-5-yasim</aero>
+    <aero>Mirage2000-vsp</aero>
 
     <rating>
       <FDM     type="int"> 4 </FDM>
@@ -71,7 +85,6 @@
         <path>Splashs/splash-04.png</path>
       </preview>
     </previews>
-
   </sim>
 
 </PropertyList>

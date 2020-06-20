@@ -66,11 +66,16 @@
       <float                n="12" alias="/gear/gear[1]/rollspeed-ms" />
       <float                n="13" alias="/gear/gear[2]/rollspeed-ms" />
       <float                n="14" alias="/engines/engine[0]/afterburner" />
-      <float                n="15" alias="/it-fbw/internal/elevon-1L" />
-      <float                n="16" alias="/it-fbw/internal/elevon-2L" />
-      <float                n="17" alias="/it-fbw/internal/elevon-2R" />
-      <float                n="18" alias="/it-fbw/internal/elevon-1R" />
-      <float                n="19" alias="/it-fbw/internal/rudder" />
+      <float                n="15" alias="/fdm/jsbsim/fcs/elevon-1L-pos-deg" />
+      <float                n="16" alias="/fdm/jsbsim/fcs/elevon-2L-pos-deg" />
+      <float                n="17" alias="/fdm/jsbsim/fcs/elevon-2R-pos-deg" />
+      <float                n="18" alias="/fdm/jsbsim/fcs/elevon-1R-pos-deg" />
+      <float                n="19" alias="/fdm/jsbsim/fcs/rudder-pos-deg" />
+      <float                n="20" alias="/fdm/jsbsim/fcs/slat-inner-norm" />
+      <float                n="21" alias="/fdm/jsbsim/fcs/slat-outer-norm" />
+      <float                n="22" alias="/fdm/jsbsim/fcs/airbrake-upper" />
+      <float                n="23" alias="/fdm/jsbsim/fcs/airbrake-lower" />
+
       <string type="string" n="0" />
       <!-- for loads -->
       <string type="string" n="1" />

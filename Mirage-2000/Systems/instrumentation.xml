@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
-<!-- This file selects the instrumentation modules that should be available. -->
+<!--
+**********************************************************************
+Mirage 2000 instrument defintions
+**********************************************************************
+-->
+
 <PropertyList>
 
   <adf>
@@ -18,27 +23,21 @@
     <number>0</number>
     <total-pressure>/systems/pitot/total-pressure-inhg</total-pressure>
     <static-pressure>/systems/static/pressure-inhg</static-pressure>
-    <has-overspeed-indicator>1</has-overspeed-indicator>
   </airspeed-indicator>
 
   <altimeter>
     <name>altimeter</name>
     <number>0</number>
+        <suction>/systems/electrical/volts</suction>
     <static-pressure>/systems/static/pressure-inhg</static-pressure>
-  </altimeter>
-
-  <altimeter>
-    <name>encoder</name>
-    <number>0</number>
-    <static-pressure>/systems/static/pressure-inhg</static-pressure>
-    <quantum>10</quantum>
-    <tau>0.1</tau>
+		<quantum>0</quantum>
+		<tau>0</tau>
   </altimeter>
 
   <attitude-indicator>
     <name>attitude-indicator</name>
     <number>0</number>
-    <suction>/systems/vacuum/suction-inhg</suction>
+        <suction>/systems/electrical/volts</suction>
   </attitude-indicator>
 
   <clock>
@@ -46,35 +45,64 @@
     <number>0</number>
   </clock>
 
+	<comm-radio>
+		<name>comm</name>
+		<number>0</number>
+	</comm-radio>
+
+	<comm-radio>
+		<name>comm</name>
+		<number>1</number>
+	</comm-radio>
+
   <dme>
     <name>dme</name>
     <number>0</number>
   </dme>
 
-  <gps>
-    <name>gps</name>
-    <number>0</number>
-  </gps>
+  <dme>
+		<name>dme</name>
+		<number>1</number>
+	</dme>
+	
+	<dme>
+		<name>dme</name>
+		<number>2</number>
+	</dme>
+	
+	<dme>
+		<name>dme</name>
+		<number>3</number>
+	</dme>
+
+	<altimeter>
+		<name>encoder</name>
+		<number>0</number>
+		<static-pressure>/systems/static/pressure-inhg</static-pressure>
+		<quantum>10</quantum>
+		<tau>0.1</tau>
+	</altimeter>
+	<marker-beacon>
+		<name>marker-beacon</name>
+		<number>0</number>
+	</marker-beacon>
+
 
   <heading-indicator>
     <name>heading-indicator</name>
     <number>0</number>
+		<suction>/systems/vacuum/suction-inhg</suction>
   </heading-indicator>
+
+	<KT-70>
+		<name>kt-70</name>
+		<number>0</number>
+	</KT-70>
 
   <magnetic-compass>
     <name>magnetic-compass</name>
     <number>0</number>
   </magnetic-compass>
-
-  <marker-beacon>
-    <name>marker-beacon</name>
-    <number>0</number>
-  </marker-beacon>
-
-  <mk-viii>
-    <name>mk-viii</name>
-    <number>0</number>
-  </mk-viii>
 
   <nav-radio>
     <name>nav</name>
@@ -86,38 +114,25 @@
     <number>1</number>
   </nav-radio>
 
-  <navigation-display>
-    <name>nd</name>
-    <number>0</number>
-    <symbols include="nav-display.xml" />
-  </navigation-display>
+	<nav-radio>
+		<name>nav</name>
+		<number>2</number>
+	</nav-radio>
 
-  <radar>
-    <name>radar</name>
-    <number>0</number>
-  </radar>
+	<nav-radio>
+		<name>nav</name>
+		<number>3</number>
+	</nav-radio>
 
   <slip-skid-ball>
     <name>slip-skid-ball</name>
     <number>0</number>
   </slip-skid-ball>
 
-  <tacan>
-    <name>tacan</name>
-    <number>0</number>
-  </tacan>
-  
-
-
-  <!--<transponder>
+	<transponder>
     <name>transponder</name>
     <number>0</number>
     <mode-c-altitude>/instrumentation/encoder/mode-c-alt-ft</mode-c-altitude>
-  </transponder>-->
-  
-  <transponder>
-    <name>transponder</name>
-    <number>0</number>
   </transponder>
 
   <turn-indicator>
@@ -130,5 +145,36 @@
     <number>0</number>
     <static-pressure>/systems/static/pressure-inhg</static-pressure>
   </vertical-speed-indicator>
+
+	<gps>
+		<name>gps</name>
+		<number>0</number>
+	</gps>
+
+	<tcas>
+		<name>tcas</name>
+		<number>0</number>
+	</tcas>
+
+	<radar>
+		<name>wxradar</name>
+		<number>0</number>
+	</radar>
+
+    <radar-altimeter>
+        <name>radar-altimeter</name>
+        <number>0</number>
+        <update-interval-sec>0.1</update-interval-sec>
+    </radar-altimeter>
+
+    <tacan>
+		<name>tacan</name>
+		<number>0</number>
+	</tacan>
+
+	<mk-viii>
+	 <name>mk-viii</name>
+	 <number>0</number>
+	</mk-viii>
 
 </PropertyList>

@@ -154,7 +154,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>tuyere.num1-1</object-name>
-    <property>/instrumentation/consumables/consumption_per_min</property>
+    <property>/engines/engine/fuel-flow-kg-min</property>
     <factor>0.001</factor>
     <step>100</step>
     <axis>
@@ -167,7 +167,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>tuyere.num1-2</object-name>
-    <property>/instrumentation/consumables/consumption_per_min</property>
+    <property>/engines/engine/fuel-flow-kg-min</property>
     <factor>0.01</factor>
     <step>10</step>
     <axis>
@@ -180,7 +180,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>tuyere.num1-3</object-name>
-    <property>/instrumentation/consumables/consumption_per_min</property>
+    <property>/engines/engine/fuel-flow-kg-min</property>
     <factor>1</factor>
     <step>0.1</step>
     <axis>
@@ -193,7 +193,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>tuyere.needle</object-name>
-    <property>/controls/engines/engine/n1</property>
+    <property>/engines/engine/n1</property>
     <factor>0.0049</factor>
     <step>0.001</step>
     <axis>

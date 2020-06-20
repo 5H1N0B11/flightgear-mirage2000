@@ -1,0 +1,54 @@
+<!-- Mirage 2000 FADEC -->
+<!-- Joshua Davidson (Octal450) -->
+
+<system name="Mirage-2000: FADEC">
+	
+	<property value="0">/engines/engine[0]/fuel-flow_pph</property> <!-- Isn't initialized by FGFS before this loads for some reason -->
+	
+	<channel name="Engine">
+		
+		<lag_filter name="fcs/throttle1"> <!-- Make a nice smooth throttle input -->
+			<input>/controls/engines/engine[0]/throttle</input>
+			<c1>0.95</c1>
+		</lag_filter>
+		
+		<scheduled_gain name="fcs/throttle-pos1"> <!-- 5 stage non linear augmentation -->
+			<input>fcs/throttle1</input>
+			<table>
+				<independentVar>fcs/throttle1</independentVar>
+				<tableData>
+					0.00    0.0
+					0.8999  0.999
+					0.91    1.0
+					0.93    1.25
+					0.95    1.50
+					0.97    1.75
+					1.00    2.0
+				</tableData>
+			</table>
+			<output>fcs/throttle-pos-norm[0]</output>
+		</scheduled_gain>
+		
+		<lag_filter name="fcs/n1-actual"> <!-- Smooth the RPM value nicely -->
+			<input>/engines/engine[0]/n1</input>
+			<c1>2.25</c1>
+			<output>/engines/engine[0]/n1-actual</output>
+			<output>/engines/engine[3]/n1</output>
+		</lag_filter>
+		
+		<lag_filter name="fcs/n2-actual"> <!-- Smooth the RPM value nicely -->
+			<input>/engines/engine[0]/n2</input>
+			<c1>2.25</c1>
+			<output>/engines/engine[0]/n2-actual</output>
+			<output>/engines/engine[3]/n2</output>
+		</lag_filter>
+		
+		<pure_gain name="fcs/ff-kg-min">
+			<input>/engines/engine[0]/fuel-flow_pph</input>
+			<gain>0.007559873</gain>
+			<output>/engines/engine[0]/fuel-flow-kg-min</output>
+		</pure_gain>
+	
+	</channel>
+
+</system>

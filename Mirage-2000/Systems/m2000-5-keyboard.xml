@@ -228,7 +228,7 @@
       <desc>Engine Autostart</desc>
       <binding>
         <command>nasal</command>
-        <script>mirage2000.engine1.autostart();</script>
+        <script>mirage2000.autostart();</script>
       </binding>
     </key>
     

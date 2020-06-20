@@ -1148,7 +1148,6 @@ var HUD = {
       airspeed:   "/velocities/airspeed-kt",
       target_spd: "/autopilot/settings/target-speed-kt",
       acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
-      acc_yas:    "/fdm/yasim/accelerations/a-x",
       NavFreq:    "/instrumentation/nav/frequencies/selected-mhz",
       destRunway: "/autopilot/route-manager/destination/runway",
       destAirport:"/autopilot/route-manager/destination/airport",
@@ -1514,8 +1513,8 @@ var HUD = {
   },
   
   display_Chevron : func(){
-     #print(me.input.acc_yas.getValue());
-    me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc_yas.getValue()*me.chevronFactor);
+     #print(me.input.acc.getValue());
+    me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc.getValue()*me.chevronFactor);
     
     me.chevronGroup.update();
   },
@@ -1536,7 +1535,7 @@ var HUD = {
   display_Acceleration_Box:func(){
     #Acc accBoxGroup in G(so I guess /9,8)
     if(me.input.wow_nlg.getValue()){
-      me.acceleration_Box.setText(sprintf("%.2f", int(me.input.acc_yas.getValue()/9.8*1000+1)/1000));
+      me.acceleration_Box.setText(sprintf("%.2f", int(me.input.acc.getValue()/9.8*1000+1)/1000));
       me.accBoxGroup.show();
     }else{
       me.accBoxGroup.hide();

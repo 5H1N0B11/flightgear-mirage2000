@@ -55,7 +55,12 @@
       <master-alt type="bool">true</master-alt>
     </engine>
   </engines>
-  
+
+  <hydraulics>
+    <electric-pump-switch>0</electric-pump-switch>
+    <emerg-electric-pump-switch>0</emerg-electric-pump-switch>
+  </hydraulics>
+
   <switches>
     <master-avionics      type="bool">true</master-avionics>
     <jettinson-button     type="bool">false</jettinson-button>

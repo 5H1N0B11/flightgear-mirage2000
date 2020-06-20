@@ -9,20 +9,6 @@ var blinking     = 0;
 var viewNum      = 1;
 var isHUDvisible = 1;
 
-# displays hud if avionics is on
-var viewHUD = func()
-{
-    voltsHud = getprop("/systems/electrical/volts");
-    var internalHUD_selected = getprop("/controls/hud");
-    if(voltsHud > 12 and internalHUD_selected)
-    {
-        setprop("/sim/hud/visibility[1]", 1);
-    }
-    else
-    {
-        setprop("/sim/hud/visibility[1]", 0);
-    }
-}
 
 # When we call this fonction, it switch the menu on/off
 var enableGuiLoad = func()
@@ -46,54 +32,6 @@ var enableGuiLoad = func()
     }
 }
 
-var convertTemp = func()
-{
-    # '''' hardball's note
-    # ' why not move all conversion functions in a single file ?
-    var degF = getprop("/engines/engine[0]/egt-degf");
-    if(degF != nil)
-    {
-        var degC = (degF - 32) * 5 / 9;
-        setprop("engines/engine[0]/egt-degC", degC);
-    }
-}
-
-var average_fuel = func()
-{
-    # 1 litter of fuel = 0.87 kg and 1 gallon = 3.7854118 litters
-    # in kg...
-    var consumption = getprop("/engines/engine[0]/fuel-flow-gph");
-    var time = getprop("/sim/time/elapsed-sec");
-    
-    # refreshing time in sec
-    if(int(int(time) / 1) == int(time) / 1 )
-    {
-        if(consumption != nil)
-        {
-            # in kg fuel per hour
-            consumption = consumption * 3.7854118 * 0.87;
-            
-            # Per min
-            consumption = consumption / 60;
-            
-            # Old name, need to be changed
-            setprop("instrumentation/consumables/consumption_per_min", consumption);
-            
-            # Average Consumption 36 kg/min
-            bingo(50);
-        }
-    }
-    var remain_fuel = getprop("/consumables/fuel/total-fuel-kg");
-    if(remain_fuel != nil)
-    {
-        remain_fuel -= 100;
-        if(remain_fuel < 0)
-        {
-            remain_fuel = 0;
-        }
-        setprop("/instrumentation/consumables/remain_fuel", remain_fuel);
-    }
-}
 
 var bingo = func(moy)
 {
@@ -260,9 +198,6 @@ display_heading();
 
 var initIns = func()
 {
-    convertTemp();
-    average_fuel();
-    viewHUD();
     gearBox();
     Tacan();
 

@@ -29,7 +29,6 @@ var msgB = "Please land before changing payload.";
 #======   OBJECT CREATION =======
 
 # Need some simplification in the way to manage the interval
-var engine1 = engines.Jet.new(0, 0, 0.01, 20, 3, 5, 30, 15);
 
 #var RDM=radar.Radar.new(NewRangeTab:[5, 10, 20, 30, 60],NewRangeIndex:1,NewHaveDoppler:0,forcePath:"instrumentation/radar2/targets",NewAutoUpdate:1);
 #var RDM_DOPPLER_MODE=radar.Radar.new(NewRangeTab:[5, 10, 15, 20],NewRangeIndex:1,NewHaveDoppler:1,forcePath:"instrumentation/radar2/targets",NewAutoUpdate:1);
@@ -74,9 +73,6 @@ var main_Init_Loop = func()
     print("Electrical ... Check");
     settimer(electrics.Electrical_init, 1.0);
     
-    # Loop Updated inside
-    print("Hydraulical ... Check");
-    settimer(hydraulics.Hydraulical_init, 1.0);
     
     # Loop Updated inside
     print("Fuel ... Check");
@@ -85,9 +81,6 @@ var main_Init_Loop = func()
     # Loop Updated below
     print("Stability Augmentation System ... Check");
     settimer(mirage2000.init_SAS, 2.0);
-    
-    print("Engine ... Check");
-    engine1.init();
     
     print("Intrumentation ... Check");
     settimer(instrumentation.initIns, 2.0);
@@ -676,3 +669,58 @@ var call_flightmode = func(calling){
   
   flightmode();
 }
+var quickstart = func() {
+  settimer(func { 
+    setprop("controls/engines/engine[0]/cutoff",0);
+        setprop("engines/engine[0]/out-of-fuel",0);
+        setprop("engines/engine[0]/cutoff",0);
+        
+        setprop("fdm/jsbsim/propulsion/starter_cmd",1);
+        setprop("fdm/jsbsim/propulsion/cutoff_cmd",1);
+        setprop("fdm/jsbsim/propulsion/set-running",0);
+        
+    }, 0.2);
+}
+
+ autostart = func{
+        if(getprop("sim/time/elapsed-sec") < 10)
+        {
+            return;
+        }
+        if(!getprop("/controls/engines/engine[0]/cutoff"))
+        {
+            me.autostart_status = 0;
+            # Cut Off
+            setprop("/controls/switches/hide-cutoff", 1);
+            setprop("/controls/engines/engine/cutoff", 1);
+        }
+        else
+        {
+            setprop("/controls/engines/engine[0]/cutoff",1);
+            
+            # Place here all the switch 'on' needed for the autostart
+            
+            # First electrics switchs
+            setprop("/controls/switches/battery-switch",       1);
+            setprop("/controls/switches/transformator-switch", 1);
+            setprop("/controls/switches/ALT1-switch",          1);
+            setprop("/controls/switches/ALT2-switch",          1);
+            
+            # Launching process
+            # Cut Off
+            setprop("/controls/switches/hide-cutoff",  0);
+            setprop("/controls/engines/engine/cutoff", 0);
+            # Fuel Pumps
+            setprop("/controls/switches/pump-BPG", 1);
+            setprop("/controls/switches/pump-BPD", 1);
+            # This isn't a pump, but it's here is the starting process.
+            # Vent is to clear fuel of the engine, allumage is to burn it.
+            # So 1 is allumage 0 vent.
+            setprop("/controls/switches/vent-allumage", 1);
+            setprop("/controls/switches/pump-BP",       1);
+            
+            # Starter
+            quickstart();
+        }
+ }
+

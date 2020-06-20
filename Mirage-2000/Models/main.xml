@@ -612,7 +612,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatG1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[20]</property>
     <factor> -0.15 </factor>
     <axis>
       <x> 1 </x>
@@ -624,7 +624,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatG1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[20]</property>
     <factor> -0.1 </factor>
     <axis>
       <x> 0 </x>
@@ -636,7 +636,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatG1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[20]</property>
     <factor> -5 </factor>
     <axis>
       <x1-m>  1.377 </x1-m>
@@ -652,7 +652,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatD1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[20]</property>
     <factor> -0.15 </factor>
     <axis>
       <x> 1 </x>
@@ -664,7 +664,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatD1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[20]</property>
     <factor> 0.1 </factor>
     <axis>
       <x> 0 </x>
@@ -676,7 +676,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatD1</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[20]</property>
     <factor> -5 </factor>
     <axis>
       <x1-m> -0.700 </x1-m>
@@ -692,7 +692,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatG2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[21]</property>
     <factor> -0.15 </factor>
     <axis>
       <x> 1 </x>
@@ -704,7 +704,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatG2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[21]</property>
     <factor> -0.1 </factor>
     <axis>
       <x> 0 </x>
@@ -716,7 +716,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatG2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[21]</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep>  0 </dep></entry>
       <entry><ind> 0.3 </ind><dep>  0 </dep></entry>
@@ -735,7 +735,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatG2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[21]</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep>   0 </dep></entry>
       <entry><ind> 0.3 </ind><dep>   0 </dep></entry>
@@ -755,7 +755,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatD2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[21]</property>
     <factor> -0.15 </factor>
     <axis>
       <x> 1 </x>
@@ -767,7 +767,7 @@
   <animation>
     <type>translate</type>
     <object-name>slatD2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[21]</property>
     <factor> 0.1 </factor>
     <axis>
       <x> 0 </x>
@@ -779,7 +779,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatD2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[21]</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep> 0 </dep></entry>
       <entry><ind> 0.3 </ind><dep> 0 </dep></entry>
@@ -798,7 +798,7 @@
   <animation>
     <type>rotate</type>
     <object-name>slatD2</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>sim/multiplay/generic/float[21]</property>
     <interpolation>
       <entry><ind> 0.0 </ind><dep>   0 </dep></entry>
       <entry><ind> 0.3 </ind><dep>   0 </dep></entry>
@@ -818,11 +818,8 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerGH</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
-    <interpolation>
-      <entry><ind> 0 </ind><dep>   0 </dep></entry>
-      <entry><ind> 1 </ind><dep> -80 </dep></entry>
-    </interpolation>
+    <property>fdm/jsbsim/fcs/airbrake-upper</property>
+    <factor> -1 </factor>
     <axis>
       <x1-m>  0.913 </x1-m>
       <y1-m> -1.587 </y1-m>
@@ -837,11 +834,8 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerGB</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
-    <interpolation>
-      <entry><ind> 0 </ind><dep>  0 </dep></entry>
-      <entry><ind> 1 </ind><dep> 80 </dep></entry>
-    </interpolation>
+    <property>fdm/jsbsim/fcs/airbrake-lower</property>
+    <factor> 1 </factor>
     <axis>
       <x1-m>  0.904 </x1-m>
       <y1-m> -1.544 </y1-m>
@@ -856,7 +850,7 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerDH</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>sim/multiplay/generic/float[22]</property>
     <interpolation>
       <entry><ind> 0 </ind><dep>   0 </dep></entry>
       <entry><ind> 1 </ind><dep> -80 </dep></entry>
@@ -875,7 +869,7 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerDB</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>sim/multiplay/generic/float[23]</property>
     <interpolation>
       <entry><ind> 0 </ind><dep>  0 </dep></entry>
       <entry><ind> 1 </ind><dep> 80 </dep></entry>
@@ -1433,8 +1427,8 @@
   <animation>
     <type>rotate</type>
     <object-name>SousTrainAvant</object-name>
-    <property>surface-positions/nose-wheel-pos-norm</property>
-    <factor> -125 </factor>
+    <property>fdm/jsbsim/fcs/steer-pos-deg</property>
+    <factor> -1 </factor>
     <center>
       <x-m> -2.996 </x-m>
       <y-m>  0.000 </y-m>
