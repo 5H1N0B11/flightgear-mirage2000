@@ -800,8 +800,9 @@
 	</filter>
 	
 	<filter>
-		<name>System Command: Elevator Trim Killer</name>
+		<name>System Command: Trim Killer</name>
 		<type>gain</type>
+		<gain>1.0</gain>
 		<enable>
 			<condition>
 				<equals>
@@ -810,9 +811,10 @@
 				</equals>
 			</condition>
 		</enable>
-		<gain>1.0</gain>
 		<input>0</input>
+		<output>/controls/flight/aileron-trim</output>
 		<output>/controls/flight/elevator-trim</output>
+		<output>/controls/flight/rudder-trim</output>
 	</filter>
 	
 	<!-- System Command Autothrottle -->
