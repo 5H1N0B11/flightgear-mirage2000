@@ -2,7 +2,7 @@
 
 <!-- Mirage 2000 FCS/FBW -->
 <!-- Licenced under GPL -->
-<!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
+<!-- Copyright (c) 2020 Josh Davidson (Octal450) -->
 <!-- Copyright (c) 2020 Richard Harrison -->
 
 <system name="Mirage-2000: FCS/FBW">
@@ -91,7 +91,7 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0     1     2
+							 0     1     2
 						130 -0.84 -0.22  0.00
 						200 -0.70 -0.22  0.00
 						350 -0.40 -0.22  0.00
@@ -108,7 +108,7 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0      1
+							 0      1
 						200 -0.050  0.000
 						350 -0.040  0.000
 						600 -0.020  0.000
@@ -124,6 +124,7 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<tableData>
 						130 -0.240
+						200 -0.150
 						350 -0.090
 						600 -0.060
 						950 -0.025
@@ -138,9 +139,10 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0      1
-						130 -0.070  0.000
-						350 -0.062  0.000
+							 0      1
+						130 -0.150  0.000
+						200 -0.100  0.000
+						350 -0.065  0.000
 						600 -0.060  0.000
 						950 -0.042  0.000
 					</tableData>
@@ -154,11 +156,11 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0     1
+							 0     1
 						130  7.4  4.5
 						200  6.0  4.5
 						350  3.0  4.5
-						600  1.5  4.5
+						600  1.7  4.5
 						950  1.0  4.5
 					</tableData>
 				</table>
@@ -171,12 +173,12 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0    1
+							 0    1
 						130  8.9  0.0
 						200  8.0  0.0
 						350  6.0  0.0
-						600  5.0  0.0
-						950  4.0  0.0
+						600  4.0  0.0
+						950  3.0  0.0
 					</tableData>
 				</table>
 			</function>
@@ -188,12 +190,12 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0     1
-						130  0.69  0.00
-						200  0.60  0.00
-						350  0.40  0.00
-						600  0.10  0.00
-						950  0.04  0.00
+							 0     1
+						130  0.15  0.00
+						200  0.10  0.00
+						350  0.08  0.00
+						600  0.03  0.00
+						950  0.01  0.00
 					</tableData>
 				</table>
 			</function>
@@ -205,7 +207,7 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0    1
+							 0    1
 						130 -2.1  0.0
 						200 -1.8  0.0
 						350 -1.0  0.0
@@ -222,7 +224,7 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0    1
+							 0    1
 						130  8.4  0.0
 						200  7.0  0.0
 						350  5.0  0.0
@@ -239,7 +241,7 @@
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
 					<independentVar lookup="column">fbw/gain-switch</independentVar>
 					<tableData>
-						     0    1
+							 0    1
 						130  4.5  0.0
 						200  4.0  0.0
 						350  3.0  0.0
@@ -276,9 +278,9 @@
 					<table>
 						<independentVar lookup="row">fbw/roll/aileron-nul</independentVar>
 						<tableData>
-							-1  20
+							-1  50
 							 0   1
-							 1  20
+							 1  50
 						</tableData>
 					</table>
 				</product>
@@ -292,16 +294,16 @@
 					<independentVar lookup="column">fbw/mode</independentVar>
 					<independentVar lookup="table">fbw/pitch/instrumented-g</independentVar>
 					<tableData breakPoint="2"> <!-- breakPoint is guess -->
-						         0        1
-						-20 -4.71239 -2.61799
+								 0        1
+						-50 -4.71239 -2.61799
 						  0  0.00000  0.00000
-						 20  4.71239  2.61799
+						 50  4.71239  2.61799
 					</tableData>
 					<tableData breakPoint="5"> <!-- breakPoint is guess -->
-						         0        1
-						-20 -4.71239 -1.48353
+								 0        1
+						-50 -4.71239 -1.48353
 						  0  0.00000  0.00000
-						 20  4.71239  1.48353
+						 50  4.71239  1.48353
 					</tableData>
 				</table>
 			</function>
@@ -679,7 +681,7 @@
 			<input>fbw/pitch/q-error</input>
 			<kp>fbw/pitch/q-p-gain</kp>
 			<ki>fbw/pitch/q-i-gain</ki>
-			<kd>0.0</kd>
+			<kd>fbw/pitch/q-d-gain</kd>
 			<trigger>fbw/pitch/q-trigger</trigger>
 			<clipto>
 				<min>-1.0</min>
@@ -758,7 +760,7 @@
 					<independentVar lookup="row">fbw/pitch/alpha-lag</independentVar>
 					<independentVar lookup="column">attitude/roll-rad</independentVar>
 					<tableData>
-						    0.000000  0.174533
+							0.000000  0.174533
 						20 -1.0      -1.0
 						28 -1.0       0.0
 					</tableData>
@@ -803,7 +805,7 @@
 						<independentVar lookup="row">velocities/r-rad_sec</independentVar>
 						<independentVar lookup="column">attitude/roll-rad</independentVar>
 						<tableData>
-							           -3.141590 -2.356190 -0.785398  0.000000  0.785398  2.356190  3.141590
+									   -3.141590 -2.356190 -0.785398  0.000000  0.785398  2.356190  3.141590
 							-0.2094390  1.0       0.0       0.0       1.0       0.0       0.0       1.0
 							-0.1396260  0.4       0.0       0.0       0.4       0.0       0.0       0.4
 							-0.1047195  0.0       0.0       0.0       0.0       0.0       0.0       0.0
@@ -866,7 +868,7 @@
 					<independentVar lookup="row">fbw/yaw/rudder-lag</independentVar>
 					<independentVar lookup="column">fbw/yaw/gear</independentVar>
 					<tableData>
-						      0         1
+							  0         1
 						-1.0  0.261799  0.349066
 						 0.0  0.000000  0.000000
 						 1.0 -0.261799 -0.349066
@@ -930,121 +932,119 @@
 	</channel>
 	
 	<channel name="FBW: Auto slats based on alpha">
-
+		
 		<fcs_function name="fbw/slat/fully-extended-max-mn">
 			<function>
 				<table>
 					<independentVar lookup="row">position/h-sl-ft</independentVar>
 					<tableData>
-                               0	0.5105
-                            28500	0.8516
-                            35000	0.8595
-                            40000	0.8643
-                        </tableData>
+						    0  0.5105
+						28500  0.8516
+						35000  0.8595
+						40000  0.8643
+					</tableData>
 				</table>
 			</function>
 		</fcs_function>
-
+		
 		<fcs_function name="fbw/slat/partially-extended-max-mn">
 			<function>
 				<table>
 					<independentVar lookup="row">position/h-sl-ft</independentVar>
 					<tableData>
-                                0	0.5806
-                            28500	0.8654
-                            35000	0.8702
-                            40000	0.8765
-                        </tableData>
+						    0  0.5806
+						28500  0.8654
+						35000  0.8702
+						40000  0.8765
+					</tableData>
 				</table>
 			</function>
 		</fcs_function>
-
+		
 		<fcs_function name="fbw/slat/extension-aoa">
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<tableData>
-							0.3800	9.32
-							0.4000	9.16
-							0.4500	9.16
-							0.5000	9.09
-							0.5500	9.05
-							0.6100	9.01
-							0.6600	8.95
-							0.7100	8.89
-							0.7600	8.83
-							0.8100	8.81
-							0.8700	8.78
-                        </tableData>
+						0.3800  9.32
+						0.4000  9.16
+						0.4500  9.16
+						0.5000  9.09
+						0.5500  9.05
+						0.6100  9.01
+						0.6600  8.95
+						0.7100  8.89
+						0.7600  8.83
+						0.8100  8.81
+						0.8700  8.78
+					</tableData>
 				</table>
 			</function>
 		</fcs_function>
-
+		
 		<fcs_function name="fbw/slat/retraction-aoa">
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<tableData>
-						0.3800	6.16
-						0.4000	6.00
-						0.4500	6.00
-						0.5000	5.93
-						0.5500	5.88
-						0.6100	5.85
-						0.6600	5.78
-						0.7100	5.73
-						0.7600	5.67
-						0.8100	5.64
-						0.8700	5.62
-						</tableData>
+						0.3800  6.16
+						0.4000  6.00
+						0.4500  6.00
+						0.5000  5.93
+						0.5500  5.88
+						0.6100  5.85
+						0.6600  5.78
+						0.7100  5.73
+						0.7600  5.67
+						0.8100  5.64
+						0.8700  5.62
+					</tableData>
 				</table>
 			</function>
 		</fcs_function>
-
-
+		
 		<fcs_function name="fbw/slat/extension-calc">
 			<function>
 				<table>
 					<independentVar lookup="row">aero/alpha-deg</independentVar>
 					<independentVar lookup="column">velocities/mach</independentVar>
 					<tableData>
-         							0	0.45	  0.5	  0.8	  0.9	   1
-							0	0.000	0.000	0.000	0.000	0.000	0.000
-							8	0.000	0.000	0.178	0.178	0.000	0.000
-							10	0.245	0.245	0.315	0.315	0.000	0.000
-							20	1.000	1.000	1.000	1.000	0.000	0.000
-							25	1.000	1.000	1.000	1.000	0.000	0.000
-
-						</tableData>
+						    0      0.45   0.5    0.8    0.9    1
+						 0  0.000  0.000  0.000  0.000  0.000  0.000
+						 8  0.000  0.000  0.178  0.178  0.000  0.000
+						10  0.245  0.245  0.315  0.315  0.000  0.000
+						20  1.000  1.000  1.000  1.000  0.000  0.000
+						25  1.000  1.000  1.000  1.000  0.000  0.000
+					</tableData>
 				</table>
 			</function>
 		</fcs_function>
-
-
+		
 		<switch name="fbw/slat/active">
-			<default value="0.0" />
-
-			<test value="-0.0">
-				<test logic="OR">
-                    /controls/flight/flaps gt 0.1
-                    aero/alpha-deg lt fbw/slat/retraction-aoa
-                    velocities/mach gt fbw/slat/partially-extended-max-mn
-                    gear/gear-pos-norm gt 0
-                </test>
+			<default value="0"/>
+			<test logic="OR" value="0">
+				aero/alpha-deg lt fbw/slat/retraction-aoa
+				velocities/mach gt fbw/slat/partially-extended-max-mn
+				gear/gear-pos-norm gt 0
 			</test>
-
-			<test value="1" logic="OR">
-				<test logic="AND">
-					/controls/flight/flaps le 0
-					aero/alpha-deg gt fbw/slat/extension-aoa
-					velocities/mach le fbw/slat/fully-extended-max-mn
-					gear/gear-pos-norm le 0.3
-	            </test>
+			<test logic="AND" value="1">
+				aero/alpha-deg gt fbw/slat/extension-aoa
+				velocities/mach le fbw/slat/fully-extended-max-mn
+				gear/gear-pos-norm le 0.3
 			</test>
 		</switch>
-
+		
+		<fcs_function name="fbw/slat/auto-cmd"> <!-- Prevent manual slat from going less than auto -->
+			<function>
+				<max>
+					<property>fbw/slat/extension-calc</property>
+					<property>/controls/flight/flaps</property>
+				</max>
+			</function>
+		</fcs_function>
+		
 		<switch name="fbw/slat-output">
-			<default value="fbw/slat/extension-calc" />
+			<default value="fbw/slat/extension-calc"/>
 			<test logic="OR" value="/controls/flight/flaps">
 				gear/gear-pos-norm gt 0.7
 				fbw/man-slat gt 0
@@ -1053,7 +1053,7 @@
 				fbw/slat/active le 0
 			</test>
 		</switch>
-
+	
 	</channel>
 	
 	<channel name="Elevons">

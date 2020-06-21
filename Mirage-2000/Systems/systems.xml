@@ -2,8 +2,8 @@
 
 <PropertyList>
   
-  <autopilot n="2">
-    <path>Aircraft/Mirage-2000/Systems/it-fbw-ap.xml</path>
+  <autopilot n="0">
+    <path>Aircraft/Mirage-2000/Systems/Mirage-2000-autopilot.xml</path>
   </autopilot>
   
   <electrical>

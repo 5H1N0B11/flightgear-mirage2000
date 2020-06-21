@@ -511,7 +511,7 @@ var monitor_V_armed = func() {
 
 # Tests PA-Limits
 var monitor_AP_errors = func() {
-    if (getprop("/it-fbw/internal/flight-mode") != 1) {
+    if (getprop("/fdm/jsbsim/fbw/gain-switch") != 0) {
         kill_Ap("AP-FBW-NOT-IN-FLIGHT");
     } else {
         var ralt = getprop("/position/altitude-agl-ft");
@@ -633,7 +633,7 @@ var wpAdvance = maketimer(1, func {
 
 			delta_angle = math.abs(geo.normdeg180(current_course - next_course));
 			max_bank = delta_angle * 1.5;
-			max_bank_limit = getprop("/it-fbw/ap/max-roll");
+			max_bank_limit = getprop("/fdm/jsbsim/fbw/ap/max-roll");
 			if (max_bank > max_bank_limit) {
 				max_bank = max_bank_limit;
 			}

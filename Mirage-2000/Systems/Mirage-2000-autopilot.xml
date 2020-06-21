@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- Mirage 2000 (YASim) FBW Autopilot -->
-<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
+<!-- Mirage 2000 FBW Autopilot -->
+<!-- Copyright (c) 2020 Josh Davidson (OCtal450) -->
 
 <PropertyList>
 	
@@ -46,7 +46,7 @@
 	
 	<!-- Roll Axis -->
 	<filter>
-		<name>System Command: Max Roll</name>
+		<name>Max Roll</name>
 		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
@@ -59,11 +59,11 @@
 				</table>
 			</expression>
 		</input>
-		<output>/it-fbw/ap/max-roll</output>
+		<output>/fdm/jsbsim/fbw/ap/max-roll</output>
 	</filter>
 	
 	<filter>
-		<name>HEADING ERROR DEG</name>
+		<name>Heading Error Deg</name>
 		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
@@ -175,7 +175,7 @@
 			<value>0</value>
 		</input>
 		<input>0</input>
-		<output>/it-fbw/ap/heading-error-deg</output>
+		<output>/fdm/jsbsim/fbw/ap/heading-error-deg</output>
 		<period>
 			<min>-180</min>
 			<max>180</max>
@@ -183,7 +183,7 @@
 	</filter>
 	
 	<pi-simple-controller>
-		<name>System Command: HDG/LNAV</name>
+		<name>IT-CONTROLLER: HDG/LNAV</name>
 		<debug>false</debug>
 		<enable>
 			<condition>
@@ -199,7 +199,7 @@
 				</or>
 			</condition>
 		</enable>
-		<input>/it-fbw/ap/heading-error-deg</input>
+		<input>/fdm/jsbsim/fbw/ap/heading-error-deg</input>
 		<reference>0.0</reference>
 		<output>/autopilot/settings/target-roll-deg</output>
 		<config>
@@ -223,15 +223,15 @@
 				</expression>
 			</Ki>
 			<min>
-				<property>/it-fbw/ap/max-roll</property>
+				<property>/fdm/jsbsim/fbw/ap/max-roll</property>
 				<scale>-1</scale>
 			</min>
-			<max>/it-fbw/ap/max-roll</max>
+			<max>/fdm/jsbsim/fbw/ap/max-roll</max>
 		</config>
 	</pi-simple-controller>
 	
 	<filter>
-		<name>NAV ERROR DEG</name>
+		<name>NAV Error Deg</name>
 		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
@@ -286,7 +286,7 @@
 			</offset>
 		</input>
 		<input>0</input>
-		<output>/it-fbw/ap/nav-error-deg</output>
+		<output>/fdm/jsbsim/fbw/ap/nav-error-deg</output>
 		<period>
 			<min>-180</min>
 			<max>180</max>
@@ -294,7 +294,7 @@
 	</filter>
 	
 	<pi-simple-controller>
-		<name>System Command: NAV</name>
+		<name>IT-CONTROLLER: NAV</name>
 		<debug>false</debug>
 		<enable>
 			<condition>
@@ -310,8 +310,8 @@
 				</or>
 			</condition>
 		</enable>
-		<input>/it-fbw/ap/nav-error-deg</input>
-		<reference>0.0</reference>
+		<input>/fdm/jsbsim/fbw/ap/nav-error-deg</input>
+		<reference>0</reference>
 		<output>/autopilot/settings/target-roll-deg</output>
 		<config>
 			<Kp>
@@ -334,16 +334,16 @@
 				</expression>
 			</Ki>
 			<min>
-				<property>/it-fbw/ap/max-roll</property>
+				<property>/fdm/jsbsim/fbw/ap/max-roll</property>
 				<scale>-1</scale>
 			</min>
-			<max>/it-fbw/ap/max-roll</max>
+			<max>/fdm/jsbsim/fbw/ap/max-roll</max>
 		</config>
 	</pi-simple-controller>
 	
 	<!-- Pitch Axis -->
 	<filter>
-		<name>PITCH DEG SYNC</name>
+		<name>System Command: Pitch Target Inactive Sync</name>
 		<type>gain</type>
 		<gain>1.0</gain>
 		<enable>
@@ -369,13 +369,13 @@
 			</condition>
 		</enable>
 		<input>/orientation/pitch-deg</input>
-		<output>/it-fbw/ap/target-pitch-deg</output>
+		<output>/fdm/jsbsim/fbw/ap/target-pitch-deg</output>
 		<min>-15</min>
 		<max>30</max>
 	</filter>
  
 	<pid-controller>
-		<name>FPM HOLD</name>
+		<name>IT-CONTROLLER: FPM Hold</name>
 		<debug>false</debug>
 		<enable>
 			<condition>
@@ -480,7 +480,7 @@
 			<property>/autopilot/settings/vertical-speed-fpm</property>
 		</reference>
 		<reference>/autopilot/settings/vertical-speed-fpm</reference>
-		<output>/it-fbw/ap/target-pitch-deg</output>
+		<output>/fdm/jsbsim/fbw/ap/target-pitch-deg</output>
 		<config>
 			<Kp>
 				<expression>
@@ -523,7 +523,7 @@
 		<name>TFS Ground Altitude Damp</name>
 		<type>exponential</type>
 		<input>/instrumentation/tfs/ground-altitude-ft</input>
-		<output>/it-fbw/ap/ground-altitude-ft-damp</output>
+		<output>/fdm/jsbsim/fbw/ap/ground-altitude-ft-damp</output>
 		<filter-time>0.12</filter-time>
 	</filter>
 	
@@ -536,13 +536,13 @@
 				<difference>
 					<property>/position/altitude-ft</property>
 					<sum>
-						<property>/it-fbw/ap/ground-altitude-ft-damp</property>
+						<property>/fdm/jsbsim/fbw/ap/ground-altitude-ft-damp</property>
 						<property>/autopilot/settings/target-altitude-ft</property>
 					</sum>
 				</difference>
 			</expression>
 		</input>
-		<output>/it-fbw/ap/tf-error</output>
+		<output>/fdm/jsbsim/fbw/ap/tf-error</output>
 	</filter>
 	
 	<filter>
@@ -573,14 +573,14 @@
 								<min>
 									<max>
 										<product>
-											<property>/it-fbw/ap/tf-error</property>
+											<property>/fdm/jsbsim/fbw/ap/tf-error</property>
 											<table>
 												<property>/velocities/airspeed-kt</property>
 												<entry><ind>130</ind><dep>-14.0</dep></entry>
 												<entry><ind>950</ind><dep> -4.0</dep></entry>
 											</table>
 											<table>
-												<abs><property>/it-fbw/ap/tf-error</property></abs>
+												<abs><property>/fdm/jsbsim/fbw/ap/tf-error</property></abs>
 												<entry><ind>   0</ind><dep>1.0</dep></entry>
 												<entry><ind> 250</ind><dep>1.5</dep></entry>
 												<entry><ind>1000</ind><dep>2.5</dep></entry>
@@ -612,22 +612,33 @@
 			</expression>
 		</input>
 		<input>/orientation/pitch-deg</input>
-		<output>/it-fbw/ap/target-pitch-deg-tf</output>
+		<output>/fdm/jsbsim/fbw/ap/target-pitch-deg-tf</output>
 		<min>-15</min>
 		<max>30</max>
 	</filter>
 	
-	<!-- System Command Roll and Pitch -->
+	<!-- Command to FBW Roll and Pitch -->
+	<logic>
+		<input>
+			<equals>
+				<property>/autopilot/locks/AP-status</property>
+				<value>AP1</value>
+			</equals>
+		</input>
+		<output>/fdm/jsbsim/fbw/ap/roll-enabled</output>
+		<output>/fdm/jsbsim/fbw/ap/pitch-enabled</output>
+	</logic>
+	
 	<filter>
 		<name>System Command: Roll Rate</name>
 		<debug>false</debug>
 		<type>gain</type>
-		<gain>-2.5</gain>
+		<gain>-0.0436332</gain> <!-- -2.5 * Deg2Rad -->
 		<input>/orientation/roll-deg</input>
 		<reference>/autopilot/settings/target-roll-deg</reference>
-		<output>/it-fbw/ap/target-roll-rate</output>
-		<min>-20</min>
-		<max>20</max>
+		<output>/fdm/jsbsim/fbw/ap/roll-cmd</output>
+		<min>-0.349066</min>
+		<max>0.349066</max>
 	</filter>
 	
 	<filter>
@@ -643,7 +654,7 @@
 					<value>TF</value>
 				</equals>
 			</condition>
-			<property>/it-fbw/ap/target-pitch-deg-tf</property>
+			<property>/fdm/jsbsim/fbw/ap/target-pitch-deg-tf</property>
 		</reference>
 		<reference>
 			<condition>
@@ -662,10 +673,10 @@
 					</equals>
 				</or>
 			</condition>
-			<property>/it-fbw/ap/target-pitch-deg</property>
+			<property>/fdm/jsbsim/fbw/ap/target-pitch-deg</property>
 		</reference>
 		<reference>/autopilot/settings/target-pitch-deg</reference>
-		<output>/it-fbw/ap/target-pitch-rate</output>
+		<output>/fdm/jsbsim/fbw/ap/target-pitch-rate</output>
 		<min>
 			<condition>
 				<equals>
@@ -689,7 +700,7 @@
 	</filter>
 	
 	<pi-simple-controller>
-		<name>IT-CONTROLLER: G ACCEL PI</name>
+		<name>System Command: G Accel</name>
 		<debug>false</debug>
 		<enable>
 			<condition>
@@ -699,9 +710,9 @@
 				</equals>
 			</condition>
 		</enable>
-		<input>/it-fbw/ap/target-pitch-rate</input>
+		<input>/fdm/jsbsim/fbw/ap/target-pitch-rate</input>
 		<reference>/orientation/pitch-rate-degps</reference>
-		<output>/it-fbw/ap/target-g-cmd</output>
+		<output>/fdm/jsbsim/fbw/ap/target-g-cmd</output>
 		<config>
 			<Kp>
 				<expression>
@@ -749,13 +760,13 @@
 	</pi-simple-controller>
 	
 	<filter>
-		<name>System Command: G ACCEL SUM</name>
+		<name>System Command: G Accel Target</name>
 		<type>gain</type>
 		<gain>1.0</gain>
 		<input>
 			<expression>
 				<sum>
-					<property>/it-fbw/ap/target-g-cmd</property>
+					<property>/fdm/jsbsim/fbw/ap/target-g-cmd</property>
 					<div>
 						<value>1</value>
 						<cos>
@@ -765,7 +776,7 @@
 				</sum>
 			</expression>
 		</input>
-		<output>/it-fbw/ap/target-g-accel</output>
+		<output>/fdm/jsbsim/fbw/ap/g-cmd</output>
 		<min>
 			<condition>
 				<equals>
@@ -788,6 +799,22 @@
 		<max>2.5</max>
 	</filter>
 	
+	<filter>
+		<name>System Command: Elevator Trim Killer</name>
+		<type>gain</type>
+		<enable>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/AP-status</property>
+					<value>AP1</value>
+				</equals>
+			</condition>
+		</enable>
+		<gain>1.0</gain>
+		<input>0</input>
+		<output>/controls/flight/elevator-trim</output>
+	</filter>
+	
 	<!-- System Command Autothrottle -->
 	<pid-controller>
 		<name>IT-CONTROLLER: Speed Knots</name>
@@ -808,7 +835,13 @@
 			<Ti>5.0</Ti>
 			<Td>0.001</Td>
 			<u_min>0.0</u_min>
-			<u_max>0.8</u_max> <!-- No afterburner -->
+			<u_max>
+				<condition>
+					<property>/fdm/jsbsim/fbw/ap/athr-tuningmode</property>
+				</condition>
+				<value>1.0</value>
+			</u_max>
+			<u_max>0.8999</u_max> <!-- No afterburner -->
 		</config>
 	</pid-controller>
 
