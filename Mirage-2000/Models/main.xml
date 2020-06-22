@@ -818,8 +818,8 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerGH</object-name>
-    <property>fdm/jsbsim/fcs/airbrake-upper</property>
-    <factor> -1 </factor>
+    <property>sim/multiplay/generic/float[22]</property>
+    <factor>-1</factor>
     <axis>
       <x1-m>  0.913 </x1-m>
       <y1-m> -1.587 </y1-m>
@@ -834,8 +834,8 @@
   <animation>
     <type>rotate</type>
     <object-name>spoilerGB</object-name>
-    <property>fdm/jsbsim/fcs/airbrake-lower</property>
-    <factor> 1 </factor>
+    <property>sim/multiplay/generic/float[23]</property>
+    <factor>1</factor>
     <axis>
       <x1-m>  0.904 </x1-m>
       <y1-m> -1.544 </y1-m>
@@ -851,10 +851,7 @@
     <type>rotate</type>
     <object-name>spoilerDH</object-name>
     <property>sim/multiplay/generic/float[22]</property>
-    <interpolation>
-      <entry><ind> 0 </ind><dep>   0 </dep></entry>
-      <entry><ind> 1 </ind><dep> -80 </dep></entry>
-    </interpolation>
+    <factor>-1</factor>
     <axis>
       <x1-m>  0.913 </x1-m>
       <y1-m>  1.333 </y1-m>
@@ -870,10 +867,7 @@
     <type>rotate</type>
     <object-name>spoilerDB</object-name>
     <property>sim/multiplay/generic/float[23]</property>
-    <interpolation>
-      <entry><ind> 0 </ind><dep>  0 </dep></entry>
-      <entry><ind> 1 </ind><dep> 80 </dep></entry>
-    </interpolation>
+    <factor>1</factor>
     <axis>
       <x1-m>  0.904 </x1-m>
       <y1-m>  1.159 </y1-m>

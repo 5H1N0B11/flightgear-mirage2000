@@ -14,10 +14,6 @@ print("*** LOADING m2000-5-controls.nas ... ***");
 
 # AirBrake handling.
 var fullAirBrakeTime = 1;
-var applyAirBrakes = func(v)
-{
-    interpolate("/controls/flight/spoilers", v, fullAirBrakeTime);
-}
 
 # Brake handling.
 var fullBrakeTime = 0.5;

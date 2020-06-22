@@ -7,9 +7,6 @@
 
 <system name="Mirage-2000: FCS/FBW">
 	
-	<property value="0">fcs/airbrake-upper-cmd</property>
-	<property value="0">fcs/airbrake-lower-cmd</property>
-	
 	<property value="1">fbw/enable</property>
 	<property value="0">fbw/mode</property> <!-- 0: Air/Air (default), 1: Charges -->
 	<property value="0">fbw/man-slat</property> <!-- Debugging -->
@@ -20,7 +17,6 @@
 	<property value="0">fbw/pitch/q-d</property>
 	<property value="0">fbw/yaw/beta-d</property>
 	<property value="1">fbw/pitch/instrumented-g</property>
-	<property value="0">fbw/speedbrake-brake</property>
 	
 	<property value="0">gear/gear-emergency-extension</property>
 	<property value="1">/controls/flight/nws-enabled</property>
@@ -36,6 +32,7 @@
 	<property value="0">fbw/roll/d-gain</property>
 	<property value="0">fbw/pitch/g-p-gain</property>
 	<property value="0">fbw/pitch/g-i-gain</property>
+	<property value="0">fbw/pitch/g-d-gain</property>
 	<property value="0">fbw/pitch/q-p-gain</property>
 	<property value="0">fbw/pitch/q-i-gain</property>
 	<property value="0">fbw/pitch/q-d-gain</property>
@@ -271,18 +268,26 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="fbw/roll/aileron-modified">
+		<fcs_function name="fbw/roll/aileron-modified"> <!-- Make a nice curve, or its too sensitive -->
 			<function>
 				<product>
-					<property>fbw/roll/aileron-nul</property>
-					<table>
-						<independentVar lookup="row">fbw/roll/aileron-nul</independentVar>
-						<tableData>
-							-1  50
-							 0   1
-							 1  50
-						</tableData>
-					</table>
+					<pow>
+						<product>
+							<abs>
+								<property>fbw/roll/aileron-nul</property>
+							</abs>
+							<value>100</value>
+						</product>
+						<value>2</value>
+					</pow>
+					<ifthen> <!-- Cause negative aileron by power don't work -->
+						<ge>
+							<property>fbw/roll/aileron-nul</property>
+							<value>0</value>
+						</ge>
+						<value>1</value>
+						<value>-1</value>
+					</ifthen>
 				</product>
 			</function>
 		</fcs_function>
@@ -294,16 +299,16 @@
 					<independentVar lookup="column">fbw/mode</independentVar>
 					<independentVar lookup="table">fbw/pitch/instrumented-g</independentVar>
 					<tableData breakPoint="2"> <!-- breakPoint is guess -->
-						     0        1
-						-50 -4.71239 -2.61799
-						  0  0.00000  0.00000
-						 50  4.71239  2.61799
+						        0        1
+						-10000 -4.71239 -2.61799
+						     0  0.00000  0.00000
+						 10000  4.71239  2.61799
 					</tableData>
 					<tableData breakPoint="5"> <!-- breakPoint is guess -->
-						     0        1
-						-50 -4.71239 -1.48353
-						  0  0.00000  0.00000
-						 50  4.71239  1.48353
+						        0        1
+						-10000 -4.71239 -1.48353
+						     0  0.00000  0.00000
+						 10000  4.71239  1.48353
 					</tableData>
 				</table>
 			</function>
@@ -642,7 +647,7 @@
 			<input>fbw/pitch/g-error</input>
 			<kp>fbw/pitch/g-p-gain</kp>
 			<ki>fbw/pitch/g-i-gain</ki>
-			<kd>0.0</kd>
+			<kd>fbw/pitch/g-d-gain</kd>
 			<trigger>fbw/pitch/g-trigger</trigger>
 			<clipto>
 				<min>-1.0</min>
@@ -681,7 +686,7 @@
 			<input>fbw/pitch/q-error</input>
 			<kp>fbw/pitch/q-p-gain</kp>
 			<ki>fbw/pitch/q-i-gain</ki>
-			<kd>fbw/pitch/q-d-gain</kd>
+			<kd>0.0</kd>
 			<trigger>fbw/pitch/q-trigger</trigger>
 			<clipto>
 				<min>-1.0</min>
@@ -1450,18 +1455,9 @@
 	
 	<channel name="Airbrake">
 		
-		<summer name="fcs/airbrake-upper-sum">
-			<input>fcs/airbrake-upper-cmd</input>
-			<input>fbw/speedbrake-brake</input>
-			<clipto>
-				<min>0.0</min>
-				<max>1.0</max>
-			</clipto>
-		</summer>
-		
 		<switch name="fcs/airbrake-upper-hyd">
 			<default value="0"/>
-			<test logic="OR" value="fcs/airbrake-upper-sum">
+			<test logic="OR" value="/controls/flight/speedbrake">
 				systems/hydraulics/number1-system-available eq 1
 			</test>
 		</switch>
@@ -1497,18 +1493,9 @@
 			</range>
 		</aerosurface_scale>
 		
-		<summer name="fcs/airbrake-lower-sum">
-			<input>fcs/airbrake-lower-cmd</input>
-			<input>fbw/speedbrake-brake</input>
-			<clipto>
-				<min>0.0</min>
-				<max>1.0</max>
-			</clipto>
-		</summer>
-		
 		<switch name="fcs/airbrake-lower-hyd">
 			<default value="0"/>
-			<test logic="OR" value="fcs/airbrake-lower-sum">
+			<test logic="OR" value="/controls/flight/speedbrake">
 				systems/hydraulics/number1-system-available eq 1
 			</test>
 		</switch>

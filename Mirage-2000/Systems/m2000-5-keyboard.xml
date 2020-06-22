@@ -311,13 +311,15 @@
       <name>Ctrl-B</name>
       <desc>Apply AirBrake</desc>
       <binding>
-        <command>nasal</command>
-        <script>controls.applyAirBrakes(1)</script>
+        <command>property-assign</command>
+        <property>/controls/flight/speedbrake</property>
+        <value>1</value>
       </binding>
       <mod-up>
         <binding>
-          <command>nasal</command>
-          <script>controls.applyAirBrakes(0)</script>
+          <command>property-assign</command>
+          <property>/controls/flight/speedbrake</property>
+          <value>0</value>
         </binding>
       </mod-up>
     </key>
