@@ -1026,7 +1026,7 @@
 		</fcs_function>
 		
 		<switch name="fbw/slat/active">
-			<default value="0"/>
+			<default value="fbw/slat/active"/>
 			<test logic="OR" value="0">
 				aero/alpha-deg lt fbw/slat/retraction-aoa
 				velocities/mach gt fbw/slat/partially-extended-max-mn
