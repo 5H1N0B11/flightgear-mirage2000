@@ -242,22 +242,35 @@ var HUD = {
  
         
    #Chevrons Acceleration Vector (AV)
-   m.chevronFactor = 40;
+   m.chevronFactor = 50;
    m.chevronGroup = m.root.createChild("group");
+   m.chevronGroupAB = m.chevronGroup.createChild("group");
    
   m.LeftChevron = m.chevronGroup.createChild("text")
   .setColor(m.myGreen)
   .setTranslation(-150,0)
   .setDouble("character-size", 60)
   .setAlignment("center-center")
-  .setText(">");    
+  .setText(">"); 
+  m.LeftChevronAB = m.chevronGroupAB.createChild("text")
+  .setColor(m.myGreen)
+  .setTranslation(-180,0)
+  .setDouble("character-size", 60)
+  .setAlignment("center-center")
+  .setText(">");  
   
   m.RightChevron = m.chevronGroup.createChild("text")
     .setColor(m.myGreen)
     .setTranslation(150,0)
     .setDouble("character-size", 60)
     .setAlignment("center-center")
-    .setText("<");   
+    .setText("<");
+  m.RightChevronAB = m.chevronGroupAB.createChild("text")
+    .setColor(m.myGreen)
+    .setTranslation(180,0)
+    .setDouble("character-size", 60)
+    .setAlignment("center-center")
+    .setText("<"); 
    
         
     #bore cross
@@ -1148,6 +1161,7 @@ var HUD = {
       airspeed:   "/velocities/airspeed-kt",
       target_spd: "/autopilot/settings/target-speed-kt",
       acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
+      afterburner: "/engines/engine[0]/afterburner",
       NavFreq:    "/instrumentation/nav/frequencies/selected-mhz",
       destRunway: "/autopilot/route-manager/destination/runway",
       destAirport:"/autopilot/route-manager/destination/airport",
@@ -1514,7 +1528,9 @@ var HUD = {
   
   display_Chevron : func(){
      #print(me.input.acc.getValue());
-    me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc.getValue()*me.chevronFactor);
+    #
+    if(me.input.afterburner.getValue()){me.chevronGroupAB.show();}else{me.chevronGroupAB.hide();}
+    me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc.getValue()*FT2M*me.chevronFactor);
     
     me.chevronGroup.update();
   },
@@ -1535,7 +1551,7 @@ var HUD = {
   display_Acceleration_Box:func(){
     #Acc accBoxGroup in G(so I guess /9,8)
     if(me.input.wow_nlg.getValue()){
-      me.acceleration_Box.setText(sprintf("%.2f", int(me.input.acc.getValue()/9.8*1000+1)/1000));
+      me.acceleration_Box.setText(sprintf("%.2f", int(me.input.acc.getValue()*FT2M/9.8*1000+1)/1000));
       me.accBoxGroup.show();
     }else{
       me.accBoxGroup.hide();
