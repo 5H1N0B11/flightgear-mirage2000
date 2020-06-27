@@ -3,7 +3,7 @@
 <PropertyList>
 
   <sim>
-    <description>Mirage 2000-5</description>
+    <description>Mirage 2000 backseat</description>
     <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007</author>
 
       <!-- 
@@ -21,8 +21,9 @@
           J Maverick 16
       -->
     <long-description>The Dassault Mirage 2000-5 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
-    <aircraft-version>2019-12-31</aircraft-version>
+    <aircraft-version>2020-06-27</aircraft-version>
     <status>production</status>
+    <variant-of>m2000-5</variant-of>
 
     <flight-model>null</flight-model>
 
