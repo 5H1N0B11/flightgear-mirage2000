@@ -252,6 +252,22 @@
         <value>1</value>
       </binding>
     </key>
+
+    <key n="112">
+      <name>p</name>
+      <desc>Toggle the pause state of the sim</desc>
+      <binding>
+        <command>nasal</command>
+          <script>
+            if (getprop("payload/armament/msg")) {
+              screen.log.write("Please do not pause while in combat over MP!");
+            } else {
+              setprop("/sim/freeze/master", !getprop("/sim/freeze/master"));
+              screen.log.write("Sim is paused");
+            }
+          </script>
+      </binding>
+    </key>
     
     <!--This should be used to compute ECM-->
     <key n="113">
