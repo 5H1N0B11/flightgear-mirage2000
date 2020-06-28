@@ -70,61 +70,59 @@ var InitListener = setlistener("/sim/signals/fdm-initialized", func() {
 var main_Init_Loop = func()
 {
   # Loop Updated inside
-    print("Electrical ... Check");
-    settimer(electrics.Electrical_init, 1.0);
-    
+    #print("Electrical ... Check");
+    electrics.Electrical_init();
     
     # Loop Updated inside
-    print("Fuel ... Check");
-    settimer(fuel.Fuel_init, 1.0);
+    #print("Fuel ... Check");
+    #fuel.Fuel_init();
     
     # Loop Updated below
     print("Stability Augmentation System ... Check");
-    settimer(mirage2000.init_SAS, 2.0);
+    mirage2000.init_SAS();
     
     print("Intrumentation ... Check");
-    settimer(instrumentation.initIns, 2.0);
+    instrumentation.initIns();
     
     print("Radar ... Check");
     myRadar3.init();
     #LaserDetection.init();  
     
     print("Flight Director ... Check");
-    settimer(mirage2000.init_set, 4.0);
+    mirage2000.init_set();
     
-    print("MFD ...Check");
-    settimer(mirage2000.update_main, 4.0);
+    #print("MFD ...Check");
+    #mirage2000.mfd_update_main();
     
     print("Transponder ... Check");
-    settimer(init_Transpondeur, 4.0);
-    
-    print("system loop ... Check");
-    settimer(UpdateMain, 8.0);
-    
+    init_Transpondeur();
+        
     print("blackout ... Check");
-    settimer(blackout.blackout_init, 10);
+    blackout.blackout_init();
     
     print("minihud ... Check");
-    settimer(hud.minihud, 10);
+    hud.minihud();
     
         
     print("HUD canvas...Check");
     hud_pilot.update();
     
     print("MFD ... Check");
-    settimer(mirage2000.setCentralMFD, 10);
+    mirage2000.setCentralMFD();
     if(getprop("/instrumentation/efis/Mode"))
     {
         mirage2000.mdfselection();
     }
     print("Missile view Check");
-    settimer(view.init_missile_view, 3);
+    view.init_missile_view();
     
-    settimer(environment.environment, 20);
+    environment.environment();
     #Should be replaced by an object creation
     #settimer(func(){mirage2000.createMap();},10);
+
     
-    if (getprop("sim/disable-custom-view") == 1) view.manager.register("Cockpit View", pilot_view_limiter);
+    print("system loop ... Check");
+    UpdateMain();
 }
 
 var UpdateMain = func
@@ -167,6 +165,7 @@ var updatefunction = func()
       #call(hud_pilot.update,nil,nil,nil, myErr);
       hud_pilot.update();
       call(mirage2000.theShakeEffect,nil,nil,nil, myErr);
+      mirage2000.mfd_update_main();
       myFramerate.a = AbsoluteTime;
     }
     
@@ -203,7 +202,7 @@ var updatefunction = func()
     ###################### rate 1 ###########################
     if(AbsoluteTime - myFramerate.d > 1)
     {
-      call(mirage2000.fuel_managment,nil,nil,nil, myErr);
+      #call(mirage2000.fuel_managment,nil,nil,nil, myErr);
       if(getprop("/autopilot/locks/AP-status") != "AP1"){
         call(mirage2000.update_fd,nil,nil,nil, myErr= []);
         if(size(myErr)>0){
@@ -525,87 +524,6 @@ var init_EjectionKey = func(){
 }
 
 
-
-# pilot view that translates left or right depending on view direction.
-var pilot_view_limiter = {
-  new : func {
-    return { parents: [pilot_view_limiter] };
-  },
-  init : func {
-    me.hdgN = props.globals.getNode("/sim/current-view/heading-offset-deg");
-    me.xoffsetN = props.globals.getNode("/sim/current-view/x-offset-m");
-    me.xoffset_lowpass = aircraft.lowpass.new(0.1);
-    me.last_offset = 0;
-    me.needs_start = 0;
-  },
-  start : func {
-    var limits = view.current.getNode("config/limits", 1);
-    me.active = props.globals.getNode("sim/disable-custom-view");
-    me.left = {
-      heading_max : math.abs(limits.getNode("left/heading-max-deg", 1).getValue() or 1000),
-      threshold : math.abs(limits.getNode("left/x-offset-threshold-deg", 1).getValue() or 0),
-      xoffset_max : math.abs(limits.getNode("left/x-offset-max-m", 1).getValue() or 0),
-      xoffset_t_max : math.abs(limits.getNode("left/x-offset-threshold-max-m", 1).getValue() or 0),
-    };
-    me.right = {
-      heading_max : -math.abs(limits.getNode("right/heading-max-deg", 1).getValue() or 1000),
-      threshold : -math.abs(limits.getNode("right/x-offset-threshold-deg", 1).getValue() or 0),
-      xoffset_max : -math.abs(limits.getNode("right/x-offset-max-m", 1).getValue() or 0),
-      xoffset_t_max : -math.abs(limits.getNode("right/x-offset-threshold-max-m", 1).getValue() or 0),
-    };
-    me.left.scale = me.left.xoffset_t_max / me.left.threshold;
-    me.right.scale = me.right.xoffset_t_max / me.right.threshold;
-    me.last_hdg = geo.normdeg180(me.hdgN.getValue());
-    me.enable_xoffset = me.right.xoffset_t_max > 0.001 or me.left.xoffset_t_max > 0.001;
-
-    me.needs_start = 0;
-  },
-  update : func {
-    print("View = " ~ me.active.getValue());
-    if (getprop("/devices/status/keyboard/ctrl"))
-      return;
-
-    if( getprop("/sim/signals/reinit") )
-    {
-      me.needs_start = 1;
-      return;
-    }
-    else if( me.needs_start )
-      me.start();
-
-    var hdg = geo.normdeg180(me.hdgN.getValue());
-    if (math.abs(me.last_hdg - hdg) > 180) { # avoid wrap-around skips
-      me.hdgN.setDoubleValue(hdg = me.last_hdg);
-      #print("wrap skip");
-    } elsif (hdg > me.left.heading_max) {
-      me.hdgN.setDoubleValue(hdg = me.left.heading_max);
-      #print("wrap left");
-    } elsif (hdg < me.right.heading_max) {
-      me.hdgN.setDoubleValue(hdg = me.right.heading_max);
-      #print("wrap right");
-    }
-    me.last_hdg = hdg;
-
-    # translate view on X axis to look far right or far left
-    if (me.enable_xoffset) {
-      var offset = 0;
-      #print(hdg~" "~me.left.threshold);
-      if (hdg > 0 and hdg < me.left.threshold)
-        offset = -hdg * me.left.scale;
-      elsif (hdg > 0)
-        offset = -(me.left.xoffset_t_max+(me.left.xoffset_max-me.left.xoffset_t_max)*(hdg-me.left.threshold)/(me.left.heading_max-me.left.threshold));
-      elsif (hdg < 0 and hdg > me.right.threshold)
-        offset = -hdg * me.right.scale;
-      elsif (hdg < 0)
-        offset = -(me.right.xoffset_t_max+(me.right.xoffset_max-me.right.xoffset_t_max)*(hdg-me.right.threshold)/(me.right.heading_max-me.right.threshold));
-
-      var new_offset = me.xoffset_lowpass.filter(offset);
-      me.xoffsetN.setDoubleValue(me.xoffsetN.getValue() - me.last_offset + new_offset);
-      me.last_offset = new_offset;
-    }
-    return 0;
-  },
-};
 
 
 var flightmode = func (){

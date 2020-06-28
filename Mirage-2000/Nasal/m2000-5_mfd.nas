@@ -307,9 +307,9 @@ var frequ_adjustL = func(dir)
 }
 
 # Main Loop
-var update_main = func()
+var mfd_update_main = func()
 {
     update_rmi1();
     update_rmi2();
-    settimer(update_main, 0.25);
+    #settimer(mfd_update_main, 0.25);
 }
