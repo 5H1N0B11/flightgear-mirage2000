@@ -91,42 +91,6 @@
   </button>
 
   <hrule />
-
-    <group>
-    <layout>hbox</layout>
-    <text><label>Command Bug</label></text>
-    <checkbox>
-      <property>/controls/bugs/command-bug</property>
-      <live>true</live>
-      <binding>
-        <command>property-toggle</command>
-        <property>/controls/bugs/command-bug</property>
-      </binding>
-    </checkbox>
-  </group>
-
-  <hrule />
-
-  <group>
-    <layout>hbox</layout>
-    <text><label>CANVAS MFD</label></text>
-    <checkbox>
-      <property>/instrumentation/efis/Mode</property>
-      <live>true</live>
-      <binding>
-        <command>property-toggle</command>
-        <property>/instrumentation/efis/Mode</property>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>
-          aircraft.data.add("/instrumentation/efis/Mode");
-          mirage2000.mdfselection()</script>
-      </binding>
-    </checkbox>
-  </group>
-
-  <hrule />
   
     <group>
     <layout>hbox</layout>
@@ -182,7 +146,7 @@
 
   <hrule />
 
-  <group>
+  <!--group>
     <layout>hbox</layout>
     <group><text><label>HUD</label></text></group>
 
@@ -201,9 +165,7 @@
         </binding>
       </slider>
       </group>
-  </group>
-
-  <hrule />
+  </group-->
 
   <!-- ~~~~~~~~~~~~~~~~~~ assistance -->
   <group>
