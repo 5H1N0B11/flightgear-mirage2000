@@ -14,7 +14,7 @@
     </empty>
     
     <text>
-      <label>Load Fast Configuration</label>
+      <label>Mirage 2000 Configuration</label>
     </text>
     
     <empty>
@@ -36,6 +36,37 @@
         <command>dialog-apply</command>
       </binding>
     </button>
+  </group>
+
+  <hrule />
+
+  <group>
+    <layout>table</layout>
+    <button>
+      <row>0</row>
+      <col>0</col>
+      <legend>Auto-Start</legend>
+      <binding>
+        <command>nasal</command>
+        <script>mirage2000.autostart();</script>
+      </binding>
+    </button>
+
+  <button>
+    <row>0</row>
+    <col>1</col>
+    <legend>Repair Damage</legend>
+    <binding>
+      <command>nasal</command>
+      <script>
+        var failure_modes = FailureMgr._failmgr.failure_modes;
+        var mode_list = keys(failure_modes);
+        foreach(var failure_mode_id; mode_list) {
+          FailureMgr.set_failure_level(failure_mode_id, 0);
+        }
+        </script>
+    </binding>
+  </button>
   </group>
 
   <hrule />
@@ -78,7 +109,6 @@
             </binding>
         </checkbox>
       </group>
-  <hrule />
 
   <group>
     <layout>hbox</layout>

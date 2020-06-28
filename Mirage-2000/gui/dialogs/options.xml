@@ -53,8 +53,6 @@
     </checkbox>
   </group>
   
-  
-  
   <group>
     <layout>hbox</layout>
     <text><label>Dynamic view Enabled</label></text>
@@ -132,7 +130,7 @@
   
     <group>
     <layout>hbox</layout>
-    <group><text><label>AP TF Smooth (- +)</label></text></group>
+    <text><halign>left</halign><label>AP TF Smooth (- +)</label></text>
     <group>
     <layout>vbox</layout>
     <halign>right</halign>
@@ -155,8 +153,6 @@
       </slider>
       </group>
   </group>
-  
-  
   
   <group>
     <layout>hbox</layout>
@@ -206,22 +202,6 @@
       </slider>
       </group>
   </group>
-
-  <hrule />
-
-  <button>
-    <legend>REPAIR</legend>
-    <binding>
-      <command>nasal</command>
-      <script>
-        var failure_modes = FailureMgr._failmgr.failure_modes;
-        var mode_list = keys(failure_modes);
-        foreach(var failure_mode_id; mode_list) {
-          FailureMgr.set_failure_level(failure_mode_id, 0);
-        }
-        </script>
-    </binding>
-  </button>
 
   <hrule />
 

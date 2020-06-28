@@ -6,17 +6,11 @@
 
     <menu n="11">
 
-      <item n="1">
-        <label>Auto-Start</label>
-        <name>start</name>
-        <binding>
-          <command>nasal</command>
-          <script>mirage2000.autostart();</script>
-        </binding>
-      </item>
+      <label>Mirage 2000</label>
+      <enabled type="bool">true</enabled>
 
-      <item n="2">
-        <label>Fast Config</label>
+      <item n="1">
+        <label>Configuration</label>
         <name>config</name>
         <binding>
           <command>dialog-show</command>
@@ -24,7 +18,7 @@
         </binding>
       </item>
       
-      <item n="3">
+      <item n="2">
         <label>Flight Mode</label>
         <name>FlightMode</name>
         <binding>
@@ -33,7 +27,7 @@
         </binding>
       </item>
       
-      <item n="4">
+      <item n="3">
         <label>Link16</label>
         <name>AboutMirage</name>
         <binding>
@@ -43,7 +37,7 @@
       </item>
       
       
-      <item n="5">
+      <item n="4">
         <label>Lights</label>
         <name>lights</name>
         <binding>
@@ -52,10 +46,7 @@
         </binding>
       </item>
 
-      <label>Mirage 2000</label>
-      <enabled type="bool">true</enabled>
-
-      <item n="6">
+      <item n="5">
         <label>Select Livery</label>
         <binding>
           <command>nasal</command>
@@ -63,7 +54,7 @@
         </binding>
       </item>
 
-      <item n="7">
+      <item n="6">
         <label>Select Logos</label>
         <binding>
           <command>nasal</command>
@@ -71,7 +62,7 @@
         </binding>
       </item>
 
-      <item n="8">
+      <item n="7">
         <label>Options</label>
         <name>options</name>
         <binding>
@@ -80,7 +71,7 @@
         </binding>
       </item>
 
-      <item n="9">
+      <item n="8">
         <label>Radar</label>
         <name>radar</name>
         <binding>
