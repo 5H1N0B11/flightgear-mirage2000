@@ -482,13 +482,13 @@ var mp_messaging = func(){
         call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "instrument-failures"}))},nil,var err2 = []);  
       }      
       setprop("sim/freeze/fuel",0);
+      setprop("/sim/freeze/master", 0);
+      setprop("/sim/freeze/clock", 0);
       setprop("/sim/speed-up", 1);
       setprop("/gui/map/draw-traffic", 0);
       setprop("/sim/gui/dialogs/map-canvas/draw-TFC", 0);
       setprop("/sim/rendering/als-filters/use-filtering", 1);
       setprop("/controls/SAS/activated", 1);
-      setprop("/sim/freeze/master", 0);
-      setprop("/sim/freeze/clock", 0);
       setprop("/sim/view[100]/enabled", 0);
     
     
