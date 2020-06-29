@@ -488,6 +488,7 @@ var mp_messaging = func(){
       setprop("/sim/rendering/als-filters/use-filtering", 1);
       setprop("/controls/SAS/activated", 1);
       setprop("/sim/freeze/master", 0);
+      setprop("/sim/freeze/clock", 0);
       setprop("/sim/view[100]/enabled", 0);
     
     
