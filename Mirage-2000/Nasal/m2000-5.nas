@@ -587,6 +587,7 @@ var call_flightmode = func(calling){
   setprop("/instrumentation/flightmode/arm",arm);
   
   flightmode();
+  hud_pilot.recalculateLadder();
 }
 var quickstart = func() {
   settimer(func { 

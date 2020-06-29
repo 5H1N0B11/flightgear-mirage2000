@@ -360,19 +360,21 @@ var HUD = {
                   
     m.ladderScale = 7.5;#7.5
     m.maxladderspan =  200;
+    m.LadderGroup = m.horizon_sub_group.createChild("group");
                    
    for (var myladder = 5;myladder <= 90;myladder+=5)
    {
+     
      if (myladder/10 == int(myladder/10)){
         #Text bellow 0 left
-        m.horizon_sub_group.createChild("text")
+        m.LadderGroup.createChild("text")
           .setColor(m.myGreen)
           .setAlignment("right-center")
           .setTranslation(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
           .setDouble("character-size", 30)
           .setText(myladder);
         #Text bellow 0 left
-        m.horizon_sub_group.createChild("text")
+        m.LadderGroup.createChild("text")
           .setColor(m.myGreen)
           .setAlignment("left-center")
           .setTranslation(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
@@ -380,14 +382,14 @@ var HUD = {
           .setText(myladder);
 
         #Text above 0 left         
-        m.horizon_sub_group.createChild("text")
+        m.LadderGroup.createChild("text")
           .setColor(m.myGreen)
           .setAlignment("right-center")
           .setTranslation(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
           .setDouble("character-size", 30)
           .setText(myladder); 
         #Text above 0 right   
-        m.horizon_sub_group.createChild("text")
+        m.LadderGroup.createChild("text")
           .setColor(m.myGreen)
           .setAlignment("left-center")
           .setTranslation(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
@@ -397,46 +399,46 @@ var HUD = {
       
   # =============  BELLOW 0 ===================           
     #half line bellow 0 (left part)       ------------------ 
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
       .vert(-m.maxladderspan/15)
       .setStrokeLineWidth(4); 
                    
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
       .horiz(m.maxladderspan*2/15)
       .setStrokeLineWidth(4);             
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(-abs(m.maxladderspan - m.maxladderspan*2/15*2), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
       .horiz(m.maxladderspan*2/15)
       .setStrokeLineWidth(4);    
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(-abs(m.maxladderspan - m.maxladderspan*2/15*4), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
       .horiz(m.maxladderspan*2/15)
       .setStrokeLineWidth(4);
                   
     #half line (rigt part)       ------------------   
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
       .vert(-m.maxladderspan/15)
       .setStrokeLineWidth(4); 
                    
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
       .horiz(-m.maxladderspan*2/15)
       .setStrokeLineWidth(4);             
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(abs(m.maxladderspan - m.maxladderspan*2/15*2), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
       .horiz(-m.maxladderspan*2/15)
       .setStrokeLineWidth(4);    
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(abs(m.maxladderspan - m.maxladderspan*2/15*4), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
       .horiz(-m.maxladderspan*2/15)
@@ -446,25 +448,25 @@ var HUD = {
   
                    
 # =============  ABOVE 0 ===================               
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
       .vert(m.maxladderspan/15)
       .setStrokeLineWidth(4); 
                    
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
       .horiz(m.maxladderspan/3*2)
       .setStrokeLineWidth(4);             
           
     #half line (rigt part)       ------------------           
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
       .horiz(-m.maxladderspan/3*2)
       .setStrokeLineWidth(4);            
-    m.horizon_sub_group.createChild("path")
+    m.LadderGroup.createChild("path")
       .setColor(m.myGreen)
       .moveTo(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
       .vert(m.maxladderspan/15)
@@ -923,42 +925,8 @@ var HUD = {
    m.myRunwayGroup = m.root.createChild("group");
    m.selectedRunway = 0;
    
-   
-#    m.myRunway = m.myRunwayGroup.createChild("path")
-#         .moveTo(15, 0)
-#         .arcSmallCW(15,15, 0, -30, 0)
-#         .arcSmallCW(15,15, 0, 30, 0)
-#         .setStrokeLineWidth(4)
-#         ;
-#   
-#     m.myRunwayBeginLeft = m.myRunwayGroup.createChild("path")
-#         .moveTo(15, 0)
-#         .arcSmallCW(15,15, 0, -30, 0)
-#         .arcSmallCW(15,15, 0, 30, 0)
-#         .setStrokeLineWidth(4)
-#         ;
-#         
-#     m.myRunwayBeginRight = m.myRunwayGroup.createChild("path")
-#         .moveTo(15, 0)
-#         .arcSmallCW(15,15, 0, -30, 0)
-#         .arcSmallCW(15,15, 0, 30, 0)
-#         .setStrokeLineWidth(4)
-#         ;
-#     
-#      m.myRunwayEndRight = m.myRunwayGroup.createChild("path")
-#         .moveTo(15, 0)
-#         .arcSmallCW(15,15, 0, -30, 0)
-#         .arcSmallCW(15,15, 0, 30, 0)
-#         .setStrokeLineWidth(4)
-#         ;
-# 
-#      m.myRunwayEndLeft = m.myRunwayGroup.createChild("path")
-#         .moveTo(15, 0)
-#         .arcSmallCW(15,15, 0, -30, 0)
-#         .arcSmallCW(15,15, 0, 30, 0)
-#         .setStrokeLineWidth(4)
-#         ;    
-#       
+
+       
    ##################################### Target Circle ####################################
     m.targetArray = [];
     m.circle_group2 = m.radarStuffGroup.createChild("group");
@@ -2261,6 +2229,121 @@ var HUD = {
     isInCanvas:func(x,y){
         #print("x:",x," y:",y," me.MaxX:",me.MaxX," MaxY",me.MaxY, " Result:",abs(x)<me.MaxX and abs(y)<me.MaxY;
         return abs(x)<me.MaxX and abs(y)<me.MaxY;
+    },
+############## When pilot view is changed the whole scale need to be redrawn ##########################
+    recalculateLadder:func(){
+      
+        me.LadderGroup.removeAllChildren();
+        for (var myladder = 5;myladder <= 90;myladder+=5)
+        {
+          
+          if (myladder/10 == int(myladder/10)){
+              #Text bellow 0 left
+              me.LadderGroup.createChild("text")
+                .setColor(me.myGreen)
+                .setAlignment("right-center")
+                .setTranslation(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+                .setDouble("character-size", 30)
+                .setText(myladder);
+              #Text bellow 0 left
+              me.LadderGroup.createChild("text")
+                .setColor(me.myGreen)
+                .setAlignment("left-center")
+                .setTranslation(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+                .setDouble("character-size", 30)
+                .setText(myladder);
+
+              #Text above 0 left         
+              me.LadderGroup.createChild("text")
+                .setColor(me.myGreen)
+                .setAlignment("right-center")
+                .setTranslation(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
+                .setDouble("character-size", 30)
+                .setText(myladder); 
+              #Text above 0 right   
+              me.LadderGroup.createChild("text")
+                .setColor(me.myGreen)
+                .setAlignment("left-center")
+                .setTranslation(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
+                .setDouble("character-size", 30)
+                .setText(myladder);
+            }
+            
+        # =============  BELLOW 0 ===================           
+          #half line bellow 0 (left part)       ------------------ 
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+            .vert(-me.maxladderspan/15)
+            .setStrokeLineWidth(4); 
+                        
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+            .horiz(me.maxladderspan*2/15)
+            .setStrokeLineWidth(4);             
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(-abs(me.maxladderspan - me.maxladderspan*2/15*2), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+            .horiz(me.maxladderspan*2/15)
+            .setStrokeLineWidth(4);    
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(-abs(me.maxladderspan - me.maxladderspan*2/15*4), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+            .horiz(me.maxladderspan*2/15)
+            .setStrokeLineWidth(4);
+                        
+          #half line (rigt part)       ------------------   
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+            .vert(-me.maxladderspan/15)
+            .setStrokeLineWidth(4); 
+                        
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+            .horiz(-me.maxladderspan*2/15)
+            .setStrokeLineWidth(4);             
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(abs(me.maxladderspan - me.maxladderspan*2/15*2), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+            .horiz(-me.maxladderspan*2/15)
+            .setStrokeLineWidth(4);    
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(abs(me.maxladderspan - me.maxladderspan*2/15*4), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
+            .horiz(-me.maxladderspan*2/15)
+            .setStrokeLineWidth(4);              
+                        
+      # =============  ABOVE 0 ===================               
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
+            .vert(me.maxladderspan/15)
+            .setStrokeLineWidth(4); 
+                        
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
+            .horiz(me.maxladderspan/3*2)
+            .setStrokeLineWidth(4);             
+                
+          #half line (rigt part)       ------------------           
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
+            .horiz(-me.maxladderspan/3*2)
+            .setStrokeLineWidth(4);            
+          me.LadderGroup.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
+            .vert(me.maxladderspan/15)
+            .setStrokeLineWidth(4); 
+                        
+
+        }           
+      
     },
     
     
