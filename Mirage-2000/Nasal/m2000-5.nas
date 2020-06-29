@@ -60,7 +60,7 @@ var global_system_loop = func{
 
 
 var InitListener = setlistener("/sim/signals/fdm-initialized", func() {
-    settimer(main_Init_Loop, 5.0);
+    main_Init_Loop();
     removelistener(InitListener);
 });
 
@@ -103,7 +103,6 @@ var main_Init_Loop = func()
     print("minihud ... Check");
     hud.minihud();
     
-        
     print("HUD canvas...Check");
     hud_pilot.update();
     
@@ -533,28 +532,33 @@ var flightmode = func (){
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.1019);
       setprop("/sim/current-view/z-offset-m",-2.9);  
+      setprop("/sim/current-view/field-of-view",83);
       
     }elsif(getprop("/instrumentation/flightmode/to")){
       
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.1019);
       setprop("/sim/current-view/z-offset-m",-2.9);
+      setprop("/sim/current-view/field-of-view",83);
 
       
     }elsif(getprop("/instrumentation/flightmode/nav")){
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.025);
       setprop("/sim/current-view/z-offset-m",-2.9);
+      setprop("/sim/current-view/field-of-view",83);
       
     }elsif(getprop("/instrumentation/flightmode/arm")){
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.099);
       setprop("/sim/current-view/z-offset-m",-2.67);
+      setprop("/sim/current-view/field-of-view",70);
       
     }else{
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.025);
       setprop("/sim/current-view/z-offset-m",-2.9);
+      setprop("/sim/current-view/field-of-view",83);
 
     }
  }
