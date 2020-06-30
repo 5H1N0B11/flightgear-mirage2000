@@ -31,7 +31,7 @@ var RadarTool = {
               #
               var Tree_Name = c.getName();
               #print("folderName:" ~ c.getName());
-              
+              print("type:" ~ type);
               
               if(me.check_selected_type(c))
               {
@@ -58,10 +58,10 @@ var RadarTool = {
 
                   #If not MARINE skipDoppler still == 0
                   if(listOfGroundTargetNames_hash[folderName] != nil){
-                    u.setType(armament.SURFACE);
+                    u.setType(listOfGroundTargetNames_hash[folderName]);
                     me.skipDoppler = 0;
                   }
-                  
+                  print("GetType:" ~ u.get_type());
                   if(u.get_type() == 0){
                   # now we test the model name to guess what type it is:
                         me.pathNode = c.getNode("sim/model/path");

@@ -45,7 +45,7 @@
     <legend>Sniping mode</legend>
     <enable>
         <equals>
-          <property>sim/weight[6]/selected</property>
+          <property>payload/armament/station/id-6-set</property>
           <value>PDLCT</value>
         </equals>
     </enable>

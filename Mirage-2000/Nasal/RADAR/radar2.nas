@@ -62,7 +62,7 @@ var weaponRadarNames = {
 };
 listOfGroundTargetNames = ["groundvehicle"];
 listOfShipNames      = ["carrier", "ship"];
-listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle"];
+listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle", "Mig-28", "F-16"];
 listOfAIRadarEchoes2 = keys(weaponRadarNames);
 listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
 #listOfGroundVehicleModels = ["GROUND_TARGET"];
@@ -83,13 +83,15 @@ listOfShipModels_hash = {
   "lake_champlain":"MARINE",
 };
 listOfGroundTargetNames_hash = {
-  "groundvehicle":"GROUND_TARGET",
-  "buk-m2":"GROUND_TARGET",
-  "depot":"GROUND_TARGET",
-  "truck":"GROUND_TARGET",
-  "tower":"GROUND_TARGET",
-  "germansemidetached1":"GROUND_TARGET",
-  "GROUND_TARGET":"GROUND_TARGET",
+  "groundvehicle":armament.SURFACE,
+  "buk-m2":armament.SURFACE,
+  "depot":armament.SURFACE,
+  "truck":armament.SURFACE,
+  "tower":armament.SURFACE,
+  "germansemidetached1":armament.SURFACE,
+  "GROUND_TARGET":armament.SURFACE,
+  "Mig-28":armament.AIR,
+  "F-16":armament.AIR,
 };
 var shouldHaveRadarNodearray = ["tanker","aircraft","missile"];
 #   
@@ -522,7 +524,7 @@ var Radar = {
                     {
                         #tgts_list => ARRAY4
                         
-#                       print("Update targetList" ~ u.get_Callsign());
+                        print("Update targetList" ~ me.update_u.get_Callsign());
                         
                         me.TargetList_Update(me.update_u);
                         me.TargetList_AddingTarget(me.update_u);

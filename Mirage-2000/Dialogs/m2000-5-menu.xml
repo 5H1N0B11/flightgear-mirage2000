@@ -106,7 +106,15 @@
           <dialog-name>wingmen</dialog-name>
         </binding>
       </item>
-
+      
+      <item n="12">
+        <label>Training</label>
+        <name>training</name>
+        <binding>
+          <command>dialog-show</command>
+          <dialog-name>scenario28</dialog-name>
+        </binding>
+      </item>
     </menu>
   </default>
 
