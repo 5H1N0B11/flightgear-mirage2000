@@ -143,7 +143,7 @@ var gearBox = func() {
     }
     
     # AirBrakes
-    if(energy and getprop("/surface-positions/spoiler-pos-norm") != 0)
+    if(energy and getprop("/fdm/jsbsim/fcs/airbrake-norm-sum") != 0)
     {
         setprop("/instrumentation/gearBox/AirBrakes", 1);
     }

@@ -32,7 +32,8 @@ var applyBrakes = func(v, which = 0)
     }
     else
     {
-        controls.applyAirBrakes(v);
+        #controls.applyAirBrakes(v);
+        setprop("/controls/flight/speedbrake",v);
     }
 }
 
