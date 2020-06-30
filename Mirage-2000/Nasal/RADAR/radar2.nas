@@ -524,7 +524,7 @@ var Radar = {
                     {
                         #tgts_list => ARRAY4
                         
-                        print("Update targetList" ~ me.update_u.get_Callsign());
+                        #print("Update targetList" ~ me.update_u.get_Callsign());
                         
                         me.TargetList_Update(me.update_u);
                         me.TargetList_AddingTarget(me.update_u);
