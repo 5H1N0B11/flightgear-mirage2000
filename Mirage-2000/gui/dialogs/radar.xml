@@ -62,6 +62,17 @@
 
   <group>
     <layout>hbox</layout>
+  <button>
+    <legend>Display Canvas Radar</legend>
+    <binding>
+      <command>nasal</command>
+      <script>
+        radar.Launch_Canvas();
+      </script>
+    </binding>
+  </button>
+    
+    
     <!--
     <group>
       <layout>vbox</layout>

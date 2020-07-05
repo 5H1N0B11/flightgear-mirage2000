@@ -35,7 +35,7 @@ var msgB = "Please land before changing payload.";
 #var RDI
 #var RDY
 
-var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:1, forcePath:"instrumentation/radar2/targets", NewAutoUpdate:1);
+#var myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:1, forcePath:"instrumentation/radar2/targets", NewAutoUpdate:1);
 #var LaserDetection = radar.Radar.new(NewRangeTab:[20], NewVerticalAzimuth:180, NewRangeIndex:0, NewTypeTarget:["aircraft", "multiplayer", "carrier", "ship", "missile", "aim120", "aim-9"], NewRadarType:"laser", NewhaveSweep:0, NewAutoUpdate:0, forcePath:"instrumentation/radar2/targets");
 setprop("/instrumentation/radar/az-fieldCenter", 0);
 
@@ -84,8 +84,8 @@ var main_Init_Loop = func()
     print("Intrumentation ... Check");
     instrumentation.initIns();
     
-    print("Radar ... Check");
-    myRadar3.init();
+    #print("Radar ... Check");
+    #myRadar3.init();
     #LaserDetection.init();  
     
     print("Flight Director ... Check");
