@@ -93,7 +93,7 @@ var Target = {
         if (obj.Callsign == nil or obj.Callsign.getValue() == "")
         {
             #print("----------------------------------- FIRST CONTACT ---------------- " ~ obj.name.getValue());
-            if (obj.name.getValue() == "") {
+            if (obj.name == nil or obj.name.getValue() == "") {
                 obj.myStaticCallsign = obj.ModelType;# last resort. 
             } else {
                 obj.myStaticCallsign = obj.name.getValue();# for AI ships.
