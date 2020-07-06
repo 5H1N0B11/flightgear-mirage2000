@@ -115,9 +115,7 @@ AIToNasal = {
 			    me.pos_type = GPS;
 			    me.aircraftPos = geo.Coord.new().set_latlon(me.lat.getValue(), me.lon.getValue(), me.alt.getValue()*FT2M);
           me.alt = me.aircraftPos.alt();
-          print("1");
 		    } else {
-          print("2");
 		    	me.pos_type = GEO;
 		    	me.aircraftPos = geo.Coord.new().set_xyz(me.x.getValue(), me.y.getValue(), me.z.getValue());
 		    	me.alt = me.aircraftPos.alt();

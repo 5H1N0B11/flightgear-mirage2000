@@ -1122,6 +1122,7 @@ var HUD = {
       gs:         "/velocities/groundspeed-kt",
       vs:         "/velocities/vertical-speed-fps",
       alt:        "/position/altitude-ft",
+      elapsed:    "sim/time/elapsed-sec",
       alt_instru: "/instrumentation/altimeter/indicated-altitude-ft",
       rad_alt:    "position/altitude-agl-ft", #"/instrumentation/radar-altimeter/radar-altitude-ft",
       wow_nlg:    "/gear/gear[1]/wow",
@@ -1709,18 +1710,26 @@ var HUD = {
 #     var closestRange = getprop("ai/closest/range");
     closestCallsign = "";
     closestRange = -1;
+    var is_Painted = 0;
+    var closestRange = 0;
+    
     #Getting the radar target from radar tgts_list
-    if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list)>mirage2000.myRadar3.Target_Index){
-      var MytargetIndex = mirage2000.myRadar3.Target_Index;
-      var closestCallsign = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].get_Callsign():"";
-      var is_Painted = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].isPainted():0;
-      var closestRange = MytargetIndex != -1 and is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[MytargetIndex]):0;
-    }
+#     if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list)>mirage2000.myRadar3.Target_Index){
+#       var MytargetIndex = mirage2000.myRadar3.Target_Index;
+#       var closestCallsign = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].get_Callsign():"";
+#       var is_Painted = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].isPainted():0;
+#       var closestRange = MytargetIndex != -1 and is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[MytargetIndex]):0;
+#     }
+    
+    
     var Token = 0;
     
 
-    raw_list = mirage2000.myRadar3.ContactsList;
-#     print("Size:" ~ size(raw_list));
+    #raw_list = mirage2000.myRadar3.ContactsList;
+    #raw_list = radar.exampleRadar.follow;
+    raw_list = radar.exampleRadar.vector_aicontacts_bleps;
+    #print("exampleRadar.follow:" ~ size(radar.exampleRadar.follow));
+    #print("exampleRadar.vector_aicontacts_bleps:" ~ size(radar.exampleRadar.vector_aicontacts_bleps));
     
     i = 0;
     
@@ -1731,25 +1740,25 @@ var HUD = {
       if(i<size(me.targetArray) and size(raw_list)>0){
 
 
-        displayIt = c.objectDisplay;
+        #displayIt = c.objectDisplay;
         #var myTest = c.isPainted();
         
         #print("Display it : %d",displayIt);
         
-        if(displayIt==1 ){
+        if(me.input.elapsed.getValue() - c.blepTime < 5){
 
 
-          target_callsign = c.get_Callsign();
+          #me.target_callsign = c.callsign;
           #print("Paint : " ~ target_callsign ~ " : "~ myTest);
+          me.SelectCoord = c.getCoord();
+          #me.target_altitude = me.SelectCoord.alt();
+          #me.target_heading_deg = c.getHeading();
+          #me.target_Distance = c.getRangeDirectFrozen();
           
-          target_altitude = c.get_altitude();
-          target_heading_deg = c.get_heading();
-          target_Distance = c.get_range();
-          
-          var triPos = HudMath.getPosFromCoord(c.get_Coord());
+          var triPos = HudMath.getPosFromCoord(me.SelectCoord);
           
           #If we have a selected target we display a triangle
-          if(target_callsign == closestCallsign and closestRange > 0){
+          if(c.callsign == closestCallsign and closestRange > 0){
             Token = 1;
             #me.TriangleGroupe.show();
             #me.triangle.setTranslation(triPos);
@@ -1774,7 +1783,7 @@ var HUD = {
           me.TextInfoArray[i].show();
           me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
           
-          me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", target_callsign, target_Distance, target_altitude, target_heading_deg));
+          me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", c.callsign, c.getRangeDirectFrozen(), me.SelectCoord.alt(), c.getHeading()));
 
         }else{
           me.targetArray[i].hide();
