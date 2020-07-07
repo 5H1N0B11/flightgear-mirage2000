@@ -1755,10 +1755,12 @@ var HUD = {
           #me.target_heading_deg = c.getHeading();
           #me.target_Distance = c.getRangeDirectFrozen();
           
+          
           var triPos = HudMath.getPosFromCoord(me.SelectCoord);
           
           #If we have a selected target we display a triangle
-          if(c.callsign == closestCallsign and closestRange > 0){
+          #if(c.callsign == closestCallsign and closestRange > 0){
+          if(radar.exampleRadar.containsVector(radar.exampleRadar.locks, c)){
             Token = 1;
             #me.TriangleGroupe.show();
             #me.triangle.setTranslation(triPos);
@@ -1772,7 +1774,7 @@ var HUD = {
             #And we hide the circle
             me.targetArray[i].hide();
             if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
-              me.designatedDistanceFT = c.get_Coord().direct_distance_to(geo.aircraft_position())*M2FT;
+              me.designatedDistanceFT = c.getCoord().direct_distance_to(geo.aircraft_position())*M2FT;
             }
           }else{
             #Else  the circle
@@ -1783,7 +1785,7 @@ var HUD = {
           me.TextInfoArray[i].show();
           me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
           
-          me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", c.callsign, c.getRangeDirectFrozen(), me.SelectCoord.alt(), c.getHeading()));
+          me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", c.callsign, c.getRangeDirectFrozen()*M2NM, me.SelectCoord.alt(), c.getHeading()));
 
         }else{
           me.targetArray[i].hide();
@@ -1822,18 +1824,19 @@ var HUD = {
   },
   
   displayDistanceToTargetLine : func(contact){
-    me.MaxRadarRange = mirage2000.myRadar3.rangeTab[mirage2000.myRadar3.rangeIndex];
+    #me.MaxRadarRange = mirage2000.myRadar3.rangeTab[mirage2000.myRadar3.rangeIndex];
+    me.MaxRadarRange = radar.exampleRadar.forDist_m*M2NM;
     var myString ="";
     #< 10 nm should be a float
     #< 1000 m should be in meters 
-    if(contact.get_range()<= me.MaxRadarRange){
+    if(contact.getRangeDirectFrozen()<= me.MaxRadarRange){
       #Text for distance to target
-      if(contact.get_range()*NM2M<1200){
-        myString = sprintf("%dm",contact.get_range()*NM2M);
-      }elsif(contact.get_range()<10){
-        myString = sprintf("%.1fnm",contact.get_range());
+      if(contact.getRangeDirectFrozen()*NM2M<1200){
+        myString = sprintf("%dm",contact.getRangeDirectFrozen());
+      }elsif(contact.getRangeDirectFrozen()<10){
+        myString = sprintf("%.1fnm",contact.getRangeDirectFrozen()*M2NM);
       }else{
-        myString = sprintf("%dnm",contact.get_range());
+        myString = sprintf("%dnm",contact.getRangeDirectFrozen()*M2NM);
       }
 
       if (me.displayDLZ(me.MaxRadarRange)){
@@ -1842,7 +1845,7 @@ var HUD = {
         me.missileFireRange.hide();
       }   
       me.distanceToTargetLineChevronText.setText(myString);
-      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
+      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.getRangeDirectFrozen()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
     }
   },
   
