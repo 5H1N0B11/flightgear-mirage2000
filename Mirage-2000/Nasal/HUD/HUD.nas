@@ -1826,6 +1826,8 @@ var HUD = {
   displayDistanceToTargetLine : func(contact){
     #me.MaxRadarRange = mirage2000.myRadar3.rangeTab[mirage2000.myRadar3.rangeIndex];
     me.MaxRadarRange = radar.exampleRadar.forDist_m*M2NM;
+    print("me.MaxRadarRange :"~ me.MaxRadarRange );
+    print("contact.getRangeDirectFrozen() :" ~ contact.getRangeDirectFrozen());
     var myString ="";
     #< 10 nm should be a float
     #< 1000 m should be in meters 
@@ -1843,7 +1845,8 @@ var HUD = {
         me.missileFireRange.show();
       }else{
         me.missileFireRange.hide();
-      }   
+      }
+      print("myString : " ~ myString);
       me.distanceToTargetLineChevronText.setText(myString);
       me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.getRangeDirectFrozen()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
     }

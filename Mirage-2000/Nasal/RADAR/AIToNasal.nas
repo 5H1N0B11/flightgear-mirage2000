@@ -77,13 +77,15 @@ AIToNasal = {
 
 		me.vector_raw = me.prop_AIModels.getChildren();
 		me.lookupCallsignRaw = {};
+    
 
 		foreach (me.prop_ai;me.vector_raw) {
 			me.prop_valid = me.prop_ai.getNode("valid");
-			if (me.prop_valid == nil or !me.prop_valid.getValue() or me.prop_ai.getNode("impact") != nil) {
+      
+			if (me.prop_valid == nil or !me.prop_valid.getValue()){ # or me.prop_ai.getNode("impact") != nil) {# or size(me.pos.getChildren()) == 0) {
 				# its either not a valid entity or its a impact report.
-                continue;
-            }
+          continue;
+       }
             me.type = AIR;
 
             # find short model xml name: (better to do here, even though its slow) [In viggen its placed inside the property tree, which leads to too much code to update it when tree changes]
@@ -102,6 +104,10 @@ AIToNasal = {
             # position type
             me.pos_type = nil;
             me.pos = me.prop_ai.getNode("position");
+            if(me.pos == nil or size(me.pos.getChildren()) == 0){
+              continue;
+            }
+
 		    me.x = me.pos.getNode("global-x");
 		    me.y = me.pos.getNode("global-y");
 		    me.z = me.pos.getNode("global-z");
