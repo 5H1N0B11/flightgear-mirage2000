@@ -1035,7 +1035,8 @@ var printfDebug = func {if (debug == 1) call(printf,arg);};
 var dualWeapons = ["MK-82","MK-83","MK-84","GBU-12","GBU-24","GBU-54","CBU-87","CBU-105","GBU-31","AGM-154A","B61-7","B61-12"];
 var getCompleteRadarTargetsList = func {
 	# A list of all MP/AI aircraft/ships/surface-targets around the aircraft.
-	return radar.completeList;
+	#return radar.completeList;
+  return radar.omni.vector_aicontacts;
 }
 
 var ContactTGP = {

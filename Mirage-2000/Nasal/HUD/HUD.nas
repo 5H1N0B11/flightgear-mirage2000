@@ -1825,13 +1825,14 @@ var HUD = {
   
   displayDistanceToTargetLine : func(contact){
     #me.MaxRadarRange = mirage2000.myRadar3.rangeTab[mirage2000.myRadar3.rangeIndex];
-    me.MaxRadarRange = radar.exampleRadar.forDist_m*M2NM;
+    me.MaxRadarRange = radar.exampleRadar.forDist_m;
     print("me.MaxRadarRange :"~ me.MaxRadarRange );
     print("contact.getRangeDirectFrozen() :" ~ contact.getRangeDirectFrozen());
     var myString ="";
     #< 10 nm should be a float
     #< 1000 m should be in meters 
     if(contact.getRangeDirectFrozen()<= me.MaxRadarRange){
+      print("FLAG displayDistanceToTargetLine 20201107");
       #Text for distance to target
       if(contact.getRangeDirectFrozen()*NM2M<1200){
         myString = sprintf("%dm",contact.getRangeDirectFrozen());
@@ -1841,7 +1842,7 @@ var HUD = {
         myString = sprintf("%dnm",contact.getRangeDirectFrozen()*M2NM);
       }
 
-      if (me.displayDLZ(me.MaxRadarRange)){
+      if (me.displayDLZ()){
         me.missileFireRange.show();
       }else{
         me.missileFireRange.hide();
@@ -1866,6 +1867,7 @@ var HUD = {
             me.myDLZ = pylons.getDLZ();
 
             if(me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*2){
+              print("FLAG displayDLZ 20201007");
               #Max
               me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
