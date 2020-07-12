@@ -1857,6 +1857,7 @@ var HUD = {
   
   
   displayDLZ:func(){
+     print("FLAG1 displayDLZ 20201007");
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
         
         #Testings
@@ -1867,7 +1868,7 @@ var HUD = {
             me.myDLZ = pylons.getDLZ();
 
             if(me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*2){
-              print("FLAG displayDLZ 20201007");
+              print("FLAG2 displayDLZ 20201007");
               #Max
               me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 

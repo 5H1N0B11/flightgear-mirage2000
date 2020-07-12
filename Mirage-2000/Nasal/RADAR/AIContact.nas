@@ -38,6 +38,35 @@
 
 
 
+#FROM missile-code.nas
+#It should be implemented here : To DO
+# Contact should implement the following interface:
+#
+#done get_type()      - (AIR, MARINE, SURFACE or ORDNANCE)
+#done getUnique()     - Used when comparing 2 targets to each other and determining if they are the same target.
+#done isValid()       - If this target is valid
+#done getElevation()
+#done get_bearing()
+#done get_Callsign()
+#done get_range()
+#done get_Coord()
+# get_Latitude()
+# get_Longitude()
+# get_altitude()
+#done get_Pitch()
+#done get_Speed()
+#done get_heading()
+#done get_uBody()
+#done get_vBody()
+#done get_wBody()
+#done getFlareNode()  - Used for flares.
+#done getChaffNode()  - Used for chaff.
+#done isPainted()     - Tells if this target is still being radar tracked by the launch platform, only used in semi-radar guided missiles.
+#done isLaserPainted()     - Tells if this target is still being tracked by the launch platform, only used by laser guided ordnance.
+#done isRadiating(coord) - Tell if anti-radiation missile is hit by radiation from target. coord is the weapon position.
+#done isVirtual()     - Tells if the target is just a position, and should not be considered for damage.
+
+
 Contact = {
 # Attributes:
 	getCoord: func {
@@ -80,6 +109,7 @@ AIContact = {
 		}
 		me.needInit = 0;
 		# read all properties and store them for fast lookup.
+    me.valid = me.prop.getNode("valid");
 		me.pos = me.prop.getNode("position");
 		me.ori = me.prop.getNode("orientation");
 		me.x = me.pos.getNode("global-x");
@@ -99,6 +129,11 @@ AIContact = {
     	me.speed = me.prop.getNode("velocities/true-airspeed-kt");
     	me.tp = me.pos.getNode("instrumentation/transponder/inputs/mode");
     	me.rdr = me.pos.getNode("sim/multiplay/generic/int[2]");
+      me.ubody = me.speed.getNode("uBody-fps");
+      me.vbody = me.speed.getNode("vBody-fps");
+      me.wbody = me.speed.getNode("wBody-fps");
+      me.flareNode = me.prop.getNode("rotors/main/blade[3]/flap-deg");
+      me.chaffNode = me.prop.getNode("rotors/main/blade[3]/position-deg");
 	},
 
 	update: func (newC) {
@@ -313,6 +348,109 @@ AIContact = {
 		return me.accoord.distance_to(me.coordFrozen);
 		#return me.devStored[3];
 	},
+  get_type:func(){
+    return me.type;
+  },
+  isValid:func(){
+    return me.valid.getValue();
+  },
+  getElevation:func(){
+    return me.d[1];
+  },
+  get_bearing:func(){
+    return me.d[0];
+  },
+  get_Callsign:func(){
+    return me.callsign;
+  },
+  get_range:func(){
+    return me.getRangeDirectFrozen();
+  },
+  get_Coord:func(){
+    return me.getCoord();
+  },
+  get_Pitch:func(){
+    return me.getPitch
+  },
+  get_Speed:func(){
+    return me.getSpeed();
+  },
+  get_heading:func(){
+    return me.d[4];
+  },
+  get_uBody: func {
+    var body = nil;
+    if (me.ubody != nil) {
+      body = me.ubody.getValue();
+    }
+    if(body == nil) {
+      body = me.get_Speed()*KT2FPS;
+    }
+    return body;
+  },    
+  get_vBody: func {
+    var body = nil;
+    if (me.ubody != nil) {
+      body = me.vbody.getValue();
+    }
+    if(body == nil) {
+      body = 0;
+    }
+    return body;
+  },    
+  get_wBody: func {
+    var body = nil;
+    if (me.ubody != nil) {
+      body = me.wbody.getValue();
+    }
+    if(body == nil) {
+      body = 0;
+    }
+    return body;
+  },
+  getFlareNode: func(){
+    return me.flareNode;
+  },
+  getChaffNode: func(){
+    return me.chaffNode;
+  },
+  setPainted: func(mypainting){
+      me.ispainted = mypainting;
+  },
+  isPainted: func() {
+      return me.ispainted;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
+  },
+  isLaserPainted: func() {
+      return me.ispainted; 
+  },
+  setVirtual: func (virt) {
+      me.virtual = virt;
+  },
+  isVirtual: func(){
+    if(me.get_Callsign() == "GROUND_TARGET"){return 1;}else{return 0;}
+  },
+  isRadiating: func (coord) {
+    me.rn = me.get_range();
+    if (me.get_model() != "buk-m2" and me.get_model() != "missile_frigate" or me.get_type()== armament.MARINE) {
+        me.bearingR = coord.course_to(me.get_Coord());
+        me.headingR = me.get_heading();
+        me.inv_bearingR =  me.bearingR+180;
+        me.deviationRd = me.inv_bearingR - me.headingR;
+    } else {
+        me.deviationRd = 0;
+    }
+    me.rdrAct = me.propNode.getNode("sim/multiplay/generic/int[2]");
+    if (me.rn < 70 and ((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviationRd)) < 60) {
+        # our radar is active and pointed at coord.
+        #print("Is Radiating");
+        return 1;
+    }
+    return 0;
+    print("Is Not Radiating");
+  },
+
+
+
 };
 
 
