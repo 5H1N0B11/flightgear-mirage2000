@@ -47,12 +47,13 @@
 #done isValid()       - If this target is valid
 #done getElevation()
 #done get_bearing()
+#done get_Roll()
 #done get_Callsign()
 #done get_range()
 #done get_Coord()
-# get_Latitude()
-# get_Longitude()
-# get_altitude()
+#done get_Latitude()
+#done get_Longitude()
+#done get_altitude()
 #done get_Pitch()
 #done get_Speed()
 #done get_heading()
@@ -65,7 +66,7 @@
 #done isLaserPainted()     - Tells if this target is still being tracked by the launch platform, only used by laser guided ordnance.
 #done isRadiating(coord) - Tell if anti-radiation missile is hit by radiation from target. coord is the weapon position.
 #done isVirtual()     - Tells if the target is just a position, and should not be considered for damage.
-
+# get_display()
 
 Contact = {
 # Attributes:
@@ -355,28 +356,31 @@ AIContact = {
     return me.valid.getValue();
   },
   getElevation:func(){
-    return me.d[1];
+    return me.devStored[1];
   },
   get_bearing:func(){
-    return me.d[0];
+    return me.devStored[0];
+  },
+  get_Roll:func(){
+    return me.getRoll();
   },
   get_Callsign:func(){
     return me.callsign;
   },
   get_range:func(){
-    return me.getRangeDirectFrozen();
+    return me.getRangeDirectFrozen()*M2FT;
   },
   get_Coord:func(){
     return me.getCoord();
   },
   get_Pitch:func(){
-    return me.getPitch
+    return me.getPitch();
   },
   get_Speed:func(){
     return me.getSpeed();
   },
   get_heading:func(){
-    return me.d[4];
+    return me.devStored[4];
   },
   get_uBody: func {
     var body = nil;
@@ -448,6 +452,16 @@ AIContact = {
     return 0;
     print("Is Not Radiating");
   },
+  get_Latitude:func(){
+    return me.coord.lat();
+  },
+  get_Longitude:func(){
+    return me.coord.lon();
+  },
+  get_altitude:func(){
+    return me.coord.alt()* M2FT;
+  },
+
 
 
 

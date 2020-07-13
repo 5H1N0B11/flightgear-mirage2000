@@ -1762,6 +1762,7 @@ var HUD = {
           #if(c.callsign == closestCallsign and closestRange > 0){
           if(radar.exampleRadar.containsVector(radar.exampleRadar.locks, c)){
             Token = 1;
+            armament.contact = c;    # This shouldn't be there but in the radar
             #me.TriangleGroupe.show();
             #me.triangle.setTranslation(triPos);
             #me.triangle2.setTranslation(triPos);
@@ -1794,6 +1795,7 @@ var HUD = {
         #The token has 1 when we have a selected target
         if(Token == 0){
           #me.TriangleGroupe.hide();
+          armament.contact = nil; # this shouldn't be there but in Radar
           me.Square_Group.hide();
           me.distanceToTargetLineGroup.hide(); 
           me.missileFireRange.hide();
@@ -1852,10 +1854,10 @@ var HUD = {
       me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.getRangeDirectFrozen()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
     }
   },
-  
 
-  
-  
+
+
+
   displayDLZ:func(){
      print("FLAG1 displayDLZ 20201007");
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
@@ -1870,22 +1872,25 @@ var HUD = {
             if(me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*2){
               print("FLAG2 displayDLZ 20201007");
               #Max
-              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              print("Max :" ~ me.myDLZ[0]);
+              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange*M2NM)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
               #MmiFireRange
-              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              print("Min :" ~ me.myDLZ[3]);
+              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange*M2NM)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-              #NEZFireRange           
-              me.NEZFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              #NEZFireRange
+              print("Nez :" ~ me.myDLZ[2]);
+              me.NEZFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange*M2NM)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
               me.missileFireRange.show();
               return 1;
             }
           }elsif(me.selectedWeap.class == "GM" or me.selectedWeap.class == "M"){
-              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange*M2NM)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
               
               #MmiFireRange
-              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.min_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeap.min_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange*M2NM)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
               
               me.NEZFireRange.hide();
               me.MaxFireRange.show();

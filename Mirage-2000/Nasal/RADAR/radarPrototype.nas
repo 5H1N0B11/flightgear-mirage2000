@@ -374,7 +374,7 @@ ActiveDiscRadar = {
 		ar.barOffset      = 0;# offset all bars up or down.
 
 		# these should be init in the actuaal radar:
-		ar.discSpeed_dps  = 1;
+		ar.discSpeed_dps  = 0.5;
 		ar.fovRadius_deg  = 1;
 		ar.calcLoop();
 		ar.calcBars();

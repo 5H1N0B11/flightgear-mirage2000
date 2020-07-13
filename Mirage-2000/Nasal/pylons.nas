@@ -199,7 +199,7 @@ var getDLZ = func {
         if (w!=nil and w.parents[0] == armament.AIM) {
             var result = w.getDLZ(1);
             print("FLAG2 getDLZ 20201007");
-            if (result != nil and size(result) == 5 and result[4]<result[0]*1.5 and armament.contact != nil and armament.contact.get_display()) {
+            if (result != nil and size(result) == 5 and result[4]<result[0]*1.5 and armament.contact != nil){ # and armament.contact.get_display()) {
                 #target is within 150% of max weapon fire range.
               print("FLAG3 getDLZ 20201007");
         	    return result;
