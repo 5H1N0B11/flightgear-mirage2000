@@ -638,9 +638,10 @@ var FireControl = {
 		if (me.getSelectedPylon() == nil or !me.getSelectedPylon().isActive()) return;
 		if (me.isRippling) return;
 		if (getprop("controls/armament/master-arm") == 1 and getprop("controls/armament/trigger") > 0 and me.selected != nil) {
-			printDebug("trigger propagating");
+			print("trigger propagating");
 			me.aim = me.getSelectedWeapon();
-			#printfDebug(" to %d",me.aim != nil);
+			printf(" to %d",me.aim != nil);
+      print("me.aim.status : "~ me.aim.status);
 			if (me.aim != nil and me.aim.parents[0] == armament.AIM and (me.aim.status == armament.MISSILE_LOCK or me.aim.guidance=="unguided")) {
 				me.aim = me.fireAIM(me.selected[0],me.selected[1]);
 				if (me.selectedAdd != nil) {
