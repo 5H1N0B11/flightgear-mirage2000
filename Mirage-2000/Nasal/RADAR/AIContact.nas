@@ -135,6 +135,7 @@ AIContact = {
       me.wbody = me.speed.getNode("wBody-fps");
       me.flareNode = me.prop.getNode("rotors/main/blade[3]/flap-deg");
       me.chaffNode = me.prop.getNode("rotors/main/blade[3]/position-deg");
+      me.ispainted = 0;
 	},
 
 	update: func (newC) {
@@ -284,6 +285,7 @@ AIContact = {
 		#	me.d = me.getDeviation();
 		#	me.storeDeviation([me.d[0], me.d[1], me.d[2], me.coord, me.getHeading(), me.getPitch(), me.getRoll()]);
 		#}
+		me.setPainted(lock);
 		me.coordFrozen = me.devStored[3]; #me.getCoord(); this is just cause Im am too lazy to change methods.
 	},
 
@@ -367,8 +369,8 @@ AIContact = {
   get_Callsign:func(){
     return me.callsign;
   },
-  get_range:func(){
-    return me.getRangeDirectFrozen()*M2FT;
+  get_range:func(){ #in nm
+    return me.getRangeDirectFrozen()*M2NM;
   },
   get_Coord:func(){
     return me.getCoord();
@@ -419,7 +421,9 @@ AIContact = {
     return me.chaffNode;
   },
   setPainted: func(mypainting){
+    if(mypainting == radar.HARD){
       me.ispainted = mypainting;
+    }
   },
   isPainted: func() {
       return me.ispainted;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.

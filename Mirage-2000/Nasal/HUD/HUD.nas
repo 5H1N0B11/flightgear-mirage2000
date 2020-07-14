@@ -1827,21 +1827,21 @@ var HUD = {
   
   displayDistanceToTargetLine : func(contact){
     #me.MaxRadarRange = mirage2000.myRadar3.rangeTab[mirage2000.myRadar3.rangeIndex];
-    me.MaxRadarRange = radar.exampleRadar.forDist_m;
-    print("me.MaxRadarRange :"~ me.MaxRadarRange );
-    print("contact.getRangeDirectFrozen() :" ~ contact.getRangeDirectFrozen());
+    me.MaxRadarRange = radar.exampleRadar.forDist_m *M2NM;
+    #print("me.MaxRadarRange :"~ me.MaxRadarRange );
+    #print("contact.get_range() :" ~ contact.get_range());
     var myString ="";
     #< 10 nm should be a float
     #< 1000 m should be in meters 
-    if(contact.getRangeDirectFrozen()<= me.MaxRadarRange){
-      print("FLAG displayDistanceToTargetLine 20201107");
+    if(contact.get_range() <= me.MaxRadarRange){
+      #print("FLAG displayDistanceToTargetLine 20201107");
       #Text for distance to target
-      if(contact.getRangeDirectFrozen()*NM2M<1200){
-        myString = sprintf("%dm",contact.getRangeDirectFrozen());
-      }elsif(contact.getRangeDirectFrozen()<10){
-        myString = sprintf("%.1fnm",contact.getRangeDirectFrozen()*M2NM);
+      if(contact.get_range()<1200){
+        myString = sprintf("%dm",contact.get_range());
+      }elsif(contact.get_range()<10){
+        myString = sprintf("%.1fnm",contact.get_range());
       }else{
-        myString = sprintf("%dnm",contact.getRangeDirectFrozen()*M2NM);
+        myString = sprintf("%dnm",contact.get_range());
       }
 
       if (me.displayDLZ()){
@@ -1849,9 +1849,9 @@ var HUD = {
       }else{
         me.missileFireRange.hide();
       }
-      print("myString : " ~ myString);
+      #print("myString : " ~ myString);
       me.distanceToTargetLineChevronText.setText(myString);
-      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.getRangeDirectFrozen()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
+      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
     }
   },
 
@@ -1859,7 +1859,7 @@ var HUD = {
 
 
   displayDLZ:func(){
-     print("FLAG1 displayDLZ 20201007");
+     #print("FLAG1 displayDLZ 20201007");
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
         
         #Testings
@@ -1870,18 +1870,21 @@ var HUD = {
             me.myDLZ = pylons.getDLZ();
 
             if(me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*2){
-              print("FLAG2 displayDLZ 20201007");
+              #print("FLAG2 displayDLZ 20201007");
+              
+              #print("me.distanceToTargetLineMax : " ~ me.distanceToTargetLineMax ~ " me.distanceToTargetLineMin:" ~ me.distanceToTargetLineMin);
               #Max
-              print("Max :" ~ me.myDLZ[0]);
-              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange*M2NM)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              #print("Max :" ~ me.myDLZ[0]);
+              
+              me.MaxFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
               #MmiFireRange
-              print("Min :" ~ me.myDLZ[3]);
-              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange*M2NM)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              #print("Min :" ~ me.myDLZ[3]);
+              me.MinFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
               #NEZFireRange
-              print("Nez :" ~ me.myDLZ[2]);
-              me.NEZFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange*M2NM)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+              #print("Nez :" ~ me.myDLZ[2]);
+              me.NEZFireRange.setTranslation(0,clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
               me.missileFireRange.show();
               return 1;
