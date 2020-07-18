@@ -355,6 +355,7 @@
       <pitch>0</pitch>
       <yaw>0</yaw>
     </orient>
+    <feed>5</feed>
     <feed>4</feed>
     <feed>3</feed>
     <feed>2</feed>
@@ -373,56 +374,118 @@
       </orient>
     </thruster>
   </engine>
-  <tank number="0" type="FUEL">
-    <!--0: Main Tank-->
+  
+  <!-- Internal tanks -->
+    <tank number="1" type="FUEL">
+    <!--1: forward fuselage internal tank-->
     <location unit="M">
-      <x>8.56</x>
-      <y>0</y>
+      <x>4.66</x>
+      <y>1</y>
       <z>0</z>
     </location>
-    <capacity unit="KG">2128</capacity>
-    <standpipe unit="KG">50</standpipe>
-    <contents unit="KG">2128</contents>
+    <capacity unit="KG">304</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">304</contents>
     <priority>4</priority>
   </tank>
-  <tank number="1" type="FUEL">
+  
+  <tank number="2" type="FUEL">
     <!--1: Right Wing Tank-->
     <location unit="M">
       <x>8.56</x>
       <y>4</y>
       <z>-0.4</z>
     </location>
-    <capacity unit="LBS">385</capacity>
-    <standpipe unit="LBS">100</standpipe>
-    <contents unit="LBS">385</contents>
+    <capacity unit="KG">523</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">523</contents>
     <priority>3</priority>
   </tank>
-  <tank number="2" type="FUEL">
+  
+    <tank number="3" type="FUEL">
+    <!--6: backward fuselage internal tank-->
+    <location unit="M">
+      <x>8.56</x>
+      <y>0.70</y>
+      <z>0</z>
+    </location>
+    <capacity unit="KG">592</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">592</contents>
+    <priority>5</priority>
+  </tank>
+  
+  <tank number="4" type="FUEL">
+    <!--6: backward fuselage internal tank-->
+    <location unit="M">
+      <x>8.56</x>
+      <y>-0.70</y>
+      <z>0</z>
+    </location>
+    <capacity unit="KG">592</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">592</contents>
+    <priority>5</priority>
+  </tank>
+  
+  <tank number="5" type="FUEL">
+    <!--6: forward fuselage internal tank-->
+    <location unit="M">
+      <x>4.66</x>
+      <y>0</y>
+      <z>0</z>
+    </location>
+    <capacity unit="KG">320</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">320</contents>
+    <priority>4</priority>
+  </tank>
+  
+  <tank number="6" type="FUEL">
+     <!--6: forward fuselage internal tank-->
+    <location unit="M">
+      <x>4.66</x>
+      <y>-1</y>
+      <z>0</z>
+    </location>
+    <capacity unit="KG">304</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">304</contents>
+    <priority>4</priority>
+  </tank>
+
+  <tank number="7" type="FUEL">
     <!--2: Left Wing Tank-->
     <location unit="M">
       <x>8.56</x>
       <y>-4</y>
       <z>-0.4</z>
     </location>
-    <capacity unit="LBS">385</capacity>
-    <standpipe unit="LBS">100</standpipe>
-    <contents unit="LBS">385</contents>
+    <capacity unit="KG">523</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">523</contents>
     <priority>3</priority>
   </tank>
-  <tank number="3" type="FUEL">
+  
+  
+  <!-- External tanks -->
+  <tank number="8" type="FUEL">
     <!--3: External Tank-->
     <location unit="M">
       <x>8.56</x>
       <y>0</y>
       <z>0.008</z>
     </location>
-    <capacity unit="KG">1200</capacity>
+    <capacity unit="KG">990</capacity>
     <standpipe unit="KG">50</standpipe>
-    <contents unit="KG">1200</contents>
+    <contents unit="KG">990</contents>
     <priority>2</priority>
   </tank>
-  <tank number="4" type="FUEL">
-    <!--4: Feed line-->
+  
+  
+  <!--9: Feed line-->
+  <tank number="9" type="FUEL">
+    <!--9: Feed line-->
     <location unit="M">
       <x>8.56</x>
       <y>0</y>

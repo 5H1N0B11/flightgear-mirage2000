@@ -3,22 +3,62 @@
 <PropertyList>
   
   <fuel>
+   
     
+    <!-- internal tanks -->
     <tank n="0">
-      <tank-num type="int"> 0 </tank-num>
-      <level-gal_us archive="y"> 527.7 </level-gal_us>
+      <name>Right Forward Fuselage</name>
+      <tank-num type="int"> 1 </tank-num>
+      <level-gal_us archive="y"> 101.7</level-gal_us>
     </tank>
     
     <tank n="1">
-      <tank-num type="int"> 1 </tank-num>
-      <level-gal_us archive="y"> 527.7 </level-gal_us>
+      <name>Right Wing</name>
+      <tank-num type="int"> 2 </tank-num>
+      <level-gal_us archive="y"> 175 </level-gal_us>
     </tank>
     
     <tank n="2">
-      <name>left-Tank</name>
+      <name>Right Backward Fuselage</name>
+      <tank-num type="int"> 3 </tank-num>
+      <level-gal_us archive="y"> 198 </level-gal_us>
+    </tank>
+    
+    <tank n="3">
+      <name>Left Backward Fuselage</name>
+      <tank-num type="int"> 4 </tank-num>
+      <level-gal_us archive="y"> 198 </level-gal_us>
+    </tank>
+    
+    <tank n="4">
+      <name>Center Fuselage</name>
+      <tank-num type="int">5 </tank-num>
+      <level-gal_us archive="y"> 107 </level-gal_us>
+    </tank>
+    
+    <tank n="5">
+      <name>Left Forward Fuselage</name>
+      <tank-num type="int">6 </tank-num>
+      <level-gal_us archive="y"> 101.7 </level-gal_us>
+    </tank>
+    
+    <tank n="6">
+      <name>Left Wing</name>
+      <tank-num type="int">7 </tank-num>
+      <level-gal_us archive="y"> 175 </level-gal_us>
+    </tank>
+    
+    
+    <!-- External tanks -->
+    <tank n="7">
+      <name>External Center-tank</name>
       <selected type="bool">false</selected>
     </tank>
     
+    <tank n="8">
+      <name>Feeding line</name>
+    </tank>
+<!--    
     <tank n="3">
       <name>Center-tank</name>
       <selected type="bool">false</selected>
@@ -27,7 +67,7 @@
     <tank n="4">
       <name>right-Tank</name>
       <selected type="bool">false</selected>
-    </tank>
+    </tank>-->
     
   </fuel>
   
