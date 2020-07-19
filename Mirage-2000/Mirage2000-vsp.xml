@@ -355,6 +355,7 @@
       <pitch>0</pitch>
       <yaw>0</yaw>
     </orient>
+    <feed>6</feed>
     <feed>5</feed>
     <feed>4</feed>
     <feed>3</feed>
@@ -383,6 +384,7 @@
       <y>1</y>
       <z>0</z>
     </location>
+    <type>F-34</type>
     <capacity unit="KG">304</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">304</contents>
@@ -396,6 +398,7 @@
       <y>4</y>
       <z>-0.4</z>
     </location>
+    <type>F-34</type>
     <capacity unit="KG">523</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">523</contents>
@@ -403,12 +406,14 @@
   </tank>
   
     <tank number="3" type="FUEL">
-    <!--6: backward fuselage internal tank-->
+    <!--6: backward right feeder fuselage internal tank-->
     <location unit="M">
       <x>8.56</x>
       <y>0.70</y>
       <z>0</z>
     </location>
+    <length unit="M">4</lenght>
+    <type>F-34</type>
     <capacity unit="KG">592</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">592</contents>
@@ -416,12 +421,14 @@
   </tank>
   
   <tank number="4" type="FUEL">
-    <!--6: backward fuselage internal tank-->
+    <!--6: backward left feeder fuselage internal tank-->
     <location unit="M">
       <x>8.56</x>
       <y>-0.70</y>
       <z>0</z>
     </location>
+    <length unit="M">4</lenght>
+    <type>F-34</type>
     <capacity unit="KG">592</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">592</contents>
@@ -435,6 +442,7 @@
       <y>0</y>
       <z>0</z>
     </location>
+    <type>F-34</type>
     <capacity unit="KG">320</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">320</contents>
@@ -448,6 +456,7 @@
       <y>-1</y>
       <z>0</z>
     </location>
+    <type>F-34</type>
     <capacity unit="KG">304</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">304</contents>
@@ -461,6 +470,7 @@
       <y>-4</y>
       <z>-0.4</z>
     </location>
+    <type>F-34</type>
     <capacity unit="KG">523</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">523</contents>
@@ -476,6 +486,7 @@
       <y>0</y>
       <z>0.008</z>
     </location>
+    <type>F-34</type>
     <capacity unit="KG">990</capacity>
     <standpipe unit="KG">50</standpipe>
     <contents unit="KG">990</contents>
@@ -491,8 +502,9 @@
       <y>0</y>
       <z>0</z>
     </location>
-    <capacity unit="LBS">10</capacity>
-    <contents unit="LBS">10</contents>
+    <type>F-34</type>
+    <capacity unit="KG">10</capacity>
+    <contents unit="KG">10</contents>
     <priority>1</priority>
   </tank>
 </propulsion>
