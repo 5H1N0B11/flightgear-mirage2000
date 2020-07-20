@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+ 
+<system name="Mirage 2000 : Fuel">
+  
+<!--
+  Tank 3 and 4 are both tanks and collectors.
+  Tanks 2 and 7 are in the wing
+  Tanks 1 and 6 are forward sides tanks
+  Tank 5 is the center tank.
+  
+  
+  Tanks 6 and 7 are collected by the tank 4 : left side
+  Tanks 1 and 2 are collected by the tank 3 : right side
+  
+  Tanks 1 and 6 are also connected to the tank 5. 
+  Tranfers are possible from 1 side to the other, using the central tank (5)
+  an electro valve also allow direct transferts betwwen 3 and 4.
+  
+  The refuelling probe should be modelised (=> we could damage it and that would stop refuelling)
+  => need to do a pipe.
+  
+  The pilot hadbook says that flying reversed is limited to 15 seconds. Maybe we could modelised a fuel issue above 30 seconds of reversed flying.
+  
+  The nozzles are using fuel as hydraulics systems. Maybe this is a way to heat up a bit the fuel. Modelising that would allow us to modelise nozzle issue and 
+  fire when the nozzle is damaged.
+  
+  Externals tank are used first and in a2a refualing, filled last.
+  
+  Maybe wing external tanks should be connected to wing tanks (2 and 7) and the center external tank to the center internal tank (5)
+  
+  Actual in flight tank pressure is 3,5 bars
+  
+  There is 2 fuel pumps that are powered by the alternator 2 (1 if the 2 is failed)
+  These pump are used in order to feed the engine when flying reversed.
+  => 15s from the pilot handbook, lets guess 30 seconds before failure or tanks (3 and 4) < 400 liters
+  
+  For more details : (in french)
+  https://www.youtube.com/watch?v=30h4VIPITDo 
+  
+  -->
+  
+  
+  <!--  bellow : An example taken from the wiki.
+  I should get inspiration from the MD11, F16 and JA37 in order to make it right
+  
+  -->
+  
+  
+  
+<!-- tank[2] collector tank connected to the engine fuel pump, tank[0] and tank[1] feeds the collector through valves.
+Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
+
+   <property value="1">propulsion/tank[0]/collector-valve</property>
+   <property value="1">propulsion/tank[1]/collector-valve</property>
+
+  <channel name="Fuel pumping">    
+
+    <switch>
+      <default value="-5"/>
+      <test logic="OR" value="0">
+        propulsion/tank[0]/collector-valve EQ 0
+        propulsion/tank[0]/contents-lbs LE 0
+        propulsion/tank[2]/contents-lbs GE 129 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -0.5
+      </test>
+      <output>propulsion/tank[0]/external-flow-rate-pps</output>
+    </switch>
+
+    <switch>
+      <default value="-5"/>
+      <test logic="OR" value="0">
+        propulsion/tank[1]/collector-valve EQ 0
+        propulsion/tank[1]/contents-lbs LE 0
+        propulsion/tank[2]/contents-lbs GE 129 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -0.5 
+      </test>
+      <output>propulsion/tank[1]/external-flow-rate-pps</output>
+    </switch>
+
+    <summer>
+      <input>-propulsion/tank[0]/external-flow-rate-pps</input>
+      <input>-propulsion/tank[1]/external-flow-rate-pps</input>
+      <output>propulsion/tank[2]/external-flow-rate-pps</output>
+    </summer>  
+
+  </channel>      
+
+</system>

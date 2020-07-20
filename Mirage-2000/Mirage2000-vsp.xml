@@ -548,6 +548,7 @@
 <system file="Mirage-2000-fadec"/>
 <system file="Mirage-2000-engines-Snecma-M53"/>
 <system file="Mirage-2000-fcs"/>
+<!--<system file="Mirage-2000-fuel"/>-->
 
 
 <flight_control name="Mirage2000-FCS">
