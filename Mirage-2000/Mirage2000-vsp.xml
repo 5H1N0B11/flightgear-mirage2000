@@ -355,6 +355,10 @@
       <pitch>0</pitch>
       <yaw>0</yaw>
     </orient>
+    <!-- This needs to be changed with a proper fuel system. Coming soon -->
+    <feed>9</feed>
+    <feed>8</feed>
+    <feed>7</feed>
     <feed>6</feed>
     <feed>5</feed>
     <feed>4</feed>
@@ -412,7 +416,7 @@
       <y>0.70</y>
       <z>0</z>
     </location>
-    <length unit="M">4</lenght>
+    <length unit="M">4</length>
     <type>F-34</type>
     <capacity unit="KG">592</capacity>
     <standpipe unit="KG">30</standpipe>
@@ -427,7 +431,7 @@
       <y>-0.70</y>
       <z>0</z>
     </location>
-    <length unit="M">4</lenght>
+    <length unit="M">4</length>
     <type>F-34</type>
     <capacity unit="KG">592</capacity>
     <standpipe unit="KG">30</standpipe>
@@ -480,24 +484,52 @@
   
   <!-- External tanks -->
   <tank number="8" type="FUEL">
-    <!--3: External Tank-->
+    <!--3: External Tank : Center. RP522-->
     <location unit="M">
       <x>8.56</x>
       <y>0</y>
-      <z>0.008</z>
+      <z>1</z> 
     </location>
     <type>F-34</type>
     <capacity unit="KG">990</capacity>
     <standpipe unit="KG">50</standpipe>
-    <contents unit="KG">990</contents>
+    <contents unit="KG">0</contents>
+    <priority>2</priority>
+  </tank>
+  
+  <tank number="9" type="FUEL">
+    <!--3: External Tank : Right : RP542 -->
+    <location unit="M">
+      <x>8.56</x>
+      <y>-4</y>
+      <z>1</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">1580</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">0</contents>
+    <priority>2</priority>
+  </tank>
+  
+    <tank number="10" type="FUEL">
+    <!--3: External Tank : Left : RP541 -->
+    <location unit="M">
+      <x>8.56</x>
+      <y>4</y>
+      <z>1</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">1580</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">0</contents>
     <priority>2</priority>
   </tank>
   
   
   <!--9: Feed line-->
-  <tank number="9" type="FUEL">
+<!--  <tank number="9" type="FUEL">-->
     <!--9: Feed line-->
-    <location unit="M">
+<!--    <location unit="M">
       <x>8.56</x>
       <y>0</y>
       <z>0</z>
@@ -506,7 +538,9 @@
     <capacity unit="KG">10</capacity>
     <contents unit="KG">10</contents>
     <priority>1</priority>
-  </tank>
+  </tank>-->
+  
+  
 </propulsion>
 
 <system file="Mirage-2000-hydraulics"/>

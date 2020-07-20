@@ -20,8 +20,6 @@ cannon.brevity = "Guns guns";
 
 #5H1NB1's notes : To check : It seems that the weight of the tank itself isn't taking in account
 #Not because of the fc code, but because I didn't find where to put it
-#5H1NB1's notes : To check : It seems that the weight of the tank itself isn't taking in account
-#Not because of the fc code, but because I didn't find where to put it
 
 # var RP522 = stations.FuelTank.new("1300 l Droptank", "RP522", 3, 343, props.globals.getNode("controls/armament/station[3]/RP522",1), 0, func{return 1;});
 # var RP542 = stations.FuelTank.new("2000 l Droptank", "RP542", 2, 528, props.globals.getNode("controls/armament/station[2]/RP542",1), 0, func{return 1;});
@@ -30,13 +28,13 @@ cannon.brevity = "Guns guns";
 # var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 4, 448, props.globals.getNode("controls/armament/station[4]/RP501",1), 0, func{return 1;});
 
 
-var RP522 = stations.FuelTank.new("1300 l Droptank", "RP522", 3, 343, "mirage/center1300TankMounted");
+var RP522 = stations.FuelTank.new("1300 l Droptank", "RP522", 7, 343, "mirage/center1300TankMounted");
 
-var RP542 = stations.FuelTank.new("2000 l Droptank", "RP542", 2, 528, "mirage/center2000TankMountedR");
-var RP541 = stations.FuelTank.new("2000 l Droptank", "RP541", 4, 528, "mirage/center2000TankMountedL");
+var RP542 = stations.FuelTank.new("2000 l Droptank", "RP542", 8, 528, "mirage/center2000TankMountedR");
+var RP541 = stations.FuelTank.new("2000 l Droptank", "RP541", 9, 528, "mirage/center2000TankMountedL");
 
-var RP502 = stations.FuelTank.new("1700 l Droptank", "RP502", 2, 448, "mirage/center1700TankMountedR");
-var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 4, 448, "mirage/center1700TankMountedL");
+var RP502 = stations.FuelTank.new("1700 l Droptank", "RP502", 10, 448, "mirage/center1700TankMountedR");
+var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 11, 448, "mirage/center1700TankMountedL");
 
 var dummy1 = stations.Dummy.new("PDLCT", "PDLCT");
 var dummy2 = stations.Dummy.new("ASMP", "ASMP");

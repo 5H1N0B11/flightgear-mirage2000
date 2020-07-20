@@ -50,14 +50,15 @@
     
     
     <!-- External tanks -->
-    <tank n="7">
+  <!--  <tank n="7">
       <name>External Center-tank</name>
       <selected type="bool">false</selected>
+      <level-gal_us archive="y"> 0 </level-gal_us>
     </tank>
     
     <tank n="8">
       <name>Feeding line</name>
-    </tank>
+    </tank>-->
 <!--    
     <tank n="3">
       <name>Center-tank</name>
