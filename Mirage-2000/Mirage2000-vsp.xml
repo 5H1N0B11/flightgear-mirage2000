@@ -23,6 +23,13 @@
             date="September, 2017"
             URL="http://www.zaretto.com/sites/zaretto.com/files/Mirage2000-data-data/rjh-zaretto-Mirage2000-aerodynamic-data-vspaero.pdf"
         />
+        <reference 
+            refID="NASA TM-75793"
+            author="M. P. Bohn"
+            title="AERODYNAMICS OF THE NEW GENERATION OF COMBAT AIRCRAFT WITH DELTA WINGS"
+            date="June 1978"
+            URL="https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19800013819.pdf"
+        />
     </fileheader>
 <metrics>
   <wingarea unit="M2">28.172</wingarea>
