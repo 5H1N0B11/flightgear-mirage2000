@@ -356,16 +356,16 @@
       <yaw>0</yaw>
     </orient>
     <!-- This needs to be changed with a proper fuel system. Coming soon -->
-    <feed>9</feed>
+<!--    <feed>9</feed>
     <feed>8</feed>
     <feed>7</feed>
     <feed>6</feed>
-    <feed>5</feed>
+    <feed>5</feed>-->
     <feed>4</feed>
     <feed>3</feed>
-    <feed>2</feed>
+<!--    <feed>2</feed>
     <feed>1</feed>
-    <feed>0</feed>
+    <feed>0</feed>-->
     <thruster file="direct">
       <location unit="M">
         <x>18.11</x>
@@ -548,7 +548,7 @@
 <system file="Mirage-2000-fadec"/>
 <system file="Mirage-2000-engines-Snecma-M53"/>
 <system file="Mirage-2000-fcs"/>
-<!--<system file="Mirage-2000-fuel"/>-->
+<system file="Mirage-2000-fuel"/>
 
 
 <flight_control name="Mirage2000-FCS">
