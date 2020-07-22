@@ -60,6 +60,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
    <property value="1">propulsion/tank[7]/collector-valve</property>
    <property value="1">propulsion/tank[8]/collector-valve</property>
    <property value="1">propulsion/tank[9]/collector-valve</property>
+   <property value="1">propulsion/tank[10]/collector-valve</property>
 
    
   <channel name="Fuel pumping">    
@@ -69,29 +70,29 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
     <switch>
       <default value="-5"/>
       <test logic="OR" value="0">
-        propulsion/tank[0]/collector-valve EQ 0
-        propulsion/tank[0]/contents-lbs LE 0
-        propulsion/tank[2]/contents-lbs GE 1306 <!-- 1 lb below capacity -->
+        propulsion/tank[1]/collector-valve EQ 0
+        propulsion/tank[1]/contents-lbs LE 0
+        propulsion/tank[3]/contents-lbs GE 1306 <!-- 1 lb below capacity -->
         accelerations/Nz LE -1.5
       </test>
-      <output>propulsion/tank[0]/external-flow-rate-pps</output>
+      <output>propulsion/tank[1]/external-flow-rate-pps</output>
     </switch>
 
     <switch>
       <default value="-5"/>
       <test logic="OR" value="0">
-        propulsion/tank[1]/collector-valve EQ 0
-        propulsion/tank[1]/contents-lbs LE 0
-        propulsion/tank[2]/contents-lbs GE 1306 <!-- 1 lb below capacity -->
+        propulsion/tank[2]/collector-valve EQ 0
+        propulsion/tank[2]/contents-lbs LE 0
+        propulsion/tank[3]/contents-lbs GE 1306 <!-- 1 lb below capacity -->
         accelerations/Nz LE -1.5 
       </test>
-      <output>propulsion/tank[1]/external-flow-rate-pps</output>
+      <output>propulsion/tank[2]/external-flow-rate-pps</output>
     </switch>
 
     <summer>
-      <input>-propulsion/tank[0]/external-flow-rate-pps</input>
       <input>-propulsion/tank[1]/external-flow-rate-pps</input>
-      <output>propulsion/tank[2]/external-flow-rate-pps</output>
+      <input>-propulsion/tank[2]/external-flow-rate-pps</input>
+      <output>propulsion/tank[3]/external-flow-rate-pps</output>
     </summer>  
     
     
@@ -99,29 +100,29 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
     <switch>
       <default value="-5"/>
       <test logic="OR" value="0">
-        propulsion/tank[5]/collector-valve EQ 0
-        propulsion/tank[5]/contents-lbs LE 0
-        propulsion/tank[3]/contents-lbs GE 1306 <!-- 1 lb below capacity -->
+        propulsion/tank[6]/collector-valve EQ 0
+        propulsion/tank[6]/contents-lbs LE 0
+        propulsion/tank[4]/contents-lbs GE 1306 <!-- 1 lb below capacity -->
         accelerations/Nz LE -1.5
       </test>
-      <output>propulsion/tank[5]/external-flow-rate-pps</output>
+      <output>propulsion/tank[6]/external-flow-rate-pps</output>
     </switch>
 
     <switch>
       <default value="-5"/>
       <test logic="OR" value="0">
-        propulsion/tank[6]/collector-valve EQ 0
-        propulsion/tank[6]/contents-lbs LE 0
-        propulsion/tank[3]/contents-lbs GE 1306 <!-- 1 lb below capacity -->
+        propulsion/tank[7]/collector-valve EQ 0
+        propulsion/tank[7]/contents-lbs LE 0
+        propulsion/tank[4]/contents-lbs GE 1306 <!-- 1 lb below capacity -->
         accelerations/Nz LE -1.5 
       </test>
       <output>propulsion/tank[6]/external-flow-rate-pps</output>
     </switch>
 
     <summer>
-      <input>-propulsion/tank[5]/external-flow-rate-pps</input>
       <input>-propulsion/tank[6]/external-flow-rate-pps</input>
-      <output>propulsion/tank[3]/external-flow-rate-pps</output>
+      <input>-propulsion/tank[7]/external-flow-rate-pps</input>
+      <output>propulsion/tank[4]/external-flow-rate-pps</output>
     </summer>  
     
     
@@ -129,9 +130,9 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
     <switch>
       <default value="-5"/>
       <test logic="OR" value="0">
-        propulsion/tank[4]/collector-valve EQ 0
-        propulsion/tank[4]/contents-lbs LE 0
-        propulsion/tank[0]/contents-lbs GE 669 <!-- 1 lb below capacity -->
+        propulsion/tank[5]/collector-valve EQ 0
+        propulsion/tank[5]/contents-lbs LE 0
+        propulsion/tank[1]/contents-lbs GE 669 <!-- 1 lb below capacity -->
         accelerations/Nz LE -1.5
       </test>
       <output>propulsion/tank[4]/external-flow-rate-pps</output>
@@ -140,22 +141,22 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
     <switch>
       <default value="-5"/>
       <test logic="OR" value="0">
-        propulsion/tank[4]/collector-valve EQ 0
-        propulsion/tank[4]/contents-lbs LE 0
-        propulsion/tank[5]/contents-lbs GE 669 <!-- 1 lb below capacity -->
+        propulsion/tank[5]/collector-valve EQ 0
+        propulsion/tank[5]/contents-lbs LE 0
+        propulsion/tank[1]/contents-lbs GE 669 <!-- 1 lb below capacity -->
         accelerations/Nz LE -1.5 
       </test>
       <output>propulsion/tank[4]/external-flow-rate-pps</output>
     </switch>
 
     <summer>
-      <input>-propulsion/tank[4]/external-flow-rate-pps</input>
-      <output>propulsion/tank[0]/external-flow-rate-pps</output>
-      <output>propulsion/tank[5]/external-flow-rate-pps</output>
+      <input>-propulsion/tank[5]/external-flow-rate-pps</input>
+      <output>propulsion/tank[1]/external-flow-rate-pps</output>
+      <output>propulsion/tank[6]/external-flow-rate-pps</output>
     </summer> 
     
     
-    <!-- here will be made the external tankk stuff -->
+    <!-- here will be made the external tank stuff -->
     
 
     

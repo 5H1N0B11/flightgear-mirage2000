@@ -380,6 +380,22 @@
     </thruster>
   </engine>
   
+    <!--0: Refuel probe-->
+  <tank number="0" type="FUEL">
+    <!--0: Feed line-->
+    <location unit="M">
+      <x>1.53</x>
+      <y>0.55</y>
+      <z>1.17</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">10</capacity>
+    <contents unit="KG">10</contents>
+    <priority>1</priority>
+  </tank>
+  
+  
+  
   <!-- Internal tanks -->
     <tank number="1" type="FUEL">
     <!--1: forward fuselage internal tank-->
@@ -392,7 +408,7 @@
     <capacity unit="KG">304</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">304</contents>
-    <priority>4</priority>
+    <priority>3</priority>
   </tank>
   
   <tank number="2" type="FUEL">
@@ -450,7 +466,7 @@
     <capacity unit="KG">320</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">320</contents>
-    <priority>4</priority>
+    <priority>3</priority>
   </tank>
   
   <tank number="6" type="FUEL">
@@ -464,7 +480,7 @@
     <capacity unit="KG">304</capacity>
     <standpipe unit="KG">30</standpipe>
     <contents unit="KG">304</contents>
-    <priority>4</priority>
+    <priority>3</priority>
   </tank>
 
   <tank number="7" type="FUEL">
