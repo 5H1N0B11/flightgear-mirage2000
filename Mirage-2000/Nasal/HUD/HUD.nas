@@ -1060,7 +1060,20 @@ var HUD = {
       .setDouble("character-size", 40)
       .setAlignment("left-center")
       .setText("x");
-    
+      
+    m.distanceToTargetLineChevronTextCloNeg = m.distanceToTargetLineTextGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(230,35)
+      .setDouble("character-size", 30)
+      .setAlignment("left-center")
+      .setText("x");      
+    m.distanceToTargetLineChevronTextCloPos = m.distanceToTargetLineTextGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(230,-35)
+      .setDouble("character-size", 30)
+      .setAlignment("left-center")
+      .setText("x");
+  
     m.distanceToTargetLineGroup.hide(); 
 
     
