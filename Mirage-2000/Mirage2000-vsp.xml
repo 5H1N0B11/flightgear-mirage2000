@@ -434,9 +434,9 @@
     </location>
     <length unit="M">4</length>
     <type>F-34</type>
-    <capacity unit="KG">592</capacity>
+    <capacity unit="KG">592.6</capacity>
     <standpipe unit="KG">30</standpipe>
-    <contents unit="KG">592</contents>
+    <contents unit="KG">592.6</contents>
     <priority>5</priority>
   </tank>
   
@@ -449,9 +449,9 @@
     </location>
     <length unit="M">4</length>
     <type>F-34</type>
-    <capacity unit="KG">592</capacity>
+    <capacity unit="KG">592.6</capacity>
     <standpipe unit="KG">30</standpipe>
-    <contents unit="KG">592</contents>
+    <contents unit="KG">592.6</contents>
     <priority>5</priority>
   </tank>
   
