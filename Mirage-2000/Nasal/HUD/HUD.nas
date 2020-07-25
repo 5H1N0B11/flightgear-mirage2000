@@ -67,6 +67,13 @@ var target_heading_deg = 0;
 var target_Distance = 0;
 var raw_list = [];
 
+# The last closing speed to the target (TODO remove once figured out how to calculate a stable closing speed).
+var contactLastClosingSpeed = 0;
+# The range of the contact at the last closing speed update (TODO Reset to -1 at target change).
+var contactRange = -1;
+# The time of the last closing speed update (used for dt:derivative).
+var contactRangeUpdateTime = systime();
+
 
 #verre2
 
