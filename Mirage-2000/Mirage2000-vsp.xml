@@ -517,7 +517,7 @@
     <!--3: External Tank : Right : RP542 -->
     <location unit="M">
       <x>8.56</x>
-      <y>-4</y>
+      <y>4</y>
       <z>1</z>
     </location>
     <type>F-34</type>
@@ -531,7 +531,7 @@
     <!--3: External Tank : Left : RP541 -->
     <location unit="M">
       <x>8.56</x>
-      <y>4</y>
+      <y>-4</y>
       <z>1</z>
     </location>
     <type>F-34</type>
