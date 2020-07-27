@@ -541,6 +541,34 @@
     <priority>2</priority>
   </tank>
   
+  <tank number="11" type="FUEL">
+    <!--3: External Tank : Right : RP501 -->
+    <location unit="M">
+      <x>8.56</x>
+      <y>4</y>
+      <z>1</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">1343</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">0</contents>
+    <priority>2</priority>
+  </tank>
+  
+  <tank number="12" type="FUEL">
+    <!--3: External Tank : Left : RP502 -->
+    <location unit="M">
+      <x>8.56</x>
+      <y>-4</y>
+      <z>1</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">1343</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">0</contents>
+    <priority>2</priority>
+  </tank>
+  
   
   <!--9: Feed line-->
 <!--  <tank number="9" type="FUEL">-->

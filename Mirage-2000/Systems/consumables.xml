@@ -74,16 +74,20 @@
       <level-gal_us archive="y"> 0 </level-gal_us>
     </tank>
     
-<!--    
-    <tank n="3">
-      <name>Center-tank</name>
+
+    <tank n="11">
+      <name>1700 l Droptank</name>
       <selected type="bool">false</selected>
+      <level-gal_us archive="y"> 0 </level-gal_us>
     </tank>
     
-    <tank n="4">
-      <name>right-Tank</name>
+    <tank n="12">
+      <name>1700 l Droptank</name>
       <selected type="bool">false</selected>
-    </tank>-->
+      <level-gal_us archive="y"> 0 </level-gal_us>
+    </tank>
+    
+    
     
   </fuel>
   
