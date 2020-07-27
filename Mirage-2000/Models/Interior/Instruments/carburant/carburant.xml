@@ -158,7 +158,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>carburant.num2-1</object-name>
-    <property>/instrumentation/consumables/remain_fuel</property>
+    <property>/consumables/fuel/total-fuel-kg</property>
     <factor>0.0001</factor>
     <step>1000</step>
     <axis>
@@ -171,7 +171,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>carburant.num2-2</object-name>
-    <property>/instrumentation/consumables/remain_fuel</property>
+    <property>/consumables/fuel/total-fuel-kg</property>
     <factor>0.001</factor>
     <step>100</step>
     <axis>
@@ -184,7 +184,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>carburant.num2-3</object-name>
-    <property>/instrumentation/consumables/remain_fuel</property>
+    <property>/consumables/fuel/total-fuel-kg</property>
     <factor>0.01</factor>
     <step>10</step>
     <axis>
@@ -197,7 +197,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>carburant.num2-4</object-name>
-    <property>/instrumentation/consumables/remain_fuel</property>
+    <property>/consumables/fuel/total-fuel-kg</property>
     <factor>0.1</factor>
     <step>1</step>
     <axis>
@@ -264,7 +264,10 @@
     <type>select</type>
     <object-name>carburant.lefttank</object-name>
     <condition>
-      <property>/consumables/fuel/tank[2]/selected</property>
+      <or>
+        <not><property>/consumables/fuel/tank[10]/empty</property></not>
+        <not><property>/consumables/fuel/tank[12]/empty</property></not>
+      </or>
       <value>true</value>
     </condition>
   </animation>
@@ -273,7 +276,7 @@
     <type>select</type>
     <object-name>carburant.middletank</object-name>
     <condition>
-      <property>/consumables/fuel/tank[3]/selected</property>
+      <property>/consumables/fuel/tank[8]/selected</property>
       <value>true</value>
     </condition>
   </animation>
@@ -282,7 +285,10 @@
     <type>select</type>
     <object-name>carburant.righttank</object-name>
     <condition>
-      <property>/consumables/fuel/tank[4]/selected</property>
+      <or>
+        <not><property>/consumables/fuel/tank[9]/empty</property></not>
+        <not><property>/consumables/fuel/tank[11]/empty</property></not>
+      </or>
       <value>true</value>
     </condition>
   </animation>
@@ -290,7 +296,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>carburant.leftgauge</object-name>
-    <property>/consumables/fuel/tank/level-kg</property>
+    <property>/systems/fuel/left-remaining-fuel</property>
     <factor>0.000322</factor>
     <step>0.001</step>
     <axis>
@@ -302,7 +308,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>carburant.rightgauge</object-name>
-    <property>/consumables/fuel/tank[1]/level-kg</property>
+    <property>/systems/fuel/left-remaining-fuel</property>
     <factor>0.000322</factor>
     <step>0.001</step>
     <axis>
@@ -342,7 +348,7 @@
     <object-name>carburant.low-lamp</object-name>
     <condition>
       <less-than>
-        <property>/instrumentation/consumables/remain_fuel</property>
+        <property>/consumables/fuel/total-fuel-kg</property>
         <value>100</value>
       </less-than>
     </condition>
@@ -354,7 +360,7 @@
     <object-name>carburant.low-lamp-off</object-name>
     <condition>
       <greater-than>
-        <property>/instrumentation/consumables/remain_fuel</property>
+        <property>/consumables/fuel/total-fuel-kg</property>
         <value>100.001</value>
       </greater-than>
     </condition>
@@ -366,7 +372,7 @@
     <object-name>carburant.low-lamp2</object-name>
     <condition>
       <less-than>
-        <property>/instrumentation/consumables/remain_fuel</property>
+        <property>/consumables/fuel/total-fuel-kg</property>
         <value>100</value>
       </less-than>
     </condition>
@@ -378,7 +384,7 @@
     <object-name>carburant.low-lamp-off2</object-name>
     <condition>
       <greater-than>
-        <property>/instrumentation/consumables/remain_fuel</property>
+        <property>/consumables/fuel/total-fuel-kg</property>
         <value>100.001</value>
       </greater-than>
     </condition>

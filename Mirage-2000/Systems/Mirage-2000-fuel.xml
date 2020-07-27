@@ -279,8 +279,18 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
       <output>propulsion/tank[12]/external-flow-rate-pps</output>
     </summer>
     
-
-
+    <!-- Right fuel indicator --> 
+   <summer name="/systems/fuel/right-remaining-fuel">
+      <input>/consumables/fuel/tank[1]/level-kg</input>
+      <input>/consumables/fuel/tank[2]/level-kg</input>
+      <input>/consumables/fuel/tank[3]/level-kg</input>
+   </summer>
+    
+   <summer name="/systems/fuel/left-remaining-fuel">
+      <input>/consumables/fuel/tank[1]/level-kg</input>
+      <input>/consumables/fuel/tank[2]/level-kg</input>
+      <input>/consumables/fuel/tank[3]/level-kg</input>
+   </summer> 
     
     
     
