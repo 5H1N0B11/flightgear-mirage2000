@@ -1859,10 +1859,12 @@ var HUD = {
     if(cRange <= me.MaxRadarRange){
       #print("FLAG displayDistanceToTargetLine 20201107");
       #Text for distance to target
-      if(cRange<1200){
-        myString = sprintf("%dm",contact.get_range());
-      }elsif(cRange<10){
-        myString = sprintf("%.1fnm",contact.get_range());
+      if(cRange<10){
+        if(cRange * NM2M < 1000){
+          myString = sprintf("%dm", cRange * NM2M);
+        } else {
+          myString = sprintf("%.1fnm",contact.get_range());
+        }
       }else{
         myString = sprintf("%dnm",contact.get_range());
       }
