@@ -1065,13 +1065,13 @@ var HUD = {
       .setTranslation(230,35)
       .setDouble("character-size", 30)
       .setAlignment("left-center")
-      .setText("x");      
+      .setText("");      
     m.distanceToTargetLineChevronTextCloPos = m.distanceToTargetLineTextGroup.createChild("text")
       .setColor(m.myGreen)
       .setTranslation(230,-35)
       .setDouble("character-size", 30)
       .setAlignment("left-center")
-      .setText("x");
+      .setText("");
   
     m.distanceToTargetLineGroup.hide(); 
 
