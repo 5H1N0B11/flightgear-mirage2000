@@ -127,6 +127,7 @@ AIContact = {
     	me.aalt = props.globals.getNode("position/altitude-ft");
     	me.alat = props.globals.getNode("position/latitude-deg");
     	me.alon = props.globals.getNode("position/longitude-deg");
+    	me.aspeed = props.globals.getNode("fdm/jsbsim/velocities/vtrue-kts");
     	me.speed = me.prop.getNode("velocities/true-airspeed-kt");
     	me.tp = me.pos.getNode("instrumentation/transponder/inputs/mode");
     	me.rdr = me.pos.getNode("sim/multiplay/generic/int[2]");
