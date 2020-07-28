@@ -146,6 +146,20 @@
 
   <hrule />
 
+  <group>
+    <layout>hbox</layout>
+    <text><label>TGT Closing speed indicator</label></text>
+    <checkbox>
+      <property>controls/hud/closing-rate-enabled</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/hud/closing-rate-enabled</property>
+      </binding>
+    </checkbox>
+  </group>
+
+  <hrule />
   <!--group>
     <layout>hbox</layout>
     <group><text><label>HUD</label></text></group>
