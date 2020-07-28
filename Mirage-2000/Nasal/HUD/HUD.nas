@@ -133,6 +133,8 @@ var wideMeters = math.abs(-0.02038 - (-0.15438));
 #print("Size:" ~ size(raw_list));
 # var MaxTarget = 30;
 
+# Option to toggle the target closing rate in the HUD.
+var targetClosingRateEnabled = props.globals.initNode("controls/hud/closing-rate-enabled", 0, "BOOL");
 
 #center of the hud
 
