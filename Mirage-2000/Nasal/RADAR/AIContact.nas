@@ -470,9 +470,29 @@ AIContact = {
     return me.coord.alt()* M2FT;
   },
 
-
-
-
+  get_closure_speed:func(){
+    #TODO: Find a way to have the contact velocity angles (instead of attitude). And use these angles for both the aircraft deviation and the target deviation. 
+    var myGs = me.getSpeed();
+    var acGs = me.aspeed.getValue();
+    
+	me.getCoord();
+    me.getAcCoord();
+    
+    var myDev = [(vector.Math.getPitch(me.accoord, me.coord) - me.acPitch.getValue()) * D2R, 
+                 geo.normdeg180(me.accoord.course_to(me.coord) - me.acHeading.getValue()) * D2R];
+    var acDev = [(vector.Math.getPitch(me.coord, me.accoord) - me.pitch.getValue()) * D2R, 
+                 geo.normdeg180(me.coord.course_to(me.accoord) - me.getHeading()) * D2R];
+    
+    # TODO Once the velocity angles used, Integrate vertical speed (see below).
+    return math.cos(myDev[1]) * myGs
+         + math.cos(acDev[1]) * acGs;
+    
+    # Only enable this if the deviations are calculated with velocity angles. Otherwise, high AOA (los speed) might mess the speed.
+    return sin(myDev[0]) * myGs
+         + sin(acDev[0]) * acGs
+         + cos(myDev[0]) * math.cos(myDev[1]) * myGs
+         + cos(acDev[0]) * math.cos(acDev[1]) * acGs;
+  }
 };
 
 
