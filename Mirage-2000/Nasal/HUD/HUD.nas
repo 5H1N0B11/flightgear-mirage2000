@@ -67,7 +67,6 @@ var target_heading_deg = 0;
 var target_Distance = 0;
 var raw_list = [];
 
-
 #verre2
 
 # ==============================================================================
@@ -134,6 +133,8 @@ var wideMeters = math.abs(-0.02038 - (-0.15438));
 #print("Size:" ~ size(raw_list));
 # var MaxTarget = 30;
 
+# Option to toggle the target closing rate in the HUD.
+var targetClosingRateEnabled = props.globals.initNode("controls/hud/closing-rate-enabled", 0, "BOOL");
 
 #center of the hud
 
@@ -1060,7 +1061,20 @@ var HUD = {
       .setDouble("character-size", 40)
       .setAlignment("left-center")
       .setText("x");
-    
+      
+    m.distanceToTargetLineChevronTextCloNeg = m.distanceToTargetLineTextGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(230,35)
+      .setDouble("character-size", 30)
+      .setAlignment("left-center")
+      .setText("");      
+    m.distanceToTargetLineChevronTextCloPos = m.distanceToTargetLineTextGroup.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(230,-35)
+      .setDouble("character-size", 30)
+      .setAlignment("left-center")
+      .setText("");
+  
     m.distanceToTargetLineGroup.hide(); 
 
     
@@ -1831,15 +1845,20 @@ var HUD = {
     #print("me.MaxRadarRange :"~ me.MaxRadarRange );
     #print("contact.get_range() :" ~ contact.get_range());
     var myString ="";
+    
+    var cRange = contact.get_range();
     #< 10 nm should be a float
     #< 1000 m should be in meters 
-    if(contact.get_range() <= me.MaxRadarRange){
+       
+    if(cRange <= me.MaxRadarRange){
       #print("FLAG displayDistanceToTargetLine 20201107");
       #Text for distance to target
-      if(contact.get_range()<1200){
-        myString = sprintf("%dm",contact.get_range());
-      }elsif(contact.get_range()<10){
-        myString = sprintf("%.1fnm",contact.get_range());
+      if(cRange<10){
+        if(cRange * NM2M < 1000){
+          myString = sprintf("%dm", cRange * NM2M);
+        } else {
+          myString = sprintf("%.1fnm",contact.get_range());
+        }
       }else{
         myString = sprintf("%dnm",contact.get_range());
       }
@@ -1851,8 +1870,50 @@ var HUD = {
       }
       #print("myString : " ~ myString);
       me.distanceToTargetLineChevronText.setText(myString);
-      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
-    }
+      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(cRange*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100);
+      
+      if(!targetClosingRateEnabled.getValue()){
+        # Empty the speed differential containers.
+        me.distanceToTargetLineChevronTextCloNeg.setText("");
+        me.distanceToTargetLineChevronTextCloPos.setText("");
+      } else {
+        # get the closing speed of the target.
+      	var cloSpeed = contact.get_closure_speed();
+      	  
+        # If there is a significant speed differential.
+        if (math.abs(cloSpeed) >= 0.2){
+        # Create a string for the closing rate.
+        var speedFormat = "";
+          var speedValue = math.abs(cloSpeed);
+          if(cRange * NM2M < 1000 and math.abs(cloSpeed * KT2FPS * FT2M) < 1000){
+            # Convert in m/s
+            speedValue *= KT2FPS * FT2M;
+            speedFormat = "%.1fm/s";
+          } else {
+            if(math.abs(speedValue) < 10){
+              speedFormat = "%.2fkts";
+            } else if(math.abs(speedValue) < 100){
+              speedFormat = "%.1fkts";
+            } else {
+              speedFormat = "%dkts";
+            }
+          }
+          var cloStr = sprintf(speedFormat, speedValue);
+              
+          # Sign it and add it under the range (if getting closer), or over the range (if getting further).
+          cloStr = (cloSpeed < 0 ? "-" : "+") ~ cloStr;
+          me.distanceToTargetLineChevronTextCloPos.setText(cloSpeed < 0 ? "" : cloStr);
+          me.distanceToTargetLineChevronTextCloNeg.setText(cloSpeed < 0 ? cloStr : "");
+        } else {
+          # If there is no significant speed differential.
+          # Reset the speed differential containers.
+          me.distanceToTargetLineChevronTextCloNeg.setText("");
+          me.distanceToTargetLineChevronTextCloPos.setText("");
+        }
+      }
+	  # get the closing speed of the target.
+	  var cloSpeed = contact.get_closure_speed();
+    } 
   },
 
 

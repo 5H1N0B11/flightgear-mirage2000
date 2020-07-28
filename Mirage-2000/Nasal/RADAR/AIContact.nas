@@ -57,9 +57,9 @@
 #done get_Pitch()
 #done get_Speed()
 #done get_heading()
-#done get_uBody()
-#done get_vBody()
-#done get_wBody()
+#done get_uBody()     - Tested obsolete (will only return directionless airspeed)
+#done get_vBody()     - Tested obsolete (will only return 0)
+#done get_wBody()     - Tested obsolete (will only return 0)
 #done getFlareNode()  - Used for flares.
 #done getChaffNode()  - Used for chaff.
 #done isPainted()     - Tells if this target is still being radar tracked by the launch platform, only used in semi-radar guided missiles.
@@ -127,6 +127,7 @@ AIContact = {
     	me.aalt = props.globals.getNode("position/altitude-ft");
     	me.alat = props.globals.getNode("position/latitude-deg");
     	me.alon = props.globals.getNode("position/longitude-deg");
+    	me.aspeed = props.globals.getNode("fdm/jsbsim/velocities/vtrue-kts");
     	me.speed = me.prop.getNode("velocities/true-airspeed-kt");
     	me.tp = me.pos.getNode("instrumentation/transponder/inputs/mode");
     	me.rdr = me.pos.getNode("sim/multiplay/generic/int[2]");
@@ -384,9 +385,10 @@ AIContact = {
   get_heading:func(){
     return me.devStored[4];
   },
+  # TODO Depreciate it as it is not true uBody speed but only directionless ground-speed.
   get_uBody: func {
     var body = nil;
-    if (me.ubody != nil) {
+    if (me.ubody != nil) { # Always nil, no ubody node (see init & explore tree).
       body = me.ubody.getValue();
     }
     if(body == nil) {
@@ -394,9 +396,10 @@ AIContact = {
     }
     return body;
   },    
+  # TODO Depreciate it as it is always 0.
   get_vBody: func {
     var body = nil;
-    if (me.ubody != nil) {
+    if (me.ubody != nil) { # Always nil, no ubody node (see init & explore tree).
       body = me.vbody.getValue();
     }
     if(body == nil) {
@@ -404,9 +407,10 @@ AIContact = {
     }
     return body;
   },    
+  # TODO Depreciate it as it is always 0.
   get_wBody: func {
     var body = nil;
-    if (me.ubody != nil) {
+    if (me.ubody != nil) { # Always nil, no ubody node (see init & explore tree).
       body = me.wbody.getValue();
     }
     if(body == nil) {
@@ -466,9 +470,29 @@ AIContact = {
     return me.coord.alt()* M2FT;
   },
 
-
-
-
+  get_closure_speed:func(){
+    #TODO: Find a way to have the contact velocity angles (instead of attitude). And use these angles for both the aircraft deviation and the target deviation. 
+    var myGs = me.getSpeed();
+    var acGs = me.aspeed.getValue();
+    
+	me.getCoord();
+    me.getAcCoord();
+    
+    var myDev = [(vector.Math.getPitch(me.accoord, me.coord) - me.acPitch.getValue()) * D2R, 
+                 geo.normdeg180(me.accoord.course_to(me.coord) - me.acHeading.getValue()) * D2R];
+    var acDev = [(vector.Math.getPitch(me.coord, me.accoord) - me.pitch.getValue()) * D2R, 
+                 geo.normdeg180(me.coord.course_to(me.accoord) - me.getHeading()) * D2R];
+    
+    # TODO Once the velocity angles used, Integrate vertical speed (see below).
+    return math.cos(myDev[1]) * myGs
+         + math.cos(acDev[1]) * acGs;
+    
+    # Only enable this if the deviations are calculated with velocity angles. Otherwise, high AOA (los speed) might mess the speed.
+    return sin(myDev[0]) * myGs
+         + sin(acDev[0]) * acGs
+         + cos(myDev[0]) * math.cos(myDev[1]) * myGs
+         + cos(acDev[0]) * math.cos(acDev[1]) * acGs;
+  }
 };
 
 
