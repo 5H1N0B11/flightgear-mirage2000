@@ -67,14 +67,6 @@ var target_heading_deg = 0;
 var target_Distance = 0;
 var raw_list = [];
 
-# The last closing speed to the target (TODO remove once figured out how to calculate a stable closing speed).
-var contactLastClosingSpeed = 0;
-# The range of the contact at the last closing speed update (TODO Reset to -1 at target change).
-var contactRange = -1;
-# The time of the last closing speed update (used for dt:derivative).
-var contactRangeUpdateTime = systime();
-
-
 #verre2
 
 # ==============================================================================
@@ -1879,52 +1871,38 @@ var HUD = {
       me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(cRange*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100);
       
       
-      # Compute delta time for derivative.
-      var curTime = systime();
-      var dt = curTime - contactRangeUpdateTime;
-      
-      # Compute the closing speed.
-      # TODO Find why the speed is so "jumpy"
-      var speed = (contactRange - cRange) * NM2M / dt;
-        
-      # Make the speed smooth by compounding it over 1 second (TODO Remove once figured out how to compute proper closing speed).
-      var clamped = dt < 1 ? dt : 1;
-      contactLastClosingSpeed *= 1 - clamped;
-      contactLastClosingSpeed += speed * clamped;
-      speed = contactLastClosingSpeed;
-        
-	  # If the first element of our derivation was set:
-	  if(contactRange != -1){
-        # If there is a significant speed differential.
-        if (math.abs(speed) >= 0.2){
-          # Create a string for the closing rate.
-          var speedFormat = "";
-          var speedValue = math.abs(speed);
-          if(cRange*NM2M<1200 and math.abs(speed) < 1000){
-            speedFormat = "%.1fm/s";
-          } else {
-            # Convert in kts
-            var speedValue *= M2FT * FPS2KT;
-            if(math.abs(ktsSpeed) < 10){
-              speedFormat = "%.2fkts";
-            } else if(math.abs(ktsSpeed) < 100){
-              speedFormat = "%.1fkts";
-            } else {
-              speedFormat = "%dkts";
-            }
-          }
-          var cloStr = sprintf(speedFormat, speedValue);
-          
-          # Sign it and add it under the range (if getting closer), or over the range (if getting further).
-          cloStr = (speed >= 0 ? "-" : "+") ~ cloStr;
-          me.distanceToTargetLineChevronTextCloPos.setText(speed >= 0 ? "" : cloStr);
-          me.distanceToTargetLineChevronTextCloNeg.setText(speed >= 0 ? cloStr : "");
+	  # get the closing speed of the target.
+	  var cloSpeed = contact.get_closure_speed();
+	  
+      # If there is a significant speed differential.
+      if (math.abs(cloSpeed) >= 0.2){
+        # Create a string for the closing rate.
+        var speedFormat = "";
+        var speedValue = math.abs(cloSpeed);
+        if(cRange * NM2M < 1000 and math.abs(cloSpeed * KT2FPS * FT2M) < 1000){
+          # Convert in m/s
+          speedValue *= KT2FPS * FT2M;
+          speedFormat = "%.1fm/s";
         } else {
-          # If there is no significant speed differential.
-          # Reset the speed differential containers.
-          me.distanceToTargetLineChevronTextCloNeg.setText("");
-          me.distanceToTargetLineChevronTextCloPos.setText("");
+          if(math.abs(speedValue) < 10){
+            speedFormat = "%.2fkts";
+          } else if(math.abs(speedValue) < 100){
+            speedFormat = "%.1fkts";
+          } else {
+            speedFormat = "%dkts";
+          }
         }
+        var cloStr = sprintf(speedFormat, speedValue);
+        
+        # Sign it and add it under the range (if getting closer), or over the range (if getting further).
+        cloStr = (cloSpeed < 0 ? "-" : "+") ~ cloStr;
+        me.distanceToTargetLineChevronTextCloPos.setText(cloSpeed < 0 ? "" : cloStr);
+        me.distanceToTargetLineChevronTextCloNeg.setText(cloSpeed < 0 ? cloStr : "");
+      } else {
+        # If there is no significant speed differential.
+        # Reset the speed differential containers.
+        me.distanceToTargetLineChevronTextCloNeg.setText("");
+        me.distanceToTargetLineChevronTextCloPos.setText("");
       }
     } 
   },
