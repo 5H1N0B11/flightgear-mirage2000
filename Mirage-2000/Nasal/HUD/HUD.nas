@@ -1901,7 +1901,7 @@ var HUD = {
           var cloStr = sprintf(speedFormat, speedValue);
               
           # Sign it and add it under the range (if getting closer), or over the range (if getting further).
-          cloStr = (cloSpeed < 0 ? "-" : "+") ~ cloStr;
+          cloStr = (cloSpeed > 0 ? "-" : "+") ~ cloStr;
           me.distanceToTargetLineChevronTextCloPos.setText(cloSpeed < 0 ? "" : cloStr);
           me.distanceToTargetLineChevronTextCloNeg.setText(cloSpeed < 0 ? cloStr : "");
         } else {
