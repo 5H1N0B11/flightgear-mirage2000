@@ -316,13 +316,26 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
       <input>/consumables/fuel/tank[2]/level-kg</input>
       <input>/consumables/fuel/tank[3]/level-kg</input>
    </summer>
-    
+   <!--Left Fuel indicator --> 
    <summer name="/systems/fuel/left-remaining-fuel">
+      <input>/consumables/fuel/tank[6]/level-kg</input>
+      <input>/consumables/fuel/tank[7]/level-kg</input>
+      <input>/consumables/fuel/tank[4]/level-kg</input>
+   </summer> 
+    
+   
+       <!-- Internal remaining fuel indicator --> 
+   <summer name="/systems/fuel/internal-remaining-fuel">
       <input>/consumables/fuel/tank[1]/level-kg</input>
       <input>/consumables/fuel/tank[2]/level-kg</input>
       <input>/consumables/fuel/tank[3]/level-kg</input>
-   </summer> 
-    
+      <input>/consumables/fuel/tank[4]/level-kg</input>
+      <input>/consumables/fuel/tank[5]/level-kg</input>
+      <input>/consumables/fuel/tank[6]/level-kg</input>
+      <input>/consumables/fuel/tank[7]/level-kg</input>
+
+   </summer>
+
     
     
   </channel>      

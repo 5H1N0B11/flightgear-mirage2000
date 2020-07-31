@@ -28,10 +28,14 @@
     <object-name>carburant.rightgauge</object-name>
     <object-name>carburant.righttank</object-name>
     <object-name>carburant.texte</object-name>
-    <object-name>carburant.warningblancL</object-name>
-    <object-name>carburant.warningblancR</object-name>
-    <object-name>carburant.warningrougeL</object-name>
-    <object-name>carburant.warningrougeR</object-name>
+   <object-name>carburant.warningblancTL</object-name>
+    <object-name>carburant.warningblancBL</object-name>
+    <object-name>carburant.warningblancTR</object-name>
+    <object-name>carburant.warningblancBR</object-name>
+    <object-name>carburant.warningrougeTL</object-name>
+    <object-name>carburant.warningrougeBL</object-name>
+    <object-name>carburant.warningrougeTR</object-name>
+    <object-name>carburant.warningrougeBR</object-name>
   </animation>
 
   <animation>
@@ -55,8 +59,10 @@
     <object-name>carburant.rightgauge</object-name>
     <object-name>carburant.righttank</object-name>
     <object-name>carburant.texte</object-name>
-    <object-name>carburant.warningblancL</object-name>
-    <object-name>carburant.warningblancR</object-name>
+    <object-name>carburant.warningblancTL</object-name>
+    <object-name>carburant.warningblancBL</object-name>
+    <object-name>carburant.warningblancTR</object-name>
+    <object-name>carburant.warningblancBR</object-name>
     <emission>
       <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
       <red>   0.1 </red>
@@ -101,11 +107,11 @@
     </emission>
   </animation>
 
-  <!-- Fuel in total fuel in kg -->
+  <!-- Internal Fuel in kg -->
   <animation>
     <type>textranslate</type>
     <object-name>carburant.num1-1</object-name>
-    <property>/consumables/fuel/total-fuel-kg</property>
+    <property>/systems/fuel/internal-remaining-fuel</property>
     <factor>0.0001</factor>
     <step>1000</step>
     <axis>
@@ -118,7 +124,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>carburant.num1-2</object-name>
-    <property>/consumables/fuel/total-fuel-kg</property>
+    <property>/systems/fuel/internal-remaining-fuel</property>
     <factor>0.001</factor>
     <step>100</step>
     <axis>
@@ -131,7 +137,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>carburant.num1-3</object-name>
-    <property>/consumables/fuel/total-fuel-kg</property>
+    <property>/systems/fuel/internal-remaining-fuel</property>
     <factor>0.01</factor>
     <step>10</step>
     <axis>
@@ -144,7 +150,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>carburant.num1-4</object-name>
-    <property>/consumables/fuel/total-fuel-kg</property>
+    <property>/systems/fuel/internal-remaining-fuel</property>
     <factor>0.1</factor>
     <step>1</step>
     <axis>
@@ -154,7 +160,7 @@
     </axis>
   </animation>
 
-  <!--     Remain fuel -->
+  <!--     Remain fuel with external tanks-->
   <animation>
     <type>textranslate</type>
     <object-name>carburant.num2-1</object-name>
@@ -294,6 +300,55 @@
   </animation>
 
   <animation>
+    <type>select</type>
+    <object-name>carburant.warningblancTL</object-name>
+    <condition>
+      <or>
+        <not><property>/consumables/fuel/tank[6]/empty</property></not>
+      </or>
+      <value>true</value>
+    </condition>
+  </animation>
+  
+  
+  <animation>
+    <type>select</type>
+    <object-name>carburant.warningblancBL</object-name>
+    <condition>
+      <or>
+        <not><property>/consumables/fuel/tank[7]/empty</property></not>
+      </or>
+      <value>true</value>
+    </condition>
+  </animation>
+  
+  
+  <animation>
+    <type>select</type>
+    <object-name>carburant.warningblancTR</object-name>
+    <condition>
+      <or>
+        <not><property>/consumables/fuel/tank[1]/empty</property></not>
+      </or>
+      <value>true</value>
+    </condition>
+  </animation>
+  
+  
+  <animation>
+    <type>select</type>
+    <object-name>carburant.warningblancBR</object-name>
+    <condition>
+      <or>
+        <not><property>/consumables/fuel/tank[2]/empty</property></not>
+      </or>
+      <value>true</value>
+    </condition>
+  </animation>
+  
+  
+  
+  <animation>
     <type>textranslate</type>
     <object-name>carburant.leftgauge</object-name>
     <property>/systems/fuel/left-remaining-fuel</property>
@@ -319,8 +374,10 @@
 
   <animation>
     <type>select</type>
-    <object-name>carburant.warningblancL</object-name>
-    <object-name>carburant.warningblancR</object-name>
+    <object-name>carburant.warningblancTL</object-name>
+    <object-name>carburant.warningblancBL</object-name>
+    <object-name>carburant.warningblancTR</object-name>
+    <object-name>carburant.warningblancBR</object-name>
     <condition>
       <equals>
         <property>instrumentation/consumables/bingo_low</property>
@@ -331,8 +388,10 @@
 
   <animation>
     <type>select</type>
-    <object-name>carburant.warningrougeL</object-name>
-    <object-name>carburant.warningrougeR</object-name>
+    <object-name>carburant.warningrougeTL</object-name>
+    <object-name>carburant.warningrougeBL</object-name>
+    <object-name>carburant.warningrougeTR</object-name>
+    <object-name>carburant.warningrougeBR</object-name>
     <condition>
       <equals>
         <property>/instrumentation/consumables/bingo_low</property>
