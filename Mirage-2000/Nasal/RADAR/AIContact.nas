@@ -124,16 +124,19 @@ AIContact = {
     	me.roll = me.ori.getNode("roll-deg");
     	me.acHeading = props.globals.getNode("orientation/heading-deg");
     	me.acPitch = props.globals.getNode("orientation/pitch-deg");
+    	me.acRoll = props.globals.getNode("orientation/roll-deg");
     	me.aalt = props.globals.getNode("position/altitude-ft");
     	me.alat = props.globals.getNode("position/latitude-deg");
     	me.alon = props.globals.getNode("position/longitude-deg");
-    	me.aspeed = props.globals.getNode("fdm/jsbsim/velocities/vtrue-kts");
     	me.speed = me.prop.getNode("velocities/true-airspeed-kt");
     	me.tp = me.pos.getNode("instrumentation/transponder/inputs/mode");
     	me.rdr = me.pos.getNode("sim/multiplay/generic/int[2]");
       me.ubody = me.speed.getNode("uBody-fps");
       me.vbody = me.speed.getNode("vBody-fps");
       me.wbody = me.speed.getNode("wBody-fps");
+      me.aubody = props.globals.getNode("velocities/uBody-fps");
+      me.avbody = props.globals.getNode("velocities/vBody-fps");
+      me.awbody = props.globals.getNode("velocities/wBody-fps");
       me.flareNode = me.prop.getNode("rotors/main/blade[3]/flap-deg");
       me.chaffNode = me.prop.getNode("rotors/main/blade[3]/position-deg");
       me.ispainted = 0;
@@ -471,27 +474,49 @@ AIContact = {
   },
 
   get_closure_speed:func(){
-    #TODO: Find a way to have the contact velocity angles (instead of attitude). And use these angles for both the aircraft deviation and the target deviation. 
-    var myGs = me.getSpeed();
-    var acGs = me.aspeed.getValue();
-    
 	me.getCoord();
-    me.getAcCoord();
+	me.getAcCoord();
+	
+    # Compute the closing speed of the target to the aircraft position.
+    #  Get the deviation.
+    me.dev = [geo.normdeg180(me.coord.course_to(me.accoord) - me.getHeading()), 
+              vector.Math.getPitch(me.coord, me.accoord) - me.pitch.getValue()];
     
-    var myDev = [(vector.Math.getPitch(me.accoord, me.coord) - me.acPitch.getValue()) * D2R, 
-                 geo.normdeg180(me.accoord.course_to(me.coord) - me.acHeading.getValue()) * D2R];
-    var acDev = [(vector.Math.getPitch(me.coord, me.accoord) - me.pitch.getValue()) * D2R, 
-                 geo.normdeg180(me.coord.course_to(me.accoord) - me.getHeading()) * D2R];
+    #  Create a matrix to rotate the support vector towards the plane in the unrolled uvw target referential.
+    me.rotation = vector.Math.pitchMatrix(me.dev[1]);
+    me.rotation = vector.Math.multiplyMatrices(vector.Math.yawMatrix(me.dev[0]), me.rotation);
+    me.uvwTarget = vector.Math.multiplyMatrixWithVector(me.rotation, [1, 0, 0]);
+
+    #  Get the uvw speeds and un-roll them.
+    me.uvwBody = [me.get_uBody(), me.get_vBody(), me.get_wBody()];
+    me.rotation = vector.Math.rollMatrix(me.get_Roll());
+    me.uvwBody = vector.Math.multiplyMatrixWithVector(me.rotation, me.uvwBody);
     
-    # TODO Once the velocity angles used, Integrate vertical speed (see below).
-    return math.cos(myDev[1]) * myGs
-         + math.cos(acDev[1]) * acGs;
+    #  Project the velocity vector on the aircraft vector.
+    me.cloSpeed = vector.Math.orthogonalReferential3Dto1D(me.uvwBody, me.uvwTarget);
     
-    # Only enable this if the deviations are calculated with velocity angles. Otherwise, high AOA (los speed) might mess the speed.
-    return sin(myDev[0]) * myGs
-         + sin(acDev[0]) * acGs
-         + cos(myDev[0]) * math.cos(myDev[1]) * myGs
-         + cos(acDev[0]) * math.cos(acDev[1]) * acGs;
+    
+    # Compute the closing speed of the aircraft to the target position.
+    #  Get the deviation.
+    me.dev = [geo.normdeg180(me.accoord.course_to(me.coord) - me.acHeading.getValue()),
+              vector.Math.getPitch(me.accoord, me.coord) - me.acPitch.getValue()];
+
+    #  Create a matrix to rotate the support vector towards the target in the unrolled uvw plane referential.
+    me.rotation = vector.Math.pitchMatrix(me.dev[1]);
+    me.rotation = vector.Math.multiplyMatrices(vector.Math.yawMatrix(me.dev[0]), me.rotation);    
+    me.uvwTarget = vector.Math.multiplyMatrixWithVector(me.rotation, [1, 0, 0]);
+    
+    #  Get the uvw speeds and un-roll them.
+    me.uvwBody = [me.aubody.getValue(), me.avbody.getValue(), me.awbody.getValue()];
+    me.rotation = vector.Math.rollMatrix(me.acRoll.getValue());
+    me.uvwBody = vector.Math.multiplyMatrixWithVector(me.rotation, me.uvwBody);
+    
+    #  Project the velocity vector on the target vector.
+    me.cloSpeed += vector.Math.orthogonalReferential3Dto1D(me.uvwBody, me.uvwTarget);
+    
+    
+    # Convert to kts.
+    return me.cloSpeed * FPS2KT;
   }
 };
 
