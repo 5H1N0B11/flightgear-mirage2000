@@ -1878,32 +1878,32 @@ var HUD = {
         me.distanceToTargetLineChevronTextCloPos.setText("");
       } else {
         # get the closing speed of the target.
-      	var cloSpeed = contact.get_closure_speed();
+      	me.cloSpeed = contact.get_closure_speed();
       	  
         # If there is a significant speed differential.
-        if (math.abs(cloSpeed) >= 0.2){
-        # Create a string for the closing rate.
-        var speedFormat = "";
-          var speedValue = math.abs(cloSpeed);
-          if(cRange * NM2M < 1000 and math.abs(cloSpeed * KT2FPS * FT2M) < 1000){
+        if (math.abs(me.cloSpeed) >= 0.2){
+          # Create a string for the closing rate.
+          me.speedFormat = "";
+          me.speedValue = math.abs(me.cloSpeed);
+          if(cRange * NM2M < 1000 and math.abs(me.cloSpeed * KT2FPS * FT2M) < 1000){
             # Convert in m/s
-            speedValue *= KT2FPS * FT2M;
-            speedFormat = "%.1fm/s";
+            me.speedValue *= KT2FPS * FT2M;
+            me.speedFormat = "%.1fm/s";
           } else {
-            if(math.abs(speedValue) < 10){
-              speedFormat = "%.2fkts";
-            } else if(math.abs(speedValue) < 100){
-              speedFormat = "%.1fkts";
+            if(math.abs(me.speedValue) < 10){
+              me.speedFormat = "%.2fkts";
+            } else if(math.abs(me.speedValue) < 100){
+              me.speedFormat = "%.1fkts";
             } else {
-              speedFormat = "%dkts";
+              me.speedFormat = "%dkts";
             }
           }
-          var cloStr = sprintf(speedFormat, speedValue);
+          me.cloStr = sprintf(me.speedFormat, me.speedValue);
               
           # Sign it and add it under the range (if getting closer), or over the range (if getting further).
-          cloStr = (cloSpeed > 0 ? "-" : "+") ~ cloStr;
-          me.distanceToTargetLineChevronTextCloPos.setText(cloSpeed < 0 ? "" : cloStr);
-          me.distanceToTargetLineChevronTextCloNeg.setText(cloSpeed < 0 ? cloStr : "");
+          me.cloStr = (me.cloSpeed < 0 ? "-" : "+") ~ me.cloStr;
+          me.distanceToTargetLineChevronTextCloPos.setText(me.cloSpeed >= 0 ? "" : me.cloStr);
+          me.distanceToTargetLineChevronTextCloNeg.setText(me.cloSpeed >= 0 ? me.cloStr : "");
         } else {
           # If there is no significant speed differential.
           # Reset the speed differential containers.
@@ -1911,8 +1911,6 @@ var HUD = {
           me.distanceToTargetLineChevronTextCloPos.setText("");
         }
       }
-	  # get the closing speed of the target.
-	  var cloSpeed = contact.get_closure_speed();
     } 
   },
 
