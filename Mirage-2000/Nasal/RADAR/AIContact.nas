@@ -57,9 +57,9 @@
 #done get_Pitch()
 #done get_Speed()
 #done get_heading()
-#done get_uBody()     - Tested obsolete (will only return directionless airspeed)
-#done get_vBody()     - Tested obsolete (will only return 0)
-#done get_wBody()     - Tested obsolete (will only return 0)
+#done get_uBody()
+#done get_vBody()
+#done get_wBody()
 #done getFlareNode()  - Used for flares.
 #done getChaffNode()  - Used for chaff.
 #done isPainted()     - Tells if this target is still being radar tracked by the launch platform, only used in semi-radar guided missiles.
@@ -388,10 +388,9 @@ AIContact = {
   get_heading:func(){
     return me.devStored[4];
   },
-  # TODO Depreciate it as it is not true uBody speed but only directionless ground-speed.
   get_uBody: func {
     var body = nil;
-    if (me.ubody != nil) { # Always nil, no ubody node (see init & explore tree).
+    if (me.ubody != nil) {
       body = me.ubody.getValue();
     }
     if(body == nil) {
@@ -399,10 +398,9 @@ AIContact = {
     }
     return body;
   },    
-  # TODO Depreciate it as it is always 0.
   get_vBody: func {
     var body = nil;
-    if (me.ubody != nil) { # Always nil, no ubody node (see init & explore tree).
+    if (me.ubody != nil) {
       body = me.vbody.getValue();
     }
     if(body == nil) {
@@ -410,10 +408,9 @@ AIContact = {
     }
     return body;
   },    
-  # TODO Depreciate it as it is always 0.
   get_wBody: func {
     var body = nil;
-    if (me.ubody != nil) { # Always nil, no ubody node (see init & explore tree).
+    if (me.ubody != nil) {
       body = me.wbody.getValue();
     }
     if(body == nil) {
