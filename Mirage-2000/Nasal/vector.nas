@@ -270,6 +270,22 @@ var Math = {
       me.mag = me.magnitudeVector(v);
       return [v[0]/me.mag, v[1]/me.mag, v[2]/me.mag];
     },
+    
+    orthogonalReferential3Dto1D: func(vec, ref){
+      # Get the angles of the vector
+      me.anglesVec = me.cartesianToEuler(vec);
+      me.anglesRef = me.cartesianToEuler(ref);
+      
+      # Get the heading and pitch d-angle to go from ref to to vector.
+      me.dangle = [geo.normdeg180(me.anglesVec[0] - me.anglesRef[0]),
+                   me.anglesVec[1] - me.anglesRef[1]];
+
+      # Create a matrix to rotate by dangle.
+      me.rotation = me.multiplyMatrices(me.yawMatrix(me.dangle[0]), me.pitchMatrix(me.dangle[1]));
+      
+      # Rotate the input vector and only take the U value (projection of vec on ref).
+      return me.multiplyMatrixWithVector(me.rotation, vec)[0];
+    },
 
 # rotation matrices
 #
