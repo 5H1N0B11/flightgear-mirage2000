@@ -45,6 +45,9 @@ var hud_pilot = hud.HUD.new({"node": "revi.canvasHUD", "texture": "hud.png"});
 var prop = "payload/armament/fire-control";
 var actuator_fc = compat_failure_modes.set_unserviceable(prop);
 FailureMgr.add_failure_mode(prop, "Fire control", actuator_fc);
+var MirageBingo = nil;
+
+
 
 
 ############################################################
@@ -118,7 +121,8 @@ var main_Init_Loop = func()
     environment.environment();
     #Should be replaced by an object creation
     #settimer(func(){mirage2000.createMap();},10);
-
+    
+    MirageBingo = instrumentation.bingo.new();
     
     print("system loop ... Check");
     UpdateMain();
@@ -129,6 +133,7 @@ var UpdateMain = func
     settimer(mirage2000.updatefunction, 0);
 }
 
+#This update function needs to be re-done properly
 var updatefunction = func()
 {  
     AbsoluteTime = getprop("/sim/time/elapsed-sec");
@@ -137,7 +142,7 @@ var updatefunction = func()
     var AP_Alt = getprop("/autopilot/locks/altitude");
     
     ########################### rate 0
-    mirage2000.Update_SAS();
+    mirage2000.Update_SAS(); #we need to check what is still here, and what we can convert in xml
     
     
 #     if (getprop("payload/armament/es/flags/deploy-id-10")!= nil) {
@@ -187,6 +192,9 @@ var updatefunction = func()
         }
       }
       mp_messaging();
+      
+      
+      
       #mirage2000.weather_effects_loop();
       #environment.environment();
       
@@ -211,6 +219,7 @@ var updatefunction = func()
         }
       }
       myFramerate.d = AbsoluteTime;
+      MirageBingo.update();
     }
     
     ###################### rate 1.5 ###########################
