@@ -56,13 +56,13 @@ var bingo = {
       # Consommations moyennes: 4kg / Nm en High Altitude. 7kg / Nm en BA (Low Alt) or Average Consumption 36 kg/min these consumption have to be checked
       # first -> Calculation of the last airport (route manager)
       # So this is trying to calculate the fuel for the remaining distance.
-      # distance  * Consumption inlow alt in kg * 15 mins * 36 kg of margins?
+      # distance  * Consumption inlow alt in kg + 15 mins * average fuel consuption/min * 36 kg of margins?
       # We could have calculate in order to have 15 minutes of margin to the closest airport all along the route
       if(simple){
         if(me.input.remaining_Distance_in_Route.getValue() == nil){
           me.input.bingo.setValue(0);
         }else{
-          me.input.bingo.setValue(me.input.remaining_Distance_in_Route.getValue()* 7 * 15 *36);
+          me.input.bingo.setValue(me.input.remaining_Distance_in_Route.getValue()* 7 + 15 *36);
         }
       }else{
           # We could do here the complicated method

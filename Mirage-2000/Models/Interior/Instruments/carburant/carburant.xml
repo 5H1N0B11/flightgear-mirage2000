@@ -341,10 +341,6 @@
     <condition>
       <or>
         <not><property>/consumables/fuel/tank[1]/empty</property></not>
-        <equals>
-          <property>instrumentation/consumables/bingo_low</property>
-          <value>0</value>
-        </equals>
       </or>
       <value>true</value>
     </condition>
