@@ -47,7 +47,6 @@ var bingo = {
         me.input[name] = props.globals.getNode(me.input[name], 1);
       #We put that for now.
       me.input.bingo.setValue(480);
-      
       return me;
     },
     make_it_blink : func{
@@ -76,14 +75,18 @@ var bingo = {
     },
     update : func {
       # We do not need a high refresh rate. 4 refresh per scond should be enough
+      #print("me.input.remaining_fuel.getValue():"~ me.input.remaining_fuel.getValue());
+      #print("me.input.bingo.getValue():"~ me.input.bingo.getValue());
       if(me.input.remaining_fuel.getValue()<me.input.bingo.getValue()){ #bingo fuel
         #We could add a sound here : "bingo fuel" for the first time we are here
         me.make_it_blink();
       }else{
         me.input.blinking_bingo_low.setValue(0);
       }
+      #settimer(me.update,0.25);
       
     },
+    
 
 };
 

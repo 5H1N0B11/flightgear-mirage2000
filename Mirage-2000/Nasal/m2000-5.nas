@@ -123,6 +123,7 @@ var main_Init_Loop = func()
     #settimer(func(){mirage2000.createMap();},10);
     
     MirageBingo = instrumentation.bingo.new();
+    MirageBingo.update();
     
     print("system loop ... Check");
     UpdateMain();
@@ -180,7 +181,7 @@ var updatefunction = func()
     {
       #call(m2000_load.Encode_Load,nil,nil,nil, myErr);
       call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
-      myFramerate.b = AbsoluteTime;
+      myFramerate.c = AbsoluteTime;
       #if(getprop("autopilot/settings/tf-mode")){ <- need to find what is enabling it
       #8 second prevision do not need to be updated each fps
       if(AP_Alt =="TF"){
@@ -192,7 +193,7 @@ var updatefunction = func()
         }
       }
       mp_messaging();
-      
+      MirageBingo.update();
       
       
       #mirage2000.weather_effects_loop();
@@ -219,7 +220,7 @@ var updatefunction = func()
         }
       }
       myFramerate.d = AbsoluteTime;
-      MirageBingo.update();
+      
     }
     
     ###################### rate 1.5 ###########################

@@ -188,6 +188,28 @@
 
   <hrule />
 
+  <!-- Bingo Fuel  -->
+  <text>
+    <label>Enter the Bingo Fuel value</label>
+  </text>
+  
+  
+  <input>
+    <width>75</width>
+    <height>25</height>
+    <label> KG</label>
+    <property>/instrumentation/consumables/bingo_fuel</property>
+  </input>
+
+  <button>
+    <legend>Ok</legend>
+    <binding>
+      <command>dialog-apply</command>
+    </binding>
+  </button>
+  
+  <hrule />
+  
   <text>
     <label>Everything below is only available on GROUND!</label>
   </text>

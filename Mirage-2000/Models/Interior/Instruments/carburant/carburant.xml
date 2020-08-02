@@ -63,6 +63,10 @@
     <object-name>carburant.warningblancBL</object-name>
     <object-name>carburant.warningblancTR</object-name>
     <object-name>carburant.warningblancBR</object-name>
+    <object-name>carburant.warningrougeTL</object-name>
+    <object-name>carburant.warningrougeBL</object-name>
+    <object-name>carburant.warningrougeTR</object-name>
+    <object-name>carburant.warningrougeBR</object-name>
     <emission>
       <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
       <red>   0.1 </red>
@@ -305,6 +309,10 @@
     <condition>
       <or>
         <not><property>/consumables/fuel/tank[6]/empty</property></not>
+        <equals>
+          <property>instrumentation/consumables/bingo_low</property>
+          <value>0</value>
+        </equals>
       </or>
       <value>true</value>
     </condition>
@@ -317,6 +325,10 @@
     <condition>
       <or>
         <not><property>/consumables/fuel/tank[7]/empty</property></not>
+        <equals>
+          <property>instrumentation/consumables/bingo_low</property>
+          <value>0</value>
+        </equals>
       </or>
       <value>true</value>
     </condition>
@@ -329,6 +341,10 @@
     <condition>
       <or>
         <not><property>/consumables/fuel/tank[1]/empty</property></not>
+        <equals>
+          <property>instrumentation/consumables/bingo_low</property>
+          <value>0</value>
+        </equals>
       </or>
       <value>true</value>
     </condition>
@@ -339,9 +355,7 @@
     <type>select</type>
     <object-name>carburant.warningblancBR</object-name>
     <condition>
-      <or>
         <not><property>/consumables/fuel/tank[2]/empty</property></not>
-      </or>
       <value>true</value>
     </condition>
   </animation>
