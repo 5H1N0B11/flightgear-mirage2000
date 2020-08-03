@@ -3,31 +3,91 @@
 <PropertyList>
   
   <fuel>
-    
+   
     <tank n="0">
-      <tank-num type="int"> 0 </tank-num>
-      <level-gal_us archive="y"> 527.7 </level-gal_us>
+      <name>Refueling Probe</name>
+      <tank-num type="int"> 1 </tank-num>
+      <level-gal_us archive="y"> 101.7</level-gal_us>
     </tank>
     
+    
+    <!-- internal tanks -->
     <tank n="1">
+      <name>Right Forward Fuselage</name>
       <tank-num type="int"> 1 </tank-num>
-      <level-gal_us archive="y"> 527.7 </level-gal_us>
+      <level-gal_us archive="y"> 101.7</level-gal_us>
     </tank>
     
     <tank n="2">
-      <name>left-Tank</name>
-      <selected type="bool">false</selected>
+      <name>Right Wing</name>
+      <tank-num type="int"> 2 </tank-num>
+      <level-gal_us archive="y"> 175 </level-gal_us>
     </tank>
     
     <tank n="3">
-      <name>Center-tank</name>
-      <selected type="bool">false</selected>
+      <name>Right Backward Fuselage</name>
+      <tank-num type="int"> 3 </tank-num>
+      <level-gal_us archive="y"> 198 </level-gal_us>
     </tank>
     
     <tank n="4">
-      <name>right-Tank</name>
-      <selected type="bool">false</selected>
+      <name>Left Backward Fuselage</name>
+      <tank-num type="int"> 4 </tank-num>
+      <level-gal_us archive="y"> 198 </level-gal_us>
     </tank>
+    
+    <tank n="5">
+      <name>Center Fuselage</name>
+      <tank-num type="int">5 </tank-num>
+      <level-gal_us archive="y"> 107 </level-gal_us>
+    </tank>
+    
+    <tank n="6">
+      <name>Left Forward Fuselage</name>
+      <tank-num type="int">6 </tank-num>
+      <level-gal_us archive="y"> 101.7 </level-gal_us>
+    </tank>
+    
+    <tank n="7">
+      <name>Left Wing</name>
+      <tank-num type="int">7 </tank-num>
+      <level-gal_us archive="y"> 175 </level-gal_us>
+    </tank>
+    
+    
+    <!-- External tanks -->
+    <tank n="8">
+      <name>1300 l Droptank</name>
+      <selected type="bool">false</selected>
+      <level-gal_us archive="y"> 0 </level-gal_us>
+    </tank>
+    
+    <tank n="9">
+      <name>2000 l Droptank</name>
+      <selected type="bool">false</selected>
+      <level-gal_us archive="y"> 0 </level-gal_us>
+    </tank>
+    
+    <tank n="10">
+      <name>2000 l Droptank</name>
+      <selected type="bool">false</selected>
+      <level-gal_us archive="y"> 0 </level-gal_us>
+    </tank>
+    
+
+    <tank n="11">
+      <name>1700 l Droptank</name>
+      <selected type="bool">false</selected>
+      <level-gal_us archive="y"> 0 </level-gal_us>
+    </tank>
+    
+    <tank n="12">
+      <name>1700 l Droptank</name>
+      <selected type="bool">false</selected>
+      <level-gal_us archive="y"> 0 </level-gal_us>
+    </tank>
+    
+    
     
   </fuel>
   
