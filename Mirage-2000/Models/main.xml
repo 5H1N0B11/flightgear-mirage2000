@@ -1224,7 +1224,7 @@
     <property>gear/gear[0]/compression-norm</property>
     <interpolation>
       <entry><ind> 0.00000000 </ind><dep> 0.00 </dep></entry>
-      <entry><ind> 0.74000000 </ind><dep> 0.21 </dep></entry>
+      <entry><ind> 0.56000000 </ind><dep> 0.21 </dep></entry>
     </interpolation>
     <axis>
       <x> 0 </x>
@@ -1239,7 +1239,7 @@
     <property>gear/gear[0]/compression-norm</property>
     <interpolation>
       <entry><ind> 0.00000000 </ind><dep>  0 </dep></entry>
-      <entry><ind> 0.74000000 </ind><dep> 47 </dep></entry>
+      <entry><ind> 0.56000000 </ind><dep> 47 </dep></entry>
     </interpolation>
     <center>
       <x-m> -2.998 </x-m>
@@ -1259,7 +1259,7 @@
     <property>gear/gear[0]/compression-norm</property>
     <interpolation>
       <entry><ind> 0.00000000 </ind><dep>   0 </dep></entry>
-      <entry><ind> 0.74000000 </ind><dep> -47 </dep></entry>
+      <entry><ind> 0.56000000 </ind><dep> -47 </dep></entry>
     </interpolation>
     <center>
       <x-m> -2.981 </x-m>
@@ -1287,7 +1287,7 @@
     <property>gear/gear[1]/compression-norm</property>
     <interpolation>
       <entry><ind> 0.000000 </ind><dep> -0.07 </dep></entry>
-      <entry><ind> 0.790000 </ind><dep>  0.17 </dep></entry>
+      <entry><ind> 0.790000 </ind><dep>  0.15 </dep></entry>
     </interpolation>
     <axis>
       <x1-m>  1.949 </x1-m>
@@ -1349,7 +1349,7 @@
     <property>gear/gear[2]/compression-norm</property>
     <interpolation>
       <entry><ind> 0.000000 </ind><dep> -0.07 </dep></entry>
-      <entry><ind> 0.790000 </ind><dep>  0.17 </dep></entry>
+      <entry><ind> 0.790000 </ind><dep>  0.15 </dep></entry>
     </interpolation>
     <axis>
       <x1-m>  1.949 </x1-m>
