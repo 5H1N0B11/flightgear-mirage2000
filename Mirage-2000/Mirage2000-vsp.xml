@@ -40,10 +40,10 @@
     <y>0</y>
     <z>-3.94</z>
   </location>
-  <location unit="IN" name="VRP">
-    <x>290</x>
+  <location unit="M" name="VRP">
+    <x>6.812</x>
     <y>0</y>
-    <z>44</z>
+    <z>1.118</z>
   </location>
   <location unit="M" name="AERORP">
     <x>8.56</x>
