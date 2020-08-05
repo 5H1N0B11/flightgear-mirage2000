@@ -69,9 +69,9 @@
   <contact type="BOGEY" name="NOSE_LG">
     <!--0: NOSE_LG-->
     <location unit="M">
-      <x>4.01</x>
+      <x>4.82</x>
       <y>0</y>
-      <z>-1.478</z>
+      <z>-1.488</z>
     </location>
     <static_friction>1.0</static_friction>
     <dynamic_friction>0.5</dynamic_friction>
