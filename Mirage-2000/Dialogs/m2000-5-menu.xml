@@ -115,6 +115,16 @@
           <dialog-name>scenario28</dialog-name>
         </binding>
       </item>
+      
+<!--      <item n="13">
+        <label>Test</label>
+        <name>Test</name>
+        <binding>
+          <command>nasal</command>
+          <script>mirage2000.showLoadDialog()</script>
+        </binding>
+      </item>-->
+      
     </menu>
   </default>
 
