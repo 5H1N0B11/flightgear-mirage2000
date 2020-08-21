@@ -243,6 +243,7 @@
       <file>Aircraft/Mirage-2000/Nasal/flir.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/zoom-views.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/CANVAS/Canvas-pylons-Dlg.nas</file>
     </mirage2000>
     <m2000_controls>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-controls.nas</file>

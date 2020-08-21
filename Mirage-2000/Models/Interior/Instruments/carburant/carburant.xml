@@ -286,7 +286,7 @@
     <type>select</type>
     <object-name>carburant.middletank</object-name>
     <condition>
-      <property>/consumables/fuel/tank[8]/selected</property>
+      <not><property>/consumables/fuel/tank[8]/empty</property></not>
       <value>true</value>
     </condition>
   </animation>
