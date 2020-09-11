@@ -103,9 +103,6 @@ var main_Init_Loop = func()
     print("blackout ... Check");
     blackout.blackout_init();
     
-    print("minihud ... Check");
-    hud.minihud();
-    
     print("HUD canvas...Check");
     hud_pilot.update();
     
