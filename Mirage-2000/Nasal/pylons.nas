@@ -538,7 +538,7 @@ var a2a_kilo_mica = func {
           
           #Side fuselage forward
           pylon1.loadSet(pylonSets.empty);
-          pylon7.loadSet(pylonSets.empty);
+          pylon7.loadSet(pylonSets.s);
           
           #Side fuselage backward
           pylon8.loadSet(pylonSets.empty);
