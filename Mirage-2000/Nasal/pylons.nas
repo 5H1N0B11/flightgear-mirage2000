@@ -522,6 +522,31 @@ var a2a_kilo_mica = func {
       }
   }
   
+  # Ground Attack configuration 2 : 2 AS30L, Centre Tank, 2 magic2
+  var rifle = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.b6);
+          pylon5.loadSet(pylonSets.b6);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.t);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.empty);
+          pylon7.loadSet(pylonSets.empty);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.empty);
+          pylon9.loadSet(pylonSets.empty);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
   
   
   
