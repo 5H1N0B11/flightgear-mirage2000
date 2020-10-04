@@ -64,6 +64,7 @@ var pylonSets = {
   
   s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 	b2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	b1: {name: "GBU-12", content: ["GBU-12"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
   b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
   b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
   b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
@@ -84,11 +85,11 @@ if(1){
 	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g,pylonSets.g2];
 	var CenterSet   = [pylonSets.empty, pylonSets.t,pylonSets.b2,pylonSets.b3,pylonSets.b10];
     
-	var ForwardfuselagepylonsR = [pylonSets.empty,pylonSets.i,pylonSets.s];
-  var ForwardfuselagepylonsL = [pylonSets.empty,pylonSets.i,];
+	var ForwardfuselagepylonsR = [pylonSets.empty,pylonSets.i,pylonSets.s,pylonSets.b2,pylonSets.b1,pylonSets.b3];
+  var ForwardfuselagepylonsL = [pylonSets.empty,pylonSets.i,pylonSets.b2,pylonSets.b1,pylonSets.b3];
   
   
-	var Rearfuselagepylons = [pylonSets.empty,pylonSets.i];
+	var Rearfuselagepylons = [pylonSets.empty,pylonSets.i,pylonSets.b2,pylonSets.b1];
 
 
 #### note :
