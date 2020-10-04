@@ -39,7 +39,7 @@ var targetingGround = func()
     
     #Each time the ground target button is pressed, the life go to 900 and the AI following flag go to
     myGroundTarget.following = 0;
-    myGroundTarget.life_time = 900;
+    myGroundTarget.life_time = 3600;
     
     if( geo.elevation(myGroundTarget.lat.getValue(), myGroundTarget.long.getValue(),10000) == nil){
       var oldView = view_GPS_target(myGroundTarget);
