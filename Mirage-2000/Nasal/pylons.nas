@@ -84,11 +84,11 @@ if(1){
 	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g,pylonSets.g2];
 	var CenterSet   = [pylonSets.empty, pylonSets.t,pylonSets.b2,pylonSets.b3,pylonSets.b10];
     
-	var ForwardfuselagepylonsR = [pylonSets.empty,pylonSets.i,pylonSets.s];
-  var ForwardfuselagepylonsL = [pylonSets.empty,pylonSets.i,];
+	var ForwardfuselagepylonsR = [pylonSets.empty,pylonSets.i,pylonSets.s,pylonSets.b2];
+  var ForwardfuselagepylonsL = [pylonSets.empty,pylonSets.i,pylonSets.b2];
   
   
-	var Rearfuselagepylons = [pylonSets.empty,pylonSets.i];
+	var Rearfuselagepylons = [pylonSets.empty,pylonSets.i,pylonSets.b2];
 
 
 #### note :
