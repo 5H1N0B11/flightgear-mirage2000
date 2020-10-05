@@ -85,7 +85,7 @@ if(1){
 	var CenterSet   = [pylonSets.empty, pylonSets.t,pylonSets.b2,pylonSets.b3,pylonSets.b10];
     
 	var ForwardfuselagepylonsR = [pylonSets.empty,pylonSets.i,pylonSets.s];
-  var ForwardfuselagepylonsL = [pylonSets.empty,pylonSets.i,];
+  var ForwardfuselagepylonsL = [pylonSets.empty,pylonSets.i];
   
   
 	var Rearfuselagepylons = [pylonSets.empty,pylonSets.i];
@@ -522,6 +522,57 @@ var a2a_kilo_mica = func {
       }
   }
   
+  # Ground Attack configuration 2 : 2 AS30L, Centre Tank, 2 magic2
+  var rifle = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.b6);
+          pylon5.loadSet(pylonSets.b6);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.t);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.empty);
+          pylon7.loadSet(pylonSets.s);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.empty);
+          pylon9.loadSet(pylonSets.empty);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+    
+    # Ground attack configuration 2 : 2 2000L, Scalp, 2 MICA IR, 4 MICA EM
+  var standoff = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g2);
+          pylon6.loadSet(pylonSets.g2);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.t2);
+          pylon5.loadSet(pylonSets.t4);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.b3);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.i);
+          pylon7.loadSet(pylonSets.i);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.i);
+          pylon9.loadSet(pylonSets.i);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
   
   
   
