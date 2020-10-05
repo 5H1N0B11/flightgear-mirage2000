@@ -316,6 +316,24 @@
       <script>pylons.nuke()</script>
     </binding>
   </button>
+  <button>
+    <row>5</row>
+    <col>0</col>
+    <legend>Air to Ground 2</legend>
+    <binding>
+      <command>nasal</command>
+      <script>pylons.rifle()</script>
+    </binding>
+  </button>
+  <button>
+    <row>5</row>
+    <col>1</col>
+    <legend>Standoff</legend>
+    <binding>
+      <command>nasal</command>
+      <script>pylons.standoff()</script>
+    </binding>
+  </button>
 </group>
 
 </PropertyList>
