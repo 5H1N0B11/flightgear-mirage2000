@@ -16,6 +16,8 @@ var pylon9 = nil;
 var pylonI = nil;
 
 var ISBIPLACE = getprop("/sim/biplace");
+var cannon = stations.SubModelWeapon.new("30mm Cannon", 0.9369635, 125, [0,1], [2,3], props.globals.getNode("controls/armament/Gun_trigger",1), 0, func{return 1;});
+cannon.brevity = "Guns guns";
 
 #5H1NB1's notes : To check : It seems that the weight of the tank itself isn't taking in account
 #Not because of the fc code, but because I didn't find where to put it
