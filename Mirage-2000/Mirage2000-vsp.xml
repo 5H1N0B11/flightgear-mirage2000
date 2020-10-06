@@ -57,7 +57,7 @@
   <iyy unit="KG*M2">75686</iyy>
   <izz unit="KG*M2">78802</izz>
   <ixz unit="KG*M2">2141</ixz>
-  <emptywt unit="LBS">28000</emptywt>
+  <emptywt unit="KG">7500</emptywt>
   <location unit="M" name="CG">
     <x>8.56</x>
     <y>0</y>
