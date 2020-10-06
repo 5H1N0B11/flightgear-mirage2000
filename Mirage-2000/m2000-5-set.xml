@@ -85,6 +85,8 @@
         <path>Splashs/splash-04.png</path>
       </preview>
     </previews>
+
+    <biplace type="bool">false</biplace>
   </sim>
 
 </PropertyList>

@@ -15,8 +15,7 @@ var pylon8 = nil;
 var pylon9 = nil;
 var pylonI = nil;
 
-var cannon = stations.SubModelWeapon.new("30mm Cannon", 0.9369635, 125, [0,1], [2,3], props.globals.getNode("controls/armament/Gun_trigger",1), 0, func{return 1;});
-cannon.brevity = "Guns guns";
+var ISBIPLACE = getprop("/sim/biplace");
 
 #5H1NB1's notes : To check : It seems that the weight of the tank itself isn't taking in account
 #Not because of the fc code, but because I didn't find where to put it
@@ -48,49 +47,49 @@ var dummy2 = stations.Dummy.new("ASMP", "ASMP");
 #Normal: folder, content, firecontrol, damage
 
 var pylonSets = {
-	empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
-	e: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-	t: {name: "1300 l Droptank", content: [RP522], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-  t2: {name: "2000 l Droptank", content: [RP542], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-  tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-  t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-  tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	g: {name: "Matra R550 Magic 2", content: ["Magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#wingtip
-	g2: {name: "MICA IR", content: ["MICA-IR"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-	
-	h: {name: "Matra Super 530D", content: ["S530D"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
-	
-  i: {name: "MICA EM", content: ["MICA-EM"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-  
-  s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	b2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-  b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-  b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-  b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-  b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-  b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
+    empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
+    e: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+    t: {name: "1300 l Droptank", content: [RP522], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+    t2: {name: "2000 l Droptank", content: [RP542], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+    tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+    t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+    tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+    g: {name: "Matra R550 Magic 2", content: ["Magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#wingtip
+    g2: {name: "MICA IR", content: ["MICA-IR"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+      
+    h: {name: "Matra Super 530D", content: ["S530D"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
+      
+    i: {name: "MICA EM", content: ["MICA-EM"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+      
+    s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+    b2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
 };
+
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
 #if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10){
 #if (getprop("sim/model/f16/wingmounts") != 0) {
-if(1){
-	# all variants except YF-16 gets store options:
-
-	# source for fuel tanks content, fuel type, jettisonable and drag: TO. GR1F-16CJ-1-1
-
-	# sets
-	var InteriorWingSetR = [pylonSets.empty,pylonSets.h,pylonSets.t2,pylonSets.tb2,pylonSets.b4,pylonSets.b5,pylonSets.b6];
-  var InteriorWingSetL = [pylonSets.empty,pylonSets.h,pylonSets.t4,pylonSets.tb4,pylonSets.b4,pylonSets.b5,pylonSets.b6];
-	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g,pylonSets.g2];
-	var CenterSet   = [pylonSets.empty, pylonSets.t,pylonSets.b2,pylonSets.b3,pylonSets.b10];
-    
-	var ForwardfuselagepylonsR = [pylonSets.empty,pylonSets.i,pylonSets.s];
-  var ForwardfuselagepylonsL = [pylonSets.empty,pylonSets.i];
-  
-  
-	var Rearfuselagepylons = [pylonSets.empty,pylonSets.i];
-
-
+if(!(ISBIPLACE)){
+    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h];
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h];
+    var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
+    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2];
+    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s];
+    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i];
+    var Rearfuselagepylons = [pylonSets.empty, pylonSets.i];
+} else {   
+    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6];
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6];
+    var ExteriorWingSet  = [pylonSets.empty,pylonSets.g,pylonSets.g2];
+    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10];
+    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s];
+    var ForwardfuselagepylonsL = [pylonSets.empty];
+    var Rearfuselagepylons = [pylonSets.empty];
+}
 #### note :
 # pylon options
 #
@@ -141,55 +140,59 @@ if(1){
 #pylonB.L (3.360; 0.920;-1.380)
   
   
-  #Exterior wing Load
-	pylon2 = stations.Pylon.new("pylon2.L", 1, [2.373,-3.278,-1.494], ExteriorWingSet, 1, props.globals.getNode("yasim/weight[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-  pylon6 = stations.Pylon.new("pylon2.R", 5, [2.373,3.278,-1.494], ExteriorWingSet,5, props.globals.getNode("yasim/weight[5]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[5]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-    
-  #Interior Wing load
-  pylon3 = stations.Pylon.new("pylon3.L", 2, [1.047,-2.359,-1.556], InteriorWingSetR, 2, props.globals.getNode("yasim/weight[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-	pylon5 = stations.Pylon.new("pylon3.R", 4, [1.047,2.359,-1.556], InteriorWingSetL, 4, props.globals.getNode("yasim/weight[4]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[4]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-        
-  #Center Fuselage pylon
-	pylon4 = stations.Pylon.new("pylon.C", 3, [1.082,0,-1.656], CenterSet,3, props.globals.getNode("yasim/weight[3]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[3]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-    
+#Exterior wing Load
+pylon2 = stations.Pylon.new("pylon2.L", 1, [2.373,-3.278,-1.494], ExteriorWingSet, 1, props.globals.getNode("yasim/weight[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon6 = stations.Pylon.new("pylon2.R", 5, [2.373,3.278,-1.494], ExteriorWingSet,5, props.globals.getNode("yasim/weight[5]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[5]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-  #Forward fuselage pylons
-  pylon1 = stations.Pylon.new("pylon1.L", 0, [-1.265,-0.824,-1.370], ForwardfuselagepylonsL, 0, props.globals.getNode("yasim/weight[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-	pylon7 = stations.Pylon.new("pylon1.R", 6, [-1.265,0.824,-1.370], ForwardfuselagepylonsR, 6, props.globals.getNode("yasim/weight[6]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[6]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-    
-  #Rear fuselage pylons
-	pylon8 = stations.Pylon.new("pylonB.L", 7, [3.360,-0.920,-1.380], Rearfuselagepylons, 7, props.globals.getNode("yasim/weight[7]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[7]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-	pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepylons, 8, props.globals.getNode("yasim/weight[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-    
+#Interior Wing load
+pylon3 = stations.Pylon.new("pylon3.L", 2, [1.047,-2.359,-1.556], InteriorWingSetR, 2, props.globals.getNode("yasim/weight[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon5 = stations.Pylon.new("pylon3.R", 4, [1.047,2.359,-1.556], InteriorWingSetL, 4, props.globals.getNode("yasim/weight[4]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[4]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-    
-  pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("yasim/weight[10]",1));
+#Center Fuselage pylon
+pylon4 = stations.Pylon.new("pylon.C", 3, [1.082,0,-1.656], CenterSet,3, props.globals.getNode("yasim/weight[3]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[3]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
 
-	var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
+#Forward fuselage pylons
+pylon1 = stations.Pylon.new("pylon1.L", 0, [-1.265,-0.824,-1.370], ForwardfuselagepylonsL, 0, props.globals.getNode("yasim/weight[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon7 = stations.Pylon.new("pylon1.R", 6, [-1.265,0.824,-1.370], ForwardfuselagepylonsR, 6, props.globals.getNode("yasim/weight[6]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[6]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-	fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon","Magic-2","S530D","MICA-IR","MICA-EM","GBU-12","SCALP","AM39-Exocet","AS-37-Martel","AS30L"]);
-  
-  
+#Rear fuselage pylons
+pylon8 = stations.Pylon.new("pylonB.L", 7, [3.360,-0.920,-1.380], Rearfuselagepylons, 7, props.globals.getNode("yasim/weight[7]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[7]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepylons, 8, props.globals.getNode("yasim/weight[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-	var aimListener = func (obj) {
-		#If auto focus on missile is activated the we call the function
-        if(getprop("/controls/armament/automissileview"))# and !getprop("payload/armament/msg")
-        {
-          view.view_firing_missile(obj);
-        } 
-    };
-    pylon1.setAIMListener(aimListener);
-    pylon2.setAIMListener(aimListener);
-    pylon3.setAIMListener(aimListener);
-    pylon4.setAIMListener(aimListener);
-    pylon5.setAIMListener(aimListener);
-    pylon6.setAIMListener(aimListener);
-    pylon7.setAIMListener(aimListener);
-    pylon8.setAIMListener(aimListener);
-    pylon9.setAIMListener(aimListener);
 
+
+pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("yasim/weight[10]",1));
+
+if (ISBIPLACE) {
+    var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
+} else {
+    var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
 }
+if (!ISBIPLACE) {
+    fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12"]);
+} else {
+    fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"]);
+}
+
+var aimListener = func (obj) {
+    #If auto focus on missile is activated the we call the function
+    if(getprop("/controls/armament/automissileview"))# and !getprop("payload/armament/msg")
+    {
+	view.view_firing_missile(obj);
+    } 
+};
+pylon1.setAIMListener(aimListener);
+pylon2.setAIMListener(aimListener);
+pylon3.setAIMListener(aimListener);
+pylon4.setAIMListener(aimListener);
+pylon5.setAIMListener(aimListener);
+pylon6.setAIMListener(aimListener);
+pylon7.setAIMListener(aimListener);
+pylon8.setAIMListener(aimListener);
+pylon9.setAIMListener(aimListener);
+
+
 
 #print("** Pylon & fire control system started. **");
 var getDLZ = func {
