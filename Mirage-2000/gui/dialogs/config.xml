@@ -272,8 +272,8 @@
     </binding>
   </button>
   <button>
-    <row>0</row>
-    <col>1</col>
+    <row>5</row>
+    <col>0</col>
     <legend>Kilo</legend>
     <binding>
       <command>nasal</command>
@@ -281,7 +281,7 @@
     </binding>
   </button>
   <button>
-    <row>1</row>
+    <row>0</row>
     <col>1</col>
     <legend>Air to Ground</legend>
     <binding>
@@ -317,8 +317,8 @@
     </binding>
   </button>
   <button>
-    <row>5</row>
-    <col>0</col>
+    <row>1</row>
+    <col>1</col>
     <legend>Air to Ground 2</legend>
     <binding>
       <command>nasal</command>
