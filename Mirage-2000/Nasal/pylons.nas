@@ -174,7 +174,7 @@ if (ISBIPLACE) {
 if (!ISBIPLACE) {
     fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12"]);
 } else {
-    fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"]);
+    fcs = fc.FireControl.new(pylons, [0,8,1,7,2,6,3,5,4], ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"]);
 }
 
 var aimListener = func (obj) {
