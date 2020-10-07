@@ -72,6 +72,14 @@
     <fallback-model-index type="int">527</fallback-model-index>
 
     <gui n="0" include="gui/it-gui.xml"/>
+    
+     <previews>
+      <preview>
+        <type>exterior</type>
+        <splash type="bool">true</splash>
+        <path>Splashs/splashB-01.png</path>
+      </preview>
+    </previews>
 
     <biplace type="bool">true</biplace>
   </sim>
