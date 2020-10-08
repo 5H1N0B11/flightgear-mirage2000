@@ -76,8 +76,8 @@ var pylonSets = {
 #if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10){
 #if (getprop("sim/model/f16/wingmounts") != 0) {
 if(!(ISBIPLACE)){
-    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h];
+    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4];
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4];
     var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
     var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s];
@@ -172,7 +172,7 @@ if (ISBIPLACE) {
     var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
 }
 if (!ISBIPLACE) {
-    fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12"]);
+    fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"]);
 } else {
     fcs = fc.FireControl.new(pylons, [0,8,1,7,2,6,3,5,4], ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"]);
 }
