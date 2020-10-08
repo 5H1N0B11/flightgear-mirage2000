@@ -309,12 +309,7 @@
     <condition>
       <or>
         <not><property>/consumables/fuel/tank[6]/empty</property></not>
-        <equals>
-          <property>instrumentation/consumables/bingo_low</property>
-          <value>0</value>
-        </equals>
       </or>
-      <value>true</value>
     </condition>
   </animation>
   
@@ -325,12 +320,7 @@
     <condition>
       <or>
         <not><property>/consumables/fuel/tank[7]/empty</property></not>
-        <equals>
-          <property>instrumentation/consumables/bingo_low</property>
-          <value>0</value>
-        </equals>
       </or>
-      <value>true</value>
     </condition>
   </animation>
   
@@ -342,7 +332,6 @@
       <or>
         <not><property>/consumables/fuel/tank[1]/empty</property></not>
       </or>
-      <value>true</value>
     </condition>
   </animation>
   
@@ -351,8 +340,9 @@
     <type>select</type>
     <object-name>carburant.warningblancBR</object-name>
     <condition>
+      <or>
         <not><property>/consumables/fuel/tank[2]/empty</property></not>
-      <value>true</value>
+      </or>
     </condition>
   </animation>
   
