@@ -79,9 +79,8 @@
         <splash type="bool">true</splash>
         <path>Splashes/splashB-01.png</path>
       </preview>
-    </previews>
+     </previews>
 
-    <biplace type="bool">true</biplace>
   </sim>
 
 </PropertyList>
