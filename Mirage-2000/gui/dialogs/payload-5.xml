@@ -38,7 +38,7 @@
     <layout>table</layout>
     
     <button>
-      <row>3</row>
+      <row>2</row>
       <col>0</col>
       <legend>PO</legend>
       <binding>
@@ -82,5 +82,22 @@
 	<script>pylons.a2a_bravo_mix()</script>
       </binding>
     </button>
+    <button>
+      <row>2</row>
+      <col>1</col>
+      <legend>Kilo</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.a2a_kilo_mica()</script>
+      </binding>
+    </button>
   </group>
+  
+  <button>
+    <legend>No load</legend>
+    <binding>
+      <command>nasal</command>
+      <script>pylons.lisse()</script>
+    </binding>
+  </button>
 </PropertyList>

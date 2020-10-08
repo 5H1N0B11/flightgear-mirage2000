@@ -92,5 +92,13 @@
       </binding>
     </button>
   </group>
+  
+  <button>
+    <legend>No load</legend>
+    <binding>
+      <command>nasal</command>
+      <script>pylons.lisse()</script>
+    </binding>
+  </button>
 
 </PropertyList>
