@@ -553,12 +553,12 @@ var a2a_kilo_mica = func {
       }
   }
     
-    # Ground attack configuration 2 : 2 2000L, Scalp, 2 MICA IR, 4 MICA EM
+    # Ground attack configuration 2 : 2 2000L, Scalp, 2 Magic ii
   var standoff = func { 
     if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
           #External wings
-          pylon2.loadSet(pylonSets.g2);
-          pylon6.loadSet(pylonSets.g2);
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
           
           #Internal wing
           pylon3.loadSet(pylonSets.t2);
@@ -568,12 +568,12 @@ var a2a_kilo_mica = func {
           pylon4.loadSet(pylonSets.b3);
           
           #Side fuselage forward
-          pylon1.loadSet(pylonSets.i);
-          pylon7.loadSet(pylonSets.i);
+          pylon1.loadSet(pylonSets.empty);
+          pylon7.loadSet(pylonSets.empty);
           
           #Side fuselage backward
-          pylon8.loadSet(pylonSets.i);
-          pylon9.loadSet(pylonSets.i);
+          pylon8.loadSet(pylonSets.empty);
+          pylon9.loadSet(pylonSets.empty);
       } else {
         screen.log.write(mirage2000.msgB);
       }
