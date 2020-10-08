@@ -115,16 +115,32 @@
           <dialog-name>scenario28</dialog-name>
         </binding>
       </item>
-      
-<!--      <item n="13">
-        <label>Test</label>
-        <name>Test</name>
-        <binding>
-          <command>nasal</command>
-          <script>mirage2000.showLoadDialog()</script>
-        </binding>
-      </item>-->
-      
+
+      <item>
+	<label>Fast re-arm</label>
+	<name>payload-qs</name>
+	<binding>
+	  <condition>
+	    <equals>
+	      <property>sim/biplace</property>
+	      <value>0</value>
+	    </equals>
+	  </condition>
+	  <command>dialog-show</command>
+	  <dialog-name>payload-5</dialog-name>
+	</binding>
+	<binding>
+	  <condition>
+	    <equals>
+	      <property>sim/biplace</property>
+	      <value>1</value>
+	    </equals>
+	  </condition>
+	  <command>dialog-show</command>
+	  <dialog-name>payload-d</dialog-name>
+	</binding>
+      </item>
+
     </menu>
   </default>
 

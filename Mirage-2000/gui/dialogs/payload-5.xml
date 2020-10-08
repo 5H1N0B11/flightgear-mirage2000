@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  <name>payload-5</name>
+  <modal type="bool">false</modal>
+  <layout>vbox</layout>
+  
+  <group>
+    <layout>hbox</layout>
+    <text>
+      <label>Payload Quick Select</label>
+    </text>
+
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+    
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
+
+  <hrule/>
+
+  <group>
+    <layout>table</layout>
+    
+    <button>
+      <row>3</row>
+      <col>0</col>
+      <legend>PO</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.a2a_po_old()</script>
+      </binding>
+    </button>
+    <button>
+      <row>0</row>
+      <col>0</col>
+      <legend>Fox Old Years</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.a2a_fox_old()</script>
+      </binding>
+    </button>
+    <button>
+      <row>1</row>
+      <col>0</col>
+      <legend>Fox</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.a2a_fox_mix()</script>
+      </binding>
+    </button>
+    <button>
+      <row>0</row>
+      <col>1</col>
+      <legend>Fox Full Mica</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.a2a_fox_mica()</script>
+      </binding>
+    </button>
+    <button>
+      <row>1</row>
+      <col>1</col>
+      <legend>Bravo</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.a2a_bravo_mix()</script>
+      </binding>
+    </button>
+  </group>
+</PropertyList>
