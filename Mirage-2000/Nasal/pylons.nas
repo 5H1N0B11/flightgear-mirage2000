@@ -77,7 +77,7 @@ var pylonSets = {
 #if (getprop("sim/model/f16/wingmounts") != 0) {
 if(!(ISBIPLACE)){
     var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4;
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4];
     var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
     var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s];
