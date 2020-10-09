@@ -19,7 +19,7 @@
   </_debug>
 
   <sim>
-    <description>Mirage 2000-B/D/N</description>
+    <description>Mirage 2000-5B</description>
     <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe, Marsdolphin</author>
 
       <!-- 
@@ -79,9 +79,8 @@
         <splash type="bool">true</splash>
         <path>Splashes/splashB-01.png</path>
       </preview>
-    </previews>
-
-    <biplace type="bool">true</biplace>
+     </previews>
+     
   </sim>
 
 </PropertyList>

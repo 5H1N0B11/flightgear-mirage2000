@@ -15,7 +15,7 @@ var pylon8 = nil;
 var pylon9 = nil;
 var pylonI = nil;
 
-var ISBIPLACE = getprop("/sim/biplace");
+var AIRCRAFT = getprop("/sim/aircraft");
 var cannon = stations.SubModelWeapon.new("30mm Cannon", 0.9369635, 125, [0,1], [2,3], props.globals.getNode("controls/armament/Gun_trigger",1), 0, func{return 1;});
 cannon.brevity = "Guns guns";
 
@@ -75,7 +75,7 @@ var pylonSets = {
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
 #if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10){
 #if (getprop("sim/model/f16/wingmounts") != 0) {
-if(!(ISBIPLACE)){
+if(AIRCRAFT != 'm2000D'){
     var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4];
     var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4];
     var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
@@ -86,7 +86,7 @@ if(!(ISBIPLACE)){
 } else {   
     var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6];
     var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6];
-    var ExteriorWingSet  = [pylonSets.empty,pylonSets.g,pylonSets.g2];
+    var ExteriorWingSet  = [pylonSets.empty,pylonSets.g];
     var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s];
     var ForwardfuselagepylonsL = [pylonSets.empty];
@@ -166,16 +166,29 @@ pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepyl
 
 pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("yasim/weight[10]",1));
 
-if (ISBIPLACE) {
-    var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
-} else {
+if (AIRCRAFT == 'm2000-5') {
     var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
-}
-if (!ISBIPLACE) {
-    fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"]);
+    var pylon_order = [9,0,8,1,7,2,6,3,5,4];
+    var wp_order = ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
 } else {
-    fcs = fc.FireControl.new(pylons, [0,8,1,7,2,6,3,5,4], ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"]);
+    var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
+    if (AIRCRAFT == 'm2000-5B') {
+	var pylon_order = [0,8,1,7,2,6,3,5,4];
+	var wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
+    }
+    if (AIRCRAFT == 'm2000D') {
+	var pylon_order = [0,8,1,7,2,6,3,5,4];
+	var wp_order = ["Magic-2", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
+    
 }
+}
+if (AIRCRAFT == 'm2000D') {
+    var pylon_order = [0,8,1,7,2,6,3,5,4];
+    var wp_order = ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
+
+}
+fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
+
 
 var aimListener = func (obj) {
     #If auto focus on missile is activated the we call the function
