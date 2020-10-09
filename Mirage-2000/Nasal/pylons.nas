@@ -29,14 +29,14 @@ cannon.brevity = "Guns guns";
 # var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 4, 448, props.globals.getNode("controls/armament/station[4]/RP501",1), 0, func{return 1;});
 
 
-var RP522 = stations.FuelTank.new("1300 l Droptank", "RP522", 8, 343, "mirage/center1300TankMounted");
+var RP522 = stations.FuelTank.new("1300 l Droptank", "RP522", 8, 343, "/consumables/fuel/tank[8]");
 
 
-var RP541 = stations.FuelTank.new("2000 l Droptank", "RP541", 9, 528, "mirage/center2000TankMountedR");
-var RP542 = stations.FuelTank.new("2000 l Droptank", "RP542", 10, 528, "mirage/center2000TankMountedL");
+var RP541 = stations.FuelTank.new("2000 l Droptank", "RP541", 9, 528, "/consumables/fuel/tank[9]");
+var RP542 = stations.FuelTank.new("2000 l Droptank", "RP542", 10, 528, "/consumables/fuel/tank[10]");
 
-var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 11, 448, "mirage/center1700TankMountedR");
-var RP502 = stations.FuelTank.new("1700 l Droptank", "RP502", 12, 448, "mirage/center1700TankMountedL");
+var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 11, 448, "/consumables/fuel/tank[11]");
+var RP502 = stations.FuelTank.new("1700 l Droptank", "RP502", 12, 448, "/consumables/fuel/tank[12]");
 
 
 var dummy1 = stations.Dummy.new("PDLCT", "PDLCT");
