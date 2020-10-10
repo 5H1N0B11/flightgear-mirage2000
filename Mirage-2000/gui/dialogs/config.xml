@@ -52,33 +52,33 @@
       </binding>
     </button>
 
-  <button>
-    <row>0</row>
-    <col>1</col>
-    <legend>Repair Damage</legend>
-    <binding>
-      <command>nasal</command>
-      <script>
-        var failure_modes = FailureMgr._failmgr.failure_modes;
-        var mode_list = keys(failure_modes);
-        foreach(var failure_mode_id; mode_list) {
+    <button>
+      <row>0</row>
+      <col>1</col>
+      <legend>Repair Damage</legend>
+      <binding>
+	<command>nasal</command>
+	<script>
+          var failure_modes = FailureMgr._failmgr.failure_modes;
+          var mode_list = keys(failure_modes);
+          foreach(var failure_mode_id; mode_list) {
           FailureMgr.set_failure_level(failure_mode_id, 0);
-        }
+          }
         </script>
-    </binding>
-  </button>
+      </binding>
+    </button>
   </group>
 
   <hrule />
 
   <!--
-  <button>
-    <legend>MP Shot Report</legend>
-    <binding>
+      <button>
+      <legend>MP Shot Report</legend>
+      <binding>
       <command>nasal</command>
       <script>missile.MPReport()</script>
-    </binding>
-  </button>
+      </binding>
+      </button>
   -->
   <group>
     <layout>hbox</layout>
@@ -90,25 +90,25 @@
         <command>nasal</command>
         <script>
           if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
-            setprop("payload/armament/msg", !getprop("payload/armament/msg")); 
+          setprop("payload/armament/msg", !getprop("payload/armament/msg")); 
           }
-          screen.log.write("MP messaging : " ~ (getprop("/payload/armament/msg") ? "Activated" : "Deactivated")  , 0.5, 0.5, 1);</script>
+        screen.log.write("MP messaging : " ~ (getprop("/payload/armament/msg") ? "Activated" : "Deactivated")  , 0.5, 0.5, 1);</script>
       </binding>
     </checkbox>
   </group>
   
   <group>
-        <layout>hbox</layout>
-        <text><label>Use Interpolation method</label></text>
-        <checkbox>
-          <property>payload/armament/hit-interpolation</property>
-          <live>true</live>
-            <binding>
-              <command>property-toggle</command>
-              <property>payload/armament/hit-interpolation</property>
-            </binding>
-        </checkbox>
-      </group>
+    <layout>hbox</layout>
+    <text><label>Use Interpolation method</label></text>
+    <checkbox>
+      <property>payload/armament/hit-interpolation</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>payload/armament/hit-interpolation</property>
+      </binding>
+    </checkbox>
+  </group>
 
   <group>
     <layout>hbox</layout>
@@ -116,10 +116,10 @@
     <checkbox>
       <property>/controls/armament/automissileview</property>
       <live>true</live>
-        <binding>
-          <command>property-toggle</command>
-          <property>/controls/armament/automissileview</property>
-        </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/armament/automissileview</property>
+      </binding>
     </checkbox>
   </group>
 
@@ -127,10 +127,10 @@
 
   <button>
     <legend>Ground targeting</legend>
-<!--    <binding>
-      <command>nasal</command>
-      <script>missile.targetingGround()</script>
-    </binding>-->
+    <!--    <binding>
+	 <command>nasal</command>
+	 <script>missile.targetingGround()</script>
+	 </binding>-->
     <binding>
       <command>dialog-show</command>
       <dialog-name>Ground_Targeting</dialog-name>
@@ -145,9 +145,9 @@
       <command>nasal</command>
       <script>
         if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
-          guns.reload_Cannon()
+        guns.reload_Cannon()
         }else{
-          screen.log.write(mirage2000.msgB);
+        screen.log.write(mirage2000.msgB);
         }
       </script>
     </binding>
@@ -207,133 +207,5 @@
       <command>dialog-apply</command>
     </binding>
   </button>
-  
-  <hrule />
-  
-  <text>
-    <label>Everything below is only available on GROUND!</label>
-  </text>
-  <text>
-    <label>Select a Config below</label>
-  </text>
-
-  <button>
-    <legend>No load</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.lisse()</script>
-    </binding>
-  </button>
-<group>
-  <layout>table</layout>
-  <button>
-    <row>0</row>
-    <col>0</col>
-    <legend>PO</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.a2a_po_old()</script>
-    </binding>
-  </button>
-  <button>
-    <row>1</row>
-    <col>0</col>
-    <legend>Fox Old Years</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.a2a_fox_old()</script>
-    </binding>
-  </button>
-  <button>
-    <row>2</row>
-    <col>0</col>
-    <legend>Fox</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.a2a_fox_mix()</script>
-    </binding>
-  </button>
-  <button>
-    <row>3</row>
-    <col>0</col>
-    <legend>Fox Full Mica</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.a2a_fox_mica()</script>
-    </binding>
-  </button>
-  <button>
-    <row>4</row>
-    <col>0</col>
-    <legend>Bravo</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.a2a_bravo_mix()</script>
-    </binding>
-  </button>
-  <button>
-    <row>0</row>
-    <col>1</col>
-    <legend>Kilo</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.a2a_kilo_mica()</script>
-    </binding>
-  </button>
-  <button>
-    <row>1</row>
-    <col>1</col>
-    <legend>Air to Ground</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.a2g_bravo_mix()</script>
-    </binding>
-  </button>
-  <button>
-    <row>2</row>
-    <col>1</col>
-    <legend>Anti Radar</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.a2ouadi_fox()</script>
-    </binding>
-  </button>
-  <button>
-    <row>3</row>
-    <col>1</col>
-    <legend>Air to Sea</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.a2s_fox()</script>
-    </binding>
-  </button>  
-  <button>
-    <row>4</row>
-    <col>1</col>
-    <legend>m2000N</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.nuke()</script>
-    </binding>
-  </button>
-  <button>
-    <row>5</row>
-    <col>0</col>
-    <legend>Air to Ground 2</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.rifle()</script>
-    </binding>
-  </button>
-  <button>
-    <row>5</row>
-    <col>1</col>
-    <legend>Standoff</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.standoff()</script>
-    </binding>
-  </button>
-</group>
 
 </PropertyList>

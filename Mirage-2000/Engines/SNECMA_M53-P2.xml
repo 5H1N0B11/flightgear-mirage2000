@@ -48,7 +48,7 @@
 -->
 
 <turbine_engine name="SNECMA_M53-P2">
-    <milthrust    > 14500 </milthrust>
+    <milthrust>     14500 </milthrust>
     <maxthrust>     21400 </maxthrust>
     <bypassratio>    0.36 </bypassratio>
     <tsfc>            0.88 </tsfc> 

@@ -15,7 +15,7 @@ var pylon8 = nil;
 var pylon9 = nil;
 var pylonI = nil;
 
-var ISBIPLACE = getprop("/sim/biplace");
+var AIRCRAFT = getprop("/sim/aircraft");
 var cannon = stations.SubModelWeapon.new("30mm Cannon", 0.9369635, 125, [0,1], [2,3], props.globals.getNode("controls/armament/Gun_trigger",1), 0, func{return 1;});
 cannon.brevity = "Guns guns";
 
@@ -29,14 +29,14 @@ cannon.brevity = "Guns guns";
 # var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 4, 448, props.globals.getNode("controls/armament/station[4]/RP501",1), 0, func{return 1;});
 
 
-var RP522 = stations.FuelTank.new("1300 l Droptank", "RP522", 8, 343, "mirage/center1300TankMounted");
+var RP522 = stations.FuelTank.new("1300 l Droptank", "RP522", 8, 343, "/consumables/fuel/tank[8]");
 
 
-var RP541 = stations.FuelTank.new("2000 l Droptank", "RP541", 9, 528, "mirage/center2000TankMountedR");
-var RP542 = stations.FuelTank.new("2000 l Droptank", "RP542", 10, 528, "mirage/center2000TankMountedL");
+var RP541 = stations.FuelTank.new("2000 l Droptank", "RP541", 9, 528, "/consumables/fuel/tank[9]");
+var RP542 = stations.FuelTank.new("2000 l Droptank", "RP542", 10, 528, "/consumables/fuel/tank[10]");
 
-var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 11, 448, "mirage/center1700TankMountedR");
-var RP502 = stations.FuelTank.new("1700 l Droptank", "RP502", 12, 448, "mirage/center1700TankMountedL");
+var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 11, 448, "/consumables/fuel/tank[11]");
+var RP502 = stations.FuelTank.new("1700 l Droptank", "RP502", 12, 448, "/consumables/fuel/tank[12]");
 
 
 var dummy1 = stations.Dummy.new("PDLCT", "PDLCT");
@@ -75,9 +75,9 @@ var pylonSets = {
 #if the total actual sweight is > (total fuel weight + total empty weight) then 
 #if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10){
 #if (getprop("sim/model/f16/wingmounts") != 0) {
-if(!(ISBIPLACE)){
-    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h];
+if(AIRCRAFT != 'm2000D'){
+    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4];
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4];
     var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
     var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s];
@@ -86,7 +86,7 @@ if(!(ISBIPLACE)){
 } else {   
     var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6];
     var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6];
-    var ExteriorWingSet  = [pylonSets.empty,pylonSets.g,pylonSets.g2];
+    var ExteriorWingSet  = [pylonSets.empty,pylonSets.g];
     var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s];
     var ForwardfuselagepylonsL = [pylonSets.empty];
@@ -166,16 +166,29 @@ pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepyl
 
 pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("yasim/weight[10]",1));
 
-if (ISBIPLACE) {
-    var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
-} else {
+if (AIRCRAFT == 'm2000-5') {
     var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
-}
-if (!ISBIPLACE) {
-    fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12"]);
+    var pylon_order = [9,0,8,1,7,2,6,3,5,4];
+    var wp_order = ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
 } else {
-    fcs = fc.FireControl.new(pylons, [9,0,8,1,7,2,6,3,5,4], ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"]);
+    var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
+    if (AIRCRAFT == 'm2000-5B') {
+	var pylon_order = [0,8,1,7,2,6,3,5,4];
+	var wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
+    }
+    if (AIRCRAFT == 'm2000D') {
+	var pylon_order = [0,8,1,7,2,6,3,5,4];
+	var wp_order = ["Magic-2", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
+    
 }
+}
+if (AIRCRAFT == 'm2000D') {
+    var pylon_order = [0,8,1,7,2,6,3,5,4];
+    var wp_order = ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
+
+}
+fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
+
 
 var aimListener = func (obj) {
     #If auto focus on missile is activated the we call the function
@@ -553,12 +566,12 @@ var a2a_kilo_mica = func {
       }
   }
     
-    # Ground attack configuration 2 : 2 2000L, Scalp, 2 MICA IR, 4 MICA EM
+    # Ground attack configuration 2 : 2 2000L, Scalp, 2 Magic ii
   var standoff = func { 
     if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
           #External wings
-          pylon2.loadSet(pylonSets.g2);
-          pylon6.loadSet(pylonSets.g2);
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
           
           #Internal wing
           pylon3.loadSet(pylonSets.t2);
@@ -568,12 +581,12 @@ var a2a_kilo_mica = func {
           pylon4.loadSet(pylonSets.b3);
           
           #Side fuselage forward
-          pylon1.loadSet(pylonSets.i);
-          pylon7.loadSet(pylonSets.i);
+          pylon1.loadSet(pylonSets.empty);
+          pylon7.loadSet(pylonSets.empty);
           
           #Side fuselage backward
-          pylon8.loadSet(pylonSets.i);
-          pylon9.loadSet(pylonSets.i);
+          pylon8.loadSet(pylonSets.empty);
+          pylon9.loadSet(pylonSets.empty);
       } else {
         screen.log.write(mirage2000.msgB);
       }

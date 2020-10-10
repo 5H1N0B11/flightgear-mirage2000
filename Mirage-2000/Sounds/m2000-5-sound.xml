@@ -1252,6 +1252,20 @@ ________________________________________________________________________________
                 <max>1</max>
             </volume>
         </gbu-release>
+        
+        <rwr>
+            <name>rwr-spike</name>
+            <path>Aircraft/Mirage-2000/Sounds/rwr-lock-01.wav</path>
+            <mode>looped</mode>
+            <type>avionics</type>
+            <condition>
+                <equals>
+                    <property>sound/rwr-lck</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </rwr>
+        
 
   </fx>
 

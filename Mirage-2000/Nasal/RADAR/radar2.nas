@@ -380,6 +380,7 @@ var Radar = {
               me.ContactsList  = [];
               me.tgts_list     = [];
               me.Target_Index    = -1;
+              setprop("sim/multiplay/generic/string[6]", "");
             }
             #me.Global_janitor();
             
@@ -565,6 +566,16 @@ var Radar = {
 
                 
         me.ContactsList = me.decrease_life(me.ContactsList);
+        
+        
+        if (armament.contact != nil and armament.contact.get_display() and getprop("controls/armament/master-arm") and armament.contact.get_Callsign() != nil and armament.contact.get_Callsign() != "") {
+          #print("armament.contact.get_Callsign"~armament.contact.get_Callsign());
+          setprop("sim/multiplay/generic/string[6]", left(md5(armament.contact.get_Callsign()), 4));
+        } else {
+            setprop("sim/multiplay/generic/string[6]", "");
+        }
+        
+        
 
         me.updating_now = 0;
 
@@ -1156,6 +1167,14 @@ var RWR_APG = {
         rwrList16 = [];
         me.MyCoord = geo.aircraft_position();
 #         printf("clist %d", size(completeList));
+        
+        #Sound of Lock
+        #setprop("sound/rwr-lck", 0);
+        me.myCallsign = getprop("sim/multiplay/callsign");
+        me.myCallsign = size(me.myCallsign) < 8 ? me.myCallsign : left(me.myCallsign,7);
+        me.act_lck = 0;
+      
+        
         foreach(me.u;completeList) {
             me.cs = me.u.get_Callsign();
 #             print("Will test  : "~ me.u.get_Callsign()~" as Type: " ~ me.u.type);
@@ -1164,6 +1183,12 @@ var RWR_APG = {
             if (me.u.isFriend() or me.rn > 150) {
                 me.l16 = 1;
             }
+            me.lck = me.u.propNode.getNode("sim/multiplay/generic/string[6]");
+            if (me.lck != nil and me.lck.getValue() != nil and me.lck.getValue() != "" and size(""~me.lck.getValue())==4 and left(md5(me.myCallsign),4) == me.lck.getValue()) {
+              me.act_lck = 1;
+            }
+            
+            
             me.bearing = geo.aircraft_position().course_to(me.u.get_Coord());
             me.trAct = me.u.propNode.getNode("instrumentation/transponder/transmitted-id");
             me.show = 0;
@@ -1226,6 +1251,7 @@ var RWR_APG = {
                 #printf("%s ----", u.get_Callsign());
             }
         }
+        setprop("sound/rwr-lck", me.act_lck);
     },
 };
 
