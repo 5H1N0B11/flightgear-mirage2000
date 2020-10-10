@@ -40,12 +40,8 @@
       <path>Aircraft/Mirage-2000/Models/m2000-5B-backseat.xml</path>
     </model>
 
-    <startup>
-      <splash-texture>Aircraft/Mirage-2000/Splashs/m2000-5B-splash.png</splash-texture>
-    </startup>
-    
     <previews>
-            <preview>
+           <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
                 <path>Splashs/m2000-5B-splash.png</path>
