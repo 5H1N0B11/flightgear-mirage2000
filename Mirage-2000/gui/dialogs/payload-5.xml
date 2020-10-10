@@ -91,6 +91,24 @@
 	<script>pylons.a2a_kilo_mica()</script>
       </binding>
     </button>
+    <button>
+      <row>3</row>
+      <col>0</col>
+      <legend>Air to Sea</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.a2s_fox()</script>
+      </binding>
+    </button> 
+    <button>
+      <row>3</row>
+      <col>1</col>
+      <legend>Air to Ground</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.a2g_bravo_mix()</script>
+      </binding>
+    </button>
   </group>
   
   <button>
