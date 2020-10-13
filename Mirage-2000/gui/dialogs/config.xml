@@ -195,17 +195,16 @@
   
   
   <input>
+    <name>bingo_fuel</name>
     <width>75</width>
     <height>25</height>
     <label> KG</label>
     <property>/instrumentation/consumables/bingo_fuel</property>
-  </input>
-
-  <button>
-    <legend>Ok</legend>
     <binding>
       <command>dialog-apply</command>
+      <object-name>bingo_fuel</object-name>
     </binding>
-  </button>
+  </input>
+
 
 </PropertyList>
