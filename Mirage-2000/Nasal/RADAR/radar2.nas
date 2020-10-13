@@ -495,10 +495,12 @@ var Radar = {
                 # this function do all the checks and put all result of each
                 # test on an array[] named Check_List
 
-                me.go_check(me.update_u, me.skipDoppler);
+                me.go_check(me.update_u);
                 
                 #Displaying Check                
                 # then a function just check it all
+                #print("Update targetList" ~ me.update_u.get_Callsign());
+                #print("get_type()" ~ me.update_u.get_type());
                 if(me.get_check() and me.update_u.isValid())
                 {
                                         
@@ -524,8 +526,6 @@ var Radar = {
                     if(me.update_u.get_type != armament.ORDNANCE and !contains(weaponRadarNames, me.update_u.get_Callsign) and !me.update_u.isFriend())
                     {
                         #tgts_list => ARRAY4
-                        
-                        #print("Update targetList" ~ me.update_u.get_Callsign());
                         
                         me.TargetList_Update(me.update_u);
                         me.TargetList_AddingTarget(me.update_u);
@@ -710,7 +710,7 @@ var Radar = {
       return me.check_selected_type_result;
     },
 
-    go_check: func(SelectedObject, skipDoppler){
+    go_check: func(SelectedObject){
         #if radar : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, doppler, isNotBehindTerrain
         #if Rwr   : check : InhisRange (radardist), inHisElevation, inHisAzimuth, NotBeyondHorizon, isNotBehindTerrain
         #if heat  : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, heat_sensor, isNotBehindTerrain
@@ -744,7 +744,7 @@ var Radar = {
             return;
         }
         #me.heat_sensor(SelectedObject);
-        if( me.detectionTypetab=="laser" or skipDoppler == 1)
+        if( me.detectionTypetab=="laser" or SelectedObject.skipDoppler == 1)
         {
           #print("Skip Doppler");
           append(me.Check_List, 1);
