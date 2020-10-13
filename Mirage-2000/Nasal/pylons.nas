@@ -163,32 +163,27 @@ pylon8 = stations.Pylon.new("pylonB.L", 7, [3.360,-0.920,-1.380], Rearfuselagepy
 pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepylons, 8, props.globals.getNode("yasim/weight[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
 
-
 pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("yasim/weight[10]",1));
 
+#print("AIRCRAFT"~AIRCRAFT);
+
+var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
+var pylon_order =[];
+var wp_order = [];
+
 if (AIRCRAFT == 'm2000-5') {
-    var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9,pylonI];
-    var pylon_order = [9,0,8,1,7,2,6,3,5,4];
-    var wp_order = ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
-} else {
-    var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
-    if (AIRCRAFT == 'm2000-5B') {
-	var pylon_order = [0,8,1,7,2,6,3,5,4];
-	var wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
-    }
-    if (AIRCRAFT == 'm2000D') {
-	var pylon_order = [0,8,1,7,2,6,3,5,4];
-	var wp_order = ["Magic-2", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
-    
+  append(pylons,pylonI);
+  pylon_order = [9,0,8,1,7,2,6,3,5,4];
+  wp_order = ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
+}elsif(AIRCRAFT == 'm2000-5B') {
+  pylon_order = [0,8,1,7,2,6,3,5,4];
+  wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
+}elsif(AIRCRAFT == 'm2000D') {
+  pylon_order = [0,8,1,7,2,6,3,5,4];
+  wp_order = ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
 }
-}
-if (AIRCRAFT == 'm2000D') {
-    var pylon_order = [0,8,1,7,2,6,3,5,4];
-    var wp_order = ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
 
-}
 fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
-
 
 var aimListener = func (obj) {
     #If auto focus on missile is activated the we call the function

@@ -78,7 +78,7 @@ var RadarTool = {
 
                             if(listOfGroundTargetNames_hash[me.model] != nil){
                               # its a ground vehicle, Mirage ground radar will not pick it up
-                              u.setType(armament.SURFACE);
+                              u.setType(listOfGroundTargetNames_hash[me.model]);
                               me.skipDoppler = 0;
                             }
                         }
