@@ -1,8 +1,8 @@
 var Math = {
     #
-    # Author: Nikolai V. Chr.
+    # Authors: Nikolai V. Chr, Axel Paccalin.
     #
-    # Version 1.9
+    # Version 1.91
     #
     # When doing euler coords. to cartesian: +x = forw, +y = left,  +z = up.
     # FG struct. coords:                     +x = back, +y = right, +z = up.
@@ -269,6 +269,15 @@ var Math = {
     normalize: func (v) {
       me.mag = me.magnitudeVector(v);
       return [v[0]/me.mag, v[1]/me.mag, v[2]/me.mag];
+    },
+	
+	# Orthogonal projection of a vector `vec` onto another `ref` !!can throw an exception if the referencial vector is null!!.
+    orthogonalProjection: func(vec, ref){
+	  me.op_refMag = me.magnitudeVector(ref);
+	  if(me.op_refMag == 0)
+		die("null vector referential");
+	  
+	  return me.dotProduct(vec, ref) / me.op_refMag;
     },
 
 # rotation matrices
