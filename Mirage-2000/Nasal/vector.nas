@@ -287,7 +287,7 @@ var Math = {
 	  # Compute the speed of the second particle in a referential inertially based on the first particle.
 	  me.psdt_tgtSpeed = speed2 - speed1;
 	  
-	  # Project the origin of the particle referential onto the line supported by the particle2 trajectory in 1 unit of time.
+	  # Project the origin of the particle1 referential onto the line supported by the particle2 trajectory in 1 unit of time.
 	  return me.orthogonalProjection(-me.psdt_tgtOrig, me.psdt_tgtSpeed);
     },	
 
