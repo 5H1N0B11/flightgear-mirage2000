@@ -2,7 +2,7 @@ var Math = {
     #
     # Authors: Nikolai V. Chr, Axel Paccalin.
     #
-    # Version 1.91
+    # Version 1.92
     #
     # When doing euler coords. to cartesian: +x = forw, +y = left,  +z = up.
     # FG struct. coords:                     +x = back, +y = right, +z = up.
@@ -279,6 +279,17 @@ var Math = {
 	  
 	  return me.dotProduct(vec, ref) / me.op_refMag;
     },
+    
+    # Time at which two particles will be at shortest distance !!can throw an exception if the relative speed is null!!
+    particleShortestDistTime: func (orig1, speed1, orig2, speed2) {
+	  # Compute the origin of the second particle in a referential positionally centered on the first particle.
+      me.psdt_tgtOrig = orig2 - orig1;
+	  # Compute the speed of the second particle in a referential inertially based on the first particle.
+	  me.psdt_tgtSpeed = speed2 - speed1;
+	  
+	  # Project the origin of the particle referential onto the line supported by the particle2 trajectory in 1 unit of time.
+	  return me.orthogonalProjection(-me.psdt_tgtOrig, me.psdt_tgtSpeed);
+    },	
 
 # rotation matrices
 #
