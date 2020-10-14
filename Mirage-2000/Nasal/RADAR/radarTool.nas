@@ -49,8 +49,10 @@ var RadarTool = {
                   # notice that GROUND_TARGET is set inside Target.new().
                   u.setType(armament.AIR);
                   
-           
+                  #print("Update Type of " ~ u.get_Callsign());
                   var ground_alt = geo.elevation(u.get_Latitude(), u.get_Longitude());
+                  ground_alt = ground_alt==nil?0:ground_alt;
+                  
                   # We are testing if it is near the ground
                   if(ground_alt!=nil){
                     if(abs(ground_alt - u.get_altitude()*FT2M) < 10) { # in meters
@@ -66,6 +68,14 @@ var RadarTool = {
                           u.setType(armament.MARINE);
                           u.skipDoppler = 1;
                         }
+                      #if we can't get the geoinfo it is because the terrain didn't load. So doing a default altitude check to choose
+                      }elsif(u.get_altitude()*FT2M < 10){
+                          #print("MARINE");
+                          u.setType(armament.MARINE);
+                          u.skipDoppler = 1;
+                      }else{
+                          u.setType(armament.SURFACE);
+                          u.skipDoppler = 0;
                       }
                     }
                   }
