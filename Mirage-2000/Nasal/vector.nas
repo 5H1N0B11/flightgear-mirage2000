@@ -248,7 +248,7 @@ var Math = {
     # unary - vector
     opposite: func (v){
         return [-v[0], -v[1], -v[2]];
-    }
+    },
 
     # vector a - vector b
     minus: func (a, b) {
