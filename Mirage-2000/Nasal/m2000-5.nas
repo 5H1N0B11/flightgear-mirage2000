@@ -656,3 +656,8 @@ var quickstart = func() {
         }
  }
 
+setprop("consumables/fuel/tank[8]/capacity-gal_us",0);
+setprop("consumables/fuel/tank[9]/capacity-gal_us",0);
+setprop("consumables/fuel/tank[10]/capacity-gal_us",0);
+setprop("consumables/fuel/tank[11]/capacity-gal_us",0);
+setprop("consumables/fuel/tank[12]/capacity-gal_us",0);
