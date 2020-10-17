@@ -127,7 +127,7 @@
     <name>manette</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/manette/manette.xml</path>
   </model>
-
+<!--
   <model>
     <name>radar</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/radar/radar.xml</path>
@@ -137,7 +137,7 @@
       <z-m>-0.116</z-m>
       <pitch-deg>-8</pitch-deg>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <name>surf-indic</name>
