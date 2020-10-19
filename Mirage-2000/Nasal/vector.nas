@@ -276,11 +276,11 @@ var Math = {
       return [v[0]/me.mag, v[1]/me.mag, v[2]/me.mag];
     },
 	
-	# Orthogonal projection of a vector `vec` onto another `ref` !!can throw an exception if the referencial vector is null!!.
+	# Orthogonal projection of a vector `vec` onto another `ref` !!can throw an exception if the referential vector is null!!.
     orthogonalProjection: func(vec, ref){
 	  me.op_refMag = me.magnitudeVector(ref);
 	  if(me.op_refMag == 0)
-		die("null vector referential");
+		die("Orthogonal projection on a null vector referential");
 	  
 	  return me.dotProduct(vec, ref) / me.op_refMag;
     },
@@ -293,7 +293,8 @@ var Math = {
 	  me.psdt_tgtSpeed = me.minus(speed2, speed1);
 	  
 	  # Project the origin of the particle1 referential onto the line supported by the particle2 trajectory in 1 unit of time.
-	  return me.orthogonalProjection(me.opposite(me.psdt_tgtOrig), me.psdt_tgtSpeed);
+	  # And divide the result by the magnitude of the speed to have it normalized relative to the time.
+	  return me.orthogonalProjection(me.opposite(me.psdt_tgtOrig), me.psdt_tgtSpeed) / me.magnitudeVector(me.psdt_tgtSpeed);
     },	
 
 # rotation matrices
