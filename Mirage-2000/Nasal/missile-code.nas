@@ -633,11 +633,7 @@ var AIM = {
 		m.ac      = nil;
 
 		m.coord               = geo.Coord.new().set_latlon(0, 0, 0);
-		m.last_coord          = nil;
-		m.before_last_coord   = nil;
 		m.t_coord             = nil;
-		m.last_t_coord        = m.t_coord;
-		m.before_last_t_coord = nil;
 		
 		m.crc_frames_look_back = 2;
 		
@@ -2187,14 +2183,6 @@ var AIM = {
 				me.t_coord.set_alt(me.flare_alt_ft * FT2M);
 			}
 		}
-		# record coords so we can give the latest nearest position for impact.
-		me.before_last_coord   = geo.Coord.new(me.last_coord);
-		me.last_coord          = geo.Coord.new(me.coord);
-		if (me.Tgt != nil) {
-			me.before_last_t_coord = geo.Coord.new(me.last_t_coord);
-			me.last_t_coord        = geo.Coord.new(me.t_coord);
-		}
-
 		# performance logging:
 		#
 		#var q = 0.5 * rho * me.old_speed_fps * me.old_speed_fps;
