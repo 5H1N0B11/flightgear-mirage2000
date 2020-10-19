@@ -5,7 +5,7 @@
 ####### License: GPL 2.0
 #######
 ####### Authors:
-#######  Alexis Bory, Fabien Barbier, Richard Harrison, Justin Nicholson, Nikolai V. Chr.
+#######  Alexis Bory, Fabien Barbier, Richard Harrison, Justin Nicholson, Nikolai V. Chr, Axel Paccalin.
 ####### 
 ####### The file vector.nas needs to be available in namespace 'vector'.
 #######
@@ -638,6 +638,16 @@ var AIM = {
 		m.t_coord             = nil;
 		m.last_t_coord        = m.t_coord;
 		m.before_last_t_coord = nil;
+		
+		m.crc_frames_look_back = 2;
+		
+		m.crc_coord    = [];
+		m.crc_t_coord  = [];
+		m.crc_range    = [];
+        setsize(m.crc_coord,   m.crc_frames_look_back + 1);
+        setsize(m.crc_t_coord, m.crc_frames_look_back + 1);
+        setsize(m.crc_range,   m.crc_frames_look_back + 1);
+
 
 		m.speed_down_fps  = nil;
 		m.speed_east_fps  = nil;
@@ -3627,6 +3637,16 @@ var AIM = {
         }
 
 		if (me.Tgt != nil and me.t_coord != nil and me.guidance != "inertial") {
+		    # Maintain an array of the coordinates of the missile and the tgt in the last 3 frames.
+		    # (use xyz coord to avoid the strange behaviour of comparing geo coordinates).
+    		for (var i=me.crc_frames_look_back; i >= 0; i-=1){
+    		    me.crc_coord[i]   = (i != 0) ? me.crc_coord[i-1]   : me.coord.xyz();
+                me.crc_t_coord[i] = (i != 0) ? me.crc_t_coord[i-1] : me.t_coord.xyz();
+                me.crc_range[i]   = (i != 0) ? me.crc_range[i-1]   : vector.Math.magnitudeVector(
+                                                                         vector.Math.minus(me.crc_coord[0], 
+                                                                                           me.crc_t_coord[0]));
+            }
+            
 			# Get current direct distance.
 			me.cur_dir_dist_m = me.coord.direct_distance_to(me.t_coord);
 			if (me.useHitInterpolation == TRUE) { # use Nikolai V. Chr. interpolation
