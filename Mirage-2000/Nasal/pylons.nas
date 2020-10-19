@@ -89,7 +89,7 @@ if(AIRCRAFT != 'm2000D'){
     var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82];
     var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82];
     var ExteriorWingSet  = [pylonSets.empty,pylonSets.g];
-    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, , pylonSets.dmk82];
+    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.dmk82];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82];
     var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.mk82];
     var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82];
@@ -179,14 +179,9 @@ if (AIRCRAFT == 'm2000-5') {
     if (AIRCRAFT == 'm2000D') {
 	var pylon_order = [0,8,1,7,2,6,3,5,4];
 	var wp_order = ["Magic-2", "Mk-82", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
-    
+    }
 }
-}
-if (AIRCRAFT == 'm2000D') {
-    var pylon_order = [0,8,1,7,2,6,3,5,4];
-    var wp_order = ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
 
-}
 fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
 
 
