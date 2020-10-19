@@ -243,7 +243,6 @@ var AIM = {
         if (m.SwSoundVol.getValue() == nil) {
         	m.SwSoundVol.setDoubleValue(0);
         }
-        m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
         m.gnd_launch   = getprop("payload/armament/gnd-launch");#true to be a SAM or ship
         if (m.gnd_launch == nil) {
         	m.gnd_launch = 0;
@@ -385,11 +384,6 @@ var AIM = {
 		m.patternPitchDown      = -15;
 		m.patternYaw            = 8.5;
 
-		if (m.triggerAlgorithm == "proximity") {
-			m.useHitInterpolation = FALSE;
-		} elsif (m.triggerAlgorithm == "passing") {
-			m.useHitInterpolation = TRUE;
-		}
         if (m.detect_range_nm == nil) {
           # backwards compatibility
           m.detect_range_nm = m.max_fire_range_nm;
@@ -1696,11 +1690,9 @@ var AIM = {
 		if (me.destruct_when_free) {
 			me.printStats("Will selfdestruct if loses lock.");
 		}
-		if (me.useHitInterpolation) {
-			me.printStats("Will explode by proximity: %d meters from target.",me.reportDist);
-		} else {
-			me.printStats("Will explode as soon as within %d meters of target.",me.reportDist);
-		}
+		
+        me.printStats("Will explode if target range is increasing and within %d meters of target.",me.reportDist);
+        
 		if (me.inert) {
 			me.printStats("Warhead is inert though and will not detonate.");
 		}
