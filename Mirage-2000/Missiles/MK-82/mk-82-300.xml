@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PropertyList>
-  <path>SAMP-Mk-82.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/MK-82/SAMP-Mk-82.ac</path>
 
   <animation>
     <type>select</type>
@@ -12,7 +12,7 @@
     <object-name>WireClip04</object-name>
     <condition>
       <not>
-	<property>pyload/armament/mk-82/flags/msl-id-300</property>
+	<property>payload/armament/mk-82/flags/msl-id-300</property>
       </not>
     </condition>
   </animation>
@@ -39,7 +39,7 @@
     <object-name>Wing03</object-name>
     <object-name>Wing04</object-name>
     <condition>
-      <property>pyload/armament/mk-82/flags/msl-id-300</property>
+      <property>payload/armament/mk-82/flags/msl-id-300</property>
     </condition>
   </animation>
 
