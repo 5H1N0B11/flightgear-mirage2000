@@ -3736,12 +3736,12 @@ var AIM = {
 		return FALSE;
 	},
 	
-	#! brief: Recursive function to compute the closest range in the past mfd+1 frames.
+	#! brief: Recursive function to compute the closest range in the past mfd frames.
 	#! param fei: The frame to compute first (0: current frame, 1: previous frame, ...).
 	#! param mfd: The maximum amount of frames available if needed.
 	#! input me.crc_coord: The coordinates of the missile in the last frames. 
 	#! input me.crc_t_coord: The coordinates of the target in the last frames. 
-	#! output me.crc_closestCoord: The coordinates of the missile when it was the closest to the target in the mfd+1 last frames.
+	#! output me.crc_missileCoord: The coordinates of the missile when it was the closest to the target in the mfd+1 last frames.
 	#! output me.crc_closestRange: The range of the missile when it was the closest to the target in the mfd+1 last frames.
 	subframeClosestRangeCoord : func(fei=0, mfd=nil) {
 	    # Handle default depth parameter (set it as me.crc_frames_look_back if default is needed).
@@ -3801,6 +3801,62 @@ var AIM = {
         me.crc_closestRange = vector.Math.magnitudeVector(vector.Math.minus(targetCoord, missileCoord));
         me.crc_missileCoord = geo.Coord.new();
         me.crc_missileCoord.set_xyz(missileCoord[0], missileCoord[1], missileCoord[2]);
+    },
+
+    explodeNew: func (reason, coordinates, range = nil,  event = "exploded") {
+		if (me.lock_on_sun) 
+		    reason = "Locked onto sun.";
+		elsif (me.flareLock)
+			reason = "Locked onto flare.";
+		elsif (me.chaffLock)
+			reason = "Locked onto chaff.";
+		
+		me.coord = coordinates;  # Set the current missile coordinates at the explosion point.
+
+		var wh_mass = (event == "exploded" and !me.inert) ? me.weight_whead_lbm : 0; #will report 0 mass if did not have time to arm
+		settimer(func {impact_report(coordinates, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);},0);# method sent back to main nasal thread.
+
+        if (!me.inert) {
+            var phrase = nil;
+            
+            if (me.Tgt != nil and !me.Tgt.isVirtual()){
+                var tgtLabel = me.callsign;
+                if(me.flareLock == TRUE)
+                    tgtLabel ~= "'s flare";
+                else if (me.chaffLock == TRUE)
+                    tgtLabel ~= "'s chaff";
+                if (range < me.reportDist) {
+                    phrase = sprintf(me.type ~ " " ~ event ~ ": %.1f meters from: " ~ tgtLabel, range);
+
+                } else {
+                    phrase = me.type ~ " missed " ~ me.callsign ~ ": " ~ reason;
+                }
+            } else if (me.Tgt == nil){
+                phrase = sprintf(me.type ~ " " ~ event);
+            }
+            
+            if (phrase != nil){
+                me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
+                me.sendMessage(phrase);
+            }
+            
+            if (me.multiHit and !me.multiExplosion(coordinates, event) and me.Tgt != nil and me.Tgt.isVirtual()){
+                phrase = sprintf(me.type~" "~event);
+                me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
+                me.sendMessage(phrase);
+            }
+        } 
+        		
+		me.ai.getNode("valid", 1).setBoolValue(0);
+		
+		if (event == "exploded" and !me.inert) {
+			me.animate_explosion();
+			me.explodeSound = TRUE;
+		} else {
+			me.animate_dud();
+			me.explodeSound = FALSE;
+		}
+		me.Tgt = nil;
     },
 
 	explode: func (reason, event = "exploded") {
