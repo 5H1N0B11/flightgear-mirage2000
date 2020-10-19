@@ -644,9 +644,9 @@ var AIM = {
 		m.crc_coord    = [];
 		m.crc_t_coord  = [];
 		m.crc_range    = [];
-        setsize(m.crc_coord,   m.crc_frames_look_back + 1);
-        setsize(m.crc_t_coord, m.crc_frames_look_back + 1);
-        setsize(m.crc_range,   m.crc_frames_look_back + 1);
+		setsize(m.crc_coord,   m.crc_frames_look_back + 1);
+		setsize(m.crc_t_coord, m.crc_frames_look_back + 1);
+		setsize(m.crc_range,   m.crc_frames_look_back + 1);
 
 
 		m.speed_down_fps  = nil;
@@ -3637,37 +3637,37 @@ var AIM = {
         }
 
 		if (me.Tgt != nil and me.t_coord != nil and me.guidance != "inertial") {
-		    # Maintain an array of the coordinates of the missile and the tgt in the last 3 frames.
-		    # (use xyz coord to avoid the strange behaviour of comparing geo coordinates).
-    		for (var i=me.crc_frames_look_back; i >= 0; i-=1){
-    		    me.crc_coord[i]   = (i != 0) ? me.crc_coord[i-1]   : me.coord.xyz();
-                me.crc_t_coord[i] = (i != 0) ? me.crc_t_coord[i-1] : me.t_coord.xyz();
-                me.crc_range[i]   = (i != 0) ? me.crc_range[i-1]   : vector.Math.magnitudeVector(
-                                                                         vector.Math.minus(me.crc_coord[0], 
-                                                                                           me.crc_t_coord[0]));
-            }
-            
+			# Maintain an array of the coordinates of the missile and the tgt in the last 3 frames.
+			# (use xyz coord to avoid the strange behaviour of comparing geo coordinates).
+			for (var i=me.crc_frames_look_back; i >= 0; i-=1){
+				me.crc_coord[i]   = (i != 0) ? me.crc_coord[i-1]   : me.coord.xyz();
+				me.crc_t_coord[i] = (i != 0) ? me.crc_t_coord[i-1] : me.t_coord.xyz();
+				me.crc_range[i]   = (i != 0) ? me.crc_range[i-1]   : vector.Math.magnitudeVector(
+																		 vector.Math.minus(me.crc_coord[0], 
+																						   me.crc_t_coord[0]));
+			}
+			
 			if (me.crc_coord[1] == nil or me.crc_t_coord[1] == nil or me.crc_range[1] == nil)
-                return FALSE; # Wait for the buffer to fill at least once.           
-            
-            if (me.life_time > me.arming_time) {
-                # Distance to target increase.
-                if (me.crc_range[0] > me.crc_range[1] and me.crc_range[0] < 250) {
-                    # Compute the closest approach.
-                    me.subframeClosestRangeCoord();  # Provides `me.crc_closestRange` and `me.crc_missileCoord`.
-                    
-                    me.explode("Passed target.", me.crc_missileCoord, me.crc_closestRange);
-                    return TRUE;
-                }
-                if (me.life_time > me.selfdestruct_time or (me.destruct_when_free == TRUE and me.free == TRUE)) {
-                    me.explode("Selfdestructed.");
-                    return TRUE;
-                }
-            }
-            me.direct_dist_m = me.crc_range[0];
+				return FALSE; # Wait for the buffer to fill at least once.		   
+			
+			if (me.life_time > me.arming_time) {
+				# Distance to target increase.
+				if (me.crc_range[0] > me.crc_range[1] and me.crc_range[0] < 250) {
+					# Compute the closest approach.
+					me.subframeClosestRangeCoord();  # Provides `me.crc_closestRange` and `me.crc_missileCoord`.
+					
+					me.explode("Passed target.", me.crc_missileCoord, me.crc_closestRange);
+					return TRUE;
+				}
+				if (me.life_time > me.selfdestruct_time or (me.destruct_when_free == TRUE and me.free == TRUE)) {
+					me.explode("Selfdestructed.");
+					return TRUE;
+				}
+			}
+			me.direct_dist_m = me.crc_range[0];
 		} elsif (me.life_time > me.selfdestruct_time) {
 			me.explode("Selfdestructed.");
-		    return TRUE;
+			return TRUE;
 		}
 		return FALSE;
 	},
@@ -3680,68 +3680,68 @@ var AIM = {
 	#! output me.crc_missileCoord: The coordinates of the missile when it was the closest to the target in the mfd+1 last frames.
 	#! output me.crc_closestRange: The range of the missile when it was the closest to the target in the mfd+1 last frames.
 	subframeClosestRangeCoord : func(fei=0, mfd=nil) {
-	    # Handle default depth parameter (set it as me.crc_frames_look_back if default is needed).
-	    if (mfd == nil)
-	        mfd = me.crc_frames_look_back;
-	        
-	    # Prevent illegal parameter.
-        if(mfd < 1)
-            die("Argument exception: The mfd (Max Frames Depth) cannot be less than one.");
-        if(fei < 0)
-            die("Argument exception: The fei (Frames End Index) cannot be negative.");
-            
-        # Ensure the availability of the frame-end data.
-        if(me.crc_coord[fei] == nil or me.crc_t_coord[fei] == nil)  
-            die("No coordinates available for the end of the frame.");
-            
-        # Indices for the coordinates at frame start (fsi) and frame end (fei); 
-        var fsi = fei + 1;
-        
-        # Buffers used for unprocessed result, set to the frame-end values in case of unavailable frame-start data;
-        var missileCoord = me.crc_coord[fei];
-        var targetCoord = me.crc_t_coord[fei];
-        
-        # Check for availability of the frame-start data
-        if(me.crc_coord[fsi] != nil and me.crc_t_coord[fsi] != nil){  
-            # Get the origin coordinates and speed of the missile and it's target for the current frame.
-            # The units are in m for distances and frames for time.
-            var misCoord = me.crc_coord[fsi];
-            var misSpeed = vector.Math.minus(me.crc_coord[fei], misCoord);
-            var tgtCoord = me.crc_t_coord[fsi];
-            var tgtSpeed = vector.Math.minus(me.crc_t_coord[fei], tgtCoord);
-            
-            # Compute when the closest distance happened in time.
-            var t = call(func vector.Math.particleShortestDistTime(misCoord, misSpeed, tgtCoord, tgtSpeed), nil, var err = []);
-            # If an error is thrown, this is probably due to a null differential speed.
-            if (size(err)){
-                t = 1;
-                print(err[0]);
-            }
-            
-            # If the time factor (in frames) is superior than 1, this mean that the missile is still closing.
-            if (t > 1)
-                t = 1; # Set it to 1 to prevent extrapolation (but it should still get closer).
-            # If it is negative, the closest range happened at one of the previous frame:
-            else if (t < 0)
-                if (mfd > 1)  # If we can recursively compute the previous frame:
-                    return me.subframeClosestRangeCoord(fei+1, mfd-1);  # Return it's result instead, and stop here.
-                else 
-                    t = 0;  # Set it to 0 to prevent extrapolation.
-            
-            # Compute (interpolate) the position of the missile and it's target when their range is the closest.
-            missileCoord = vector.Math.plus(misCoord, vector.Math.product(t, misSpeed));
-            targetCoord  = vector.Math.plus(tgtCoord, vector.Math.product(t, tgtSpeed));
-        }
-        
-        # Return the minimum distance between the missile and the tgt, and the position of the missile at that time.
-        me.crc_closestRange = vector.Math.magnitudeVector(vector.Math.minus(targetCoord, missileCoord));
-        me.crc_missileCoord = geo.Coord.new();
-        me.crc_missileCoord.set_xyz(missileCoord[0], missileCoord[1], missileCoord[2]);
-    },
+		# Handle default depth parameter (set it as me.crc_frames_look_back if default is needed).
+		if (mfd == nil)
+			mfd = me.crc_frames_look_back;
+			
+		# Prevent illegal parameter.
+		if(mfd < 1)
+			die("Argument exception: The mfd (Max Frames Depth) cannot be less than one.");
+		if(fei < 0)
+			die("Argument exception: The fei (Frames End Index) cannot be negative.");
+			
+		# Ensure the availability of the frame-end data.
+		if(me.crc_coord[fei] == nil or me.crc_t_coord[fei] == nil)  
+			die("No coordinates available for the end of the frame.");
+			
+		# Indices for the coordinates at frame start (fsi) and frame end (fei); 
+		var fsi = fei + 1;
+		
+		# Buffers used for unprocessed result, set to the frame-end values in case of unavailable frame-start data;
+		var missileCoord = me.crc_coord[fei];
+		var targetCoord = me.crc_t_coord[fei];
+		
+		# Check for availability of the frame-start data
+		if(me.crc_coord[fsi] != nil and me.crc_t_coord[fsi] != nil){  
+			# Get the origin coordinates and speed of the missile and it's target for the current frame.
+			# The units are in m for distances and frames for time.
+			var misCoord = me.crc_coord[fsi];
+			var misSpeed = vector.Math.minus(me.crc_coord[fei], misCoord);
+			var tgtCoord = me.crc_t_coord[fsi];
+			var tgtSpeed = vector.Math.minus(me.crc_t_coord[fei], tgtCoord);
+			
+			# Compute when the closest distance happened in time.
+			var t = call(func vector.Math.particleShortestDistTime(misCoord, misSpeed, tgtCoord, tgtSpeed), nil, var err = []);
+			# If an error is thrown, this is probably due to a null differential speed.
+			if (size(err)){
+				t = 1;
+				print(err[0]);
+			}
+			
+			# If the time factor (in frames) is superior than 1, this mean that the missile is still closing.
+			if (t > 1)
+				t = 1; # Set it to 1 to prevent extrapolation (but it should still get closer).
+			# If it is negative, the closest range happened at one of the previous frame:
+			else if (t < 0)
+				if (mfd > 1)  # If we can recursively compute the previous frame:
+					return me.subframeClosestRangeCoord(fei+1, mfd-1);  # Return it's result instead, and stop here.
+				else 
+					t = 0;  # Set it to 0 to prevent extrapolation.
+			
+			# Compute (interpolate) the position of the missile and it's target when their range is the closest.
+			missileCoord = vector.Math.plus(misCoord, vector.Math.product(t, misSpeed));
+			targetCoord  = vector.Math.plus(tgtCoord, vector.Math.product(t, tgtSpeed));
+		}
+		
+		# Return the minimum distance between the missile and the tgt, and the position of the missile at that time.
+		me.crc_closestRange = vector.Math.magnitudeVector(vector.Math.minus(targetCoord, missileCoord));
+		me.crc_missileCoord = geo.Coord.new();
+		me.crc_missileCoord.set_xyz(missileCoord[0], missileCoord[1], missileCoord[2]);
+	},
 
-    explode: func (reason, coordinates, range = nil,  event = "exploded") {
+	explode: func (reason, coordinates, range = nil,  event = "exploded") {
 		if (me.lock_on_sun) 
-		    reason = "Locked onto sun.";
+			reason = "Locked onto sun.";
 		elsif (me.flareLock)
 			reason = "Locked onto flare.";
 		elsif (me.chaffLock)
@@ -3752,37 +3752,37 @@ var AIM = {
 		var wh_mass = (event == "exploded" and !me.inert) ? me.weight_whead_lbm : 0; #will report 0 mass if did not have time to arm
 		settimer(func {impact_report(coordinates, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);},0);# method sent back to main nasal thread.
 
-        if (!me.inert) {
-            var phrase = nil;
-            
-            if (me.Tgt != nil and !me.Tgt.isVirtual()){
-                var tgtLabel = me.callsign;
-                if(me.flareLock == TRUE)
-                    tgtLabel ~= "'s flare";
-                else if (me.chaffLock == TRUE)
-                    tgtLabel ~= "'s chaff";
-                if (range < me.reportDist) {
-                    phrase = sprintf(me.type ~ " " ~ event ~ ": %.1f meters from: " ~ tgtLabel, range);
+		if (!me.inert) {
+			var phrase = nil;
+			
+			if (me.Tgt != nil and !me.Tgt.isVirtual()){
+				var tgtLabel = me.callsign;
+				if(me.flareLock == TRUE)
+					tgtLabel ~= "'s flare";
+				else if (me.chaffLock == TRUE)
+					tgtLabel ~= "'s chaff";
+				if (range < me.reportDist) {
+					phrase = sprintf(me.type ~ " " ~ event ~ ": %.1f meters from: " ~ tgtLabel, range);
 
-                } else {
-                    phrase = me.type ~ " missed " ~ me.callsign ~ ": " ~ reason;
-                }
-            } else if (me.Tgt == nil){
-                phrase = sprintf(me.type ~ " " ~ event);
-            }
-            
-            if (phrase != nil){
-                me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
-                me.sendMessage(phrase);
-            }
-            
-            if (me.multiHit and !me.multiExplosion(coordinates, event) and me.Tgt != nil and me.Tgt.isVirtual()){
-                phrase = sprintf(me.type~" "~event);
-                me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
-                me.sendMessage(phrase);
-            }
-        } 
-        		
+				} else {
+					phrase = me.type ~ " missed " ~ me.callsign ~ ": " ~ reason;
+				}
+			} else if (me.Tgt == nil){
+				phrase = sprintf(me.type ~ " " ~ event);
+			}
+			
+			if (phrase != nil){
+				me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
+				me.sendMessage(phrase);
+			}
+			
+			if (me.multiHit and !me.multiExplosion(coordinates, event) and me.Tgt != nil and me.Tgt.isVirtual()){
+				phrase = sprintf(me.type~" "~event);
+				me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
+				me.sendMessage(phrase);
+			}
+		} 
+				
 		me.ai.getNode("valid", 1).setBoolValue(0);
 		
 		if (event == "exploded" and !me.inert) {
@@ -3793,8 +3793,8 @@ var AIM = {
 			me.explodeSound = FALSE;
 		}
 		me.Tgt = nil;
-    },
-    
+	},
+	
 	multiExplosion: func (explode_coord, event) {
 		# hit everything that is nearby except for target itself.
 		me.sendout = 0;
