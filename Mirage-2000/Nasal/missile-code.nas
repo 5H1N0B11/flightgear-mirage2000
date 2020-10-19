@@ -3735,6 +3735,73 @@ var AIM = {
 		}
 		return FALSE;
 	},
+	
+	#! brief: Recursive function to compute the closest range in the past mfd+1 frames.
+	#! param fei: The frame to compute first (0: current frame, 1: previous frame, ...).
+	#! param mfd: The maximum amount of frames available if needed.
+	#! input me.crc_coord: The coordinates of the missile in the last frames. 
+	#! input me.crc_t_coord: The coordinates of the target in the last frames. 
+	#! output me.crc_closestCoord: The coordinates of the missile when it was the closest to the target in the mfd+1 last frames.
+	#! output me.crc_closestRange: The range of the missile when it was the closest to the target in the mfd+1 last frames.
+	subframeClosestRangeCoord : func(fei=0, mfd=nil) {
+	    # Handle default depth parameter (set it as me.crc_frames_look_back if default is needed).
+	    if (mfd == nil)
+	        mfd = me.crc_frames_look_back;
+	        
+	    # Prevent illegal parameter.
+        if(mfd < 1)
+            die("Argument exception: The mfd (Max Frames Depth) cannot be less than one.");
+        if(fei < 0)
+            die("Argument exception: The fei (Frames End Index) cannot be negative.");
+            
+        # Ensure the availability of the frame-end data.
+        if(me.crc_coord[fei] == nil or me.crc_t_coord[fei] == nil)  
+            die("No coordinates available for the end of the frame.");
+            
+        # Indices for the coordinates at frame start (fsi) and frame end (fei); 
+        var fsi = fei + 1;
+        
+        # Buffers used for unprocessed result, set to the frame-end values in case of unavailable frame-start data;
+        var missileCoord = me.crc_coord[fei];
+        var targetCoord = me.crc_t_coord[fei];
+        
+        # Check for availability of the frame-start data
+        if(me.crc_coord[fsi] != nil and me.crc_t_coord[fsi] != nil){  
+            # Get the origin coordinates and speed of the missile and it's target for the current frame.
+            # The units are in m for distances and frames for time.
+            var misCoord = me.crc_coord[fsi];
+            var misSpeed = vector.Math.minus(me.crc_coord[fei], misCoord);
+            var tgtCoord = me.crc_t_coord[fsi];
+            var tgtSpeed = vector.Math.minus(me.crc_t_coord[fei], tgtCoord);
+            
+            # Compute when the closest distance happened in time.
+            var t = call(func vector.Math.particleShortestDistTime(misCoord, misSpeed, tgtCoord, tgtSpeed), nil, var err = []);
+            # If an error is thrown, this is probably due to a null differential speed.
+            if (size(err)){
+                t = 1;
+                print(err[0]);
+            }
+            
+            # If the time factor (in frames) is superior than 1, this mean that the missile is still closing.
+            if (t > 1)
+                t = 1; # Set it to 1 to prevent extrapolation (but it should still get closer).
+            # If it is negative, the closest range happened at one of the previous frame:
+            else if (t < 0)
+                if (mfd > 1)  # If we can recursively compute the previous frame:
+                    return me.subframeClosestRangeCoord(fei+1, mfd-1);  # Return it's result instead, and stop here.
+                else 
+                    t = 0;  # Set it to 0 to prevent extrapolation.
+            
+            # Compute (interpolate) the position of the missile and it's target when their range is the closest.
+            missileCoord = vector.Math.plus(misCoord, vector.Math.product(t, misSpeed));
+            targetCoord  = vector.Math.plus(tgtCoord, vector.Math.product(t, tgtSpeed));
+        }
+        
+        # Return the minimum distance between the missile and the tgt, and the position of the missile at that time.
+        me.crc_closestRange = vector.Math.magnitudeVector(vector.Math.minus(targetCoord, missileCoord));
+        me.crc_missileCoord = geo.Coord.new();
+        me.crc_missileCoord.set_xyz(missileCoord[0], missileCoord[1], missileCoord[2]);
+    },
 
 	explode: func (reason, event = "exploded") {
 
