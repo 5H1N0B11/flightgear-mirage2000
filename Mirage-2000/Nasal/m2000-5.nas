@@ -653,6 +653,11 @@ var quickstart = func() {
             
             # Starter
             quickstart();
+            
+             # Setup Mirage-2000 custom ATC chat menu:
+             var chatNode = props.globals.getNode("/sim/multiplay/chat-menu");
+             chatNode.removeAllChildren();
+             call(func{fgcommand('loadxml', props.Node.new({ filename: getprop("/sim/aircraft-dir") ~ "Mirage-2000/Systems/M2K-chat-menu-entries.xml", targetnode: "sim/multiplay/chat-menu" }));},nil,var err= []);
         }
  }
 
