@@ -96,19 +96,6 @@
       </binding>
     </checkbox>
   </group>
-  
-  <group>
-    <layout>hbox</layout>
-    <text><label>Use Interpolation method</label></text>
-    <checkbox>
-      <property>payload/armament/hit-interpolation</property>
-      <live>true</live>
-      <binding>
-        <command>property-toggle</command>
-        <property>payload/armament/hit-interpolation</property>
-      </binding>
-    </checkbox>
-  </group>
 
   <group>
     <layout>hbox</layout>
