@@ -62,6 +62,24 @@
     </condition>
   </animation>
 
+  <!-- left GBU12 -->
+  <animation>
+    <type>select</type>
+    <object-name>left-GBU12</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>sim/weight[0]/selected</property>
+          <value>GBU12</value>
+        </equals>
+        <equals>
+          <property>controls/armament/station[0]/release</property>
+          <value>false</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+
     <!-- left Mk-82 -->
   <animation>
     <type>select</type>

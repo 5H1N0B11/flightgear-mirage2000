@@ -577,7 +577,8 @@
       <weight-launch-lbs type="double"> 500 </weight-launch-lbs>
       <weight-warhead-lbs type="double"> 190 </weight-warhead-lbs>
       <weight-fuel-lbm type="double"> 0 </weight-fuel-lbm>
-      <drag-coeff type="double"> 0.169 </drag-coeff> <!-- 0.125*1.35 -->
+      <drag-coeff type="double"> 0.125 </drag-coeff>
+      <delta-drag-coeff-deploy type="double">0.044</delta-drag-coeff-deploy>
       <cross-section-sqft type="double"> 0.63 </cross-section-sqft>
       <arming-time-sec type="double"> 4 </arming-time-sec>
       <min-speed-for-guiding-mach type="double"> 0 </min-speed-for-guiding-mach>

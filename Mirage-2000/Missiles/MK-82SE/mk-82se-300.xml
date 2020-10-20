@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PropertyList>
-  <path>SAMP-Mk-82.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/MK-82SE/SAMP-Mk-82SE.ac</path>
 
   <animation>
     <type>select</type>
@@ -11,7 +11,7 @@
     <object-name>WireClip01</object-name>
     <condition>
       <not>
-	<property>pyload/armament/mk-82/flags/msl-id-300</property>
+	<property>payload/armament/mk-82se/flags/msl-id-300</property>
       </not>
     </condition>
   </animation>
@@ -64,7 +64,7 @@
     <object-name>Wing_03</object-name>
     <object-name>Wing_04</object-name>
     <condition>            
-      <property>pyload/armament/mk-82/flags/msl-id-300</property>
+      <property>payload/armament/mk-82se/flags/msl-id-300</property>
     </condition>
   </animation>
 
@@ -76,7 +76,7 @@
     <lighting type="bool">false</lighting>
 
     <condition>
-      <property>payload/armament/mk-82/flags/explode-id-300</property>
+      <property>payload/armament/mk-82se/flags/explode-id-300</property>
     </condition>
 
     <attach>world</attach>
@@ -162,7 +162,7 @@
     <lighting type="bool">false</lighting>
 
     <condition>
-      <property>payload/armament/mk-82/flags/explode-id-300</property>
+      <property>payload/armament/mk-82se/flags/explode-id-300</property>
     </condition>
 
     <attach>world</attach>
@@ -249,9 +249,9 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-smoke-id-300</property>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-300</property>
         <not>
-          <property>payload/armament/mk-82/flags/explode-water-id-300</property>
+          <property>payload/armament/mk-82se/flags/explode-water-id-300</property>
 	</not>
       </and>
     </condition>
@@ -343,9 +343,9 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-smoke-id-300</property>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-300</property>
         <not>
-          <property>payload/armament/mk-82/flags/explode-water-id-300</property>
+          <property>payload/armament/mk-82se/flags/explode-water-id-300</property>
 	</not>
       </and>
     </condition>
@@ -434,9 +434,9 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-id-300</property>
+        <property>payload/armament/mk-82se/flags/explode-id-300</property>
         <not>
-          <property>payload/armament/mk-82/flags/explode-water-id-300</property>
+          <property>payload/armament/mk-82se/flags/explode-water-id-300</property>
 	</not>
       </and>
     </condition>
@@ -526,8 +526,8 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-id-300</property>
-        <property>payload/armament/mk-82/flags/explode-water-id-300</property>
+        <property>payload/armament/mk-82se/flags/explode-id-300</property>
+        <property>payload/armament/mk-82se/flags/explode-water-id-300</property>
       </and>
     </condition>
 
@@ -616,8 +616,8 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-smoke-id-300</property>
-        <property>payload/armament/mk-82/flags/explode-water-id-300</property>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-300</property>
+        <property>payload/armament/mk-82se/flags/explode-water-id-300</property>
       </and>
     </condition>
 
@@ -702,7 +702,7 @@
     <object-name>explosion-smoke-outer</object-name>
     <offset-deg>0</offset-deg>
     <factor>1</factor>
-    <property>payload/armament/mk-82/flags/explode-angle</property>      
+    <property>payload/armament/mk-82se/flags/explode-angle</property>      
     <center>
       <x-m>0</x-m>
       <y-m>0</y-m>
