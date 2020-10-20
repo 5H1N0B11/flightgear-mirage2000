@@ -3622,9 +3622,9 @@ var AIM = {
 			for (var i=me.crc_frames_look_back; i >= 0; i-=1){
 				me.crc_coord[i]   = (i != 0) ? me.crc_coord[i-1]   : me.coord.xyz();
 				me.crc_t_coord[i] = (i != 0) ? me.crc_t_coord[i-1] : me.t_coord.xyz();
-				me.crc_range[i]   = (i != 0) ? me.crc_range[i-1]   : vector.Math.magnitudeVector(
-																		 vector.Math.minus(me.crc_coord[0], 
-																						   me.crc_t_coord[0]));
+				me.crc_range[i]   = (i != 0) ? me.crc_range[i-1]   : me.myMath.magnitudeVector(
+																		 me.myMath.minus(me.crc_coord[0], 
+																						 me.crc_t_coord[0]));
 			}
 			
 			if (me.crc_coord[1] == nil or me.crc_t_coord[1] == nil or me.crc_range[1] == nil)
@@ -3686,12 +3686,12 @@ var AIM = {
 			# Get the origin coordinates and speed of the missile and it's target for the current frame.
 			# The units are in m for distances and frames for time.
 			var misCoord = me.crc_coord[fsi];
-			var misSpeed = vector.Math.minus(me.crc_coord[fei], misCoord);
+			var misSpeed = me.myMath.minus(me.crc_coord[fei], misCoord);
 			var tgtCoord = me.crc_t_coord[fsi];
-			var tgtSpeed = vector.Math.minus(me.crc_t_coord[fei], tgtCoord);
+			var tgtSpeed = me.myMath.minus(me.crc_t_coord[fei], tgtCoord);
 			
 			# Compute when the closest distance happened in time.
-			var t = call(func vector.Math.particleShortestDistTime(misCoord, misSpeed, tgtCoord, tgtSpeed), nil, var err = []);
+			var t = call(func me.myMath.particleShortestDistTime(misCoord, misSpeed, tgtCoord, tgtSpeed), nil, var err = []);
 			# If an error is thrown, this is probably due to a null differential speed.
 			if (size(err)){
 				t = 1;
@@ -3709,12 +3709,12 @@ var AIM = {
 					t = 0;  # Set it to 0 to prevent extrapolation.
 			
 			# Compute (interpolate) the position of the missile and it's target when their range is the closest.
-			missileCoord = vector.Math.plus(misCoord, vector.Math.product(t, misSpeed));
-			targetCoord  = vector.Math.plus(tgtCoord, vector.Math.product(t, tgtSpeed));
+			missileCoord = me.myMath.plus(misCoord, me.myMath.product(t, misSpeed));
+			targetCoord  = me.myMath.plus(tgtCoord, me.myMath.product(t, tgtSpeed));
 		}
 		
 		# Return the minimum distance between the missile and the tgt, and the position of the missile at that time.
-		me.crc_closestRange = vector.Math.magnitudeVector(vector.Math.minus(targetCoord, missileCoord));
+		me.crc_closestRange = me.myMath.magnitudeVector(me.myMath.minus(targetCoord, missileCoord));
 		me.crc_missileCoord = geo.Coord.new();
 		me.crc_missileCoord.set_xyz(missileCoord[0], missileCoord[1], missileCoord[2]);
 	},
