@@ -819,7 +819,7 @@
   </animation>
 
   <!-- right GBU16 -->
-  <animation>
+<!--  <animation>
     <type>select</type>
     <object-name>GBU16BL</object-name>
     <condition>
@@ -834,7 +834,7 @@
         </equals>
       </and>
     </condition>
-  </animation>
+  </animation>-->
 
     <!-- left Mk-82 -->
   <animation>
