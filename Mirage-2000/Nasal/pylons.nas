@@ -176,15 +176,15 @@ var pylon_order =[];
 var wp_order = [];
 
 if (AIRCRAFT == 'm2000-5') {
-  pylon_order = [9,0,8,1,7,2,6,3,5,4];
   append(pylons,pylonI);
+  pylon_order = [9,0,8,1,7,2,6,3,5,4];
+  wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR","Mk-82","Mk-82SE", "GBU-12","MICA-EM",  "SCALP", "AM39-Exocet"];
 }elsif(AIRCRAFT == 'm2000-5B') {
   pylon_order = [0,8,1,7,2,6,3,5,4];
-  wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
+  wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "AM39-Exocet"];
 }elsif(AIRCRAFT == 'm2000D') {
   pylon_order = [0,8,1,7,2,6,3,5,4];
-  wp_order = ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "AM39-Exocet", "AS-37-Martel", "AS30L"];
-  wp_order = ["30mm Cannon", "Magic-2", "S530D", "MICA-IR", "MICA-EM", "GBU-12", "AM39-Exocet"];
+  wp_order = ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Martel", "AS30L"];
 }
 
 fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
