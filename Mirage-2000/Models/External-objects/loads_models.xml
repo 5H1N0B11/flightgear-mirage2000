@@ -237,7 +237,7 @@
     </offsets>
   </model>
   
-  <model>
+<!--  <model>
     <name>Center-GBU16</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU-16/gbu-16.xml</path>
     <offsets>
@@ -245,7 +245,7 @@
       <y-m> 0.000</y-m>
       <z-m>-1.656</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <name>Center-GBU12</name>
