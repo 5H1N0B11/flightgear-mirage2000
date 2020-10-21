@@ -42,7 +42,7 @@
     </offsets>
   </model>
 
-  <model>
+<!--  <model>
     <name>left-GBU16</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU-16/gbu-16.xml</path>
     <offsets>
@@ -50,7 +50,7 @@
       <y-m>-0.824</y-m>
       <z-m>-1.404</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <name>left-GBU12</name>
@@ -64,7 +64,7 @@
 
   <model>
     <name>left-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m>-0.824</y-m>
@@ -74,7 +74,7 @@
 
   <model>
     <name>left-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m>-0.824</y-m>
@@ -187,7 +187,7 @@
 
   <model>
     <name>left-left-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m>-2.559</y-m>
@@ -197,7 +197,7 @@
 
   <model>
     <name>left-right-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m>-2.159</y-m>
@@ -207,7 +207,7 @@
 
   <model>
     <name>left-left-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m>-2.559</y-m>
@@ -217,7 +217,7 @@
 
   <model>
     <name>left-right-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m>-2.159</y-m>
@@ -309,7 +309,7 @@
   
   <model>
     <name>Center-Right-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> -0.200</y-m>
@@ -319,7 +319,7 @@
   
   <model>
     <name>Center-Left-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> 0.200</y-m>
@@ -329,7 +329,7 @@
   
   <model>
     <name>Center-Right-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> -0.200</y-m>
@@ -339,7 +339,7 @@
   
   <model>
     <name>Center-Left-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m> 1.082</x-m>
       <y-m> 0.200</y-m>
@@ -419,7 +419,7 @@
 
   <model>
     <name>right-right-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m> 2.559</y-m>
@@ -429,7 +429,7 @@
 
   <model>
     <name>right-left-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m> 2.159</y-m>
@@ -439,7 +439,7 @@
   
   <model>
     <name>right-right-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m> 2.559</y-m>
@@ -449,7 +449,7 @@
 
   <model>
     <name>right-left-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m> 1.5</x-m>
       <y-m> 2.159</y-m>
@@ -504,7 +504,7 @@
 
   <model>
     <name>right-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m> 0.824</y-m>
@@ -514,7 +514,7 @@
 
   <model>
     <name>right-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m> 0.824</y-m>
@@ -523,7 +523,7 @@
   </model>
 
   
-  <model>
+<!--  <model>
     <name>right-GBU16</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU-16/gbu-16.xml</path>
     <offsets>
@@ -531,7 +531,7 @@
       <y-m> 0.824</y-m>
       <z-m>-1.404</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <name>right-GBU12</name>
@@ -569,7 +569,7 @@
 
   <model>
     <name>left-rear-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m> 3.160</x-m>
       <y-m>-0.920</y-m>
@@ -582,7 +582,7 @@
 
   <model>
     <name>left-rear-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m> 3.160</x-m>
       <y-m>-0.920</y-m>
@@ -609,7 +609,7 @@
 
   <model>
     <name>right-rear-MK82</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82/mk-82.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
       <x-m> 3.160</x-m>
       <y-m> 0.920</y-m>
@@ -622,7 +622,7 @@
   
   <model>
     <name>right-rear-MK82SE</name>
-    <path>Aircraft/Mirage-2000/Missiles/MK-82SE/mk-82se.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
     <offsets>
       <x-m> 3.160</x-m>
       <y-m> 0.920</y-m>

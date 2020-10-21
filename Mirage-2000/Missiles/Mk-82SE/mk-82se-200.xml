@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PropertyList>
-  <path>Aircraft/Mirage-2000/Missiles/MK-82SE/SAMP-Mk-82SE.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/SAMP-Mk-82SE.ac</path>
 
   <animation>
     <type>select</type>
@@ -11,7 +11,7 @@
     <object-name>WireClip01</object-name>
     <condition>
       <not>
-	<property>payload/armament/mk-82se/flags/msl-id-500</property>
+	<property>payload/armament/mk-82se/flags/msl-id-200</property>
       </not>
     </condition>
   </animation>
@@ -64,7 +64,7 @@
     <object-name>Wing_03</object-name>
     <object-name>Wing_04</object-name>
     <condition>            
-      <property>payload/armament/mk-82se/flags/msl-id-500</property>
+      <property>payload/armament/mk-82se/flags/msl-id-200</property>
     </condition>
   </animation>
 
@@ -76,7 +76,7 @@
     <lighting type="bool">false</lighting>
 
     <condition>
-      <property>payload/armament/mk-82se/flags/explode-id-500</property>
+      <property>payload/armament/mk-82se/flags/explode-id-200</property>
     </condition>
 
     <attach>world</attach>
@@ -162,7 +162,7 @@
     <lighting type="bool">false</lighting>
 
     <condition>
-      <property>payload/armament/mk-82se/flags/explode-id-500</property>
+      <property>payload/armament/mk-82se/flags/explode-id-200</property>
     </condition>
 
     <attach>world</attach>
@@ -249,9 +249,9 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82se/flags/explode-smoke-id-500</property>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-200</property>
         <not>
-          <property>payload/armament/mk-82se/flags/explode-water-id-500</property>
+          <property>payload/armament/mk-82se/flags/explode-water-id-200</property>
 	</not>
       </and>
     </condition>
@@ -284,7 +284,7 @@
 
     <counter>
       <particles-per-sec>
-        <value>300</value>
+        <value>200</value>
         <spread>5</spread>
       </particles-per-sec>
     </counter>
@@ -343,9 +343,9 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82se/flags/explode-smoke-id-500</property>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-200</property>
         <not>
-          <property>payload/armament/mk-82se/flags/explode-water-id-500</property>
+          <property>payload/armament/mk-82se/flags/explode-water-id-200</property>
 	</not>
       </and>
     </condition>
@@ -434,9 +434,9 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82se/flags/explode-id-500</property>
+        <property>payload/armament/mk-82se/flags/explode-id-200</property>
         <not>
-          <property>payload/armament/mk-82se/flags/explode-water-id-500</property>
+          <property>payload/armament/mk-82se/flags/explode-water-id-200</property>
 	</not>
       </and>
     </condition>
@@ -462,13 +462,13 @@
         <z-min-deg-sec>100</z-min-deg-sec>
         <x-max-deg-sec>0</x-max-deg-sec>
         <y-max-deg-sec>0</y-max-deg-sec>
-        <z-max-deg-sec>300</z-max-deg-sec>
+        <z-max-deg-sec>200</z-max-deg-sec>
       </rotation-speed>
     </shooter>
 
     <counter>
       <particles-per-sec>
-        <value>300</value>
+        <value>200</value>
         <spread>5</spread>
       </particles-per-sec>
     </counter>
@@ -526,8 +526,8 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82se/flags/explode-id-500</property>
-        <property>payload/armament/mk-82se/flags/explode-water-id-500</property>
+        <property>payload/armament/mk-82se/flags/explode-id-200</property>
+        <property>payload/armament/mk-82se/flags/explode-water-id-200</property>
       </and>
     </condition>
 
@@ -616,8 +616,8 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82se/flags/explode-smoke-id-500</property>
-        <property>payload/armament/mk-82se/flags/explode-water-id-500</property>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-200</property>
+        <property>payload/armament/mk-82se/flags/explode-water-id-200</property>
       </and>
     </condition>
 

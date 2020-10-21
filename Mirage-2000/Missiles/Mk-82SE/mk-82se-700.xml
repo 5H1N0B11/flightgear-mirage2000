@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PropertyList>
-  <path>Aircraft/Mirage-2000/Missiles/MK-82/SAMP-Mk-82.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/SAMP-Mk-82SE.ac</path>
 
   <animation>
     <type>select</type>
@@ -9,37 +9,62 @@
     <object-name>Wire</object-name>
     <object-name>Wire01</object-name>
     <object-name>WireClip01</object-name>
-    <object-name>WireClip04</object-name>
     <condition>
       <not>
-	<property>payload/armament/mk-82/flags/msl-id-501</property>
+	<property>payload/armament/mk-82se/flags/msl-id-700</property>
       </not>
     </condition>
   </animation>
 
   <animation>
     <type>select</type>
+    <object-name>Block01</object-name>
+    <object-name>Block02</object-name>
+    <object-name>Block03</object-name>
+    <object-name>Block04</object-name>
     <object-name>Clip</object-name>
-    <object-name>Clip01</object-name>
     <object-name>Fuze_Base</object-name>
     <object-name>Fuze_Body</object-name>
     <object-name>Fuze_Body01</object-name>
     <object-name>Mk_82_Body</object-name>
+    <object-name>Object03</object-name>
+    <object-name>Pivot_01</object-name>
+    <object-name>Pivot_02</object-name>
+    <object-name>Pivot_03</object-name>
+    <object-name>Pivot_04</object-name>
+    <object-name>Pivot_05</object-name>
+    <object-name>Pivot_06</object-name>
+    <object-name>Pivot_07</object-name>
+    <object-name>Pivot_08</object-name>
     <object-name>Propeller</object-name>
     <object-name>Propeller_Blades</object-name>
+    <object-name>Ring</object-name>
+    <object-name>Spring_01</object-name>
+    <object-name>Spring_02</object-name>
+    <object-name>Spring_03</object-name>
+    <object-name>Spring_04</object-name>
+    <object-name>Strut_01</object-name>
+    <object-name>Strut_02</object-name>
+    <object-name>Strut_03</object-name>
+    <object-name>Strut_04</object-name>
+    <object-name>Strut_05</object-name>
+    <object-name>Strut_06</object-name>
+    <object-name>Strut_07</object-name>
+    <object-name>Strut_08</object-name>
+    <object-name>Strut_Movable_Pivot</object-name>
+    <object-name>Strut_Wing_Pivot_01</object-name>
+    <object-name>Strut_Wing_Pivot_03</object-name>
+    <object-name>Strut_Wing_Pivot_04</object-name>
+    <object-name>Strut_Wing_Pivot_2</object-name>
     <object-name>Suspension_Lugs14</object-name>
     <object-name>Tail</object-name>
-    <object-name>TailFuze_Base</object-name>
-    <object-name>TailFuze_BasePlate</object-name>
-    <object-name>TailFuze_Pin</object-name>
-    <object-name>TailFuze_Prop</object-name>
-    <object-name>TailFuze_Screw</object-name>
-    <object-name>Wing01</object-name>
-    <object-name>Wing02</object-name>
-    <object-name>Wing03</object-name>
-    <object-name>Wing04</object-name>
-    <condition>
-      <property>payload/armament/mk-82/flags/msl-id-501</property>
+    <object-name>Tail_Rear</object-name>
+    <object-name>Wing_01</object-name>
+    <object-name>Wing_02</object-name>
+    <object-name>Wing_03</object-name>
+    <object-name>Wing_04</object-name>
+    <condition>            
+      <property>payload/armament/mk-82se/flags/msl-id-700</property>
     </condition>
   </animation>
 
@@ -51,7 +76,7 @@
     <lighting type="bool">false</lighting>
 
     <condition>
-      <property>payload/armament/mk-82/flags/explode-idi-0</property>
+      <property>payload/armament/mk-82se/flags/explode-id-700</property>
     </condition>
 
     <attach>world</attach>
@@ -91,40 +116,40 @@
     <particle>
       <start>
         <color>
-          <red><value>   1.0 </value></red>
-          <green><value> 1.0 </value></green>
-          <blue><value>  0.4 </value></blue>
-          <alpha><value> 1 </value></alpha>
-        </color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  0.4</value></blue>
+          <alpha><value> 1</value></alpha>
+	</color>
         <size>
           <value>8</value>
-        </size>
+	</size>
       </start>
 
       <end>
         <color>
-          <red><value>   1.0 </value></red>
-          <green><value> 0.5 </value></green>
-          <blue><value>  0.2 </value></blue>
-          <alpha><value> 0.7 </value></alpha>
-        </color>
+          <red><value>   1.0</value></red>
+          <green><value> 0.5</value></green>
+          <blue><value>  0.2</value></blue>
+          <alpha><value> 0.7</value></alpha>
+	</color>
         <size>
           <value>10</value>
-        </size>
+	</size>
       </end>
 
       <life-sec>
         <value>0.4</value>
       </life-sec>
       
-      <mass-kg>  5 </mass-kg>
-      <radius-m> 0.5 </radius-m>
+      <mass-kg>  5</mass-kg>
+      <radius-m> 0.5</radius-m>
     </particle>
 
     <program>
-      <fluid>               air  </fluid>
-      <gravity type="bool"> true </gravity>
-      <wind typ="bool">     true </wind>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
     </program>
 
   </particlesystem>
@@ -137,7 +162,7 @@
     <lighting type="bool">false</lighting>
 
     <condition>
-      <property>payload/armament/mk-82/flags/explode-idi-0</property>
+      <property>payload/armament/mk-82se/flags/explode-id-700</property>
     </condition>
 
     <attach>world</attach>
@@ -177,40 +202,40 @@
     <particle>
       <start>
         <color>
-          <red><value>   1.0 </value></red>
-          <green><value> 1.0 </value></green>
-          <blue><value>  0.4 </value></blue>
-          <alpha><value> 1 </value></alpha>
-        </color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  0.4</value></blue>
+          <alpha><value> 1</value></alpha>
+	</color>
         <size>
           <value>6</value>
-        </size>
+	</size>
       </start>
 
       <end>
         <color>
-          <red><value>   1.0 </value></red>
-          <green><value> 0.5 </value></green>
-          <blue><value>  0.2 </value></blue>
-          <alpha><value> 0.7 </value></alpha>
-        </color>
+          <red><value>   1.0</value></red>
+          <green><value> 0.5</value></green>
+          <blue><value>  0.2</value></blue>
+          <alpha><value> 0.7</value></alpha>
+	</color>
         <size>
           <value>20</value>
-        </size>
+	</size>
       </end>
 
       <life-sec>
         <value>1.0</value>
       </life-sec>
       
-      <mass-kg>  5 </mass-kg>
-      <radius-m> 0.5 </radius-m>
+      <mass-kg>  5</mass-kg>
+      <radius-m> 0.5</radius-m>
     </particle>
 
     <program>
-      <fluid>               air  </fluid>
-      <gravity type="bool"> true </gravity>
-      <wind typ="bool">     true </wind>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
     </program>
 
   </particlesystem>
@@ -224,10 +249,10 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-smoke-idi-0</property>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-700</property>
         <not>
-          <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
-        </not>
+          <property>payload/armament/mk-82se/flags/explode-water-id-700</property>
+	</not>
       </and>
     </condition>
     
@@ -269,40 +294,40 @@
     <particle>
       <start>
         <color>
-          <red><value>   0.3 </value></red>
-          <green><value> 0.3 </value></green>
-          <blue><value>  0.25 </value></blue>
-          <alpha><value> 1.0 </value></alpha>
-        </color>
+          <red><value>   0.3</value></red>
+          <green><value> 0.3</value></green>
+          <blue><value>  0.25</value></blue>
+          <alpha><value> 1.0</value></alpha>
+	</color>
         <size>
           <value>4</value>
-        </size>
+	</size>
       </start>
 
       <end>
         <color>
-          <red><value>   0.4 </value></red>
-          <green><value> 0.4 </value></green>
-          <blue><value>  0.4 </value></blue>
-          <alpha><value> 0.1 </value></alpha>
-        </color>
+          <red><value>   0.4</value></red>
+          <green><value> 0.4</value></green>
+          <blue><value>  0.4</value></blue>
+          <alpha><value> 0.1</value></alpha>
+	</color>
         <size>
           <value>10</value>
-        </size>
+	</size>
       </end>
 
       <life-sec>
         <value>20</value>
       </life-sec>
       
-      <mass-kg>  8.0 </mass-kg>
-      <radius-m> 0.5 </radius-m>
+      <mass-kg>  8.0</mass-kg>
+      <radius-m> 0.5</radius-m>
     </particle>
 
     <program>
-      <fluid>               air  </fluid>
-      <gravity type="bool"> true </gravity>
-      <wind typ="bool">     true </wind>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
     </program>
 
   </particlesystem>
@@ -318,10 +343,10 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-smoke-idi-0</property>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-700</property>
         <not>
-          <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
-        </not>
+          <property>payload/armament/mk-82se/flags/explode-water-id-700</property>
+	</not>
       </and>
     </condition>
 
@@ -362,40 +387,40 @@
     <particle>
       <start>
         <color>
-          <red><value>   0.3 </value></red>
-          <green><value> 0.3 </value></green>
-          <blue><value>  0.25 </value></blue>
-          <alpha><value> 1.0 </value></alpha>
-        </color>
+          <red><value>   0.3</value></red>
+          <green><value> 0.3</value></green>
+          <blue><value>  0.25</value></blue>
+          <alpha><value> 1.0</value></alpha>
+	</color>
         <size>
           <value>20</value>
-        </size>
+	</size>
       </start>
 
       <end>
         <color>
-          <red><value>   0.4 </value></red>
-          <green><value> 0.4 </value></green>
-          <blue><value>  0.4 </value></blue>
-          <alpha><value> 0.5 </value></alpha>
-        </color>
+          <red><value>   0.4</value></red>
+          <green><value> 0.4</value></green>
+          <blue><value>  0.4</value></blue>
+          <alpha><value> 0.5</value></alpha>
+	</color>
         <size>
           <value>40</value>
-        </size>
+	</size>
       </end>
 
       <life-sec>
         <value>30</value>
       </life-sec>
       
-      <mass-kg>  5.0 </mass-kg>
-      <radius-m> 0.5 </radius-m>
+      <mass-kg>  5.0</mass-kg>
+      <radius-m> 0.5</radius-m>
     </particle>
 
     <program>
-      <fluid>               air  </fluid>
-      <gravity type="bool"> true </gravity>
-      <wind typ="bool">     true </wind>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
     </program>
 
   </particlesystem>
@@ -409,10 +434,10 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-idi-0</property>
+        <property>payload/armament/mk-82se/flags/explode-id-700</property>
         <not>
-          <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
-        </not>
+          <property>payload/armament/mk-82se/flags/explode-water-id-700</property>
+	</not>
       </and>
     </condition>
 
@@ -453,40 +478,40 @@
     <particle>
       <start>
         <color>
-          <red><value>   0.2 </value></red>
-          <green><value> 0.2 </value></green>
-          <blue><value>  0.2 </value></blue>
-          <alpha><value> 1.0 </value></alpha>
-        </color>
+          <red><value>   0.2</value></red>
+          <green><value> 0.2</value></green>
+          <blue><value>  0.2</value></blue>
+          <alpha><value> 1.0</value></alpha>
+	</color>
         <size>
           <value>0.5</value>
-        </size>
+	</size>
       </start>
 
       <end>
         <color>
-          <red><value>   0.2 </value></red>
-          <green><value> 0.2 </value></green>
-          <blue><value>  0.2 </value></blue>
-          <alpha><value> 0.1 </value></alpha>
-        </color>
+          <red><value>   0.2</value></red>
+          <green><value> 0.2</value></green>
+          <blue><value>  0.2</value></blue>
+          <alpha><value> 0.1</value></alpha>
+	</color>
         <size>
           <value>0.5</value>
-        </size>
+	</size>
       </end>
 
       <life-sec>
         <value>10</value>
       </life-sec>
       
-      <mass-kg>  15.0 </mass-kg>
-      <radius-m> 0.5 </radius-m>
+      <mass-kg>  15.0</mass-kg>
+      <radius-m> 0.5</radius-m>
     </particle>
 
     <program>
-      <fluid>               air  </fluid>
-      <gravity type="bool"> true </gravity>
-      <wind typ="bool">     true </wind>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
     </program>
 
   </particlesystem>
@@ -501,8 +526,8 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-idi-0</property>
-        <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
+        <property>payload/armament/mk-82se/flags/explode-id-700</property>
+        <property>payload/armament/mk-82se/flags/explode-water-id-700</property>
       </and>
     </condition>
 
@@ -543,40 +568,40 @@
     <particle>
       <start>
         <color>
-          <red><value>   1.0 </value></red>
-          <green><value> 1.0 </value></green>
-          <blue><value>  1.0 </value></blue>
-          <alpha><value> 0.5 </value></alpha>
-        </color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  1.0</value></blue>
+          <alpha><value> 0.5</value></alpha>
+	</color>
         <size>
           <value>5.0</value>
-        </size>
+	</size>
       </start>
 
       <end>
         <color>
-          <red><value>   1.0 </value></red>
-          <green><value> 1.0 </value></green>
-          <blue><value>  1.0 </value></blue>
-          <alpha><value> 0.2 </value></alpha>
-        </color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  1.0</value></blue>
+          <alpha><value> 0.2</value></alpha>
+	</color>
         <size>
           <value>2.5</value>
-        </size>
+	</size>
       </end>
 
       <life-sec>
         <value>20</value>
       </life-sec>
       
-      <mass-kg>  15.0 </mass-kg>
-      <radius-m> 0.5 </radius-m>
+      <mass-kg>  15.0</mass-kg>
+      <radius-m> 0.5</radius-m>
     </particle>
 
     <program>
-      <fluid>               air  </fluid>
-      <gravity type="bool"> true </gravity>
-      <wind typ="bool">     true </wind>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
     </program>
 
   </particlesystem>
@@ -591,8 +616,8 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-smoke-idi-0</property>
-        <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-700</property>
+        <property>payload/armament/mk-82se/flags/explode-water-id-700</property>
       </and>
     </condition>
 
@@ -633,40 +658,40 @@
     <particle>
       <start>
         <color>
-          <red><value>   1.0 </value></red>
-          <green><value> 1.0 </value></green>
-          <blue><value>  1.0 </value></blue>
-          <alpha><value> 0.5 </value></alpha>
-        </color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  1.0</value></blue>
+          <alpha><value> 0.5</value></alpha>
+	</color>
         <size>
           <value>10.0</value>
-        </size>
+	</size>
       </start>
 
       <end>
         <color>
-          <red><value>   1.0 </value></red>
-          <green><value> 1.0 </value></green>
-          <blue><value>  1.0 </value></blue>
-          <alpha><value> 0.2 </value></alpha>
-        </color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  1.0</value></blue>
+          <alpha><value> 0.2</value></alpha>
+	</color>
         <size>
           <value>18.0</value>
-        </size>
+	</size>
       </end>
 
       <life-sec>
         <value>18</value>
       </life-sec>
       
-      <mass-kg>  8.0 </mass-kg>
-      <radius-m> 0.5 </radius-m>
+      <mass-kg>  8.0</mass-kg>
+      <radius-m> 0.5</radius-m>
     </particle>
 
     <program>
-      <fluid>               air  </fluid>
-      <gravity type="bool"> true </gravity>
-      <wind typ="bool">     true </wind>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
     </program>
 
   </particlesystem>      
@@ -677,7 +702,7 @@
     <object-name>explosion-smoke-outer</object-name>
     <offset-deg>0</offset-deg>
     <factor>1</factor>
-    <property>payload/armament/mk-82/flags/explode-angle</property>      
+    <property>payload/armament/mk-82se/flags/explode-angle</property>      
     <center>
       <x-m>0</x-m>
       <y-m>0</y-m>

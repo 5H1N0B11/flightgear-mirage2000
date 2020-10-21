@@ -71,8 +71,8 @@ var pylonSets = {
     b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
     b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
     mk82: {name: "SAMP Mk-82", content: ["Mk-82"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-    dmk82: {name: "2 x SAMP Mk-82", content: ["Mk-82", "Mk-82"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},    mk82se: {name: "SAMP Mk-82 Snake-eye", content: ["Mk-82SE"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-    mk82se: {name: "SAMP Mk-82 Snake-eye", content: ["Mk-82SE"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    dmk82: {name: "2 x SAMP Mk-82", content: ["Mk-82", "Mk-82"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    mk82se: {name: "SAMP Mk-82 Snake-eye", content: ["Mk-82SE"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
     dmk82se: {name: "2 x SAMP Mk-82 Snake-eye", content: ["Mk-82SE", "Mk-82SE"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 };
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PropertyList>
-  <path>Aircraft/Mirage-2000/Missiles/MK-82/SAMP-Mk-82.ac</path>
+  <path>Aircraft/Mirage-2000/Missiles/Mk-82/SAMP-Mk-82.ac</path>
 
   <animation>
     <type>select</type>
@@ -12,7 +12,7 @@
     <object-name>WireClip04</object-name>
     <condition>
       <not>
-	<property>payload/armament/mk-82/flags/msl-id-400</property>
+	<property>payload/armament/mk-82/flags/msl-id-501</property>
       </not>
     </condition>
   </animation>
@@ -39,7 +39,7 @@
     <object-name>Wing03</object-name>
     <object-name>Wing04</object-name>
     <condition>
-      <property>payload/armament/mk-82/flags/msl-id-400</property>
+      <property>payload/armament/mk-82/flags/msl-id-501</property>
     </condition>
   </animation>
 
@@ -51,7 +51,7 @@
     <lighting type="bool">false</lighting>
 
     <condition>
-      <property>payload/armament/mk-82/flags/explode-id-400</property>
+      <property>payload/armament/mk-82/flags/explode-idi-0</property>
     </condition>
 
     <attach>world</attach>
@@ -137,7 +137,7 @@
     <lighting type="bool">false</lighting>
 
     <condition>
-      <property>payload/armament/mk-82/flags/explode-id-400</property>
+      <property>payload/armament/mk-82/flags/explode-idi-0</property>
     </condition>
 
     <attach>world</attach>
@@ -224,9 +224,9 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-smoke-id-400</property>
+        <property>payload/armament/mk-82/flags/explode-smoke-idi-0</property>
         <not>
-          <property>payload/armament/mk-82/flags/explode-water-id-400</property>
+          <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
         </not>
       </and>
     </condition>
@@ -318,9 +318,9 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-smoke-id-400</property>
+        <property>payload/armament/mk-82/flags/explode-smoke-idi-0</property>
         <not>
-          <property>payload/armament/mk-82/flags/explode-water-id-400</property>
+          <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
         </not>
       </and>
     </condition>
@@ -409,9 +409,9 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-id-400</property>
+        <property>payload/armament/mk-82/flags/explode-idi-0</property>
         <not>
-          <property>payload/armament/mk-82/flags/explode-water-id-400</property>
+          <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
         </not>
       </and>
     </condition>
@@ -501,8 +501,8 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-id-400</property>
-        <property>payload/armament/mk-82/flags/explode-water-id-400</property>
+        <property>payload/armament/mk-82/flags/explode-idi-0</property>
+        <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
       </and>
     </condition>
 
@@ -591,8 +591,8 @@
 
     <condition>
       <and>
-        <property>payload/armament/mk-82/flags/explode-smoke-id-400</property>
-        <property>payload/armament/mk-82/flags/explode-water-id-400</property>
+        <property>payload/armament/mk-82/flags/explode-smoke-idi-0</property>
+        <property>payload/armament/mk-82/flags/explode-water-idi-0</property>
       </and>
     </condition>
 
