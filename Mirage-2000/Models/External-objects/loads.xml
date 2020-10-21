@@ -45,7 +45,7 @@
   </animation>
 
   <!-- left GBU16 -->
-  <animation>
+<!--  <animation>
     <type>select</type>
     <object-name>left-GBU16</object-name>
     <condition>
@@ -60,7 +60,7 @@
         </equals>
       </and>
     </condition>
-  </animation>
+  </animation>-->
 
   <!-- left GBU12 -->
   <animation>
@@ -333,7 +333,7 @@
   
 
   <!-- Center GBU16 -->
-  <animation>
+<!--  <animation>
     <type>select</type>
     <object-name>Center-GBU16</object-name>
     <condition>
@@ -348,7 +348,7 @@
         </equals>
       </and>
     </condition>
-  </animation>
+  </animation>-->
 
   <!-- Center GBU12 -->
   <animation>
@@ -719,7 +719,7 @@
   </animation>
 
   <!-- right GBU16 -->
-  <animation>
+<!--  <animation>
     <type>select</type>
     <object-name>right-GBU16</object-name>
     <condition>
@@ -734,7 +734,7 @@
         </equals>
       </and>
     </condition>
-  </animation>
+  </animation>-->
 
   <!-- right GBU12 -->
   <animation>

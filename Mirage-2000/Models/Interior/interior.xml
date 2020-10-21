@@ -49,10 +49,10 @@
 
 
   <!-- Tableau de bord pilote -->
-  <model>
+<!--  <model>
     <name>panel_pilote</name>
     <path>Aircraft/Mirage-2000/Models/Interior/panel_pilote.xml</path>
-  </model>
+  </model>-->
 
   <!-- retro -->
   <model>
