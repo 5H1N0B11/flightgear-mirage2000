@@ -3741,7 +3741,7 @@ var AIM = {
 					tgtLabel ~= "'s flare";
 				else if (me.chaffLock == TRUE)
 					tgtLabel ~= "'s chaff";
-				if (range < me.reportDist) {
+				if (range != nil and range < me.reportDist) {
 					phrase = sprintf(me.type ~ " " ~ event ~ ": %.1f meters from: " ~ tgtLabel, range);
 
 				} else {
