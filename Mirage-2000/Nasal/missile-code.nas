@@ -3640,13 +3640,13 @@ var AIM = {
 					return TRUE;
 				}
 				if (me.life_time > me.selfdestruct_time or (me.destruct_when_free == TRUE and me.free == TRUE)) {
-					me.explode("Selfdestructed.");
+					me.explode("Selfdestructed.", me.coord);
 					return TRUE;
 				}
 			}
 			me.direct_dist_m = me.crc_range[0];
 		} elsif (me.life_time > me.selfdestruct_time) {
-			me.explode("Selfdestructed.");
+			me.explode("Selfdestructed.", me.coord);
 			return TRUE;
 		}
 		return FALSE;
@@ -3741,7 +3741,7 @@ var AIM = {
 					tgtLabel ~= "'s flare";
 				else if (me.chaffLock == TRUE)
 					tgtLabel ~= "'s chaff";
-				if (range < me.reportDist) {
+				if (range != nil and range < me.reportDist) {
 					phrase = sprintf(me.type ~ " " ~ event ~ ": %.1f meters from: " ~ tgtLabel, range);
 
 				} else {
