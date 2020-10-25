@@ -307,8 +307,8 @@ var HUD = {
     # Horizon and pitch lines
     m.horizon_sub_group.createChild("path")
       .setColor(m.myGreen)
-      .moveTo(-1000, 0)
-      .horiz(2000)
+      .moveTo(-700, 0)
+      .horiz(1400)
       .setStrokeLineWidth(4);
                    
     #ILS stuff
@@ -1147,6 +1147,7 @@ var HUD = {
       ILS_gs_in_range :"/instrumentation/nav/gs-in-range",
       ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
       NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
+      x_offset_m:    "/sim/current-view/x-offset-m",
       y_offset_m:    "/sim/current-view/y-offset-m",
       z_offset_m:    "/sim/current-view/z-offset-m",
       MasterArm      :"/controls/armament/master-arm",
@@ -1172,10 +1173,18 @@ var HUD = {
     
     #Choose the heading to display
     me.getHeadingToDisplay();
-
-
     
- 
+    #-----------------Test of paralax
+    me.Vy   =    me.input.x_offset_m.getValue();
+    me.pixelPerMeterX = HudMath.pixelPerMeterX;#(340*0.695633)/0.15848;
+    #me.pixelPerMeterY = 260/(me.Hz_t-me.Hz_b);
+    me.pixelside = me.pixelPerMeterX*me.Vy;
+    #me.svg.setTranslation(me.pixelside, 0);
+    #me.custom.setTranslation(me.pixelside, 0);
+    me.root.setTranslation(HudMath.getCenterOrigin()[0]+me.pixelside, HudMath.getCenterOrigin()[1]);
+    #me.custom.update();
+    me.root.update();
+    #me.svg.update();
     
  
 
