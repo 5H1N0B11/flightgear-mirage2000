@@ -247,6 +247,7 @@ var Math = {
     
     # unary - vector
     opposite: func (v){
+        # author: Paccalin
         return [-v[0], -v[1], -v[2]];
     },
 
@@ -275,27 +276,41 @@ var Math = {
       me.mag = me.magnitudeVector(v);
       return [v[0]/me.mag, v[1]/me.mag, v[2]/me.mag];
     },
-	
-	# Orthogonal projection of a vector `vec` onto another `ref` !!can throw an exception if the referential vector is null!!.
-    orthogonalProjection: func(vec, ref){
-	  me.op_refMag = me.magnitudeVector(ref);
-	  if(me.op_refMag == 0)
-		die("Orthogonal projection on a null vector referential");
-	  
-	  return me.dotProduct(vec, ref) / me.op_refMag;
+    
+    crossProduct: func (a,b) {
+        return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
     },
     
+    distance_from_point_to_line: func (coordP, coordL1, coordL2) {
+        var P  = [coordP.x(),  coordP.y(),  coordP.z()];
+        var L1 = [coordL1.x(), coordL1.y(), coordL1.z()];
+        var L2 = [coordL2.x(), coordL2.y(), coordL2.z()];
+        
+        return me.magnitudeVector(me.crossProduct(me.minus(L2,L1), me.minus(L1,P)))/me.magnitudeVector(me.minus(L2,L1));
+    },
+    
+    # Orthogonal projection of a vector `vec` onto another `ref` !!can throw an exception if the referential vector is null!!.
+    orthogonalProjection: func(vec, ref){
+      # author: Paccalin
+      me.op_refMag = me.magnitudeVector(ref);
+      if(me.op_refMag == 0)
+        die("Orthogonal projection on a null vector referential");
+
+      return me.dotProduct(vec, ref) / me.op_refMag;
+    },
+
     # Time at which two particles will be at shortest distance !!can throw an exception if the relative speed is null!!
     particleShortestDistTime: func (orig1, speed1, orig2, speed2) {
-	  # Compute the origin of the second particle in a referential positionally centered on the first particle.
+      # author: Paccalin
+      # Compute the origin of the second particle in a referential positionally centered on the first particle.
       me.psdt_tgtOrig = me.minus(orig2, orig1);
-	  # Compute the speed of the second particle in a referential inertially based on the first particle.
-	  me.psdt_tgtSpeed = me.minus(speed2, speed1);
-	  
-	  # Project the origin of the particle1 referential onto the line supported by the particle2 trajectory in 1 unit of time.
-	  # And divide the result by the magnitude of the speed to have it normalized relative to the time.
-	  return me.orthogonalProjection(me.opposite(me.psdt_tgtOrig), me.psdt_tgtSpeed) / me.magnitudeVector(me.psdt_tgtSpeed);
-    },	
+      # Compute the speed of the second particle in a referential inertially based on the first particle.
+      me.psdt_tgtSpeed = me.minus(speed2, speed1);
+
+      # Project the origin of the particle1 referential onto the line supported by the particle2 trajectory in 1 unit of time.
+      # And divide the result by the magnitude of the speed to have it normalized relative to the time.
+      return me.orthogonalProjection(me.opposite(me.psdt_tgtOrig), me.psdt_tgtSpeed) / me.magnitudeVector(me.psdt_tgtSpeed);
+    },
 
 # rotation matrices
 #
@@ -321,36 +336,3 @@ var Math = {
 #
 
 };
-
-# Fix for geo.Coord: (not needed in FG 2017.4+)
-geo.Coord.set_x = func(x) { me._cupdate(); me._pdirty = 1; me._x = x; me };
-geo.Coord.set_y = func(y) { me._cupdate(); me._pdirty = 1; me._y = y; me };
-geo.Coord.set_z = func(z) { me._cupdate(); me._pdirty = 1; me._z = z; me };
-geo.Coord.set_lat = func(lat) { me._pupdate(); me._cdirty = 1; me._lat = lat * D2R; me };
-geo.Coord.set_lon = func(lon) { me._pupdate(); me._cdirty = 1; me._lon = lon * D2R; me };
-geo.Coord.set_alt = func(alt) { me._pupdate(); me._cdirty = 1; me._alt = alt; me };
-geo.Coord.apply_course_distance2 = func(course, dist) {# this method in geo is not bad, just wanted to see if this way of doing it worked better.
-        me._pupdate();
-        course *= D2R;
-        var nc = geo.Coord.new();
-        nc.set_xyz(0,0,0);        # center of earth
-        dist /= me.direct_distance_to(nc);# current distance to earth center
-        
-        if (dist < 0.0) {
-          dist = abs(dist);
-          course = course - math.pi;        
-        }
-        
-        me._lat2 = math.asin(math.sin(me._lat) * math.cos(dist) + math.cos(me._lat) * math.sin(dist) * math.cos(course));
-
-        me._lon = me._lon + math.atan2(math.sin(course)*math.sin(dist)*math.cos(me._lat),math.cos(dist)-math.sin(me._lat)*math.sin(me._lat2));
-
-        while (me._lon <= -math.pi)
-            me._lon += math.pi*2;
-        while (me._lon > math.pi)
-            me._lon -= math.pi*2;
-
-        me._lat = me._lat2;
-        me._cdirty = 1;
-        me;
-    };

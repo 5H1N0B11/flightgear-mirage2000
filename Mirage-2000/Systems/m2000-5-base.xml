@@ -137,6 +137,7 @@
 
   <nasal>
     <!-- c172p is part of FGDATA and thus always present -->
+    <!--5H1N0BI's notes : Idk what those 3 files bellow are doing -->
     <math_ext>
       <file>Aircraft/c172p/Nasal/generic/math_ext.nas</file>
     </math_ext>
@@ -146,6 +147,21 @@
     <updateloop>
       <file>Aircraft/Generic/updateloop.nas</file>
     </updateloop>
+        
+    <emesary>
+      <file>Aircraft/Mirage-2000/Nasal/emesary.nas</file>
+    </emesary>
+    <emesary_mp_bridge>
+      <file>Aircraft/Mirage-2000/Nasal/emesary_mp_bridge.nas</file>
+    </emesary_mp_bridge>
+    <notifications>
+      <file>Aircraft/Mirage-2000/Nasal/ArmamentNotification.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/M_frame_notification.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/GeoBridgedTransmitter.nas</file>
+    </notifications>
+    <damage>
+      <file>Aircraft/Mirage-2000/Nasal/damage.nas</file>
+    </damage>
     <ai>
       <file>Aircraft/Mirage-2000/Nasal/AI_list.nas</file>
     </ai>
@@ -237,7 +253,6 @@
     </m2000_mp>
     <missile>
       <file>Aircraft/Mirage-2000/Nasal/missile_GroundTargeting.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/damage.nas</file>
     </missile>
     <view>
       <file>Aircraft/Mirage-2000/Nasal/MissileView.nas</file>
