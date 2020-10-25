@@ -48,44 +48,44 @@ var MPMessaging = props.globals.getNode("/payload/armament/msg", 1);
 #     isFiring = 0;
 # }
 # 
-# reload_Cannon = func() {
-#     setprop("/ai/submodels/submodel/count",    125);
-#     setprop("/ai/submodels/submodel[1]/count", 125);
-#     setprop("/ai/submodels/submodel[7]/count",120);
-#     setprop("/ai/submodels/submodel[8]/count",120);
-#     screen.log.write("Guns have been reloaded : 125");
-#     screen.log.write("Flares have been reloaded : 120");
-# }
-# 
-# Cannon_rate = func() {
-#     var rate = getprop("/ai/submodels/submodel/delay");
-#     setprop("/ai/submodels/submodel[1]/delay", rate);
-#     if(rate > 0.07){
-#       Cannon_lQ_HQ_trigger("LQ");
-#     }else{
-#       Cannon_lQ_HQ_trigger("HQ");
-#     }
-#     
-# }
-# 
-# Cannon_lQ_HQ_trigger = func(Qual) {
-#   var path = getprop("/ai/submodels/submodel/submodel");
-#   
-#   #if(path == "Aircraft/Mirage-2000/Models/Effects/guns/LQ-submodels.xml"){
-#   if(Qual == "HQ"){
-#     #path = "Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml";
-#     setprop("controls/armament/gunQuality",1);
-#   }else{
-#     #path = "Aircraft/Mirage-2000/Models/Effects/guns/LQ-submodels.xml";
-#     setprop("controls/armament/gunQuality",0);
-#   }
-#   print("Submodels Path" ~ path);
-#   setprop("/ai/submodels/submodel/submodel", path);
-#   setprop("/ai/submodels/submodel[1]/submodel", path);
-#   
-#   #Aircraft/A-10/Models/Stores/GAU-8A/gau-8a-submodels.xml
-#   #Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
-# }
+reload_Cannon = func() {
+    setprop("/ai/submodels/submodel/count",    125);
+    setprop("/ai/submodels/submodel[1]/count", 125);
+    setprop("/ai/submodels/submodel[7]/count",120);
+    setprop("/ai/submodels/submodel[8]/count",120);
+    screen.log.write("Guns have been reloaded : 125");
+    screen.log.write("Flares have been reloaded : 120");
+}
+
+Cannon_rate = func() {
+    var rate = getprop("/ai/submodels/submodel/delay");
+    setprop("/ai/submodels/submodel[1]/delay", rate);
+    if(rate > 0.07){
+      Cannon_lQ_HQ_trigger("LQ");
+    }else{
+      Cannon_lQ_HQ_trigger("HQ");
+    }
+    
+}
+
+Cannon_lQ_HQ_trigger = func(Qual) {
+  var path = getprop("/ai/submodels/submodel/submodel");
+  
+  #if(path == "Aircraft/Mirage-2000/Models/Effects/guns/LQ-submodels.xml"){
+  if(Qual == "HQ"){
+    #path = "Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml";
+    setprop("controls/armament/gunQuality",1);
+  }else{
+    #path = "Aircraft/Mirage-2000/Models/Effects/guns/LQ-submodels.xml";
+    setprop("controls/armament/gunQuality",0);
+  }
+  print("Submodels Path" ~ path);
+  setprop("/ai/submodels/submodel/submodel", path);
+  setprop("/ai/submodels/submodel[1]/submodel", path);
+  
+  #Aircraft/A-10/Models/Stores/GAU-8A/gau-8a-submodels.xml
+  #Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
+}
 
 
 
@@ -170,6 +170,7 @@ var Impact = func {
 
 
 var hitmessage = func(typeOrd) {
+    typeOrd = "Mk3Z";
     var time = getprop("/sim/time/elapsed-sec");
     if(splashOn != "Nothing" and (time - splashdt) > 1)
     {
@@ -177,6 +178,7 @@ var hitmessage = func(typeOrd) {
         if(MPMessaging.getValue() == 1)
         {
             #armament.defeatSpamFilter(phrase);
+            #var msg = notifications.ArmamentNotification.new("mhit", 4, -1*(damage.shells[typeOrd][0]+1));
             var msg = notifications.ArmamentNotification.new("mhit", 4, -1*(damage.shells[typeOrd][0]+1));
             msg.RelativeAltitude = 0;
             msg.Bearing = 0;

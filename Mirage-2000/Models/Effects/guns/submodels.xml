@@ -85,7 +85,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
 -->
 
   <submodel>
-    <name>left cannon</name>
+    <name>DEFA-554</name>
     <model alias="../../cannon/model" />
     <trigger alias="../../cannon/trigger" />
     <speed alias="../../cannon/speed" />
@@ -132,7 +132,7 @@ Aircraft/Mirage-2000/Models/Effects/guns/bullet-submodel.xml
   </submodel-->
 
   <submodel>
-    <name>right cannon</name>
+    <name>DEFA-554</name>
     <model alias="../../cannon/model" />
     <trigger alias="../../cannon/trigger" />
     <speed alias="../../cannon/speed" />
