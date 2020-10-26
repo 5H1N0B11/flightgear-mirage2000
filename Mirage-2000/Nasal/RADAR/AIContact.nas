@@ -490,7 +490,7 @@ AIContact = {
     me.uvwBody = vector.Math.multiplyMatrixWithVector(me.rotation, me.uvwBody);
     
     #  Project the velocity vector on the aircraft vector.
-    me.cloSpeed = vector.Math.orthogonalReferential3Dto1D(me.uvwBody, me.uvwTarget);
+    me.cloSpeed = vector.Math.orthogonalProjection(me.uvwBody, me.uvwTarget);
     
     
     # Compute the closing speed of the aircraft to the target position.
@@ -509,7 +509,7 @@ AIContact = {
     me.uvwBody = vector.Math.multiplyMatrixWithVector(me.rotation, me.uvwBody);
     
     #  Project the velocity vector on the target vector.
-    me.cloSpeed += vector.Math.orthogonalReferential3Dto1D(me.uvwBody, me.uvwTarget);
+    me.cloSpeed += vector.Math.orthogonalProjection(me.uvwBody, me.uvwTarget);
     
     
     # Convert to kts.

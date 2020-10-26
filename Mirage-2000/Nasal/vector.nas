@@ -295,13 +295,6 @@ var Math = {
 	  # Project the origin of the particle1 referential onto the line supported by the particle2 trajectory in 1 unit of time.
 	  # And divide the result by the magnitude of the speed to have it normalized relative to the time.
 	  return me.orthogonalProjection(me.opposite(me.psdt_tgtOrig), me.psdt_tgtSpeed) / me.magnitudeVector(me.psdt_tgtSpeed);
-    },	
-
-      # Create a matrix to rotate by dangle.
-      me.rotation = me.multiplyMatrices(me.yawMatrix(me.dangle[0]), me.pitchMatrix(me.dangle[1]));
-      
-      # Rotate the input vector and only take the U value (projection of vec on ref).
-      return me.multiplyMatrixWithVector(me.rotation, vec)[0];
     },
 
 # rotation matrices
