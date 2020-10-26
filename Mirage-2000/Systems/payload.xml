@@ -33,7 +33,7 @@
       <ejector-speed-fps type="double">20</ejector-speed-fps>
       <FCS-field-deg type="int"> 40 </FCS-field-deg>
       <fire-msg type="string">Fox 3</fire-msg>
-      <guidance type="string">radar</guidance>
+      <guidance type="string">inertial</guidance>
       <guide-before-ignition type="bool">true</guide-before-ignition>
       <lock-on-after-launch type="bool">true</lock-on-after-launch>
       <lock-on-sun-deg type="double"> 0 </lock-on-sun-deg>

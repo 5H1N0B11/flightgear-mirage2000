@@ -170,7 +170,7 @@ var Impact = func {
 
 
 var hitmessage = func(typeOrd) {
-    typeOrd = "Mk3Z";
+    typeOrd = "Mk3Z"; #This need to be changed to DEFA-554
     var time = getprop("/sim/time/elapsed-sec");
     if(splashOn != "Nothing" and (time - splashdt) > 1)
     {
