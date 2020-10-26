@@ -92,6 +92,7 @@ Cannon_lQ_HQ_trigger = func(Qual) {
 # This is to detect collision when balistic are shooted.
 # The goal is to put an automatic message for gun splash
 var Mp = props.globals.getNode("ai/models");
+
 # var Impact = func() {
 #     var splashOn = "Nothing";
 #     var numberOfSplash = 0;
@@ -224,6 +225,7 @@ var valid_mp_types = {
 
 # We mesure the minimum distance to all contact. This allow us to deduce who is the MP
 var findmultiplayer = func(targetCoord, dist = 20) {
+    var raw_list = Mp.getChildren();
     if(targetCoord == nil) return nil;
     #var dist  = 20;
     var SelectedMP = nil;
