@@ -23,6 +23,13 @@
             date="September, 2017"
             URL="http://www.zaretto.com/sites/zaretto.com/files/Mirage2000-data-data/rjh-zaretto-Mirage2000-aerodynamic-data-vspaero.pdf"
         />
+        <reference 
+            refID="NASA TM-75793"
+            author="M. P. Bohn"
+            title="AERODYNAMICS OF THE NEW GENERATION OF COMBAT AIRCRAFT WITH DELTA WINGS"
+            date="June 1978"
+            URL="https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19800013819.pdf"
+        />
     </fileheader>
 <metrics>
   <wingarea unit="M2">28.172</wingarea>
@@ -33,10 +40,10 @@
     <y>0</y>
     <z>-3.94</z>
   </location>
-  <location unit="IN" name="VRP">
-    <x>200</x>
+  <location unit="M" name="VRP">
+    <x>6.812</x>
     <y>0</y>
-    <z>44</z>
+    <z>1.118</z>
   </location>
   <location unit="M" name="AERORP">
     <x>8.56</x>
@@ -50,7 +57,7 @@
   <iyy unit="KG*M2">75686</iyy>
   <izz unit="KG*M2">78802</izz>
   <ixz unit="KG*M2">2141</ixz>
-  <emptywt unit="LBS">28000</emptywt>
+  <emptywt unit="KG">7500</emptywt>
   <location unit="M" name="CG">
     <x>8.56</x>
     <y>0</y>
@@ -62,15 +69,15 @@
   <contact type="BOGEY" name="NOSE_LG">
     <!--0: NOSE_LG-->
     <location unit="M">
-      <x>4.01</x>
+      <x>4.82</x>
       <y>0</y>
-      <z>-1.518</z>
+      <z>-1.488</z>
     </location>
     <static_friction>1.0</static_friction>
     <dynamic_friction>0.5</dynamic_friction>
     <rolling_friction>0.02</rolling_friction>
-    <spring_coeff unit="LBS/FT">25200</spring_coeff>
-    <damping_coeff unit="LBS/FT/SEC">1400</damping_coeff>
+    <spring_coeff unit="LBS/FT">19000</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">2000</damping_coeff>
     <max_steer unit="DEG">45</max_steer>
     <brake_group>NOSE</brake_group>
     <retractable>1</retractable>
@@ -80,13 +87,13 @@
     <location unit="M">
       <x>8.76</x>
       <y>-1.625</y>
-      <z>-1.458</z>
+      <z>-1.508</z>
     </location>
     <static_friction>1.0</static_friction>
     <dynamic_friction>0.5</dynamic_friction>
     <rolling_friction>0.02</rolling_friction>
-    <spring_coeff unit="LBS/FT">25200</spring_coeff>
-    <damping_coeff unit="LBS/FT/SEC">1400</damping_coeff>
+    <spring_coeff unit="LBS/FT">37000</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">2800</damping_coeff>
     <max_steer unit="DEG">0</max_steer>
     <brake_group>LEFT</brake_group>
     <retractable>1</retractable>
@@ -96,13 +103,13 @@
     <location unit="M">
       <x>8.76</x>
       <y>1.625</y>
-      <z>-1.458</z>
+      <z>-1.508</z>
     </location>
     <static_friction>1.0</static_friction>
     <dynamic_friction>0.5</dynamic_friction>
     <rolling_friction>0.02</rolling_friction>
-    <spring_coeff unit="LBS/FT">25200</spring_coeff>
-    <damping_coeff unit="LBS/FT/SEC">1400</damping_coeff>
+    <spring_coeff unit="LBS/FT">37000</spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">2800</damping_coeff>
     <max_steer unit="DEG">0</max_steer>
     <brake_group>RIGHT</brake_group>
     <retractable>1</retractable>
@@ -355,11 +362,17 @@
       <pitch>0</pitch>
       <yaw>0</yaw>
     </orient>
+    <!-- This needs to be changed with a proper fuel system. Coming soon -->
+<!--    <feed>9</feed>
+    <feed>8</feed>
+    <feed>7</feed>
+    <feed>6</feed>
+    <feed>5</feed>-->
     <feed>4</feed>
     <feed>3</feed>
-    <feed>2</feed>
+<!--    <feed>2</feed>
     <feed>1</feed>
-    <feed>0</feed>
+    <feed>0</feed>-->
     <thruster file="direct">
       <location unit="M">
         <x>18.11</x>
@@ -373,65 +386,212 @@
       </orient>
     </thruster>
   </engine>
+  
+    <!--0: Refuel probe-->
   <tank number="0" type="FUEL">
-    <!--0: Main Tank-->
+    <!--0: Feed line-->
     <location unit="M">
-      <x>8.56</x>
-      <y>0</y>
+      <x>1.53</x>
+      <y>0.55</y>
+      <z>1.17</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">10</capacity>
+    <contents unit="KG">10</contents>
+    <priority>1</priority>
+  </tank>
+  
+  
+  
+  <!-- Internal tanks -->
+    <tank number="1" type="FUEL">
+    <!--1: forward fuselage internal tank-->
+    <location unit="M">
+      <x>4.66</x>
+      <y>1</y>
       <z>0</z>
     </location>
-    <capacity unit="KG">2128</capacity>
-    <standpipe unit="KG">50</standpipe>
-    <contents unit="KG">2128</contents>
-    <priority>4</priority>
+    <type>F-34</type>
+    <capacity unit="KG">304</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">304</contents>
+    <priority>3</priority>
   </tank>
-  <tank number="1" type="FUEL">
+  
+  <tank number="2" type="FUEL">
     <!--1: Right Wing Tank-->
     <location unit="M">
       <x>8.56</x>
       <y>4</y>
       <z>-0.4</z>
     </location>
-    <capacity unit="LBS">385</capacity>
-    <standpipe unit="LBS">100</standpipe>
-    <contents unit="LBS">385</contents>
+    <type>F-34</type>
+    <capacity unit="KG">523</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">523</contents>
     <priority>3</priority>
   </tank>
-  <tank number="2" type="FUEL">
+  
+    <tank number="3" type="FUEL">
+    <!--6: backward right feeder fuselage internal tank-->
+    <location unit="M">
+      <x>8.56</x>
+      <y>0.70</y>
+      <z>0</z>
+    </location>
+    <length unit="M">4</length>
+    <type>F-34</type>
+    <capacity unit="KG">592.6</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">592.6</contents>
+    <priority>5</priority>
+  </tank>
+  
+  <tank number="4" type="FUEL">
+    <!--6: backward left feeder fuselage internal tank-->
+    <location unit="M">
+      <x>8.56</x>
+      <y>-0.70</y>
+      <z>0</z>
+    </location>
+    <length unit="M">4</length>
+    <type>F-34</type>
+    <capacity unit="KG">592.6</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">592.6</contents>
+    <priority>5</priority>
+  </tank>
+  
+  <tank number="5" type="FUEL">
+    <!--6: forward fuselage internal tank-->
+    <location unit="M">
+      <x>4.66</x>
+      <y>0</y>
+      <z>0</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">320</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">320</contents>
+    <priority>3</priority>
+  </tank>
+  
+  <tank number="6" type="FUEL">
+     <!--6: forward fuselage internal tank-->
+    <location unit="M">
+      <x>4.66</x>
+      <y>-1</y>
+      <z>0</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">304</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">304</contents>
+    <priority>3</priority>
+  </tank>
+
+  <tank number="7" type="FUEL">
     <!--2: Left Wing Tank-->
     <location unit="M">
       <x>8.56</x>
       <y>-4</y>
       <z>-0.4</z>
     </location>
-    <capacity unit="LBS">385</capacity>
-    <standpipe unit="LBS">100</standpipe>
-    <contents unit="LBS">385</contents>
+    <type>F-34</type>
+    <capacity unit="KG">523</capacity>
+    <standpipe unit="KG">30</standpipe>
+    <contents unit="KG">523</contents>
     <priority>3</priority>
   </tank>
-  <tank number="3" type="FUEL">
-    <!--3: External Tank-->
+  
+  
+  <!-- External tanks -->
+  <tank number="8" type="FUEL">
+    <!--3: External Tank : Center. RP522-->
     <location unit="M">
       <x>8.56</x>
       <y>0</y>
-      <z>0.008</z>
+      <z>1</z> 
     </location>
-    <capacity unit="KG">1200</capacity>
+    <type>F-34</type>
+    <capacity unit="KG">990</capacity>
     <standpipe unit="KG">50</standpipe>
-    <contents unit="KG">1200</contents>
+    <contents unit="KG">0</contents>
     <priority>2</priority>
   </tank>
-  <tank number="4" type="FUEL">
-    <!--4: Feed line-->
+  
+  <tank number="9" type="FUEL">
+    <!--3: External Tank : Right : RP542 -->
     <location unit="M">
+      <x>8.56</x>
+      <y>4</y>
+      <z>1</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">1580</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">0</contents>
+    <priority>2</priority>
+  </tank>
+  
+    <tank number="10" type="FUEL">
+    <!--3: External Tank : Left : RP541 -->
+    <location unit="M">
+      <x>8.56</x>
+      <y>-4</y>
+      <z>1</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">1580</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">0</contents>
+    <priority>2</priority>
+  </tank>
+  
+  <tank number="11" type="FUEL">
+    <!--3: External Tank : Right : RP501 -->
+    <location unit="M">
+      <x>8.56</x>
+      <y>4</y>
+      <z>1</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">1343</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">0</contents>
+    <priority>2</priority>
+  </tank>
+  
+  <tank number="12" type="FUEL">
+    <!--3: External Tank : Left : RP502 -->
+    <location unit="M">
+      <x>8.56</x>
+      <y>-4</y>
+      <z>1</z>
+    </location>
+    <type>F-34</type>
+    <capacity unit="KG">1343</capacity>
+    <standpipe unit="KG">50</standpipe>
+    <contents unit="KG">0</contents>
+    <priority>2</priority>
+  </tank>
+  
+  
+  <!--9: Feed line-->
+<!--  <tank number="9" type="FUEL">-->
+    <!--9: Feed line-->
+<!--    <location unit="M">
       <x>8.56</x>
       <y>0</y>
       <z>0</z>
     </location>
-    <capacity unit="LBS">10</capacity>
-    <contents unit="LBS">10</contents>
+    <type>F-34</type>
+    <capacity unit="KG">10</capacity>
+    <contents unit="KG">10</contents>
     <priority>1</priority>
-  </tank>
+  </tank>-->
+  
+  
 </propulsion>
 
 <system file="Mirage-2000-hydraulics"/>
@@ -439,6 +599,7 @@
 <system file="Mirage-2000-fadec"/>
 <system file="Mirage-2000-engines-Snecma-M53"/>
 <system file="Mirage-2000-fcs"/>
+<system file="Mirage-2000-fuel"/>
 
 
 <flight_control name="Mirage2000-FCS">

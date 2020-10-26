@@ -203,18 +203,5 @@
     </button>
   </group>
 
-  <hrule />
-  <group>
-    <layout>hbox</layout>
-    <button>
-      <legend>Close</legend>
-      <default>true</default>
-      <key>Esc</key>
-      <binding>
-        <command>dialog-close</command>
-      </binding>
-    </button>
-  </group>
-
 </PropertyList>
 

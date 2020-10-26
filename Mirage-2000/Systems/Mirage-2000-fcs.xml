@@ -1439,7 +1439,7 @@
 		</switch>
 		
 		<summer name="fcs/right-brake-summer">
-			<input>gear/brake-left</input>
+			<input>gear/brake-right</input>
 			<input>gear/brake-parking</input>
 			<clipto>
 				<min>0</min>
@@ -1448,7 +1448,7 @@
 		</summer>
 		
 		<switch name="rubbish/right-brake-cmd-norm">
-			<default value="fcs/left-brake-summer"/>
+			<default value="fcs/right-brake-summer"/>
 			<output>fcs/right-brake-cmd-norm</output>
 		</switch>
 	</channel>

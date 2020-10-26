@@ -71,10 +71,10 @@
   <animation>
     <type>rotate</type>
     <object-name>logospoilerG</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>sim/multiplay/generic/float[22]</property>
     <interpolation>
       <entry><ind> 0 </ind><dep>   0 </dep></entry>
-      <entry><ind> 1 </ind><dep> -80 </dep></entry>
+      <entry><ind> 55 </ind><dep> -55 </dep></entry>
     </interpolation>
     <axis>
       <x1-m>  0.913 </x1-m>
@@ -89,10 +89,10 @@
   <animation>
     <type>rotate</type>
     <object-name>logospoilerD</object-name>
-    <property>surface-positions/spoiler-pos-norm</property>
+    <property>sim/multiplay/generic/float[22]</property>
     <interpolation>
       <entry><ind> 0 </ind><dep>   0 </dep></entry>
-      <entry><ind> 1 </ind><dep> -80 </dep></entry>
+      <entry><ind> 55 </ind><dep> -55 </dep></entry>
     </interpolation>
     <axis>
       <x1-m>  0.913 </x1-m>

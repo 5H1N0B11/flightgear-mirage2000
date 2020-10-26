@@ -205,7 +205,6 @@
     <hud>
       <file>Aircraft/Mirage-2000/Nasal/HUD/hud_math.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/mini-hud.nas</file>
     </hud>
 <!--    <rwr>
       <file>Aircraft/Mirage-2000/Nasal/RADAR/rwr.nas</file>
@@ -223,6 +222,7 @@
       <file>Aircraft/Mirage-2000/Nasal/flir.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/zoom-views.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/CANVAS/Canvas-pylons-Dlg.nas</file>
     </mirage2000>
     <m2000_controls>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-controls.nas</file>
@@ -265,7 +265,7 @@
       <file>Aircraft/Mirage-2000/Nasal/gci-listener.nas</file>
     </gci>
     <mig28>
-      <file>Aircraft/f16/Nasal/mig28.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/mig28.nas</file>
     </mig28>
   </nasal>
 

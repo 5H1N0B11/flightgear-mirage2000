@@ -167,6 +167,7 @@ var Target = {
         obj.RangeLast       = 0; 
         obj.ClosureRate     = 0;
         obj.Display_Node    = nil;
+        obj.skipDoppler     = 1;
         
         obj.ispainted       = 0;
         
@@ -175,17 +176,7 @@ var Target = {
         obj.RadarStandby    = c.getNode("sim/multiplay/generic/int[2]");
         
         obj.deviation       = nil;
-
-        
-
-#         if (obj.get_Callsign() == "GROUND_TARGET") {
-#             obj.type = armament.SURFACE;
-#         }
-# 
-#         if(obj.type  == "missile"){
-#           obj.type  = armament.ORDNANCE;
-#         }
-        
+    
         obj.type = armament.AIR;
         
         obj.model = "";

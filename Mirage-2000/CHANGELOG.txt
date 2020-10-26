@@ -1,3 +1,15 @@
+2020-09
+====================================================================
+- New canvas HUD 
+- Fixed to cockpit displays
+- Improvements to cockpit model.
+- New aerodynamic model
+- Much improved FCS and AFCS
+- Better documentation
+- Improved aircraft systems simulations: hydraulics, electrics, ECS, fuel.
+- New dialogs for config.xml\
+
+
 2018-09
 ================================================================================
 - New FBW/AP

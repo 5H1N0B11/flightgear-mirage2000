@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+  <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/SAMP-Mk-82SE.ac</path>
+
+  <animation>
+    <type>select</type>
+    <object-name>Arming_Ring</object-name>
+    <object-name>Stop_Pin</object-name>
+    <object-name>Wire</object-name>
+    <object-name>Wire01</object-name>
+    <object-name>WireClip01</object-name>
+    <condition>
+      <not>
+	<property>payload/armament/mk-82se/flags/msl-id-400</property>
+      </not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Block01</object-name>
+    <object-name>Block02</object-name>
+    <object-name>Block03</object-name>
+    <object-name>Block04</object-name>
+    <object-name>Clip</object-name>
+    <object-name>Fuze_Base</object-name>
+    <object-name>Fuze_Body</object-name>
+    <object-name>Fuze_Body01</object-name>
+    <object-name>Mk_82_Body</object-name>
+    <object-name>Object03</object-name>
+    <object-name>Pivot_01</object-name>
+    <object-name>Pivot_02</object-name>
+    <object-name>Pivot_03</object-name>
+    <object-name>Pivot_04</object-name>
+    <object-name>Pivot_05</object-name>
+    <object-name>Pivot_06</object-name>
+    <object-name>Pivot_07</object-name>
+    <object-name>Pivot_08</object-name>
+    <object-name>Propeller</object-name>
+    <object-name>Propeller_Blades</object-name>
+    <object-name>Ring</object-name>
+    <object-name>Spring_01</object-name>
+    <object-name>Spring_02</object-name>
+    <object-name>Spring_03</object-name>
+    <object-name>Spring_04</object-name>
+    <object-name>Strut_01</object-name>
+    <object-name>Strut_02</object-name>
+    <object-name>Strut_03</object-name>
+    <object-name>Strut_04</object-name>
+    <object-name>Strut_05</object-name>
+    <object-name>Strut_06</object-name>
+    <object-name>Strut_07</object-name>
+    <object-name>Strut_08</object-name>
+    <object-name>Strut_Movable_Pivot</object-name>
+    <object-name>Strut_Wing_Pivot_01</object-name>
+    <object-name>Strut_Wing_Pivot_03</object-name>
+    <object-name>Strut_Wing_Pivot_04</object-name>
+    <object-name>Strut_Wing_Pivot_2</object-name>
+    <object-name>Suspension_Lugs14</object-name>
+    <object-name>Tail</object-name>
+    <object-name>Tail_Rear</object-name>
+    <object-name>Wing_01</object-name>
+    <object-name>Wing_02</object-name>
+    <object-name>Wing_03</object-name>
+    <object-name>Wing_04</object-name>
+    <condition>            
+      <property>payload/armament/mk-82se/flags/msl-id-400</property>
+    </condition>
+  </animation>
+
+  <particlesystem>
+    <name>explosion-inner</name>
+    <texture>../smoke.png</texture>
+
+    <emissive type="bool">true</emissive>
+    <lighting type="bool">false</lighting>
+
+    <condition>
+      <property>payload/armament/mk-82se/flags/explode-id-400</property>
+    </condition>
+
+    <attach>world</attach>
+
+    <placer>
+      <type>point</type>
+    </placer>
+
+    <shooter>
+      <theta-min-deg>-180</theta-min-deg>
+      <theta-max-deg>180</theta-max-deg>
+      <phi-min-deg>-180</phi-min-deg>
+      <phi-max-deg>180</phi-max-deg>
+      <speed-mps>
+        <value>200</value>
+        <spread>40</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>0</x-min-deg-sec>
+        <y-min-deg-sec>0</y-min-deg-sec>
+        <z-min-deg-sec>0</z-min-deg-sec>
+        <x-max-deg-sec>0</x-max-deg-sec>
+        <y-max-deg-sec>0</y-max-deg-sec>
+        <z-max-deg-sec>0</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+
+    <counter>
+      <particles-per-sec>
+        <value>20</value>
+        <spread>10</spread>
+      </particles-per-sec>
+    </counter>
+    
+    <align>billboard</align>
+
+    <particle>
+      <start>
+        <color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  0.4</value></blue>
+          <alpha><value> 1</value></alpha>
+	</color>
+        <size>
+          <value>8</value>
+	</size>
+      </start>
+
+      <end>
+        <color>
+          <red><value>   1.0</value></red>
+          <green><value> 0.5</value></green>
+          <blue><value>  0.2</value></blue>
+          <alpha><value> 0.7</value></alpha>
+	</color>
+        <size>
+          <value>10</value>
+	</size>
+      </end>
+
+      <life-sec>
+        <value>0.4</value>
+      </life-sec>
+      
+      <mass-kg>  5</mass-kg>
+      <radius-m> 0.5</radius-m>
+    </particle>
+
+    <program>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
+    </program>
+
+  </particlesystem>
+
+  <particlesystem>
+    <name>explosion-outer</name>
+    <texture>../smoke.png</texture>
+
+    <emissive type="bool">true</emissive>
+    <lighting type="bool">false</lighting>
+
+    <condition>
+      <property>payload/armament/mk-82se/flags/explode-id-400</property>
+    </condition>
+
+    <attach>world</attach>
+
+    <placer>
+      <type>point</type>
+    </placer>
+
+    <shooter>
+      <theta-min-deg>-180</theta-min-deg>
+      <theta-max-deg>180</theta-max-deg>
+      <phi-min-deg>-180</phi-min-deg>
+      <phi-max-deg>180</phi-max-deg>
+      <speed-mps>
+        <value>500</value>
+        <spread>80</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>0</x-min-deg-sec>
+        <y-min-deg-sec>0</y-min-deg-sec>
+        <z-min-deg-sec>0</z-min-deg-sec>
+        <x-max-deg-sec>0</x-max-deg-sec>
+        <y-max-deg-sec>0</y-max-deg-sec>
+        <z-max-deg-sec>0</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+
+    <counter>
+      <particles-per-sec>
+        <value>60</value>
+        <spread>10</spread>
+      </particles-per-sec>
+    </counter>
+    
+    <align>billboard</align>
+
+    <particle>
+      <start>
+        <color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  0.4</value></blue>
+          <alpha><value> 1</value></alpha>
+	</color>
+        <size>
+          <value>6</value>
+	</size>
+      </start>
+
+      <end>
+        <color>
+          <red><value>   1.0</value></red>
+          <green><value> 0.5</value></green>
+          <blue><value>  0.2</value></blue>
+          <alpha><value> 0.7</value></alpha>
+	</color>
+        <size>
+          <value>20</value>
+	</size>
+      </end>
+
+      <life-sec>
+        <value>1.0</value>
+      </life-sec>
+      
+      <mass-kg>  5</mass-kg>
+      <radius-m> 0.5</radius-m>
+    </particle>
+
+    <program>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
+    </program>
+
+  </particlesystem>
+
+  <particlesystem>
+    <name>explosion-smoke-inner</name>
+    <texture>../smoke.png</texture>
+
+    <emissive type="bool">false</emissive>
+    <lighting type="bool">false</lighting>
+
+    <condition>
+      <and>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-400</property>
+        <not>
+          <property>payload/armament/mk-82se/flags/explode-water-id-400</property>
+	</not>
+      </and>
+    </condition>
+    
+    
+    <attach>world</attach>
+
+    <placer>
+      <type>point</type>
+    </placer>
+
+    <shooter>
+      <theta-min-deg>35</theta-min-deg>
+      <theta-max-deg>65</theta-max-deg>
+      <phi-min-deg>-180</phi-min-deg>
+      <phi-max-deg>180</phi-max-deg>
+      <speed-mps>
+        <value>350</value>
+        <spread>100</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>0</x-min-deg-sec>
+        <y-min-deg-sec>0</y-min-deg-sec>
+        <z-min-deg-sec>0</z-min-deg-sec>
+        <x-max-deg-sec>0</x-max-deg-sec>
+        <y-max-deg-sec>0</y-max-deg-sec>
+        <z-max-deg-sec>30</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+
+    <counter>
+      <particles-per-sec>
+        <value>300</value>
+        <spread>5</spread>
+      </particles-per-sec>
+    </counter>
+    
+    <align>billboard</align>
+
+    <particle>
+      <start>
+        <color>
+          <red><value>   0.3</value></red>
+          <green><value> 0.3</value></green>
+          <blue><value>  0.25</value></blue>
+          <alpha><value> 1.0</value></alpha>
+	</color>
+        <size>
+          <value>4</value>
+	</size>
+      </start>
+
+      <end>
+        <color>
+          <red><value>   0.4</value></red>
+          <green><value> 0.4</value></green>
+          <blue><value>  0.4</value></blue>
+          <alpha><value> 0.1</value></alpha>
+	</color>
+        <size>
+          <value>10</value>
+	</size>
+      </end>
+
+      <life-sec>
+        <value>20</value>
+      </life-sec>
+      
+      <mass-kg>  8.0</mass-kg>
+      <radius-m> 0.5</radius-m>
+    </particle>
+
+    <program>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
+    </program>
+
+  </particlesystem>
+
+
+
+  <particlesystem>
+    <name>explosion-smoke-outer</name>
+    <texture>../smoke.png</texture>
+
+    <emissive type="bool">false</emissive>
+    <lighting type="bool">false</lighting>
+
+    <condition>
+      <and>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-400</property>
+        <not>
+          <property>payload/armament/mk-82se/flags/explode-water-id-400</property>
+	</not>
+      </and>
+    </condition>
+
+    <attach>world</attach>
+
+    <placer>
+      <type>point</type>
+    </placer>
+
+    <shooter>
+      <theta-min-deg>0</theta-min-deg>
+      <theta-max-deg>50</theta-max-deg>
+      <phi-min-deg>-180</phi-min-deg>
+      <phi-max-deg>180</phi-max-deg>
+      <speed-mps>
+        <value>250</value>
+        <spread>200</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>0</x-min-deg-sec>
+        <y-min-deg-sec>0</y-min-deg-sec>
+        <z-min-deg-sec>0</z-min-deg-sec>
+        <x-max-deg-sec>0</x-max-deg-sec>
+        <y-max-deg-sec>0</y-max-deg-sec>
+        <z-max-deg-sec>0</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+
+    <counter>
+      <particles-per-sec>
+        <value>10</value>
+        <spread>5</spread>
+      </particles-per-sec>
+    </counter>
+    
+    <align>billboard</align>
+
+    <particle>
+      <start>
+        <color>
+          <red><value>   0.3</value></red>
+          <green><value> 0.3</value></green>
+          <blue><value>  0.25</value></blue>
+          <alpha><value> 1.0</value></alpha>
+	</color>
+        <size>
+          <value>20</value>
+	</size>
+      </start>
+
+      <end>
+        <color>
+          <red><value>   0.4</value></red>
+          <green><value> 0.4</value></green>
+          <blue><value>  0.4</value></blue>
+          <alpha><value> 0.5</value></alpha>
+	</color>
+        <size>
+          <value>40</value>
+	</size>
+      </end>
+
+      <life-sec>
+        <value>30</value>
+      </life-sec>
+      
+      <mass-kg>  5.0</mass-kg>
+      <radius-m> 0.5</radius-m>
+    </particle>
+
+    <program>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
+    </program>
+
+  </particlesystem>
+
+  <particlesystem>
+    <name>explosion-debris</name>
+    <texture>../lava.png</texture>
+
+    <emissive type="bool">false</emissive>
+    <lighting type="bool">false</lighting>
+
+    <condition>
+      <and>
+        <property>payload/armament/mk-82se/flags/explode-id-400</property>
+        <not>
+          <property>payload/armament/mk-82se/flags/explode-water-id-400</property>
+	</not>
+      </and>
+    </condition>
+
+    <attach>world</attach>
+
+    <placer>
+      <type>point</type>
+    </placer>
+
+    <shooter>
+      <theta-min-deg>35</theta-min-deg>
+      <theta-max-deg>55</theta-max-deg>
+      <phi-min-deg>-180</phi-min-deg>
+      <phi-max-deg>180</phi-max-deg>
+      <speed-mps>
+        <value>320</value>
+        <spread>250</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>0</x-min-deg-sec>
+        <y-min-deg-sec>0</y-min-deg-sec>
+        <z-min-deg-sec>100</z-min-deg-sec>
+        <x-max-deg-sec>0</x-max-deg-sec>
+        <y-max-deg-sec>0</y-max-deg-sec>
+        <z-max-deg-sec>300</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+
+    <counter>
+      <particles-per-sec>
+        <value>300</value>
+        <spread>5</spread>
+      </particles-per-sec>
+    </counter>
+    
+    <align>billboard</align>
+
+    <particle>
+      <start>
+        <color>
+          <red><value>   0.2</value></red>
+          <green><value> 0.2</value></green>
+          <blue><value>  0.2</value></blue>
+          <alpha><value> 1.0</value></alpha>
+	</color>
+        <size>
+          <value>0.5</value>
+	</size>
+      </start>
+
+      <end>
+        <color>
+          <red><value>   0.2</value></red>
+          <green><value> 0.2</value></green>
+          <blue><value>  0.2</value></blue>
+          <alpha><value> 0.1</value></alpha>
+	</color>
+        <size>
+          <value>0.5</value>
+	</size>
+      </end>
+
+      <life-sec>
+        <value>10</value>
+      </life-sec>
+      
+      <mass-kg>  15.0</mass-kg>
+      <radius-m> 0.5</radius-m>
+    </particle>
+
+    <program>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
+    </program>
+
+  </particlesystem>
+
+
+  <particlesystem>
+    <name>explosion-water-inner</name>
+    <texture>../smoke.png</texture>
+
+    <emissive type="bool">false</emissive>
+    <lighting type="bool">false</lighting>
+
+    <condition>
+      <and>
+        <property>payload/armament/mk-82se/flags/explode-id-400</property>
+        <property>payload/armament/mk-82se/flags/explode-water-id-400</property>
+      </and>
+    </condition>
+
+    <attach>world</attach>
+
+    <placer>
+      <type>point</type>
+    </placer>
+
+    <shooter>
+      <theta-min-deg>0</theta-min-deg>
+      <theta-max-deg>5</theta-max-deg>
+      <phi-min-deg>-180</phi-min-deg>
+      <phi-max-deg>180</phi-max-deg>
+      <speed-mps>
+        <value>450</value>
+        <spread>450</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>0</x-min-deg-sec>
+        <y-min-deg-sec>0</y-min-deg-sec>
+        <z-min-deg-sec>-30</z-min-deg-sec>
+        <x-max-deg-sec>0</x-max-deg-sec>
+        <y-max-deg-sec>0</y-max-deg-sec>
+        <z-max-deg-sec>30</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+
+    <counter>
+      <particles-per-sec>
+        <value>800</value>
+        <spread>5</spread>
+      </particles-per-sec>
+    </counter>
+    
+    <align>billboard</align>
+
+    <particle>
+      <start>
+        <color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  1.0</value></blue>
+          <alpha><value> 0.5</value></alpha>
+	</color>
+        <size>
+          <value>5.0</value>
+	</size>
+      </start>
+
+      <end>
+        <color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  1.0</value></blue>
+          <alpha><value> 0.2</value></alpha>
+	</color>
+        <size>
+          <value>2.5</value>
+	</size>
+      </end>
+
+      <life-sec>
+        <value>20</value>
+      </life-sec>
+      
+      <mass-kg>  15.0</mass-kg>
+      <radius-m> 0.5</radius-m>
+    </particle>
+
+    <program>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
+    </program>
+
+  </particlesystem>
+
+
+  <particlesystem>
+    <name>explosion-water-outer</name>
+    <texture>../smoke.png</texture>
+
+    <emissive type="bool">false</emissive>
+    <lighting type="bool">false</lighting>
+
+    <condition>
+      <and>
+        <property>payload/armament/mk-82se/flags/explode-smoke-id-400</property>
+        <property>payload/armament/mk-82se/flags/explode-water-id-400</property>
+      </and>
+    </condition>
+
+    <attach>world</attach>
+
+    <placer>
+      <type>point</type>
+    </placer>
+
+    <shooter>
+      <theta-min-deg>0</theta-min-deg>
+      <theta-max-deg>70</theta-max-deg>
+      <phi-min-deg>-180</phi-min-deg>
+      <phi-max-deg>180</phi-max-deg>
+      <speed-mps>
+        <value>120</value>
+        <spread>80</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>0</x-min-deg-sec>
+        <y-min-deg-sec>0</y-min-deg-sec>
+        <z-min-deg-sec>-50</z-min-deg-sec>
+        <x-max-deg-sec>0</x-max-deg-sec>
+        <y-max-deg-sec>0</y-max-deg-sec>
+        <z-max-deg-sec>50</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+
+    <counter>
+      <particles-per-sec>
+        <value>80</value>
+        <spread>5</spread>
+      </particles-per-sec>
+    </counter>
+    
+    <align>billboard</align>
+
+    <particle>
+      <start>
+        <color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  1.0</value></blue>
+          <alpha><value> 0.5</value></alpha>
+	</color>
+        <size>
+          <value>10.0</value>
+	</size>
+      </start>
+
+      <end>
+        <color>
+          <red><value>   1.0</value></red>
+          <green><value> 1.0</value></green>
+          <blue><value>  1.0</value></blue>
+          <alpha><value> 0.2</value></alpha>
+	</color>
+        <size>
+          <value>18.0</value>
+	</size>
+      </end>
+
+      <life-sec>
+        <value>18</value>
+      </life-sec>
+      
+      <mass-kg>  8.0</mass-kg>
+      <radius-m> 0.5</radius-m>
+    </particle>
+
+    <program>
+      <fluid>               air</fluid>
+      <gravity type="bool"> true</gravity>
+      <wind typ="bool">     true</wind>
+    </program>
+
+  </particlesystem>      
+  
+  <animation>
+    <type>rotate</type>
+    <object-name>explosion-smoke-inner</object-name>
+    <object-name>explosion-smoke-outer</object-name>
+    <offset-deg>0</offset-deg>
+    <factor>1</factor>
+    <property>payload/armament/mk-82se/flags/explode-angle</property>      
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <enable-hot type="bool">false</enable-hot>
+  </animation>
+  
+</PropertyList>

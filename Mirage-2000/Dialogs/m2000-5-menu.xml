@@ -115,6 +115,38 @@
           <dialog-name>scenario28</dialog-name>
         </binding>
       </item>
+
+      <item>
+	<label>Fast re-arm</label>
+	<name>payload-qs</name>
+	<binding>
+	  <condition>
+	    <or>
+	      <equals>
+		<property>sim/aircraft</property>
+		<value>m2000-5</value>
+	      </equals>
+	      <equals>
+		<property>sim/aircraft</property>
+		<value>m2000-5B</value>
+	      </equals>
+	    </or>
+	  </condition>
+	  <command>dialog-show</command>
+	  <dialog-name>payload-5</dialog-name>
+	</binding>
+	<binding>
+	  <condition>
+	    <equals>
+	      <property>sim/aircraft</property>
+	      <value>m2000D</value>
+	    </equals>
+	  </condition>
+	  <command>dialog-show</command>
+	  <dialog-name>payload-d</dialog-name>
+	</binding>
+      </item>
+
     </menu>
   </default>
 

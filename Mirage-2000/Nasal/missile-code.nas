@@ -5,7 +5,7 @@
 ####### License: GPL 2.0
 #######
 ####### Authors:
-#######  Alexis Bory, Fabien Barbier, Richard Harrison, Justin Nicholson, Nikolai V. Chr.
+#######  Alexis Bory, Fabien Barbier, Richard Harrison, Justin Nicholson, Nikolai V. Chr, Axel Paccalin.
 ####### 
 ####### The file vector.nas needs to be available in namespace 'vector'.
 #######
@@ -243,7 +243,6 @@ var AIM = {
         if (m.SwSoundVol.getValue() == nil) {
         	m.SwSoundVol.setDoubleValue(0);
         }
-        m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
         m.gnd_launch   = getprop("payload/armament/gnd-launch");#true to be a SAM or ship
         if (m.gnd_launch == nil) {
         	m.gnd_launch = 0;
@@ -385,11 +384,6 @@ var AIM = {
 		m.patternPitchDown      = -15;
 		m.patternYaw            = 8.5;
 
-		if (m.triggerAlgorithm == "proximity") {
-			m.useHitInterpolation = FALSE;
-		} elsif (m.triggerAlgorithm == "passing") {
-			m.useHitInterpolation = TRUE;
-		}
         if (m.detect_range_nm == nil) {
           # backwards compatibility
           m.detect_range_nm = m.max_fire_range_nm;
@@ -633,11 +627,17 @@ var AIM = {
 		m.ac      = nil;
 
 		m.coord               = geo.Coord.new().set_latlon(0, 0, 0);
-		m.last_coord          = nil;
-		m.before_last_coord   = nil;
 		m.t_coord             = nil;
-		m.last_t_coord        = m.t_coord;
-		m.before_last_t_coord = nil;
+		
+		m.crc_frames_look_back = 2;
+		
+		m.crc_coord    = [];
+		m.crc_t_coord  = [];
+		m.crc_range    = [];
+		setsize(m.crc_coord,   m.crc_frames_look_back + 1);
+		setsize(m.crc_t_coord, m.crc_frames_look_back + 1);
+		setsize(m.crc_range,   m.crc_frames_look_back + 1);
+
 
 		m.speed_down_fps  = nil;
 		m.speed_east_fps  = nil;
@@ -1690,11 +1690,9 @@ var AIM = {
 		if (me.destruct_when_free) {
 			me.printStats("Will selfdestruct if loses lock.");
 		}
-		if (me.useHitInterpolation) {
-			me.printStats("Will explode by proximity: %d meters from target.",me.reportDist);
-		} else {
-			me.printStats("Will explode as soon as within %d meters of target.",me.reportDist);
-		}
+		
+        me.printStats("Will explode if target range is increasing and within %d meters of target.",me.reportDist);
+        
 		if (me.inert) {
 			me.printStats("Warhead is inert though and will not detonate.");
 		}
@@ -2177,14 +2175,6 @@ var AIM = {
 				me.t_coord.set_alt(me.flare_alt_ft * FT2M);
 			}
 		}
-		# record coords so we can give the latest nearest position for impact.
-		me.before_last_coord   = geo.Coord.new(me.last_coord);
-		me.last_coord          = geo.Coord.new(me.coord);
-		if (me.Tgt != nil) {
-			me.before_last_t_coord = geo.Coord.new(me.last_t_coord);
-			me.last_t_coord        = geo.Coord.new(me.t_coord);
-		}
-
 		# performance logging:
 		#
 		#var q = 0.5 * rho * me.old_speed_fps * me.old_speed_fps;
@@ -3606,7 +3596,7 @@ var AIM = {
             		#me.direct_dist_m = me.coord.direct_distance_to(me.Tgt.get_Coord());
             	}
             	if ((me.Tgt != nil and me.direct_dist_m != nil) or me.Tgt == nil) {
-            		me.explode("Hit terrain.", me.event);
+            		me.explode("Hit terrain.", me.coord, nil, me.event);
             		return TRUE;
             	}
             }
@@ -3621,163 +3611,160 @@ var AIM = {
         		#me.direct_dist_m = me.coord.direct_distance_to(me.Tgt.get_Coord());
         	}
         	if ((me.Tgt != nil and me.direct_dist_m != nil) or me.Tgt == nil) {
-        		me.explode("Hit terrain.", me.event);
+        		me.explode("Hit terrain.", me.coord, nil, me.event);
         		return TRUE;
         	}
         }
 
 		if (me.Tgt != nil and me.t_coord != nil and me.guidance != "inertial") {
-			# Get current direct distance.
-			me.cur_dir_dist_m = me.coord.direct_distance_to(me.t_coord);
-			if (me.useHitInterpolation == TRUE) { # use Nikolai V. Chr. interpolation
-				if ( me.direct_dist_m != nil and me.life_time > me.arming_time) {
-					#me.print("distance to target_m = "~cur_dir_dist_m~" prev_distance to target_m = "~me.direct_dist_m);
-					if ( me.cur_dir_dist_m > me.direct_dist_m and me.cur_dir_dist_m < 250) {
-						#me.print("passed target");
-						# Distance to target increase, trigger explosion.
-						me.explode("Passed target.");
-						return TRUE;
-					}
-					if (me.life_time > me.selfdestruct_time or (me.destruct_when_free == TRUE and me.free == TRUE)) {
-						me.explode("Selfdestructed.");
-					    return TRUE;
-					}
+			# Maintain an array of the coordinates of the missile and the tgt in the last 3 frames.
+			# (use xyz coord to avoid the strange behaviour of comparing geo coordinates).
+			for (var i=me.crc_frames_look_back; i >= 0; i-=1){
+				me.crc_coord[i]   = (i != 0) ? me.crc_coord[i-1]   : me.coord.xyz();
+				me.crc_t_coord[i] = (i != 0) ? me.crc_t_coord[i-1] : me.t_coord.xyz();
+				me.crc_range[i]   = (i != 0) ? me.crc_range[i-1]   : me.myMath.magnitudeVector(
+																		 me.myMath.minus(me.crc_coord[0], 
+																						 me.crc_t_coord[0]));
+			}
+			
+			if (me.crc_coord[1] == nil or me.crc_t_coord[1] == nil or me.crc_range[1] == nil)
+				return FALSE; # Wait for the buffer to fill at least once.		   
+			
+			if (me.life_time > me.arming_time) {
+				# Distance to target increase.
+				if (me.crc_range[0] > me.crc_range[1] and me.crc_range[0] < 250) {
+					# Compute the closest approach.
+					me.subframeClosestRangeCoord();  # Provides `me.crc_closestRange` and `me.crc_missileCoord`.
+					
+					me.explode("Passed target.", me.crc_missileCoord, me.crc_closestRange);
+					return TRUE;
 				}
-			} else { # use Fabien Barbier trigonometry
-				var BC = me.cur_dir_dist_m;
-		        var AC = me.direct_dist_m;
-		        if(me.last_coord != nil)
-		        {
-		            var AB = me.last_coord.direct_distance_to(me.coord);
-			        # 
-			        #  A_______C'______ B
-			        #   \      |      /     We have a system  :   x²   = CB² - C'B²
-			        #    \     |     /                            C'B  = AB  - AC'
-			        #     \    |x   /                             AC'² = A'C² + x²
-			        #      \   |   /
-			        #       \  |  /        Then, if I made no mistake : x² = BC² - ((BC²-AC²+AB²)/(2AB))²
-			        #        \ | /
-			        #         \|/
-			        #          C
-			        # C is the target. A is the last missile positioin and B tha actual. 
-			        # For very high speed (more than 1000 m /seconds) we need to know if,
-			        # between the position A and the position B, the distance x to the 
-			        # target is enough short to proxiimity detection.
-			        
-			        # get current direct distance.			        
-			        if(me.direct_dist_m != nil)
-			        {
-			            var x2 = BC * BC - (((BC * BC - AC * AC + AB * AB) / (2 * AB)) * ((BC * BC - AC * AC + AB * AB) / (2 * AB)));
-			            if(BC * BC - x2 < AB * AB)
-			            {
-			                # this is to check if AC' < AB
-			                if(x2 > 0)
-			                {
-			                    me.cur_dir_dist_m = math.sqrt(x2);
-			                }
-			            }
-			            
-			            if(me.tpsApproch == 0)
-			            {
-			                me.tpsApproch = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
-			            }
-			            else
-			            {
-			                me.vApproch = (me.direct_dist_m-me.cur_dir_dist_m) / (props.globals.getNode("/sim/time/elapsed-sec", 1).getValue() - me.tpsApproch);
-			                me.tpsApproch = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
-			            }
-			            
-			            if(me.usedChance == FALSE and me.cur_dir_dist_m > me.direct_dist_m and me.direct_dist_m < me.reportDist * 2 and me.life_time > me.arming_time)
-			            {
-			                if(me.direct_dist_m < me.reportDist)
-			                {
-			                    # distance to target increase, trigger explosion.
-			                    me.explodeTrig("In range.");
-			                    return TRUE;
-			                } else {
-		                        # you don't have a second chance. Missile missed
-		                        me.free = 1;
-		                        me.usedChance = TRUE;
-		                        return FALSE;
-			                }
-			            }
-			            if (me.life_time > me.selfdestruct_time or (me.destruct_when_free == TRUE and me.free == TRUE)) {
-							me.explode("Selfdestructed.");
-						    return TRUE;
-						}
-			        }
+				if (me.life_time > me.selfdestruct_time or (me.destruct_when_free == TRUE and me.free == TRUE)) {
+					me.explode("Selfdestructed.", me.coord);
+					return TRUE;
 				}
 			}
-			me.direct_dist_m = me.cur_dir_dist_m;
+			me.direct_dist_m = me.crc_range[0];
 		} elsif (me.life_time > me.selfdestruct_time) {
-			me.explode("Selfdestructed.");
-		    return TRUE;
+			me.explode("Selfdestructed.", me.coord);
+			return TRUE;
 		}
 		return FALSE;
 	},
-
-	explode: func (reason, event = "exploded") {
-
-		if (me.lock_on_sun == TRUE) {
-			reason = "Locked onto sun.";
-		} elsif (me.flareLock == TRUE) {
-			reason = "Locked onto flare.";
-		} elsif (me.chaffLock == TRUE) {
-			reason = "Locked onto chaff.";
+	
+	#! brief: Recursive function to compute the closest range in the past mfd frames.
+	#! param fei: The frame to compute first (0: current frame, 1: previous frame, ...).
+	#! param mfd: The maximum amount of frames available if needed.
+	#! input me.crc_coord: The coordinates of the missile in the last frames. 
+	#! input me.crc_t_coord: The coordinates of the target in the last frames. 
+	#! output me.crc_missileCoord: The coordinates of the missile when it was the closest to the target in the mfd+1 last frames.
+	#! output me.crc_closestRange: The range of the missile when it was the closest to the target in the mfd+1 last frames.
+	subframeClosestRangeCoord : func(fei=0, mfd=nil) {
+		# Handle default depth parameter (set it as me.crc_frames_look_back if default is needed).
+		if (mfd == nil)
+			mfd = me.crc_frames_look_back;
+			
+		# Prevent illegal parameter.
+		if(mfd < 1)
+			die("Argument exception: The mfd (Max Frames Depth) cannot be less than one.");
+		if(fei < 0)
+			die("Argument exception: The fei (Frames End Index) cannot be negative.");
+			
+		# Ensure the availability of the frame-end data.
+		if(me.crc_coord[fei] == nil or me.crc_t_coord[fei] == nil)  
+			die("No coordinates available for the end of the frame.");
+			
+		# Indices for the coordinates at frame start (fsi) and frame end (fei); 
+		var fsi = fei + 1;
+		
+		# Buffers used for unprocessed result, set to the frame-end values in case of unavailable frame-start data;
+		var missileCoord = me.crc_coord[fei];
+		var targetCoord = me.crc_t_coord[fei];
+		
+		# Check for availability of the frame-start data
+		if(me.crc_coord[fsi] != nil and me.crc_t_coord[fsi] != nil){  
+			# Get the origin coordinates and speed of the missile and it's target for the current frame.
+			# The units are in m for distances and frames for time.
+			var misCoord = me.crc_coord[fsi];
+			var misSpeed = me.myMath.minus(me.crc_coord[fei], misCoord);
+			var tgtCoord = me.crc_t_coord[fsi];
+			var tgtSpeed = me.myMath.minus(me.crc_t_coord[fei], tgtCoord);
+			
+			# Compute when the closest distance happened in time.
+			var t = call(func me.myMath.particleShortestDistTime(misCoord, misSpeed, tgtCoord, tgtSpeed), nil, var err = []);
+			# If an error is thrown, this is probably due to a null differential speed.
+			if (size(err)){
+				t = 1;
+				print(err[0]);
+			}
+			
+			# If the time factor (in frames) is superior than 1, this mean that the missile is still closing.
+			if (t > 1)
+				t = 1; # Set it to 1 to prevent extrapolation (but it should still get closer).
+			# If it is negative, the closest range happened at one of the previous frame:
+			else if (t < 0)
+				if (mfd > 1)  # If we can recursively compute the previous frame:
+					return me.subframeClosestRangeCoord(fei+1, mfd-1);  # Return it's result instead, and stop here.
+				else 
+					t = 0;  # Set it to 0 to prevent extrapolation.
+			
+			# Compute (interpolate) the position of the missile and it's target when their range is the closest.
+			missileCoord = me.myMath.plus(misCoord, me.myMath.product(t, misSpeed));
+			targetCoord  = me.myMath.plus(tgtCoord, me.myMath.product(t, tgtSpeed));
 		}
 		
-		var explosion_coord = me.last_coord;
-		var min_distance = me.direct_dist_m;
-		if (me.Tgt != nil and me.last_t_coord != nil and me.t_coord != nil) {#the two latter checks is for maddog/canSwitch, shouldn't really be needed but is.
-						
-			for (var i = 0.00; i <= 1; i += 0.025) {
-				var t_coord = me.interpolate(me.last_t_coord, me.t_coord, i);#todo: nil in numric inside this
-				var coord = me.interpolate(me.last_coord, me.coord, i);
-				var dist = coord.direct_distance_to(t_coord);
-				if (dist < min_distance) {
-					min_distance = dist;
-					explosion_coord = coord;
-				}
-			}
-			if (me.before_last_coord != nil and me.before_last_t_coord != nil) {
-				for (var i = 0.00; i <= 1; i += 0.025) {
-					var t_coord = me.interpolate(me.before_last_t_coord, me.last_t_coord, i);
-					var coord = me.interpolate(me.before_last_coord, me.last_coord, i);
-					var dist = coord.direct_distance_to(t_coord);
-					if (dist < min_distance) {
-						min_distance = dist;
-						explosion_coord = coord;
-					}
-				}
-			}
-		}
-		me.coord = explosion_coord;
+		# Return the minimum distance between the missile and the tgt, and the position of the missile at that time.
+		me.crc_closestRange = me.myMath.magnitudeVector(me.myMath.minus(targetCoord, missileCoord));
+		me.crc_missileCoord = geo.Coord.new();
+		me.crc_missileCoord.set_xyz(missileCoord[0], missileCoord[1], missileCoord[2]);
+	},
 
-		var wh_mass = (event == "exploded" and !me.inert)?me.weight_whead_lbm:0;#will report 0 mass if did not have time to arm
-		settimer(func {impact_report(me.coord, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);},0);# method sent back to main nasal thread.
+	explode: func (reason, coordinates, range = nil,  event = "exploded") {
+		if (me.lock_on_sun) 
+			reason = "Locked onto sun.";
+		elsif (me.flareLock)
+			reason = "Locked onto flare.";
+		elsif (me.chaffLock)
+			reason = "Locked onto chaff.";
+		
+		me.coord = coordinates;  # Set the current missile coordinates at the explosion point.
 
-		if (me.Tgt != nil and !me.Tgt.isVirtual() and !me.inert) {
-			var phrase = sprintf( me.type~" "~event~": %.1f", min_distance) ~ " meters from: " ~ (me.flareLock == FALSE?(me.chaffLock == FALSE?me.callsign:(me.callsign ~ "'s chaff")):me.callsign ~ "'s flare");
-			me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
-			if (min_distance < me.reportDist) {
-				me.sendMessage(phrase);
-			} else {
-				me.sendMessage(me.type~" missed "~me.callsign~": "~reason);
+		var wh_mass = (event == "exploded" and !me.inert) ? me.weight_whead_lbm : 0; #will report 0 mass if did not have time to arm
+		settimer(func {impact_report(coordinates, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);},0);# method sent back to main nasal thread.
+
+		if (!me.inert) {
+			var phrase = nil;
+			
+			if (me.Tgt != nil and !me.Tgt.isVirtual()){
+				var tgtLabel = me.callsign;
+				if(me.flareLock == TRUE)
+					tgtLabel ~= "'s flare";
+				else if (me.chaffLock == TRUE)
+					tgtLabel ~= "'s chaff";
+				if (range != nil and range < me.reportDist) {
+					phrase = sprintf(me.type ~ " " ~ event ~ ": %.1f meters from: " ~ tgtLabel, range);
+
+				} else {
+					phrase = me.type ~ " missed " ~ me.callsign ~ ": " ~ reason;
+				}
+			} else if (me.Tgt == nil){
+				phrase = sprintf(me.type ~ " " ~ event);
 			}
-		} elsif(!me.inert and me.Tgt == nil) {
-			var phrase = sprintf(me.type~" "~event);
-			me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
-			me.sendMessage(phrase);
-		}
-		if (me.multiHit and !me.inert) {
-			if (!me.multiExplosion(me.coord, event) and me.Tgt != nil and me.Tgt.isVirtual()) {
-				var phrase = sprintf(me.type~" "~event);
+			
+			if (phrase != nil){
 				me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
 				me.sendMessage(phrase);
 			}
-		}
-		
+			
+			if (me.multiHit and !me.multiExplosion(coordinates, event) and me.Tgt != nil and me.Tgt.isVirtual()){
+				phrase = sprintf(me.type~" "~event);
+				me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
+				me.sendMessage(phrase);
+			}
+		} 
+				
 		me.ai.getNode("valid", 1).setBoolValue(0);
+		
 		if (event == "exploded" and !me.inert) {
 			me.animate_explosion();
 			me.explodeSound = TRUE;
@@ -3787,53 +3774,7 @@ var AIM = {
 		}
 		me.Tgt = nil;
 	},
-
-	explodeTrig: func (reason, event = "exploded") {
-		# get missile relative position to the target at last frame.
-		# this method is not called at terrain impact (always explode() instead)
-        var t_bearing_deg = me.last_t_coord.course_to(me.last_coord);
-        var t_delta_alt_m = me.last_coord.alt() - me.last_t_coord.alt();
-        var new_t_alt_m = me.t_coord.alt() + t_delta_alt_m;
-        var t_dist_m  = math.sqrt(math.abs((me.direct_dist_m * me.direct_dist_m)-(t_delta_alt_m * t_delta_alt_m)));
-        # create impact coords from this previous relative position
-        # applied to target current coord.
-        me.t_coord.apply_course_distance(t_bearing_deg, t_dist_m);
-        me.t_coord.set_alt(new_t_alt_m);
-        var wh_mass = (event == "exploded" and !me.inert)?me.weight_whead_lbm:0;#will report 0 mass if did not have time to arm
-        settimer(func{impact_report(me.t_coord, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);},0);# method sent back to main nasal thread.
-
-		if (me.lock_on_sun == TRUE) {
-			reason = "Locked onto sun.";
-		} elsif (me.flareLock == TRUE) {
-			reason = "Locked onto flare.";
-		} elsif (me.chaffLock == TRUE) {
-			reason = "Locked onto chaff.";
-		}
-		
-		if (me.Tgt != nil and !me.Tgt.isVirtual() and !me.inert) {
-			var phrase = sprintf( me.type~" "~event~": %.1f", me.direct_dist_m) ~ " meters from: " ~ (me.flareLock == FALSE?(me.chaffLock == FALSE?me.callsign:(me.callsign ~ "'s chaff")):me.callsign ~ "'s flare");
-			me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
-			me.sendMessage(phrase);
-		}
-		if (me.multiHit and !me.inert) {
-			if (!me.multiExplosion(me.t_coord, event) and me.Tgt != nil and me.Tgt.isVirtual()) {
-				var phrase = sprintf(me.type~" "~event);
-				me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
-				me.sendMessage(phrase);
-			}
-		}
-		
-		me.ai.getNode("valid", 1).setBoolValue(0);
-		if (event == "exploded" and !me.inert) {
-			me.animate_explosion();
-			me.explodeSound = TRUE;
-		} else {
-			me.animate_dud();
-			me.explodeSound = FALSE;
-		}
-		me.Tgt = nil;
-	},
-
+	
 	multiExplosion: func (explode_coord, event) {
 		# hit everything that is nearby except for target itself.
 		me.sendout = 0;

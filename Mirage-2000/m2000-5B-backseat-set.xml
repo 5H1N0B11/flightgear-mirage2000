@@ -4,7 +4,7 @@
 
   <sim>
     <description>Mirage 2000 backseat</description>
-    <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007</author>
+    <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe</author>
 
       <!-- 
           Elijah (3D/FDM)
@@ -19,6 +19,7 @@
           Domokos "Rudolf" Juttner
           ravenclaw_007
           J Maverick 16
+          Niall "Salmon" Roe
       -->
     <long-description>The Dassault Mirage 2000-5 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
     <aircraft-version>2020-06-27</aircraft-version>
@@ -39,15 +40,11 @@
       <path>Aircraft/Mirage-2000/Models/m2000-5B-backseat.xml</path>
     </model>
 
-    <startup>
-      <splash-texture>Aircraft/Mirage-2000/Splashs/m2000-5B-splash.png</splash-texture>
-    </startup>
-    
     <previews>
-            <preview>
+           <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
-                <path>Splashs/m2000-5B-splash.png</path>
+                <path>Splashes/splashB-s01.png</path>
             </preview>
     </previews>
 
@@ -92,12 +89,22 @@
     </view>
     
     <rendering>
-      <redout>
-        <parameters>
-          <blackout-complete-g>10</blackout-complete-g>
-          <blackout-onset-g>8</blackout-onset-g>
-        </parameters>
-      </redout>
+<redout>
+  <!--5H1N0B1 => Standart OPRF value when mp damage is off-->
+    <enabled type="bool" archive="n">true</enabled>
+      <parameters>
+          <blackout-onset-g type="double">5</blackout-onset-g>
+          <blackout-complete-g type="double">8</blackout-complete-g>
+          <onset-blackout-sec type="double">300</onset-blackout-sec>
+          <fast-blackout-sec type="double">30</fast-blackout-sec>
+          <redout-onset-g type="double">-2</redout-onset-g>
+          <redout-complete-g type="double">-4</redout-complete-g>
+          <onset-redout-sec type="double">45</onset-redout-sec>
+          <fast-redout-sec type="double">3.5</fast-redout-sec>
+          <recover-fast-sec type="double">7</recover-fast-sec>
+          <recover-slow-sec type="double">15</recover-slow-sec>
+      </parameters>
+    </redout>
     </rendering>
     
     <multiplay>

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+ 
+<system name="Mirage 2000 : Fuel">
+  
+<!--
+  Tank 3 and 4 are both tanks and collectors.
+  Tanks 2 and 7 are in the wing
+  Tanks 1 and 6 are forward sides tanks
+  Tank 5 is the center tank.
+  
+  
+  Tanks 6 and 7 are collected by the tank 4 : left side
+  Tanks 1 and 2 are collected by the tank 3 : right side
+  
+  Tanks 1 and 6 are also connected to the tank 5. 
+  Tranfers are possible from 1 side to the other, using the central tank (5)
+  an electro valve also allow direct transferts betwwen 3 and 4.
+  
+  The refuelling probe should be modelised (=> we could damage it and that would stop refuelling)
+  => need to do a pipe.
+  
+  The pilot hadbook says that flying reversed is limited to 15 seconds. Maybe we could modelised a fuel issue above 30 seconds of reversed flying.
+  
+  The nozzles are using fuel as hydraulics systems. Maybe this is a way to heat up a bit the fuel. Modelising that would allow us to modelise nozzle issue and 
+  fire when the nozzle is damaged.
+  
+  Externals tank are used first and in a2a refualing, filled last.
+  
+  Maybe wing external tanks should be connected to wing tanks (2 and 7) and the center external tank to the center internal tank (5)
+  
+  Actual in flight tank pressure is 3,5 bars
+  
+  There is 2 fuel pumps that are powered by the alternator 2 (1 if the 2 is failed)
+  These pump are used in order to feed the engine when flying reversed.
+  => 15s from the pilot handbook, lets guess 30 seconds before failure or tanks (3 and 4) < 400 liters
+  
+  For more details : (in french)
+  https://www.youtube.com/watch?v=30h4VIPITDo 
+  
+  -->
+  
+  
+  <!--  bellow : An example taken from the wiki.
+  I should get inspiration from the MD11, F16 and JA37 in order to make it right
+  
+  -->
+  
+  
+  
+<!-- tank[2] collector tank connected to the engine fuel pump, tank[0] and tank[1] feeds the collector through valves.
+Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
+   <property value="1">propulsion/tank[0]/collector-valve</property>
+   <property value="1">propulsion/tank[1]/collector-valve</property>
+   <property value="1">propulsion/tank[2]/collector-valve</property>
+   <property value="1">propulsion/tank[3]/collector-valve</property>
+   <property value="1">propulsion/tank[4]/collector-valve</property>
+   <property value="1">propulsion/tank[5]/collector-valve</property>
+   <property value="1">propulsion/tank[6]/collector-valve</property>
+   <property value="1">propulsion/tank[7]/collector-valve</property>
+   <property value="1">propulsion/tank[8]/collector-valve</property>
+   <property value="1">propulsion/tank[9]/collector-valve</property>
+   <property value="1">propulsion/tank[10]/collector-valve</property>
+   <property value="1">propulsion/tank[11]/collector-valve</property>
+   <property value="1">propulsion/tank[12]/collector-valve</property>
+
+   
+  <channel name="Fuel_System">    
+
+    <!-- Switching between external tanks to internal -->
+    <switch name="/systems/fuel/transfert_ext_to_int" >
+      <default value="0"/>
+      <test logic="AND" value="1">
+        propulsion/tank[8]/contents-lbs LE 0
+        propulsion/tank[9]/contents-lbs LE 0
+        propulsion/tank[10]/contents-lbs LE 0
+        propulsion/tank[11]/contents-lbs LE 0
+        propulsion/tank[12]/contents-lbs LE 0
+      </test>
+      <output>propulsion/tank[1]/collector-valve</output>
+      <output>propulsion/tank[2]/collector-valve</output>
+      
+      <output>propulsion/tank[6]/collector-valve</output>
+      <output>propulsion/tank[7]/collector-valve</output>
+      
+    </switch>
+    
+    
+    <!-- Right Side -->
+    <switch name="/systems/fuel/transfert_1_to_3" >
+      <default value="18"/>
+      <test logic="OR" value="0">
+        propulsion/tank[1]/collector-valve EQ 0
+        propulsion/tank[1]/contents-lbs LE 0
+        propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5
+      </test>
+    </switch>
+
+    <switch name="/systems/fuel/transfert_2_to_3" >
+      <default value="18"/>
+      <test logic="OR" value="0">
+        propulsion/tank[2]/collector-valve EQ 0
+        propulsion/tank[2]/contents-lbs LE 0
+        propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5 
+      </test>
+    </switch>
+    
+    
+    <!-- Left Side -->
+    <switch name="/systems/fuel/transfert_6_to_4" >
+      <default value="18"/>
+      <test logic="OR" value="0">
+        propulsion/tank[6]/collector-valve EQ 0
+        propulsion/tank[6]/contents-lbs LE 0
+        propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5
+      </test>
+
+    </switch>
+
+    <switch name="/systems/fuel/transfert_7_to_4" >
+      <default value="18"/>
+      <test logic="OR" value="0">
+        propulsion/tank[7]/collector-valve EQ 0
+        propulsion/tank[7]/contents-lbs LE 0
+        propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5 
+      </test>
+    </switch>
+
+    <!-- Center  -->
+    <switch name ="/systems/fuel/transfert_5_to_1">
+      <default value="9"/>
+      <test logic="OR" value="0">
+        propulsion/tank[5]/collector-valve EQ 0
+        propulsion/tank[5]/contents-lbs LE 0
+        propulsion/tank[1]/contents-lbs GE 669 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5
+      </test>
+    </switch>
+
+    <switch name="/systems/fuel/transfert_5_to_6">
+      <default value="9"/>
+      <test logic="OR" value="0">
+        propulsion/tank[5]/collector-valve EQ 0
+        propulsion/tank[5]/contents-lbs LE 0
+        propulsion/tank[6]/contents-lbs GE 669 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5 
+      </test>
+    </switch>
+    
+    
+    <!-- splitting Center external tank between the feeder -->
+    <switch name="/systems/fuel/transfert_8_to_3">
+      <default value="9"/>
+      <test logic="OR" value="0">
+        propulsion/tank[8]/collector-valve EQ 0
+        propulsion/tank[8]/contents-lbs LE 0
+        propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5 
+      </test>
+    </switch>
+    <switch name="/systems/fuel/transfert_8_to_4">
+      <default value="9"/>
+      <test logic="OR" value="0">
+        propulsion/tank[8]/collector-valve EQ 0
+        propulsion/tank[8]/contents-lbs LE 0
+        propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5 
+      </test>
+    </switch>
+    
+   
+    <!-- Right external 2000L tank -->
+    <switch name="/systems/fuel/transfert_9_to_3">
+      <default value="18"/>
+      <test logic="OR" value="0">
+        propulsion/tank[9]/collector-valve EQ 0
+        propulsion/tank[9]/contents-lbs LE 0
+        propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5 
+      </test>
+    </switch>
+    
+    <!-- Right external 1700L tank -->
+    <switch name="/systems/fuel/transfert_11_to_3">
+      <default value="18"/>
+      <test logic="OR" value="0">
+        propulsion/tank[11]/collector-valve EQ 0
+        propulsion/tank[11]/contents-lbs LE 0
+        propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5 
+      </test>
+    </switch>
+    
+    
+    <!-- Left external 2000L tank -->
+    <switch name="/systems/fuel/transfert_10_to_4">
+      <default value="18"/>
+      <test logic="OR" value="0">
+        propulsion/tank[10]/collector-valve EQ 0
+        propulsion/tank[10]/contents-lbs LE 0
+        propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5 
+      </test>
+    </switch>
+    
+    <!-- Left external 1700L tank -->
+    <switch name="/systems/fuel/transfert_12_to_4">
+      <default value="18"/>
+      <test logic="OR" value="0">
+        propulsion/tank[12]/collector-valve EQ 0
+        propulsion/tank[12]/contents-lbs LE 0
+        propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
+        accelerations/Nz LE -1.5 
+      </test>
+    </switch>
+    
+    
+    <!-- Center summer -->
+    <summer>
+      <input>-/systems/fuel/transfert_5_to_1</input>
+      <input>-/systems/fuel/transfert_5_to_6</input>
+      <output>propulsion/tank[5]/external-flow-rate-pps</output>
+    </summer>
+
+    <summer name="/systems/fuel/internal/tank-1-fill-rate">
+      <input>/systems/fuel/transfert_5_to_1</input>
+    </summer>
+    
+    <summer name="/systems/fuel/internal/tank-6-fill-rate">
+      <input>/systems/fuel/transfert_5_to_6</input>
+    </summer>
+
+    
+    <!-- Right Summer -->
+    <summer name="/systems/fuel/internal/tank-1-flow-rate">
+      <input>/systems/fuel/internal/tank-1-fill-rate</input>
+      <input>-/systems/fuel/transfert_1_to_3</input>
+      <output>propulsion/tank[1]/external-flow-rate-pps</output>
+    </summer>
+    
+    <summer name="/systems/fuel/internal/tank-2-flow-rate">
+      <input>-/systems/fuel/transfert_2_to_3</input>
+      <output>propulsion/tank[2]/external-flow-rate-pps</output>
+    </summer>
+
+    <summer>
+      <input>/systems/fuel/transfert_1_to_3</input>
+      <input>/systems/fuel/transfert_2_to_3</input>
+      <input>/systems/fuel/transfert_8_to_3</input>
+      <input>/systems/fuel/transfert_9_to_3</input>
+      <input>/systems/fuel/transfert_11_to_3</input>
+      <output>propulsion/tank[3]/external-flow-rate-pps</output>
+    </summer>
+    
+    
+        <!-- Left Summer -->
+    <summer name="/systems/fuel/internal/tank-6-flow-rate">
+      <input>/systems/fuel/internal/tank-6-fill-rate</input>
+      <input>-/systems/fuel/transfert_6_to_4</input>
+      <output>propulsion/tank[6]/external-flow-rate-pps</output>
+    </summer>
+    
+    <summer name="/systems/fuel/internal/tank-7-flow-rate">
+      <input>-/systems/fuel/transfert_7_to_4</input>
+      <output>propulsion/tank[7]/external-flow-rate-pps</output>
+    </summer>
+
+    <summer>
+      <input>/systems/fuel/transfert_6_to_4</input>
+      <input>/systems/fuel/transfert_7_to_4</input>
+      <input>/systems/fuel/transfert_8_to_4</input>
+      <input>/systems/fuel/transfert_10_to_4</input>
+      <input>/systems/fuel/transfert_12_to_4</input>
+      <output>propulsion/tank[4]/external-flow-rate-pps</output>
+    </summer>
+
+    <!-- Center External Tank Flow -->
+    <summer>
+      <input>-/systems/fuel/transfert_8_to_3</input>
+      <input>-/systems/fuel/transfert_8_to_4</input>
+      <output>propulsion/tank[8]/external-flow-rate-pps</output>
+    </summer>
+    
+    <!-- Right External 2000L Tank Flow -->
+    <summer>
+      <input>-/systems/fuel/transfert_9_to_3</input>
+      <output>propulsion/tank[9]/external-flow-rate-pps</output>
+    </summer>
+    
+    <!-- Right External 1700L Tank Flow -->
+    <summer>
+      <input>-/systems/fuel/transfert_11_to_3</input>
+      <output>propulsion/tank[11]/external-flow-rate-pps</output>
+    </summer>
+
+    
+    <!-- Left External 2000L Tank Flow -->
+    <summer>
+      <input>-/systems/fuel/transfert_10_to_4</input>
+      <output>propulsion/tank[10]/external-flow-rate-pps</output>
+    </summer>
+    
+        <!-- Left External 2000L Tank Flow -->
+    <summer>
+      <input>-/systems/fuel/transfert_12_to_4</input>
+      <output>propulsion/tank[12]/external-flow-rate-pps</output>
+    </summer>
+    
+    <!-- Right fuel indicator --> 
+   <summer name="/systems/fuel/right-remaining-fuel">
+      <input>/consumables/fuel/tank[1]/level-kg</input>
+      <input>/consumables/fuel/tank[2]/level-kg</input>
+      <input>/consumables/fuel/tank[3]/level-kg</input>
+   </summer>
+   <!--Left Fuel indicator --> 
+   <summer name="/systems/fuel/left-remaining-fuel">
+      <input>/consumables/fuel/tank[6]/level-kg</input>
+      <input>/consumables/fuel/tank[7]/level-kg</input>
+      <input>/consumables/fuel/tank[4]/level-kg</input>
+   </summer> 
+    
+   
+       <!-- Internal remaining fuel indicator --> 
+   <summer name="/systems/fuel/internal-remaining-fuel">
+      <input>/consumables/fuel/tank[1]/level-kg</input>
+      <input>/consumables/fuel/tank[2]/level-kg</input>
+      <input>/consumables/fuel/tank[3]/level-kg</input>
+      <input>/consumables/fuel/tank[4]/level-kg</input>
+      <input>/consumables/fuel/tank[5]/level-kg</input>
+      <input>/consumables/fuel/tank[6]/level-kg</input>
+      <input>/consumables/fuel/tank[7]/level-kg</input>
+
+   </summer>
+
+    
+    
+  </channel>      
+
+</system>

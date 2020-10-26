@@ -17,7 +17,7 @@ var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
 };
 
 var rcs_database = {
-    #REVISION: 2020/06/25_2
+    #REVISION: 2020/09/27
     "default":                  150,    #default value if target's model isn't listed
     #OPRF Fleet and related
     "A-10":                     23.5,
@@ -103,10 +103,12 @@ var rcs_database = {
     #Stealth
     "b2-spirit":                0.001,  #actual: 0.0001
     "B-2A":                     0.001,  #actual: 0.0001
-    "F-22-Raptor":              0.001,  #actual: 0.0001
-    "F-35A":                    0.0005,
-    "F-35B":                    0.0005,
+    "F-22-Raptor":				0.001,	#actual: 0.0001
+    "F-35A":					0.0005,
+    "F-35B":					0.0005,
     "F-35C":                    0.0005,
+    "daVinci_F-35A":            0.0005,
+    "daVinci_F-35B":            0.0005,
     "F-117":                    0.003,
     "T-50":                     0.5,    #low end of sources
     "u-2s":                     0.01,

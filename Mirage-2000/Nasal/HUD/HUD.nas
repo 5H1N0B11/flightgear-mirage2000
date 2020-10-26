@@ -308,8 +308,8 @@ var HUD = {
     # Horizon and pitch lines
     m.horizon_sub_group.createChild("path")
       .setColor(m.myGreen)
-      .moveTo(-1000, 0)
-      .horiz(2000)
+      .moveTo(-700, 0)
+      .horiz(1400)
       .setStrokeLineWidth(4);
                    
     #ILS stuff
@@ -1104,6 +1104,8 @@ var HUD = {
      "AM39-Exocet":"AM39",
      "AS-37-Martel":"AS37",
      "AS30L" :"AS30",
+     "Mk-82" : "Mk82",
+     "Mk-82SE":"Mk82S"
     };
     
     m.pylonsSide_hash = {
@@ -1128,6 +1130,7 @@ var HUD = {
       speed_n:    "velocities/speed-north-fps",
       speed_e:    "velocities/speed-east-fps",
       speed_d:    "velocities/speed-down-fps",
+      uBody_fps:  "velocities/uBody-fps",
       alpha:      "/orientation/alpha-deg",
       beta:       "/orientation/side-slip-deg",
       gload:      "/accelerations/pilot-g",
@@ -1159,14 +1162,18 @@ var HUD = {
       ILS_gs_in_range :"/instrumentation/nav/gs-in-range",
       ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
       NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
-      
+      x_offset_m:    "/sim/current-view/x-offset-m",
+      y_offset_m:    "/sim/current-view/y-offset-m",
+      z_offset_m:    "/sim/current-view/z-offset-m",
       MasterArm      :"/controls/armament/master-arm",
       TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
     };
     
-    foreach(var name; keys(m.input))
+    foreach(var name; keys(m.input)){
       m.input[name] = props.globals.getNode(m.input[name], 1);
+  }
     
+    m.lastWP = m.input.currentWp.getValue();
     return m;
   },
   update: func()
@@ -1181,10 +1188,18 @@ var HUD = {
     
     #Choose the heading to display
     me.getHeadingToDisplay();
-
-
     
- 
+    #-----------------Test of paralax
+    me.Vy   =    me.input.x_offset_m.getValue();
+    me.pixelPerMeterX = HudMath.pixelPerMeterX;#(340*0.695633)/0.15848;
+    #me.pixelPerMeterY = 260/(me.Hz_t-me.Hz_b);
+    me.pixelside = me.pixelPerMeterX*me.Vy;
+    #me.svg.setTranslation(me.pixelside, 0);
+    #me.custom.setTranslation(me.pixelside, 0);
+    me.root.setTranslation(HudMath.getCenterOrigin()[0]+me.pixelside, HudMath.getCenterOrigin()[1]);
+    #me.custom.update();
+    me.root.update();
+    #me.svg.update();
     
  
 
@@ -1250,7 +1265,10 @@ var HUD = {
     me.NextWaypointCoordinate();
       
     #Display the Next WP
-    me.displayWaypointCross();
+    if( me.input.currentWp.getValue() != me.lastWP){
+      me.displayWaypointCross();
+    }
+    
      
     #Gun Cross (bore)
     me.displayBoreCross();
@@ -1384,6 +1402,8 @@ var HUD = {
     }
 
     #settimer(func me.update(), 0.1);
+    me.lastWP = me.input.currentWp.getValue();
+    #------------------------End of the Update------------------------------------------------------------------------
   },
   display_ILS_STUFF:func(){
     if(me.input.ILS_valid.getValue() and !me.input.MasterArm.getValue()){
@@ -2069,7 +2089,7 @@ var HUD = {
       me.WaypointCross.hide();
     }
   },
-  
+  #This should be called at every iteration
   NextWaypointCoordinate:func(){ 
       if(me.fp.currentWP() != nil){
           me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
@@ -2108,11 +2128,12 @@ var HUD = {
             #printf("dt %05.3f",me.eegsMe.dt);
             me.lastTime = st;
             
-            me.eegsMe.hdg   = getprop("orientation/heading-deg");
-            me.eegsMe.pitch = getprop("orientation/pitch-deg");
-            me.eegsMe.roll  = getprop("orientation/roll-deg");
+            me.eegsMe.hdg   = me.input.hdgReal.getValue();
+            me.eegsMe.pitch = me.input.pitch.getValue();
+            me.eegsMe.roll  = me.input.roll.getValue();
+                   
+            var hdp = {roll:me.eegsMe.roll,current_view_z_offset_m: me.input.z_offset_m.getValue()};
             
-            var hdp = {roll:me.eegsMe.roll,current_view_z_offset_m: getprop("sim/current-view/z-offset-m")};
             
             me.eegsMe.ac = geo.aircraft_position();
             me.eegsMe.allow = 1;
@@ -2263,9 +2284,9 @@ var HUD = {
             
             #calc shell positions
             
-            me.eegsMe.vel = getprop("velocities/uBody-fps")+3363.0;#3363.0 = speed
+            me.eegsMe.vel = me.input.uBody_fps.getValue() +3363.0 ; #3363.0 = speed
             
-            me.eegsMe.geodPos = aircraftToCart({x:-0, y:0, z: getprop("sim/current-view/y-offset-m")});#position (meters) of gun in aircraft (x and z inverted)
+            me.eegsMe.geodPos = aircraftToCart({x:-0, y:0, z: me.input.y_offset_m.getValue()});#position (meters) of gun in aircraft (x and z inverted)
             me.eegsMe.eegsPos.set_xyz(me.eegsMe.geodPos.x, me.eegsMe.geodPos.y, me.eegsMe.geodPos.z);
             me.eegsMe.altC = me.eegsMe.eegsPos.alt();
             
