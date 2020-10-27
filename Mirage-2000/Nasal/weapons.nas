@@ -269,6 +269,7 @@ if(tokenFlare==0){
     tokenFlare= 1;
     setprop("rotors/main/blade[3]/flap-deg", rand());    #flare
     setprop("rotors/main/blade[3]/position-deg", rand());#chaff
+    damage.flare_released();
     settimer(initFlare,0.5);
     settimer(initToken,1);
   } 
