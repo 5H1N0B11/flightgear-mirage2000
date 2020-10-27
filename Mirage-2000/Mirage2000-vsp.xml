@@ -52,7 +52,9 @@
   </location>
 </metrics>
 
-<mass_balance>
+<mass_balance file="Systems/Mirage-2000-mass"/>
+
+<!--<mass_balance>
   <ixx unit="KG*M2">6262</ixx>
   <iyy unit="KG*M2">75686</iyy>
   <izz unit="KG*M2">78802</izz>
@@ -63,7 +65,7 @@
     <y>0</y>
     <z>0</z>
   </location>
-</mass_balance>
+</mass_balance>-->
 
 <ground_reactions>
   <contact type="BOGEY" name="NOSE_LG">
@@ -600,6 +602,7 @@
 <system file="Mirage-2000-engines-Snecma-M53"/>
 <system file="Mirage-2000-fcs"/>
 <system file="Mirage-2000-fuel"/>
+
 
 
 <flight_control name="Mirage2000-FCS">

@@ -207,10 +207,7 @@
     <pylons>
       <file>Aircraft/Mirage-2000/Nasal/pylons.nas</file>
     </pylons>
-
-    <fuel>
-      <file>Aircraft/Mirage-2000/Nasal/m2000-5-fuel.nas</file>
-    </fuel>
+    
     <hud>
       <file>Aircraft/Mirage-2000/Nasal/HUD/hud_math.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>
