@@ -1,0 +1,3 @@
+[submodule "Mirage-2000/Nasal/LA"]
+	path = Mirage-2000/Nasal/LA
+	url = https://github.com/FGUM/LA.git
