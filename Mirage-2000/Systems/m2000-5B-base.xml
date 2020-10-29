@@ -157,6 +157,16 @@
           <number2-system-pump-failed>0</number2-system-pump-failed>
         </hydraulics>
       </systems>
+      <inertia>
+        <pointmass-dragarea-sqft type="double" n="1">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="2">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="3">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="4">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="5">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="6">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="7">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="8">0</pointmass-dragarea-sqft>
+      </inertia>
     </jsbsim>
   </fdm>
   
