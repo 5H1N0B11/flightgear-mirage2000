@@ -174,6 +174,10 @@
   
    <nasal>
     <!-- c172p is part of FGDATA and thus always present -->
+    <hack>
+        <!-- must be first -->
+        <file>Aircraft/Mirage-2000/Nasal/hackCanvas.nas</file>
+    </hack>
     <math_ext>
       <file>Aircraft/c172p/Nasal/generic/math_ext.nas</file>
     </math_ext>
@@ -198,6 +202,9 @@
     <electrics>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-electrical.nas</file>
     </electrics>
+    <crash>
+        <file>Aircraft/Mirage-2000/Nasal/crash-and-stress.nas</file>
+    </crash>
     <vector>
         <file>Aircraft/Mirage-2000/Nasal/vector.nas</file>
     </vector>
