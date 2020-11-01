@@ -8,6 +8,7 @@ name "pylon.C"
 data 12
 pylon.C.mesh
 crease 40.0
+texture "pylon.png"
 numvert 66
 2.42847 -1.58723 0.02602
 2.42847 -1.58723 -0.02603
@@ -414,6 +415,7 @@ name "pylon.C.double_gbu"
 data 23
 pylon.C.double_gbu.mesh
 crease 40.0
+texture "pylon.png"
 numvert 174
 0.69921 -1.77313 -0.1336
 0.22017 -1.74401 -0.02603
@@ -1844,6 +1846,7 @@ name "pylon.C.double_gbu.L"
 data 27
 pylon.C.double_gbu.mesh.001
 crease 40.0
+texture "pylon.png"
 numvert 174
 1.31607 -1.58394 2.22415
 0.83703 -1.55482 2.33172
@@ -3274,6 +3277,7 @@ name "pylon.C.double_gbu.R"
 data 27
 pylon.C.double_gbu.mesh.002
 crease 40.0
+texture "pylon.png"
 numvert 174
 1.31841 -1.58187 -2.49164
 0.83936 -1.55275 -2.38407
@@ -4704,6 +4708,7 @@ name "pylon1.L"
 data 13
 pylon1.L.mesh
 crease 40.0
+texture "pylon.png"
 numvert 25
 0.11632 -1.31194 0.84974
 0.11632 -1.31194 0.79826
@@ -4899,6 +4904,7 @@ name "pylon1.R"
 data 13
 pylon1.R.mesh
 crease 40.0
+texture "pylon.png"
 numvert 25
 0.11632 -1.31194 -0.84975
 0.11632 -1.31194 -0.79827
@@ -5094,6 +5100,7 @@ name "pylon2.L"
 data 13
 pylon2.L.mesh
 crease 40.0
+texture "pylon.png"
 numvert 35
 4.39432 -1.44589 3.30534
 4.39432 -1.44589 3.25061
@@ -5368,6 +5375,7 @@ name "pylon2.R"
 data 13
 pylon2.R.mesh
 crease 40.0
+texture "pylon.png"
 numvert 35
 4.39432 -1.44589 -3.30535
 4.39432 -1.44589 -3.25062
@@ -5642,6 +5650,7 @@ name "pylon3.L"
 data 13
 pylon3.L.mesh
 crease 40.0
+texture "pylon.png"
 numvert 34
 1.79236 -1.23081 2.38653
 1.87152 -1.23081 2.38657
@@ -5883,6 +5892,7 @@ name "pylon3.R"
 data 13
 pylon3.R.mesh
 crease 40.0
+texture "pylon.png"
 numvert 34
 1.79236 -1.23081 -2.38654
 1.87152 -1.23081 -2.38659
@@ -6124,6 +6134,7 @@ name "pylon3.tank.L"
 data 18
 pylon3.tank.L.mesh
 crease 40.0
+texture "pylon.png"
 numvert 12
 3.94148 -1.30658 2.359
 3.86634 -1.30658 2.38503
@@ -6210,6 +6221,7 @@ name "pylon3.tank.R"
 data 18
 pylon3.tank.R.mesh
 crease 40.0
+texture "pylon.png"
 numvert 12
 3.94148 -1.30658 -2.35901
 3.86634 -1.30658 -2.38504
@@ -6296,6 +6308,7 @@ name "pylon4.L"
 data 13
 pylon4.L.mesh
 crease 40.0
+texture "pylon.png"
 numvert 25
 4.07692 -1.3023 0.94603
 4.07692 -1.3023 0.89397
@@ -6491,6 +6504,7 @@ name "pylon4.R"
 data 13
 pylon4.R.mesh
 crease 40.0
+texture "pylon.png"
 numvert 25
 4.07692 -1.3023 -0.94604
 4.07692 -1.3023 -0.89399
