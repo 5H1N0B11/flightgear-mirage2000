@@ -9,7 +9,7 @@
 
 
 var als_on = props.globals.getNode("/sim/rendering/shaders/skydome");
-var alt_agl = props.globals.getNode("/position/gear-agl-ft");
+var alt_agl = props.globals.getNode("/position/altitude-agl-ft");
 var cur_alt = 0;
 
 var landingLight = props.globals.getNode("systems/electrical/outputs/landing-lights", 1);
@@ -32,21 +32,24 @@ var light_manager = {
 		# define your lights here
 
 		# lights ########
+    #xpos,ypos,zpos,dir, size,stretch, r,g,b,is_on,number
       me.data_light = [
-        ALS_light_spot.new(70,-3,2,2,12,5,0.7,0.7,0.7,1,0),
-        ALS_light_spot.new(70, 3,2,-2,12,5,0.7,0.7,0.7,1,1),
-        ALS_light_spot.new(-4,4.5,2,0,3.5,0,0.4,0,0,1,2),
-        ALS_light_spot.new(-4,-4.5,2,0,3.5,0,0,0.4,0,1,3)
+        ALS_light_spot.new(62,-3,2,2,12,5,0.7,0.7,0.7,1,0),
+        ALS_light_spot.new(62, 3,2,-2,12,5,0.7,0.7,0.7,1,1),
+        ALS_light_spot.new(-8.5,4.5,2,0,3.5,0,0.4,0,0,1,2),
+        ALS_light_spot.new(-8.5,-4.5,2,0,3.5,0,0,0.4,0,1,3)
       ];
 
 		
 		
 		setprop("sim/rendering/als-secondary-lights/flash-radius", 13);
+    #print("Light init");
 
 		me.start();
 	},
 
 	start: func {
+    #print("Light start");
 		setprop("/sim/rendering/als-secondary-lights/num-lightspots", size(me.data_light));
  
  
@@ -62,13 +65,15 @@ var light_manager = {
 		if (me.run == 0) {
 			return;
 		}
-		
+		#print("me.run != 0");
 		cur_alt = alt_agl.getValue();
     if(cur_alt != nil){
+      #print("cur_alt != nil");
       if (als_on.getValue() == 1 and alt_agl.getValue() < 100.0) {
-        
+          #print("als_on.getValue() == 1 and alt_agl.getValue() < 100.0");
           #Condition for lights
           if(gearPos.getValue() > 0.3 and landingLight.getValue()){
+              #print("gearPos.getValue() > 0.3 and landingLight.getValue()");
               me.data_light[0].light_on();
               me.data_light[1].light_on();              
           }else{
@@ -97,7 +102,7 @@ var light_manager = {
 	},
 };
 
-
+#xpos,ypos,zpos,dir, size,stretch, r,g,b,is_on,number
 var ALS_light_spot = {
     new:func (
             light_xpos,
