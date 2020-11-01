@@ -5,7 +5,7 @@
   <sim>
     <model>
       <logos>
-        <name type="string">Cote d'or</name>
+        <name type="string">EC 3/8 Cote d'or</name>
         <texture>cote-d-or.png</texture>
         <specular>
           <red>   0.3 </red>
