@@ -372,7 +372,7 @@
     </as-37-martel>
     
     <as-37-armat>
-      <type-id type="int">9</type-id>
+      <type-id type="int">14</type-id>
       <short-name type="string">AS37</short-name>
       <long-name type="string">AS-37 Armat</long-name>
       <all-aspect type="bool">true</all-aspect>
@@ -568,7 +568,7 @@
     </mk-82>
 
     <mk-82se> 
-      <type-id type="int">32</type-id>
+      <type-id type="int">3</type-id>
       <short-name type="string">B82</short-name>
       <long-name type="string">MK-82 General Purpose Bomb</long-name>
       <fire-msg type="string">Bombs away</fire-msg>
