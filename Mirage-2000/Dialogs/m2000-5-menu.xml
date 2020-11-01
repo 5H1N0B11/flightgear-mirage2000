@@ -116,7 +116,7 @@
         </binding>
       </item>
 
-      <item>
+      <item n="13">
 	<label>Fast re-arm</label>
 	<name>payload-qs</name>
 	<binding>
@@ -146,6 +146,15 @@
 	  <dialog-name>payload-d</dialog-name>
 	</binding>
       </item>
+      
+  <item n="14">
+    <label>Event-log</label>
+    <name>event-log</name>
+    <binding>
+      <command>dialog-show</command>
+      <dialog-name>flightlog</dialog-name>
+    </binding>
+  </item>
 
     </menu>
   </default>

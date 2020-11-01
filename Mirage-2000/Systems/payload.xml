@@ -17,6 +17,7 @@
     <!--<damage type="bool">false</damage>-->
     
     <mica-em>                     <!-- Matra Mica -->
+      <type-id type="int">72</type-id>
       <short-name type="string">MICA-EM</short-name>
       <long-name type="string">Matra MICA EM</long-name>
       <all-aspect type="bool">true</all-aspect>
@@ -32,7 +33,7 @@
       <ejector-speed-fps type="double">20</ejector-speed-fps>
       <FCS-field-deg type="int"> 40 </FCS-field-deg>
       <fire-msg type="string">Fox 3</fire-msg>
-      <guidance type="string">radar</guidance>
+      <guidance type="string">inertial</guidance>
       <guide-before-ignition type="bool">true</guide-before-ignition>
       <lock-on-after-launch type="bool">true</lock-on-after-launch>
       <lock-on-sun-deg type="double"> 0 </lock-on-sun-deg>
@@ -71,6 +72,7 @@
     </mica-em>
     
     <mica-ir>       <!-- Matra Mica IR     http://www.areamilitar.net/directorio/MIS.aspx?nm=205 -->
+      <type-id type="int">73</type-id>
       <short-name type="string">MICA-IR</short-name>
       <long-name type="string">Matra MICA IR</long-name>
       <all-aspect type="bool">true</all-aspect>
@@ -124,6 +126,7 @@
       <weight-warhead-lbs type="double"> 30 </weight-warhead-lbs>
     </mica-ir>
     <s530d>       <!-- Matra Super 530D     http://www.areamilitar.net/directorio/MIS.aspx?nm=205 -->  <!-- Name of the file matra-super530d-2.xml or matra-super530d-4.xml-->
+      <type-id type="int">91</type-id>
       <short-name type="string">S-530D</short-name>
       <long-name type="string">Matra Super 530D</long-name>
       <fire-msg type="string">Fox 1</fire-msg>
@@ -170,6 +173,7 @@
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
     </s530d>    
     <magic-2>       <!-- Matra R550 Magic 2 -->
+      <type-id type="int">66</type-id>
       <short-name type="string">MAGIC-2</short-name>
       <long-name type="string">Matra R550 Magic 2</long-name>
       <all-aspect type="bool">true</all-aspect>                     <!-- all or rear-only -->
@@ -220,6 +224,7 @@
       <weight-warhead-lbs type="double"> 27 </weight-warhead-lbs>
     </magic-2>
     <gbu-12>       <!-- GBU 12 -->
+      <type-id type="int">18</type-id>
       <short-name type="string">GBU12</short-name>
       <long-name type="string">GBU-12 Paveway II</long-name>
       <all-aspect type="bool">true</all-aspect>
@@ -272,6 +277,7 @@
       <weight-warhead-lbs type="double"> 190 </weight-warhead-lbs>
     </gbu-12>
     <scalp>      <!-- Scalp -->
+      <type-id type="int">45</type-id>
       <short-name type="string">SCALP</short-name>
       <long-name type="string">SCALP EG</long-name>
       <all-aspect type="bool">true</all-aspect>
@@ -320,6 +326,7 @@
     </scalp>
     
     <as-37-martel>
+      <type-id type="int">9</type-id>
       <short-name type="string">AS37</short-name>
       <long-name type="string">AS-37 Martel</long-name>
       <all-aspect type="bool">true</all-aspect>
@@ -365,6 +372,7 @@
     </as-37-martel>
     
     <as-37-armat>
+      <type-id type="int">9</type-id>
       <short-name type="string">AS37</short-name>
       <long-name type="string">AS-37 Armat</long-name>
       <all-aspect type="bool">true</all-aspect>
@@ -410,6 +418,7 @@
     </as-37-armat>
     
     <as30l>
+      <type-id type="int">10</type-id>
       <short-name type="string">AS30l</short-name>
       <long-name type="string">AS-30 Laser</long-name>
       <all-aspect type="bool">true</all-aspect>
@@ -464,6 +473,7 @@
     
   
     <am39-exocet>      <!-- Exocet -->
+      <type-id type="int">8</type-id>
       <short-name type="string">exocet</short-name>
       <long-name type="string">AM39 Exocet</long-name>
       
@@ -514,6 +524,7 @@
     </am39-exocet>
 
     <mk-82> 
+      <type-id type="int">32</type-id>
       <short-name type="string">B82</short-name>
       <long-name type="string">MK-82 General Purpose Bomb</long-name>
       <fire-msg type="string">Bombs away</fire-msg>
@@ -557,6 +568,7 @@
     </mk-82>
 
     <mk-82se> 
+      <type-id type="int">32</type-id>
       <short-name type="string">B82</short-name>
       <long-name type="string">MK-82 General Purpose Bomb</long-name>
       <fire-msg type="string">Bombs away</fire-msg>
@@ -601,6 +613,7 @@
     </mk-82se>
     
     <es>                    <!-- Ejection seat -->
+      <type-id type="int">93</type-id>
       <vol-search type="double">0.075</vol-search>
       <vol-track type="double">0.25</vol-track>
       <vol-track-weak type="double">0.175</vol-track-weak>
