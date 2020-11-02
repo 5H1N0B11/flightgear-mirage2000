@@ -160,15 +160,8 @@
       <file>Aircraft/Generic/updateloop.nas</file>
     </updateloop>
         
-    <emesary>
-      <file>Aircraft/Mirage-2000/Nasal/emesary.nas</file>
-    </emesary>
-    <emesary_mp_bridge>
-      <file>Aircraft/Mirage-2000/Nasal/emesary_mp_bridge.nas</file>
-    </emesary_mp_bridge>
     <notifications>
       <file>Aircraft/Mirage-2000/Nasal/ArmamentNotification.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/M_frame_notification.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/GeoBridgedTransmitter.nas</file>
     </notifications>
     <damage>
