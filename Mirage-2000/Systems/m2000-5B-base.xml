@@ -158,6 +158,7 @@
         </hydraulics>
       </systems>
       <inertia>
+        <pointmass-dragarea-sqft type="double" n="0">0</pointmass-dragarea-sqft>
         <pointmass-dragarea-sqft type="double" n="1">0</pointmass-dragarea-sqft>
         <pointmass-dragarea-sqft type="double" n="2">0</pointmass-dragarea-sqft>
         <pointmass-dragarea-sqft type="double" n="3">0</pointmass-dragarea-sqft>
