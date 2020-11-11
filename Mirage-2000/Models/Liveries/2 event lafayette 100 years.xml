@@ -8,7 +8,7 @@
 
         <name type="string">2-Event Lafayette 100 years</name>
         <texture>Liveries/2048x2048/2_lafayette.png</texture>
-        <texture-tank-2000>tank2000_black.png</texture-tank-2000>
+        <texture-tank-2000>tank2000_lafayette.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>

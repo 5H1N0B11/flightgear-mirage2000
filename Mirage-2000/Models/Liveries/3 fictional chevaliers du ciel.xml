@@ -7,7 +7,7 @@
       <livery>
 
         <name type="string">3-Fictional Chevaliers du Ciel rogue Mirage</name>
-        <texture>Liveries/1024x1024/3_chevaliers_du_ciel.png</texture>
+        <texture>Liveries/2048x2048/3_chevaliers_du_ciel.png</texture>
         <texture-tank-2000>tank2000_black.png</texture-tank-2000>
 
         <specular>
