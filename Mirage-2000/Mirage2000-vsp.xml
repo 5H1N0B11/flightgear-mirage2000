@@ -4515,6 +4515,16 @@
           <property>aero/coefficients/CDRAG</property>
        </product>
     </function>
+    <function name="aero/force/CDpylon0">
+        <description>drag for pylon
+                     TODO: add wave drag
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[0]</property>
+            </product>
+    </function>
+    
     <function name="aero/force/CDpylon1">
         <description>drag for pylon
                      TODO: add wave drag
@@ -4695,6 +4705,10 @@
         </description>
         <product>
             <sum>
+                <product>
+                    <property>aero/force/CDpylon0</property>
+                    <property>inertia/pointmass-location-Y-inches[0]</property>
+                </product>
                 <product>
                     <property>aero/force/CDpylon1</property>
                     <property>inertia/pointmass-location-Y-inches[1]</property>
