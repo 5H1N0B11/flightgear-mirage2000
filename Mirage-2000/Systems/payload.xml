@@ -250,7 +250,7 @@
       <min-fire-range-nm type="double"> 0 </min-fire-range-nm>
       <min-speed-for-guiding-mach type="double"> 0 </min-speed-for-guiding-mach>
       <mounted-limit-g type="double"> 7.5 </mounted-limit-g>
-      <navigation type="string">APN</navigation>
+      <navigation type="string">PN</navigation>
       <rail type="bool">false</rail>
       <reaquire type="bool">true</reaquire>
       <release-limit-altitude type="double"> 22000 </release-limit-altitude>

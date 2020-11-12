@@ -37,7 +37,7 @@
   <group>
     <layout>table</layout>
     
-    <button>
+    <button><pref-width>110</pref-width><pref-width>110</pref-width>
       <row>2</row>
       <col>0</col>
       <legend>PO</legend>
@@ -46,7 +46,7 @@
 	<script>pylons.a2a_po_old()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>0</row>
       <col>0</col>
       <legend>Fox Old Years</legend>
@@ -55,7 +55,7 @@
 	<script>pylons.a2a_fox_old()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>1</row>
       <col>0</col>
       <legend>Fox</legend>
@@ -64,7 +64,7 @@
 	<script>pylons.a2a_fox_mix()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>0</row>
       <col>1</col>
       <legend>Fox Full Mica</legend>
@@ -73,7 +73,7 @@
 	<script>pylons.a2a_fox_mica()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>1</row>
       <col>1</col>
       <legend>Bravo</legend>
@@ -82,7 +82,7 @@
 	<script>pylons.a2a_bravo_mix()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>2</row>
       <col>1</col>
       <legend>Kilo</legend>
@@ -91,7 +91,7 @@
 	<script>pylons.a2a_kilo_mica()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>3</row>
       <col>0</col>
       <legend>Air to Sea</legend>
@@ -100,7 +100,7 @@
 	<script>pylons.a2s_fox()</script>
       </binding>
     </button> 
-    <button>
+    <button><pref-width>110</pref-width>
       <row>3</row>
       <col>1</col>
       <legend>Air to Ground</legend>
@@ -111,11 +111,15 @@
     </button>
   </group>
   
-  <button>
+  <button><pref-width>110</pref-width>
     <legend>No load</legend>
     <binding>
       <command>nasal</command>
       <script>pylons.lisse()</script>
     </binding>
   </button>
+
+  <empty>
+      <stretch>1</stretch>
+  </empty>
 </PropertyList>

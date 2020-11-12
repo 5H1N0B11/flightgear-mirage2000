@@ -148,7 +148,7 @@
       </item>
       
   <item n="14">
-    <label>Event-log</label>
+    <label>Combat event log</label>
     <name>event-log</name>
     <binding>
       <command>dialog-show</command>

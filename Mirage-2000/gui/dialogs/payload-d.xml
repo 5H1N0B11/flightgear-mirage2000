@@ -37,7 +37,7 @@
   <group>
     <layout>table</layout>
     
-    <button>
+    <button><pref-width>110</pref-width><pref-width>100</pref-width>
       <row>0</row>
       <col>1</col>
       <legend>Air to Ground</legend>
@@ -46,7 +46,7 @@
 	<script>pylons.a2g_bravo_mix()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>1</row>
       <col>0</col>
       <legend>Anti Radar</legend>
@@ -55,7 +55,7 @@
 	<script>pylons.a2ouadi_fox()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>2</row>
       <col>0</col>
       <legend>Air to Sea</legend>
@@ -64,7 +64,7 @@
 	<script>pylons.a2s_fox()</script>
       </binding>
     </button>  
-    <button>
+    <button><pref-width>110</pref-width>
       <row>2</row>
       <col>1</col>
       <legend>m2000N</legend>
@@ -73,7 +73,7 @@
 	<script>pylons.nuke()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>1</row>
       <col>1</col>
       <legend>Air to Ground 2</legend>
@@ -82,7 +82,7 @@
 	<script>pylons.rifle()</script>
       </binding>
     </button>
-    <button>
+    <button><pref-width>110</pref-width>
       <row>0</row>
       <col>0</col>
       <legend>Standoff</legend>
@@ -93,12 +93,16 @@
     </button>
   </group>
   
-  <button>
+  <button><pref-width>110</pref-width>
     <legend>No load</legend>
     <binding>
       <command>nasal</command>
       <script>pylons.lisse()</script>
     </binding>
   </button>
+
+  <empty>
+      <stretch>1</stretch>
+  </empty>
 
 </PropertyList>
