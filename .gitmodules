@@ -4,3 +4,6 @@
 [submodule "Mirage-2000/FGUM/Contact"]
 	path = Mirage-2000/FGUM/Contact
 	url = https://github.com/FGUM/Contact.git
+[submodule "Mirage-2000/FGUM/RCSDatabase"]
+	path = Mirage-2000/FGUM/RCSDatabase
+	url = https://github.com/FGUM/RCSDatabase.git
