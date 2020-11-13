@@ -175,6 +175,7 @@
         <file>Aircraft/Mirage-2000/FGUM/LA/Loader.nas</file>
         <file>Aircraft/Mirage-2000/FGUM/Contact/Loader.nas</file>
         <file>Aircraft/Mirage-2000/FGUM/RCSDatabase/Loader.nas</file>
+        <file>Aircraft/Mirage-2000/FGUM/Radar/Loader.nas</file>
     </FGUM>
     <updateloop>
       <file>Aircraft/Generic/updateloop.nas</file>

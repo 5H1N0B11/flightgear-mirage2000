@@ -7,3 +7,6 @@
 [submodule "Mirage-2000/FGUM/RCSDatabase"]
 	path = Mirage-2000/FGUM/RCSDatabase
 	url = https://github.com/FGUM/RCSDatabase.git
+[submodule "Mirage-2000/FGUM/Radar"]
+	path = Mirage-2000/FGUM/Radar
+	url = https://github.com/FGUM/Radar.git
