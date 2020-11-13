@@ -172,31 +172,10 @@
     <vector>
         <file>Aircraft/Mirage-2000/Nasal/vector.nas</file>
     </vector>
-    <rcs>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/rcs.nas</file>
-    </rcs>
     
     <armament>
         <file>Aircraft/Mirage-2000/Nasal/missile-code.nas</file><!-- must be before station-manager -->
     </armament>
-    
-    <!--The radar object is created is m2000-5.nas; the Script use this order to load everything.
-    So we have to load radar2.nas before m2000.nas -->
-    <radar>
-   <!--   <file>Aircraft/Mirage-2000/Nasal/RADAR/radar2.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/RADAR/target_class.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/RADAR/radarTool.nas</file>-->
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/AIContact.nas</file>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/AIToNasal.nas</file>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/Radar.nas</file>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/Omnidirectional.nas</file>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/TerrainChecker.nas</file>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/FullRectangularSolidAngle.nas</file>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/MSARectangularSolidAngle.nas</file>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/RWR.nas</file>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/radarPrototype.nas</file>
-        <file>Aircraft/Mirage-2000/Nasal/RADAR/radarPrototype_Canvas.nas</file>
-    </radar>
     
     <!-- First attempt to standardise the weapons system -->
     <stations>
