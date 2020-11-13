@@ -117,7 +117,7 @@
       </item>
 
       <item n="13">
-	<label>Fast re-arm</label>
+	<label>Quick Payload Reload</label>
 	<name>payload-qs</name>
 	<binding>
 	  <condition>

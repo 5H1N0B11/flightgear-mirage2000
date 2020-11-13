@@ -8,7 +8,7 @@
   <group>
     <layout>hbox</layout>
     <text>
-      <label>Payload Quick Select</label>
+      <label>Quick Payload Reload</label>
     </text>
 
     <empty>
@@ -37,7 +37,7 @@
   <group>
     <layout>table</layout>
     
-    <button><pref-width>110</pref-width><pref-width>110</pref-width>
+    <button><pref-width>110</pref-width>
       <row>2</row>
       <col>0</col>
       <legend>PO</legend>
@@ -46,6 +46,7 @@
 	<script>pylons.a2a_po_old()</script>
       </binding>
     </button>
+
     <button><pref-width>110</pref-width>
       <row>0</row>
       <col>0</col>
@@ -55,6 +56,7 @@
 	<script>pylons.a2a_fox_old()</script>
       </binding>
     </button>
+
     <button><pref-width>110</pref-width>
       <row>1</row>
       <col>0</col>
@@ -64,6 +66,7 @@
 	<script>pylons.a2a_fox_mix()</script>
       </binding>
     </button>
+
     <button><pref-width>110</pref-width>
       <row>0</row>
       <col>1</col>
@@ -73,6 +76,7 @@
 	<script>pylons.a2a_fox_mica()</script>
       </binding>
     </button>
+
     <button><pref-width>110</pref-width>
       <row>1</row>
       <col>1</col>
@@ -82,6 +86,7 @@
 	<script>pylons.a2a_bravo_mix()</script>
       </binding>
     </button>
+
     <button><pref-width>110</pref-width>
       <row>2</row>
       <col>1</col>
@@ -91,6 +96,7 @@
 	<script>pylons.a2a_kilo_mica()</script>
       </binding>
     </button>
+
     <button><pref-width>110</pref-width>
       <row>3</row>
       <col>0</col>
@@ -100,6 +106,7 @@
 	<script>pylons.a2s_fox()</script>
       </binding>
     </button> 
+
     <button><pref-width>110</pref-width>
       <row>3</row>
       <col>1</col>
@@ -107,9 +114,10 @@
       <binding>
 	<command>nasal</command>
 	<script>pylons.a2g_bravo_mix()</script>
+    </binding>
     </button>
+
     <button><pref-width>110</pref-width>
-      </binding>
       <row>4</row>
       <col>0</col>
       <legend>Unguided</legend>
@@ -118,6 +126,7 @@
 	<script>pylons.unguided()</script>
       </binding>
     </button>
+
     <button><pref-width>110</pref-width>
       <row>4</row>
       <col>1</col>
@@ -127,6 +136,7 @@
 	<script>pylons.unguided_er()</script>
       </binding>
     </button>
+
     <button><pref-width>110</pref-width>
       <row>5</row>
       <col>0</col><pref-width>110</pref-width>
@@ -136,6 +146,7 @@
 	<script>pylons.unguided_se()</script>
       </binding>
     </button>
+
     <button><pref-width>110</pref-width>
       <row>5</row>
       <col>1</col>
