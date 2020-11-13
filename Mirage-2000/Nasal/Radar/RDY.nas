@@ -57,3 +57,35 @@ var RDY = {
     
     # TODO: Implement pilot radar controls here. 
 };
+
+#TODO Move the pipeline to the FGUM_Radar module.
+RadarPipeline = {
+    new: func(){
+        var me = {parents: [RadarPipeline]};
+        
+        me.contactManager = FGUM_Contact.ContactManager.new(FGUM_Radar.RadarContact.new);
+        me.radar = RDY.new();
+        
+        # Timer for the radar clock.
+        me.timer = maketimer(1/10, me, me.loop);
+        # Make the timer follow the time of the simulation (time acceleration, pause ...).
+        me.timer.simulatedTime = 1;
+                
+        # TODO: Enable again, ideally through an event listener.
+        # me.start();
+        
+        setlistener("sim/signals/fdm-initialized", func {
+            me.timer.start();
+        });
+        
+        return me;
+    },
+    
+    loop: func(){
+        #TODO: Move the contact manager update to either a second (lower frequency) loop, or (ideally) update it through flightgear events.
+        me.contactManager.update();
+        me.radar.frame(me.contactManager.contacts);
+    },
+};
+
+pipeline = RadarPipeline.new();
