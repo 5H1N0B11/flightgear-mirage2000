@@ -170,7 +170,10 @@
     <logger>
       <file>Aircraft/c172p/Nasal/generic/logger.nas</file>
     </logger>
-    <LA include="Aircraft/Mirage-2000/Nasal/LA/Include.xml" />
+
+    <FGUM>
+        <file>Aircraft/Mirage-2000/FGUM/LA/Loader.nas</file>
+    </FGUM>
     <updateloop>
       <file>Aircraft/Generic/updateloop.nas</file>
     </updateloop>

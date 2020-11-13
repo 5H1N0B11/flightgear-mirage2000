@@ -1,3 +1,3 @@
-[submodule "Mirage-2000/Nasal/LA"]
-	path = Mirage-2000/Nasal/LA
+[submodule "Mirage-2000/FGUM/LA"]
+	path = Mirage-2000/FGUM/LA
 	url = https://github.com/FGUM/LA.git
