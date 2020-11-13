@@ -589,8 +589,110 @@ var a2a_kilo_mica = func {
       }
   }
   
+    # mk82 configuration  : 2 2 x mk82 , 4 mk82 body pylons, Center Tank, 2 Magic ii
+  var unguided = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.dmk82);
+          pylon5.loadSet(pylonSets.dmk82);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.t);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.mk82);
+          pylon7.loadSet(pylonSets.mk82);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.mk82);
+          pylon9.loadSet(pylonSets.mk82);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
   
-  
+   # mk82 er configuration  : 
+  var unguided_er = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.t2);
+          pylon5.loadSet(pylonSets.t4);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.dmk82);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.mk82);
+          pylon7.loadSet(pylonSets.mk82);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.mk82);
+          pylon9.loadSet(pylonSets.mk82);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+
+ # mk82 se configuration  : 2 x 2 mk82se , Center Tank, 4 mk82 body pylons, 2 Magic ii
+  var unguided_se = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.dmk82se);
+          pylon5.loadSet(pylonSets.dmk82se);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.t);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.mk82se);
+          pylon7.loadSet(pylonSets.mk82se);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.mk82se);
+          pylon9.loadSet(pylonSets.mk82se);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+
+# mk82 se er configuration  : 2 x 2000L , 2 x mk82se, 4 mk82se body pylons, 2 Magic ii
+  var unguided_se_er = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.t2);
+          pylon5.loadSet(pylonSets.t4);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.dmk82se);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.mk82se);
+          pylon7.loadSet(pylonSets.mk82se);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.mk82se);
+          pylon9.loadSet(pylonSets.mk82se);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+
   
   #Variable declaration
   var pylonSetListener = [];
