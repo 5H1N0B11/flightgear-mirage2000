@@ -1,9 +1,15 @@
 #
+# Authors: Axel Paccalin.
+#
+# Version 0.1
+#
 
 var RDY = {
+    #! \brief  RDY constructor. 
+    #! \detail Instantiate a new FGUM_Radar with modules and parameters to match the behavior of the RDY radar made from Tales.
     new: func(){
         var me = {parents: [RDY]};
-    
+        
         # The RDY radar antenna.
         me.antenna = FGUM_Radar.Antenna.fromArbitraryGEA(4000,    # 4KW peak power.
                                                          111120,  # Can detect targets @60nm (111,12 km).
