@@ -28,7 +28,7 @@
       </item>
       
       <item n="3">
-        <label>Link16</label>
+        <label>Link 16</label>
         <name>AboutMirage</name>
         <binding>
           <command>dialog-show</command>
