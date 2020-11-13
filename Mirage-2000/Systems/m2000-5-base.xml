@@ -151,6 +151,10 @@
       <file>Aircraft/Mirage-2000/FGUM/Radar/Loader.nas</file>
     </FGUM>
     
+    <Radar>
+      <file>Aircraft/Mirage-2000/Nasal/Radar/RDY.nas</file>
+    </Radar>
+    
     <updateloop>
       <file>Aircraft/Generic/updateloop.nas</file>
     </updateloop>
