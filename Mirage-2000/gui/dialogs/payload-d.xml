@@ -91,6 +91,42 @@
 	<script>pylons.standoff()</script>
       </binding>
     </button>
+    <button><pref-width>110</pref-width>
+      <row>4</row>
+      <col>0</col>
+      <legend>Unguided</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.unguided()</script>
+      </binding>
+    </button>
+    <button><pref-width>110</pref-width>
+      <row>4</row>
+      <col>1</col>
+      <legend>Unguided ER</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.unguided_er()</script>
+      </binding>
+    </button>
+    <button><pref-width>110</pref-width>
+      <row>5</row>
+      <col>0</col>
+      <legend>Unguided SE</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.unguided_se()</script>
+      </binding>
+    </button>
+    <button><pref-width>110</pref-width>
+      <row>5</row>
+      <col>1</col>
+      <legend>Unguided SE ER</legend>
+      <binding>
+	<command>nasal</command>
+	<script>pylons.unguided_se_er()</script>
+      </binding>
+    </button>
   </group>
   
   <button><pref-width>110</pref-width>
@@ -99,6 +135,7 @@
       <command>nasal</command>
       <script>pylons.lisse()</script>
     </binding>
+
   </button>
 
   <empty>
