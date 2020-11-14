@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <sim>
+    <model>
+      <livery>
+
+        <name type="string">1-Grey camo (Peru)</name>
+        <texture>Liveries/2048x2048/1_grey_peru.png</texture>
+        <texture-tank-2000>tank2000.png</texture-tank-2000>
+
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </livery>
+    </model>
+  </sim>
+
+</PropertyList>
