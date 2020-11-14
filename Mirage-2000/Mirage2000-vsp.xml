@@ -41,7 +41,7 @@
     <z>-3.94</z>
   </location>
   <location unit="M" name="VRP">
-    <x>6.812</x>
+    <x>7.212</x>
     <y>0</y>
     <z>1.118</z>
   </location>
@@ -71,7 +71,7 @@
   <contact type="BOGEY" name="NOSE_LG">
     <!--0: NOSE_LG-->
     <location unit="M">
-      <x>4.82</x>
+      <x>5.22</x>
       <y>0</y>
       <z>-1.488</z>
     </location>
@@ -87,7 +87,7 @@
   <contact type="BOGEY" name="LEFT_MLG">
     <!--1: LEFT_MLG-->
     <location unit="M">
-      <x>8.76</x>
+      <x>9.16</x>
       <y>-1.625</y>
       <z>-1.508</z>
     </location>
@@ -103,7 +103,7 @@
   <contact type="BOGEY" name="RIGHT_MLG">
     <!--2: RIGHT_MLG-->
     <location unit="M">
-      <x>8.76</x>
+      <x>9.16</x>
       <y>1.625</y>
       <z>-1.508</z>
     </location>
@@ -119,7 +119,7 @@
   <contact type="STRUCTURE" name="LEFT_WING_TIP">
     <!--3: LEFT_WING_TIP-->
     <location unit="M">
-      <x>11.71</x>
+      <x>12.11</x>
       <y>-4.53</y>
       <z>-0.25</z>
     </location>
@@ -132,7 +132,7 @@
   <contact type="STRUCTURE" name="RIGHT_WING_TIP">
     <!--4: RIGHT_WING_TIP-->
     <location unit="M">
-      <x>11.71</x>
+      <x>12.11</x>
       <y>4.53</y>
       <z>-0.25</z>
     </location>
@@ -145,7 +145,7 @@
   <contact type="STRUCTURE" name="CANOPY">
     <!--5: CANOPY-->
     <location unit="M">
-      <x>4.27</x>
+      <x>4.67</x>
       <y>0</y>
       <z>1.46</z>
     </location>
@@ -158,7 +158,7 @@
   <contact type="STRUCTURE" name="REAR_CANOPY">
     <!--6: REAR_CANOPY-->
     <location unit="M">
-      <x>5.05</x>
+      <x>5.45</x>
       <y>0</y>
       <z>1.58</z>
     </location>
@@ -184,7 +184,7 @@
   <contact type="STRUCTURE" name="VERTICAL_TAIL_FRONT">
     <!--8: VERTICAL_TAIL_FRONT-->
     <location unit="M">
-      <x>13.06</x>
+      <x>13.46</x>
       <y>0</y>
       <z>3.63</z>
     </location>
@@ -197,7 +197,7 @@
   <contact type="STRUCTURE" name="VERTICAL_TAIL_REAR">
     <!--9: VERTICAL_TAIL_REAR-->
     <location unit="M">
-      <x>13.72</x>
+      <x>14.12</x>
       <y>0</y>
       <z>3.54</z>
     </location>
@@ -210,7 +210,7 @@
   <contact type="STRUCTURE" name="REAR_BODY_LEFT">
     <!--10: REAR_BODY_LEFT-->
     <location unit="M">
-      <x>13.63</x>
+      <x>14.13</x>
       <y>-0.5</y>
       <z>0.53</z>
     </location>
@@ -223,7 +223,7 @@
   <contact type="STRUCTURE" name="REAR_BODY_RIGHT">
     <!--11: REAR_BODY_RIGHT-->
     <location unit="M">
-      <x>13.63</x>
+      <x>14.03</x>
       <y>0.5</y>
       <z>0.53</z>
     </location>
@@ -236,7 +236,7 @@
   <contact type="STRUCTURE" name="LOWER_REAR_BODY">
     <!--12: LOWER_REAR_BODY-->
     <location unit="M">
-      <x>13.63</x>
+      <x>14.03</x>
       <y>0</y>
       <z>0.03</z>
     </location>
@@ -249,7 +249,7 @@
   <contact type="STRUCTURE" name="LOWER_MID_REAR_BODY">
     <!--13: LOWER_MID_REAR_BODY-->
     <location unit="M">
-      <x>11.56</x>
+      <x>11.96</x>
       <y>0</y>
       <z>-0.32</z>
     </location>
@@ -262,7 +262,7 @@
   <contact type="STRUCTURE" name="REFUEL_PROBE">
     <!--14: REFUEL_PROBE-->
     <location unit="M">
-      <x>1.53</x>
+      <x>1.93</x>
       <y>0.55</y>
       <z>1.17</z>
     </location>
@@ -275,7 +275,7 @@
   <contact type="STRUCTURE" name="LEFT_STRAKE">
     <!--15: LEFT_STRAKE-->
     <location unit="M">
-      <x>5.21</x>
+      <x>5.61</x>
       <y>-1.13</y>
       <z>0.64</z>
     </location>
@@ -288,7 +288,7 @@
   <contact type="STRUCTURE" name="RIGHT_STRAKE">
     <!--16: RIGHT_STRAKE-->
     <location unit="M">
-      <x>5.21</x>
+      <x>5.61</x>
       <y>1.13</y>
       <z>0.64</z>
     </location>
@@ -301,7 +301,7 @@
   <contact type="STRUCTURE" name="FRONT_LOWER_ANTENNA">
     <!--17: FRONT_LOWER_ANTENNA-->
     <location unit="M">
-      <x>2.35</x>
+      <x>2.75</x>
       <y>0</y>
       <z>-0.39</z>
     </location>
@@ -314,7 +314,7 @@
   <contact type="STRUCTURE" name="VSTAB_FRONT_ANTENNA">
     <!--18: VSTAB_FRONT_ANTENNA-->
     <location unit="M">
-      <x>11.98</x>
+      <x>12.38</x>
       <y>0</y>
       <z>3.06</z>
     </location>
@@ -327,7 +327,7 @@
   <contact type="STRUCTURE" name="VSTAB_REAR_ANTENNA">
     <!--19: VSTAB_REAR_ANTENNA-->
     <location unit="M">
-      <x>13.74</x>
+      <x>14.14</x>
       <y>0</y>
       <z>2.98</z>
     </location>
@@ -340,7 +340,7 @@
   <contact type="STRUCTURE" name="CHUTE">
     <!--20: CHUTE-->
     <location unit="M">
-      <x>13.83</x>
+      <x>14.23</x>
       <y>0</y>
       <z>1.21</z>
     </location>
@@ -355,7 +355,7 @@
 <propulsion>
   <engine file="SNECMA_M53-P2">
     <location unit="M">
-      <x>18.11</x>
+      <x>18.51</x>
       <y>0</y>
       <z>0</z>
     </location>
@@ -377,7 +377,7 @@
     <feed>0</feed>-->
     <thruster file="direct">
       <location unit="M">
-        <x>18.11</x>
+        <x>18.51</x>
         <y>0</y>
         <z>0</z>
       </location>
@@ -393,7 +393,7 @@
   <tank number="0" type="FUEL">
     <!--0: Feed line-->
     <location unit="M">
-      <x>1.53</x>
+      <x>1.93</x>
       <y>0.55</y>
       <z>1.17</z>
     </location>
@@ -409,7 +409,7 @@
     <tank number="1" type="FUEL">
     <!--1: forward fuselage internal tank-->
     <location unit="M">
-      <x>4.66</x>
+      <x>5.06</x>
       <y>1</y>
       <z>0</z>
     </location>
@@ -423,7 +423,7 @@
   <tank number="2" type="FUEL">
     <!--1: Right Wing Tank-->
     <location unit="M">
-      <x>8.56</x>
+      <x>8.96</x>
       <y>4</y>
       <z>-0.4</z>
     </location>
@@ -437,7 +437,7 @@
     <tank number="3" type="FUEL">
     <!--6: backward right feeder fuselage internal tank-->
     <location unit="M">
-      <x>8.56</x>
+      <x>8.96</x>
       <y>0.70</y>
       <z>0</z>
     </location>
@@ -452,7 +452,7 @@
   <tank number="4" type="FUEL">
     <!--6: backward left feeder fuselage internal tank-->
     <location unit="M">
-      <x>8.56</x>
+      <x>8.96</x>
       <y>-0.70</y>
       <z>0</z>
     </location>
@@ -467,7 +467,7 @@
   <tank number="5" type="FUEL">
     <!--6: forward fuselage internal tank-->
     <location unit="M">
-      <x>4.66</x>
+      <x>5.06</x>
       <y>0</y>
       <z>0</z>
     </location>
@@ -481,7 +481,7 @@
   <tank number="6" type="FUEL">
      <!--6: forward fuselage internal tank-->
     <location unit="M">
-      <x>4.66</x>
+      <x>5.06</x>
       <y>-1</y>
       <z>0</z>
     </location>
@@ -495,7 +495,7 @@
   <tank number="7" type="FUEL">
     <!--2: Left Wing Tank-->
     <location unit="M">
-      <x>8.56</x>
+      <x>8.96</x>
       <y>-4</y>
       <z>-0.4</z>
     </location>
@@ -511,7 +511,7 @@
   <tank number="8" type="FUEL">
     <!--3: External Tank : Center. RP522-->
     <location unit="M">
-      <x>8.56</x>
+      <x>8.96</x>
       <y>0</y>
       <z>1</z> 
     </location>
@@ -525,7 +525,7 @@
   <tank number="9" type="FUEL">
     <!--3: External Tank : Right : RP542 -->
     <location unit="M">
-      <x>8.56</x>
+      <x>8.96</x>
       <y>4</y>
       <z>1</z>
     </location>
@@ -539,7 +539,7 @@
     <tank number="10" type="FUEL">
     <!--3: External Tank : Left : RP541 -->
     <location unit="M">
-      <x>8.56</x>
+      <x>8.96</x>
       <y>-4</y>
       <z>1</z>
     </location>
@@ -553,7 +553,7 @@
   <tank number="11" type="FUEL">
     <!--3: External Tank : Right : RP501 -->
     <location unit="M">
-      <x>8.56</x>
+      <x>8.96</x>
       <y>4</y>
       <z>1</z>
     </location>
@@ -567,7 +567,7 @@
   <tank number="12" type="FUEL">
     <!--3: External Tank : Left : RP502 -->
     <location unit="M">
-      <x>8.56</x>
+      <x>8.96</x>
       <y>-4</y>
       <z>1</z>
     </location>
