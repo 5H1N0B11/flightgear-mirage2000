@@ -5,7 +5,7 @@
   <sim>
     <model>
       <logos>
-        <name type="string">Default</name>
+        <name type="string"> Default</name>
         <texture>default.png</texture>
         <specular>
           <red>   0.3 </red>

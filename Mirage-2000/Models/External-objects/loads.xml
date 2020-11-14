@@ -87,8 +87,8 @@
     <condition>
       <and>
         <equals>
-          <property>payload/armament/station/id-0-type</property>
-          <value>Mk-82</value>
+          <property>payload/armament/station/id-0-set</property>
+          <value>SAMP Mk-82</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-0-count</property>
@@ -105,8 +105,8 @@
     <condition>
       <and>
         <equals>
-          <property>payload/armament/station/id-0-type</property>
-          <value>Mk-82SE</value>
+          <property>payload/armament/station/id-0-set</property>
+          <value>SAMP Mk-82 Snake-eye</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-0-count</property>
@@ -403,8 +403,8 @@
     <object-name>Center-Right-MK82</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-3-type</property>
-          <value>Mk-82</value>
+          <property>payload/armament/station/id-3-set</property>
+          <value>2 x SAMP Mk-82</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-3-count</property>
@@ -418,8 +418,8 @@
     <object-name>Center-Left-MK82</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-3-type</property>
-          <value>Mk-82</value>
+          <property>payload/armament/station/id-3-set</property>
+          <value>2 x SAMP Mk-82</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-3-count</property>
@@ -434,8 +434,8 @@
     <object-name>Center-Right-MK82SE</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-3-type</property>
-          <value>Mk-82SE</value>
+          <property>payload/armament/station/id-3-set</property>
+          <value>2 x SAMP Mk-82 Snake-eye</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-3-count</property>
@@ -449,8 +449,8 @@
     <object-name>Center-Left-MK82SE</object-name>
     <condition>
         <equals>
-          <property>payload/armament/station/id-3-type</property>
-          <value>Mk-82SE</value>
+          <property>payload/armament/station/id-3-set</property>
+          <value>2 x SAMP Mk-82 Snake-eye</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-3-count</property>
@@ -761,8 +761,8 @@
     <condition>
       <and>
         <equals>
-          <property>payload/armament/station/id-6-type</property>
-          <value>Mk-82</value>
+          <property>payload/armament/station/id-6-set</property>
+          <value>SAMP Mk-82</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-6-count</property>
@@ -779,8 +779,8 @@
     <condition>
       <and>
         <equals>
-          <property>payload/armament/station/id-6-type</property>
-          <value>Mk-82SE</value>
+          <property>payload/armament/station/id-6-set</property>
+          <value>SAMP Mk-82 Snake-eye</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-6-count</property>
@@ -843,8 +843,8 @@
     <condition>
       <and>
         <equals>
-          <property>payload/armament/station/id-7-type</property>
-          <value>Mk-82</value>
+          <property>payload/armament/station/id-7-set</property>
+          <value>SAMP Mk-82</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-7-count</property>
@@ -861,8 +861,8 @@
     <condition>
       <and>
         <equals>
-          <property>payload/armament/station/id-7-type</property>
-          <value>Mk-82SE</value>
+          <property>payload/armament/station/id-7-set</property>
+          <value>SAMP Mk-82 Snake-eye</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-7-count</property>
@@ -895,8 +895,8 @@
     <condition>
       <and>
         <equals>
-          <property>payload/armament/station/id-8-type</property>
-          <value>Mk-82</value>
+          <property>payload/armament/station/id-8-set</property>
+          <value>SAMP Mk-82</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-8-count</property>
@@ -913,8 +913,8 @@
     <condition>
       <and>
         <equals>
-          <property>payload/armament/station/id-8-type</property>
-          <value>Mk-82SE</value>
+          <property>payload/armament/station/id-8-set</property>
+          <value>SAMP Mk-82 Snake-eye</value>
         </equals>
         <equals>
           <property>payload/armament/station/id-8-count</property>

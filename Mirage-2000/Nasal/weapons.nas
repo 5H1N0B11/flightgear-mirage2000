@@ -12,42 +12,42 @@ var tokenFlare = 0;
 var tokenMessageFlare = 0;
 var MPMessaging = props.globals.getNode("/payload/armament/msg", 1);
 
-fire_MG = func(b) {
-    return 1;
-    var time = getprop("/sim/time/elapsed-sec");
-    
-    # Here is the gun things : the firing should last 0,5 sec or 1 sec, and in
-    # the future should be selectionable
-    if(getprop("/controls/armament/stick-selector") == 1
-        and getprop("/ai/submodels/submodel/count") > 0
-        and isFiring == 0)
-    {
-        isFiring = 1;
-        setprop("/controls/armament/Gun_trigger", 1);
-        settimer(stopFiring, 0.5);
-    }
-    print("m2000_load.weaponARRAY_Index : "~ m2000_load.weaponARRAY_Index);
-    if(m2000_load.weaponARRAY_Index > 1){
-        if(b == 1)
-        {
-            # To limit: one missile/second
-            # var time = getprop("/sim/time/elapsed-sec");
-            if(time - dt > 1)
-            {
-                dt = time;
-                var pylon = getprop("/controls/armament/missile/current-pylon");
-                m2000_load.dropLoad(pylon);
-                print("Should fire Missile");
-            }
-        }
-    }
-}
-
-var stopFiring = func() {
-    setprop("/controls/armament/Gun_trigger", 0);
-    isFiring = 0;
-}
-
+# fire_MG = func(b) {
+#     return 1;
+#     var time = getprop("/sim/time/elapsed-sec");
+#     
+#     # Here is the gun things : the firing should last 0,5 sec or 1 sec, and in
+#     # the future should be selectionable
+#     if(getprop("/controls/armament/stick-selector") == 1
+#         and getprop("/ai/submodels/submodel/count") > 0
+#         and isFiring == 0)
+#     {
+#         isFiring = 1;
+#         setprop("/controls/armament/Gun_trigger", 1);
+#         settimer(stopFiring, 0.5);
+#     }
+#     print("m2000_load.weaponARRAY_Index : "~ m2000_load.weaponARRAY_Index);
+#     if(m2000_load.weaponARRAY_Index > 1){
+#         if(b == 1)
+#         {
+#             # To limit: one missile/second
+#             # var time = getprop("/sim/time/elapsed-sec");
+#             if(time - dt > 1)
+#             {
+#                 dt = time;
+#                 var pylon = getprop("/controls/armament/missile/current-pylon");
+#                 m2000_load.dropLoad(pylon);
+#                 print("Should fire Missile");
+#             }
+#         }
+#     }
+# }
+# 
+# var stopFiring = func() {
+#     setprop("/controls/armament/Gun_trigger", 0);
+#     isFiring = 0;
+# }
+# 
 reload_Cannon = func() {
     setprop("/ai/submodels/submodel/count",    125);
     setprop("/ai/submodels/submodel[1]/count", 125);
@@ -92,51 +92,101 @@ Cannon_lQ_HQ_trigger = func(Qual) {
 # This is to detect collision when balistic are shooted.
 # The goal is to put an automatic message for gun splash
 var Mp = props.globals.getNode("ai/models");
-var Impact = func() {
-    var splashOn = "Nothing";
-    var numberOfSplash = 0;
-    var raw_list = Mp.getChildren();
-    # Running threw ballistic list
-    foreach(var c ; raw_list)
-    {
-        # FIXED, with janitor. 5H1N0B1
-        var type = c.getName();
-        if(! c.getNode("valid", 1).getValue())
-        {
-            continue;
+
+# var Impact = func() {
+#     var splashOn = "Nothing";
+#     var numberOfSplash = 0;
+#     var raw_list = Mp.getChildren();
+#     # Running threw ballistic list
+#     foreach(var c ; raw_list)
+#     {
+#         # FIXED, with janitor. 5H1N0B1
+#         var type = c.getName();
+#         if(! c.getNode("valid", 1).getValue())
+#         {
+#             continue;
+#         }
+#         var HaveImpactNode = c.getNode("impact", 1);
+#         # If there is an impact and the impact is terrain then
+#         if(type == "ballistic" and HaveImpactNode != nil)
+#         {
+#             var type = HaveImpactNode.getNode("type", 1);
+#             if(type != "terrain")
+#             {
+#                 var elev = HaveImpactNode.getNode("elevation-m", 1).getValue();
+#                 var lat = HaveImpactNode.getNode("latitude-deg", 1).getValue();
+#                 var lon = HaveImpactNode.getNode("longitude-deg", 1).getValue();
+#                 if(lat != nil and lon != nil and elev != nil)
+#                 {
+#                     #print("lat"~ lat~" lon:"~ lon~ "elev:"~ elev);
+#                     ballCoord = geo.Coord.new();
+#                     ballCoord.set_latlon(lat, lon, elev);
+#                     var tempo = findmultiplayer(ballCoord, 80); #As in the f16
+#                     if(tempo != "Nothing")
+#                     {
+#                         splashOn = tempo;
+#                         numberOfSplash += 1;
+#                     }
+#                 }
+#             }
+#         }
+#     }
+# };
+
+
+var Impact = func {
+  var ballistic_name = props.globals.getNode("/ai/models/model-impact").getValue();
+  var ballistic = props.globals.getNode(ballistic_name, 0);
+  if (ballistic != nil and ballistic.getName() != "munition") {
+    var typeNode = ballistic.getNode("impact/type");
+    if (typeNode != nil and typeNode.getValue() != "terrain") {
+      var lat = ballistic.getNode("impact/latitude-deg").getValue();
+      var lon = ballistic.getNode("impact/longitude-deg").getValue();
+      var elev = ballistic.getNode("impact/elevation-m").getValue();
+      var impactPos = geo.Coord.new().set_latlon(lat, lon, elev);
+      var target = findmultiplayer(impactPos, 80);
+
+      if (distance != nil) {
+        var typeOrd = ballistic.getNode("name").getValue();
+        if(target == hit_callsign) {
+          # Previous impacts on same target
+          hits_count += 1;
         }
-        var HaveImpactNode = c.getNode("impact", 1);
-        # If there is an impact and the impact is terrain then
-        if(type == "ballistic" and HaveImpactNode != nil)
-        {
-            var type = HaveImpactNode.getNode("type", 1);
-            if(type != "terrain")
-            {
-                var elev = HaveImpactNode.getNode("elevation-m", 1).getValue();
-                var lat = HaveImpactNode.getNode("latitude-deg", 1).getValue();
-                var lon = HaveImpactNode.getNode("longitude-deg", 1).getValue();
-                if(lat != nil and lon != nil and elev != nil)
-                {
-                    #print("lat"~ lat~" lon:"~ lon~ "elev:"~ elev);
-                    ballCoord = geo.Coord.new();
-                    ballCoord.set_latlon(lat, lon, elev);
-                    var tempo = findmultiplayer(ballCoord);
-                    if(tempo != "Nothing")
-                    {
-                        splashOn = tempo;
-                        numberOfSplash += 1;
-                    }
-                }
-            }
+        else {
+          if (hit_timer != nil) {
+            # Previous impacts on different target, flush them first
+            hit_timer.stop();
+            hitmessage(typeOrd);
+          }
+          hits_count = 1;
+          hit_callsign = target;
+          hit_timer = maketimer(1, func {hitmessage(typeOrd);});
+          hit_timer.singleShot = 1;
+          hit_timer.start();
         }
+      }
     }
+  }
+}
+
+
+var hitmessage = func(typeOrd) {
+    typeOrd = "DEFA 554"; #This need to be changed to DEFA-554
     var time = getprop("/sim/time/elapsed-sec");
     if(splashOn != "Nothing" and (time - splashdt) > 1)
     {
         var phrase = "Gun Splash On : " ~ splashOn;
         if(MPMessaging.getValue() == 1)
         {
-            armament.defeatSpamFilter(phrase);
+            #armament.defeatSpamFilter(phrase);
+            #var msg = notifications.ArmamentNotification.new("mhit", 4, -1*(damage.shells[typeOrd][0]+1));
+            var msg = notifications.ArmamentNotification.new("mhit", 4, -1*(damage.shells[typeOrd][0]+1));
+            msg.RelativeAltitude = 0;
+            msg.Bearing = 0;
+            msg.Distance = numberOfSplash;
+            msg.RemoteCallsign = numberOfSplash;
+            notifications.hitBridgedTransmitter.NotifyAll(msg);
+            damage.damageLog.push("You hit "~hit_callsign~" with "~typeOrd~", "~hits_count~" times.");
         }
         else
         {
@@ -167,44 +217,46 @@ var Nb_Impact = func() {
     return mynumber;
 }
 
+
+var valid_mp_types = {
+  multiplayer: 1, tanker: 1, aircraft: 1, ship: 1, groundvehicle: 1,
+};
+
+
 # We mesure the minimum distance to all contact. This allow us to deduce who is the MP
 var findmultiplayer = func(targetCoord, dist = 20) {
     var raw_list = Mp.getChildren();
+    if(targetCoord == nil) return nil;
     #var dist  = 20;
-    var SelectedMP = "Nothing";
+    var SelectedMP = nil;
     foreach(var c ; raw_list)
-    {
-        # FIXED, with janitor. 5H1N0B1
-        var type = c.getName();
-        if(! c.getNode("valid", 1).getValue())
-        {
-            continue;
-        }
-        var HavePosition = c.getNode("position", 1);
-        var name = c.getNode("callsign", 1);
-        
-        if((type == "multiplayer" or type == "tanker" or type == "aircraft") and HavePosition != nil and targetCoord != nil and name != nil)
-        {
-            var lat = HavePosition.getNode("latitude-deg", 1).getValue();
-            var lon = HavePosition.getNode("longitude-deg", 1).getValue();
-            var elev = HavePosition.getNode("altitude-ft", 1).getValue() * FT2M;
-            
-            #print("name:"~name.getValue());
-            #print("lat"~ lat.getValue()~" lon:"~ lon.getValue()~ "elev:"~ elev.getValue());
-            
-            MpCoord = geo.Coord.new();
-            MpCoord.set_latlon(lat, lon, elev);
-            var tempoDist = MpCoord.direct_distance_to(targetCoord);
-            #print("TempoDist:"~tempoDist);
-            if(dist > tempoDist)
-            {
-                dist = tempoDist;
-                SelectedMP = name.getValue();
-                #print("That worked");
-            }
-        }
+    {    
+      var is_valid = c.getNode("valid");
+      if(is_valid == nil or !is_valid.getBoolValue()) continue;
+      
+      var type = c.getName();
+      
+      var position = c.getNode("position");
+      var name = c.getValue("callsign");
+      if(name == nil or name == "") {
+        # fallback, for some AI objects
+        var name = c.getValue("name");
+      }
+      if(position == nil or name == nil or name == "" or !contains(valid_mp_types, type)) continue;
+
+      var lat = position.getValue("latitude-deg");
+      var lon = position.getValue("longitude-deg");
+      var elev = position.getValue("altitude-ft") * FT2M;
+
+      if(lat == nil or lon == nil or elev == nil) continue;
+
+      MpCoord = geo.Coord.new().set_latlon(lat, lon, elev);
+      var tempoDist = MpCoord.direct_distance_to(targetCoord);
+      if(dist > tempoDist) {
+        dist = tempoDist;
+        SelectedMP = name;
+      }
     }
-    #print("Splash on : Callsign:"~SelectedMP);
     return SelectedMP;
 }
 
@@ -217,6 +269,7 @@ if(tokenFlare==0){
     tokenFlare= 1;
     setprop("rotors/main/blade[3]/flap-deg", rand());    #flare
     setprop("rotors/main/blade[3]/position-deg", rand());#chaff
+    damage.flare_released();
     settimer(initFlare,0.5);
     settimer(initToken,1);
   } 

@@ -120,4 +120,8 @@
 	<text><label>5 - Two bandits (veterans)</label></text>
 	<text><label>6 - Three bandits, one wingman (veterans)</label></text>
 
+	<empty>
+      <stretch>1</stretch>
+    </empty>
+
 </PropertyList>

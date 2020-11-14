@@ -55,7 +55,7 @@ var RadarTool = {
                   
                   # We are testing if it is near the ground
                   if(ground_alt!=nil){
-                    if(abs(ground_alt - u.get_altitude()*FT2M) < 10) { # in meters
+                    if(abs(ground_alt - u.get_altitude()*FT2M) < 60) { # in meters
                       #print("It is close to the ground");
                       var info = geodinfo(u.get_Latitude(), u.get_Longitude());
                       if (info != nil and info[1] != nil) {

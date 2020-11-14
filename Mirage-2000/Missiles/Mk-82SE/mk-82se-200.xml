@@ -4,11 +4,11 @@
 
   <animation>
     <type>select</type>
-    <object-name>Arming_Ring</object-name>
     <object-name>Stop_Pin</object-name>
     <object-name>Wire</object-name>
     <object-name>Wire01</object-name>
     <object-name>WireClip01</object-name>
+    <object-name>Object03</object-name>
     <condition>
       <not>
 	<property>payload/armament/mk-82se/flags/msl-id-200</property>
@@ -18,6 +18,7 @@
 
   <animation>
     <type>select</type>
+    <object-name>Arming_Ring</object-name>
     <object-name>Block01</object-name>
     <object-name>Block02</object-name>
     <object-name>Block03</object-name>
@@ -68,6 +69,199 @@
     </condition>
   </animation>
 
+  <animation>
+    <type>rotate</type>
+    <object-name>Propeller</object-name>
+    <object-name>Propeller_Blades</object-name>
+    <object-name>Arming_Ring</object-name>
+    <factor>900</factor>
+    <property>sim/time/elapsed-sec</property>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- wings animation -->
+
+  <animation>
+    <type>translate</type>
+    <object-name>Strut_Movable_Pivot</object-name>
+    <property>payload/armament/mk-82se/flags/deploy-id-200</property>
+    <factor>0.18</factor>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--
+  <animation>
+    <type>scale</type>
+    <object-name>Object03</object-name>
+    <property>payload/armament/mk-82se/flags/deploy-id-200</property>
+    <center>
+      <x-m>1.088</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+    <x-offset>1</x-offset>
+    <y-offset>0</y-offset>
+    <z-offset>0</z-offset>
+    <x-factor>-0.38</x-factor>
+    <y-factor>0</y-factor>
+    <z-factor>0</z-factor>
+  </animation>
+  -->
+  
+  <animation>
+    <type>locked-track</type>
+    <object-name>Wing_01</object-name>
+    <center>
+      <x-m> 1.328</x-m>
+      <y-m> 0.000</y-m>
+      <z-m> 0.060</z-m>
+    </center>
+    <track-axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </track-axis>
+    <lock-axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </lock-axis>
+
+    <target-name>Strut_Movable_Pivot</target-name>
+    <target-center>
+      <x-m> 0.807</x-m>
+      <y-m> 0.000</y-m>
+      <z-m> 0.058</z-m>
+    </target-center>
+
+    <slave-name>Strut_01</slave-name>
+    <slave-center>
+      <x-m> 1.159</x-m>
+      <y-m> 0.000</y-m>
+      <z-m> 0.093</z-m>
+    </slave-center>
+  </animation>
+
+  <animation>
+    <type>locked-track</type>
+    <object-name>Wing_02</object-name>
+    <center>
+      <x-m> 1.328</x-m>
+      <y-m> 0.060</y-m>
+      <z-m> 0.000</z-m>
+    </center>
+    <track-axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </track-axis>
+    <lock-axis>
+      <x>0</x>
+      <y>0</y>
+      <z>-1</z>
+    </lock-axis>
+
+    <target-name>Strut_Movable_Pivot</target-name>
+    <target-center>
+      <x-m> 0.807</x-m>
+      <y-m> 0.058</y-m>
+      <z-m> 0.000</z-m>
+    </target-center>
+
+    <slave-name>Strut_02</slave-name>
+    <slave-center>
+      <x-m> 1.159</x-m>
+      <y-m> 0.093</y-m>
+      <z-m> 0.000</z-m>
+    </slave-center>
+  </animation>
+
+  <animation>
+    <type>locked-track</type>
+    <object-name>Wing_03</object-name>
+    <center>
+      <x-m> 1.328</x-m>
+      <y-m> 0.000</y-m>
+      <z-m>-0.060</z-m>
+    </center>
+    <track-axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </track-axis>
+    <lock-axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </lock-axis>
+
+    <target-name>Strut_Movable_Pivot</target-name>
+    <target-center>
+      <x-m> 0.807</x-m>
+      <y-m> 0.000</y-m>
+      <z-m>-0.058</z-m>
+    </target-center>
+
+    <slave-name>Strut_03</slave-name>
+    <slave-center>
+      <x-m> 1.159</x-m>
+      <y-m> 0.000</y-m>
+      <z-m>-0.093</z-m>
+    </slave-center>
+  </animation>
+
+  <animation>
+    <type>locked-track</type>
+    <object-name>Wing_04</object-name>
+    <center>
+      <x-m> 1.328</x-m>
+      <y-m>-0.060</y-m>
+      <z-m> 0.000</z-m>
+    </center>
+    <track-axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </track-axis>
+    <lock-axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </lock-axis>
+
+    <target-name>Strut_Movable_Pivot</target-name>
+    <target-center>
+      <x-m> 0.807</x-m>
+      <y-m>-0.058</y-m>
+      <z-m> 0.000</z-m>
+    </target-center>
+
+    <slave-name>Strut_04</slave-name>
+    <slave-center>
+      <x-m> 1.159</x-m>
+      <y-m>-0.093</y-m>
+      <z-m> 0.000</z-m>
+    </slave-center>
+  </animation>
+  
   <particlesystem>
     <name>explosion-inner</name>
     <texture>../smoke.png</texture>
@@ -284,7 +478,7 @@
 
     <counter>
       <particles-per-sec>
-        <value>200</value>
+        <value>300</value>
         <spread>5</spread>
       </particles-per-sec>
     </counter>
@@ -462,13 +656,13 @@
         <z-min-deg-sec>100</z-min-deg-sec>
         <x-max-deg-sec>0</x-max-deg-sec>
         <y-max-deg-sec>0</y-max-deg-sec>
-        <z-max-deg-sec>200</z-max-deg-sec>
+        <z-max-deg-sec>300</z-max-deg-sec>
       </rotation-speed>
     </shooter>
 
     <counter>
       <particles-per-sec>
-        <value>200</value>
+        <value>300</value>
         <spread>5</spread>
       </particles-per-sec>
     </counter>

@@ -52,7 +52,9 @@
   </location>
 </metrics>
 
-<mass_balance>
+<mass_balance file="Systems/Mirage-2000-mass"/>
+
+<!--<mass_balance>
   <ixx unit="KG*M2">6262</ixx>
   <iyy unit="KG*M2">75686</iyy>
   <izz unit="KG*M2">78802</izz>
@@ -63,7 +65,7 @@
     <y>0</y>
     <z>0</z>
   </location>
-</mass_balance>
+</mass_balance>-->
 
 <ground_reactions>
   <contact type="BOGEY" name="NOSE_LG">
@@ -600,6 +602,7 @@
 <system file="Mirage-2000-engines-Snecma-M53"/>
 <system file="Mirage-2000-fcs"/>
 <system file="Mirage-2000-fuel"/>
+
 
 
 <flight_control name="Mirage2000-FCS">
@@ -4512,6 +4515,81 @@
           <property>aero/coefficients/CDRAG</property>
        </product>
     </function>
+    <function name="aero/force/CDpylon0">
+        <description>drag for pylon
+                     TODO: add wave drag
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[0]</property>
+            </product>
+    </function>
+    
+    <function name="aero/force/CDpylon1">
+        <description>drag for pylon
+                     TODO: add wave drag
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[1]</property>
+            </product>
+    </function>
+
+    <function name="aero/force/CDpylon2">
+        <description>drag for pylon</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[2]</property>
+            </product>
+    </function>
+
+    <function name="aero/force/CDpylon3">
+        <description>drag for pylon</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[3]</property>
+            </product>
+    </function>
+
+    <function name="aero/force/CDpylon4">
+        <description>drag for pylon</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[4]</property>
+            </product>
+    </function>
+
+    <function name="aero/force/CDpylon5">
+        <description>drag for pylon</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[5]</property>
+            </product>
+    </function>
+
+    <function name="aero/force/CDpylon6">
+        <description>drag for pylon</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[6]</property>
+            </product>
+    </function>
+
+    <function name="aero/force/CDpylon7">
+        <description>drag for pylon</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[7]</property>
+            </product>
+    </function>
+
+    <function name="aero/force/CDpylon8">
+        <description>drag for pylon</description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>inertia/pointmass-dragarea-sqft[8]</property>
+            </product>
+    </function>
   </axis>
   <axis name="SIDE">
     <function name="aero/coefficients/CSIDE">
@@ -4618,6 +4696,54 @@
           <property>metrics/bw-ft</property>
           <property>aero/coefficients/CYAW</property>
        </product>
+    </function>
+    <function name="aero/force/YAW-stores">
+        <description>
+                  Yaw due asymmetric stores on wing pylons
+
+                  Drag force of single pylon times length from center, gives approx yaw moment
+        </description>
+        <product>
+            <sum>
+                <product>
+                    <property>aero/force/CDpylon0</property>
+                    <property>inertia/pointmass-location-Y-inches[0]</property>
+                </product>
+                <product>
+                    <property>aero/force/CDpylon1</property>
+                    <property>inertia/pointmass-location-Y-inches[1]</property>
+                </product>
+                <product>
+                    <property>aero/force/CDpylon2</property>
+                    <property>inertia/pointmass-location-Y-inches[2]</property>
+                </product>
+                <product>
+                    <property>aero/force/CDpylon3</property>
+                    <property>inertia/pointmass-location-Y-inches[3]</property>
+                </product>
+                <product>
+                    <property>aero/force/CDpylon4</property>
+                    <property>inertia/pointmass-location-Y-inches[4]</property>
+                </product>
+                <product>
+                    <property>aero/force/CDpylon5</property>
+                    <property>inertia/pointmass-location-Y-inches[5]</property>
+                </product>
+                <product>
+                    <property>aero/force/CDpylon6</property>
+                    <property>inertia/pointmass-location-Y-inches[6]</property>
+                </product>
+                <product>
+                    <property>aero/force/CDpylon7</property>
+                    <property>inertia/pointmass-location-Y-inches[7]</property>
+                </product>
+                <product>
+                    <property>aero/force/CDpylon8</property>
+                    <property>inertia/pointmass-location-Y-inches[8]</property>
+                </product>
+            </sum>
+            <value>0.0833</value><!-- convert inch to feet -->
+        </product>
     </function>
   </axis>
 </aerodynamics>

@@ -28,7 +28,7 @@
       </item>
       
       <item n="3">
-        <label>Link16</label>
+        <label>Link 16</label>
         <name>AboutMirage</name>
         <binding>
           <command>dialog-show</command>
@@ -116,8 +116,8 @@
         </binding>
       </item>
 
-      <item>
-	<label>Fast re-arm</label>
+      <item n="13">
+	<label>Quick Payload Reload</label>
 	<name>payload-qs</name>
 	<binding>
 	  <condition>
@@ -146,6 +146,15 @@
 	  <dialog-name>payload-d</dialog-name>
 	</binding>
       </item>
+      
+  <item n="14">
+    <label>Combat event log</label>
+    <name>event-log</name>
+    <binding>
+      <command>dialog-show</command>
+      <dialog-name>flightlog</dialog-name>
+    </binding>
+  </item>
 
     </menu>
   </default>

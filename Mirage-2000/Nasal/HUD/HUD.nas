@@ -1159,6 +1159,12 @@ var HUD = {
   }
     
     m.lastWP = m.input.currentWp.getValue();
+    m.RunwayCoord =  geo.Coord.new();
+    m.RunwaysCoordCornerLeft = geo.Coord.new();
+    m.RunwaysCoordCornerRight = geo.Coord.new();
+    m.RunwaysCoordEndCornerLeft = geo.Coord.new();
+    m.RunwaysCoordEndCornerRight = geo.Coord.new();
+        
     return m;
   },
   update: func()
@@ -1904,11 +1910,11 @@ var HUD = {
   displayRunway:func(){
     
     #Coord of the runways gps coord
-    var RunwayCoord =  geo.Coord.new();
-    var RunwaysCoordCornerLeft = geo.Coord.new();
-    var RunwaysCoordCornerRight = geo.Coord.new();
-    var RunwaysCoordEndCornerLeft = geo.Coord.new();
-    var RunwaysCoordEndCornerRight = geo.Coord.new();
+#     var RunwayCoord =  geo.Coord.new();
+#     var RunwaysCoordCornerLeft = geo.Coord.new();
+#     var RunwaysCoordCornerRight = geo.Coord.new();
+#     var RunwaysCoordEndCornerLeft = geo.Coord.new();
+#     var RunwaysCoordEndCornerRight = geo.Coord.new();
     
     #var info = airportinfo(icao;
     #Need to select the runways and write the conditions
@@ -1926,29 +1932,32 @@ var HUD = {
     #print("reciprocal:" , info.runways[rwy].reciprocal, " ICAO:", info.id, " runway:",info.runways[rwy].id);
     
     #Calculating GPS coord of the runway's corners
-    RunwayCoord.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    
-    RunwaysCoordCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    RunwaysCoordCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
-    
-    RunwaysCoordCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    RunwaysCoordCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
-    
-    RunwaysCoordEndCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
-    RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
-    
-    RunwaysCoordEndCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
-    RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
+    #No need to recalculate GPS position everytime, only when the destination airport is changed
+    if(me.RunwayCoord.lat != me.info.runways[me.selectedRunway].lat or me.RunwayCoord.lpn != me.info.runways[me.selectedRunway].lon){
+      me.RunwayCoord.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      
+      me.RunwaysCoordCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      me.RunwaysCoordCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
+      
+      me.RunwaysCoordCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      me.RunwaysCoordCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
+      
+      me.RunwaysCoordEndCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      me.RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
+      me.RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
+      
+      me.RunwaysCoordEndCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
+      me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
+    }
     
     
     #Calculating the HUD coord of the runways coord
-    me.MyRunwayTripos                     = HudMath.getPosFromCoord(RunwayCoord);
-    me.MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(RunwaysCoordCornerLeft);
-    me.MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(RunwaysCoordCornerRight);
-    me.MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(RunwaysCoordEndCornerLeft);
-    me.MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(RunwaysCoordEndCornerRight);
+    me.MyRunwayTripos                     = HudMath.getPosFromCoord(me.RunwayCoord);
+    me.MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(me.RunwaysCoordCornerLeft);
+    me.MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(me.RunwaysCoordCornerRight);
+    me.MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerLeft);
+    me.MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerRight);
     
     
     
@@ -1958,11 +1967,11 @@ var HUD = {
     #drawing the runway
     me.RunwaysDrawing = me.myRunwayGroup.createChild("path")
     .setColor(me.myGreen)
-    .moveTo(me.MyRunwayCoordCornerLeftTripos)
-    .lineTo(me.MyRunwayCoordCornerRightTripos)
-    .lineTo(me.MyRunwayCoordCornerEndRightTripos)
-    .lineTo(me.MyRunwayCoordCornerEndLeftTripos)
-    .lineTo(me.MyRunwayCoordCornerLeftTripos)
+    .moveTo(me.MyRunwayCoordCornerLeftTripos[0],me.MyRunwayCoordCornerLeftTripos[1])
+    .lineTo(me.MyRunwayCoordCornerRightTripos[0],me.MyRunwayCoordCornerRightTripos[1])
+    .lineTo(me.MyRunwayCoordCornerEndRightTripos[0],me.MyRunwayCoordCornerEndRightTripos[1])
+    .lineTo(me.MyRunwayCoordCornerEndLeftTripos[0],me.MyRunwayCoordCornerEndLeftTripos[1])
+    .lineTo(me.MyRunwayCoordCornerLeftTripos[0],me.MyRunwayCoordCornerLeftTripos[1])
     .setStrokeLineWidth(4);
     
     me.myRunwayGroup.update();

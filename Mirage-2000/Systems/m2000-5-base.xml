@@ -132,11 +132,25 @@
           <number2-system-pump-failed>0</number2-system-pump-failed>
         </hydraulics>
       </systems>
+      <inertia>
+        <pointmass-dragarea-sqft type="double" n="0">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="1">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="2">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="3">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="4">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="5">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="6">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="7">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="8">0</pointmass-dragarea-sqft>
+      </inertia>
     </jsbsim>
   </fdm>
 
   <nasal>
     <!-- c172p is part of FGDATA and thus always present -->
+    <hack>
+        <file>Aircraft/Mirage-2000/Nasal/hackCanvas.nas</file>
+    </hack>
     <math_ext>
       <file>Aircraft/c172p/Nasal/generic/math_ext.nas</file>
     </math_ext>
@@ -146,6 +160,14 @@
     <updateloop>
       <file>Aircraft/Generic/updateloop.nas</file>
     </updateloop>
+        
+    <notifications>
+      <file>Aircraft/Mirage-2000/Nasal/ArmamentNotification.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/GeoBridgedTransmitter.nas</file>
+    </notifications>
+    <damage>
+      <file>Aircraft/Mirage-2000/Nasal/damage.nas</file>
+    </damage>
     <ai>
       <file>Aircraft/Mirage-2000/Nasal/AI_list.nas</file>
     </ai>
@@ -161,6 +183,9 @@
     <electrics>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-electrical.nas</file>
     </electrics>
+    <crash>
+        <file>Aircraft/Mirage-2000/Nasal/crash-and-stress.nas</file>
+    </crash>
     <vector>
         <file>Aircraft/Mirage-2000/Nasal/vector.nas</file>
     </vector>
@@ -234,7 +259,6 @@
     </m2000_mp>
     <missile>
       <file>Aircraft/Mirage-2000/Nasal/missile_GroundTargeting.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/damage.nas</file>
     </missile>
     <view>
       <file>Aircraft/Mirage-2000/Nasal/MissileView.nas</file>

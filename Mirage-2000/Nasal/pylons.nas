@@ -1,4 +1,9 @@
 print("*** LOADING pylons.nas ... ***");
+# Note : 
+#Note : when we add weapons, the names should be the same : same short name and same long name in pylons.nas and payload.xml
+#also in loads.xml, we need to use -set and the long name
+#also be sure not to mess with upper/lower case in the folder/files of the new weapons itself
+
 
 var TRUE=1;
 var FALSE=0;
@@ -147,27 +152,27 @@ if(AIRCRAFT != 'm2000D'){
   
   
 #Exterior wing Load
-pylon2 = stations.Pylon.new("pylon2.L", 1, [2.373,-3.278,-1.494], ExteriorWingSet, 1, props.globals.getNode("yasim/weight[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-pylon6 = stations.Pylon.new("pylon2.R", 5, [2.373,3.278,-1.494], ExteriorWingSet,5, props.globals.getNode("yasim/weight[5]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[5]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon2 = stations.Pylon.new("pylon2.L", 1, [2.373,-3.278,-1.494], ExteriorWingSet, 1, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon6 = stations.Pylon.new("pylon2.R", 5, [2.373,3.278,-1.494], ExteriorWingSet,5, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[5]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[5]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
 #Interior Wing load
-pylon3 = stations.Pylon.new("pylon3.L", 2, [1.047,-2.359,-1.556], InteriorWingSetR, 2, props.globals.getNode("yasim/weight[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-pylon5 = stations.Pylon.new("pylon3.R", 4, [1.047,2.359,-1.556], InteriorWingSetL, 4, props.globals.getNode("yasim/weight[4]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[4]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon3 = stations.Pylon.new("pylon3.L", 2, [1.047,-2.359,-1.556], InteriorWingSetR, 2, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon5 = stations.Pylon.new("pylon3.R", 4, [1.047,2.359,-1.556], InteriorWingSetL, 4, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[4]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[4]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
 #Center Fuselage pylon
-pylon4 = stations.Pylon.new("pylon.C", 3, [1.082,0,-1.656], CenterSet,3, props.globals.getNode("yasim/weight[3]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[3]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon4 = stations.Pylon.new("pylon.C", 3, [1.082,0,-1.656], CenterSet,3, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[3]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[3]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
 
 #Forward fuselage pylons
-pylon1 = stations.Pylon.new("pylon1.L", 0, [-1.265,-0.824,-1.370], ForwardfuselagepylonsL, 0, props.globals.getNode("yasim/weight[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-pylon7 = stations.Pylon.new("pylon1.R", 6, [-1.265,0.824,-1.370], ForwardfuselagepylonsR, 6, props.globals.getNode("yasim/weight[6]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[6]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon1 = stations.Pylon.new("pylon1.L", 0, [-1.265,-0.824,-1.370], ForwardfuselagepylonsL, 0, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[0]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[0]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon7 = stations.Pylon.new("pylon1.R", 6, [-1.265,0.824,-1.370], ForwardfuselagepylonsR, 6, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[6]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[6]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
 #Rear fuselage pylons
-pylon8 = stations.Pylon.new("pylonB.L", 7, [3.360,-0.920,-1.380], Rearfuselagepylons, 7, props.globals.getNode("yasim/weight[7]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[7]",1),func{return getprop("payload/armament/fire-control/serviceable")});
-pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepylons, 8, props.globals.getNode("yasim/weight[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon8 = stations.Pylon.new("pylonB.L", 7, [3.360,-0.920,-1.380], Rearfuselagepylons, 7, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[7]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[7]",1),func{return getprop("payload/armament/fire-control/serviceable")});
+pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepylons, 8, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
 
-pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("yasim/weight[10]",1));
+pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[9]",1));
 
 #print("AIRCRAFT"~AIRCRAFT);
 
@@ -589,8 +594,110 @@ var a2a_kilo_mica = func {
       }
   }
   
+    # mk82 configuration  : 2 2 x mk82 , 4 mk82 body pylons, Center Tank, 2 Magic ii
+  var unguided = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.dmk82);
+          pylon5.loadSet(pylonSets.dmk82);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.t);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.mk82);
+          pylon7.loadSet(pylonSets.mk82);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.mk82);
+          pylon9.loadSet(pylonSets.mk82);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
   
-  
+   # mk82 er configuration  : 
+  var unguided_er = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.t2);
+          pylon5.loadSet(pylonSets.t4);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.dmk82);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.mk82);
+          pylon7.loadSet(pylonSets.mk82);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.mk82);
+          pylon9.loadSet(pylonSets.mk82);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+
+ # mk82 se configuration  : 2 x 2 mk82se , Center Tank, 4 mk82 body pylons, 2 Magic ii
+  var unguided_se = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.dmk82se);
+          pylon5.loadSet(pylonSets.dmk82se);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.t);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.mk82se);
+          pylon7.loadSet(pylonSets.mk82se);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.mk82se);
+          pylon9.loadSet(pylonSets.mk82se);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+
+# mk82 se er configuration  : 2 x 2000L , 2 x mk82se, 4 mk82se body pylons, 2 Magic ii
+  var unguided_se_er = func { 
+    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+          #External wings
+          pylon2.loadSet(pylonSets.g);
+          pylon6.loadSet(pylonSets.g);
+          
+          #Internal wing
+          pylon3.loadSet(pylonSets.t2);
+          pylon5.loadSet(pylonSets.t4);
+          
+          #Center Fuselage
+          pylon4.loadSet(pylonSets.dmk82se);
+          
+          #Side fuselage forward
+          pylon1.loadSet(pylonSets.mk82se);
+          pylon7.loadSet(pylonSets.mk82se);
+          
+          #Side fuselage backward
+          pylon8.loadSet(pylonSets.mk82se);
+          pylon9.loadSet(pylonSets.mk82se);
+      } else {
+        screen.log.write(mirage2000.msgB);
+      }
+  }
+
   
   #Variable declaration
   var pylonSetListener = [];
@@ -600,7 +707,7 @@ var a2a_kilo_mica = func {
   
   #Loading a vector with the Set names
   foreach(key;keys(pylonSets)) {
-    #print(pylonSets[key].name);   <--- Uncomment this line to have the list displayed in the console
+    #print(pylonSets[key].name);   #<--- Uncomment this line to have the list displayed in the console
     AllPossibleLoads.append(pylonSets[key].name);
   }
   
@@ -608,9 +715,10 @@ var a2a_kilo_mica = func {
   #To know what in it uncomment : "print(pylonSets[key].name);"
   #ACtually, here this list is useless : but it need to be the exact same in MP.nas
   loadList = [
-    "2000 l Droptank",
+    "2000 l Droptank,"
     "SCALP",
     "1700 l Droptank",
+    "2 x SAMP Mk-82 Snake-eye",
     "AM39-Exocet",
     "2 x GBU-12",
     "1700 l Droptank",
@@ -618,14 +726,17 @@ var a2a_kilo_mica = func {
     "PDLCT",
     "Matra Super 530D",
     "AS30L",
+    "2 x SAMP Mk-82",
     "30mm Cannon",
     "none",
     "MICA IR",
     "1300 l Droptank",
     "Matra R550 Magic 2",
     "2000 l Droptank",
+    "SAMP Mk-82",
     "MICA EM",
-    "ASMP"
+    "ASMP",
+    "SAMP Mk-82 Snake-eye"
   ];
 
   

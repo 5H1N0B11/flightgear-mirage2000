@@ -672,9 +672,11 @@ var FireControl = {
 			} elsif (me.aim != nil and me.aim.parents[0] == stations.SubModelWeapon and (me.aim.operableFunction == nil or me.aim.operableFunction()) and me.aim.getAmmo()>0) {
 				if (getprop("sim/time/elapsed-sec")>me.gunTriggerTime+10 or me.aim.alternate) {
 					# only say guns guns every 10 seconds.
-					armament.AIM.sendMessage(me.aim.brevity);
+					#armament.AIM.sendMessage(me.aim.brevity);
+					
 					me.gunTriggerTime = getprop("sim/time/elapsed-sec");
 				}
+				damage.damageLog.push("Cannon fired");
 				me.triggerTime = 0;
 			}
 		} elsif (getprop("controls/armament/trigger") < 1) {
@@ -700,7 +702,8 @@ var FireControl = {
 			if (me.lockedfire and me.aim.guidance != "unguided") {
 				add = " at: "~me.aim.callsign;
 			}
-			me.aim.sendMessage(me.aim.brevity~add);
+			#me.aim.sendMessage(me.aim.brevity~add);
+			damage.damageLog.push(me.aim.brevity~add);
 		}
 		return me.aim;
 	},
@@ -754,7 +757,8 @@ var FireControl = {
 		}
 		aimer = me.pylons[me.selected[0]].fireWeapon(me.selected[1], getCompleteRadarTargetsList());
 		if (aimer != nil) {
-			aimer.sendMessage(aimer.brevity~" Maddog released");
+			#aimer.sendMessage(aimer.brevity~" Maddog released");
+			damage.damageLog.push(aimer.brevity~" Maddog released");
 			me.aimNext = me.nextWeapon(me.selectedType);
 			if (me.aimNext != nil) {
 				me.aimNext.start();
@@ -1035,7 +1039,7 @@ var printfDebug = func {if (debug == 1) call(printf,arg);};
 var dualWeapons = ["MK-82","MK-83","MK-84","GBU-12","GBU-24","GBU-54","CBU-87","CBU-105","GBU-31","AGM-154A","B61-7","B61-12"];
 var getCompleteRadarTargetsList = func {
 	# A list of all MP/AI aircraft/ships/surface-targets around the aircraft.
-	return radar.completeList;
+	radar.completeList;
 }
 
 var ContactTGP = {

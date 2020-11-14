@@ -5,7 +5,7 @@
   <sim>
     <model>
       <logos>
-        <name type="string">Cambresis</name>
+        <name type="string">EC 1/12 Cambresis</name>
         <texture>cambresis.png</texture>
         <specular>
           <red>   0.3 </red>

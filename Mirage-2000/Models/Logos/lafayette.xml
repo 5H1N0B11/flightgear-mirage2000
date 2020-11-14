@@ -5,7 +5,7 @@
   <sim>
     <model>
       <logos>
-        <name type="string">Lafayette</name>
+        <name type="string">EC 2/4 Lafayette</name>
         <texture>lafayette.png</texture>
         <specular>
           <red>   0.3 </red>

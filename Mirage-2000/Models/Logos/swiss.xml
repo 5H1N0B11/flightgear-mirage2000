@@ -5,7 +5,7 @@
   <sim>
     <model>
       <logos>
-        <name type="string">Swiss Mirage IIIS</name>
+        <name type="string">Swiss Air Force Mirage IIIS (fictional)</name>
         <texture>swiss.png</texture>
         <specular>
           <red>   0.3 </red>
