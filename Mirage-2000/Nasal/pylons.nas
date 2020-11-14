@@ -1,4 +1,9 @@
 print("*** LOADING pylons.nas ... ***");
+# Note : 
+#Note : when we add weapons, the names should be the same : same short name and same long name in pylons.nas and payload.xml
+#also in loads.xml, we need to use -set and the long name
+#also be sure not to mess with upper/lower case in the folder/files of the new weapons itself
+
 
 var TRUE=1;
 var FALSE=0;
@@ -702,7 +707,7 @@ var a2a_kilo_mica = func {
   
   #Loading a vector with the Set names
   foreach(key;keys(pylonSets)) {
-    #print(pylonSets[key].name);   <--- Uncomment this line to have the list displayed in the console
+    #print(pylonSets[key].name);   #<--- Uncomment this line to have the list displayed in the console
     AllPossibleLoads.append(pylonSets[key].name);
   }
   
@@ -710,9 +715,10 @@ var a2a_kilo_mica = func {
   #To know what in it uncomment : "print(pylonSets[key].name);"
   #ACtually, here this list is useless : but it need to be the exact same in MP.nas
   loadList = [
-    "2000 l Droptank",
+    "2000 l Droptank,"
     "SCALP",
     "1700 l Droptank",
+    "2 x SAMP Mk-82 Snake-eye",
     "AM39-Exocet",
     "2 x GBU-12",
     "1700 l Droptank",
@@ -720,14 +726,17 @@ var a2a_kilo_mica = func {
     "PDLCT",
     "Matra Super 530D",
     "AS30L",
+    "2 x SAMP Mk-82",
     "30mm Cannon",
     "none",
     "MICA IR",
     "1300 l Droptank",
     "Matra R550 Magic 2",
     "2000 l Droptank",
+    "SAMP Mk-82",
     "MICA EM",
-    "ASMP"
+    "ASMP",
+    "SAMP Mk-82 Snake-eye"
   ];
 
   

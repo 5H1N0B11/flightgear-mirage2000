@@ -525,8 +525,8 @@
 
     <mk-82> 
       <type-id type="int">32</type-id>
-      <short-name type="string">B82</short-name>
-      <long-name type="string">MK-82 General Purpose Bomb</long-name>
+      <short-name type="string">Mk-82</short-name>
+      <long-name type="string">SAMP Mk-82</long-name>
       <fire-msg type="string">Bombs away</fire-msg>
       <class type="string">GMP</class>
       <max-fire-range-nm type="double"> 8 </max-fire-range-nm>
@@ -569,8 +569,8 @@
 
     <mk-82se> 
       <type-id type="int">3</type-id>
-      <short-name type="string">B82</short-name>
-      <long-name type="string">MK-82 General Purpose Bomb</long-name>
+      <short-name type="string">Mk-82SE</short-name>
+      <long-name type="string">SAMP Mk-82 Snake-eye</long-name>
       <fire-msg type="string">Bombs away</fire-msg>
       <class type="string">GMP</class>
       <max-fire-range-nm type="double"> 8 </max-fire-range-nm>
