@@ -49,17 +49,17 @@ var RadarTool = {
                   # notice that GROUND_TARGET is set inside Target.new().
                   u.setType(armament.AIR);
                   
-                  #print("Update Type of " ~ u.get_Callsign());
+                  print("Update Type of " ~ u.get_Callsign());
                   var ground_alt = geo.elevation(u.get_Latitude(), u.get_Longitude());
                   ground_alt = ground_alt==nil?0:ground_alt;
                   
                   # We are testing if it is near the ground
                   if(ground_alt!=nil){
-                    if(abs(ground_alt - u.get_altitude()*FT2M) < 10) { # in meters
-                      #print("It is close to the ground");
+                    if(abs(ground_alt - u.get_altitude()*FT2M) < 60) { # in meters
+                      print("It is close to the ground");
                       var info = geodinfo(u.get_Latitude(), u.get_Longitude());
                       if (info != nil and info[1] != nil) {
-                        #print("The ground underneath the aircraft is ", info[1].solid == 1 ? "solid." : "water.");
+                        print("The ground underneath the aircraft is ", info[1].solid == 1 ? "solid." : "water.");
                         if(info[1].solid == 1){
                           u.setType(armament.SURFACE);
                           u.skipDoppler = 0;
