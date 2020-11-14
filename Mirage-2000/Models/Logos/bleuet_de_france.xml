@@ -6,7 +6,7 @@
     <model>
       <logos>
         <name type="string">EC 1/2 Cigognes (Bleuet de France)</name>
-        <texture>bleuet_de _france.png</texture>
+        <texture>bleuet_de_france.png</texture>
         <specular>
           <red>   0.3 </red>
           <green> 0.3 </green>
