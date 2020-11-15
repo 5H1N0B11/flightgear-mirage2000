@@ -91,7 +91,7 @@ Cannon_lQ_HQ_trigger = func(Qual) {
 
 # This is to detect collision when balistic are shooted.
 # The goal is to put an automatic message for gun splash
-var Mp = props.globals.getNode("ai/models");
+#var Mp = props.globals.getNode("ai/models");
 
 # var Impact = func() {
 #     var splashOn = "Nothing";
@@ -133,6 +133,15 @@ var Mp = props.globals.getNode("ai/models");
 #     }
 # };
 
+var hits_count = 0;
+var hit_timer  = nil;
+var hit_callsign = "";
+
+var Mp = props.globals.getNode("ai/models");
+var valid_mp_types = {
+  multiplayer: 1, tanker: 1, aircraft: 1, ship: 1, groundvehicle: 1,
+};
+
 
 var Impact = func {
   var ballistic_name = props.globals.getNode("/ai/models/model-impact").getValue();
@@ -146,7 +155,7 @@ var Impact = func {
       var impactPos = geo.Coord.new().set_latlon(lat, lon, elev);
       var target = findmultiplayer(impactPos, 80);
 
-      if (distance != nil) {
+      if (target != nil) {
         var typeOrd = ballistic.getNode("name").getValue();
         if(target == hit_callsign) {
           # Previous impacts on same target
