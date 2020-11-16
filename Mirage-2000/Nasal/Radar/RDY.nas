@@ -1,7 +1,7 @@
 #
 # Authors: Axel Paccalin.
 #
-# Version 0.1
+# Version 0.2
 #
 
 var RDY = {
@@ -46,7 +46,7 @@ var RDY = {
         
         var modules = [
             FGUM_Radar_MOLG.ExprModule.new("echo", me.echoExpr),             # Store the echoes in "echo".
-            FGUM_Radar.MemoryModule.new("echo", "echoMemory", 8),            # Keep the echoes in "echoMemory" for 8 seconds.
+            FGUM_Radar.MemoryModule.new("echoMemory","echo", 8),             # Keep the echoes in "echoMemory" for 8 seconds.
             FGUM_Radar_MOLG.ExprModule.new("contacts", me.postProcessExpr),  # Apply post-processing and store the result in "contacts".
         ];
         
@@ -58,34 +58,17 @@ var RDY = {
     # TODO: Implement pilot radar controls here. 
 };
 
-#TODO Move the pipeline to the FGUM_Radar module.
-RadarPipeline = {
-    new: func(){
-        var me = {parents: [RadarPipeline]};
-        
-        me.contactManager = FGUM_Contact.ContactManager.new(FGUM_Radar.RadarContact.new);
-        me.radar = RDY.new();
-        
-        # Timer for the radar clock.
-        me.timer = maketimer(1/10, me, me.loop);
-        # Make the timer follow the time of the simulation (time acceleration, pause ...).
-        me.timer.simulatedTime = 1;
-                
-        # TODO: Enable again, ideally through an event listener.
-        # me.start();
-        
-        setlistener("sim/signals/fdm-initialized", func {
-            me.timer.start();
-        });
-        
-        return me;
-    },
-    
-    loop: func(){
-        #TODO: Move the contact manager update to either a second (lower frequency) loop, or (ideally) update it through flightgear events.
-        me.contactManager.update();
-        me.radar.frame(me.contactManager.contacts);
-    },
-};
+# Instantiate a new RDY radar.
+radar = RDY.new();
 
-pipeline = RadarPipeline.new();
+# Instantiate a contact provider to keep a contact dictionary up to date.
+provider = FGUM_Contact.ContactProvider.new(FGUM_Radar.RadarContact.new);
+
+# Instantiate a new radar processing pipeline.
+pipeline = FGUM_Radar.Pipeline.new(radar, provider, 10);
+
+# Initialize the contact provider and start the processing pipeline when ready.
+setlistener("sim/signals/fdm-initialized", func(){
+    provider.init();
+    pipeline.start();    
+});
