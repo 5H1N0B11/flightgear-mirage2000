@@ -88,7 +88,7 @@ if(AIRCRAFT != 'm2000D'){
     var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
     var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
     var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
-    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.dmk82, pylonSets.dmk82se];
+    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.b3];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
     var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.mk82, pylonSets.mk82se];
     var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.mk82, pylonSets.mk82se];
@@ -183,10 +183,10 @@ var wp_order = [];
 if (AIRCRAFT == 'm2000-5') {
   append(pylons,pylonI);
   pylon_order = [9,0,8,1,7,2,6,3,5,4];
-  wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR","Mk-82","Mk-82SE", "GBU-12","MICA-EM",  "SCALP", "AM39-Exocet"];
+  wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR","Mk-82","Mk-82SE", "GBU-12","MICA-EM", "SCALP", "AM39-Exocet"];
 }elsif(AIRCRAFT == 'm2000-5B') {
   pylon_order = [0,8,1,7,2,6,3,5,4];
-  wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "AM39-Exocet"];
+  wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "SCALP", "AM39-Exocet"];
 }elsif(AIRCRAFT == 'm2000D') {
   pylon_order = [0,8,1,7,2,6,3,5,4];
   wp_order = ["Magic-2", "MICA-IR", "GBU-12", "SCALP", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Martel", "AS30L"];
