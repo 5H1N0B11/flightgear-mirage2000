@@ -89,9 +89,9 @@ if(AIRCRAFT != 'm2000D'){
     var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
     var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
     var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.b3];
-    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
-    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.mk82, pylonSets.mk82se];
-    var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.mk82, pylonSets.mk82se];
+    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
+    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
+    var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
 } else {   
     var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
     var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];

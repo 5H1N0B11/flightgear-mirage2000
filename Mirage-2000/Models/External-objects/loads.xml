@@ -44,6 +44,21 @@
     </condition>
   </animation>
 
+  <animation>
+    <type>select</type>
+    <object-name>left-pos-1-MICA_IR</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-0-set</property>
+        <value>MICA IR</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-0-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
   <!-- left GBU16 -->
 <!--  <animation>
     <type>select</type>
@@ -718,6 +733,21 @@
     </condition>
   </animation>
 
+  <animation>
+    <type>select</type>
+    <object-name>right-pos-1-MICA_IR</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-6-set</property>
+        <value>MICA IR</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-6-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+  
   <!-- right GBU16 -->
 <!--  <animation>
     <type>select</type>
@@ -818,6 +848,21 @@
     </condition>
   </animation>
 
+  <animation>
+    <type>select</type>
+    <object-name>MICABL_IR</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-7-set</property>
+        <value>MICA IR</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-7-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
   <!-- right GBU16 -->
 <!--  <animation>
     <type>select</type>
@@ -880,6 +925,21 @@
       <equals>
         <property>payload/armament/station/id-8-set</property>
         <value>MICA EM</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-8-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>MICABR_IR</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-8-set</property>
+        <value>MICA IR</value>
       </equals>
       <greater-than>
         <property>payload/armament/station/id-8-count</property>

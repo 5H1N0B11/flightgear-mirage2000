@@ -42,6 +42,19 @@
     </offsets>
   </model>
 
+  <model>
+    <name>left-pos-1-MICA_IR</name>
+    <path>Aircraft/Mirage-2000/Missiles/MICA-IR/MicaIR.xml</path>
+    <offsets>
+      <x-m>-1.265</x-m>
+      <y-m>-0.824</y-m>
+      <z-m>-1.370</z-m>
+      <heading-deg>-1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>1</pitch-deg>
+    </offsets>
+  </model>
+
 <!--  <model>
     <name>left-GBU16</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU-16/gbu-16.xml</path>
@@ -503,6 +516,19 @@
   </model>
 
   <model>
+    <name>right-pos-1-MICA_IR</name>
+    <path>Aircraft/Mirage-2000/Missiles/MICA-IR/MicaIR.xml</path>
+    <offsets>
+      <x-m>-1.265</x-m>
+      <y-m> 0.824</y-m>
+      <z-m>-1.370</z-m>
+      <heading-deg>-1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>1</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
     <name>right-MK82</name>
     <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
     <offsets>
@@ -566,6 +592,19 @@
       <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
+  
+  <model>
+    <name>MICABL_IR</name>
+    <path>Aircraft/Mirage-2000/Missiles/MICA-IR/MicaIR.xml</path>
+    <offsets>
+      <x-m> 3.360</x-m>
+      <y-m>-0.920</y-m>
+      <z-m>-1.380</z-m>
+      <heading-deg>1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
+    </offsets>
+  </model>
 
   <model>
     <name>left-rear-MK82</name>
@@ -607,6 +646,19 @@
     </offsets>
   </model>
 
+  <model>
+    <name>MICABR_IR</name>
+    <path>Aircraft/Mirage-2000/Missiles/MICA-IR/MicaIR.xml</path>
+    <offsets>
+      <x-m> 3.360</x-m>
+      <y-m> 0.920</y-m>
+      <z-m>-1.380</z-m>
+      <heading-deg>-1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
+    </offsets>
+  </model>
+  
   <model>
     <name>right-rear-MK82</name>
     <path>Aircraft/Mirage-2000/Missiles/Mk-82/mk-82.xml</path>
