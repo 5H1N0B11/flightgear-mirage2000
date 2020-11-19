@@ -346,33 +346,14 @@
     </condition>
   </animation>
   
-
-  <!-- Center GBU16 -->
-<!--  <animation>
-    <type>select</type>
-    <object-name>Center-GBU16</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[3]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[3]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>-->
-
-  <!-- Center GBU12 -->
+  <!-- Center GBU24 -->
   <animation>
     <type>select</type>
-    <object-name>Center-GBU12</object-name>
+    <object-name>Center-GBU24</object-name>
     <condition>
         <equals>
           <property>payload/armament/station/id-3-set</property>
-          <value>GBU-12</value>
+          <value>GBU-24</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-3-count</property>

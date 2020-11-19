@@ -253,23 +253,13 @@
     </offsets>
   </model>
   
-<!--  <model>
-    <name>Center-GBU16</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU-16/gbu-16.xml</path>
-    <offsets>
-      <x-m> 1.082</x-m>
-      <y-m> 0.000</y-m>
-      <z-m>-1.656</z-m>
-    </offsets>
-  </model>-->
-
   <model>
-    <name>Center-GBU12</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
+    <name>Center-GBU24</name>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-24/GBU-24.xml</path>
     <offsets>
-      <x-m> 1.082</x-m>
+      <x-m> 0.182</x-m>
       <y-m> 0.000</y-m>
-      <z-m>-1.756</z-m>
+      <z-m>-1.856</z-m>
     </offsets>
   </model>
   
@@ -552,13 +542,13 @@
   </model>
 
   <model>
-    <name>left-GBU12</name>
+    <name>right-GBU12</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
       <x-m>-1.265</x-m>
       <y-m> 0.824</y-m>
       <z-m>-1.404</z-m>
-      <headin-deg>1</headin-deg>
+      <headin-deg>-1</headin-deg>
       <roll-deg>0</roll-deg>
       <pitch-deg>1</pitch-deg>
     </offsets>
