@@ -153,12 +153,10 @@
     <type>select</type>
     <object-name>left-pos-2-SmokePod</object-name>
     <condition>
-      <and>
         <equals>
-          <property>sim/weight[1]/selected</property>
-          <value>SmokePod</value>
+          <property>payload/armament/station/id-1-set</property>
+          <value>Smoke Pod</value>
         </equals>
-      </and>
     </condition>
   </animation>
 
@@ -696,8 +694,8 @@
     <object-name>right-pos-2-SmokePod</object-name>
     <condition>
       <equals>
-	<property>payload/armament/station/id-5-set</property>
-	<value>Smokepod</value>
+        <property>payload/armament/station/id-5-set</property>
+        <value>Smoke Pod</value>
       </equals>
     </condition>
   </animation>
