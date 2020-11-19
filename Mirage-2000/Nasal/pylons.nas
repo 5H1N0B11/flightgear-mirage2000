@@ -46,6 +46,7 @@ var RP502 = stations.FuelTank.new("1700 l Droptank", "RP502", 12, 448, "/consuma
 
 var dummy1 = stations.Dummy.new("PDLCT", "PDLCT");
 var dummy2 = stations.Dummy.new("ASMP", "ASMP");
+var smokepod = stations.Dummy.new("smoke-pod", "smoke-pod");
 
 # content = folder name with upper and lower case
 #name = what will be in the -set, the 3D displaying underwings
@@ -61,7 +62,10 @@ var pylonSets = {
     tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
     t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
     tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-    g: {name: "Matra R550 Magic 2", content: ["Magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#wingtip
+    
+    smo: {name: "Smoke Pod", content: [smokepod], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+    
+    g: {name: "Matra R550 Magic 2", content: ["Magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
     g2: {name: "MICA IR", content: ["MICA-IR"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
       
     h: {name: "Matra Super 530D", content: ["S530D"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
@@ -89,7 +93,7 @@ var pylonSets = {
 if(AIRCRAFT != 'm2000D'){
     var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
     var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
-    var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2];
+    var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2, pylonSets.smo];
     var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.b3];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
     var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
@@ -97,7 +101,7 @@ if(AIRCRAFT != 'm2000D'){
 } else {   
     var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
     var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-    var ExteriorWingSet  = [pylonSets.empty,pylonSets.g];
+    var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
     var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
     var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];

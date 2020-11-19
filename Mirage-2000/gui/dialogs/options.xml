@@ -89,7 +89,25 @@
       <property>/controls/ground-equipment</property>
     </binding>
   </button>
-
+  
+  <hrule />
+  <group>
+    <layout>hbox</layout>
+    <text><label>Smoke (Needs pods)</label></text>
+    <checkbox>
+      <property>payload/armament/smoke-pod/flags/smoke-id-500</property>
+      <live>false</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>payload/armament/smoke-pod/flags/smoke-id-100</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>payload/armament/smoke-pod/flags/smoke-id-500</property>
+      </binding>
+    </checkbox>
+  </group>
+  
   <hrule />
   <text><label>Fly-by-wire</label></text>
   <group>

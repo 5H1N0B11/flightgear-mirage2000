@@ -123,7 +123,7 @@
 
   <model>
     <name>left-pos-2-SmokePod</name>
-    <path>Aircraft/Mirage-2000/Missiles/SmokePod/SmokePod.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/SmokePod/smoke-pod-100.xml</path>
     <offsets>
       <x-m> 2.373</x-m>
       <y-m>-3.278</y-m>
@@ -486,7 +486,7 @@
 
   <model>
     <name>right-pos-2-SmokePod</name>
-    <path>Aircraft/Mirage-2000/Missiles/SmokePod/SmokePod.xml</path>
+    <path>Aircraft/Mirage-2000/Missiles/SmokePod/smoke-pod-500.xml</path>
     <offsets>
       <x-m> 2.373</x-m>
       <y-m> 3.278</y-m>
