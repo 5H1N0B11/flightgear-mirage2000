@@ -84,13 +84,13 @@
     <condition>
       <and>
         <equals>
-          <property>sim/weight[0]/selected</property>
-          <value>GBU12</value>
+          <property>payload/armament/station/id-0-set</property>
+          <value>GBU-12</value>
         </equals>
-        <equals>
-          <property>controls/armament/station[0]/release</property>
-          <value>false</value>
-        </equals>
+	<greater-than>
+          <property>payload/armament/station/id-0-set</property>
+          <value>0</value>
+	</greater-than>
       </and>
     </condition>
   </animation>
@@ -748,39 +748,19 @@
     </condition>
   </animation>
   
-  <!-- right GBU16 -->
-<!--  <animation>
-    <type>select</type>
-    <object-name>right-GBU16</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[6]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[6]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>-->
-
   <!-- right GBU12 -->
   <animation>
     <type>select</type>
     <object-name>right-GBU12</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[6]/selected</property>
-          <value>GBU12</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[6]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-6-set</property>
+        <value>GBU-12</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-6-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
   </animation>
 
@@ -863,24 +843,6 @@
     </condition>
   </animation>
 
-  <!-- right GBU16 -->
-<!--  <animation>
-    <type>select</type>
-    <object-name>GBU16BL</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[7]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[7]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>-->
-
     <!-- left Mk-82 -->
   <animation>
     <type>select</type>
@@ -914,6 +876,21 @@
           <value>1</value>
         </equals>
       </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>left-rear-GBU12</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-7-set</property>
+        <value>GBU-12</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-7-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
   </animation>
   
@@ -984,40 +961,18 @@
     </condition>
   </animation>
   
-
-  <!-- right GBU16 -->
   <animation>
     <type>select</type>
-    <object-name>GBU16BR</object-name>
+    <object-name>right-rear-GBU12</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[8]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[8]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <!-- Center GBU12 -->
-  <animation>
-    <type>select</type>
-    <object-name>GBU12BR</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[8]/selected</property>
-          <value>GBU12</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[8]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-8-set</property>
+        <value>GBU-12</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-8-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
   </animation>
 

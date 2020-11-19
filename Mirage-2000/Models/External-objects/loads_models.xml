@@ -72,6 +72,9 @@
       <x-m>-1.265</x-m>
       <y-m>-0.824</y-m>
       <z-m>-1.404</z-m>
+      <headin-deg>-1</headin-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>1</pitch-deg>
     </offsets>
   </model>
 
@@ -548,6 +551,20 @@
     </offsets>
   </model>
 
+  <model>
+    <name>left-GBU12</name>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
+    <offsets>
+      <x-m>-1.265</x-m>
+      <y-m> 0.824</y-m>
+      <z-m>-1.404</z-m>
+      <headin-deg>1</headin-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>1</pitch-deg>
+    </offsets>
+  </model>
+
+
   
 <!--  <model>
     <name>right-GBU16</name>
@@ -559,16 +576,6 @@
     </offsets>
   </model>-->
 
-  <model>
-    <name>right-GBU12</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
-    <offsets>
-      <x-m>-1.265</x-m>
-      <y-m> 0.824</y-m>
-      <z-m>-1.404</z-m>
-    </offsets>
-  </model>
-  
     <model>
     <name>PDLCT</name>
     <path>Aircraft/Mirage-2000/Missiles/PDLCT/POD.xml</path>
@@ -622,6 +629,19 @@
   <model>
     <name>left-rear-MK82SE</name>
     <path>Aircraft/Mirage-2000/Missiles/Mk-82SE/mk-82se.xml</path>
+    <offsets>
+      <x-m> 3.160</x-m>
+      <y-m>-0.920</y-m>
+      <z-m>-1.470</z-m>
+      <heading-deg>1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <name>left-rear-GBU12</name>
+    <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
       <x-m> 3.160</x-m>
       <y-m>-0.920</y-m>
@@ -686,23 +706,15 @@
   </model>
 
   <model>
-    <name>GBU16BR</name>
-    <path>Aircraft/Mirage-2000/Missiles/GBU-16/gbu-16.xml</path>
-    <offsets>
-      <x-m> 3.360</x-m>
-      <y-m> 0.920</y-m>
-      <z-m>-1.404</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <name>GBU12BR</name>
+    <name>right-rear-GBU12</name>
     <path>Aircraft/Mirage-2000/Missiles/GBU-12/gbu12.xml</path>
     <offsets>
-      <x-m> 3.360</x-m>
+      <x-m> 3.160</x-m>
       <y-m> 0.920</y-m>
-      <z-m>-1.404</z-m>
+      <z-m>-1.470</z-m>
+      <heading-deg>-1</heading-deg>
+      <roll-deg>0</roll-deg>
+      <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
-
 </PropertyList>
