@@ -643,9 +643,9 @@
       <weight-warhead-lbs type="double"> 190 </weight-warhead-lbs>
       <weight-fuel-lbm type="double"> 0 </weight-fuel-lbm>
       <drag-coeff type="double"> 0.125 </drag-coeff>
-      <delta-drag-coeff-deploy type="double">0.044</delta-drag-coeff-deploy>
+      <delta-drag-coeff-deploy type="double">3.4</delta-drag-coeff-deploy>
       <cross-section-sqft type="double"> 0.63 </cross-section-sqft>
-      <arming-time-sec type="double"> 4 </arming-time-sec>
+      <arming-time-sec type="double"> 2 </arming-time-sec>
       <min-speed-for-guiding-mach type="double"> 0 </min-speed-for-guiding-mach>
       <self-destruct-time-sec type="double"> 10000 </self-destruct-time-sec>
       <all-aspect type="bool">true</all-aspect>
@@ -656,8 +656,8 @@
       <vol-search type="double"> 0.075 </vol-search>
       <vol-track type="double"> 0.25 </vol-track>
       <vol-track-weak type="double"> 0.175 </vol-track-weak>
-      <drop-time type="double">0.75</drop-time>
-      <deploy-time type="double">1</deploy-time>
+      <drop-time type="double">0.3</drop-time>
+      <deploy-time type="double">0.75</deploy-time>
       <lateral-dps type="double"> -10 </lateral-dps>
       <max-pitch-deg type="double">-90</max-pitch-deg>
       <hit-everything-nearby type="bool">true</hit-everything-nearby>
