@@ -182,9 +182,9 @@ var Impact = func {
 var hitmessage = func(typeOrd) {
     typeOrd = "DEFA 554"; #This need to be changed to DEFA-554
     var time = getprop("/sim/time/elapsed-sec");
-    if(splashOn != "Nothing" and (time - splashdt) > 1)
+    if(hit_callsign != "Nothing" and (time - splashdt) > 1)
     {
-        var phrase = "Gun Splash On : " ~ splashOn;
+        var phrase = "Gun Splash On : " ~ hit_callsign;
         if(MPMessaging.getValue() == 1)
         {
             #armament.defeatSpamFilter(phrase);
@@ -192,8 +192,8 @@ var hitmessage = func(typeOrd) {
             var msg = notifications.ArmamentNotification.new("mhit", 4, -1*(damage.shells[typeOrd][0]+1));
             msg.RelativeAltitude = 0;
             msg.Bearing = 0;
-            msg.Distance = numberOfSplash;
-            msg.RemoteCallsign = numberOfSplash;
+            msg.Distance = hits_count;
+            msg.RemoteCallsign = hits_count;
             notifications.hitBridgedTransmitter.NotifyAll(msg);
             damage.damageLog.push("You hit "~hit_callsign~" with "~typeOrd~", "~hits_count~" times.");
         }
