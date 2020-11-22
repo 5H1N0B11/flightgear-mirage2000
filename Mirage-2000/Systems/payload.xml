@@ -193,10 +193,10 @@
       <loft-altitude type="int"> 0 </loft-altitude>
       <max-fire-range-nm type="double">9.32</max-fire-range-nm> <!-- source -->
       <max-g type="int"> 50 </max-g>
-      <max-report-distance type="double"> 65 </max-report-distance>
+      <max-report-distance type="double"> 50 </max-report-distance>
       <min-fire-range-nm type="double"> 0.2699 </min-fire-range-nm>
-      <min-speed-for-guiding-mach type="double"> 0.8 </min-speed-for-guiding-mach>
-      <navigation type="string">APN</navigation>
+      <min-speed-for-guiding-mach type="double"> 0.5 </min-speed-for-guiding-mach>
+      <navigation type="string">PN</navigation>
       <prowl-flight type="string">gyro-pitch</prowl-flight>
       <rail type="bool">true</rail>
       <rail-length-m type="double"> 3.667 </rail-length-m>
@@ -222,6 +222,9 @@
       <weight-fuel-lbm type="double"> 60 </weight-fuel-lbm>
       <weight-launch-lbs type="double"> 169 </weight-launch-lbs>
       <weight-warhead-lbs type="double"> 27 </weight-warhead-lbs>
+      <warm-detect-range-nm type="double">6.5</warm-detect-range-nm>
+      <detect-range-nm type="double">9.7</detect-range-nm>
+      <pro_constant>2</pro_constant>
     </magic-2>
     <gbu-12>       <!-- GBU 12 -->
       <type-id type="int">18</type-id>
