@@ -728,6 +728,7 @@ var a2a_kilo_mica = func {
     "AM39-Exocet",
     "2 x GBU-12",
     "1700 l Droptank",
+    "GBU-24",
     "AS-37-Martel",
     "PDLCT",
     "Matra Super 530D",
