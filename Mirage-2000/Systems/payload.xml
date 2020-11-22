@@ -196,7 +196,7 @@
       <max-report-distance type="double"> 65 </max-report-distance>
       <min-fire-range-nm type="double"> 0.2699 </min-fire-range-nm>
       <min-speed-for-guiding-mach type="double"> 0.8 </min-speed-for-guiding-mach>
-      <navigation type="string">PN</navigation>
+      <navigation type="string">APN</navigation>
       <prowl-flight type="string">gyro-pitch</prowl-flight>
       <rail type="bool">true</rail>
       <rail-length-m type="double"> 3.667 </rail-length-m>
