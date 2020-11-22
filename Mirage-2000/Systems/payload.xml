@@ -43,7 +43,7 @@
       <max-report-distance type="double"> 65 </max-report-distance>
       <min-fire-range-nm type="double"> 0.5 </min-fire-range-nm>
       <min-speed-for-guiding-mach type="double"> 0.6 </min-speed-for-guiding-mach>
-      <navigation type="string">PN</navigation>
+      <navigation type="string">APN</navigation>
       <prowl-flight type="string">gyro-pitch</prowl-flight>
       <rail type="bool">true</rail>
       <rail-length-m type="double"> 3.667 </rail-length-m>
@@ -98,7 +98,7 @@
       <max-report-distance type="double"> 65 </max-report-distance>
       <min-fire-range-nm type="double"> 0.2699 </min-fire-range-nm>
       <min-speed-for-guiding-mach type="double"> 0.7 </min-speed-for-guiding-mach>
-      <navigation type="string">PN</navigation>
+      <navigation type="string">APN</navigation>
       <prowl-flight type="string">gyro-pitch</prowl-flight>
       <rail type="bool">true</rail>
       <rail-length-m type="double"> 3.667 </rail-length-m>
@@ -185,7 +185,7 @@
       <DLZ-optimal-alt-feet type="double">25000</DLZ-optimal-alt-feet>
       <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
       <drag-coeff type="double"> 0.51 </drag-coeff>
-      <FCS-field-deg type="int"> 25 </FCS-field-deg>
+      <FCS-field-deg type="int"> 55 </FCS-field-deg> <!-- guess here... based on the aim9 -->
       <fire-msg type="string">Fox 2</fire-msg> 
       <guidance type="string">heat</guidance>                       <!-- heat. radar or semi-radar -->
       <lock-on-after-launch type="bool">true</lock-on-after-launch>
@@ -196,7 +196,7 @@
       <max-report-distance type="double"> 65 </max-report-distance>
       <min-fire-range-nm type="double"> 0.2699 </min-fire-range-nm>
       <min-speed-for-guiding-mach type="double"> 0.8 </min-speed-for-guiding-mach>
-      <navigation type="string">APN</navigation>
+      <navigation type="string">PN</navigation>
       <prowl-flight type="string">gyro-pitch</prowl-flight>
       <rail type="bool">true</rail>
       <rail-length-m type="double"> 3.667 </rail-length-m>
