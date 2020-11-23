@@ -182,7 +182,7 @@ var Impact = func {
 var hitmessage = func(typeOrd) {
     typeOrd = "DEFA 554"; #This need to be changed to DEFA-554
     var time = getprop("/sim/time/elapsed-sec");
-    if(hit_callsign != "" and (time - splashdt) > 1)
+    if(hit_callsign != "" and (time - splashdt) > 1 and size(hit_callsign)!=0)
     {
         var phrase = "Gun Splash On : " ~ hit_callsign;
         if(MPMessaging.getValue() == 1)

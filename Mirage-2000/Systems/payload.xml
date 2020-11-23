@@ -8,6 +8,13 @@
     <MP-lat type="string">rotors/main/blade[0]/flap-deg</MP-lat>
     <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
     <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
+    <gravity-dropping type="bool">false</gravity-dropping>
+    <MLW-bearing type="double">0</MLW-bearing>
+    <MLW-count type="int">0</MLW-count>
+    <MLW-launcher type="string"></MLW-launcher>
+    <MAW-bearing type="double">0</MAW-bearing>
+    <MAW-active type="bool">false</MAW-active>
+    <spike type="bool">false</spike>
     <hit-interpolation type="bool">false</hit-interpolation>
     <enable-craters type="bool">true</enable-craters>
     <pylon-offset type="int">0</pylon-offset>
