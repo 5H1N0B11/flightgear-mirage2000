@@ -4,9 +4,9 @@
 
   <nasal>
     <load>
-      print("Gun splash");
-      print("Number of impact :"~ guns.Nb_Impact());
-      guns.Impact();
+      #print("Gun splash");
+      #print("Number of impact :"~ guns.Nb_Impact());
+      #guns.Impact();
     </load>
   </nasal>
 
