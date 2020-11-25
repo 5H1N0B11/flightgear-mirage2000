@@ -6,9 +6,9 @@
     <model>
       <livery>
 
-        <name type="string">2-Event Cigognes 100 years</name>
-        <texture>Liveries/1024x1024/2_cigognes.png</texture>
-        <texture-tank-2000>tank2000.png</texture-tank-2000>
+        <name type="string">1-Sky camo (Qatar)</name>
+        <texture>Liveries/2048x2048/1_sky_qatar.png</texture>
+        <texture-tank-2000>tank2000_sky.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>
