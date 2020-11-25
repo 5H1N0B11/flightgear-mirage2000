@@ -6,9 +6,9 @@
     <model>
       <livery>
 
-        <name type="string">1-Sand camo (UAE)</name>
-        <texture>Liveries/2048x2048/1_sand.png</texture>
-        <texture-tank-2000>tank2000_sand.png</texture-tank-2000>
+        <name type="string">2-Event EC 2/2 50 years</name>
+        <texture>Liveries/2048x2048/2_cote_d-or_50y.png</texture>
+        <texture-tank-2000>tank2000_cote_d-or.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>
