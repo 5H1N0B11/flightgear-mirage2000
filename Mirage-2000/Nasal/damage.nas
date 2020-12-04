@@ -156,6 +156,7 @@ var warheads = {
     "pilot":             [93,    0.00,1,0],# ejected pilot
     "BETAB-500ShP":      [94, 1160.00,1,0],
     "Flare":             [95,    0.00,0,0],
+    "APACHE KRISS":      [96,   50.00,1,1],
 };
 
 var id2warhead = [];

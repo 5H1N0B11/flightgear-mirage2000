@@ -468,6 +468,22 @@
         </greater-than>
     </condition>
   </animation>
+  
+    <!-- Center APACHE -->
+  <animation>
+    <type>select</type>
+    <object-name>APACHE</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>APACHE</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
 
   <!-- Meteor -->
   <animation>

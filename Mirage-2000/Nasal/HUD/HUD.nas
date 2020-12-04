@@ -1087,6 +1087,7 @@ var HUD = {
      "MICA-EM":"MIC-E",
      "GBU-12": "GBU12",
      "SCALP": "SCALP",
+     "APACHE": "APACHE",
      "AM39-Exocet":"AM39",
      "AS-37-Martel":"AS37",
      "AS30L" :"AS30",

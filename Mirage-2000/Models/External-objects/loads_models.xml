@@ -292,6 +292,17 @@
       <z-m>-1.656</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <name>APACHE</name>
+    <path>Aircraft/Mirage-2000/Missiles/APACHE/APACHE.xml</path>
+    <offsets>
+      <x-m> 1.082</x-m>
+      <y-m> 0.000</y-m>
+      <z-m>-1.656</z-m>
+    </offsets>
+  </model>
+
 
   <model>
     <name>Meteor</name>
