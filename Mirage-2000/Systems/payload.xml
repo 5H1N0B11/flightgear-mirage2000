@@ -390,7 +390,7 @@
     </scalp>
     
     <apache>      <!-- APACHE anti runway cruise missile -->
-      <type-id type="int">96</type-id>
+      <type-id type="int"></type-id>
       <short-name type="string">APACHE</short-name>
       <long-name type="string">APACHE KRISS</long-name>
       <all-aspect type="bool">true</all-aspect>
