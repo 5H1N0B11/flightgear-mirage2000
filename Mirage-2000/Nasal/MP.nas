@@ -29,6 +29,7 @@ var Decode_Load = {
           "MICA IR",
           "1300 l Droptank",
           "Matra R550 Magic 2",
+          "APACHE",
           "2000 l Droptank",
           "SAMP Mk-82",
           "MICA EM",

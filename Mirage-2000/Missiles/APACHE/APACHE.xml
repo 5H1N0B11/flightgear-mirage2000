@@ -2,9 +2,9 @@
 <PropertyList>
   <path>Aircraft/Mirage-2000/Missiles/APACHE/APACHE.ac</path>
   <animation>
-    <object-name>scalp</object-name>
-    <object-name>scalp.wingL</object-name>
-    <object-name>scalp.wingR</object-name>
+    <object-name>apache</object-name>
+    <object-name>apache.wingL</object-name>
+    <object-name>apache.wingR</object-name>
   </animation>
   <effect>
     <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
