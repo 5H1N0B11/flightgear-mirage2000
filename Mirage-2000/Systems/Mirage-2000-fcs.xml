@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 
 <!-- Mirage 2000 FCS/FBW -->
 <!-- Licenced under GPL -->
@@ -539,7 +539,7 @@
 			</clipto>
 		</fcs_function>
 		
-		<summer name="fbw/pitch/g-command-input">
+		<summer name="fbw/pitch/raw-g-command">
 			<input>fbw/pitch/elevator-modified</input>
 			<input>fbw/pitch/alpha-pitch-feed</input>
 		</summer>
@@ -550,32 +550,60 @@
 				fbw/mode eq 1
 			</test>
 		</switch>
+
+		<fcs_function name="fbw/pitch/pilot-g-command">
+			<function>
+				<sum>
+					<table>
+						<independentVar lookup="row">fbw/pitch/raw-g-command</independentVar>
+						<independentVar lookup="column">fbw/mode</independentVar>
+						<tableData>
+							0    1
+							-1.000  9.5  9.5  <!-- -1.000 10.5  7.5-->
+							-0.900  7.5  9.0 <!-- A slight null zone for the elastic stop -->
+							-0.850  7.5  7.5
+							0.000  0.0  0.0
+							1.000 -4.5 -4.5
+						</tableData>
+					</table>
+					<product> <!-- Equals +/-1.5G -->
+						<property>fbw/pitch/elevator-trim-nul</property>
+						<value>-1.5</value>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<fcs_function name="fbw/pitch/kinetic-pitch-rad">
+			<function>
+				<sum>
+					<p> attitude/pitch-rad </p>
+
+					<product>
+						<cos><p> attitude/roll-rad </p></cos>
+						<p> -aero/alpha-rad </p>
+					</product>
+
+					<product>
+						<sin><p> attitude/roll-rad </p></sin>
+						<p> -aero/beta-rad </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<fcs_function name="fbw/pitch/neutral-g-command">
+			<function>
+				<abs> <cos> <p> fbw/pitch/kinetic-pitch-rad </p> </cos> </abs>
+			</function>
+		</fcs_function>
 		
 		<fcs_function name="fbw/pitch/g-command">
 			<function>
 				<sum>
 					<product> <!-- Reduces stick sensitivity at low speeds -->
-						<difference>
-							<sum>
-								<table>
-									<independentVar lookup="row">fbw/pitch/g-command-input</independentVar>
-									<independentVar lookup="column">fbw/mode</independentVar>
-									<tableData>
-										        0    1
-										-1.000 10.5  10.5  <!-- -1.000 10.5  7.5-->
-										-0.900  8.5  10.0 <!-- A slight null zone for the elastic stop -->
-										-0.850  8.5  8.5
-										 0.000  1.0  1.0
-										 1.000 -3.5 -3.5
-									</tableData>
-								</table>
-								<product> <!-- Equals +/-1.5G -->
-									<property>fbw/pitch/elevator-trim-nul</property>
-									<value>-1.5</value>
-								</product>
-							</sum>
-							<value>1.0</value>
-						</difference>
+						<p>fbw/pitch/pilot-g-command</p>
+						
 						<table>
 							<independentVar lookup="row">velocities/mach</independentVar>
 							<tableData>
@@ -585,7 +613,8 @@
 							</tableData>
 						</table>
 					</product>
-					<value>1.0</value>
+
+					<p> fbw/pitch/neutral-g-command </p>
 				</sum>
 			</function>
 			<clipto>
