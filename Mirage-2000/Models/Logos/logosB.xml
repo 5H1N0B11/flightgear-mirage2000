@@ -109,7 +109,7 @@
     <type>rotate</type>
     <object-name>logosdirection</object-name>
     <property>sim/multiplay/generic/float[19]</property>
-    <factor> -14 </factor>
+    <factor> 1 </factor>
     <axis>
       <x1-m>5.895</x1-m>
       <y1-m>0.000</y1-m>

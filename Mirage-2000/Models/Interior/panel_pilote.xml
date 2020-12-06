@@ -139,7 +139,7 @@
     </offsets>
   </model>
 
-  <model>
+<!--  <model>
     <name>surf-indic</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/surf-indic/surf-indic.xml</path>
     <offsets>
@@ -147,7 +147,7 @@
       <y-m>-0.16</y-m>
       <z-m>-0.164</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <name>clock</name>

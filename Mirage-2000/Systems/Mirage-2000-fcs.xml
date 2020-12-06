@@ -490,7 +490,7 @@
 		
 		<lag_filter name="fbw/pitch/alpha-lag">
 			<input>fbw/pitch/alpha-switched</input>
-			<c1>10</c1>
+			<c1>4</c1>
 		</lag_filter>
 		
 		<fcs_function name="fbw/pitch/alpha-pitch-feed">
@@ -499,7 +499,7 @@
 					<independentVar lookup="row">fbw/pitch/alpha-lag</independentVar>
 					<tableData>
 						26  0.0
-						34  1.0
+						34  0.8
 					</tableData>
 				</table>
 			</function>
@@ -512,7 +512,7 @@
 					<tableData>
 						17 -1.00
 						27 -0.85
-						29  0.00
+						29 -0.4
 					</tableData>
 				</table>
 			</function>
@@ -577,9 +577,9 @@
 									<independentVar lookup="column">fbw/mode</independentVar>
 									<tableData>
 										        0    1
-										-1.000 10.5  5.5  <!-- -1.000 10.5  7.5-->
-										-0.900  8.5  5.5 <!-- A slight null zone for the elastic stop -->
-										-0.850  8.5  5.5
+										-1.000 10.5  10.5  <!-- -1.000 10.5  7.5-->
+										-0.900  8.5  10.0 <!-- A slight null zone for the elastic stop -->
+										-0.850  8.5  8.5
 										 0.000  1.0  1.0
 										 1.000 -3.5 -3.5
 									</tableData>
@@ -611,11 +611,11 @@
 		
 		<lag_filter name="fbw/pitch/g-command-lag">
 			<input>fbw/pitch/g-command</input>
-			<c1>8.1</c1>
+			<c1>2.5</c1>
 		</lag_filter>
 		
 		<switch name="fbw/pitch/g-demand">
-			<default value="fbw/pitch/g-command-lag"/>
+			<default value="fbw/pitch/g-command"/>
 			<test value="fbw/ap/g-cmd">
 				fbw/ap/pitch-enabled eq 1
 			</test>
@@ -1296,6 +1296,9 @@
 								   -1     0    1
 							 0.500  00.0  0.0  00.0
 							 1.000 -45.0  0.0  45.0
+               20.000 -20.0 0.0 20.0
+               30.000 -10.0 0.0 10.0
+               <!--45.000 -2.0  0.0 2.0-->
 						</tableData>
 					</table>
 				</product>

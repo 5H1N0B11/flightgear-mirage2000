@@ -1085,13 +1085,15 @@ var HUD = {
      "S530D":"530",
      "MICA-IR":"MIC-I",
      "MICA-EM":"MIC-E",
-     "GBU-12": "GBU",
+     "GBU-12": "GBU12",
      "SCALP": "SCALP",
+     "APACHE": "APACHE",
      "AM39-Exocet":"AM39",
      "AS-37-Martel":"AS37",
      "AS30L" :"AS30",
      "Mk-82" : "Mk82",
-     "Mk-82SE":"Mk82S"
+     "Mk-82SE":"Mk82S",
+     "GBU-24":"GBU24"
     };
     
     m.pylonsSide_hash = {

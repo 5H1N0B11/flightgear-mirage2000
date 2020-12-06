@@ -11,7 +11,6 @@ print("*** LOADING m2000-5.nas ... ***");
 # and 5H1N0B1
 
 var deltaT                = 1.0;
-var SAS_Loop_running      = 0;
 var Elapsed_time_Seconds  = 0;
 var Elapsed_time_previous = 0;
 var LastTime              = 0;
@@ -81,8 +80,8 @@ var main_Init_Loop = func()
     #fuel.Fuel_init();
     
     # Loop Updated below
-    print("Stability Augmentation System ... Check");
-    mirage2000.init_SAS();
+#     print("Stability Augmentation System ... Check");
+#     mirage2000.init_SAS();
     
     print("Intrumentation ... Check");
     instrumentation.initIns();
@@ -140,7 +139,7 @@ var updatefunction = func()
     var AP_Alt = getprop("/autopilot/locks/altitude");
     
     ########################### rate 0
-    mirage2000.Update_SAS(); #we need to check what is still here, and what we can convert in xml
+#     mirage2000.Update_SAS(); #we need to check what is still here, and what we can convert in xml
     
     
 #     if (getprop("payload/armament/es/flags/deploy-id-10")!= nil) {
@@ -159,8 +158,9 @@ var updatefunction = func()
             print(i);
           }
         }
+       
     }
-
+    instrumentation.stallwarning();
 
     ################## Rate 0.1 ##################
     if(AbsoluteTime - myFramerate.a > 0.05){
@@ -169,6 +169,7 @@ var updatefunction = func()
       call(mirage2000.theShakeEffect,nil,nil,nil, myErr);
       mirage2000.mfd_update_main();
       myFramerate.a = AbsoluteTime;
+      mirage2000.Intake_pelles();
     }
     
     

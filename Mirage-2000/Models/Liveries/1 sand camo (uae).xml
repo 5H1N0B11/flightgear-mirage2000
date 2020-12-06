@@ -8,7 +8,7 @@
 
         <name type="string">1-Sand camo (UAE)</name>
         <texture>Liveries/2048x2048/1_sand.png</texture>
-        <texture-tank-2000>tank2000_desert.png</texture-tank-2000>
+        <texture-tank-2000>tank2000_sand.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>

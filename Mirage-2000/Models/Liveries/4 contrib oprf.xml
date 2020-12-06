@@ -7,7 +7,7 @@
       <livery>
 
         <name type="string">4-Contrib OPRF</name>
-        <texture>Liveries/1024x1024/4_oprf.png</texture>
+        <texture>Liveries/2048x2048/4_oprf.png</texture>
         <texture-tank-2000>tank2000_black.png</texture-tank-2000>
 
         <specular>

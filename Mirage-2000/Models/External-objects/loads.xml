@@ -44,6 +44,21 @@
     </condition>
   </animation>
 
+  <animation>
+    <type>select</type>
+    <object-name>left-pos-1-MICA_IR</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-0-set</property>
+        <value>MICA IR</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-0-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
   <!-- left GBU16 -->
 <!--  <animation>
     <type>select</type>
@@ -69,13 +84,13 @@
     <condition>
       <and>
         <equals>
-          <property>sim/weight[0]/selected</property>
-          <value>GBU12</value>
+          <property>payload/armament/station/id-0-set</property>
+          <value>GBU-12</value>
         </equals>
-        <equals>
-          <property>controls/armament/station[0]/release</property>
-          <value>false</value>
-        </equals>
+	<greater-than>
+          <property>payload/armament/station/id-0-set</property>
+          <value>0</value>
+	</greater-than>
       </and>
     </condition>
   </animation>
@@ -153,12 +168,10 @@
     <type>select</type>
     <object-name>left-pos-2-SmokePod</object-name>
     <condition>
-      <and>
         <equals>
-          <property>sim/weight[1]/selected</property>
-          <value>SmokePod</value>
+          <property>payload/armament/station/id-1-set</property>
+          <value>Smoke Pod</value>
         </equals>
-      </and>
     </condition>
   </animation>
 
@@ -331,33 +344,14 @@
     </condition>
   </animation>
   
-
-  <!-- Center GBU16 -->
-<!--  <animation>
-    <type>select</type>
-    <object-name>Center-GBU16</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[3]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[3]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>-->
-
-  <!-- Center GBU12 -->
+  <!-- Center GBU24 -->
   <animation>
     <type>select</type>
-    <object-name>Center-GBU12</object-name>
+    <object-name>Center-GBU24</object-name>
     <condition>
         <equals>
           <property>payload/armament/station/id-3-set</property>
-          <value>GBU-12</value>
+          <value>GBU-24</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-3-count</property>
@@ -467,6 +461,22 @@
         <equals>
           <property>payload/armament/station/id-3-set</property>
           <value>SCALP</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-3-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+    <!-- Center APACHE -->
+  <animation>
+    <type>select</type>
+    <object-name>APACHE</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-3-set</property>
+          <value>APACHE</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-3-count</property>
@@ -696,8 +706,8 @@
     <object-name>right-pos-2-SmokePod</object-name>
     <condition>
       <equals>
-	<property>payload/armament/station/id-5-set</property>
-	<value>Smokepod</value>
+        <property>payload/armament/station/id-5-set</property>
+        <value>Smoke Pod</value>
       </equals>
     </condition>
   </animation>
@@ -718,39 +728,34 @@
     </condition>
   </animation>
 
-  <!-- right GBU16 -->
-<!--  <animation>
+  <animation>
     <type>select</type>
-    <object-name>right-GBU16</object-name>
+    <object-name>right-pos-1-MICA_IR</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[6]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[6]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-6-set</property>
+        <value>MICA IR</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-6-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
-  </animation>-->
-
+  </animation>
+  
   <!-- right GBU12 -->
   <animation>
     <type>select</type>
     <object-name>right-GBU12</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[6]/selected</property>
-          <value>GBU12</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[6]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-6-set</property>
+        <value>GBU-12</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-6-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
   </animation>
 
@@ -818,23 +823,20 @@
     </condition>
   </animation>
 
-  <!-- right GBU16 -->
-<!--  <animation>
+  <animation>
     <type>select</type>
-    <object-name>GBU16BL</object-name>
+    <object-name>MICABL_IR</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[7]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[7]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-7-set</property>
+        <value>MICA IR</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-7-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
-  </animation>-->
+  </animation>
 
     <!-- left Mk-82 -->
   <animation>
@@ -871,6 +873,21 @@
       </and>
     </condition>
   </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>left-rear-GBU12</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-7-set</property>
+        <value>GBU-12</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-7-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
   
   <!-- station back right (Index 8) -->
   <animation>
@@ -880,6 +897,21 @@
       <equals>
         <property>payload/armament/station/id-8-set</property>
         <value>MICA EM</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-8-count</property>
+        <value>0</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>MICABR_IR</object-name>
+    <condition>
+      <equals>
+        <property>payload/armament/station/id-8-set</property>
+        <value>MICA IR</value>
       </equals>
       <greater-than>
         <property>payload/armament/station/id-8-count</property>
@@ -924,40 +956,18 @@
     </condition>
   </animation>
   
-
-  <!-- right GBU16 -->
   <animation>
     <type>select</type>
-    <object-name>GBU16BR</object-name>
+    <object-name>right-rear-GBU12</object-name>
     <condition>
-      <and>
-        <equals>
-          <property>sim/weight[8]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[8]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-
-  <!-- Center GBU12 -->
-  <animation>
-    <type>select</type>
-    <object-name>GBU12BR</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[8]/selected</property>
-          <value>GBU12</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[8]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
+      <equals>
+        <property>payload/armament/station/id-8-set</property>
+        <value>GBU-12</value>
+      </equals>
+      <greater-than>
+        <property>payload/armament/station/id-8-count</property>
+        <value>0</value>
+      </greater-than>
     </condition>
   </animation>
 

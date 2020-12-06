@@ -8,6 +8,10 @@ print("*** LOADING instrumentation.nas ... ***");
 var blinking     = 0;
 var viewNum      = 1;
 var isHUDvisible = 1;
+var wow              = props.globals.getNode("/gear/gear/wow",1);
+var AngleOfAttack    = props.globals.getNode("orientation/alpha-deg");
+var AirSpeed         = props.globals.getNode("velocities/airspeed-kt");
+
 
 
 # When we call this fonction, it switch the menu on/off
@@ -308,4 +312,24 @@ var activate_ECM = func(){
     {
         setprop("instrumentation/ecm/on-off", "false");
     }
+}
+
+
+var stallwarning = func(){
+    # @TODO : Stall warning ! should be in instruments
+    var stallwarning = "0";
+    if(wow.getValue() == 0)
+    {
+        # STALL ALERT !
+        if(AngleOfAttack.getValue() >= 29 or AirSpeed.getValue() < 100)
+        {
+            stallwarning = "2";
+        }
+        # STALL WARNING
+        elsif(AngleOfAttack.getValue() >= 20 or AirSpeed.getValue() < 130)
+        {
+            stallwarning = "1";
+        }
+    }
+    setprop("/sim/alarms/stall-warning", stallwarning);
 }

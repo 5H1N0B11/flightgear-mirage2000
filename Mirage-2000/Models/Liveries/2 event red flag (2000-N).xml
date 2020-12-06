@@ -8,7 +8,7 @@
 
         <name type="string">2-Event Mirage 2000-N Red Flag</name>
         <texture>Liveries/2048x2048/2_red_flag.png</texture>
-        <texture-tank-2000>tank2000_desert.png</texture-tank-2000>
+        <texture-tank-2000>tank2000_red_flag.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>
