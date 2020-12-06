@@ -4,6 +4,7 @@
 <!-- Licenced under GPL -->
 <!-- Copyright (c) 2020 Josh Davidson (Octal450) -->
 <!-- Copyright (c) 2020 Richard Harrison -->
+<!-- Copyright (c) 2020 Axel Paccalin -->
 
 <system name="Mirage-2000: FCS/FBW">
 	
@@ -465,24 +466,8 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="fbw/pitch/alpha-modified">
-			<function>
-				<ifthen>
-					<lt>
-						<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-						<value>100</value>
-					</lt>
-					<sum>
-						<property>aero/alpha-deg</property> <!-- Should really be indicated -->
-						<value>2</value>
-					</sum>
-					<property>aero/alpha-deg</property> <!-- Should really be indicated -->
-				</ifthen>
-			</function>
-		</fcs_function>
-		
 		<switch name="fbw/pitch/alpha-switched">
-			<default value="fbw/pitch/alpha-modified"/>
+			<default value="aero/alpha-deg"/>
 			<test value="0">
 				position/wow eq 1
 			</test>
@@ -554,7 +539,7 @@
 			</clipto>
 		</fcs_function>
 		
-		<summer name="fbw/pitch/g-command-input">
+		<summer name="fbw/pitch/raw-g-command">
 			<input>fbw/pitch/elevator-modified</input>
 			<input>fbw/pitch/alpha-pitch-feed</input>
 		</summer>
@@ -565,32 +550,60 @@
 				fbw/mode eq 1
 			</test>
 		</switch>
+
+		<fcs_function name="fbw/pitch/pilot-g-command">
+			<function>
+				<sum>
+					<table>
+						<independentVar lookup="row">fbw/pitch/raw-g-command</independentVar>
+						<independentVar lookup="column">fbw/mode</independentVar>
+						<tableData>
+							0    1
+							-1.000  9.5  9.5  <!-- -1.000 10.5  7.5-->
+							-0.900  7.5  9.0 <!-- A slight null zone for the elastic stop -->
+							-0.850  7.5  7.5
+							0.000  0.0  0.0
+							1.000 -4.5 -4.5
+						</tableData>
+					</table>
+					<product> <!-- Equals +/-1.5G -->
+						<property>fbw/pitch/elevator-trim-nul</property>
+						<value>-1.5</value>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<fcs_function name="fbw/pitch/kinetic-pitch-rad">
+			<function>
+				<sum>
+					<p> attitude/pitch-rad </p>
+
+					<product>
+						<cos><p> attitude/roll-rad </p></cos>
+						<p> -aero/alpha-rad </p>
+					</product>
+
+					<product>
+						<sin><p> attitude/roll-rad </p></sin>
+						<p> -aero/beta-rad </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<fcs_function name="fbw/pitch/neutral-g-command">
+			<function>
+				<abs> <cos> <p> fbw/pitch/kinetic-pitch-rad </p> </cos> </abs>
+			</function>
+		</fcs_function>
 		
 		<fcs_function name="fbw/pitch/g-command">
 			<function>
 				<sum>
 					<product> <!-- Reduces stick sensitivity at low speeds -->
-						<difference>
-							<sum>
-								<table>
-									<independentVar lookup="row">fbw/pitch/g-command-input</independentVar>
-									<independentVar lookup="column">fbw/mode</independentVar>
-									<tableData>
-										        0    1
-										-1.000 10.5  10.5  <!-- -1.000 10.5  7.5-->
-										-0.900  8.5  10.0 <!-- A slight null zone for the elastic stop -->
-										-0.850  8.5  8.5
-										 0.000  1.0  1.0
-										 1.000 -3.5 -3.5
-									</tableData>
-								</table>
-								<product> <!-- Equals +/-1.5G -->
-									<property>fbw/pitch/elevator-trim-nul</property>
-									<value>-1.5</value>
-								</product>
-							</sum>
-							<value>1.0</value>
-						</difference>
+						<p>fbw/pitch/pilot-g-command</p>
+						
 						<table>
 							<independentVar lookup="row">velocities/mach</independentVar>
 							<tableData>
@@ -600,7 +613,8 @@
 							</tableData>
 						</table>
 					</product>
-					<value>1.0</value>
+
+					<p> fbw/pitch/neutral-g-command </p>
 				</sum>
 			</function>
 			<clipto>
@@ -609,23 +623,52 @@
 			</clipto>
 		</fcs_function>
 		
+		<fcs_function name="fbw/pitch/kLag">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<tableData>
+						  0   5.00
+						200   5.00
+						350  10.00
+						500  50.00
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+
 		<lag_filter name="fbw/pitch/g-command-lag">
 			<input>fbw/pitch/g-command</input>
-			<c1>2.5</c1>
+			<c1> fbw/pitch/kLag </c1>
 		</lag_filter>
 		
 		<switch name="fbw/pitch/g-demand">
-			<default value="fbw/pitch/g-command"/>
+			<default value="fbw/pitch/g-command-lag"/>
 			<test value="fbw/ap/g-cmd">
 				fbw/ap/pitch-enabled eq 1
 			</test>
 		</switch>
 		
-		<pure_gain name="fbw/pitch/instrumented-g">
-			<input>/accelerations/pilot-g</input>
+		<pure_gain name="fbw/pitch/pilot-gz">
+			<input> accelerations/Nz </input>
 			<gain>1.0</gain>
 			<output>/instrumentation/g-meter/instrumented-g</output>
 		</pure_gain>
+		
+		<fcs_function name="fbw/pitch/instrumented-g">
+			<function>
+				<sum>
+					<product>
+						<p> aero/cos-alpha </p>
+						<p> accelerations/Nz </p>
+					</product>
+					<product>
+						<p> aero/sin-alpha </p>
+						<p> accelerations/Nx </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
 		
 		<summer name="fbw/pitch/g-error">
 			<input>fbw/pitch/instrumented-g</input>
