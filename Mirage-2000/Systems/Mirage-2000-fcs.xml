@@ -594,13 +594,27 @@
 			</clipto>
 		</fcs_function>
 		
+		<fcs_function name="fbw/pitch/kLag">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<tableData>
+						  0   5.00
+						200   5.00
+						350  10.00
+						500  50.00
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+
 		<lag_filter name="fbw/pitch/g-command-lag">
 			<input>fbw/pitch/g-command</input>
-			<c1>2.5</c1>
+			<c1> fbw/pitch/kLag </c1>
 		</lag_filter>
 		
 		<switch name="fbw/pitch/g-demand">
-			<default value="fbw/pitch/g-command"/>
+			<default value="fbw/pitch/g-command-lag"/>
 			<test value="fbw/ap/g-cmd">
 				fbw/ap/pitch-enabled eq 1
 			</test>
