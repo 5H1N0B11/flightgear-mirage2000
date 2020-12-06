@@ -1,9 +1,10 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <!-- Mirage 2000 FCS/FBW -->
 <!-- Licenced under GPL -->
 <!-- Copyright (c) 2020 Josh Davidson (Octal450) -->
 <!-- Copyright (c) 2020 Richard Harrison -->
+<!-- Copyright (c) 2020 Axel Paccalin -->
 
 <system name="Mirage-2000: FCS/FBW">
 	
@@ -465,24 +466,8 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="fbw/pitch/alpha-modified">
-			<function>
-				<ifthen>
-					<lt>
-						<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-						<value>100</value>
-					</lt>
-					<sum>
-						<property>aero/alpha-deg</property> <!-- Should really be indicated -->
-						<value>2</value>
-					</sum>
-					<property>aero/alpha-deg</property> <!-- Should really be indicated -->
-				</ifthen>
-			</function>
-		</fcs_function>
-		
 		<switch name="fbw/pitch/alpha-switched">
-			<default value="fbw/pitch/alpha-modified"/>
+			<default value="aero/alpha-deg"/>
 			<test value="0">
 				position/wow eq 1
 			</test>
