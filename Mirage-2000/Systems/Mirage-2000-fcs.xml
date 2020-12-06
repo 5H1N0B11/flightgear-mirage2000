@@ -606,11 +606,26 @@
 			</test>
 		</switch>
 		
-		<pure_gain name="fbw/pitch/instrumented-g">
-			<input>/accelerations/pilot-g</input>
+		<pure_gain name="fbw/pitch/pilot-gz">
+			<input> accelerations/Nz </input>
 			<gain>1.0</gain>
 			<output>/instrumentation/g-meter/instrumented-g</output>
 		</pure_gain>
+		
+		<fcs_function name="fbw/pitch/instrumented-g">
+			<function>
+				<sum>
+					<product>
+						<p> aero/cos-alpha </p>
+						<p> accelerations/Nz </p>
+					</product>
+					<product>
+						<p> aero/sin-alpha </p>
+						<p> accelerations/Nx </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
 		
 		<summer name="fbw/pitch/g-error">
 			<input>fbw/pitch/instrumented-g</input>
