@@ -35,6 +35,17 @@
   These pump are used in order to feed the engine when flying reversed.
   => 15s from the pilot handbook, lets guess 30 seconds before failure or tanks (3 and 4) < 400 liters
   
+  tank3  tank4   : Collectors
+    |    |  
+    LLP RLP
+      \ /
+       Y
+       |
+       BP
+  LLP and RLP should be aat 500 mbar each
+  BP should be at 825 mbar
+  if not : alerts on the panel
+  
   For more details : (in french)
   https://www.youtube.com/watch?v=30h4VIPITDo 
   
