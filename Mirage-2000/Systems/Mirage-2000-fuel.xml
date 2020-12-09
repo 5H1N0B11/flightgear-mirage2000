@@ -298,36 +298,6 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
     </fcs_function>
     
     
-    
-<!--    <fcs_function name="/systems/fuel/collector/pump-BPG-function">
-      <function>
-        <input>/systems/electrical/outputs/fuel-pump-BPG</input>
-        <table>
-          <tableData>
-              0      0
-              1      1
-              14    250 
-              28   	500
-          </tableData>
-        </table>
-        <output>/systems/fuel/collector-pump-BPG-pressure</output>
-      </function>
-    </fcs_function>-->
-    
-
-    
-<!--    <switch name ="propulsion/tank[4]/collector-pump">
-      <default value="1"/>
-      <test logic="OR" value="0">
-        /systems/electrical/outputs EQ 1
-        
-      </test>
-    </switch> -->
-    
-    
-    
-    
-    
     <!-- Center summer -->
     <summer>
       <input>-/systems/fuel/transfert_5_to_1</input>
@@ -467,9 +437,10 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
    </summer>
 
     
-   
-   
-   
+   <summer name="/systems/fuel/collector/pump-BP">  
+     <input>/systems/fuel/collector/pump-BPD-function</input>
+     <input>/systems/fuel/collector/pump-BPD-function</input>
+   </summer>
    
     
   </channel>      

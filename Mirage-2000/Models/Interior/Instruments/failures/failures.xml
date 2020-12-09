@@ -16,7 +16,7 @@
     <object-name>failures.ambreA8</object-name>
     <object-name>failures.ambreB1</object-name>
     <object-name>failures.ambreB2</object-name>
-    <object-name>failures.ambreB3</object-name>
+    <object-name>failures.ambreB3</object-name>      
     <object-name>failures.ambreB4</object-name>
     <object-name>failures.ambreB5</object-name>
     <object-name>failures.ambreB6</object-name>
@@ -25,7 +25,7 @@
     <object-name>failures.ambreB9</object-name>
     <object-name>failures.ambreC1</object-name>
     <object-name>failures.ambreC2</object-name>
-    <object-name>failures.ambreC3</object-name>
+    <object-name>failures.ambreC3</object-name> 
     <object-name>failures.ambreC4</object-name>
     <object-name>failures.ambreC5</object-name>
     <object-name>failures.ambreC6</object-name>
@@ -117,83 +117,80 @@
     </emission>
   </animation>
 
-  <animation>
-    <type>select</type>
-    <object-name>failures.ambreA2</object-name>
-    <object-name>failures.ambreC2</object-name>
-    <object-name>failures.ambreD2</object-name>
-    <object-name>failures.ambreE2</object-name>
-    <object-name>failures.ambreD3</object-name>
-    <object-name>failures.ambreE3</object-name>
-    <object-name>failures.ambreB5</object-name>
-    <object-name>failures.ambreC5</object-name>
-    <object-name>failures.ambreD5</object-name>
-    <object-name>failures.ambreE5</object-name>
-    <object-name>failures.ambreA6</object-name>
-    <object-name>failures.ambreB6</object-name>
-    <object-name>failures.ambreC6</object-name>
-    <object-name>failures.ambreD6</object-name>
-    <object-name>failures.ambreE6</object-name>
-    <object-name>failures.ambreA7</object-name>
-    <object-name>failures.ambreB7</object-name>
-    <object-name>failures.ambreC7</object-name>
-    <object-name>failures.ambreD7</object-name>
-    <object-name>failures.ambreE7</object-name>
-    <object-name>failures.ambreB8</object-name>
-    <object-name>failures.ambreC8</object-name>
-    <object-name>failures.ambreD8</object-name>
-    <object-name>failures.ambreB9</object-name>
-    <object-name>failures.ambreC9</object-name>
-    <object-name>failures.ambreD9</object-name>
-    <object-name>failures.jauneA1</object-name>
-    <object-name>failures.jauneB1</object-name>
-    <object-name>failures.jauneC1</object-name>
-    <object-name>failures.jauneD1</object-name>
-    <object-name>failures.jauneA2</object-name>
-    <object-name>failures.jauneB2</object-name>
-    <object-name>failures.jauneC2</object-name>
-    <object-name>failures.jauneD2</object-name>
-    <object-name>failures.jauneE2</object-name>
-    <object-name>failures.jauneA3</object-name>
-    <object-name>failures.jauneB3</object-name>
-    <object-name>failures.jauneC3</object-name>
-    <object-name>failures.jauneD3</object-name>
-    <object-name>failures.jauneE3</object-name>
-    <object-name>failures.jauneA4</object-name>
-    <object-name>failures.jauneB4</object-name>
-    <object-name>failures.jauneC4</object-name>
-    <object-name>failures.jauneD4</object-name>
-    <object-name>failures.jauneE4</object-name>
-    <object-name>failures.jauneA5</object-name>
-    <object-name>failures.jauneB5</object-name>
-    <object-name>failures.jauneC5</object-name>
-    <object-name>failures.jauneD5</object-name>
-    <object-name>failures.jauneE5</object-name>
-    <object-name>failures.jauneA6</object-name>
-    <object-name>failures.jauneB6</object-name>
-    <object-name>failures.jauneC6</object-name>
-    <object-name>failures.jauneD6</object-name>
-    <object-name>failures.jauneE6</object-name>
-    <object-name>failures.jauneA7</object-name>
-    <object-name>failures.jauneB7</object-name>
-    <object-name>failures.jauneC7</object-name>
-    <object-name>failures.jauneD7</object-name>
-    <object-name>failures.jauneE7</object-name>
-    <object-name>failures.jauneB8</object-name>
-    <object-name>failures.jauneC8</object-name>
-    <object-name>failures.jauneD8</object-name>
-    <object-name>failures.jauneE8</object-name>
-    <object-name>failures.jauneB9</object-name>
-    <object-name>failures.jauneC9</object-name>
-    <object-name>failures.jauneD9</object-name>
-    <condition>
-      <equals>
-        <value>0</value>
-        <value>1</value>
-      </equals>
-    </condition>
-  </animation>
-
+  <animation>                                     
+   <type>select</type>                           
+   <object-name>failures.ambreC2</object-name>   
+   <object-name>failures.ambreA2</object-name>   
+   <object-name>failures.ambreD2</object-name>   
+   <object-name>failures.ambreE2</object-name>
+<!--  <object-name>failures.ambreA3</object-name> -->
+  <object-name>failures.ambreB3</object-name>
+  <object-name>failures.ambreC3</object-name> 
+  <object-name>failures.ambreD3</object-name>    
+  <object-name>failures.ambreE3</object-name>    
+  <object-name>failures.ambreB5</object-name>    
+  <object-name>failures.ambreC5</object-name>    
+  <object-name>failures.ambreD5</object-name>    
+  <object-name>failures.ambreE5</object-name>    
+  <object-name>failures.ambreA6</object-name>    
+  <object-name>failures.ambreB6</object-name>    
+  <object-name>failures.ambreC6</object-name>    
+  <object-name>failures.ambreD6</object-name>    
+  <object-name>failures.ambreE6</object-name>    
+  <object-name>failures.ambreA7</object-name>    
+  <object-name>failures.ambreB7</object-name>    
+  <object-name>failures.ambreC7</object-name>    
+  <object-name>failures.ambreD7</object-name>    
+  <object-name>failures.ambreE7</object-name>    
+  <object-name>failures.ambreB8</object-name>    
+  <object-name>failures.ambreC8</object-name>    
+  <object-name>failures.ambreD8</object-name>    
+  <object-name>failures.ambreB9</object-name>    
+  <object-name>failures.ambreC9</object-name>    
+  <object-name>failures.ambreD9</object-name>    
+  <object-name>failures.jauneA1</object-name>    
+  <object-name>failures.jauneB1</object-name>    
+  <object-name>failures.jauneC1</object-name>    
+  <object-name>failures.jauneD1</object-name>    
+  <object-name>failures.jauneA2</object-name>    
+  <object-name>failures.jauneB2</object-name>    
+  <object-name>failures.jauneC2</object-name>    
+  <object-name>failures.jauneD2</object-name>    
+  <object-name>failures.jauneE2</object-name>    
+  <object-name>failures.jauneA3</object-name>    
+<!--  <object-name>failures.jauneB3</object-name> -->   
+<!--  <object-name>failures.jauneC3</object-name> -->   
+  <object-name>failures.jauneD3</object-name>    
+  <object-name>failures.jauneE3</object-name>    
+  <object-name>failures.jauneA4</object-name>    
+  <object-name>failures.jauneB4</object-name>    
+  <object-name>failures.jauneC4</object-name>    
+  <object-name>failures.jauneD4</object-name>    
+  <object-name>failures.jauneE4</object-name>    
+  <object-name>failures.jauneA5</object-name>    
+  <object-name>failures.jauneB5</object-name>    
+  <object-name>failures.jauneC5</object-name>    
+  <object-name>failures.jauneD5</object-name>    
+  <object-name>failures.jauneE5</object-name>    
+  <object-name>failures.jauneA6</object-name>    
+  <object-name>failures.jauneB6</object-name>    
+  <object-name>failures.jauneC6</object-name>    
+  <object-name>failures.jauneD6</object-name>    
+  <object-name>failures.jauneE6</object-name>    
+  <object-name>failures.jauneA7</object-name>    
+  <object-name>failures.jauneB7</object-name>    
+  <object-name>failures.jauneC7</object-name>    
+  <object-name>failures.jauneD7</object-name>    
+  <object-name>failures.jauneE7</object-name>    
+  <object-name>failures.jauneB8</object-name>    
+  <object-name>failures.jauneC8</object-name>    
+  <object-name>failures.jauneD8</object-name>    
+  <object-name>failures.jauneE8</object-name>    
+  <object-name>failures.jauneB9</object-name>    
+  <object-name>failures.jauneC9</object-name>    
+  <object-name>failures.jauneD9</object-name>    
+</animation>                                     
+                                                 
 
 
   <!--  REMBRANDT support for transparent objects-->
@@ -253,8 +250,8 @@
     <object-name>failures.ambreC9</object-name>
     <object-name>failures.ambreD9</object-name>
     <emission>
-      <red>   4 </red>
-      <green> 4 </green>
+      <red>   1 </red>
+      <green> 0 </green>
       <blue>  0 </blue>
     </emission>
   </animation>
@@ -306,8 +303,8 @@
     <object-name>failures.jauneC9</object-name>
     <object-name>failures.jauneD9</object-name>
     <emission>
-      <red>   4 </red>
-      <green> 4 </green>
+      <red>   1 </red>
+      <green> 1 </green>
       <blue>  0 </blue>
     </emission>
   </animation>
@@ -469,11 +466,11 @@
   <!-- This is simplification with the BP(LP)-->
   <animation>
     <type>select</type>
-    <object-name>failures.ambreA3</object-name>
+    <object-name>failures.ambreA3</object-name> <!-- should be ambre : seems that the 3D uv is inverted -->                                   
     <condition>
       <less-than>
-        <property>/systems/fuel/suppliers/BP_press</property>
-        <value>1</value>
+        <property>/systems/fuel/collector/pump-BP</property>
+        <value>825</value>
       </less-than>
     </condition>
   </animation>
@@ -481,7 +478,7 @@
   <!-- This is simplification with the BPG (LLP)-->
   <animation>
     <type>select</type>
-    <object-name>failures.ambreB3</object-name>
+    <object-name>failures.jauneB3</object-name>
     <condition>
       <less-than>
         <property>/systems/fuel/collector/pump-BPG-function</property>
@@ -493,7 +490,7 @@
   <!-- This is simplification with the BPD (RLP)-->
   <animation>
     <type>select</type>
-    <object-name>failures.ambreC3</object-name>
+    <object-name>failures.jauneC3</object-name>
     <condition>
       <less-than>
         <property>/systems/fuel/collector/pump-BPD-function</property>
