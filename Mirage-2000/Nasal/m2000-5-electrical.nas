@@ -30,6 +30,8 @@ var NORM                = 0.0357;
 var Battery             = {};
 var Alternator          = {};
 var load                = 0.0;
+var fuel_pump_BPD       = props.globals.getNode("/systems/electrical/outputs/fuel-pump-BPD", 1);
+var fuel_pump_BPG       = props.globals.getNode("/systems/electrical/outputs/fuel-pump-BPG", 1);
 
 # var battery = Battery.new(volts, amps, amp_hours, charge_percent, charge_amps);
 Battery = {
@@ -444,7 +446,7 @@ var electrical_bus = func(bus_volts)
     {
         OutPuts.getNode("carb-heat", 1).setValue(0.0);
     }
-    
+
     if(props.globals.getNode("/controls/fuel/tank/boost-pump").getBoolValue())
     {
         OutPuts.getNode("boost-pump", 1).setValue(bus_volts);
@@ -464,37 +466,31 @@ var electrical_bus = func(bus_volts)
     {
         OutPuts.getNode("boost-pump[1]", 1).setValue(0.0);
     }
-    
-    if(props.globals.getNode("/controls/engines/engine/fuel-pump").getBoolValue())
-    {
-        OutPuts.getNode("fuel-pump", 1).setValue(bus_volts);
-        load += 0.000006;
-    }
-    else
-    {
-        OutPuts.getNode("fuel-pump", 1).setValue(0.0);
+    ######################################################   Fuel Pump ######################################
+    if(props.globals.getNode("/controls/switches/pump-BPG").getBoolValue()){
+        OutPuts.getNode("fuel-pump-BPG", 1).setValue(bus_volts);
+        load += 0.6;
+    }else{
+        OutPuts.getNode("fuel-pump-BPG", 1).setValue(0.0);
     }
     
-    if(props.globals.getNode("/controls/engines/engine[0]/fuel-pump").getBoolValue())
-    {
-        OutPuts.getNode("fuel-pump[1]", 1).setValue(bus_volts);
-        load += 0.000006;
+    if(props.globals.getNode("/controls/switches/pump-BPD").getBoolValue()){
+        OutPuts.getNode("fuel-pump-BPD", 1).setValue(bus_volts);
+        load += 0.6;
+    } else  {
+        OutPuts.getNode("fuel-pump-BPD", 1).setValue(0.0);
     }
-    else
-    {
-        OutPuts.getNode("fuel-pump[1]", 1).setValue(0.0);
-    }
-    
+    ######################################################   /Fuel Pump ######################################
     if(props.globals.getNode("/controls/engines/engine[0]/starter").getBoolValue())
     {
         starter_voltsL = bus_volts;
-        load += 0.001;
+        load += 0.1;
     }
     
     if(props.globals.getNode("/controls/engines/engine[0]/starter").getBoolValue())
     {
         starter_voltsR = bus_volts;
-        load += 0.001;
+        load += 0.1;
     }
     OutPuts.getNode("starter", 1).setValue(starter_voltsL);
     OutPuts.getNode("starter[1]", 1).setValue(starter_voltsR);

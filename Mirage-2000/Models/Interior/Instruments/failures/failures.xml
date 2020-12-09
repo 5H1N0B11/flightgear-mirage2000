@@ -484,8 +484,8 @@
     <object-name>failures.ambreB3</object-name>
     <condition>
       <less-than>
-        <property>/systems/fuel/suppliers/FUEL1_press</property>
-        <value>1</value>
+        <property>/systems/fuel/collector/pump-BPG-function</property>
+        <value>500</value>
       </less-than>
     </condition>
   </animation>
@@ -496,8 +496,8 @@
     <object-name>failures.ambreC3</object-name>
     <condition>
       <less-than>
-        <property>/systems/fuel/suppliers/FUEL2_press</property>
-        <value>1</value>
+        <property>/systems/fuel/collector/pump-BPD-function</property>
+        <value>500</value>
       </less-than>
     </condition>
   </animation>
