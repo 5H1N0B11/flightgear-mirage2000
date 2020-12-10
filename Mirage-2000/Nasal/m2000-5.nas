@@ -658,7 +658,21 @@ var quickstart = func() {
             
         }
  }
-
+ 
+ 
+#  #This is the starup listener. It will put a value into n1 and n2 in order start jsbsim engine without playing with cutoff
+ var starterlistener = setlistener("/controls/engines/engine/starter", func() {
+# var starterlistener = setlistener("/fdm/jsbsim/propulsion/starter_cmd", func() {
+   if(getprop("/fdm/jsbsim/propulsion/engine/n1")<0.5 and  getprop("/fdm/jsbsim/propulsion/engine/n2")<0.5 
+     and getprop("/controls/switches/pump-BP") and getprop("/controls/switches/vent-allumage")){
+     setprop("/fdm/jsbsim/propulsion/engine/n1",1);
+     setprop("/fdm/jsbsim/propulsion/engine/n2",25);
+     setprop("engines/engine[0]/out-of-fuel",0);
+   }
+   print("You are starting the mirage, dude");
+});
+ 
+ 
 setprop("consumables/fuel/tank[8]/capacity-gal_us",0);
 setprop("consumables/fuel/tank[9]/capacity-gal_us",0);
 setprop("consumables/fuel/tank[10]/capacity-gal_us",0);

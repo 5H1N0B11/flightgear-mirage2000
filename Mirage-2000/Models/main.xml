@@ -417,6 +417,17 @@
       <z-m> -0.527 </z-m>
     </offsets>
   </model>
+  
+  <!-- Microturboreacteur : starter -->
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Effects/smoke/Microturbo_starter.xml</path>
+    <offsets>
+      <x-m>  -0.2</x-m>
+      <y-m>  0 </y-m>
+      <z-m> -1.8 </z-m>
+    </offsets>
+  </model>
+  
 
   <!-- Tiptrail Wings -->
   <model>

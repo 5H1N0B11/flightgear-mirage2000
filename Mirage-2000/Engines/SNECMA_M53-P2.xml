@@ -63,6 +63,9 @@
     <n1spinup>          1 </n1spinup>
     <n2spinup>          3 </n2spinup>
     <injected>          0 </injected>
+    <ignitionn1>        0 </ignitionn1> <!-- There is no such thing as clicking on the cut during startup (it's done before) -->
+
+    <n1startrate>      1.5</n1startrate> <!-- 1.56%/sec => this give a 30 seconds startup -->
 
     <function name="IdleThrust">
         <table>

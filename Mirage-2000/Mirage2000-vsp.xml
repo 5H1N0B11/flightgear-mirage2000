@@ -390,7 +390,7 @@
     </thruster>
   </engine>
   
-    <!--0: Refuel probe-->
+    <!--0: Collector probe-->
   <tank number="0" type="FUEL">
     <!--0: Feed line-->
     <location unit="M">

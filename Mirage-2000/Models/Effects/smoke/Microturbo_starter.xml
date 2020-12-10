@@ -17,26 +17,17 @@
     </offsets>
     
     <condition>
-      <or>
-        <and>
-          <!-- MULTIPLAY, we can use only some properties -->
-          <less-than-equals>
-            <property>velocities/airspeed-kt</property>
-            <value>300</value>
-          </less-than-equals>
-          <greater-than>
-            <property>sim/multiplay/generic/float[7]</property> <!-- /controls/engines/engine[0]/throttle -->
-            <value>0</value>
-          </greater-than>
-        </and>
         <and>
           <!-- LOCAL, smoke if engine running -->
           <greater-than>
-            <property>sim/multiplay/generic/float[4]</property>
-            <value>30</value>
+            <property>engines/engine[0]/n1</property>
+            <value>1</value>
           </greater-than>
+          <less-than>
+            <property>engines/engine[0]/n1</property>
+            <value>35</value>
+          </less-than>
         </and>
-      </or>
     </condition>
     
     <attach>world</attach>
@@ -53,7 +44,7 @@
       <speed-mps>
         <property>sim/multiplay/generic/float[4]</property><!-- engines/engine[0]/n1 -->
         <factor>5</factor>
-        <spread>4000</spread>
+        <spread>400</spread>
       </speed-mps>
       <rotation-speed>
         <x-min-deg-sec>5</x-min-deg-sec>
@@ -102,11 +93,11 @@
             </expression>
           </blue>
           <alpha>
-            <value>0.1</value>
+            <value>0.3</value>
           </alpha>
         </color>
         <size>
-          <value>0.8</value>
+          <value>0.3</value>
         </size>
       </start>
       <end>
@@ -136,11 +127,11 @@
             </expression>
           </blue>
           <alpha>
-            <value>0.01</value>
+             <value>0.01</value>
           </alpha>
         </color>
         <size>
-          <value>8</value>
+          <value>0.5</value>
         </size>
       </end>
       <life-sec>
