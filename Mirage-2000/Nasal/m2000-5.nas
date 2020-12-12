@@ -748,7 +748,7 @@ var quickstart = func() {
         setprop("/sim/current-view/pitch-offset-deg",-14);
         setprop("/sim/current-view/heading-offset-deg",0);
         setprop("/sim/current-view/field-of-view",83);
-      }, 35); 
+      }, 45); 
               
 
 }
