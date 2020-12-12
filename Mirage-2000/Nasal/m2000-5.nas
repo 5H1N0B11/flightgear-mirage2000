@@ -620,6 +620,9 @@ var quickstart = func() {
         {
             return;
         }
+        long_starting();
+        return; # this is a dirty and lazy way of doing it
+        
         if(!getprop("/controls/engines/engine[0]/cutoff"))
         {
             me.autostart_status = 0;
@@ -658,6 +661,101 @@ var quickstart = func() {
             
         }
  }
+ 
+ var long_starting = func(){
+      #Closing the diloag
+      call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "config"}))},nil,var err2 = []);
+    
+      #Placing the view on take off view
+      setprop("/sim/current-view/x-offset-m",0);
+      setprop("/sim/current-view/y-offset-m",0.1019);
+      setprop("/sim/current-view/z-offset-m",-2.9);
+      setprop("/sim/current-view/field-of-view",83);
+      
+      #zooming on fuel, electrics and alerts
+      setprop("/sim/current-view/pitch-offset-deg",-40);
+      setprop("/sim/current-view/heading-offset-deg",338);
+      setprop("/sim/current-view/field-of-view",36);
+      
+      
+      settimer(func { 
+        setprop("/controls/switches/battery-switch",1);
+      }, 3);
+      
+      settimer(func { 
+        setprop("/controls/switches/transformator-switch",1);
+      }, 4);
+
+      settimer(func { 
+        setprop("/controls/switches/ALT1-switch",1);
+        setprop("/controls/switches/ALT2-switch",1);
+      }, 4);
+
+      #Zooming on starting panel
+      settimer(func { 
+        setprop("/sim/current-view/pitch-offset-deg",-62);
+        setprop("/sim/current-view/heading-offset-deg",312);
+        setprop("/sim/current-view/field-of-view",21.6);
+      }, 5);  
+
+      # Cut Off
+      settimer(func { 
+        setprop("/controls/switches/hide-cutoff",  1);
+      }, 5);  
+      settimer(func { 
+        setprop("/controls/engines/engine/cutoff", 0);
+      }, 6); 
+      
+      settimer(func { 
+        setprop("/controls/switches/hide-cutoff",  0);
+      }, 7);
+          
+      # Fuel Pumps
+      settimer(func { 
+        setprop("/controls/switches/pump-BPG", 1);
+      }, 8);     
+      settimer(func { 
+        setprop("/controls/switches/pump-BPD", 1);
+      }, 9);   
+
+      # This isn't a pump, but it's here is the starting process.
+      # Vent is to clear fuel of the engine, allumage is to burn it.
+      # So 1 is allumage 0 vent.
+
+      settimer(func { 
+        setprop("/controls/switches/vent-allumage", 1);
+      }, 10);   
+      settimer(func { 
+        setprop("/controls/switches/hide-starter",1);
+        setprop("/controls/switches/pump-BP",       1);   
+      }, 11);         
+
+      #Starting the engine
+      settimer(func { 
+        setprop("/controls/engines/engine/starter",1);
+      }, 13);  
+      
+      
+      #zooming on fuel, electrics and alerts
+     settimer(func {         
+        setprop("/sim/current-view/pitch-offset-deg",-38);
+        setprop("/sim/current-view/heading-offset-deg",338);
+        setprop("/sim/current-view/field-of-view",36);
+      }, 15);  
+
+     #puting back the view on take off view
+      settimer(func {         
+        setprop("/sim/current-view/pitch-offset-deg",-14);
+        setprop("/sim/current-view/heading-offset-deg",0);
+        setprop("/sim/current-view/field-of-view",83);
+      }, 35); 
+              
+
+}
+
+
+ 
+ 
  
  
 #  #This is the starup listener. It will put a value into n1 and n2 in order start jsbsim engine without playing with cutoff
