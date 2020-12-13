@@ -238,6 +238,21 @@
   
   <animation>
     <type>select</type>
+    <object-name>left-armat</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-2-set</property>
+          <value>AS-37-Armat</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-2-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
     <object-name>left-as30l</object-name>
     <condition>
         <equals>
@@ -568,6 +583,21 @@
         <equals>
           <property>payload/armament/station/id-4-set</property>
           <value>AS-37-Martel</value>
+        </equals>
+        <greater-than>
+          <property>payload/armament/station/id-4-count</property>
+           <value>0</value>
+        </greater-than>
+    </condition>
+  </animation>
+  
+  <animation>
+    <type>select</type>
+    <object-name>right-armat</object-name>
+    <condition>
+        <equals>
+          <property>payload/armament/station/id-4-set</property>
+          <value>AS-37-Armat</value>
         </equals>
         <greater-than>
           <property>payload/armament/station/id-4-count</property>

@@ -1090,6 +1090,7 @@ var HUD = {
      "APACHE": "APACHE",
      "AM39-Exocet":"AM39",
      "AS-37-Martel":"AS37",
+     "AS-37-Armat":"AS37A",
      "AS30L" :"AS30",
      "Mk-82" : "Mk82",
      "Mk-82SE":"Mk82S",

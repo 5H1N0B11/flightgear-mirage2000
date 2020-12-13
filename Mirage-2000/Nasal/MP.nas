@@ -13,11 +13,13 @@ var Decode_Load = {
         m.loadList = [
           "2000 l Droptank",
           "SCALP",
+          "GBU-12",
           "1700 l Droptank",
-          "2 x SAMP Mk-82 Snake-eye",
+          "Smoke Pod",
           "AM39-Exocet",
           "2 x GBU-12",
           "1700 l Droptank",
+          "AS-37-Armat",
           "GBU-24",
           "AS-37-Martel",
           "PDLCT",
@@ -32,6 +34,7 @@ var Decode_Load = {
           "APACHE",
           "2000 l Droptank",
           "SAMP Mk-82",
+          "2 x SAMP Mk-82 Snake-eye",
           "MICA EM",
           "ASMP",
           "SAMP Mk-82 Snake-eye"
@@ -39,6 +42,7 @@ var Decode_Load = {
         m.decode();
         return m;
     },
+    
     
     decode: func()
     {

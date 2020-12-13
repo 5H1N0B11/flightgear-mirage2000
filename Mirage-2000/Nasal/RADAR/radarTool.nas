@@ -278,7 +278,7 @@ var RadarTool = {
         if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
           #print("pylons.fcs.getSelectedWeapon().guidance:" ~pylons.fcs.getSelectedWeapon().guidance);
           if(pylons.fcs.getSelectedWeapon().guidance =="radiation"){
-            #print( "Is radiating :" ~ SelectedObject.isRadiating(me.MyCoord));
+            #print( "Using anti radiation missile. Is target radiating :" ~ SelectedObject.isRadiating(me.MyCoord));
             if(SelectedObject.isRadiating(me.MyCoord)){
               return 1;
             }

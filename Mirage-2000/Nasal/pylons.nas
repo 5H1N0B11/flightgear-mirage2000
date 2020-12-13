@@ -78,7 +78,9 @@ var pylonSets = {
     gbu24: {name: "GBU-24", content: ["GBU-24"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
     b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
     b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+    b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0,
+      category: 2},
+    b5_2: {name: "AS-37-Armat", content: ["AS-37-Armat"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
     b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
     b7: {name: "APACHE", content: ["APACHE"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
     b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
@@ -100,8 +102,8 @@ if(AIRCRAFT != 'm2000D'){
     var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
     var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
 } else {   
-    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5,pylonSets.b5_2, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5,pylonSets.b5_2, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
     var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
     var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se,pylonSets.b7];
     var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
@@ -196,7 +198,7 @@ if (AIRCRAFT == 'm2000-5') {
   wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "GBU-24", "SCALP", "APACHE", "AM39-Exocet"];
 }elsif(AIRCRAFT == 'm2000D') {
   pylon_order = [0,8,1,7,2,6,3,5,4];
-  wp_order = ["Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Martel", "AS30L"];
+  wp_order = ["Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Martel","AS-37-Armat", "AS30L"];
 }
 
 fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
