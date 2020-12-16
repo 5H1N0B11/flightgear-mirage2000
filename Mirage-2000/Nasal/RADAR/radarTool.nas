@@ -4,6 +4,20 @@ var RadarTool = {
   # This function will explore the proprty tree and create new contact in the raw_selection.
   ##############################################################################################
   
+  get_elevation : func(lat,lon){
+    #first looking if the tile is loaded
+    me.local_ground_alt = geo.elevation(lat, lon);
+    
+    #if geo is nil, the tile is not loaded. There is no fucking way to get the ground elevation (except what I'm about to do)
+    if(me.local_ground_alt == nil){
+        #finding the closest navaid and take its altitude
+        me.navaid_vector = findNavaidsWithinRange(lat,lon,100);
+        me.local_ground_alt =   me.navaid_vector[0].elevation;
+    }
+    return me.local_ground_alt;
+  },
+  
+  
   scan_update_tgt_list_func:func(){
       if(scan_update_tgt_list){
         me.temp_raw_list = me.Mp.getChildren();
@@ -50,18 +64,21 @@ var RadarTool = {
                   u.setType(armament.AIR);
                   
                   #print("Update Type of " ~ u.get_Callsign());
-                  var ground_alt = geo.elevation(u.get_Latitude(), u.get_Longitude());
-                  ground_alt = ground_alt==nil?0:ground_alt;
+                  #printf("Elevation :%f00" , me.get_elevation(u.get_Latitude(), u.get_Longitude()));
+                  #print("Target Altitude:" ~u.get_altitude()*FT2M);
+                  
+                  #var ground_alt = geo.elevation(u.get_Latitude(), u.get_Longitude());
+                  me.type_ground_alt = me.get_elevation(u.get_Latitude(), u.get_Longitude());#= ground_alt==nil?0:ground_alt;
                   
                   # We are testing if it is near the ground
-                  if(ground_alt!=nil){
-                    if(abs(ground_alt - u.get_altitude()*FT2M) < 60) { # in meters
+                  if(me.type_ground_alt!=nil){
+                    if(abs(me.type_ground_alt - u.get_altitude()*FT2M) < 60) { # in meters
                       #print("It is close to the ground");
-                      var info = geodinfo(u.get_Latitude(), u.get_Longitude());
-                      if (info != nil and info[1] != nil) {
-                        #print("The ground underneath the aircraft is ", info[1].solid == 1 ? "solid." : "water.");
-                        #debug.dump(info);
-                        if(info[1].solid == 1){
+                      me.info = geodinfo(u.get_Latitude(), u.get_Longitude());
+                      if (me.info != nil and me.info[1] != nil) {
+                        #print("The ground underneath the aircraft is ", me.info[1].solid == 1 ? "solid." : "water.");
+                        #debug.dump(me.info);
+                        if(me.info[1].solid == 1){
                           #print("SURFACE");
                           u.setType(armament.SURFACE);
                           u.skipDoppler = 0;

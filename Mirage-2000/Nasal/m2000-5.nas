@@ -749,7 +749,11 @@ var quickstart = func() {
         setprop("/sim/current-view/heading-offset-deg",0);
         setprop("/sim/current-view/field-of-view",83);
       }, 45); 
-              
+      
+      #turning on the air conditioning
+      setprop("/controls/ventilation/airconditioning-enabled",1); 
+      setprop("/environment/aircraft-effects/cabin-heat-set",1);
+      setprop("/controls/ventilation/windshield-hot-air-knob",1);
 
 }
 
