@@ -753,6 +753,7 @@ var quickstart = func() {
       #turning on the air conditioning
       setprop("/controls/ventilation/airconditioning-enabled",1); 
       setprop("/environment/aircraft-effects/cabin-heat-set",1);
+       setprop("/environment/aircraft-effects/cabin-air-set",1);
       setprop("/controls/ventilation/windshield-hot-air-knob",1);
 
 }
