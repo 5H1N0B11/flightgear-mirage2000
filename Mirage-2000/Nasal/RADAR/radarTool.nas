@@ -55,12 +55,13 @@ var RadarTool = {
                   
                   # We are testing if it is near the ground
                   if(ground_alt!=nil){
-                    if(abs(ground_alt - u.get_altitude()*FT2M) < 60) { # in meters
+                    if(abs(ground_alt - u.get_altitude()*FT2M < 0? 0: ground_alt - u.get_altitude()*FT2M) < 60) { # in meters
                       #print("It is close to the ground");
                       var info = geodinfo(u.get_Latitude(), u.get_Longitude());
                       if (info != nil and info[1] != nil) {
                         #print("The ground underneath the aircraft is ", info[1].solid == 1 ? "solid." : "water.");
                         if(info[1].solid == 1){
+                          #print("SURFACE");
                           u.setType(armament.SURFACE);
                           u.skipDoppler = 0;
                         }else{
@@ -74,6 +75,7 @@ var RadarTool = {
                           u.setType(armament.MARINE);
                           u.skipDoppler = 1;
                       }else{
+                          #print("SURFACE");
                           u.setType(armament.SURFACE);
                           u.skipDoppler = 0;
                       }
