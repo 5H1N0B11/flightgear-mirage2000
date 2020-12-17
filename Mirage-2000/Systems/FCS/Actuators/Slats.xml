@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.0
+	
+	Actuators for the slats.
+-->
+
+<system name="Mirage-2000: FCS/Actuators">
+	<!-- TODO: Actuator parameters were pulled from old FBW. They are to be classified (documented / guess). -->
+	<property value= "0.512612418"> fcs/actuators/slats/rate </property>
+	<channel name="Slats">
+		<!-- The allowed normalized rate of slats deployment. -->
+		<switch name="fcs/actuators/slats/outer-rate">
+			<default value="0.0"/>
+			<test value="fcs/actuators/slats/rate">
+				systems/hydraulics/number1-system-available eq 1
+			</test>
+		</switch>
+
+		<!-- The actuator for the slats (only one actuator is simulated to avoid assync slats pos). -->
+		<actuator name="fcs/actuators/slats/norm-a">
+			<input> fcs/dispatch/slats/output-norm </input>
+			<rate_limit> 0.512612418 </rate_limit>
+			<output> fcs/actuators/slats/norm-output </output>
+		</actuator>
+		
+		<!-- The position of the inner slats (in degree). -->
+		<pure_gain name="fcs/actuators/slats/inner-output">
+			<input> fcs/actuators/slats/norm-output </input>
+			<gain> 17.5 </gain>
+		</pure_gain>
+
+		<!-- The position of the outer slats (in degree). -->
+		<pure_gain name="fcs/actuators/slats/outer-output">
+			<input> fcs/actuators/slats/norm-output </input>
+			<gain> 30 </gain>
+		</pure_gain>
+	</channel>
+</system>
