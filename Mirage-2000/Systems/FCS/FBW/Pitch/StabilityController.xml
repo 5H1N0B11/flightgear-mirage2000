@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Algebraic system, computing the pitch channel output "trim" needed to compensate the (in)stability of the current config.
+-->
+
+<!-- TODO: Maybe make it's output linear to drag * weight ? -->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value="1">     fcs/fbw/pitch/stability/enable </property>  <!-- Pilot available toggle. -->
+	
+	<!-- TODO: Find the correct value. -->
+	<property value="0.197"> fcs/fbw/pitch/stability/AeroRpX-to-CdX-m </property> <!-- Tuning param, until we find a proper value (Position of the center of drag for the XY aspect of the aircraft relative to aero-rp). -->
+
+	<property value="7.0">   fcs/fbw/pitch/stability/Kp </property>  <!-- Tuning param (Acting as the moment of inertia coefficient for the aircraft on it's XZ plane). -->
+	
+	<channel name="Pitch">
+		<!-- Position of the center of drag relative to the center of mass.
+			 Would be normally be computed according to loads / fuel remaining ... 
+			 But since we have CG available, we can use it directly ! -->
+		<fcs_function name="fcs/fbw/pitch/stability/center-m">
+			<function>
+				<difference>
+					<sum>
+						<product>
+							<p> metrics/aero-rp-x-in </p>
+							<p> fcs/fbw/in2m </p>
+						</product>
+						<p> fcs/fbw/pitch/stability/AeroRpX-to-CdX-m </p>
+					</sum>
+					<product>
+						<p> inertia/cg-x-in </p>
+						<p> fcs/fbw/in2m </p>
+					</product>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<!-- How much elevator output is needed to counteract the (in)stability induced torque, according to the current speed and alpha. -->
+		<fcs_function name="fcs/fbw/pitch/stability/output">
+			<function>
+				<product>
+					<!-- TODO: Eventually add a vertical stability component proportional to cos(alpha) -->
+					<p>      fcs/fbw/pitch/stability/center-m </p>  <!-- Cd offset relative to Cg (+ nose to tail) -->
+					<sin><p> fcs/fbw/pitch/alpha-rad </p></sin>          <!-- Amount of stability due to alpha -->
+					<p>      fcs/fbw/energy-coefficient </p>        <!-- Speed² proportional factor -->
+					<p>     -fcs/fbw/pitch/stability/Kp </p>        <!-- Negative to satisfy the orientation of the Z axis --> 
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/pitch/stability/active-output">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/pitch/stability/output">
+				fcs/fbw/pitch/stability/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>
