@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.2
+	
+	Actuators for the inner and outer, left and right elevons.
+-->
+
+<system name="Mirage-2000: FCS/Actuators">
+	<!-- TODO: These parameters where pulled from old FBW. They are to be classified (documented / guess). -->
+	<channel name="Elevons">
+		<!-- Whether or not there is pressure in any of the two hydraulic lines. -->
+		<switch name="fcs/actuators/elevons/hydraulics-available">
+			<default value="0"/>  <!-- No hydraulics -->
+			<test logic="OR" value="1">
+				systems/hydraulics/number1-system-available           eq 1 <!-- Main hydraulic system available. -->
+				systems/hydraulics/number2-system-available           eq 1 <!-- Main hydraulic system available. -->
+				systems/hydraulics/number2-emergency-system-available eq 1 <!-- Emergency hydraulic system available. -->
+			</test>
+		</switch>
+		
+		<!-- Position to simulate gravity affect the elevons if there is no hydraulics and the speed is too low. -->
+		<fcs_function name="fcs/actuators/elevons/droop">
+			<function>
+				<table>
+					<independentVar lookup="row"> velocities/vc-kts </independentVar>
+					<tableData>
+						62  16
+						74   0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+
+		<!-- Input for the outer left actuator simulation (taking hydraulics availability into account). -->
+		<fcs_function name="fcs/actuators/elevons/input-OL">
+			<function>
+				<ifthen>
+					<eq>
+						<p> fcs/actuators/elevons/hydraulics-available </p>
+						<value> 1 </value>
+					</eq>
+					
+					<p> fcs/dispatch/elevons/output-OL </p>
+					
+					<p> fcs/actuators/elevons/droop </p>
+				</ifthen>
+			</function>
+			<clipto>
+				<min> -25.0 </min>
+				<max>  16.0 </max>
+			</clipto>
+		</fcs_function>
+		<!-- Outer left actuator simulation. -->
+		<actuator name="fcs/actuators/elevons/a-OL">
+			<input> fcs/actuators/elevons/input-OL </input>
+			<rate_limit> 100 </rate_limit>
+			<lag> 26.7 </lag>
+			<output> fcs/actuators/elevons/output-OL </output>
+		</actuator>
+		
+		<!-- Input for the outer right actuator simulation (taking hydraulics availability into account). -->
+		<fcs_function name="fcs/actuators/elevons/input-OR">
+			<function>
+				<ifthen>
+					<eq>
+						<property> fcs/actuators/elevons/hydraulics-available </property>
+						<value> 1 </value>
+					</eq>
+					
+					<p> fcs/dispatch/elevons/output-OR </p>
+					
+					<p> fcs/actuators/elevons/droop </p>
+				</ifthen>
+			</function>
+			<clipto>
+				<min> -25.0 </min>
+				<max>  16.0 </max>
+			</clipto>
+		</fcs_function>
+		<!-- Outer right actuator simulation. -->
+		<actuator name="fcs/actuators/elevons/a-OR">
+			<input> fcs/actuators/elevons/input-OR </input>
+			<rate_limit> 100 </rate_limit>
+			<lag> 26.7 </lag>
+			<output> fcs/actuators/elevons/output-OR </output>
+		</actuator>
+		
+		<!-- Input for the inner left actuator simulation (taking hydraulics availability into account). -->
+		<fcs_function name="fcs/actuators/elevons/input-IL">
+			<function>
+				<ifthen>
+					<eq>
+						<property> fcs/actuators/elevons/hydraulics-available </property>
+						<value> 1 </value>
+					</eq>
+					
+					<p> fcs/dispatch/elevons/output-IL </p>
+					
+					<p> fcs/actuators/elevons/droop </p>
+				</ifthen>
+			</function>
+			<clipto>
+				<min> -25.0 </min>
+				<max>  16.0 </max>
+			</clipto>
+		</fcs_function>
+		<!-- Inner left actuator simulation. -->
+		<actuator name="fcs/actuators/elevons/a-IL">
+			<input> fcs/actuators/elevons/input-IL </input>
+			<rate_limit> 100 </rate_limit>
+			<lag> 26.7 </lag>
+			<output> fcs/actuators/elevons/output-IL </output>
+		</actuator>
+		
+		<!-- Input for the inner right actuator simulation (taking hydraulics availability into account). -->
+		<fcs_function name="fcs/actuators/elevons/input-IR">
+			<function>
+				<ifthen>
+					<eq>
+						<property> fcs/actuators/elevons/hydraulics-available </property>
+						<value> 1 </value>
+					</eq>
+					
+					<p> fcs/dispatch/elevons/output-IR </p>
+					
+					<p> fcs/actuators/elevons/droop </p>
+				</ifthen>
+			</function>
+			<clipto>
+				<min> -25.0 </min>
+				<max>  16.0 </max>
+			</clipto>
+		</fcs_function>
+		<!-- Inner right actuator simulation. -->
+		<actuator name="fcs/actuators/elevons/a-IR">
+			<input> fcs/actuators/elevons/input-IR </input>
+			<rate_limit> 100 </rate_limit>
+			<lag> 26.7 </lag>
+			<output> fcs/actuators/elevons/output-IR </output>
+		</actuator>
+	</channel>
+</system>
