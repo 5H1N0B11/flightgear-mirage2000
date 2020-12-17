@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.2
+	
+	Controller for the steering wheel output based on pilot command and ground speed. 
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	
+	<channel name="Steering">
+		
+		<!-- Normalized output control of the steering channel. -->
+		<!-- It is inverted because of the Z axis pointing downwards. -->
+		<!-- The authority is reduced linearly to gnd speed to limit the window of oversteering. -->
+		<fcs_function name="fcs/fbw/steering/output">
+			<function>
+				<table>
+					<independentVar lookup="row"> velocities/vtrue-kts </independentVar>
+					<independentVar lookup="column"> fcs/fbw/yaw/pilot-input/output </independentVar>
+					<tableData>
+						-1      0         1
+						 0.500  0.0  0.0  0.0  <!-- TODO: These parameters were pulled from old FBW. They are to be classified (documented / guess). -->
+						 1.000  1.0  0.0 -1.0  <!-- TODO: These parameters were pulled from old FBW. They are to be classified (documented / guess). -->
+						60.000  0.1  0.0 -0.1  <!-- Guess -->
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+	</channel>
+</system>
