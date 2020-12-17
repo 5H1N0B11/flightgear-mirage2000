@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Base components for the FBW pitch channel:
+	 - Accessor for alpha and alpha-rate.
+	 - Accessor for the kinetic pitch.
+	 - Accessor for the acceleration along the Z axis (rolled with the plane) of the kinetic referential.
+	 - Ground behavior handling.
+	 - Integration stop trigger declaration (updated by the output subsystem).
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value="1"> fcs/fbw/pitch/i-trigger </property>  <!-- Pitch channel integration blocking flag (updated by the output subsystem)-->
+	
+	<channel name="Pitch">
+		<!-- If we are on the ground, we will pretend that we have 0 alpha -->
+		<switch name="fcs/fbw/pitch/alpha-deg">
+			<default value="aero/alpha-deg"/>
+			<test value="0">
+				fcs/fbw/wow ne 0
+			</test>
+		</switch >
+
+		<!-- If we are on the ground, we will pretend that we have 0 alpha -->
+		<switch name="fcs/fbw/pitch/alpha-rad">
+			<default value="aero/alpha-rad"/>
+			<test value="0">
+				fcs/fbw/wow ne 0
+			</test>
+		</switch>
+
+		<!-- Simply keeps track of the change of alpha over time (direct derivative). -->
+		<pid name="fcs/fbw/pitch/d-alpha-controller">
+			<input>aero/alpha-rad</input>
+			<kp> 0.0 </kp>
+			<ki> 0.0 </ki>
+			<kd> 1.0 </kd>
+			<clipto>
+				<min> -999999 </min>
+				<max>  999999 </max>
+			</clipto>
+			<output> fcs/fbw/pitch/d-alpha-raw </output>
+		</pid>
+		
+		<!-- If we are on the ground, we will pretend that our d-alpha is out rotation-rate around the aircraft's Y axis. -->
+		<switch name="fcs/fbw/pitch/d-alpha">
+			<default value="fcs/fbw/pitch/d-alpha-raw"/>
+			<test value="velocities/q-rad_sec">
+				fcs/fbw/wow ne 0
+			</test>
+		</switch>
+
+		<!-- The elevation (pitch) of our velocity vector. -->
+		<fcs_function name="fcs/fbw/pitch/kinetic-pitch-rad">
+			<function>
+				<sum>
+					<p> attitude/pitch-rad </p>
+
+					<product>
+						<cos><p> attitude/roll-rad </p></cos>
+						<p> -aero/alpha-rad </p>
+					</product>
+
+					<product>
+						<sin><p> attitude/roll-rad </p></sin>
+						<p> -aero/beta-rad </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- The acceleration (g's) along the Z axis of the kinetic referential rolled with the plane. -->
+		<fcs_function name="fcs/fbw/pitch/kinetic-gZ">
+			<function>
+				<sum>
+					<product>
+						<p> aero/cos-alpha </p>
+						<p> accelerations/Nz </p>
+					</product>
+					<product>
+						<p> aero/sin-alpha </p>
+						<p> accelerations/Nx </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+	</channel>
+</system>
