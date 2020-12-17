@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Aggregation of all the active controllers of the yaw channel.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value=" 1.0"> fcs/fbw/yaw/max-authority </property>  <!-- Tuning param (Maximum absolute yaw channel authority). -->
+	
+	<channel name="Yaw">
+		<!-- 1/cos(alpha) gain to account to the loss of the tail authority due to alpha. -->
+		<fcs_function name="fcs/fbw/yaw/authority-factor">
+			<function>
+				<quotient>
+					<value> 1 </value>
+					
+					<table>
+						<independentVar lookup="row">aero/cos-alpha</independentVar>
+						<tableData>
+							-1.0  1.0
+							 0.0  0.01
+							 1.0  1.0
+						</tableData>
+					</table>
+				</quotient>
+			</function>
+			<clipto>
+				<min> -fcs/fbw/yaw/max-authority </min>
+				<max>  fcs/fbw/yaw/max-authority </max>
+			</clipto>
+		</fcs_function>
+		
+		<!-- The FBW yaw channel output. -->
+		<fcs_function name="fcs/fbw/yaw/output">
+			<function>
+				<ifthen>
+					<and>
+						<eq>
+							<p> fcs/fbw/enable </p>
+							<value> 1 </value>
+						</eq>
+						<gt>
+							<p> /systems/electrical/volts </p> gt 0  <!-- Power on the main bus. -->
+							<value> 0 </value>
+						</gt>
+					</and>
+					
+					<sum>
+						<p> fcs/fbw/yaw/beta-rate/active-output </p>        <!-- The active control -->
+						<p> fcs/fbw/yaw/alpha-to-beta/active-output </p>        <!-- The damping control -->
+						<p> fcs/fbw/yaw/damping/active-output </p>        <!-- The damping control -->
+						<p> fcs/fbw/yaw/stability/active-output </p>      <!-- The control to compensate for the moment induced by (in)stability -->
+					</sum>
+
+					<p> fcs/fbw/yaw/pilot-input/output </p>  <!-- Direct pilot input. -->
+				</ifthen>
+			</function>
+			<clipto>
+				<min> -1 </min>
+				<max>  1 </max>
+			</clipto>
+		</fcs_function>
+
+		<!-- Maximum output value over which the integration stop will trigger. -->
+		<fcs_function name="fcs/fbw/yaw/max-i">
+			<function>
+				<difference>
+					<p> fcs/fbw/yaw/max-authority </p>
+					<value> 0.001 </value>
+				</difference>
+			</function>
+		</fcs_function>
+
+		<!-- Manage the roll channel integration stop trigger. -->
+		<switch name="fcs/fbw/yaw/i-trigger">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fcs/fbw/i-trigger ne 0
+
+				fcs/fbw/yaw/output le -fcs/fbw/yaw/max-i
+				fcs/fbw/yaw/output ge  fcs/fbw/yaw/max-i
+			</test>
+		</switch>
+	</channel>
+</system>
