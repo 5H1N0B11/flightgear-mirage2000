@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.2
+	
+	System to dispatch normalized yaw commands to the rudder actuators. 
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<!-- TODO: The coefficients and maps threshold were pulled from the old FBW. They are to be classified (documented / guess). -->
+	<property value= "0.0"> fcs/fbw/slats/active </property>  <!-- Declaration & initialization of the value for later use. -->
+	
+	<channel name="Slats">
+		<!-- Maximum mach speed for full slats extension, depending on the altitude. -->
+		<fcs_function name="fcs/fbw/slats/fully-extended-max-mn">
+			<function>
+				<table>
+					<independentVar lookup="row">position/h-sl-ft</independentVar>
+					<tableData>
+						0  0.5105
+						28500  0.8516
+						35000  0.8595
+						40000  0.8643
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<!-- Maximum mach speed for partial slats extension, depending on the altitude. -->
+		<fcs_function name="fcs/fbw/slats/partially-extended-max-mn">
+			<function>
+				<table>
+					<independentVar lookup="row">position/h-sl-ft</independentVar>
+					<tableData>
+						0  0.5806
+						28500  0.8654
+						35000  0.8702
+						40000  0.8765
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<!-- Min AOA for slats extension, depending on the mach speed. -->
+		<fcs_function name="fcs/fbw/slats/extension-aoa">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<tableData>
+						0.3800  9.32
+						0.4000  9.16
+						0.4500  9.16
+						0.5000  9.09
+						0.5500  9.05
+						0.6100  9.01
+						0.6600  8.95
+						0.7100  8.89
+						0.7600  8.83
+						0.8100  8.81
+						0.8700  8.78
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+
+		<!-- Min AOA for slats retraction, depending on the mach speed. -->
+		<fcs_function name="fcs/fbw/slats/retraction-aoa">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/mach</independentVar>
+					<tableData>
+						0.3800  6.16
+						0.4000  6.00
+						0.4500  6.00
+						0.5000  5.93
+						0.5500  5.88
+						0.6100  5.85
+						0.6600  5.78
+						0.7100  5.73
+						0.7600  5.67
+						0.8100  5.64
+						0.8700  5.62
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+
+		<!-- How much the slats should be extended according to current alpha and mach speed. -->
+		<fcs_function name="fcs/fbw/slats/extension-calc">
+			<function>
+				<table>
+					<independentVar lookup="row">aero/alpha-deg</independentVar>
+					<independentVar lookup="column">velocities/mach</independentVar>
+					<tableData>
+						0      0.45   0.5    0.8    0.9    1
+						0  0.000  0.000  0.000  0.000  0.000  0.000
+						8  0.000  0.000  0.178  0.178  0.000  0.000
+						10  0.245  0.245  0.315  0.315  0.000  0.000
+						20  1.000  1.000  1.000  1.000  0.000  0.000
+						25  1.000  1.000  1.000  1.000  0.000  0.000
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<!-- Whether the slats should be active or not. -->
+		<switch name="fcs/fbw/slats/active">
+			<default value="fcs/fbw/slats/active"/>
+			<test logic="OR" value="0">
+				aero/alpha-deg lt fcs/fbw/slats/retraction-aoa
+				velocities/mach gt fcs/fbw/slats/partially-extended-max-mn
+				gear/gear-cmd-norm ne 0
+			</test>
+			<test logic="AND" value="1">
+				aero/alpha-deg gt fcs/fbw/slats/extension-aoa
+				velocities/mach le fcs/fbw/slats/fully-extended-max-mn
+				gear/gear-cmd-norm eq 0
+			</test>
+		</switch>
+		
+		<!-- Normalized output control of the slats channel. -->
+		<switch name="fcs/fbw/slats/output">
+			<default value="fcs/fbw/slats/extension-calc"/>
+			<test logic="OR" value="/controls/flight/flaps">
+				gear/gear-cmd-norm ne 0
+				fcs/fbw/enable ne 1
+				/controls/flight/flaps gt 0
+				fcs/fbw/slats/active le 0
+			</test>
+		</switch>
+	</channel>
+</system>
