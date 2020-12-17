@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Algebraic system with a low-pass filter, computing a alpha-rate error from the pilot demand.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value=  "1.57080">  fcs/fbw/roll/theta-rate/ls-max </property>  <!-- Tuning param (what the FDM allows us). -->
+	<property value=  "4.71239">  fcs/fbw/roll/theta-rate/hs-max </property>  <!-- Mirage's documentation. -->
+	
+	<property value= "120.0">  fcs/fbw/roll/theta-rate/ls </property>  <!-- Tuning param (lowest point of the map).  -->
+	<property value= "300.0">  fcs/fbw/roll/theta-rate/hs </property>  <!-- Tuning param (the point speed over which the airframe allows full control up to max roll-rate with 0 alpha). -->
+	
+	<property value=  "4.0">  fcs/fbw/roll/theta-rate/rate-Klag </property>   <!-- Tuning param (lag coefficient for the theta-rate-error) -->
+	
+	<channel name="Roll">
+		
+		<!-- Linear interpolation coefficient between low speed config and standard config. -->
+		<fcs_function name="fcs/fbw/roll/theta-rate/li-ls-hs">
+			<function>
+				<ifthen>
+					<le>
+						<property> velocities/vc-kts </property>
+						<p> fcs/fbw/roll/theta-rate/ls </p>
+					</le>
+
+					<value>0</value>
+
+					<ifthen>
+						<ge>
+							<property> velocities/vc-kts </property>
+							<p> fcs/fbw/roll/theta-rate/hs </p>
+						</ge>
+
+						<value> 1 </value>
+
+						<quotient>
+							<difference>
+								<p> velocities/vc-kts </p>
+								<p> fcs/fbw/roll/theta-rate/ls </p>
+							</difference>
+							<difference>
+								<p> fcs/fbw/roll/theta-rate/hs </p>
+								<p> fcs/fbw/roll/theta-rate/ls </p>
+							</difference>
+						</quotient>
+					</ifthen>
+
+				</ifthen>
+			</function>
+		</fcs_function>
+
+		<!-- Absolute theta-rate boundary for the control according to the speed. -->
+		<fcs_function name="fcs/fbw/roll/theta-rate/max">
+			<function>
+				<sum>
+					<product>
+						<p> fcs/fbw/roll/theta-rate/hs-max </p>
+						<p> fcs/fbw/roll/theta-rate/li-ls-hs </p>
+					</product>
+
+					<product>
+						<p> fcs/fbw/roll/theta-rate/ls-max</p>
+						<difference>
+							<value> 1 </value>
+							<p> fcs/fbw/roll/theta-rate/li-ls-hs </p>
+						</difference>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- The theta-rate demanded by the pilot. -->
+		<fcs_function name="fcs/fbw/roll/theta-rate/demand">
+			<function>
+				<product>
+					<p> fcs/fbw/roll/pilot-input/output </p>
+					<p> fcs/fbw/roll/theta-rate/max </p>
+				</product>
+			</function>
+			<clipto>
+				<min> -fcs/fbw/roll/theta-rate/max </min>
+				<max>  fcs/fbw/roll/theta-rate/max </max>
+			</clipto>
+		</fcs_function>
+
+		<!-- Error = theta-rate_demand - theta-rate_current. -->
+		<fcs_function name="fcs/fbw/roll/theta-rate/raw-error">
+			<function>
+				<difference>
+					<p> fcs/fbw/roll/theta-rate/demand </p>
+					<p> velocities/p-rad_sec </p>
+				</difference>
+			</function>
+		</fcs_function>
+
+		<!-- TODO: See if we can remove the theta-rate-error lag filter and use the theta-rate-controller input lag filter instead. -->
+		<!-- Lag filter for the theta-rate_error. -->
+		<lag_filter name="fcs/fbw/roll/theta-rate/error">
+			<input> fcs/fbw/roll/theta-rate/raw-error </input>
+			<c1> fcs/fbw/roll/theta-rate/rate-Klag </c1>
+		</lag_filter>
+	</channel>
+</system>
