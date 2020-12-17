@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.2
+	
+	Actuators for the spoilers.
+-->
+
+<system name="Mirage-2000: FCS/Actuators">	
+	<channel name="Spoilers">
+		<!-- TODO: Actuator parameters were pulled from old FBW. They are to be classified (documented / guess). -->
+		<!-- Input for the spoilers actuator simulation (taking hydraulics availability into account). -->
+		<switch name="fcs/actuators/spoilers/input-norm">
+			<default value="0"/>
+			<test logic="OR" value="fcs/dispatch/spoilers/output-norm">
+				systems/hydraulics/number1-system-available eq 1
+			</test>
+		</switch>
+		
+		<!-- Spoilers actuator simulation. -->
+		<kinematic name="fcs/actuators/spoilers/output-norm">
+			<input> fcs/actuators/spoilers/input-norm </input>
+			<traverse>
+				<setting>
+					<position> 0 </position>
+					<time> 0.0 </time>
+				</setting>
+				<setting>
+					<position> 1 </position>
+					<time> 1.0 </time>
+				</setting>
+			</traverse>
+		</kinematic>
+
+		<!-- Actuation angle of the upper spoilers (in degree). -->
+		<pure_gain name="fcs/actuators/spoilers/upper-output">
+			<input> fcs/actuators/spoilers/output-norm </input>
+			<gain> 55.0 </gain>
+		</pure_gain>
+
+		<!-- Actuation angle of the lower spoilers (in degree). -->
+		<pure_gain name="fcs/actuators/spoilers/lower-output">
+			<input> fcs/actuators/spoilers/output-norm </input>
+			<gain> 68.0 </gain>
+		</pure_gain>
+	</channel>
+</system>
