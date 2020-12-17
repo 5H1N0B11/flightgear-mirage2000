@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.2
+	
+	System to dispatch both direct pilot commands and the normalized FBW steering channel 
+	to the appropriate actuators on the landing gear. 
+-->
+
+<system name="Mirage-2000: FCS/Dispatch">	
+	<channel name="Gear">
+		<!-- The direct pilot demand for gear position -->
+		<pure_gain name="fcs/dispatch/gear/pos-output">
+			<input> gear/gear-cmd-norm </input>
+			<gain> 1 </gain>
+			<clipto>
+				<min> 0 </min>
+				<max> 1 </max>
+			</clipto>
+		</pure_gain>
+
+		<!-- The steering wheel demand in (degrees) -->
+		<pure_gain name="fcs/dispatch/gear/steering-output">
+			<input> fcs/fbw/steering/output </input>
+			<gain> 45.0 </gain>
+			<clipto>
+				<min> -45.0</min>
+				<max>  45.0</max>
+			</clipto>
+		</pure_gain>
+
+		<!-- The left brake pilot demand -->
+		<pure_gain name="fcs/dispatch/gear/brake-l-output">
+			<input> /controls/gear/brake-left </input>
+			<gain> 1 </gain>
+			<clipto>
+				<min> 0 </min>
+				<max> 1 </max>
+			</clipto>
+		</pure_gain>
+
+		<!-- The right brake pilot demand -->
+		<pure_gain name="fcs/dispatch/gear/brake-r-output">
+			<input> /controls/gear/brake-right </input>
+			<gain> 1 </gain>
+			<clipto>
+				<min> 0 </min>
+				<max> 1 </max>
+			</clipto>
+		</pure_gain>
+
+		<!-- The park brake pilot demand -->
+		<pure_gain name="fcs/dispatch/gear/brake-p-output">
+			<input> /controls/gear/brake-parking </input>
+			<gain> 1 </gain>
+			<clipto>
+				<min> 0 </min>
+				<max> 1 </max>
+			</clipto>
+		</pure_gain>
+	</channel>
+</system>
