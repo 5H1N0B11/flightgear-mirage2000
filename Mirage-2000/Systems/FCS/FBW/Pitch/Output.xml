@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Aggregation of all the active controllers of the pitch channel.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value=" 1.0">   fcs/fbw/pitch/max-authority </property> <!-- Tuning param (Maximum positive pitch channel authority). -->
+	<property value="-0.64"> fcs/fbw/pitch/min-authority </property>  <!-- Tuning param (Minimum positive pitch channel authority, matching the normalized max output for the actuators). -->
+	
+	<channel name="Pitch">
+		<!-- The FBW pitch channel output: sum of all the controllers if the FBW is enabled, direct pilot input otherwise. -->
+		<fcs_function name="fcs/fbw/pitch/output">
+			<function>
+				<ifthen>
+					<and>
+						<eq>
+							<p> fcs/fbw/enable </p>
+							<value> 1 </value>
+						</eq>
+						<gt>
+							<p> /systems/electrical/volts </p> gt 0  <!-- Power on the main bus. -->
+							<value> 0 </value>
+						</gt>
+					</and>
+
+					<sum>
+						<p> fcs/fbw/pitch/alpha-rate/active-output </p>     <!-- The active control. -->
+						<p> fcs/fbw/pitch/damping/active-output </p>        <!-- The damping control. -->
+						<p> fcs/fbw/pitch/stability/active-output </p>      <!-- The control to compensate for the moment induced by (in)stability. -->
+						<p> fcs/fbw/pitch/neutral-moment/active-output </p> <!-- The control to compensate for the neutral moment of the airframe. -->
+					</sum>
+					
+					<p> -fcs/fbw/pitch/pilot-input/output </p>  <!-- Direct pilot input (inverted because Z points downward). -->
+				</ifthen>
+			</function>
+			<clipto>
+				<min> -1 </min>
+				<max>  1 </max>
+			</clipto>
+		</fcs_function>
+		
+		<!-- Minimum output value under which the integration stop will trigger. -->
+		<fcs_function name="fcs/fbw/pitch/min-i">
+			<function>
+				<sum>
+					<p> fcs/fbw/pitch/min-authority </p>
+					<value> 0.001 </value>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- Maximum output value over which the integration stop will trigger. -->
+		<fcs_function name="fcs/fbw/pitch/max-i">
+			<function>
+				<difference>
+					<p> fcs/fbw/pitch/max-authority </p>
+					<value> 0.001 </value>
+				</difference>
+			</function>
+		</fcs_function>
+
+		<!-- Manage the pitch channel integration stop trigger. -->
+		<switch name="fcs/fbw/pitch/i-trigger">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fcs/fbw/i-trigger ne 0
+
+				fcs/fbw/pitch/output le fcs/fbw/pitch/min-i
+				fcs/fbw/pitch/output ge fcs/fbw/pitch/max-i
+			</test>
+		</switch>
+	</channel>
+</system>
