@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.0
+	
+	Base components for the FBW:
+		- Weight On (any) Wheel flag.
+		- Base integration stop trigger, acting as an interface with other systems (WOW sensors, electric/hydraulic system, FBW enabling switch).
+		- Calculates a coefficient linear to  1-normspeed², used by controllers to account for speed-induced authority. 
+-->
+
+<system name="Mirage-2000: FCS/FBW/Base">
+	<property value="1">           fcs/fbw/enable </property>
+	<property value="0.0254">      fcs/fbw/in2m   </property>
+	<property value="0.453592374"> fcs/fbw/lbs2kg </property>
+	
+	<channel name="FBW/Base">
+		<!-- Whether there is weight on any wheel. -->
+		<switch name="fcs/fbw/wow">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				gear/unit[0]/WOW eq 1
+				gear/unit[1]/WOW eq 1
+				gear/unit[2]/WOW eq 1
+			</test>
+		</switch>
+
+		<!-- Integration stop trigger for the whole FBW system. -->
+		<switch name="fcs/fbw/i-trigger">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fcs/fbw/wow ne 0
+				fcs/fbw/enable ne 1
+				
+				/systems/electrical/volts gt 0  <!-- Power on the main bus. -->
+				
+				systems/hydraulics/number1-system-available           eq 1 <!-- Main hydraulic system available. -->
+				systems/hydraulics/number2-system-available           eq 1 <!-- Main hydraulic system available. -->
+				systems/hydraulics/number2-emergency-system-available eq 1 <!-- Emergency hydraulic system available. -->
+			</test>
+		</switch>
+
+		<!-- Coefficient linear to  1-normspeed², used by controllers to account for speed-induced authority. -->
+		<fcs_function name="fcs/fbw/energy-coefficient">
+			<function>
+				<difference>
+					<value> 1 </value>
+					<pow>
+						<table>
+							<independentVar lookup="row"> velocities/vc-kts </independentVar>
+							<tableData>
+								0    0.0
+								950  0.94868329805
+							</tableData>
+						</table>
+						<value> 2 </value>
+					</pow>
+				</difference>
+			</function>
+		</fcs_function>
+	</channel>
+</system>
