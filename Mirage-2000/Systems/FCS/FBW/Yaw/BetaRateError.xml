@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Algebraic system with a low-pass filter, computing a beta-rate error from the pilot input.
+	Three step process, involving: computing an error in beta, then a demand in beta-rate, then the associated error (compared to the current state).
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<!-- TODO Find what's the max beta angle allowed during yaw. -->
+	<property value= "10.0">  fcs/fbw/yaw/beta-rate/max-beta-deg </property>  <!-- Guess -->
+	
+	<property value=  "0.12"> fcs/fbw/yaw/beta-rate/rate-Kp </property>  <!-- Tuning param (Gain for the conversion beta-error => beta-rate_demand). -->
+	
+	<property value= "200.0">  fcs/fbw/yaw/beta-rate/beta-Klag </property>  <!-- Tuning param (constant lag coefficient for the beta-error). -->
+
+	<channel name="Yaw">	
+		
+		<!-- Compute the error in the current beta compared to the pilot's demand. -->
+		<fcs_function name="fcs/fbw/yaw/beta-rate/beta-error">
+			<function>
+				<difference>
+					<product>
+						<p> fcs/fbw/yaw/pilot-input/output </p>             
+						<p> fcs/fbw/yaw/beta-rate/max-beta-deg </p> 
+					</product>
+					
+					<p> fcs/fbw/yaw/beta-deg </p> <!-- Tunable proportional coefficient -->
+				</difference>
+			</function>
+			<clipto>
+				<min> -fcs/fbw/yaw/beta-rate/max-beta-deg </min>
+				<max>  fcs/fbw/yaw/beta-rate/max-beta-deg </max>
+			</clipto>
+		</fcs_function>
+
+		<!-- Beta-error = beta_demand - beta_current. -->
+		<lag_filter name="fcs/fbw/yaw/beta-rate/beta-error-lag">
+			<input> fcs/fbw/yaw/beta-rate/beta-error </input>
+			<c1> fcs/fbw/yaw/beta-rate/beta-Klag </c1>
+		</lag_filter>
+
+		<!-- Convert the error in beta to a beta-rate demand. -->
+		<fcs_function name="fcs/fbw/yaw/beta-rate/demand">
+			<function>
+				<product>
+					<p> fcs/fbw/yaw/beta-rate/beta-error-lag </p>  <!-- The error in beta  -->
+					<p> fcs/fbw/yaw/beta-rate/rate-Kp </p>         <!-- Tunable proportional coefficient -->
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Error = beta-rate_demand - beta-rate_current. -->
+		<summer name="fcs/fbw/yaw/beta-rate/error">
+			<input> -fcs/fbw/yaw/beta-rate/demand </input>
+			<input>  fcs/fbw/yaw/d-beta </input>
+		</summer>
+	</channel>
+</system>
