@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Back-end interface for the pilot to edit the curve, deadzone, and lag coefficient of it's stick stick's pitch channel.
+	Also provides some degree of tuning through the maximum allowed value of the lag coefficient.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value= "0.05"> fcs/fbw/pitch/pilot-input/dead-zone </property>     <!-- Pilot available parameter. -->
+	<property value= "2.0">  fcs/fbw/pitch/pilot-input/geom-curve </property>    <!-- Pilot available parameter. -->
+	<property value= "0.8">  fcs/fbw/pitch/pilot-input/reactiveness </property>  <!-- Pilot available parameter. -->
+
+	<property value= "0.0">  fcs/fbw/pitch/pilot-input/trim </property>  <!-- FBW input trim (doesn't make much sense and don't exist in the real mirage). -->
+
+	<property value= "10.0"> fcs/fbw/pitch/pilot-input/min-lag </property>  <!-- Tuning param (input lag filter coefficient at minimum reactiveness). -->
+	<property value= "0.5">  fcs/fbw/pitch/pilot-input/max-lag </property>  <!-- Tuning param (input lag filter coefficient at maximum reactiveness). -->
+	
+	<channel name="Pitch">
+		<!-- Input lag filter coefficient at current reactiveness. -->
+		<fcs_function name="fcs/fbw/pitch/pilot-input/Klag">
+			<function>
+				<sum>
+					<product>
+						<p> fcs/fbw/pitch/pilot-input/min-lag </p>
+						<p> fcs/fbw/pitch/pilot-input/reactiveness </p>
+					</product>
+					<product>
+						<p> fcs/fbw/pitch/pilot-input/max-lag </p>
+						<difference>
+							<value> 1 </value>
+							<p> fcs/fbw/pitch/pilot-input/reactiveness </p>
+						</difference>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- Normalized & inverted (because Z points downwards) raw pilot input. -->
+		<fcs_function name="fcs/fbw/pitch/pilot-input/norm-input">
+			<function>
+				<table>
+					<independentVar lookup="row">/controls/flight/elevator</independentVar>
+					<tableData>
+						-1.00  1.0
+						 1.00 -1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+
+		<!-- Direction of the input (1 | -1). -->
+		<fcs_function name="fcs/fbw/pitch/pilot-input/input-dir">
+			<function>
+				<ifthen>
+					<eq>
+						<p> fcs/fbw/pitch/pilot-input/norm-input </p>
+						<value> 0 </value>
+					</eq>
+					
+					<value> 1 </value>
+
+					<quotient>
+						     <p> fcs/fbw/pitch/pilot-input/norm-input </p>
+						<abs><p> fcs/fbw/pitch/pilot-input/norm-input </p></abs>
+					</quotient>
+				</ifthen>
+				
+			</function>
+		</fcs_function>
+		
+		<!-- Input with the deadzone removed. -->
+		<fcs_function name="fcs/fbw/pitch/pilot-input/dz-input">
+			<function>
+				<ifthen>
+					<eq>
+						<p> fcs/fbw/pitch/pilot-input/dead-zone </p>
+						<value> 0 </value>
+					</eq>
+					
+					<!-- No deadzone -->
+					<p> fcs/fbw/pitch/pilot-input/norm-input </p>
+
+					<ifthen>
+						<gt>
+							<abs><p> fcs/fbw/pitch/pilot-input/norm-input </p></abs>
+							     <p> fcs/fbw/pitch/pilot-input/dead-zone </p>
+						</gt>
+
+						<product>
+							<!-- sign factor -->
+							<p> fcs/fbw/pitch/pilot-input/input-dir </p>
+
+							<!-- Abs normalized pos with deadzone removed -->
+							<product>
+								<!-- The joystick abs deadzone-less raw pos -->
+								<difference>
+									<abs><p> fcs/fbw/pitch/pilot-input/norm-input </p></abs>
+									     <p> fcs/fbw/pitch/pilot-input/dead-zone </p>
+								</difference>
+
+								<!-- The inverse of the new resolution (after application of deadzone) -->
+								<quotient>
+									<value> 1 </value>
+									<difference>
+										<value> 1 </value>
+										<p> fcs/fbw/pitch/pilot-input/dead-zone </p>
+									</difference>
+								</quotient>
+							</product>
+						</product>
+
+						<value>0</value>
+					</ifthen>
+				</ifthen>
+			</function>
+		</fcs_function>
+
+		<!-- Input with the geometric map applied. -->
+		<fcs_function name="fcs/fbw/pitch/pilot-input/curved-input">
+			<function>
+				<product>
+					<p> fcs/fbw/pitch/pilot-input/input-dir </p>
+					<pow>
+						<abs><p> fcs/fbw/pitch/pilot-input/dz-input </p></abs>
+						     <p> fcs/fbw/pitch/pilot-input/geom-curve </p>
+					</pow>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- TODO: Find out whether the lag filter should be applied before or after the geometric curve. -->
+		<!-- Lag filter for the input. -->
+		<lag_filter name="fcs/fbw/pitch/pilot-input/curved-input-lag">
+			<input> fcs/fbw/pitch/pilot-input/curved-input </input>
+			<c1> fcs/fbw/pitch/pilot-input/Klag </c1>
+		</lag_filter>
+		
+		<!-- Add trim and clip. -->
+		<summer name="fcs/fbw/pitch/pilot-input/output">
+			<input> fcs/fbw/pitch/pilot-input/curved-input-lag </input>
+			<input> fcs/fbw/pitch/pilot-input/trim </input>
+			<clipto>
+				<min>-1.0</min>
+				<max> 1.0</max>
+			</clipto>
+		</summer>
+	</channel>
+</system>
