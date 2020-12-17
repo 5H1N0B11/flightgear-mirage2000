@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Driver compensating for the theta-rate error. 
+	Will provide the output needed to respond to the active control demanded by the pilot.
+	Will also integrate the feedback provided by the over-roll limiter to it's input to avoid exceeding config parameters. 
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value= "1">   fcs/fbw/roll/theta-rate/enable </property>  <!-- Pilot available toggle. -->
+	
+	<property value= "0.7">  fcs/fbw/roll/theta-rate/input-gain </property>     <!-- Tuning param (gain for the controller input). -->
+	<property value= "200.0">  fcs/fbw/roll/theta-rate/input-lag-c </property>  <!-- Tuning param (constant lag coefficient for the controller input). -->
+	<property value= "0.0">  fcs/fbw/roll/theta-rate/input-lag-p </property>    <!-- Tuning param (speed² proportional lag coefficient for the controller input). -->
+	
+	<property value= "0.8">  fcs/fbw/roll/theta-rate/Kp </property>  <!-- Tuning param (proportional coefficient for the controller). -->
+	<property value= "1.5">  fcs/fbw/roll/theta-rate/Ki </property>  <!-- Tuning param (integration coefficient for the controller). -->
+	<property value= "0.05"> fcs/fbw/roll/theta-rate/Kd </property>  <!-- Tuning param (derivative coefficient for the controller). -->
+	
+	<channel name="Roll">
+		<!-- Make Kp linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/roll/theta-rate/Kpe">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/roll/theta-rate/Kp </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Make Ki linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/roll/theta-rate/Kie">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/roll/theta-rate/Ki </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Make Kd linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/roll/theta-rate/Kde">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/roll/theta-rate/Kd </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Over-roll limiter interference & input-gain application -->
+		<fcs_function name="fcs/fbw/roll/theta-rate/input">
+			<function>
+				<product>
+					<sum>
+						<p> fcs/fbw/roll/theta-rate/error </p>
+						<p> fcs/fbw/roll/over-roll/active-feedback </p>
+					</sum>
+					
+					<p> fcs/fbw/roll/theta-rate/input-gain </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Compute the lag coefficient (Kc + Kp/(1-normspeed²) -->
+		<!-- The faster we go, the less lag we need because of authority, which grows with IAS² and makes the system more reactive. -->
+		<fcs_function name="fcs/fbw/roll/theta-rate/input-lag-k">
+			<function>
+				<sum>
+					<quotient>
+						<p> fcs/fbw/roll/theta-rate/input-lag-p </p>
+						<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					</quotient>
+					<p> fcs/fbw/roll/theta-rate/input-lag-c </p>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- Lag filter for the controller input. -->
+		<lag_filter name="fcs/fbw/roll/theta-rate/input-lag">
+			<input> fcs/fbw/roll/theta-rate/input </input>
+			<c1> fcs/fbw/roll/theta-rate/input-lag-k </c1>
+		</lag_filter>
+		
+		<!-- Controller integration blocking flag. -->
+		<switch name="fcs/fbw/roll/theta-rate/i-trigger">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fcs/fbw/roll/i-trigger ne 0
+				fcs/fbw/roll/theta-rate/enable ne 1
+
+				fcs/fbw/roll/theta-rate/output le -0.999
+				fcs/fbw/roll/theta-rate/output ge  0.999
+			</test>
+		</switch>
+		
+		<!-- PID controller acting as the main driver for the roll channel. -->
+		<pid name="fcs/fbw/roll/theta-rate/controller">
+			<input>fcs/fbw/roll/theta-rate/input-lag</input>
+			
+			<kp> fcs/fbw/roll/theta-rate/Kpe </kp>
+			<ki> fcs/fbw/roll/theta-rate/Kie </ki>
+			<kd> fcs/fbw/roll/theta-rate/Kde </kd>
+
+			<trigger> fcs/fbw/roll/theta-rate/i-trigger </trigger>
+			
+			<clipto>
+				<min> -1 </min>
+				<max>  1 </max>
+			</clipto>
+			
+			<output> fcs/fbw/roll/theta-rate/output </output>
+		</pid>
+		
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/roll/theta-rate/active-output">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/roll/theta-rate/output">
+				fcs/fbw/roll/theta-rate/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>
