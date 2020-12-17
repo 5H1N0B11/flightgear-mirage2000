@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Algebraic system with a washout filter, provide direct yaw channel output to react to roll-rate accelerations & decelerations.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value= "1">    fcs/fbw/yaw/alpha-to-beta/enable </property>  <!-- Pilot available toggle. -->
+
+	<property value= "5.0">  fcs/fbw/yaw/alpha-to-beta/input-gain </property>  <!-- Tuning param (gain for the controller input). -->
+	<property value= "3.0">  fcs/fbw/yaw/alpha-to-beta/washout-c </property>   <!-- Tuning param (constant washout coefficient for the controller input). -->
+	<property value= "4.0">  fcs/fbw/yaw/alpha-to-beta/washout-p </property>   <!-- Tuning param (speed² proportional washout coefficient for the controller input). -->
+	
+	<property value= "1.0">  fcs/fbw/yaw/alpha-to-beta/max-authority </property>  <!-- Tuning param (absolute maximum output of the controller). -->
+
+	<channel name="Yaw">
+
+		<!-- Compute the washout coefficient (Kc + Kp/(1-normspeed²). -->
+		<!-- The faster we go, the less lag we need because of authority, which grows with IAS² and makes the system more reactive. -->
+		<fcs_function name="fcs/fbw/yaw/alpha-to-beta/washout">
+			<function>
+				<sum>
+					<quotient>
+						<p> fcs/fbw/yaw/alpha-to-beta/washout-p </p>
+						<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					</quotient>
+					<p> fcs/fbw/yaw/alpha-to-beta/washout-c </p>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- Sin(alpha): only if alpha > 0; otherwise 0. -->
+		<fcs_function name="fcs/fbw/yaw/alpha-to-beta/base-coefficient">
+			<function>
+				<ifthen>
+					<ge>
+						<property> aero/sin-alpha </property>
+						<value> 0 </value>
+					</ge>
+					<abs><p> aero/sin-alpha </p></abs>
+
+					<value> 0 </value>
+				</ifthen>
+			</function>
+		</fcs_function>
+
+		<!-- Compute the input (required rotation rate around the Z axis) and apply the input gain. -->
+		<fcs_function name="fcs/fbw/yaw/alpha-to-beta/input">
+			<function>
+				<product>
+					<p> fcs/fbw/yaw/alpha-to-beta/base-coefficient </p>
+					<p> velocities/p-rad_sec </p>
+					<p> fcs/fbw/yaw/alpha-to-beta/input-gain </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Washout controller to react to roll-rate accelerations & decelerations. -->
+		<washout_filter name="fcs/fbw/yaw/alpha-to-beta/raw-output">
+			<input> fcs/fbw/yaw/alpha-to-beta/input </input>
+			<c1> fcs/fbw/yaw/alpha-to-beta/washout </c1>
+			<clipto>
+				<min> -1 </min>
+				<max>  1 </max>
+			</clipto>
+		</washout_filter>
+
+		<!-- Make the output linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/yaw/alpha-to-beta/output">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p>
+					<p> fcs/fbw/yaw/alpha-to-beta/raw-output </p>
+				</product>
+			</function>
+
+			<clipto>
+				<min> -fcs/fbw/yaw/alpha-to-beta/max-authority </min>
+				<max>  fcs/fbw/yaw/alpha-to-beta/max-authority </max>
+			</clipto>
+		</fcs_function>
+		
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/yaw/alpha-to-beta/active-output">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/yaw/alpha-to-beta/output">
+				fcs/fbw/yaw/alpha-to-beta/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>
