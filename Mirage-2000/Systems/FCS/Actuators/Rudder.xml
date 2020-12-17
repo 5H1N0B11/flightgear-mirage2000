@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.0
+	
+	Actuator for the rudder.
+-->
+
+<system name="Mirage-2000: FCS/Actuators">
+	<channel name="Rudder">
+		<!-- Input for the rudder actuator simulation (taking hydraulics availability into account). -->
+		<switch name="fcs/actuators/rudder/input">
+			<default value="0"/>  <!-- Standard pilot input.. -->
+			<test logic="OR" value="fcs/dispatch/rudder/output">
+				systems/hydraulics/number1-system-available           eq 1 <!-- Main hydraulic system available. -->
+				systems/hydraulics/number2-system-available           eq 1 <!-- Main hydraulic system available. -->
+				systems/hydraulics/number2-emergency-system-available eq 1 <!-- Emergency hydraulic system available. -->
+			</test>
+		</switch>
+		
+		<!-- TODO: Actuator parameters were pulled from old FBW. They are to be classified (documented / guess). -->
+		<!-- Rudder actuator simulation. -->
+		<actuator name="fcs/actuators/rudder/a">
+			<input> fcs/actuators/rudder/input </input>
+			<rate_limit> 95 </rate_limit>
+			<lag> 24.7 </lag>
+			<output> fcs/actuators/rudder/output </output>
+		</actuator>
+	</channel>
+</system>
