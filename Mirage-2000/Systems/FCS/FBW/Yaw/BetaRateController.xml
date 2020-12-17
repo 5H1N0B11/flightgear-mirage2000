@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Driver compensating for the beta-rate error. 
+	Will provide the output needed to respond to the active control demanded by the pilot.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value= "1">   fcs/fbw/yaw/beta-rate/enable </property>  <!-- Pilot available toggle. -->
+	
+	<property value= "2">  fcs/fbw/yaw/beta-rate/input-gain </property>  <!-- Tuning param (gain for the controller input). -->
+	<property value= "200">  fcs/fbw/yaw/beta-rate/input-lag-c </property>  <!-- Tuning param (constant lag coefficient for the controller input). -->
+	<property value= "0">  fcs/fbw/yaw/beta-rate/input-lag-p </property>  <!-- Tuning param (speed² proportional lag coefficient for the controller input). -->
+	
+	<property value= "1.1">  fcs/fbw/yaw/beta-rate/Kp </property>  <!-- Tuning param (proportional coefficient for the controller). -->
+	<property value= "0.3">  fcs/fbw/yaw/beta-rate/Ki </property>  <!-- Tuning param (integration coefficient for the controller). -->
+	<property value= "0.17"> fcs/fbw/yaw/beta-rate/Kd </property>  <!-- Tuning param (derivative coefficient for the controller). -->
+
+	<channel name="Yaw">
+		<!-- Make Kp linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/yaw/beta-rate/Kpe">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/yaw/beta-rate/Kp </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Make Ki linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/yaw/beta-rate/Kie">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/yaw/beta-rate/Ki </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Make Kd linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/yaw/beta-rate/Kde">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/yaw/beta-rate/Kd </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Use the beta-rate error as direct input & input-gain application -->
+		<fcs_function name="fcs/fbw/yaw/beta-rate/input">
+			<function>
+				<product>
+					<p> fcs/fbw/yaw/beta-rate/error </p>
+
+					<p> fcs/fbw/yaw/beta-rate/input-gain </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Compute the lag coefficient (Kc + Kp/(1-normspeed²) -->
+		<!-- The faster we go, the less lag we need because of authority, which grows with IAS² and makes the system more reactive. -->
+		<fcs_function name="fcs/fbw/yaw/beta-rate/input-lag-k">
+			<function>
+				<sum>
+					<quotient>
+						<p> fcs/fbw/yaw/beta-rate/input-lag-p </p>
+						<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					</quotient>
+					<p> fcs/fbw/yaw/beta-rate/input-lag-c </p>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<!-- Lag filter for the controller input. -->
+		<lag_filter name="fcs/fbw/yaw/beta-rate/input-lag">
+			<input> fcs/fbw/yaw/beta-rate/input </input>
+			<c1> fcs/fbw/yaw/beta-rate/input-lag-k </c1>
+		</lag_filter>
+
+		<!-- Controller integration blocking flag. -->
+		<switch name="fcs/fbw/yaw/beta-rate/i-trigger">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fcs/fbw/yaw/i-trigger ne 0
+				fcs/fbw/yaw/beta-rate/enable ne 1
+
+				fcs/fbw/yaw/beta-rate/output le -0.999
+				fcs/fbw/yaw/beta-rate/output ge  0.999
+			</test>
+		</switch>
+
+		<!-- PID controller acting as the main driver for the yaw channel. -->
+		<pid name="fcs/fbw/yaw/beta-rate/controller">
+			<input>fcs/fbw/yaw/beta-rate/input-lag</input>
+			
+			<kp> fcs/fbw/yaw/beta-rate/Kpe </kp>
+			<ki> fcs/fbw/yaw/beta-rate/Kie </ki>
+			<kd> fcs/fbw/yaw/beta-rate/Kde </kd>
+
+			<trigger> fcs/fbw/yaw/beta-rate/i-trigger </trigger>
+			
+			<clipto>
+				<min> -1 </min>
+				<max>  1 </max>
+			</clipto>
+			
+			<output> fcs/fbw/yaw/beta-rate/output </output>
+		</pid>
+
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/yaw/beta-rate/active-output">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/yaw/beta-rate/output">
+				fcs/fbw/yaw/beta-rate/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>
