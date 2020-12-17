@@ -134,7 +134,14 @@
                 systems/hydraulics/number2-system-pressure ge 180
             </test>
         </switch>
-		
+
+         <switch name="systems/hydraulics/number2-emergency-system-available">
+             <default value="0"/>
+             <test logic="AND" value="1">
+                 systems/hydraulics/number2-system-pressure ge 140
+             </test>
+         </switch>
+         
 		<switch name="systems/hydraulics/ep-running">
             <default value="0"/>
             <test logic="AND" value="1">
