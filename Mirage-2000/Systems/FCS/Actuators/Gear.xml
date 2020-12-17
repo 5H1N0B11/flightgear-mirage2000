@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.2
+	
+	Actuators for the landing gear, it's brakes and steering.
+-->
+
+<system name="Mirage-2000: FCS/Actuators">
+	<property value= "0">   fcs/actuators/gear/emergency-extension </property>  <!-- Flag for the pilot trigger of emergency extension. -->
+	<property value= "1.0"> fcs/actuators/gear/pos-norm </property>  <!-- Declaration & initialisation of the gear position output. -->
+	<channel name="Gear">
+		<!-- TODO: Actuator parameters were pulled from old FBW. They are to be classified (documented / guess). -->
+
+		<!-- Position command for the landing gear (taking into account the availability of hydraulics). -->
+		<switch name="fcs/actuators/gear/pos-input">
+			<default value="fcs/dispatch/gear/pos-output"/>  <!-- Standard pilot input.. -->
+			<test logic="OR" value="1">
+				fcs/actuators/gear/emergency-extension eq 1  <!-- Emergency mechanical gear-down. -->
+			</test>
+			
+			<test logic="AND" value="fcs/actuators/gear/pos-norm"> <!-- Hydraulic not avail, and emergency extension not commanded = stuck at present position. -->
+				systems/hydraulics/number1-system-available ne 1  <!-- Main hydraulic system unavailable. -->
+				systems/hydraulics/number2-system-available ne 1  <!-- Secondary hydraulic system unavailable. -->
+			</test>
+		</switch>
+		<!-- Actuator for the gear position. -->
+		<kinematic name="fcs/actuators/gear/pos-norm-a">
+			<input> fcs/dispatch/gear/pos-output </input>
+			<traverse>
+				<setting>
+					<position> 0.0 </position>
+					<time> 0.0 </time>
+				</setting>
+				<setting>
+					<position> 1.0 </position>
+					<time> 2.5 </time>
+				</setting>
+			</traverse>
+			<output> fcs/actuators/gear/pos-norm </output>
+			<output> gear/gear-pos-norm </output>
+		</kinematic>
+		
+		<!-- Position command for the steering position of the front wheel (taking into account the availability of hydraulics). -->
+		<switch name="fcs/actuators/gear/steering-input">
+			<default value="fcs/dispatch/gear/steering-output"/>
+			<test logic="AND" value="0"> <!-- Hydraulic not avail. -->
+				systems/hydraulics/number2-system-available ne 1  <!-- Secondary hydraulic system unavailable. -->
+			</test>
+		</switch>
+		<!-- Actuator for the steering position of the front wheel. -->
+		<actuator name="fcs/actuators/gear/steering-a">
+			<input> fcs/actuators/gear/steering-input </input>
+			<rate_limit> 140 </rate_limit>  <!-- This seems very fast-acting for the front wheel actuator -->
+			<output> fcs/actuators/gear/steering-output </output>
+			<output> fcs/steer-pos-deg </output>
+		</actuator>
+
+		<!-- Position command for the left brake (taking into account the availability of hydraulics). -->
+		<switch name="fcs/actuators/gear/brake-l-input">
+			<default value="fcs/dispatch/gear/brake-l-output"/>
+			<test logic="OR" value="0">
+				systems/hydraulics/number1-system-available eq 0  <!-- Main hydraulic system unavailable. -->
+				systems/hydraulics/number2-system-available eq 0  <!-- Secondary hydraulic system unavailable. -->
+			</test>
+		</switch>
+		<!-- Position command for the right brake (taking into account the availability of hydraulics). -->
+		<switch name="fcs/actuators/gear/brake-r-input">
+			<default value="fcs/dispatch/gear/brake-l-output"/>
+			<test logic="OR" value="0">
+				systems/hydraulics/number1-system-available eq 0  <!-- Main hydraulic system unavailable. -->
+				systems/hydraulics/number2-system-available eq 0  <!-- Secondary hydraulic system unavailable. -->
+			</test>
+		</switch>
+		
+		<!-- Position command for the parking brake (taking into account the availability of hydraulics). -->
+		<switch name="fcs/actuators/gear/brake-p-input">
+			<default value="fcs/dispatch/gear/brake-p-output"/>
+			<test logic="OR" value="0">
+				systems/hydraulics/number2-system-available eq 0            <!-- Secondary hydraulic system unavailable. -->
+				systems/hydraulics/number2-emergency-system-available eq 0  <!-- Secondary emergency hydraulic system unavailable. -->
+			</test>
+		</switch>
+
+		<!-- Left braking & parking brakes combined action on the left wheel of the MLG. -->
+		<summer name="fcs/actuators/gear/brake-l-output">
+			<input>fcs/actuators/gear/brake-r-input</input>
+			<input>fcs/actuators/gear/brake-p-input</input>
+			<clipto>
+				<min>0</min>
+				<max>1</max>
+			</clipto>
+		</summer>
+		<!-- Right braking & parking brakes combined action on the right wheel of the MLG. -->
+		<summer name="fcs/actuators/gear/brake-r-output">
+			<input>fcs/actuators/gear/brake-r-input</input>
+			<input>fcs/actuators/gear/brake-p-input</input>
+			<clipto>
+				<min>0</min>
+				<max>1</max>
+			</clipto>
+		</summer>
+	</channel>
+</system>
