@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Driver compensating for the alpha-rate error. 
+	Will provide the output needed to respond to the active control demanded by the pilot.
+	Will also integrate the feedback provided by the alpha-rate limiter to it's input to avoid exceeding config parameters. 
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value= "1">   fcs/fbw/pitch/alpha-rate/enable </property>  <!-- Pilot available toggle. -->
+	
+	<property value= "1.0">  fcs/fbw/pitch/alpha-rate/input-gain </property>     <!-- Tuning param (gain for the controller input). -->
+	<property value= "100.0">  fcs/fbw/pitch/alpha-rate/input-lag-c </property>  <!-- Tuning param (constant lag coefficient for the controller input). -->
+	<property value= "0.0">  fcs/fbw/pitch/alpha-rate/input-lag-p </property>    <!-- Tuning param (speed² proportional lag coefficient for the controller input). -->
+	
+	<property value= "3.2">  fcs/fbw/pitch/alpha-rate/Kp </property>  <!-- Tuning param (proportional coefficient for the controller). -->
+	<property value= "2.0">  fcs/fbw/pitch/alpha-rate/Ki </property>  <!-- Tuning param (integration coefficient for the controller). -->
+
+	<channel name="Pitch">
+		<!-- Make Kp linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/pitch/alpha-rate/Kpe">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p>
+					<p> fcs/fbw/pitch/alpha-rate/Kp </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Make Ki linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/pitch/alpha-rate/Kie">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p>
+					<p> fcs/fbw/pitch/alpha-rate/Ki </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Alpha-limiter interference & input-gain application -->
+		<fcs_function name="fcs/fbw/pitch/alpha-rate/input">
+			<function>
+				<product>
+					<sum>
+						<p> fcs/fbw/pitch/alpha-rate/error </p>
+
+						<p> fcs/fbw/pitch/alpha-limit/active-feedback </p>
+					</sum>
+					
+					<p> fcs/fbw/pitch/alpha-rate/input-gain </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Compute the lag coefficient (Kc + Kp/(1-normspeed²) -->
+		<!-- The faster we go, the less lag we need because of authority, which grows with IAS² and makes the system more reactive. -->
+		<fcs_function name="fcs/fbw/pitch/alpha-rate/input-lag-k">
+			<function>
+				<sum>
+					<quotient>
+						<p> fcs/fbw/pitch/alpha-rate/input-lag-p </p>
+						<p> fcs/fbw/energy-coefficient </p>  <!-- Speed² proportional factor -->
+					</quotient>
+					<p> fcs/fbw/pitch/alpha-rate/input-lag-c </p>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- Lag filter for the controller input. -->
+		<lag_filter name="fcs/fbw/pitch/alpha-rate/input-lag">
+			<input> fcs/fbw/pitch/alpha-rate/input </input>
+			<c1> fcs/fbw/pitch/alpha-rate/input-lag-k </c1>
+		</lag_filter>
+
+		<!-- Controller integration blocking flag. -->
+		<switch name="fcs/fbw/pitch/alpha-rate/i-trigger">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fcs/fbw/pitch/i-trigger ne 0
+				fcs/fbw/pitch/alpha-rate/enable ne 1
+
+				fcs/fbw/pitch/alpha-rate/output le -0.999
+				fcs/fbw/pitch/alpha-rate/output ge  0.999
+			</test>
+		</switch>
+
+		<!-- PID controller acting as the main driver for the pitch channel. -->
+		<pid name="fcs/fbw/pitch/alpha-rate/input">
+			<input>fcs/fbw/pitch/alpha-rate/input-lag</input>
+			
+			<kp> fcs/fbw/pitch/alpha-rate/Kpe </kp>
+			<ki> fcs/fbw/pitch/alpha-rate/Kie </ki>
+			<kd> 0.0 </kd>
+
+			<trigger> fcs/fbw/pitch/alpha-rate/i-trigger </trigger>
+			
+			<clipto>
+				<min> -1 </min>
+				<max>  1 </max>
+			</clipto>
+			
+			<output> fcs/fbw/pitch/alpha-rate/output </output>
+		</pid>
+		
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/pitch/alpha-rate/active-output">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/pitch/alpha-rate/output">
+				fcs/fbw/pitch/alpha-rate/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>
