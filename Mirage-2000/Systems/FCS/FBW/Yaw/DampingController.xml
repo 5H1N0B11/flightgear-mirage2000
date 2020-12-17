@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Controller to dampen d-beta.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value= "1">  fcs/fbw/yaw/damping/enable </property>  <!-- Pilot available toggle. -->
+	
+	<property value="1.4"> fcs/fbw/yaw/damping/Kp </property>  <!-- Tuning param (proportional coefficient for the controller). -->
+	<property value="0.3"> fcs/fbw/yaw/damping/Kd </property>  <!-- Tuning param (derivative coefficient for the controller). -->
+	
+	<property value="0.8"> fcs/fbw/yaw/damping/max-authority </property> <!-- Tuning param (absolute maximum output of the controller). -->
+	
+	<channel name="Yaw">
+		
+		<!-- Make Kp linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/yaw/damping/Kpe">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/yaw/damping/Kp </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Make Kd linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/yaw/damping/Kde">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/yaw/damping/Kd </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- PD controller for d-beta damping on the yaw channel. No integration as it would interfere with the driver. -->
+		<pid name="fcs/fbw/yaw/damping/controller">
+			<input>fcs/fbw/yaw/d-beta</input>
+			
+			<kp> fcs/fbw/yaw/damping/Kpe </kp>
+			<ki> 0.0 </ki>
+			<kd> fcs/fbw/yaw/damping/Kde </kd>
+			
+			<clipto>
+				<p> -fcs/fbw/yaw/damping/max-authority </p>
+				<p>  fcs/fbw/yaw/damping/max-authority </p>
+			</clipto>
+			
+			<output>fcs/fbw/yaw/damping/output</output>
+		</pid>
+
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/yaw/damping/active-output">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/yaw/damping/output">
+				fcs/fbw/yaw/damping/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>
