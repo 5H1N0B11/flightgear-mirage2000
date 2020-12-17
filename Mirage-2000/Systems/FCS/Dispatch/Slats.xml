@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	System to pass-through normalized slats commands to the slats actuators. 
+-->
+
+<system name="Mirage-2000: FCS/Dispatch">
+	<channel name="Slats">
+		<!-- Direct pass-through of the slats channel to the actuators. -->
+		<pure_gain name="fcs/dispatch/slats/output-norm">
+			<input> fcs/fbw/slats/output </input>
+			<gain> 1 </gain>
+			<clipto>
+				<min> 0 </min>
+				<max> 1 </max>
+			</clipto>
+		</pure_gain>
+	</channel>
+</system>
