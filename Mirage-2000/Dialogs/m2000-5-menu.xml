@@ -88,8 +88,16 @@
         </binding>
       </item>
 -->
-
       <item n="10">
+        <label>FBW</label>
+        <name>fbw</name>
+        <binding>
+            <command>dialog-show</command>
+            <dialog-name>fbw</dialog-name>
+        </binding>
+      </item>
+        
+      <item n="11">
         <label>About</label>
         <name>AboutMirage</name>
         <binding>
@@ -98,7 +106,7 @@
         </binding>
       </item>
 
-      <item n="11">
+      <item n="12">
         <label>Wingmen</label>
         <name>wingmen</name>
         <binding>
@@ -107,7 +115,7 @@
         </binding>
       </item>
       
-      <item n="12">
+      <item n="13">
         <label>Training</label>
         <name>training</name>
         <binding>
@@ -116,7 +124,7 @@
         </binding>
       </item>
 
-      <item n="13">
+      <item n="14">
 	<label>Quick Payload Reload</label>
 	<name>payload-qs</name>
 	<binding>
@@ -147,7 +155,7 @@
 	</binding>
       </item>
       
-  <item n="14">
+  <item n="15">
     <label>Combat event log</label>
     <name>event-log</name>
     <binding>

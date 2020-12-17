@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  <name>fbw</name>
+  <modal type="bool">false</modal>
+  <layout>vbox</layout>
+  <group>
+    <layout>hbox</layout>
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+    <text>
+      <label>FBW</label>
+    </text>
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
+  <hrule />
+  
+  <group>        
+    <legend>Main FBW toggle.</legend>
+    <layout>hbox</layout>
+    <halign>center</halign>
+    <group>
+      <layout>vbox</layout>
+      <text>
+        <label>Enable</label>
+      </text>
+    </group>
+    <group>
+      <layout>vbox</layout>
+      <checkbox>
+        <name>Enable</name>
+        <property>fdm/jsbsim/fcs/fbw/enable</property>
+        <live>true</live>
+        <binding>
+          <command>property-toggle</command>
+          <property>fdm/jsbsim/fcs/fbw/enable</property>
+        </binding>
+      </checkbox>
+    </group>
+  </group>
+  <hrule />
+  
+  <text>
+    <label>Settings:</label>
+  </text>
+  <group>
+    <layout>hbox</layout>
+
+    <vrule />
+    
+    <group>
+      <layout>vbox</layout>
+
+      <hrule />
+      <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+        <text>
+          <label>Roll</label>
+        </text>
+      </group>
+      <hrule />
+
+      <group>
+        <layout>vbox</layout>
+
+        <text>
+          <label>Reactiveness</label>
+        </text>
+        <group>
+          <layout>vbox</layout>
+          <slider>
+            <name>reactiveness</name>
+            <property>fdm/jsbsim/fcs/fbw/roll/pilot-input/reactiveness</property>
+            <live>1</live>
+            <min>0</min>
+            <max>1</max>
+            <step>0.01</step>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </slider>
+        </group>
+      </group>
+      
+      <group>
+        <layout>vbox</layout> 
+        
+        <text>
+          <label>Geometric curve</label>
+        </text>
+        <group>
+          <layout>vbox</layout>
+          <slider>
+            <name>curve</name>
+            <property>fdm/jsbsim/fcs/fbw/roll/pilot-input/geom-curve</property>
+            <live>1</live>
+            <min>0.1</min>
+            <max>5</max>
+            <step>0.1</step>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </slider>
+        </group>
+      </group>
+      
+      <group>
+        <layout>vbox</layout>
+
+        <text>
+          <label>Dead-zone</label>
+        </text>
+
+        <group>
+          <layout>vbox</layout>
+          <slider>
+            <name>deadzone</name>
+            <property>fdm/jsbsim/fcs/fbw/roll/pilot-input/dead-zone</property>
+            <live>1</live>
+            <min>0.05</min>
+            <max>0.5</max>
+            <step>0.05</step>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </slider>
+        </group>
+      </group>
+      
+      <hrule />
+    </group>
+
+    <vrule />
+
+    <group>
+      <layout>vbox</layout>
+
+      <hrule />
+      <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+        <text>
+          <label>Pitch</label>
+        </text>
+      </group>
+      <hrule />
+      
+      <group>
+        <layout>vbox</layout>
+
+        <text>
+          <label>Reactiveness</label>
+        </text>
+        <group>
+          <layout>vbox</layout>
+          <slider>
+            <name>reactiveness</name>
+            <property>fdm/jsbsim/fcs/fbw/pitch/pilot-input/reactiveness</property>
+            <live>1</live>
+            <min>0</min>
+            <max>1</max>
+            <step>0.01</step>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </slider>
+        </group>
+      </group>
+      
+      <group>
+        <layout>vbox</layout>
+
+        <text>
+          <label>Geometric curve</label>
+        </text>
+        <group>
+          <layout>vbox</layout>
+          <slider>
+            <name>curve</name>
+            <property>fdm/jsbsim/fcs/fbw/pitch/pilot-input/geom-curve</property>
+            <live>1</live>
+            <min>0.1</min>
+            <max>5</max>
+            <step>0.1</step>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </slider>
+        </group>
+      </group>
+      
+      <group>
+        <layout>vbox</layout>
+
+        <text>
+          <label>Dead-zone</label>
+        </text>
+        
+        <group>
+          <layout>vbox</layout>
+          <slider>
+            <name>deadzone</name>
+            <property>fdm/jsbsim/fcs/fbw/pitch/pilot-input/dead-zone</property>
+            <live>1</live>
+            <min>0.05</min>
+            <max>0.5</max>
+            <step>0.05</step>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </slider>
+        </group>
+      </group>
+      
+      <hrule />
+    </group>
+
+    <vrule />
+
+    <group>
+      <layout>vbox</layout>
+
+      <hrule />
+      <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+        <text>
+          <label>Yaw</label>
+        </text>
+      </group>
+      <hrule />
+      
+      <group>
+        <layout>vbox</layout>
+
+        <text>
+          <label>Reactiveness</label>
+        </text>
+        <group>
+          <layout>vbox</layout>
+          <slider>
+            <name>reactiveness</name>
+            <property>fdm/jsbsim/fcs/fbw/yaw/pilot-input/reactiveness</property>
+            <live>1</live>
+            <min>0</min>
+            <max>1</max>
+            <step>0.01</step>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </slider>
+        </group>
+      </group>
+
+      <group>
+        <layout>vbox</layout>
+
+        <text>
+          <label>Geometric curve</label>
+        </text>
+        <group>
+          <layout>vbox</layout>
+          <slider>
+            <name>curve</name>
+            <property>fdm/jsbsim/fcs/fbw/yaw/pilot-input/geom-curve</property>
+            <live>1</live>
+            <min>0.1</min>
+            <max>5</max>
+            <step>0.1</step>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </slider>
+        </group>
+      </group>
+
+      <group>
+        <layout>vbox</layout>
+
+        <text>
+          <label>Dead-zone</label>
+        </text>
+
+        <group>
+          <layout>vbox</layout>
+          <slider>
+            <name>deadzone</name>
+            <property>fdm/jsbsim/fcs/fbw/yaw/pilot-input/dead-zone</property>
+            <live>1</live>
+            <min>0.05</min>
+            <max>0.5</max>
+            <step>0.05</step>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </slider>
+        </group>
+      </group>
+
+      <hrule />
+    </group>
+
+    <vrule />
+  </group>
+  
+  <text>
+    <label>Subsystems:</label>
+  </text>
+  <group>
+    <layout>hbox</layout>
+
+    <vrule />
+    
+    <group>
+      <layout>vbox</layout>
+      
+      <hrule />
+      <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+        <text>
+          <label>Roll</label>
+        </text>
+      </group>
+      <hrule />
+      
+      <group>
+        <legend>Theta-rate PID controller.</legend>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Driver</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Driver</name>
+            <property>fdm/jsbsim/fcs/fbw/roll/theta-rate/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/roll/theta-rate/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+    
+      <group>
+        <legend>Theta-rate damping controller.</legend>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Damper</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Damper</name>
+            <property>fdm/jsbsim/fcs/fbw/roll/damping/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/roll/damping/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+  
+      <group>
+        <legend>Neutral roll output due to beta.</legend>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Stability</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Stablity</name>
+            <property>fdm/jsbsim/fcs/fbw/roll/stability/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/roll/stability/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+  
+      <group>
+        <legend>Prevent rolling with alpha more than the airframe can yaw for it.</legend>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Over-roll</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Over-roll</name>
+            <property>fdm/jsbsim/fcs/fbw/roll/over-roll/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/roll/over-roll/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+
+      <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+        <text>
+          <label> </label>
+        </text>
+      </group>
+
+      <hrule />
+    </group>
+
+    <vrule />
+    
+    <group>
+      <layout>vbox</layout>
+
+      <hrule />
+      <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+        <text>
+          <label>Pitch</label>
+        </text>
+      </group>
+      <hrule />
+      
+      <group>
+        <legend>Alpha-rate PID controller.</legend>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Driver</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Driver</name>
+            <property>fdm/jsbsim/fcs/fbw/pitch/alpha-rate/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/pitch/alpha-rate/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+  
+      <group>
+        <legend>Alpha-rate damping controller.</legend>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Damper</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Damper</name>
+            <property>fdm/jsbsim/fcs/fbw/pitch/damping/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/pitch/damping/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+  
+      <group>
+        <legend>Neutral elevator output due to alpha.</legend>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Stability</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Stablity</name>
+            <property>fdm/jsbsim/fcs/fbw/pitch/stability/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/pitch/stability/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+  
+      <group>
+        <legend>Neutral elevator output due the airframe's neutral moment.</legend>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>AF-Moment</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>AF-Moment</name>
+            <property>fdm/jsbsim/fcs/fbw/pitch/neutral-moment/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/pitch/neutral-moment/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+  
+      <group>
+        <legend>Alpha-rate feedback to act ast elastic boundaries for alpha ([-15; +30]).</legend>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Alpha Limit</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Alpha Limit</name>
+            <property>fdm/jsbsim/fcs/fbw/pitch/alpha-limit/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/pitch/alpha-limit/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+
+      <hrule />
+    </group>
+    
+    <vrule />
+    
+    <group>
+      <layout>vbox</layout>
+      
+      <hrule />
+      <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+        <text>
+          <label>Yaw</label>
+        </text>
+      </group>
+      <hrule />
+      
+      <group>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Driver</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Driver</name>
+            <property>fdm/jsbsim/fcs/fbw/yaw/beta-rate/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/yaw/beta-rate/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+  
+      <group>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Damper</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Damper</name>
+            <property>fdm/jsbsim/fcs/fbw/yaw/damping/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/yaw/damping/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+  
+      <group>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Stability</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Stablity</name>
+            <property>fdm/jsbsim/fcs/fbw/pitch/stability/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/pitch/stability/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+      
+      <group>
+        <layout>hbox</layout>
+        <group>
+          <layout>vbox</layout>
+          <halign>left</halign>
+          <text>
+            <label>Alpha Roll</label>
+          </text>
+        </group>
+        <group>
+          <layout>vbox</layout>
+          <halign>right</halign>
+          <checkbox>
+            <name>Alpha Roll</name>
+            <property>fdm/jsbsim/fcs/fbw/yaw/alpha-to-beta/enable</property>
+            <live>true</live>
+            <binding>
+              <command>property-toggle</command>
+              <property>fdm/jsbsim/fcs/fbw/yaw/alpha-to-beta/enable</property>
+            </binding>
+          </checkbox>
+        </group>
+      </group>
+
+      <group>
+        <layout>vbox</layout>
+        <halign>center</halign>
+        <text>
+          <label> </label>
+        </text>
+      </group>
+
+      <hrule />
+    </group>
+
+    <vrule />
+  </group>
+
+</PropertyList>
+
