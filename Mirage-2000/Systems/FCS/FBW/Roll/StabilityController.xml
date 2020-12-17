@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.0
+	
+	Algebraic system, computing the roll channel output "trim" needed to compensate the (in)stability of the current config.
+-->
+
+<!-- TODO: Find a way in jsbsim to lock the yaw axis for the roll-stability coefficients tuning -->
+<!-- TODO: As maintaining a fixed yaw with the rudder will induce torque, making tuning impossible. -->
+<!-- TODO: Maybe make it's output linear to drag * weight ? -->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value="0">   fcs/fbw/roll/stability/enable </property>  <!-- Pilot available toggle. -->
+
+	<!-- TODO: Find the correct value. -->
+	<property value="0.0"> fcs/fbw/roll/stability/AeroRpZ-to-CdZ-m </property> <!-- Tuning param, until we find a proper value (Position of the center of drag for the XZ aspect of the aircraft relative to aero-rp). -->
+
+	<property value="0.0"> fcs/fbw/roll/stability/Kp </property>  <!-- Tuning param (Acting as the moment of inertia coefficient for the aircraft on it's YZ plane). -->
+	
+	<channel name="Roll">
+		<!-- Position of the center of drag relative to the center of mass.
+			 Would be normally be computed according to loads / fuel remaining ... 
+			 But since we have CG available, we can use it directly ! -->
+		<fcs_function name="fcs/fbw/roll/stability/center-m">
+			<function>
+				<difference>
+					<sum>
+						<product>
+							<p> metrics/aero-rp-y-in </p>
+							<p> fcs/fbw/in2m </p>
+						</product>
+						<p> fcs/fbw/roll/stability/AeroRpZ-to-CdZ-m </p>
+					</sum>
+					<product>
+						<p> inertia/cg-y-in </p>
+						<p> fcs/fbw/in2m </p>
+					</product>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<!-- How much ailerons output is needed to counteract the (in)stability induced torque, according to the current speed and beta. -->
+		<fcs_function name="fcs/fbw/roll/stability/output">
+			<function>
+				<product>
+					<p>      fcs/fbw/roll/stability/center-m </p>  <!-- Cd offset relative to Cg (+ nose to tail) -->
+					<sin><p> fcs/fbw/yaw/beta-rad </p></sin>       <!-- Amount of stability due to alpha -->
+					<p>      fcs/fbw/energy-coefficient </p>       <!-- Speed² proportional factor -->
+					<p>      fcs/fbw/roll/stability/Kp </p>        <!-- Negative to satisfy the orientation of the Z axis --> 
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/roll/stability/active-output">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/roll/stability/output">
+				fcs/fbw/roll/stability/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>
