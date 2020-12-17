@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Base components for the FBW yaw channel:
+	 - Accessor for beta and beta-rate.
+	 - Ground behavior handling.
+	 - Integration stop trigger declaration (updated by the output subsystem).
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value="1"> fcs/fbw/yaw/i-trigger </property>  <!-- Yaw channel integration blocking flag (updated by the output subsystem)-->
+	
+	<channel name="Yaw">
+		<!-- TODO: Find a replacement for the following, which will mess up with the attitude during lift off and touchdown-->
+		
+		<!-- If we are on the ground, we will pretend that we have 0 beta -->
+		<switch name="fcs/fbw/yaw/beta-deg">
+			<default value="aero/beta-deg"/>
+			<test value="0">
+				fcs/fbw/wow ne 0
+			</test>
+		</switch >
+
+		<!-- If we are on the ground, we will pretend that we have 0 beta -->
+		<switch name="fcs/fbw/yaw/beta-rad">
+			<default value="aero/beta-rad"/>
+			<test value="0">
+				fcs/fbw/wow ne 0
+			</test>
+		</switch >
+		
+		<!-- Simply keeps track of the change of beta over time (direct derivative) -->		
+		<pid name="fcs/fbw/yaw/d-beta-controller">
+			<input>aero/beta-rad</input>
+			<kp> 0.0 </kp>
+			<ki> 0.0 </ki>
+			<kd> 1.0 </kd>
+			<clipto>
+				<min> -999999 </min>
+				<max>  999999 </max>
+			</clipto>
+			<output> fcs/fbw/yaw/d-beta-raw </output>
+		</pid>
+
+		<!-- If we are on the ground, we will pretend that our d-beta is out rotation-rate around the aircraft's Z axis. -->
+		<switch name="fcs/fbw/yaw/d-beta">
+			<default value="fcs/fbw/yaw/d-beta-raw"/>
+			<test value="velocities/r-rad_sec">
+				fcs/fbw/wow ne 0
+			</test>
+		</switch>
+	</channel>
+</system>
