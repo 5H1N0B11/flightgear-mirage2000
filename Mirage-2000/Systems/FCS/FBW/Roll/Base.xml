@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Integration stop trigger declaration (updated by the output subsystem).
+-->
+<system name="Mirage-2000: FCS/FBW">
+	<property value="1"> fcs/fbw/roll/i-trigger </property>  <!-- Roll channel integration blocking flag (updated by the output subsystem)-->
+</system>
