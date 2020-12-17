@@ -62,15 +62,15 @@
       <float                n="12" alias="/gear/gear[1]/rollspeed-ms" />
       <float                n="13" alias="/gear/gear[2]/rollspeed-ms" />
       <float                n="14" alias="/engines/engine[0]/afterburner" />
-      <float                n="15" alias="/fdm/jsbsim/fcs/elevon-1L-pos-deg" />
-      <float                n="16" alias="/fdm/jsbsim/fcs/elevon-2L-pos-deg" />
-      <float                n="17" alias="/fdm/jsbsim/fcs/elevon-2R-pos-deg" />
-      <float                n="18" alias="/fdm/jsbsim/fcs/elevon-1R-pos-deg" />
-      <float                n="19" alias="/fdm/jsbsim/fcs/rudder-pos-deg" />
-      <float                n="20" alias="/fdm/jsbsim/fcs/slat-inner-norm" />
-      <float                n="21" alias="/fdm/jsbsim/fcs/slat-outer-norm" />
-      <float                n="22" alias="/fdm/jsbsim/fcs/airbrake-upper" />
-      <float                n="23" alias="/fdm/jsbsim/fcs/airbrake-lower" />
+      <float                n="15" alias="/fdm/jsbsim/fcs/actuators/elevons/output-OL" />
+      <float                n="16" alias="/fdm/jsbsim/fcs/actuators/elevons/output-IL" />
+      <float                n="17" alias="/fdm/jsbsim/fcs/actuators/elevons/output-IR" />
+      <float                n="18" alias="/fdm/jsbsim/fcs/actuators/elevons/output-OR" />
+      <float                n="19" alias="/fdm/jsbsim/fcs/actuators/rudder/output" />
+      <float                n="20" alias="/fdm/jsbsim/fcs/actuators/slats/norm-output" />
+      <float                n="21" alias="/fdm/jsbsim/fcs/actuators/slats/norm-output" />
+      <float                n="22" alias="/fdm/jsbsim/fcs/actuators/spoilers/upper-output" />
+      <float                n="23" alias="/fdm/jsbsim/fcs/actuators/spoilers/lower-output" />
 
       <string type="string" n="0" />
       <!-- for loads -->

@@ -601,7 +601,57 @@
 <system file="Mirage-2000-avionics"/>
 <system file="Mirage-2000-fadec"/>
 <system file="Mirage-2000-engines-Snecma-M53"/>
-<system file="Mirage-2000-fcs"/>
+
+<!-- FBW Systems: -->
+<system file="FCS/FBW/Base"/>
+  <!-- FBW Pitch channel: -->
+<system file="FCS/FBW/Pitch/Base"/>
+<system file="FCS/FBW/Pitch/StabilityController"/>
+<system file="FCS/FBW/Pitch/DampingController"/>
+<system file="FCS/FBW/Pitch/NeutralMomentController"/>
+<system file="FCS/FBW/Pitch/PilotInput"/>
+<system file="FCS/FBW/Pitch/GError"/>
+<system file="FCS/FBW/Pitch/AlphaRateError"/>
+<system file="FCS/FBW/Pitch/AlphaLimitFeedback"/>
+<system file="FCS/FBW/Pitch/AlphaRateController"/>
+<system file="FCS/FBW/Pitch/Output"/>
+  <!-- FBW Yaw channel: -->
+<system file="FCS/FBW/Yaw/Base"/>
+<system file="FCS/FBW/Yaw/StabilityController"/>
+<system file="FCS/FBW/Yaw/DampingController"/>
+<system file="FCS/FBW/Yaw/AlphaToBeta"/>
+<system file="FCS/FBW/Yaw/PilotInput"/>
+<system file="FCS/FBW/Yaw/BetaRateError"/>
+<system file="FCS/FBW/Yaw/BetaRateController"/>
+<system file="FCS/FBW/Yaw/Output"/>
+  <!-- FBW Roll channel: -->
+<system file="FCS/FBW/Roll/Base"/>
+<system file="FCS/FBW/Roll/StabilityController"/>
+<system file="FCS/FBW/Roll/DampingController"/>
+<system file="FCS/FBW/Roll/PilotInput"/>
+<system file="FCS/FBW/Roll/ThetaRateError"/>
+<system file="FCS/FBW/Roll/OverRollFeedback"/>
+<system file="FCS/FBW/Roll/ThetaRateController"/>
+<system file="FCS/FBW/Roll/Output"/>
+  <!-- FBW Steering channel: -->
+<system file="FCS/FBW/Steering"/>
+  <!-- FBW Slats channel: -->
+<system file="FCS/FBW/Slats"/>
+
+<!-- Channel dispatch systems -->
+<system file="FCS/Dispatch/Elevons"/>
+<system file="FCS/Dispatch/Rudder"/>
+<system file="FCS/Dispatch/Gear"/>
+<system file="FCS/Dispatch/Slats"/>
+<system file="FCS/Dispatch/Spoilers"/>
+
+<!-- Actuator systems: -->
+<system file="FCS/Actuators/Elevons"/>
+<system file="FCS/Actuators/Rudder"/>
+<system file="FCS/Actuators/Gear"/>
+<system file="FCS/Actuators/Slats"/>
+<system file="FCS/Actuators/Spoilers"/>
+  
 <system file="Mirage-2000-fuel"/>
 
 
@@ -663,22 +713,20 @@
         </fcs_function>
 
 
-        <fcs_function name="aero-cos-alpha">
+        <fcs_function name="aero/cos-alpha">
             <function>
                 <cos>
                     <property>aero/alpha-rad</property>
                 </cos>
             </function>
-            <output>aero/cos-alpha</output>
         </fcs_function>
 
-        <fcs_function name="aero-sin-alpha">
+        <fcs_function name="aero/sin-alpha">
             <function>
                 <sin>
                     <property>aero/alpha-rad</property>
                 </sin>
             </function>
-            <output>aero/sin-alpha</output>
         </fcs_function>
         <fcs_function name="position/h-agl-m">
             <description>Height above ground (meters)</description>
@@ -761,7 +809,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.01782	   0.01842	   0.01905	   0.01936	   0.01966	   0.01996	   0.02009	
@@ -841,7 +889,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.01782	   0.01842	   0.01905	   0.01936	   0.01966	   0.01996	   0.02009	
@@ -921,7 +969,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.02496	   0.02576	   0.02680	   0.02728	   0.02788	   0.02820	   0.02868	
@@ -1001,7 +1049,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.02496	   0.02576	   0.02680	   0.02728	   0.02788	   0.02820	   0.02868	
@@ -1079,7 +1127,7 @@
     <function name="aero/c/CFXDSBL">
     <description>DRAG DUE TO LOWER SPEEDBRAKE DEFLECTION</description>
     <product>
-          <property>fcs/airbrake-lower</property>
+          <property>fcs/actuators/spoilers/lower-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1111,7 +1159,7 @@
     <function name="aero/c/CFXDSBU">
     <description>DRAG DUE TO UPPER SPEEDBRAKE DEFLECTION</description>
     <product>
-          <property>fcs/airbrake-upper</property>
+          <property>fcs/actuators/spoilers/upper-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1143,7 +1191,7 @@
     <function name="aero/c/CFXDSD1L">
     <description>DRAG DUE TO LE SLAT 1</description>
     <product>
-          <property>fcs/slat-1L-pos-deg</property>
+          <property>fcs/actuators/slats/outer-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1175,7 +1223,7 @@
     <function name="aero/c/CFXDSD2L">
     <description>DRAG DUE TO LE SLAT 2</description>
     <product>
-          <property>fcs/slat-2L-pos-deg</property>
+          <property>fcs/actuators/slats/inner-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1207,7 +1255,7 @@
     <function name="aero/c/CFXGEAR">
     <description>DRAG INCREMENT DUE TO GEAR</description>
     <product>
-          <property>gear/gear-pos-norm</property>
+          <property>fcs/actuators/gear/pos-norm</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1390,7 +1438,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.14662	  -0.14914	  -0.15081	  -0.15214	  -0.15302	  -0.15221	  -0.15138	
@@ -1470,7 +1518,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.14662	  -0.14914	  -0.15081	  -0.15214	  -0.15302	  -0.15221	  -0.15138	
@@ -1550,7 +1598,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.09868	  -0.10020	  -0.10086	  -0.10094	  -0.10135	  -0.10082	  -0.10043	
@@ -1630,7 +1678,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.09868	  -0.10020	  -0.10086	  -0.10094	  -0.10135	  -0.10082	  -0.10043	
@@ -1708,7 +1756,7 @@
     <function name="aero/c/CFZDEL">
     <description>LIFT DUE TO LOWER SPEEDBRAKE DEFLECTION</description>
     <product>
-          <property>fcs/airbrake-lower</property>
+          <property>fcs/actuators/spoilers/lower-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1740,7 +1788,7 @@
     <function name="aero/c/CFZDSBU">
     <description>LIFT DUE TO UPPER SPEEDBRAKE DEFLECTION</description>
     <product>
-          <property>fcs/airbrake-upper</property>
+          <property>fcs/actuators/spoilers/upper-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1772,7 +1820,7 @@
     <function name="aero/c/CFZDSD1L">
     <description>LIFT DUE TO LE SLAT 1</description>
     <product>
-          <property>fcs/slat-1L-pos-deg</property>
+          <property>fcs/actuators/slats/outer-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1804,7 +1852,7 @@
     <function name="aero/c/CFZDSD2L">
     <description>LIFT DUE TO LE SLAT 2</description>
     <product>
-          <property>fcs/slat-2L-pos-deg</property>
+          <property>fcs/actuators/slats/inner-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -1836,7 +1884,7 @@
     <function name="aero/c/CFZGEAR">
     <description>LIFT INCREMENT DUE TO GEAR</description>
     <product>
-          <property>gear/gear-pos-norm</property>
+          <property>fcs/actuators/gear/pos-norm</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -2020,7 +2068,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.06267	   0.06360	   0.06330	   0.06343	   0.06318	   0.06266	   0.06217	
@@ -2100,7 +2148,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.06267	   0.06360	   0.06330	   0.06343	   0.06318	   0.06266	   0.06217	
@@ -2180,7 +2228,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.09015	   0.09140	   0.09192	   0.09246	   0.09320	   0.09254	   0.09230	
@@ -2260,7 +2308,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.09015	   0.09140	   0.09192	   0.09246	   0.09320	   0.09254	   0.09230	
@@ -2338,7 +2386,7 @@
     <function name="aero/c/CMMDSBL">
     <description>PITCH MOMENT DUE TO LOWER SPEEDBRAKE DEFLECTION</description>
     <product>
-          <property>fcs/airbrake-lower</property>
+          <property>fcs/actuators/spoilers/lower-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -2370,7 +2418,7 @@
     <function name="aero/c/CMMDSBU">
     <description>PITCH MOMENT DUE TO UPPER SPEEDBRAKE DEFLECTION</description>
     <product>
-          <property>fcs/airbrake-upper</property>
+          <property>fcs/actuators/spoilers/upper-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -2402,7 +2450,7 @@
     <function name="aero/c/CMMDSD1L">
     <description>PITCH MOMENT DUE TO LE SLAT 1</description>
     <product>
-          <property>fcs/slat-1L-pos-deg</property>
+          <property>fcs/actuators/slats/outer-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -2434,7 +2482,7 @@
     <function name="aero/c/CMMDSD2L">
     <description>PITCH MOMENT DUE TO LE SLAT 2</description>
     <product>
-          <property>fcs/slat-2L-pos-deg</property>
+          <property>fcs/actuators/slats/inner-output</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -2466,7 +2514,7 @@
     <function name="aero/c/CMMGEAR">
     <description>PITCHING MOMENT INCREMENT DUE TO GEAR</description>
     <product>
-          <property>gear/gear-pos-norm</property>
+          <property>fcs/actuators/gear/pos-norm</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -2683,7 +2731,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.02750	  -0.02816	  -0.02889	  -0.02934	  -0.02972	  -0.03015	  -0.03035	
@@ -2763,7 +2811,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.02750	   0.02816	   0.02889	   0.02934	   0.02972	   0.03015	   0.03035	
@@ -2843,7 +2891,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.01471	  -0.01576	  -0.01706	  -0.01809	  -0.01899	  -0.02021	  -0.02104	
@@ -2923,7 +2971,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.01471	   0.01576	   0.01706	   0.01809	   0.01899	   0.02021	   0.02104	
@@ -3003,7 +3051,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/rudder-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/rudder/output</independentVar>
               <tableData breakPoint="-25">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.01522	   0.01535	   0.01558	   0.01569	   0.01577	   0.01593	   0.01603	
@@ -3081,7 +3129,7 @@
     <function name="aero/c/CMLGEAR">
     <description>ROLLING MOMENT INCREMENT DUE TO GEAR</description>
     <product>
-          <property>gear/gear-pos-norm</property>
+          <property>fcs/actuators/gear/pos-norm</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -3330,7 +3378,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.01879	  -0.01842	  -0.01709	  -0.01626	  -0.01552	  -0.01413	  -0.01309	
@@ -3410,7 +3458,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.01879	   0.01842	   0.01709	   0.01626	   0.01552	   0.01413	   0.01309	
@@ -3490,7 +3538,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.01847	  -0.01791	  -0.01554	  -0.01400	  -0.01278	  -0.01068	  -0.00904	
@@ -3570,7 +3618,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.01847	   0.01791	   0.01554	   0.01400	   0.01278	   0.01068	   0.00904	
@@ -3650,7 +3698,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/rudder-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/rudder/output</independentVar>
               <tableData breakPoint="0">
                               -25	         0	        25	
                     -10	  -0.07775	   0.00000	   0.07785	
@@ -3680,7 +3728,7 @@
     <function name="aero/c/CFYGEAR">
     <description>SIDE FORCE INCREMENT DUE TO GEAR</description>
     <product>
-          <property>gear/gear-pos-norm</property>
+          <property>fcs/actuators/gear/pos-norm</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
@@ -3907,7 +3955,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.00471	  -0.00429	  -0.00380	  -0.00340	  -0.00309	  -0.00248	  -0.00196	
@@ -3987,7 +4035,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-1R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-OR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.00471	   0.00429	   0.00380	   0.00340	   0.00309	   0.00248	   0.00196	
@@ -4067,7 +4115,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2L-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IL</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.00405	  -0.00354	  -0.00278	  -0.00255	  -0.00169	  -0.00094	  -0.00047	
@@ -4147,7 +4195,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/elevon-2R-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/elevons/output-IR</independentVar>
               <tableData breakPoint="-16">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	   0.00405	   0.00354	   0.00278	   0.00255	   0.00169	   0.00094	   0.00047	
@@ -4227,7 +4275,7 @@
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/rudder-pos-deg</independentVar>
+            <independentVar lookup="table">fcs/actuators/rudder/output</independentVar>
               <tableData breakPoint="-25">
                                -7	        -5	        -2	         0	         2	         5	         7	
                     -10	  -0.03892	  -0.03936	  -0.03984	  -0.04014	  -0.04043	  -0.04088	  -0.04111	
@@ -4305,7 +4353,7 @@
     <function name="aero/c/CMNGEAR">
     <description>YAWING MOMENT INCREMENT DUE TO GEAR</description>
     <product>
-          <property>gear/gear-pos-norm</property>
+          <property>fcs/actuators/gear/pos-norm</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
