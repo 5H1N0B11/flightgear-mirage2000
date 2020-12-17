@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Algebraic system, computing an alpha-rate error from the pilot input.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value= "10.5">  fcs/fbw/pitch/g/hs-max </property>  <!-- Mirage's documentation. -->
+	<property value= "-4.5">  fcs/fbw/pitch/g/hs-min </property>  <!-- Guess. -->
+	
+	<property value=  "2.5">  fcs/fbw/pitch/g/ls-max </property>  <!-- Tuning param (what the FDM allows us). -->
+	<property value= "-1.0">  fcs/fbw/pitch/g/ls-min </property>  <!-- Tuning param (what the FDM allows us). -->
+	
+	<property value= "60.0">  fcs/fbw/pitch/g/ls </property>      <!-- Tuning param (a point where we don't really fly anyway to use as the low value of our map). -->
+	<property value="350.0">  fcs/fbw/pitch/g/hs </property>      <!-- Tuning param (the point speed over which the airframe allows full control up to min & max g's). -->
+
+	<channel name="Pitch">	
+		
+		<!-- Linear interpolation coefficient between low speed config and standard config. -->
+		<fcs_function name="fcs/fbw/pitch/g/li-ls-hs">
+			<function>
+				<ifthen>
+					<le>
+						<property> velocities/vc-kts </property>
+						<p> fcs/fbw/pitch/g/ls </p>
+					</le>
+					
+					<value>0</value>
+
+					<ifthen>
+						<ge>
+							<property> velocities/vc-kts </property>
+							<p> fcs/fbw/pitch/g/hs </p>
+						</ge>
+
+						<value> 1 </value>
+
+						<quotient>
+							<difference>
+								<p> velocities/vc-kts </p>
+								<p> fcs/fbw/pitch/g/ls </p>
+							</difference>
+							<difference>
+								<p> fcs/fbw/pitch/g/hs </p>
+								<p> fcs/fbw/pitch/g/ls </p>
+							</difference>
+						</quotient>
+
+					</ifthen>
+
+				</ifthen>
+			</function>
+		</fcs_function>
+		
+		<!-- Positive G boundary for the control according to the speed. -->
+		<fcs_function name="fcs/fbw/pitch/g/max-g">
+			<function>
+				<sum>
+					<product>
+						<p> fcs/fbw/pitch/g/hs-max </p>
+						<p> fcs/fbw/pitch/g/li-ls-hs </p>
+					</product>
+
+					<product>
+						<p> fcs/fbw/pitch/g/ls-max</p>
+						<difference>
+							<value> 1 </value>
+							<p> fcs/fbw/pitch/g/li-ls-hs </p>
+						</difference>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- Negative G boundary for the control according to the speed. -->
+		<fcs_function name="fcs/fbw/pitch/g/min-g">
+			<function>
+				<sum>
+					<product>
+						<p> fcs/fbw/pitch/g/hs-min </p>
+						<p> fcs/fbw/pitch/g/li-ls-hs </p>
+					</product>
+
+					<product>
+						<p> fcs/fbw/pitch/g/ls-min</p>
+						<difference>
+							<value> 1 </value>
+							<p> fcs/fbw/pitch/g/li-ls-hs </p>
+						</difference>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<!-- The amount of g's demanded by the pilot (not including level-flight g's). -->
+		<fcs_function name="fcs/fbw/pitch/g/pilot-demand">
+			<function>
+				<product>
+					<p>fcs/fbw/pitch/pilot-input/output</p>
+
+					<ifthen>
+						<lt>
+							<property> fcs/fbw/pitch/pilot-input/output </property>
+							<value> 0 </value>
+						</lt>
+
+						<p> -fcs/fbw/pitch/g/min-g </p>
+						
+						<p>  fcs/fbw/pitch/g/max-g </p>
+					</ifthen>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- The amount of g's needed to keep elevation if the wings are leveled. -->
+		<fcs_function name="fcs/fbw/pitch/g/neutral-demand">
+			<function>
+				<abs><cos><p> fcs/fbw/pitch/kinetic-pitch-rad </p></cos></abs>
+			</function>
+		</fcs_function>
+		
+		<!-- The amount of g's demanded overall. -->
+		<summer name="fcs/fbw/pitch/g/demand">
+			<input> fcs/fbw/pitch/g/neutral-demand </input>
+			<input> fcs/fbw/pitch/g/pilot-demand </input>
+			<clipto>
+				<min> fcs/fbw/pitch/g/min-g </min>
+				<max> fcs/fbw/pitch/g/max-g </max>
+			</clipto>
+		</summer>
+		
+		<!-- Error = g_demand - g_current (inverted because Z points downward). -->
+		<summer name="fcs/fbw/pitch/g/error">
+			<input>  fcs/fbw/pitch/kinetic-gZ</input>
+			<input> -fcs/fbw/pitch/g/demand</input>
+		</summer>
+	</channel>
+</system>
