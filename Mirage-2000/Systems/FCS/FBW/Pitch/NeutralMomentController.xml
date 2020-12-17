@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Algebraic system, computing the pitch channel output "trim" needed to compensate the natural torque of the airframe.
+-->
+
+<system name="Mirage-2000: FCS/FBW/Pitch/NeutralMoment">
+	<property value= "1">   fcs/fbw/pitch/neutral-moment/enable </property>  <!-- Pilot available toggle. -->
+	
+	<property value="0.2"> fcs/fbw/pitch/neutral-moment/Kp </property>  <!-- Tuning param (coefficient acting as the airframe lift coefficient). -->
+	
+	<channel name="FBW/Pitch/NeutralMoment">
+		<!-- How much elevator output is needed to counteract the airframe induced torque, according to the current speed. -->
+		<fcs_function name="fcs/fbw/pitch/neutral-moment/output">
+			<function>
+				<product>
+					<!-- linear relationship to the square of the IAS -->
+					<pow>
+						<table>
+							<independentVar lookup="row"> velocities/vc-kts </independentVar>
+							<tableData>
+								0     0.0
+								950  -1.0
+							</tableData>
+						</table>
+						<value> 2 </value>
+					</pow>
+					<p> fcs/fbw/pitch/neutral-moment/Kp </p>
+				</product>
+			</function>
+			<clipto>
+				<p> -1 </p>
+				<p>  1 </p>
+			</clipto>
+		</fcs_function>
+		
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/pitch/neutral-moment/active-output">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/pitch/neutral-moment/output">
+				fcs/fbw/pitch/neutral-moment/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Feedback to be compared to the alpha-rate error by the main driver. 
+	Used to provide a flexible boundary for maximum & minimum alpha values. 
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value= "1">     fcs/fbw/pitch/alpha-limit/enable </property>  <!-- Pilot available toggle. -->
+	
+	<property value= "30.0">  fcs/fbw/pitch/alpha-limit/max-alpha </property>  <!-- Mirage data. -->
+	<property value="-15.0">  fcs/fbw/pitch/alpha-limit/min-alpha </property>  <!-- Guess. -->
+	
+	<property value=  "5.0">  fcs/fbw/pitch/alpha-limit/limit-window </property>  <!-- Tuning param (over-pitch +- window). -->
+	<property value= "20.0">  fcs/fbw/pitch/alpha-limit/Klag </property>          <!-- Tuning param (lag filter coeff for the feedback). -->
+	
+	<channel name="Pitch">
+		<!-- How much outside the alpha feedback window we are. -->
+		<!-- -1.0: Min alpha reached. -->
+		<!--  0.0: Inside the inner borders of the alpha feedback window. -->
+		<!--  1.0: Max alpha reached. -->
+		<fcs_function name="fcs/fbw/pitch/alpha-limit/outside-window">
+			<function>
+				<ifthen>
+					<and>
+						<ge>
+							<p> fcs/fbw/pitch/alpha-deg </p>
+							<p> fcs/fbw/pitch/alpha-limit/min-alpha </p>
+						</ge>
+						<le>
+							<p> fcs/fbw/pitch/alpha-deg </p>
+							<p> fcs/fbw/pitch/alpha-limit/max-alpha </p>
+						</le>
+					</and>
+	
+					<!-- Inside the inner borders -->
+					<value> 0.0 </value>
+
+					<!-- Outside the inner borders -->
+					<ifthen>
+						<lt>
+							<p> fcs/fbw/pitch/alpha-deg </p>
+							<p> fcs/fbw/pitch/alpha-limit/min-alpha </p>
+						</lt>
+						
+						<!-- Approaching min alpha -->
+						<quotient>
+							<difference>
+								<p> fcs/fbw/pitch/alpha-deg </p>
+								<p> fcs/fbw/pitch/alpha-limit/min-alpha </p>
+							</difference>
+							<p> fcs/fbw/pitch/alpha-limit/limit-window </p>
+						</quotient>
+
+						<!-- Approaching max alpha -->
+						<quotient>
+							<difference>
+								<p> fcs/fbw/pitch/alpha-deg </p>
+								<p> fcs/fbw/pitch/alpha-limit/max-alpha </p>
+							</difference>
+							<p> fcs/fbw/pitch/alpha-limit/limit-window </p>
+						</quotient>
+					</ifthen>
+				</ifthen>
+			</function>
+		</fcs_function>
+		
+		<!-- Alpha-rate feedback due to excessive alpha and a d-alpha demand (doesn't account for the demand direction). -->
+		<fcs_function name="fcs/fbw/pitch/alpha-limit/d-alpha-feedback-prod">
+			<function>
+				<product>
+					<abs><p> fcs/fbw/pitch/d-alpha </p></abs>
+					<p> fcs/fbw/pitch/alpha-limit/outside-window </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Alpha-rate feedback due to excessive alpha and a d-alpha demand worsening the situation. -->
+		<switch name="fcs/fbw/pitch/alpha-limit/d-alpha-feedback">
+			<default value="0"/>
+			<test logic="AND" value="fcs/fbw/pitch/alpha-limit/d-alpha-feedback-prod">
+				fcs/fbw/pitch/alpha-limit/outside-window gt 0
+				fcs/fbw/pitch/d-alpha gt 0
+			</test>
+			<test logic="AND" value="fcs/fbw/pitch/alpha-limit/d-alpha-feedback-prod">
+				fcs/fbw/pitch/alpha-limit/outside-window lt 0
+				fcs/fbw/pitch/d-alpha lt 0
+			</test>
+		</switch>
+
+		<!-- Alpha-rate feedback due to excessive alpha and a d-alpha (doesn't account for the d-alpha direction). -->
+		<fcs_function name="fcs/fbw/pitch/alpha-limit/d-alpha-error-feedback-prod">
+			<function>
+				<product>
+					<abs><p> fcs/fbw/pitch/alpha-rate/error </p></abs>
+					<p> fcs/fbw/pitch/alpha-limit/outside-window </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Alpha-rate feedback due to excessive alpha and a d-alpha worsening the situation. -->
+		<switch name="fcs/fbw/pitch/alpha-limit/d-alpha-error-feedback">
+			<default value="0"/>
+			<test logic="AND" value="fcs/fbw/pitch/alpha-limit/d-alpha-error-feedback-prod">
+				fcs/fbw/pitch/alpha-limit/outside-window gt 0
+				fcs/fbw/pitch/alpha-rate/error gt 0
+			</test>
+			<test logic="AND" value="fcs/fbw/pitch/alpha-limit/d-alpha-error-feedback-prod">
+				fcs/fbw/pitch/alpha-limit/outside-window lt 0
+				fcs/fbw/pitch/alpha-rate/error lt 0
+			</test>
+		</switch>
+
+		<!-- Alpha-rate feedback due to excessive alpha. -->
+		<summer name="fcs/fbw/pitch/alpha-limit/direct-feedback">
+			<input> fcs/fbw/pitch/alpha-limit/d-alpha-feedback </input>
+			<input> fcs/fbw/pitch/alpha-limit/d-alpha-error-feedback </input>
+		</summer>
+		
+		<!-- Lag filter for the feedback. -->
+		<lag_filter name="fcs/fbw/pitch/alpha-limit/feedback">
+			<input> fcs/fbw/pitch/alpha-limit/direct-feedback </input>
+			<c1> fcs/fbw/pitch/alpha-limit/Klag </c1>
+		</lag_filter>
+		
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/pitch/alpha-limit/active-feedback">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/pitch/alpha-limit/feedback">
+				fcs/fbw/pitch/alpha-limit/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>
