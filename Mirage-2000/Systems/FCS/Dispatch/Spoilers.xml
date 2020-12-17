@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.2
+	
+	System to pass-through direct normalized pilot commands to the spoilers actuators.
+-->
+
+<system name="Mirage-2000: FCS/Dispatch">
+	<channel name="Spoilers">
+		<!-- Direct pass-through of the spoilers command to the actuators. -->
+		<pure_gain name="fcs/dispatch/spoilers/output-norm">
+			<input> /controls/flight/speedbrake </input>
+			<gain> 1 </gain>
+			<clipto>
+				<min> 0 </min>
+				<max> 1 </max>
+			</clipto>
+		</pure_gain>
+	</channel>
+</system>
