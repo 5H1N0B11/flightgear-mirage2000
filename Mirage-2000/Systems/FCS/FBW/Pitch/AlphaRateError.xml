@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Algebraic system with a low-pass filter, computing an alpha-rate error from a g error.
+	Three step process, involving: computing an error in alpha, then a demand in alpha-rate, then the associated error (compared to the current state).
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value=  "0.0000005"> fcs/fbw/pitch/alpha-rate/alpha-Kp </property>    <!-- Tuning param (gain to convert g-error error to alpha-error) -->
+	<property value=  "4.0">       fcs/fbw/pitch/alpha-rate/rate-Kp </property>     <!-- Tuning param (gain to convert alpha error to alpha-rate) -->
+	<property value= "10.0">       fcs/fbw/pitch/alpha-rate/alpha-Klag </property>  <!-- Tuning param (lag coefficient for the alpha-error) -->
+
+	<channel name="Pitch">	
+		<!-- Compute the error in alpha according to the error in acceleration -->
+		<fcs_function name="fcs/fbw/pitch/alpha-rate/alpha-error">
+			<function>
+				<product>
+					<p> fcs/fbw/pitch/g/error </p>              <!-- The acceleration error on the kinetic z axis  -->
+					<p> fcs/fbw/energy-coefficient </p>         <!-- Speed² proportional factor -->
+					<p> inertia/weight-lbs </p>		        <!-- Weight proportional factor -->
+					<value> 3.14159265359 </value>          <!-- 1 radian -->
+					<p> fcs/fbw/pitch/alpha-rate/alpha-Kp </p>  <!-- Tunable proportional coefficient -->
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Lag filter for the alpha error. -->
+		<lag_filter name="fcs/fbw/pitch/alpha-rate/alpha-error-lag">
+			<input> fcs/fbw/pitch/alpha-rate/alpha-error </input>
+			<c1> fcs/fbw/pitch/alpha-rate/alpha-Klag </c1>
+		</lag_filter>
+
+		<!-- TODO: Remove, it is for tuning purposes only -->
+		<summer name="fcs/fbw/pitch/alpha-rate/predicted-alpha">
+			<input> fcs/fbw/pitch/alpha-rad </input>
+			<input> fcs/fbw/pitch/alpha-rate/alpha-error </input>
+		</summer>
+		
+		<!-- Compute the alpha rate required to correct the alpha error. -->
+		<fcs_function name="fcs/fbw/pitch/alpha-rate/demand">
+			<function>
+				<product>
+					<p> fcs/fbw/pitch/alpha-rate/alpha-error-lag </p>  <!-- The error in alpha  -->
+					<p> fcs/fbw/pitch/alpha-rate/rate-Kp </p>          <!-- Tunable proportional coefficient -->
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Error = alpha-rate_demand - alpha-rate_current. -->
+		<summer name="fcs/fbw/pitch/alpha-rate/error">
+			<input> fcs/fbw/pitch/alpha-rate/demand </input>
+			<input> fcs/fbw/pitch/d-alpha </input>
+		</summer>
+	</channel>
+</system>
