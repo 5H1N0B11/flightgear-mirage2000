@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Aggregation of all the active controllers of the roll channel.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value=" 1.0"> fcs/fbw/roll/max-authority </property>  <!-- Tuning param (Maximum absolute roll channel authority). -->
+	
+	<channel name="Roll">
+		<!-- The FBW roll channel output: sum of all the controllers if the FBW is enabled, direct pilot input otherwise. -->
+		<fcs_function name="fcs/fbw/roll/output">
+			<function>
+				<ifthen>
+					<and>
+						<eq>
+							<p> fcs/fbw/enable </p>
+							<value> 1 </value>
+						</eq>
+						<gt>
+							<p> /systems/electrical/volts </p> gt 0  <!-- Power on the main bus. -->
+							<value> 0 </value>
+						</gt>
+					</and>
+
+					<sum>
+						<p> fcs/fbw/roll/theta-rate/active-output </p>  <!-- The active control -->
+						<p> fcs/fbw/roll/damping/active-output </p>     <!-- The damping control -->
+						<p> fcs/fbw/roll/stability/active-output </p>   <!-- The control to compensate for the moment induced by (in)stability -->
+					</sum>
+
+					<p> fcs/fbw/roll/pilot-input/output </p>  <!-- Direct pilot input. -->
+				</ifthen>
+			</function>
+			<clipto>
+				<min> -fcs/fbw/roll/max-authority </min>
+				<max>  fcs/fbw/roll/max-authority </max>
+			</clipto>
+		</fcs_function>
+		
+		<!-- Maximum absolute output value over which the integration stop will trigger. -->
+		<fcs_function name="fcs/fbw/roll/max-i">
+			<function>
+				<difference>
+					<p> fcs/fbw/roll/max-authority </p>
+					<value> 0.001 </value> 
+				</difference>
+			</function>
+		</fcs_function>
+
+		<!-- Manage the roll channel integration stop trigger. -->
+		<switch name="fcs/fbw/roll/i-trigger">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				fcs/fbw/i-trigger ne 0
+
+				fcs/fbw/roll/output le -fcs/fbw/roll/max-i
+				fcs/fbw/roll/output ge  fcs/fbw/roll/max-i
+			</test>
+		</switch>
+	</channel>
+
+	
+</system>
