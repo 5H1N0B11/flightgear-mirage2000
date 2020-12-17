@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Controller to dampen the roll-rate.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value=  "1"> fcs/fbw/roll/damping/enable </property>  <!-- Pilot available toggle. -->
+	
+	<property value="0.2"> fcs/fbw/roll/damping/Kp </property>  <!-- Tuning param (proportional coefficient for the controller). -->
+	<property value="0.0"> fcs/fbw/roll/damping/Kd </property>  <!-- Tuning param (derivative coefficient for the controller). -->
+	
+	<property value="0.8"> fcs/fbw/roll/damping/max-authority </property>  <!-- Tuning param (absolute maximum output of the controller). -->
+	
+	<channel name="Roll">
+		
+		<!-- Make Kp linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/roll/damping/Kpe">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/roll/damping/Kp </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Make Kd linear to (1-norm_IAS²) to account for authority due to speed. -->
+		<fcs_function name="fcs/fbw/roll/damping/Kde">
+			<function>
+				<product>
+					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
+					<p> fcs/fbw/roll/damping/Kd </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- PD controller for d-theta damping on the roll channel. No integration as it would interfere with the driver. -->
+		<pid name="fcs/fbw/roll/damping/controller">
+			<input> -velocities/p-rad_sec </input>
+			
+			<kp> fcs/fbw/roll/damping/Kpe </kp>
+			<ki> 0.0 </ki>
+			<kd> fcs/fbw/roll/damping/Kde </kd>
+			
+			<clipto>
+				<p> -fcs/fbw/roll/damping/max-authority </p>
+				<p>  fcs/fbw/roll/damping/max-authority </p>
+			</clipto>
+			
+			<output> fcs/fbw/roll/damping/output </output>
+		</pid>
+		
+		<!-- Pilot available toggle implementation. -->
+		<switch name="fcs/fbw/roll/damping/active-output">
+			<default value="0"/>
+			<test logic="OR" value="fcs/fbw/roll/damping/output">
+				fcs/fbw/roll/damping/enable eq 1
+			</test>
+		</switch>
+	</channel>
+</system>
