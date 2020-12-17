@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.2
+	
+	System to dispatch normalized roll & pitch commands to the elevons actuators. 
+-->
+
+<system name="Mirage-2000: FCS/Dispatch">
+	<channel name="Elevons">
+		<!-- TODO: Some parameters (16° & 25°) were pulled from old FBW. They are to be classified (documented / guess). -->
+		<!-- FBW roll channel induced input (in degrees). -->
+		<pure_gain name="fcs/dispatch/elevons/roll-input">
+			<input> fcs/fbw/roll/output </input>
+			<gain> 25.0 </gain>
+		</pure_gain>
+		
+		<!-- FBW pitch channel induced input (in degrees). -->
+		<pure_gain name="fcs/dispatch/elevons/pitch-input">
+			<input> fcs/fbw/pitch/output </input>
+			<gain> 25.0 </gain>
+		</pure_gain>
+		
+		<!-- Command for the outer-left elevon (in degrees). -->
+		<fcs_function name="fcs/dispatch/elevons/output-OL">
+			<function>
+				<sum>
+					<property> fcs/dispatch/elevons/roll-input </property>
+					<property> fcs/dispatch/elevons/pitch-input </property>
+				</sum>
+			</function>
+			<clipto>
+				<min> -25.0 </min>
+				<max>  16.0 </max>
+			</clipto>
+		</fcs_function>
+
+		<!-- Command for the outer-right elevon (in degrees). -->
+		<fcs_function name="fcs/dispatch/elevons/output-OR">
+			<function>
+				<sum>
+					<product>
+						<property> fcs/dispatch/elevons/roll-input </property>
+						<value> -1 </value>
+					</product>
+					<property> fcs/dispatch/elevons/pitch-input </property>
+				</sum>
+			</function>
+			<clipto>
+				<min> -25.0 </min>
+				<max>  16.0 </max>
+			</clipto>
+		</fcs_function>
+
+		<!-- How much authority the roll channel has on the inner elevons (depending on IAS). -->
+		<fcs_function name="fcs/dispatch/elevons/inner-roll-factor">
+			<function>
+				<table>
+					<independentVar lookup="row"> velocities/vc-kts </independentVar>
+					<tableData>
+						250  1.0  <!-- Guess. -->
+						400  0.0  <!-- Guess. -->
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+
+		<!-- Command for the inner-left elevon (in degrees). -->
+		<fcs_function name="fcs/dispatch/elevons/output-IL">
+			<function>
+				<sum>
+					<product>
+						<property> fcs/dispatch/elevons/roll-input </property>
+						<property> fcs/dispatch/elevons/inner-roll-factor </property>
+					</product>
+					<property> fcs/dispatch/elevons/pitch-input </property>
+				</sum>
+			</function>
+			<clipto>
+				<min> -25.0 </min>
+				<max>  16.0 </max>
+			</clipto>
+		</fcs_function>
+
+		<!-- Command for the inner-right elevon (in degrees). -->
+		<fcs_function name="fcs/dispatch/elevons/output-IR">
+			<function>
+				<sum>
+					<product>
+						<property> fcs/dispatch/elevons/roll-input </property>
+						<property> fcs/dispatch/elevons/inner-roll-factor </property>
+						<value> -1 </value>
+					</product>
+					<property> fcs/dispatch/elevons/pitch-input </property>
+				</sum>
+			</function>
+			<clipto>
+				<min> -25.0 </min>
+				<max>  16.0 </max>
+			</clipto>
+		</fcs_function>
+	</channel>
+</system>
