@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	System to dispatch normalized yaw commands to the rudder actuators. 
+-->
+
+<system name="Mirage-2000: FCS/Dispatch">
+	<channel name="Rudder">
+		<!-- Command for the rudder (in degrees). -->
+		<pure_gain name="fcs/dispatch/rudder/output">
+			<input> fcs/fbw/yaw/output </input>
+			<gain> 25.0 </gain>  <!-- TODO: Pulled from old FBW. To be classified (documented / guess). -->
+			<clipto>
+				<min> -25.0</min>
+				<max>  25.0</max>
+			</clipto>
+		</pure_gain>
+	</channel>
+</system>
