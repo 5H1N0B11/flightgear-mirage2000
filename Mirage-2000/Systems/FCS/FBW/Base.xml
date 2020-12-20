@@ -6,7 +6,7 @@
 	Base components for the FBW:
 		- Weight On (any) Wheel flag.
 		- Base integration stop trigger, acting as an interface with other systems (WOW sensors, electric/hydraulic system, FBW enabling switch).
-		- Calculates a coefficient linear to  1-normspeed², used by controllers to account for speed-induced authority. 
+		- Calculates a coefficient linear to  1-normspeedÂ², used by controllers to account for speed-induced authority. 
 -->
 
 <system name="Mirage-2000: FCS/FBW/Base">
@@ -28,19 +28,22 @@
 		<!-- Integration stop trigger for the whole FBW system. -->
 		<switch name="fcs/fbw/i-trigger">
 			<default value="0"/>
+			
 			<test logic="OR" value="1">
 				fcs/fbw/wow ne 0
 				fcs/fbw/enable ne 1
-				
-				/systems/electrical/volts gt 0  <!-- Power on the main bus. -->
-				
-				systems/hydraulics/number1-system-available           eq 1 <!-- Main hydraulic system available. -->
-				systems/hydraulics/number2-system-available           eq 1 <!-- Main hydraulic system available. -->
-				systems/hydraulics/number2-emergency-system-available eq 1 <!-- Emergency hydraulic system available. -->
+			</test>
+			
+			<test logic="AND" value="1">
+				/systems/electrical/volts gt 0  <!-- No power on the main bus. -->
+
+				systems/hydraulics/number1-system-available           ne 1 <!-- Main hydraulic system unavailable. -->
+				systems/hydraulics/number2-system-available           ne 1 <!-- Main hydraulic system unavailable. -->
+				systems/hydraulics/number2-emergency-system-available ne 1 <!-- Emergency hydraulic system unavailable. -->
 			</test>
 		</switch>
 
-		<!-- Coefficient linear to  1-normspeed², used by controllers to account for speed-induced authority. -->
+		<!-- Coefficient linear to  1-normspeedÂ², used by controllers to account for speed-induced authority. -->
 		<fcs_function name="fcs/fbw/energy-coefficient">
 			<function>
 				<difference>
