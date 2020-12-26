@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">1-grey camo (Egypt)</name>
+        <name type="string">EAF 82 SQN, 108</name>
         <texture>Liveries/2048x2048/1_grey_egypt.png</texture>
         <texture-tank-2000>tank2000_grey.png</texture-tank-2000>
 
@@ -16,6 +16,15 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
+
+      <logos>
+        <texture>egypt.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
     </model>
   </sim>
 

@@ -6,8 +6,8 @@
     <model>
       <livery>
 
-        <name type="string">2-Event ROCAF Mirage 20 years</name>
-        <texture>Liveries/2048x2048/2_rocaf_20y.png</texture>
+        <name type="string">FAF EC 3/11 "Corse", 188-TR</name>
+        <texture>Liveries/2048x2048/1_sky.png</texture>
         <texture-tank-2000>tank2000.png</texture-tank-2000>
 
         <specular>
@@ -16,6 +16,15 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
+
+      <logos>
+        <texture>corse.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
     </model>
   </sim>
 

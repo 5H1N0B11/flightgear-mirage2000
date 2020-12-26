@@ -6,8 +6,8 @@
     <model>
       <livery>
 
-        <name type="string">2-Event SPA 3 100 years</name>
-        <texture>Liveries/2048x2048/2_cigognes_100y.png</texture>
+        <name type="string">ROCAF 2nd TFW, 2017 (20 years)</name>
+        <texture>Liveries/2048x2048/2_rocaf_20y.png</texture>
         <texture-tank-2000>tank2000.png</texture-tank-2000>
 
         <specular>
@@ -16,6 +16,15 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
+
+      <logos>
+        <texture>republic_of_china.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
     </model>
   </sim>
 

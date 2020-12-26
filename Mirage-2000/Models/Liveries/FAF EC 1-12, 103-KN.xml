@@ -6,8 +6,8 @@
     <model>
       <livery>
 
-        <name type="string">1-Desert camo (Desert Storm)</name>
-        <texture>Liveries/2048x2048/1_desert.png</texture>
+        <name type="string">FAF EC 1/2 "Cambresis", 103-KN</name>
+        <texture>Liveries/2048x2048/1_sky.png</texture>
         <texture-tank-2000>tank2000.png</texture-tank-2000>
 
         <specular>
@@ -16,6 +16,15 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
+
+      <logos>
+        <texture>cambresis.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
     </model>
   </sim>
 
