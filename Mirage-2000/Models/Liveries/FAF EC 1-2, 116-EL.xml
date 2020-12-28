@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">FAF EC 1/2 "Cigognes", 116-EL (100 years SPA3)</name>
+        <name type="string">FAF EC 1/2 "Cigognes", 116-EL</name>
         <texture>Liveries/2048x2048/2_cigognes_100y.png</texture>
         <texture-tank-2000>tank2000.png</texture-tank-2000>
 
@@ -16,8 +16,8 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
-
       <logos>
+        <name type="string">EC 1/2 Cigognes (100 years)</name>
         <texture>cigognes_100y.png</texture>
         <specular>
           <red>   0.3 </red>
@@ -25,8 +25,6 @@
           <blue>  0.3 </blue>
         </specular>
       </logos>
-    </model>
-  </sim>
     </model>
   </sim>
 

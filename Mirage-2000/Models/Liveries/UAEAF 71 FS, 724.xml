@@ -16,8 +16,8 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
-
       <logos>
+        <name type="string">United Arab Emirates Air Force</name>
         <texture>uae.png</texture>
         <specular>
           <red>   0.3 </red>

@@ -16,8 +16,8 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
-
       <logos>
+        <name type="string">EC 3/11 Corse</name>
         <texture>corse.png</texture>
         <specular>
           <red>   0.3 </red>

@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">FAF EC 1/2 "Cambresis", 103-KN</name>
+        <name type="string">FAF EC 1/12 "Cambresis", 103-KN</name>
         <texture>Liveries/2048x2048/1_sky.png</texture>
         <texture-tank-2000>tank2000.png</texture-tank-2000>
 
@@ -16,8 +16,8 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
-
       <logos>
+        <name type="string">EC 1/12 Cambresis</name>
         <texture>cambresis.png</texture>
         <specular>
           <red>   0.3 </red>

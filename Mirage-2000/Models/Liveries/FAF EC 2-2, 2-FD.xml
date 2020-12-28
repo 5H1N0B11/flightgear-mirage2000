@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">FAF EC 2/2 "Cote d'Or", 2-FD (50 years)</name>
+        <name type="string">FAF EC 2/2 "Cote d'Or", 2-FD</name>
         <texture>Liveries/2048x2048/2_cote_d-or_50y.png</texture>
         <texture-tank-2000>tank2000_cote_d-or.png</texture-tank-2000>
 
@@ -16,8 +16,8 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
-
       <logos>
+        <name type="string">EC 2/2 Cote d'or (50 years)</name>
         <texture>cote_d-or_50y.png</texture>
         <specular>
           <red>   0.3 </red>

@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">FAF EC 2/5 "Ile De France", 5-OP (Desert Storm)</name>
+        <name type="string">FAF EC 2/5 "Ile De France", 5-OP</name>
         <texture>Liveries/2048x2048/1_desert.png</texture>
         <texture-tank-2000>tank2000.png</texture-tank-2000>
 
@@ -16,8 +16,8 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
-
       <logos>
+        <name type="string">EC 2/5 Ile De France (Desert Storm)</name>
         <texture>ile-de-france_desert-storm.png</texture>
         <specular>
           <red>   0.3 </red>

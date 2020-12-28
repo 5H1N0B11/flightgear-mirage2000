@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">FAF EC 3/11 "Corse", 188-ET (70 years)</name>
+        <name type="string">FAF EC 3/11 "Corse", 188-ET</name>
         <texture>Liveries/2048x2048/2_corse.png</texture>
         <texture-tank-2000>tank2000_Corse.png</texture-tank-2000>
 
@@ -16,8 +16,8 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
-
       <logos>
+        <name type="string">EC 3/11 Corse (70 years)</name>
         <texture>corse_70y.png</texture>
         <specular>
           <red>   0.3 </red>
