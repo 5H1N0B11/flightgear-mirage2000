@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">4-Contrib KSUU</name>
+        <name type="string">Z Fictional KSUU (contribution)</name>
         <texture>Liveries/1024x1024/4_ksuu.png</texture>
         <texture-tank-2000>tank2000_black.png</texture-tank-2000>
 
@@ -16,6 +16,15 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
+      <logos>
+        <name type="string"> Default</name>
+        <texture>default.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
     </model>
   </sim>
 

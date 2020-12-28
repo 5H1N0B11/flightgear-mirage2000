@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">3-Fictional have glass</name>
+        <name type="string">Z Fictional Have Glass Mirage</name>
         <texture>Liveries/2048x2048/3_haveglass.png</texture>
         <texture-tank-2000>tank2000_metal.png</texture-tank-2000>
 
@@ -16,6 +16,15 @@
           <blue>  0.3 </blue>
         </specular>
       </livery>
+      <logos>
+        <name type="string"> No Logo</name>
+        <texture>empty.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
     </model>
   </sim>
 
