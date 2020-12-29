@@ -4,18 +4,15 @@
 
   <sim>
     <model>
-      <livery>
-
-        <name type="string">2-Event Ouadi Doum 30 years</name>
-        <texture>Liveries/2048x2048/2_ouadi_doum.png</texture>
-        <texture-tank-2000>tank2000_ouadi_doum.png</texture-tank-2000>
-
+      <logos>
+        <name type="string">EC 3/3 Ardennes (Ouadi Doum)</name>
+        <texture>ardennes_2.png</texture>
         <specular>
           <red>   0.3 </red>
           <green> 0.3 </green>
           <blue>  0.3 </blue>
         </specular>
-      </livery>
+      </logos>
     </model>
   </sim>
 
