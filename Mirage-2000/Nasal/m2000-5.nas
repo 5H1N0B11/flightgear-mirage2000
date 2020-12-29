@@ -667,16 +667,17 @@ var quickstart = func() {
       call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "config"}))},nil,var err2 = []);
     
       #Placing the view on take off view
-      setprop("/sim/current-view/x-offset-m",0);
-      setprop("/sim/current-view/y-offset-m",0.1019);
-      setprop("/sim/current-view/z-offset-m",-2.9);
-      setprop("/sim/current-view/field-of-view",83);
-      
-      #zooming on fuel, electrics and alerts
-      setprop("/sim/current-view/pitch-offset-deg",-40);
-      setprop("/sim/current-view/heading-offset-deg",338);
-      setprop("/sim/current-view/field-of-view",36);
-      
+      if(getprop("/sim/current-view/view-number") == 0) {
+        setprop("/sim/current-view/x-offset-m",0);
+        setprop("/sim/current-view/y-offset-m",0.1019);
+        setprop("/sim/current-view/z-offset-m",-2.9);
+        setprop("/sim/current-view/field-of-view",83);
+        
+        #zooming on fuel, electrics and alerts
+        setprop("/sim/current-view/pitch-offset-deg",-40);
+        setprop("/sim/current-view/heading-offset-deg",338);
+        setprop("/sim/current-view/field-of-view",36);
+      }
       
       settimer(func { 
         setprop("/controls/switches/battery-switch",1);
@@ -692,10 +693,12 @@ var quickstart = func() {
       }, 4);
 
       #Zooming on starting panel
-      settimer(func { 
-        setprop("/sim/current-view/pitch-offset-deg",-62);
-        setprop("/sim/current-view/heading-offset-deg",312);
-        setprop("/sim/current-view/field-of-view",21.6);
+      settimer(func {
+        if(getprop("/sim/current-view/view-number") == 0) {
+          setprop("/sim/current-view/pitch-offset-deg",-62);
+          setprop("/sim/current-view/heading-offset-deg",312);
+          setprop("/sim/current-view/field-of-view",21.6);
+        }
       }, 5);  
 
       # Cut Off
@@ -737,17 +740,21 @@ var quickstart = func() {
       
       
       #zooming on fuel, electrics and alerts
-     settimer(func {         
-        setprop("/sim/current-view/pitch-offset-deg",-38);
-        setprop("/sim/current-view/heading-offset-deg",338);
-        setprop("/sim/current-view/field-of-view",36);
-      }, 15);  
+      settimer(func {
+        if(getprop("/sim/current-view/view-number") == 0) {
+          setprop("/sim/current-view/pitch-offset-deg",-38);
+          setprop("/sim/current-view/heading-offset-deg",338);
+          setprop("/sim/current-view/field-of-view",36);
+        }
+        }, 15);  
 
      #puting back the view on take off view
-      settimer(func {         
-        setprop("/sim/current-view/pitch-offset-deg",-14);
-        setprop("/sim/current-view/heading-offset-deg",0);
-        setprop("/sim/current-view/field-of-view",83);
+      settimer(func {
+        if(getprop("/sim/current-view/view-number") == 0) {
+          setprop("/sim/current-view/pitch-offset-deg",-14);
+          setprop("/sim/current-view/heading-offset-deg",0);
+          setprop("/sim/current-view/field-of-view",83);
+        }
       }, 45); 
       
       #turning on the air conditioning
