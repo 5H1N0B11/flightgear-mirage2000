@@ -399,8 +399,8 @@
       <z>1.17</z>
     </location>
     <type>F-34</type>
-    <capacity unit="KG">5</capacity>
-    <contents unit="KG">5</contents>
+    <capacity unit="KG">50</capacity>
+    <contents unit="KG">50</contents>
     <priority>1</priority>
   </tank>
   
