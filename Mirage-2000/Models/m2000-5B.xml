@@ -90,6 +90,10 @@
     <path>Aircraft/Mirage-2000/Models/Logos/logosB.xml</path>
   </model>
 
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Service-door/service-door.xml</path>
+  </model>
+
   <!-- HIDING MONOPLACE PARTS -->
   <animation>
     <type>select</type>
