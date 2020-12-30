@@ -104,16 +104,52 @@
     <object-name>starter.starter</object-name>
     <action>
       <button>0</button>
+      <!--We need BP = 1 and Vent in G or D direction (so 1) in order to start. 
+      Vent is both : ventilation when the engine is turning off 
+      and lighter (spark) on the Right or Left position
+      This switch should be a 3 pos switch-->
       <binding>
-        <command>property-toggle</command>
+        <condition>
+          <and>
+            <property>/controls/switches/pump-BP</property>
+            <property>/controls/switches/vent-allumage</property>
+          </and>
+        </condition>
+        <command>property-assign</command>
         <property>/controls/engines/engine/starter</property>
+        <value>1</value>
       </binding>
-      <mod-up>
-        <binding>
-          <command>property-toggle</command>
-          <property>/controls/engines/engine/starter</property>
-        </binding>
-      </mod-up>
+      
+      <!-- Hacking jsbsim in order to make it start without playing with cutoff during startup, which does not happen IRL : 
+      when we press start it goes on, and there is nothing else to do-->
+      <binding>
+        <condition>
+          <less-than>
+            <property>/fdm/jsbsim/propulsion/engine/n1</property>
+            <value>0.5</value>
+          </less-than>
+        </condition>
+        <command>property-assign</command>
+        <property>/fdm/jsbsim/propulsion/engine/n1</property>
+        <value>1</value>
+      </binding>
+      
+      
+      <!-- Hacking jsbsim in order to make it start without playing with cutoff during startup, which does not happen IRL : 
+      when we press start it goes on, and there is nothing else to do-->
+      
+      <binding>
+        <condition>
+          <less-than>
+            <property>/fdm/jsbsim/propulsion/engine/n2</property>
+            <value>0.5</value>
+          </less-than>
+        </condition>
+        <command>property-assign</command>
+        <property>/fdm/jsbsim/propulsion/engine/n2</property>
+        <value>25</value>
+      </binding>
+
     </action>
     <hovered>
       <binding>
@@ -128,7 +164,7 @@
     <type>translate</type>
     <object-name>starter.starter</object-name>
     <property>/controls/engines/engine/starter</property>
-    <factor>0.0011</factor>
+    <factor>-0.0011</factor>
     <axis>
       <x>0</x>
       <y>0</y>

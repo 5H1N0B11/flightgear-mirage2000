@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <sim>
+    <model>
+      <livery>
+
+        <name type="string">FAP 412 SQN "Hawks", 062</name>
+        <texture>Liveries/2048x2048/1_mountain_peru.png</texture>
+        <texture-tank-2000>tank2000_ouadi_doum.png</texture-tank-2000>
+
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </livery>
+      <logos>
+        <name type="string">Peruvian Air Force</name>
+        <texture>peru.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
+    </model>
+  </sim>
+
+</PropertyList>

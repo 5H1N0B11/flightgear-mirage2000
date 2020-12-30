@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <sim>
+    <model>
+      <livery>
+
+        <name type="string">ROCAF 2nd TFW, 2017</name>
+        <texture>Liveries/2048x2048/2_rocaf_20y.png</texture>
+        <texture-tank-2000>tank2000.png</texture-tank-2000>
+
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </livery>
+      <logos>
+        <name type="string">Republic of China Air Force</name>
+        <texture>republic_of_china.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
+    </model>
+  </sim>
+
+</PropertyList>

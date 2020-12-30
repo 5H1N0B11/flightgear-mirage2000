@@ -5,9 +5,9 @@
   <fuel>
    
     <tank n="0">
-      <name>Refueling Probe</name>
+      <name>feeding line</name>
       <tank-num type="int"> 1 </tank-num>
-      <level-gal> 3.31 </level-gal>
+      <level-gal> 1 </level-gal>
     </tank>
     
     

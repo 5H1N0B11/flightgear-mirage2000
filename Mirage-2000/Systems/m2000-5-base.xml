@@ -104,6 +104,12 @@
       <circuit1_press alias="/fdm/jsbsim/systems/hydraulics/number1-system-pressure" />
       <circuit2_press alias="/fdm/jsbsim/systems/hydraulics/number2-system-pressure" />
     </hydraulical>
+    <fuel>
+      <collector>
+        <pump-BPG-damage>1</pump-BPG-damage> <!-- this is a factor that can drive the pump pressure : put 0.5 to have half-->
+        <pump-BPD-damage>1</pump-BPD-damage> <!-- this is a factor that can drive the pump pressure : put 0.5 to have half-->
+      </collector>
+    </fuel>
   </systems>
 
   <fdm n="0">
@@ -281,6 +287,10 @@
     <mig28>
       <file>Aircraft/Mirage-2000/Nasal/mig28.nas</file>
     </mig28>
+    <monitor>
+      <file>Aircraft/Mirage-2000/Nasal/Performances/dialog-perf.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/Performances/performance.nas</file>
+    </monitor>
   </nasal>
 
 </PropertyList>

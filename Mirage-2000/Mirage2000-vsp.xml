@@ -370,11 +370,12 @@
     <feed>7</feed>
     <feed>6</feed>
     <feed>5</feed>-->
-    <feed>4</feed>
-    <feed>3</feed>
+<!--    <feed>4</feed>
+    <feed>3</feed>-->
 <!--    <feed>2</feed>
-    <feed>1</feed>
-    <feed>0</feed>-->
+    <feed>1</feed>-->
+    <feed>0</feed>
+    
     <thruster file="direct">
       <location unit="M">
         <x>18.51</x>
@@ -389,7 +390,7 @@
     </thruster>
   </engine>
   
-    <!--0: Refuel probe-->
+    <!--0: Collector probe-->
   <tank number="0" type="FUEL">
     <!--0: Feed line-->
     <location unit="M">
@@ -398,8 +399,8 @@
       <z>1.17</z>
     </location>
     <type>F-34</type>
-    <capacity unit="KG">10</capacity>
-    <contents unit="KG">10</contents>
+    <capacity unit="KG">50</capacity>
+    <contents unit="KG">50</contents>
     <priority>1</priority>
   </tank>
   

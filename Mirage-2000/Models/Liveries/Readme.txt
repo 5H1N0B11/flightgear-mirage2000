@@ -2,6 +2,22 @@
 please, see Docs/create_liveries.txt
 
 
+**Current liveries**
+
+These liveries were made by Swamp :
+- KSUU
+- Liberty
+- Desert Digital
+- Arctic Digital
+- Nevada
+- OPRF
+
+All other liveries were made by Wolf.
+
+
+
+**Old liveries**
+
 These liveries were made by : BARANGER Emmanuel 2012
 - default
 - old

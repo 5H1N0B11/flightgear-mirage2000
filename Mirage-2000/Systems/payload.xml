@@ -489,7 +489,7 @@
     
     <as-37-armat>
       <type-id type="int">14</type-id>
-      <short-name type="string">AS37</short-name>
+    <short-name type="string">ARMAT</short-name>
       <long-name type="string">AS-37 Armat</long-name>
       <all-aspect type="bool">true</all-aspect>
       <arming-time-sec type="double">4.0</arming-time-sec>          

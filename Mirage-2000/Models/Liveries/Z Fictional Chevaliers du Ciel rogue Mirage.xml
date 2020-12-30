@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <sim>
+    <model>
+      <livery>
+
+        <name type="string">Z Fictional Chevaliers du Ciel rogue Mirage</name>
+        <texture>Liveries/2048x2048/3_chevaliers_du_ciel.png</texture>
+        <texture-tank-2000>tank2000_black.png</texture-tank-2000>
+
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </livery>
+      <logos>
+        <name type="string">Chevaliers du Ciel (fictional)</name>
+        <texture>chevaliers_du_ciel.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
+    </model>
+  </sim>
+
+</PropertyList>

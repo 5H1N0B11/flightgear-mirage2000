@@ -32,8 +32,8 @@
         <and>
           <!-- LOCAL, smoke if engine running -->
           <greater-than>
-            <property>/engines/engine[0]/rpm</property>
-            <value>2000</value>
+            <property>sim/multiplay/generic/float[4]</property>
+            <value>30</value>
           </greater-than>
         </and>
       </or>
@@ -102,7 +102,7 @@
             </expression>
           </blue>
           <alpha>
-            <value>0.12</value>
+            <value>0.1</value>
           </alpha>
         </color>
         <size>
@@ -136,7 +136,7 @@
             </expression>
           </blue>
           <alpha>
-            <value>0.008</value>
+            <value>0.01</value>
           </alpha>
         </color>
         <size>
