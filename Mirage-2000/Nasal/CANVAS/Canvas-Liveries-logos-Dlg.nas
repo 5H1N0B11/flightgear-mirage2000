@@ -247,4 +247,4 @@ var showLiveryDialog = func() {
 #         var Properties_tree_name_MP = "sim/multiplay/model/livery";
         
         
-var livery_dialog = OverlaySelector.new("Select Livery", "/Aircraft/Mirage-2000/Models/Logos/", "/sim/model/logo/name", nil, "sim/model/logo/name");
+var livery_dialog = OverlaySelector.new("Select Livery", "/Aircraft/Mirage-2000/Models/Liveries/", "/sim/model/livery/name", nil, "sim/multiplay/model/livery");
