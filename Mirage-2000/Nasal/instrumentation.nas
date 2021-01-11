@@ -17,25 +17,31 @@ var AirSpeed         = props.globals.getNode("velocities/airspeed-kt");
 # When we call this fonction, it switch the menu on/off
 var enableGuiLoad = func()
 {
-    var searchname = "fuel-and-payload";
-    var state = 0;
-    
+    print("check");
+    var searchname = ["fuel-and-payload", "iff"];
+    var state = 1;
+    if (getprop("payload/armament/msg")) {
+	state = 0;
+    }
+	    
     foreach(var menu ; props.globals.getNode("/sim/menubar/default").getChildren("menu"))
     {
         foreach(var item ; menu.getChildren("item"))
         {
             foreach(var name ; item.getChildren("name"))
             {
-                if(name.getValue() == searchname)
+                if(vecindex(searchname, name.getValue()) != nil)
                 {
-                    state = item.getNode("enabled").getBoolValue();
-                    item.getNode("enabled").setBoolValue(! state);
+                    # state = item.getNode("enabled").getBoolValue();
+                    item.getNode("enabled").setBoolValue(state);
                 }
             }
         }
     }
 }
 
+setlistener("/gear/gear/WOW", enableGuiLoad);
+setlistener("/payload/armament/msg", enableGuiLoad);
 
 var bingo = {
     new : func
@@ -313,7 +319,6 @@ var activate_ECM = func(){
         setprop("instrumentation/ecm/on-off", "false");
     }
 }
-
 
 var stallwarning = func(){
     # @TODO : Stall warning ! should be in instruments
