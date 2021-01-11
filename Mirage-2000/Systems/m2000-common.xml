@@ -27,7 +27,6 @@
   <sim include="sim.xml">
 
     <model>
-      <path>Aircraft/Mirage-2000/Models/m2000-5.xml</path>
       <livery>
         <file type="string">default</file>
       </livery>
