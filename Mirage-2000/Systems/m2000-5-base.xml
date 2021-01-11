@@ -24,7 +24,7 @@
     </flir> 
   </aircraft> 
   
-  <sim include="m2000-5-base-common.xml">
+  <sim include="sim.xml">
 
     <model>
       <path>Aircraft/Mirage-2000/Models/m2000-5.xml</path>
