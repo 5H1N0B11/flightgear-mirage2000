@@ -372,7 +372,7 @@
       <require-lock-to-fire type="bool">true</require-lock-to-fire>
       <seeker-angular-speed-dps type="double"> 0 </seeker-angular-speed-dps>
       <seeker-field-deg type="int"> 270 </seeker-field-deg>
-      <self-destruct-time-sec type="double"> 1020 </self-destruct-time-sec>
+      <self-destruct-time-sec type="double"> 2400 </self-destruct-time-sec>
       <sound-fire-on-off type="bool">false</sound-fire-on-off>
       <sound-on-off type="bool">false</sound-on-off>
       <sound-volume type="double"> 0.0 </sound-volume>
