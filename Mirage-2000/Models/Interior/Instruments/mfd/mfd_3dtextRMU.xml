@@ -15,7 +15,7 @@
 
     <alignment>center-center</alignment>
     <axis-alignment>yz-plane</axis-alignment>
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 

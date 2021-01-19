@@ -314,7 +314,7 @@
       <file>Aircraft/Mirage-2000/Nasal/gci-listener.nas</file>
     </gci>
     <mig28>
-      <file>Aircraft/f16/Nasal/mig28.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/mig28.nas</file>
     </mig28>
     <monitor>
       <file>Aircraft/Mirage-2000/Nasal/Performances/dialog-perf.nas</file>
