@@ -6,12 +6,12 @@
  <path>GBU-24.ac</path>
 
  <effect>  
-    <inherits-from>Aircraft/f16/Models/Effects/glass/glassIR</inherits-from>  
+    <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>  
     <object-name>GBU-24_Glass</object-name> 
   </effect>
 
 <effect>
-      <inherits-from>Aircraft/f16/Models/Effects/fuselage/model-combined-fuselage</inherits-from>
+      <inherits-from>Effects/model-combined-deferred</inherits-from>
       <parameters>
           <metallic type="float">0.80</metallic>
           <ambient-factor type="float">0.0</ambient-factor>
