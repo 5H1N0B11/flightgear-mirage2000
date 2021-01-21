@@ -217,5 +217,16 @@
       <IDENTIFICATION> 1 </IDENTIFICATION>
     </switch>
   </transponder>
-    
+
+  
+    <iff>
+	<power_prop type="string">controls/iff/iff-power</power_prop>
+	<channel_prop type="string">instrumentation/iff/channel</channel_prop>
+	<channel type="int">0</channel>
+	<channel_A type="int">0</channel_A>
+	<channel_B type="int">0</channel_B>
+	<channel_A_hold type="int">0</channel_A_hold>
+	<channel_B_hold type="int">0</channel_B_hold>
+    </iff>
+
 </PropertyList>

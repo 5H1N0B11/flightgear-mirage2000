@@ -24,10 +24,9 @@
     </flir> 
   </aircraft> 
   
-  <sim include="m2000-5-base-common.xml">
+  <sim include="sim.xml">
 
     <model>
-      <path>Aircraft/Mirage-2000/Models/m2000-5.xml</path>
       <livery>
         <file type="string">default</file>
       </livery>
@@ -61,6 +60,8 @@
       <path>/link16/wingman-8</path>
       <path>/link16/wingman-9</path>
       <path>/link16/wingman-10</path>
+      <path>instrumentation/iff/channel_A_hold</path>
+      <path>instrumentation/iff/channel_B_hold</path>
 <!--
       <path>/instrumentation/transponder/inputs/digit[0]</path>
       <path>/instrumentation/transponder/inputs/digit[1]</path>
@@ -293,6 +294,9 @@
       <file>Aircraft/Mirage-2000/Nasal/Performances/dialog-perf.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/Performances/performance.nas</file>
     </monitor>
+    <iff>
+       <file>Aircraft/Mirage-2000/Nasal/iff.nas</file>
+    </iff>
   </nasal>
 
 </PropertyList>
