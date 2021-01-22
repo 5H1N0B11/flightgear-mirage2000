@@ -64,8 +64,8 @@
     
     <model>
 	<path>Aircraft/Mirage-2000/Models/m2000-5B.xml</path>
+	<fallback-model-index type="int">527</fallback-model-index>
     </model>
-    <fallback-model-index type="int">527</fallback-model-index>
 
     <gui n="0" include="gui/it-gui.xml"/>
     
