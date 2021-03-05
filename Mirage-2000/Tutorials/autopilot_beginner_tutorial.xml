@@ -64,7 +64,7 @@ Sorry, the only instructor we found is french but he is nice anyway ;)
         <value>0.0</value>
     </set>-->
     <set>
-      <property>/sim/current-view/view-number</property>
+      <property>/sim/current-view/view-number-raw</property>
       <value>0</value>
     </set>
   </init>

@@ -70,24 +70,25 @@ var missile_view_handler = {
     if (data.root == '/') {
       var zoffset = getprop("/sim/chase-distance-m");
     } else {
-      var zoffset = 30;
+      var zoffset = -30;
       var load_heading = int(getprop(data.root ~ "/orientation/true-heading-deg"));
       var offset_heading = load_heading>180? 540-load_heading :(180 - load_heading);
       var offset_pitch = int(getprop(data.root ~ "/orientation/pitch-deg")) - 5;
 #       print("Missile heading : "~ load_heading ~" view heading offstet should be : "~ (360 - load_heading - 180) ~ " MyTest:" ~ myTest);
       
       
-      setprop("/sim/current-view/heading-offset-deg", offset_heading);
-      setprop("/sim/current-view/pitch-offset-deg", offset_pitch);
+      # setprop("/sim/current-view/heading-offset-deg", offset_heading);
+      # setprop("/sim/current-view/pitch-offset-deg", offset_pitch);
       
-      setprop("/sim/current-view/config/heading-offset-deg", offset_heading);
-      setprop("/sim/current-view/config/pitch-offset-deg", offset_pitch);
+      setprop("/sim/view[101]/config/heading-offset-deg", offset_heading);
+      setprop("/sim/view[101]/config/pitch-offset-deg", offset_pitch);
     }
 
     me.current = data.callsign;
     me.legendN.setValue(ident);  
 
-    setprop("/sim/current-view/z-offset-m", zoffset);
+    print(zoffset);
+    setprop("/sim/view[101]/config/z-offset-m", zoffset);
 
     
     #print("me.current:"~me.current);
@@ -130,25 +131,25 @@ var view_firing_missile = func(myMissile)
     var myMissileName = string.replace(myMissile.ai.getPath(), "/ai/models/", "");
 
     # We memorize the initial view number
-    var actualView = getprop("/sim/current-view/view-number");
-#     setprop("/sim/current-view/view-number",9);
-#     setprop("/sim/current-view/view-number",actualView);
+#   var actualView = getprop("/sim/current-view/view-number-raw");
+#     setprop("/sim/current-view/view-number-raw", 101);
+#     setprop("/sim/current-view/view-number-raw",actualView);
 
     # We recreate the data vector to feed the missile_view_handler  
     var data = { node: myMissile.ai, callsign: myMissileName, root: myMissile.ai.getPath()};
 
     # We activate the AI view (on this aircraft it is the number 9)
-    setprop("/sim/current-view/view-number",9);
+    setprop("/sim/current-view/view-number-raw", 101);
     # setprop("/sim/current-view/heading-offset-deg", 160);
 
     # We feed the handler
     view.missile_view_handler.setup(data);
 }
 var init_missile_view = func(){
-  setprop("/sim/current-view/view-number",9);
+  setprop("/sim/current-view/view-number-raw", 101);
   setprop("/sim/current-view/heading-offset-deg", 0);
   var timer = maketimer(3,func(){
-    setprop("/sim/current-view/view-number", 0);
+    setprop("/sim/current-view/view-number-raw", 0);
   });
   timer.singleShot = 1; # timer will only be run once
   timer.start();
