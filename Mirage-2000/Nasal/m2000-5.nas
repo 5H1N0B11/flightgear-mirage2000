@@ -780,7 +780,8 @@ var quickstart = func() {
      setprop("engines/engine[0]/out-of-fuel",0);
    }
    print("You are starting the mirage, dude");
-});
+#});
+},0,0);
  
  
 setprop("consumables/fuel/tank[8]/capacity-gal_us",0);
