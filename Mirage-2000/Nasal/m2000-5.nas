@@ -654,11 +654,10 @@ var quickstart = func() {
             # So 1 is allumage 0 vent.
             setprop("/controls/switches/vent-allumage", 1);
             setprop("/controls/switches/pump-BP",       1);
+            setprop("/controls/switches/hide-starter",1);
             
-            # Starter
-            quickstart();
-            
-            
+            setprop("/controls/engines/engine/starter",1);
+            mystarter(); 
         }
  }
  
@@ -736,7 +735,9 @@ var quickstart = func() {
       #Starting the engine
       settimer(func { 
         setprop("/controls/engines/engine/starter",1);
+        mystarter();
       }, 13);  
+      
       
       
       #zooming on fuel, electrics and alerts
@@ -771,8 +772,9 @@ var quickstart = func() {
  
  
 #  #This is the starup listener. It will put a value into n1 and n2 in order start jsbsim engine without playing with cutoff
- var starterlistener = setlistener("/controls/engines/engine/starter", func() {
+#var starterlistener = setlistener("/controls/engines/engine/starter", func() {
 # var starterlistener = setlistener("/fdm/jsbsim/propulsion/starter_cmd", func() {
+var mystarter = func(){
    if(getprop("/fdm/jsbsim/propulsion/engine/n1")<0.5 and  getprop("/fdm/jsbsim/propulsion/engine/n2")<0.5 
      and getprop("/controls/switches/pump-BP") and getprop("/controls/switches/vent-allumage")){
      setprop("/fdm/jsbsim/propulsion/engine/n1",1);
@@ -781,7 +783,7 @@ var quickstart = func() {
    }
    print("You are starting the mirage, dude");
 #});
-},0,0);
+}
  
  
 setprop("consumables/fuel/tank[8]/capacity-gal_us",0);
