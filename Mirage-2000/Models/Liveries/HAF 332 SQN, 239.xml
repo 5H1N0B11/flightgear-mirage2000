@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <sim>
+    <model>
+      <livery>
+
+        <name type="string">HAF 332 SQN "Aegean Hawks", 239</name>
+        <texture>Liveries/2048x2048/2_332sqn_25y.png</texture>
+        <texture-tank-2000>tank2000.png</texture-tank-2000>
+
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </livery>
+
+      <logos>
+        <name type="string">Hellenic Air Force</name>
+        <texture>greece_332sqn_25y.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
+    </model>
+  </sim>
+
+</PropertyList>

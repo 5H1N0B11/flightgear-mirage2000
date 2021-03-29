@@ -59,9 +59,9 @@
   </enav>
   
   <radar>
-    <range type="int" archive="y"> 20 </range>
+    <range type="int"> 20 </range>
     <range-factor type="double" archive="n"> 0.001888 </range-factor>
-    <minimized type="bool" archive="y">false</minimized>
+    <minimized type="bool">false</minimized>
     <selected type="int"> 3 </selected>
     <enabled type="bool">true</enabled>
     <az-field type="double"> 120 </az-field>
@@ -159,7 +159,7 @@
       <line-spacing type="float"> 0.01 </line-spacing>
     </font>
     <serviceable type="bool">true</serviceable>
-    <range type="int" archive="y"> 20 </range>
+    <range type="int"> 20 </range>
     <aircraft-heading-up type="bool">true</aircraft-heading-up>
     <heading-up-deg type="float">0.01</heading-up-deg>
     <x-center type="float"> 0.5 </x-center>

@@ -4,6 +4,20 @@ var RadarTool = {
   # This function will explore the proprty tree and create new contact in the raw_selection.
   ##############################################################################################
   
+  get_elevation : func(lat,lon){
+    #first looking if the tile is loaded
+    me.local_ground_alt = geo.elevation(lat, lon);
+    
+    #if geo is nil, the tile is not loaded. There is no fucking way to get the ground elevation (except what I'm about to do)
+    if(me.local_ground_alt == nil){
+        #finding the closest navaid and take its altitude
+        me.navaid_vector = findNavaidsWithinRange(lat,lon,100);
+        me.local_ground_alt =   me.navaid_vector[0].elevation;
+    }
+    return me.local_ground_alt;
+  },
+  
+  
   scan_update_tgt_list_func:func(){
       if(scan_update_tgt_list){
         me.temp_raw_list = me.Mp.getChildren();
@@ -47,51 +61,66 @@ var RadarTool = {
                   # expand this so multiplayer that is on sea or ground is also set correct.
                   # also consider if doppler do not see them that they are either SURFACE or MARINE, depending on if they have alt = ~ 0
                   # notice that GROUND_TARGET is set inside Target.new().
-                  me.skipDoppler = 0;
-                  # now we test the property folder name to guess what type it is:
-                  #Should be done with an hash
-                  if(listOfShipModels_hash[folderName] != nil and u.get_altitude()<100){
-                    #print(folderName ~":Not Marine Yet");
-                    u.setType(armament.MARINE);
-                    me.skipDoppler = 1;
+                  u.setType(armament.AIR);
+                  
+                  #print("Update Type of " ~ u.get_Callsign());
+                  #printf("Elevation :%f00" , me.get_elevation(u.get_Latitude(), u.get_Longitude()));
+                  #print("Target Altitude:" ~u.get_altitude()*FT2M);
+                  
+                  #var ground_alt = geo.elevation(u.get_Latitude(), u.get_Longitude());
+                  me.type_ground_alt = me.get_elevation(u.get_Latitude(), u.get_Longitude());#= ground_alt==nil?0:ground_alt;
+                  
+                  # We are testing if it is near the ground
+                  if(me.type_ground_alt!=nil){
+                    if(abs(me.type_ground_alt - u.get_altitude()*FT2M) < 60) { # in meters
+                      #print("It is close to the ground");
+                      me.info = geodinfo(u.get_Latitude(), u.get_Longitude());
+                      if (me.info != nil and me.info[1] != nil) {
+                        #print("The ground underneath the aircraft is ", me.info[1].solid == 1 ? "solid." : "water.");
+                        #debug.dump(me.info);
+                        if(me.info[1].solid == 1){
+                          #print("SURFACE");
+                          u.setType(armament.SURFACE);
+                          u.skipDoppler = 0;
+                        }else{
+                          #print("MARINE");
+                          u.setType(armament.MARINE);
+                          u.skipDoppler = 1;
+                        }
+                      #if we can't get the geoinfo it is because the terrain didn't load. So doing a default altitude check to choose
+                      }elsif(u.get_altitude()*FT2M < 10){
+                          #print("MARINE");
+                          u.setType(armament.MARINE);
+                          u.skipDoppler = 1;
+                      }else{
+                          #print("SURFACE");
+                          u.setType(armament.SURFACE);
+                          u.skipDoppler = 0;
+                      }
+                    }
                   }
-
-                  #If not MARINE skipDoppler still == 0
-                  if(listOfGroundTargetNames_hash[folderName] != nil){
-                    u.setType(listOfGroundTargetNames_hash[folderName]);
-                    me.skipDoppler = 0;
-                  }
-                  #print("GetType:" ~ u.get_type());
-                  if(u.get_type() == 0){
+ 
+                  
+                  if(u.get_type() == armament.AIR){
                   # now we test the model name to guess what type it is:
                         me.pathNode = c.getNode("sim/model/path");
                         if (me.pathNode != nil) {
                             me.path = me.pathNode.getValue();
                             me.model = split(".", split("/", me.path)[-1])[0];
                             u.set_model(me.model);#used for RCS
-                            
-                            if(listOfShipModels_hash[me.model] != nil and u.get_altitude()<100){
-                              # Its a ship, Mirage ground radar will pick it up
-                              u.setType(armament.MARINE);
-                              me.skipDoppler = 1;
-                            }            
-
-                            if(listOfGroundTargetNames_hash[me.model] != nil){
-                              # its a ground vehicle, Mirage ground radar will not pick it up
-                              u.setType(armament.SURFACE);
-                              me.skipDoppler = 0;
-                            }
                         }
+                        u.skipDoppler = 0;
                   }
+                  
                   #Testing if ORDNANCE
                   if (c.getNode("missile") != nil and c.getNode("missile").getValue()) {
                       u.setType(armament.ORDNANCE);
-                      me.skipDoppler = 0;
+                      u.skipDoppler = 0;
 #                       print("missile:"~ folderName ~":"~ "armament.ORDNANCE");
                   }
                   if (c.getNode("munition") != nil and c.getNode("munition").getValue()) {
                       u.setType(armament.ORDNANCE);
-                      me.skipDoppler = 0;
+#                       u.skipDoppler = 0;
 #                       print("munition:" ~ folderName ~":"~ "armament.ORDNANCE");
                   }
                   #Testing Ground Target
@@ -269,7 +298,7 @@ var RadarTool = {
         if(pylons.fcs.getSelectedWeapon().type != "30mm Cannon"){
           #print("pylons.fcs.getSelectedWeapon().guidance:" ~pylons.fcs.getSelectedWeapon().guidance);
           if(pylons.fcs.getSelectedWeapon().guidance =="radiation"){
-            #print( "Is radiating :" ~ SelectedObject.isRadiating(me.MyCoord));
+            #print( "Using anti radiation missile. Is target radiating :" ~ SelectedObject.isRadiating(me.MyCoord));
             if(SelectedObject.isRadiating(me.MyCoord)){
               return 1;
             }

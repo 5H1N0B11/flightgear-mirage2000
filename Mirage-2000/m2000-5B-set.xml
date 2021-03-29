@@ -19,8 +19,8 @@
   </_debug>
 
   <sim>
-    <description>Mirage 2000-B/D/N</description>
-    <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe</author>
+    <description>Mirage 2000-5B</description>
+    <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe, Marsdolphin</author>
 
       <!-- 
           Elijah (3D/FDM)
@@ -69,11 +69,18 @@
         <tag>afterburner</tag>
     </tags>
     
-    <fallback-model-index type="int">527</fallback-model-index>
+    <model><fallback-model-index type="int">527</fallback-model-index></model>
 
     <gui n="0" include="gui/it-gui.xml"/>
-
-    <biplace type="bool">true</biplace>
+    
+     <previews>
+      <preview>
+        <type>exterior</type>
+        <splash type="bool">true</splash>
+        <path>Splashes/splashB-01.png</path>
+      </preview>
+     </previews>
+     
   </sim>
 
 </PropertyList>

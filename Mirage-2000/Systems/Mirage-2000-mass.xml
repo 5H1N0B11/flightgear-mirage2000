@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<mass_balance>
+  <ixx unit="KG*M2">6262</ixx>
+  <iyy unit="KG*M2">75686</iyy>
+  <izz unit="KG*M2">78802</izz>
+  <ixz unit="KG*M2">2141</ixz>
+  <emptywt unit="KG">7500</emptywt>
+  <location unit="M" name="CG">
+    <x>8.96</x>
+    <y>0</y>
+    <z>0</z>
+  </location>
+
+  
+
+  <pointmass name="weight[0]">    <weight unit="KG"> 0 </weight>    <location name="POINTMASS" unit="M">     <x> 5.312</x>     <y> -1.800</y>     <z> 1.368</z>    </location>   </pointmass>
+  <pointmass name="weight[1]">    <weight unit="KG"> 0 </weight>    <location name="POINTMASS" unit="M">     <x> 4.839</x>     <y> -3.278</y>     <z>-0.376</z>    </location>   </pointmass>
+  <pointmass name="weight[2]">    <weight unit="KG"> 0 </weight>    <location name="POINTMASS" unit="M">     <x> 6.165</x>     <y> -2.359</y>     <z>-0.438</z>    </location>   </pointmass>
+  <pointmass name="weight[3]">    <weight unit="KG"> 0 </weight>    <location name="POINTMASS" unit="M">     <x> 6.130</x>     <y>      0</y>     <z>-0.538</z>    </location>   </pointmass>
+  <pointmass name="weight[4]">    <weight unit="KG"> 0 </weight>    <location name="POINTMASS" unit="M">     <x> 6.165</x>     <y>  2.359</y>     <z>-0.438</z>    </location>   </pointmass>
+  <pointmass name="weight[5]">    <weight unit="KG"> 0 </weight>    <location name="POINTMASS" unit="M">     <x> 4.839</x>     <y>  3.278</y>     <z>-0.376</z>    </location>   </pointmass>
+  <pointmass name="weight[6]">    <weight unit="KG"> 0 </weight>    <location name="POINTMASS" unit="M">     <x> 5.312</x>     <y>  1.800</y>     <z> 1.368</z>    </location>   </pointmass>
+  <pointmass name="weight[7]">    <weight unit="KG"> 0 </weight>    <location name="POINTMASS" unit="M">     <x> 7.407</x>     <y> -1.800</y>     <z> 1.368</z>    </location>   </pointmass>
+  <pointmass name="weight[8]">    <weight unit="KG"> 0 </weight>    <location name="POINTMASS" unit="M">     <x> 7.407</x>     <y>  1.800</y>     <z> 1.368</z>    </location>   </pointmass>
+
+
+  
+  <pointmass name="Cannon ammo">
+   <weight unit="KG"> 0 </weight>
+   <location name="POINTMASS" unit="IN">
+   <x> 3.5 </x>
+   <y> 0 </y>
+   <z> 0 </z>
+   </location>
+  </pointmass>
+
+  <!-- Gestimate -->
+ <!-- <pointmass name="Pilot">
+    <weight unit="KG"> 0 </weight> 
+   <location name="POINTMASS" unit="M">
+    <x> 4 </x>
+    <y> 0 </y>
+    <z> 0 </z>
+   </location>
+  </pointmass>-->
+  
+ </mass_balance>

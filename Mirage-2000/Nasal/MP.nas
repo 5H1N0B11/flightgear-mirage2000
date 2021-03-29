@@ -13,26 +13,36 @@ var Decode_Load = {
         m.loadList = [
           "2000 l Droptank",
           "SCALP",
+          "GBU-12",
           "1700 l Droptank",
+          "Smoke Pod",
           "AM39-Exocet",
           "2 x GBU-12",
           "1700 l Droptank",
+          "AS-37-Armat",
+          "GBU-24",
           "AS-37-Martel",
           "PDLCT",
           "Matra Super 530D",
           "AS30L",
+          "2 x SAMP Mk-82",
           "30mm Cannon",
           "none",
           "MICA IR",
           "1300 l Droptank",
           "Matra R550 Magic 2",
+          "APACHE",
           "2000 l Droptank",
+          "SAMP Mk-82",
+          "2 x SAMP Mk-82 Snake-eye",
           "MICA EM",
-          "ASMP"
+          "ASMP",
+          "SAMP Mk-82 Snake-eye"
         ];
         m.decode();
         return m;
     },
+    
     
     decode: func()
     {
@@ -45,10 +55,16 @@ var Decode_Load = {
         var String = StringTree.getValue();
         var myIndexArray = [];
         
+        #forindex(i; me.loadList){
+        #  print(me.loadList[i]);
+        #}
+          
+        
         #print("String "~String);
         
         if(String != nil)
         {
+          #print("String "~String);
           #String = getprop("sim/multiplay/generic/string[1]");    
           #Index of the beguining of each set string
           var mySetIndexArray = [];
@@ -72,10 +88,11 @@ var Decode_Load = {
             }else{
               var myCount = substr(String, myCountIndexArray[i] + 1, size(String) - myCountIndexArray[i]-1);
             }
-            
-            #print(mySet);
-            #print(myCount);
-            #print(me.loadList[mySet]);
+            #print("Pylons:"~i~" Loads index:"~ mySet ~ " Name of load:"~ me.loadList[mySet] ~ " Weapons remaining:" ~ print(myCount));
+            #print("mySet:"~mySet);
+            #print("myCount:"~myCount);
+            #print("me.loadList[mySet]:"~me.loadList[mySet]);
+            #print("Pylons:"~i~" Loads index:"~ mySet ~ " Name of load:"~ me.loadList[mySet] ~ " Weapons remaining:" ~ print(myCount));
             me.mySelf.getNode("payload/armament/station/id-"~ i ~"-set", 1).setValue(me.loadList[mySet]);
             me.mySelf.getNode("payload/armament/station/id-"~ i ~"-count", 1).setValue(myCount);
             

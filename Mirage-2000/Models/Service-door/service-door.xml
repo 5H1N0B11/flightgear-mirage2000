@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <path>service-door.ac</path>
+
+  <animation>
+    <object-name>service-door</object-name>
+  </animation>
+
+  <!-- working for Rembrandt -->
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>service-door</object-name>
+  </effect>
+
+  <animation>
+    <type>material</type>
+    <object-name>service-door</object-name>
+
+    <property-base>sim/model/service-door</property-base>
+    <texture-prop>texture</texture-prop>
+    <texture>default.png</texture>
+    <specular>
+      <red-prop>emission/red</red-prop>
+      <green-prop>emission/green</green-prop>
+      <blue-prop>emission/blue</blue-prop>
+    </specular>
+  </animation>
+  
+</PropertyList>

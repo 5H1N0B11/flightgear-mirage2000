@@ -29,13 +29,13 @@
     <view n="103">
       <name>Navigator View</name>
       <type>lookfrom</type>
-      <internal archive="y">true</internal>
+      <internal>true</internal>
       <config>
         <from-model type="bool">true</from-model>
         <from-model-idx type="int">0</from-model-idx>
-        <x-offset-m archive="y" type="double">  0.00 </x-offset-m>
-        <y-offset-m archive="y" type="double">  0.21 </y-offset-m>
-        <z-offset-m archive="y" type="double"> -1.06 </z-offset-m>
+        <x-offset-m type="double">  0.00 </x-offset-m>
+        <y-offset-m type="double">  0.21 </y-offset-m>
+        <z-offset-m type="double"> -1.06 </z-offset-m>
         <pitch-offset-deg type="double"> -10 </pitch-offset-deg>
         <heading-offset-deg type="double"> 0 </heading-offset-deg>
         <default-field-of-view-deg type="double">82</default-field-of-view-deg>
@@ -129,6 +129,12 @@
       <circuit1_press alias="/fdm/jsbsim/systems/hydraulics/number1-system-pressure" />
       <circuit2_press alias="/fdm/jsbsim/systems/hydraulics/number2-system-pressure" />
     </hydraulical>
+    <fuel>
+      <collector>
+        <pump-BPG-damage>1</pump-BPG-damage> <!-- this is a factor that can drive the pump pressure : put 0.5 to have half-->
+        <pump-BPD-damage>1</pump-BPD-damage> <!-- this is a factor that can drive the pump pressure : put 0.5 to have half-->
+      </collector>
+    </fuel>
   </systems>
 
   <fdm n="0">
@@ -157,6 +163,17 @@
           <number2-system-pump-failed>0</number2-system-pump-failed>
         </hydraulics>
       </systems>
+      <inertia>
+        <pointmass-dragarea-sqft type="double" n="0">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="1">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="2">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="3">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="4">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="5">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="6">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="7">0</pointmass-dragarea-sqft>
+        <pointmass-dragarea-sqft type="double" n="8">0</pointmass-dragarea-sqft>
+      </inertia>
     </jsbsim>
   </fdm>
   
@@ -164,6 +181,10 @@
   
    <nasal>
     <!-- c172p is part of FGDATA and thus always present -->
+    <hack>
+        <!-- must be first -->
+        <file>Aircraft/Mirage-2000/Nasal/hackCanvas.nas</file>
+    </hack>
     <math_ext>
       <file>Aircraft/c172p/Nasal/generic/math_ext.nas</file>
     </math_ext>
@@ -173,6 +194,15 @@
     <updateloop>
       <file>Aircraft/Generic/updateloop.nas</file>
     </updateloop>
+    
+    <notifications>
+      <file>Aircraft/Mirage-2000/Nasal/ArmamentNotification.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/GeoBridgedTransmitter.nas</file>
+    </notifications>
+    <damage>
+      <file>Aircraft/Mirage-2000/Nasal/damage.nas</file>
+    </damage>
+    
     <ai>
       <file>Aircraft/Mirage-2000/Nasal/AI_list.nas</file>
     </ai>
@@ -188,6 +218,9 @@
     <electrics>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5-electrical.nas</file>
     </electrics>
+    <crash>
+        <file>Aircraft/Mirage-2000/Nasal/crash-and-stress.nas</file>
+    </crash>
     <vector>
         <file>Aircraft/Mirage-2000/Nasal/vector.nas</file>
     </vector>
@@ -219,9 +252,6 @@
       <file>Aircraft/Mirage-2000/Nasal/pylons.nas</file>
     </pylons>
 
-    <fuel>
-      <file>Aircraft/Mirage-2000/Nasal/m2000-5-fuel.nas</file>
-    </fuel>
     <hud>
       <file>Aircraft/Mirage-2000/Nasal/HUD/hud_math.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>
@@ -234,7 +264,7 @@
       <file>Aircraft/Mirage-2000/Nasal/liveries.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/m2000-5_flightdirector.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/terrain_follow.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/SAS.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/Pelles_Trappes.nas</file>
       <file>Aircraft/Mirage-2000/Models/Interior/Instruments/transpondeur/transpondeur.nas</file>
       <file>Aircraft/Mirage-2000/Models/Interior/Instruments/center_mfd/ND.nas</file>
       <file>Aircraft/Mirage-2000/Nasal/MFD/MAP.nas</file>
@@ -264,7 +294,6 @@
     </m2000_mp>
     <missile>
       <file>Aircraft/Mirage-2000/Nasal/missile_GroundTargeting.nas</file>
-      <file>Aircraft/Mirage-2000/Nasal/damage.nas</file>
     </missile>
     <view>
       <file>Aircraft/Mirage-2000/Nasal/MissileView.nas</file>
@@ -287,6 +316,10 @@
     <mig28>
       <file>Aircraft/f16/Nasal/mig28.nas</file>
     </mig28>
+    <monitor>
+      <file>Aircraft/Mirage-2000/Nasal/Performances/dialog-perf.nas</file>
+      <file>Aircraft/Mirage-2000/Nasal/Performances/performance.nas</file>
+    </monitor>
   </nasal>
 
 </PropertyList>

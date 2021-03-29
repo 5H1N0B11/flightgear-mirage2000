@@ -28,7 +28,7 @@
       </item>
       
       <item n="3">
-        <label>Link16</label>
+        <label>Link 16</label>
         <name>AboutMirage</name>
         <binding>
           <command>dialog-show</command>
@@ -62,7 +62,15 @@
         </binding>
       </item>
 
-      <item n="7">
+       <item n="7">
+         <label>Select Service-door</label>
+         <binding>
+           <command>nasal</command>
+           <script>mirage2000.service_door_dialog.toggle()</script>
+         </binding>
+        </item>
+
+      <item n="8">
         <label>Options</label>
         <name>options</name>
         <binding>
@@ -71,7 +79,7 @@
         </binding>
       </item>
 
-      <item n="8">
+      <item n="9">
         <label>Radar</label>
         <name>radar</name>
         <binding>
@@ -80,7 +88,7 @@
         </binding>
       </item>
 <!--      
-     <item n="9">
+     <item n="10">
         <label>Rwr</label>
         <binding>
           <command>nasal</command>
@@ -89,7 +97,7 @@
       </item>
 -->
 
-      <item n="10">
+      <item n="11">
         <label>About</label>
         <name>AboutMirage</name>
         <binding>
@@ -98,7 +106,7 @@
         </binding>
       </item>
 
-      <item n="11">
+      <item n="12">
         <label>Wingmen</label>
         <name>wingmen</name>
         <binding>
@@ -107,7 +115,7 @@
         </binding>
       </item>
       
-      <item n="12">
+      <item n="13">
         <label>Training</label>
         <name>training</name>
         <binding>
@@ -115,16 +123,47 @@
           <dialog-name>scenario28</dialog-name>
         </binding>
       </item>
+
+      <item n="14">
+	<label>Quick Payload Reload</label>
+	<name>payload-qs</name>
+	<binding>
+	  <condition>
+	    <or>
+	      <equals>
+		<property>sim/aircraft</property>
+		<value>m2000-5</value>
+	      </equals>
+	      <equals>
+		<property>sim/aircraft</property>
+		<value>m2000-5B</value>
+	      </equals>
+	    </or>
+	  </condition>
+	  <command>dialog-show</command>
+	  <dialog-name>payload-5</dialog-name>
+	</binding>
+	<binding>
+	  <condition>
+	    <equals>
+	      <property>sim/aircraft</property>
+	      <value>m2000D</value>
+	    </equals>
+	  </condition>
+	  <command>dialog-show</command>
+	  <dialog-name>payload-d</dialog-name>
+	</binding>
+      </item>
       
-<!--      <item n="13">
-        <label>Test</label>
-        <name>Test</name>
-        <binding>
-          <command>nasal</command>
-          <script>mirage2000.showLoadDialog()</script>
-        </binding>
-      </item>-->
-      
+  <item n="15">
+    <label>Combat event log</label>
+    <name>event-log</name>
+    <binding>
+      <command>dialog-show</command>
+      <dialog-name>flightlog</dialog-name>
+    </binding>
+  </item>
+
     </menu>
   </default>
 

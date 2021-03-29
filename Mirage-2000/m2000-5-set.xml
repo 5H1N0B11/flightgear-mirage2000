@@ -12,7 +12,7 @@
 
   <sim>
     <description>Mirage 2000-5</description>
-    <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe</author>
+    <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe, Marsdolphin</author>
 
       <!-- 
           Elijah (3D/FDM)
@@ -60,7 +60,7 @@
         <tag>afterburner</tag>
     </tags>
     
-    <fallback-model-index type="int">527</fallback-model-index>
+    <model><fallback-model-index type="int">527</fallback-model-index></model>
 
     <gui n="0" include="gui/it-gui.xml"/>
     
@@ -68,26 +68,25 @@
       <preview>
         <type>exterior</type>
         <splash type="bool">true</splash>
-        <path>Splashs/m2000-5-splash.png</path>
+        <path>Splashes/splash-01.png</path>
       </preview>
       <preview>
         <type>exterior</type>
         <splash type="bool">true</splash>
-        <path>Splashs/splash-01.png</path>
+        <path>Splashes/splash-02.png</path>
       </preview>
       <preview>
         <type>exterior</type>
         <splash type="bool">true</splash>
-        <path>Splashs/splash-02.png</path>
+        <path>Splashes/splash-03.png</path>
       </preview>
       <preview>
         <type>exterior</type>
         <splash type="bool">true</splash>
-        <path>Splashs/splash-04.png</path>
+        <path>Splashes/splash-08.png</path>
       </preview>
     </previews>
 
-    <biplace type="bool">false</biplace>
   </sim>
 
 </PropertyList>

@@ -35,6 +35,20 @@
   These pump are used in order to feed the engine when flying reversed.
   => 15s from the pilot handbook, lets guess 30 seconds before failure or tanks (3 and 4) < 400 liters
   
+  tank3  tank4   : Collectors
+    |    |  
+    LLP RLP  => switches and LLP  /  RLP warning light 
+      \ /
+       Y
+       |
+       |__   BP / LP alarm light
+       |
+      Engine
+  
+  LLP and RLP should be aat 500 mbar each
+  BP should be at 825 mbar
+  if not : alerts on the panel
+  
   For more details : (in french)
   https://www.youtube.com/watch?v=30h4VIPITDo 
   
@@ -93,7 +107,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[1]/collector-valve EQ 0
         propulsion/tank[1]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5
+        accelerations/Nz LE -0.01
       </test>
     </switch>
 
@@ -103,7 +117,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[2]/collector-valve EQ 0
         propulsion/tank[2]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -115,7 +129,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[6]/collector-valve EQ 0
         propulsion/tank[6]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5
+        accelerations/Nz LE -0.01
       </test>
 
     </switch>
@@ -126,7 +140,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[7]/collector-valve EQ 0
         propulsion/tank[7]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
 
@@ -137,7 +151,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[5]/collector-valve EQ 0
         propulsion/tank[5]/contents-lbs LE 0
         propulsion/tank[1]/contents-lbs GE 669 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5
+        accelerations/Nz LE -0.01
       </test>
     </switch>
 
@@ -147,7 +161,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[5]/collector-valve EQ 0
         propulsion/tank[5]/contents-lbs LE 0
         propulsion/tank[6]/contents-lbs GE 669 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -159,16 +173,17 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[8]/collector-valve EQ 0
         propulsion/tank[8]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
+    
     <switch name="/systems/fuel/transfert_8_to_4">
       <default value="9"/>
       <test logic="OR" value="0">
         propulsion/tank[8]/collector-valve EQ 0
         propulsion/tank[8]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -180,7 +195,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[9]/collector-valve EQ 0
         propulsion/tank[9]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -191,7 +206,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[11]/collector-valve EQ 0
         propulsion/tank[11]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -203,7 +218,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[10]/collector-valve EQ 0
         propulsion/tank[10]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -214,9 +229,73 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[12]/collector-valve EQ 0
         propulsion/tank[12]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
+    
+    
+    <!-- Collector  -->
+    <switch name ="/systems/fuel/transfert_3_to_0">
+      <default value="9"/>
+      <test logic="OR" value="0">
+        propulsion/tank[3]/collector-valve EQ 0
+        propulsion/tank[3]/contents-lbs LE 0
+        propulsion/tank[0]/contents-lbs GE 110 <!-- 1 lb below capacity -->
+        /systems/fuel/collector/pump-BPD-function LE 1  <!-- if the pump is working or not : a low pressure would make the flow slowing down. not implemented yet -->
+        accelerations/Nz LE -0.01
+      </test>
+    </switch>
+    
+    <!-- Collector  -->
+    <switch name ="/systems/fuel/transfert_4_to_0">
+      <default value="9"/>
+      <test logic="OR" value="0">
+        propulsion/tank[4]/collector-valve EQ 0
+        propulsion/tank[4]/contents-lbs LE 0
+        propulsion/tank[0]/contents-lbs GE 110 <!-- 1 lb below capacity -->
+        /systems/fuel/collector/pump-BPG-function LE 1 <!-- if the pump is working or not : a low pressure would make the flow slowing down. not implemented yet -->
+        accelerations/Nz LE -0.01
+      </test>
+    </switch>
+    
+
+    <!-- LLP (4)  pressure in  mbars-->
+    <fcs_function name="/systems/fuel/collector/pump-BPG-function">
+      <function>
+        <product>
+          <property>/systems/fuel/collector/pump-BPG-damage</property>
+          <table>
+            <independentVar lookup="row">/systems/electrical/outputs/fuel-pump-BPG</independentVar>
+            <tableData>
+                0      0
+                1      1
+                14    250 
+                28   	600
+            </tableData>
+          </table>
+        </product>
+        <!--<output>/systems/fuel/collector-pump-BPG-pressure</output>-->
+      </function>
+    </fcs_function>
+    
+    <!-- RLP (3)  pressure in  mbars-->
+    <fcs_function name="/systems/fuel/collector/pump-BPD-function">
+      <function>
+        <product>
+          <property>/systems/fuel/collector/pump-BPD-damage</property>
+          <table>
+            <independentVar lookup="row">/systems/electrical/outputs/fuel-pump-BPD</independentVar>
+            <tableData>
+                0      0
+                1      1
+                14    250 
+                28   	600
+            </tableData>
+          </table>
+        </product>
+        <!--<output>/systems/fuel/collector-pump-BPD-pressure</output>-->
+      </function>
+    </fcs_function>
     
     
     <!-- Center summer -->
@@ -253,6 +332,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
       <input>/systems/fuel/transfert_8_to_3</input>
       <input>/systems/fuel/transfert_9_to_3</input>
       <input>/systems/fuel/transfert_11_to_3</input>
+      <input>-/systems/fuel/transfert_3_to_0</input>
       <output>propulsion/tank[3]/external-flow-rate-pps</output>
     </summer>
     
@@ -275,9 +355,21 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
       <input>/systems/fuel/transfert_8_to_4</input>
       <input>/systems/fuel/transfert_10_to_4</input>
       <input>/systems/fuel/transfert_12_to_4</input>
+      <input>-/systems/fuel/transfert_4_to_0</input>
       <output>propulsion/tank[4]/external-flow-rate-pps</output>
     </summer>
 
+    
+    <!-- Collector -->
+    <summer>
+      <input>/systems/fuel/transfert_3_to_0</input>
+      <input>/systems/fuel/transfert_4_to_0</input>
+      <output>propulsion/tank[0]/external-flow-rate-pps</output>
+    </summer>
+    
+    
+    <!--########### External Tanks ############# -->
+    
     <!-- Center External Tank Flow -->
     <summer>
       <input>-/systems/fuel/transfert_8_to_3</input>
@@ -310,6 +402,14 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
       <output>propulsion/tank[12]/external-flow-rate-pps</output>
     </summer>
     
+    
+    
+    
+    <!-- Indicators -->
+    
+    
+    
+    
     <!-- Right fuel indicator --> 
    <summer name="/systems/fuel/right-remaining-fuel">
       <input>/consumables/fuel/tank[1]/level-kg</input>
@@ -337,6 +437,11 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
    </summer>
 
     
+   <summer name="/systems/fuel/collector/pump-BP">  
+     <input>/systems/fuel/collector/pump-BPD-function</input>
+     <input>/systems/fuel/collector/pump-BPD-function</input>
+   </summer>
+   
     
   </channel>      
 

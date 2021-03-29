@@ -89,7 +89,52 @@
       <property>/controls/ground-equipment</property>
     </binding>
   </button>
-
+  
+  <hrule />
+  <group>
+    <layout>hbox</layout>
+    <text><label>Smoke (Needs pods)</label></text>
+    <checkbox>
+      <property>payload/armament/smoke-pod/flags/smoke-id-500</property>
+      <live>false</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>payload/armament/smoke-pod/flags/smoke-id-100</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>payload/armament/smoke-pod/flags/smoke-id-500</property>
+      </binding>
+    </checkbox>
+  </group>
+  
+  <hrule />
+  <text><label>Fly-by-wire</label></text>
+  <group>
+    <layout>hbox</layout>
+    <group>
+      <layout>vbox</layout>
+      <halign>left</halign>
+      <text><label>A/A - CHARGES</label></text>
+    </group>
+    <group>
+      <layout>vbox</layout>
+      <halign>right</halign>
+      <slider>
+        <name>CAT</name>
+        <property>/fdm/jsbsim/fbw/mode</property>
+        <live>1</live>
+        <min>0</min>
+        <max>1</max>
+        <step>1</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+      </slider>
+    </group>
+  </group>
+        
+  
   <hrule />
   
     <group>
@@ -145,7 +190,10 @@
   </group>
 
   <hrule />
+  
+  
 
+  
   <!--group>
     <layout>hbox</layout>
     <group><text><label>HUD</label></text></group>
@@ -191,5 +239,36 @@
     </button>
   </group>
 
-
+  <hrule />
+  <group>
+    <layout>table</layout>
+    <halign>center</halign> 
+    <button>
+      <legend>Performances</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+          monitor.PerformanceMonitor.instance().start();
+        </script>
+      </binding>
+    </button>
+  </group>
+  
+    <hrule />
+  <group>
+    <layout>table</layout>
+    <halign>center</halign> 
+    <button>
+      <legend>Test Dev</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+          mirage2000.showLiveryDialog();
+        </script>
+      </binding>
+    </button>
+  </group>
+  
+  
+  
 </PropertyList>

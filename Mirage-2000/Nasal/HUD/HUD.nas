@@ -307,8 +307,8 @@ var HUD = {
     # Horizon and pitch lines
     m.horizon_sub_group.createChild("path")
       .setColor(m.myGreen)
-      .moveTo(-1000, 0)
-      .horiz(2000)
+      .moveTo(-700, 0)
+      .horiz(1400)
       .setStrokeLineWidth(4);
                    
     #ILS stuff
@@ -1085,11 +1085,16 @@ var HUD = {
      "S530D":"530",
      "MICA-IR":"MIC-I",
      "MICA-EM":"MIC-E",
-     "GBU-12": "GBU",
+     "GBU-12": "GBU12",
      "SCALP": "SCALP",
+     "APACHE": "APACHE",
      "AM39-Exocet":"AM39",
      "AS-37-Martel":"AS37",
+     "AS-37-Armat":"AS37A",
      "AS30L" :"AS30",
+     "Mk-82" : "Mk82",
+     "Mk-82SE":"Mk82S",
+     "GBU-24":"GBU24"
     };
     
     m.pylonsSide_hash = {
@@ -1114,6 +1119,7 @@ var HUD = {
       speed_n:    "velocities/speed-north-fps",
       speed_e:    "velocities/speed-east-fps",
       speed_d:    "velocities/speed-down-fps",
+      uBody_fps:  "velocities/uBody-fps",
       alpha:      "/orientation/alpha-deg",
       beta:       "/orientation/side-slip-deg",
       gload:      "/accelerations/pilot-g",
@@ -1144,14 +1150,24 @@ var HUD = {
       ILS_gs_in_range :"/instrumentation/nav/gs-in-range",
       ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
       NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
-      
+      x_offset_m:    "/sim/current-view/x-offset-m",
+      y_offset_m:    "/sim/current-view/y-offset-m",
+      z_offset_m:    "/sim/current-view/z-offset-m",
       MasterArm      :"/controls/armament/master-arm",
       TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
     };
     
-    foreach(var name; keys(m.input))
+    foreach(var name; keys(m.input)){
       m.input[name] = props.globals.getNode(m.input[name], 1);
+  }
     
+    m.lastWP = m.input.currentWp.getValue();
+    m.RunwayCoord =  geo.Coord.new();
+    m.RunwaysCoordCornerLeft = geo.Coord.new();
+    m.RunwaysCoordCornerRight = geo.Coord.new();
+    m.RunwaysCoordEndCornerLeft = geo.Coord.new();
+    m.RunwaysCoordEndCornerRight = geo.Coord.new();
+        
     return m;
   },
   update: func()
@@ -1166,10 +1182,18 @@ var HUD = {
     
     #Choose the heading to display
     me.getHeadingToDisplay();
-
-
     
- 
+    #-----------------Test of paralax
+    me.Vy   =    me.input.x_offset_m.getValue();
+    me.pixelPerMeterX = HudMath.pixelPerMeterX;#(340*0.695633)/0.15848;
+    #me.pixelPerMeterY = 260/(me.Hz_t-me.Hz_b);
+    me.pixelside = me.pixelPerMeterX*me.Vy;
+    #me.svg.setTranslation(me.pixelside, 0);
+    #me.custom.setTranslation(me.pixelside, 0);
+    me.root.setTranslation(HudMath.getCenterOrigin()[0]+me.pixelside, HudMath.getCenterOrigin()[1]);
+    #me.custom.update();
+    me.root.update();
+    #me.svg.update();
     
  
 
@@ -1235,7 +1259,10 @@ var HUD = {
     me.NextWaypointCoordinate();
       
     #Display the Next WP
-    me.displayWaypointCross();
+    if( me.input.currentWp.getValue() != me.lastWP){
+      me.displayWaypointCross();
+    }
+    
      
     #Gun Cross (bore)
     me.displayBoreCross();
@@ -1369,6 +1396,8 @@ var HUD = {
     }
 
     #settimer(func me.update(), 0.1);
+    me.lastWP = me.input.currentWp.getValue();
+    #------------------------End of the Update------------------------------------------------------------------------
   },
   display_ILS_STUFF:func(){
     if(me.input.ILS_valid.getValue() and !me.input.MasterArm.getValue()){
@@ -1884,11 +1913,11 @@ var HUD = {
   displayRunway:func(){
     
     #Coord of the runways gps coord
-    var RunwayCoord =  geo.Coord.new();
-    var RunwaysCoordCornerLeft = geo.Coord.new();
-    var RunwaysCoordCornerRight = geo.Coord.new();
-    var RunwaysCoordEndCornerLeft = geo.Coord.new();
-    var RunwaysCoordEndCornerRight = geo.Coord.new();
+#     var RunwayCoord =  geo.Coord.new();
+#     var RunwaysCoordCornerLeft = geo.Coord.new();
+#     var RunwaysCoordCornerRight = geo.Coord.new();
+#     var RunwaysCoordEndCornerLeft = geo.Coord.new();
+#     var RunwaysCoordEndCornerRight = geo.Coord.new();
     
     #var info = airportinfo(icao;
     #Need to select the runways and write the conditions
@@ -1906,29 +1935,32 @@ var HUD = {
     #print("reciprocal:" , info.runways[rwy].reciprocal, " ICAO:", info.id, " runway:",info.runways[rwy].id);
     
     #Calculating GPS coord of the runway's corners
-    RunwayCoord.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    
-    RunwaysCoordCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    RunwaysCoordCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
-    
-    RunwaysCoordCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    RunwaysCoordCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
-    
-    RunwaysCoordEndCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
-    RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
-    
-    RunwaysCoordEndCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-    RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
-    RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
+    #No need to recalculate GPS position everytime, only when the destination airport is changed
+    if(me.RunwayCoord.lat != me.info.runways[me.selectedRunway].lat or me.RunwayCoord.lpn != me.info.runways[me.selectedRunway].lon){
+      me.RunwayCoord.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      
+      me.RunwaysCoordCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      me.RunwaysCoordCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
+      
+      me.RunwaysCoordCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      me.RunwaysCoordCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
+      
+      me.RunwaysCoordEndCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      me.RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
+      me.RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
+      
+      me.RunwaysCoordEndCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
+      me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
+      me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
+    }
     
     
     #Calculating the HUD coord of the runways coord
-    me.MyRunwayTripos                     = HudMath.getPosFromCoord(RunwayCoord);
-    me.MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(RunwaysCoordCornerLeft);
-    me.MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(RunwaysCoordCornerRight);
-    me.MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(RunwaysCoordEndCornerLeft);
-    me.MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(RunwaysCoordEndCornerRight);
+    me.MyRunwayTripos                     = HudMath.getPosFromCoord(me.RunwayCoord);
+    me.MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(me.RunwaysCoordCornerLeft);
+    me.MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(me.RunwaysCoordCornerRight);
+    me.MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerLeft);
+    me.MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerRight);
     
     
     
@@ -1938,11 +1970,11 @@ var HUD = {
     #drawing the runway
     me.RunwaysDrawing = me.myRunwayGroup.createChild("path")
     .setColor(me.myGreen)
-    .moveTo(me.MyRunwayCoordCornerLeftTripos)
-    .lineTo(me.MyRunwayCoordCornerRightTripos)
-    .lineTo(me.MyRunwayCoordCornerEndRightTripos)
-    .lineTo(me.MyRunwayCoordCornerEndLeftTripos)
-    .lineTo(me.MyRunwayCoordCornerLeftTripos)
+    .moveTo(me.MyRunwayCoordCornerLeftTripos[0],me.MyRunwayCoordCornerLeftTripos[1])
+    .lineTo(me.MyRunwayCoordCornerRightTripos[0],me.MyRunwayCoordCornerRightTripos[1])
+    .lineTo(me.MyRunwayCoordCornerEndRightTripos[0],me.MyRunwayCoordCornerEndRightTripos[1])
+    .lineTo(me.MyRunwayCoordCornerEndLeftTripos[0],me.MyRunwayCoordCornerEndLeftTripos[1])
+    .lineTo(me.MyRunwayCoordCornerLeftTripos[0],me.MyRunwayCoordCornerLeftTripos[1])
     .setStrokeLineWidth(4);
     
     me.myRunwayGroup.update();
@@ -1984,7 +2016,7 @@ var HUD = {
       me.WaypointCross.hide();
     }
   },
-  
+  #This should be called at every iteration
   NextWaypointCoordinate:func(){ 
       if(me.fp.currentWP() != nil){
           me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
@@ -2023,11 +2055,12 @@ var HUD = {
             #printf("dt %05.3f",me.eegsMe.dt);
             me.lastTime = st;
             
-            me.eegsMe.hdg   = getprop("orientation/heading-deg");
-            me.eegsMe.pitch = getprop("orientation/pitch-deg");
-            me.eegsMe.roll  = getprop("orientation/roll-deg");
+            me.eegsMe.hdg   = me.input.hdgReal.getValue();
+            me.eegsMe.pitch = me.input.pitch.getValue();
+            me.eegsMe.roll  = me.input.roll.getValue();
+                   
+            var hdp = {roll:me.eegsMe.roll,current_view_z_offset_m: me.input.z_offset_m.getValue()};
             
-            var hdp = {roll:me.eegsMe.roll,current_view_z_offset_m: getprop("sim/current-view/z-offset-m")};
             
             me.eegsMe.ac = geo.aircraft_position();
             me.eegsMe.allow = 1;
@@ -2178,9 +2211,9 @@ var HUD = {
             
             #calc shell positions
             
-            me.eegsMe.vel = getprop("velocities/uBody-fps")+3363.0;#3363.0 = speed
+            me.eegsMe.vel = me.input.uBody_fps.getValue() +3363.0 ; #3363.0 = speed
             
-            me.eegsMe.geodPos = aircraftToCart({x:-0, y:0, z: getprop("sim/current-view/y-offset-m")});#position (meters) of gun in aircraft (x and z inverted)
+            me.eegsMe.geodPos = aircraftToCart({x:-0, y:0, z: me.input.y_offset_m.getValue()});#position (meters) of gun in aircraft (x and z inverted)
             me.eegsMe.eegsPos.set_xyz(me.eegsMe.geodPos.x, me.eegsMe.geodPos.y, me.eegsMe.geodPos.z);
             me.eegsMe.altC = me.eegsMe.eegsPos.alt();
             

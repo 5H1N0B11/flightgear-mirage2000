@@ -313,7 +313,28 @@
         <command>property-toggle</command>
         <property>instrumentation/mfd/mfd-glass</property>
       </binding>
+    </action>  <animation>
+    <type>pick</type>
+    <object-name>left_mfd.bt-h1</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/model/click</property>
+      </binding>
+      <binding>
+        <condition>
+          <equals>
+            <property>/instrumentation/mfd/modeL</property>
+            <value>1</value>
+          </equals>
+        </condition>
+        <command>nasal</command>
+        <script>m2000_load.inscreased_selected_pylon();</script>
+      </binding>
     </action>
+  </animation>
   </animation>
 
   <!--toggle INHG/HPA display-->
@@ -398,7 +419,7 @@
   </animation>
 
   <!-- Select missile -->
-  <animation>
+<!--  <animation>
     <type>pick</type>
     <object-name>left_mfd.bt-h1</object-name>
     <action>
@@ -419,7 +440,7 @@
         <script>m2000_load.inscreased_selected_pylon();</script>
       </binding>
     </action>
-  </animation>
+  </animation>-->
 
   <!-- Select A/A
   <animation>

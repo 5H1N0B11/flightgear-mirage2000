@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PropertyList>
+  
+  
+  <model>
+  <name>apache-100</name>
+    <path>Aircraft/Mirage-2000/Missiles/APACHE/APACHE.xml</path>
+  </model>
+  
+  <animation>
+    <type>select</type>
+    <object-name>apache-100</object-name>
+    <condition>
+      <property>payload/armament/apache/flags/msl-id-300</property>
+    </condition>
+  </animation>
+  
+  
+  
+
+  <!-- 
+pour les tests :
+- /apache-pos-norm defini dans m2000-5B-set.xml
+- clic sur ailes pour deplier/replier les ailes
+
+TODO:
+- deplacer la propriete /apache-pos-norm
+- animer le deploiement sur un evenement donne
+
+5H1N0B1 : 
+Utiliser la variable qui déclenche la smoke et trouver la bonne interpolation.
+-->
+
+  <animation>
+    <type>rotate</type>
+    <object-name>apache.wingL</object-name>
+    <property>payload/armament/apache/flags/deploy-id-300</property>
+    <factor>-75</factor>
+    <center>
+      <x-m>.19</x-m>
+      <y-m>-.2</y-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>apache.wingR</object-name>
+    <property>payload/armament/apache/flags/deploy-id-300</property>
+    <factor>75</factor>
+    <center>
+      <x-m>.19</x-m>
+      <y-m>.2</y-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>apache.wingR</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>interpolate("payload/armament/apache/flags/deploy-id-300", 1, 0.25);</script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>apache.wingL</object-name>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>interpolate("payload/armament/apache/flags/deploy-id-300", 0, 0.25);</script>
+      </binding>
+    </action>
+  </animation>
+  
+  <model>
+		<name>explosion</name>
+		<path>Aircraft/Mirage-2000/Missiles/APACHE/explosion-300.xml</path>
+		<offsets>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+ 
+  
+</PropertyList>

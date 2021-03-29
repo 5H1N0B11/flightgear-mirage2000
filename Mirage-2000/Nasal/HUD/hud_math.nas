@@ -2,7 +2,7 @@
 #
 # Author: Nikolai V. Chr. (FPI location code adapted from Buccaneer aircraft)
 #
-# Version 1.06
+# Version 1.07
 #
 # License: GPL 2.0
 	
@@ -55,7 +55,7 @@ var HudMath = {
 			me.pixelPerMeterYSlant = me.canvasHeight/me.length;#used
 			me.boreSlantedDownFromTopMeter =  (me.hud3dTop - me.input.viewZ.getValue())*math.sin(90*D2R)/math.sin(me.slantAngleOther);
 			me.centerOffsetSlantedMeter = -1*(me.length*0.5-me.boreSlantedDownFromTopMeter);#used (distance from center origin up to bore [negative number])
-			printf("len=%.3fm angle=%.1fdeg angle2=%.1fdeg boredist=%.3fm borefromtop=%.3fm offset=%.3fm",me.length,me.slantAngle*R2D,me.slantAngleOther*R2D,me.distanceToBore,me.boreSlantedDownFromTopMeter,me.centerOffsetSlantedMeter);
+			#printf("len=%.3fm angle=%.1fdeg angle2=%.1fdeg boredist=%.3fm borefromtop=%.3fm offset=%.3fm",me.length,me.slantAngle*R2D,me.slantAngleOther*R2D,me.distanceToBore,me.boreSlantedDownFromTopMeter,me.centerOffsetSlantedMeter);
 		}
 			if (initialization) {
 				# calc Y offset from HUD canvas center origin.
@@ -143,11 +143,17 @@ var HudMath = {
 
 	    me.pos = me.getCenterPosFromDegs(me.dir_x,-me.dir_y);
 	    
-	    return [me.pos[0], me.pos[1]];
+	    return [me.pos[0], me.pos[1], me.dir_x,-me.dir_y];
 	},
 	
 	getPosFromDegs:  func (yaw_deg, pitch_deg) {
 		# return pos from bore
+		
+		if (yaw_deg > 89) yaw_deg = 89;
+		if (yaw_deg < -89) yaw_deg = -89;
+		if (pitch_deg < -89) pitch_deg = -89;
+		if (pitch_deg > 89) pitch_deg = 89;
+		
 		var y = 0;
 		var x = 0;
 		if (me.slanted) {
@@ -162,6 +168,12 @@ var HudMath = {
 	
 	getCenterPosFromDegs:  func (yaw_deg, pitch_deg) {
 		# return pos from center origin
+		
+		if (yaw_deg > 89) yaw_deg = 89;
+		if (yaw_deg < -89) yaw_deg = -89;
+		if (pitch_deg < -89) pitch_deg = -89;
+		if (pitch_deg > 89) pitch_deg = 89;
+		
 		if (me.slanted) {
 			var y = me.getVertDistSlanted(pitch_deg);
 			var x =  me.pixelPerMeterX*((me.input.viewX.getValue() - me.hudX3d(y)) * math.tan(yaw_deg*D2R));
@@ -257,11 +269,15 @@ var HudMath = {
 		me.dir_y  = me.input.alpha.getValue();
 	    me.dir_x  = me.input.beta.getValue();
 	    
-	    me.pos = me.getCenterPosFromDegs(me.dir_x,-me.dir_y);
-	    
-	    me.pos_x = me.clamp(me.pos[0],   clampXmin, clampXmax);
-	    me.pos_y = me.clamp(me.pos[1],   clampYmin, clampYmax);
-
+	    if (me.dir_x==nil or me.dir_y==nil) {
+			me.pos_x = 0;
+	    	me.pos_y = 0;		    
+		} else{
+			me.pos = me.getCenterPosFromDegs(me.dir_x,-me.dir_y);
+		    
+		    me.pos_x = me.clamp(me.pos[0],   clampXmin, clampXmax);
+		    me.pos_y = me.clamp(me.pos[1],   clampYmin, clampYmax);
+		}
 	    return [me.pos_x, me.pos_y];
 	},
 	
@@ -271,28 +287,39 @@ var HudMath = {
 		
 		me.rot = -me.input.roll.getValue() * D2R;
     
-	    return [[0,me.centerOffset],me.rot,[0, me.getPixelPerDegreeAvg(averagePoint_deg)*me.input.pitch.getValue()]];
+	    return [[0,me.getCenterOffset()],me.rot,[0, me.getPixelPerDegreeAvg(averagePoint_deg)*me.input.pitch.getValue()]];
 	},
 	
-	getDynamicHorizon: func (averagePoint_deg = 7.5) {
+	getCenterOffset: func {
+		if (me.slanted) {
+			return me.centerOffsetSlantedMeter*me.pixelPerMeterYSlant;
+		} else {
+			return me.centerOffset;
+		}
+	},
+	
+	getDynamicHorizon: func (averagePoint_deg = 7.5, xMin=1,xMax=1,yMin=1,yMax=1,drift=1, drift_fix=0.0) {
 		# get translation and rotation for horizon line, dynamic means centered around FPI.
+		# the min max values are faction from center to edge of hud to restrict ladder movement.
 		# should be called after getFlightPathIndicatorPos/getFlightPathIndicatorPosWind.
 		# return a vector of 3: translation of main horizon group, rotation of main horizon groups transform in radians, translation of sub horizon group (wherein the line (and pitch ladder) is drawn).
-		# not slant compatiple yet
 		
 		me.rot = -me.input.roll.getValue() * D2R;
 
+		me.pos_x_clamp = drift?me.clamp(me.pos_x, -xMin*me.canvasWidth*0.5,xMax*me.canvasWidth*0.5):0;
+		me.pos_y_clamp = drift?me.clamp(me.pos_y, -yMin*me.canvasHeight*0.5,yMax*me.canvasHeight*0.5):drift_fix*me.canvasHeight;
+
 	    # now figure out how much we move horizon group laterally, to keep FPI in middle of it.
-	    me.pos_y_rel = me.pos_y - me.centerOffset;
-	    me.fpi_polar = me.clamp(math.sqrt(me.pos_x*me.pos_x+me.pos_y_rel*me.pos_y_rel),0.0001,10000);
+	    me.pos_y_rel = me.pos_y_clamp - me.getCenterOffset();
+	    me.fpi_polar = me.clamp(math.sqrt(me.pos_x_clamp*me.pos_x_clamp+me.pos_y_rel*me.pos_y_rel),0.0001,10000);
 	    me.inv_angle = me.clamp(-me.pos_y_rel/me.fpi_polar,-1,1);
 	    me.fpi_angle = math.acos(me.inv_angle);
-	    if (me.pos_x < 0) {
+	    if (me.pos_x_clamp < 0) {
 	      me.fpi_angle *= -1;
 	    }
 	    me.fpi_pos_rel_x    = math.sin(me.fpi_angle-me.rot)*me.fpi_polar;
 	    
-	    return [[0,me.centerOffset],me.rot,[me.fpi_pos_rel_x, me.getPixelPerDegreeAvg(averagePoint_deg)*me.input.pitch.getValue()]];
+	    return [[0,me.getCenterOffset()],me.rot,[me.fpi_pos_rel_x, me.getPixelPerDegreeAvg(averagePoint_deg)*me.input.pitch.getValue()]];
 	},
 	
 	getPixelPerDegreeAvg: func (averagePoint_deg = 7.5) {

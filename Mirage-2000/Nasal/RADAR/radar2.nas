@@ -380,6 +380,7 @@ var Radar = {
               me.ContactsList  = [];
               me.tgts_list     = [];
               me.Target_Index    = -1;
+              setprop("sim/multiplay/generic/string[6]", "");
             }
             #me.Global_janitor();
             
@@ -494,10 +495,12 @@ var Radar = {
                 # this function do all the checks and put all result of each
                 # test on an array[] named Check_List
 
-                me.go_check(me.update_u, me.skipDoppler);
+                me.go_check(me.update_u);
                 
                 #Displaying Check                
                 # then a function just check it all
+                #print("Update targetList" ~ me.update_u.get_Callsign());
+                #print("get_type()" ~ me.update_u.get_type());
                 if(me.get_check() and me.update_u.isValid())
                 {
                                         
@@ -523,8 +526,6 @@ var Radar = {
                     if(me.update_u.get_type != armament.ORDNANCE and !contains(weaponRadarNames, me.update_u.get_Callsign) and !me.update_u.isFriend())
                     {
                         #tgts_list => ARRAY4
-                        
-                        #print("Update targetList" ~ me.update_u.get_Callsign());
                         
                         me.TargetList_Update(me.update_u);
                         me.TargetList_AddingTarget(me.update_u);
@@ -565,6 +566,16 @@ var Radar = {
 
                 
         me.ContactsList = me.decrease_life(me.ContactsList);
+        
+        
+        if (armament.contact != nil and armament.contact.get_display() and getprop("controls/armament/master-arm") and armament.contact.get_Callsign() != nil and armament.contact.get_Callsign() != "") {
+          #print("armament.contact.get_Callsign"~armament.contact.get_Callsign());
+          setprop("sim/multiplay/generic/string[6]", left(md5(armament.contact.get_Callsign()), 4));
+        } else {
+            setprop("sim/multiplay/generic/string[6]", "");
+        }
+        
+        
 
         me.updating_now = 0;
 
@@ -699,7 +710,7 @@ var Radar = {
       return me.check_selected_type_result;
     },
 
-    go_check: func(SelectedObject, skipDoppler){
+    go_check: func(SelectedObject){
         #if radar : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, doppler, isNotBehindTerrain
         #if Rwr   : check : InhisRange (radardist), inHisElevation, inHisAzimuth, NotBeyondHorizon, isNotBehindTerrain
         #if heat  : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, heat_sensor, isNotBehindTerrain
@@ -733,7 +744,7 @@ var Radar = {
             return;
         }
         #me.heat_sensor(SelectedObject);
-        if( me.detectionTypetab=="laser" or skipDoppler == 1)
+        if( me.detectionTypetab=="laser" or SelectedObject.skipDoppler == 1)
         {
           #print("Skip Doppler");
           append(me.Check_List, 1);
@@ -1156,6 +1167,14 @@ var RWR_APG = {
         rwrList16 = [];
         me.MyCoord = geo.aircraft_position();
 #         printf("clist %d", size(completeList));
+        
+        #Sound of Lock
+        #setprop("sound/rwr-lck", 0);
+        me.myCallsign = getprop("sim/multiplay/callsign");
+        me.myCallsign = size(me.myCallsign) < 8 ? me.myCallsign : left(me.myCallsign,7);
+        me.act_lck = 0;
+      
+        
         foreach(me.u;completeList) {
             me.cs = me.u.get_Callsign();
 #             print("Will test  : "~ me.u.get_Callsign()~" as Type: " ~ me.u.type);
@@ -1164,6 +1183,12 @@ var RWR_APG = {
             if (me.u.isFriend() or me.rn > 150) {
                 me.l16 = 1;
             }
+            me.lck = me.u.propNode.getNode("sim/multiplay/generic/string[6]");
+            if (me.lck != nil and me.lck.getValue() != nil and me.lck.getValue() != "" and size(""~me.lck.getValue())==4 and left(md5(me.myCallsign),4) == me.lck.getValue()) {
+              me.act_lck = 1;
+            }
+            
+            
             me.bearing = geo.aircraft_position().course_to(me.u.get_Coord());
             me.trAct = me.u.propNode.getNode("instrumentation/transponder/transmitted-id");
             me.show = 0;
@@ -1226,6 +1251,7 @@ var RWR_APG = {
                 #printf("%s ----", u.get_Callsign());
             }
         }
+        setprop("sound/rwr-lck", me.act_lck);
     },
 };
 

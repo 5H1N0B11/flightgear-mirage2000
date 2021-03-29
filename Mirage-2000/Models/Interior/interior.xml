@@ -156,7 +156,7 @@
 
   <!-- LoD -->
   <animation>
-    <object-name>panel_pilot</object-name>
+    <object-name>panel_pilote</object-name>
     <type>range</type>
     <min-m>  0 </min-m>
     <max-m> 100 </max-m>
