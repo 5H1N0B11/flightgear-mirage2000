@@ -16,20 +16,24 @@
 	
 	<channel name="Pitch">
 		<!-- If we are on the ground, we will pretend that we have 0 alpha -->
-		<switch name="fcs/fbw/pitch/alpha-deg">
-			<default value="aero/alpha-deg"/>
-			<test value="0">
-				fcs/fbw/wow ne 0
-			</test>
-		</switch >
+		<fcs_function name="fcs/fbw/pitch/alpha-deg">
+			<function>
+				<product>
+					<p> aero/alpha-deg </p>
+					<p> fcs/fbw/state </p>
+				</product>
+			</function>
+		</fcs_function>
 
 		<!-- If we are on the ground, we will pretend that we have 0 alpha -->
-		<switch name="fcs/fbw/pitch/alpha-rad">
-			<default value="aero/alpha-rad"/>
-			<test value="0">
-				fcs/fbw/wow ne 0
-			</test>
-		</switch>
+		<fcs_function name="fcs/fbw/pitch/alpha-rad">
+			<function>
+				<product>
+					<p> aero/alpha-rad </p>
+					<p> fcs/fbw/state </p>
+				</product>
+			</function>
+		</fcs_function>
 
 		<!-- Simply keeps track of the change of alpha over time (direct derivative). -->
 		<pid name="fcs/fbw/pitch/d-alpha-controller">
@@ -45,13 +49,41 @@
 		</pid>
 		
 		<!-- If we are on the ground, we will pretend that our d-alpha is out rotation-rate around the aircraft's Y axis. -->
-		<switch name="fcs/fbw/pitch/d-alpha">
-			<default value="fcs/fbw/pitch/d-alpha-raw"/>
-			<test value="velocities/q-rad_sec">
-				fcs/fbw/wow ne 0
-			</test>
-		</switch>
+		<fcs_function name="fcs/fbw/pitch/d-alpha">
+			<function>
+				<sum>
+					<product>
+						<sum>
+							<p> velocities/q-rad_sec </p>
+							<value> 0.05 </value>
+						</sum>
 
+						<difference>
+							<value> 1 </value>
+							<p> fcs/fbw/state </p>
+						</difference>
+					</product>
+					<product>
+						<p> fcs/fbw/pitch/d-alpha-raw </p>
+						<p> fcs/fbw/state </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<!-- Simply keeps track of the change of the lift coefficient over time (direct derivative). -->
+		<pid name="fcs/fbw/pitch/d-clift-controller">
+			<input> aero/coefficients/CLIFT </input>
+			<kp> 0.0 </kp>
+			<ki> 0.0 </ki>
+			<kd> 1.0 </kd>
+			<clipto>
+				<min> -999999 </min>
+				<max>  999999 </max>
+			</clipto>
+			<output> fcs/fbw/pitch/d-clift-raw </output>
+		</pid>
+		
 		<!-- The elevation (pitch) of our velocity vector. -->
 		<fcs_function name="fcs/fbw/pitch/kinetic-pitch-rad">
 			<function>

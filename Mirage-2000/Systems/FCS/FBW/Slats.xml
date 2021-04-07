@@ -123,7 +123,7 @@
 			<default value="fcs/fbw/slats/extension-calc"/>
 			<test logic="OR" value="/controls/flight/flaps">
 				gear/gear-cmd-norm ne 0
-				fcs/fbw/enable ne 1
+				fcs/fbw/mode ne 1
 				/controls/flight/flaps gt 0
 				fcs/fbw/slats/active le 0
 			</test>

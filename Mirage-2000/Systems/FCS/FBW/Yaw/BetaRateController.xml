@@ -10,50 +10,20 @@
 <system name="Mirage-2000: FCS/FBW">
 	<property value= "1">   fcs/fbw/yaw/beta-rate/enable </property>  <!-- Pilot available toggle. -->
 	
-	<property value= "2">  fcs/fbw/yaw/beta-rate/input-gain </property>  <!-- Tuning param (gain for the controller input). -->
+	<property value= "5">  fcs/fbw/yaw/beta-rate/input-gain </property>  <!-- Tuning param (gain for the controller input). -->
 	<property value= "200">  fcs/fbw/yaw/beta-rate/input-lag-c </property>  <!-- Tuning param (constant lag coefficient for the controller input). -->
 	<property value= "0">  fcs/fbw/yaw/beta-rate/input-lag-p </property>  <!-- Tuning param (speed² proportional lag coefficient for the controller input). -->
 	
-	<property value= "1.1">  fcs/fbw/yaw/beta-rate/Kp </property>  <!-- Tuning param (proportional coefficient for the controller). -->
-	<property value= "0.3">  fcs/fbw/yaw/beta-rate/Ki </property>  <!-- Tuning param (integration coefficient for the controller). -->
-	<property value= "0.17"> fcs/fbw/yaw/beta-rate/Kd </property>  <!-- Tuning param (derivative coefficient for the controller). -->
+	<property value= "1.3">  fcs/fbw/yaw/beta-rate/Kp </property>  <!-- Tuning param (proportional coefficient for the controller). -->
+	<property value= "3">  fcs/fbw/yaw/beta-rate/Ki </property>  <!-- Tuning param (integration coefficient for the controller). -->
+	<property value= "0.0"> fcs/fbw/yaw/beta-rate/Kd </property>  <!-- Tuning param (derivative coefficient for the controller). -->
 
 	<channel name="Yaw">
-		<!-- Make Kp linear to (1-norm_IAS²) to account for authority due to speed. -->
-		<fcs_function name="fcs/fbw/yaw/beta-rate/Kpe">
-			<function>
-				<product>
-					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
-					<p> fcs/fbw/yaw/beta-rate/Kp </p>
-				</product>
-			</function>
-		</fcs_function>
-
-		<!-- Make Ki linear to (1-norm_IAS²) to account for authority due to speed. -->
-		<fcs_function name="fcs/fbw/yaw/beta-rate/Kie">
-			<function>
-				<product>
-					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
-					<p> fcs/fbw/yaw/beta-rate/Ki </p>
-				</product>
-			</function>
-		</fcs_function>
-
-		<!-- Make Kd linear to (1-norm_IAS²) to account for authority due to speed. -->
-		<fcs_function name="fcs/fbw/yaw/beta-rate/Kde">
-			<function>
-				<product>
-					<p> fcs/fbw/energy-coefficient </p> <!-- Speed² proportional factor -->
-					<p> fcs/fbw/yaw/beta-rate/Kd </p>
-				</product>
-			</function>
-		</fcs_function>
-
 		<!-- Use the beta-rate error as direct input & input-gain application -->
 		<fcs_function name="fcs/fbw/yaw/beta-rate/input">
 			<function>
 				<product>
-					<p> fcs/fbw/yaw/beta-rate/error </p>
+					<p> fcs/fbw/yaw/torque/k-error </p>
 
 					<p> fcs/fbw/yaw/beta-rate/input-gain </p>
 				</product>
@@ -94,11 +64,11 @@
 
 		<!-- PID controller acting as the main driver for the yaw channel. -->
 		<pid name="fcs/fbw/yaw/beta-rate/controller">
-			<input>fcs/fbw/yaw/beta-rate/input-lag</input>
+			<input> fcs/fbw/yaw/beta-rate/input-lag </input>
 			
-			<kp> fcs/fbw/yaw/beta-rate/Kpe </kp>
-			<ki> fcs/fbw/yaw/beta-rate/Kie </ki>
-			<kd> fcs/fbw/yaw/beta-rate/Kde </kd>
+			<kp> fcs/fbw/yaw/beta-rate/Kp </kp>
+			<ki> fcs/fbw/yaw/beta-rate/Ki </ki>
+			<kd> fcs/fbw/yaw/beta-rate/Kd </kd>
 
 			<trigger> fcs/fbw/yaw/beta-rate/i-trigger </trigger>
 			

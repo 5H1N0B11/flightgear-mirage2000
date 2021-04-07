@@ -8,22 +8,29 @@
 -->
 
 <system name="Mirage-2000: FCS/FBW">
-	<property value=  "0.0000005"> fcs/fbw/pitch/alpha-rate/alpha-Kp </property>    <!-- Tuning param (gain to convert g-error error to alpha-error) -->
-	<property value=  "4.0">       fcs/fbw/pitch/alpha-rate/rate-Kp </property>     <!-- Tuning param (gain to convert alpha error to alpha-rate) -->
-	<property value= "10.0">       fcs/fbw/pitch/alpha-rate/alpha-Klag </property>  <!-- Tuning param (lag coefficient for the alpha-error) -->
+	<property value=  "0.07"> fcs/fbw/pitch/alpha-rate/alpha-Kp </property>    <!-- Tuning param (gain to convert g-error error to alpha-error) -->
+
+	<property value=  "0.5">  fcs/fbw/pitch/alpha-rate/ls-max </property>  <!-- Tuning param. -->
+	<property value=  "2.0">  fcs/fbw/pitch/alpha-rate/hs-max </property>  <!-- Tuning param. -->
+
+	<property value= "100.0">  fcs/fbw/pitch/alpha-rate/ls </property>  <!-- Tuning param (lowest point of the map).  -->
+	<property value= "300.0">  fcs/fbw/pitch/alpha-rate/hs </property>  <!-- Tuning param (the point speed over which the airframe allows full reactivity). -->
+	
+	<property value= "200.0">       fcs/fbw/pitch/alpha-rate/alpha-Klag </property>  <!-- Tuning param (lag coefficient for the alpha-error) -->
 
 	<channel name="Pitch">	
-		<!-- Compute the error in alpha according to the error in acceleration -->
+		<!-- Compute the error in alpha according to the error in lift coefficient -->
 		<fcs_function name="fcs/fbw/pitch/alpha-rate/alpha-error">
 			<function>
 				<product>
-					<p> fcs/fbw/pitch/g/error </p>              <!-- The acceleration error on the kinetic z axis  -->
-					<p> fcs/fbw/energy-coefficient </p>         <!-- Speed² proportional factor -->
-					<p> inertia/weight-lbs </p>		        <!-- Weight proportional factor -->
-					<value> 3.14159265359 </value>          <!-- 1 radian -->
+					<p> -fcs/fbw/pitch/lift/k-error </p> 
 					<p> fcs/fbw/pitch/alpha-rate/alpha-Kp </p>  <!-- Tunable proportional coefficient -->
 				</product>
 			</function>
+			<clipto>
+				<min> -0.52359877559 </min>
+				<max>  0.52359877559 </max>
+			</clipto>
 		</fcs_function>
 
 		<!-- Lag filter for the alpha error. -->
@@ -35,9 +42,64 @@
 		<!-- TODO: Remove, it is for tuning purposes only -->
 		<summer name="fcs/fbw/pitch/alpha-rate/predicted-alpha">
 			<input> fcs/fbw/pitch/alpha-rad </input>
-			<input> fcs/fbw/pitch/alpha-rate/alpha-error </input>
+			<input> -fcs/fbw/pitch/alpha-rate/alpha-error </input>
 		</summer>
-		
+
+		<!-- Linear interpolation coefficient between low speed config and standard config. -->
+		<fcs_function name="fcs/fbw/pitch/alpha-rate/li-ls-hs">
+			<function>
+				<ifthen>
+					<le>
+						<property> velocities/vc-kts </property>
+						<p> fcs/fbw/roll/p-rate/ls </p>
+					</le>
+
+					<value>0</value>
+
+					<ifthen>
+						<ge>
+							<property> velocities/vc-kts </property>
+							<p> fcs/fbw/roll/p-rate/hs </p>
+						</ge>
+
+						<value> 1 </value>
+
+						<quotient>
+							<difference>
+								<p> velocities/vc-kts </p>
+								<p> fcs/fbw/roll/p-rate/ls </p>
+							</difference>
+							<difference>
+								<p> fcs/fbw/roll/p-rate/hs </p>
+								<p> fcs/fbw/roll/p-rate/ls </p>
+							</difference>
+						</quotient>
+					</ifthen>
+
+				</ifthen>
+			</function>
+		</fcs_function>
+
+		<!-- Gain to convert alpha error to alpha-rate -->
+		<fcs_function name="fcs/fbw/pitch/alpha-rate/rate-Kp">
+			<function>
+				<sum>
+					<product>
+						<p> fcs/fbw/pitch/alpha-rate/hs-max </p>
+						<p> fcs/fbw/pitch/alpha-rate/li-ls-hs </p>
+					</product>
+
+					<product>
+						<p> fcs/fbw/pitch/alpha-rate/ls-max</p>
+						<difference>
+							<value> 1 </value>
+							<p> fcs/fbw/pitch/alpha-rate/li-ls-hs </p>
+						</difference>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
 		<!-- Compute the alpha rate required to correct the alpha error. -->
 		<fcs_function name="fcs/fbw/pitch/alpha-rate/demand">
 			<function>

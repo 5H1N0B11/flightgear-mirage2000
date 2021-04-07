@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	Algebraic system with a low-pass filter, computing a p-rate error from the pilot demand.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value=  "1.57079">  fcs/fbw/roll/p-rate/ls-max </property>  <!-- Tuning param (what the FDM allows us). -->
+	<property value=  "4.71239">  fcs/fbw/roll/p-rate/hs-max </property>  <!-- Mirage's documentation. -->
+	
+	<property value= "120.0">  fcs/fbw/roll/p-rate/ls </property>  <!-- Tuning param (lowest point of the map).  -->
+	<property value= "300.0">  fcs/fbw/roll/p-rate/hs </property>  <!-- Tuning param (the point speed over which the airframe allows full control up to max roll-rate with 0 alpha). -->
+	
+	<property value=  "200.0">  fcs/fbw/roll/p-rate/rate-Klag </property>   <!-- Tuning param (lag coefficient for the p-rate-error) -->
+	
+	<channel name="Roll">
+		
+		<!-- Linear interpolation coefficient between low speed config and standard config. -->
+		<fcs_function name="fcs/fbw/roll/p-rate/li-ls-hs">
+			<function>
+				<ifthen>
+					<le>
+						<property> velocities/vc-kts </property>
+						<p> fcs/fbw/roll/p-rate/ls </p>
+					</le>
+
+					<value>0</value>
+
+					<ifthen>
+						<ge>
+							<property> velocities/vc-kts </property>
+							<p> fcs/fbw/roll/p-rate/hs </p>
+						</ge>
+
+						<value> 1 </value>
+
+						<quotient>
+							<difference>
+								<p> velocities/vc-kts </p>
+								<p> fcs/fbw/roll/p-rate/ls </p>
+							</difference>
+							<difference>
+								<p> fcs/fbw/roll/p-rate/hs </p>
+								<p> fcs/fbw/roll/p-rate/ls </p>
+							</difference>
+						</quotient>
+					</ifthen>
+
+				</ifthen>
+			</function>
+		</fcs_function>
+
+		<!-- Absolute p-rate boundary for the control according to the speed. -->
+		<fcs_function name="fcs/fbw/roll/p-rate/max">
+			<function>
+				<sum>
+					<product>
+						<p> fcs/fbw/roll/p-rate/hs-max </p>
+						<p> fcs/fbw/roll/p-rate/li-ls-hs </p>
+					</product>
+
+					<product>
+						<p> fcs/fbw/roll/p-rate/ls-max</p>
+						<difference>
+							<value> 1 </value>
+							<p> fcs/fbw/roll/p-rate/li-ls-hs </p>
+						</difference>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- The p-rate demanded by the pilot (inverted because P is pointing in the opposite direction of X). -->
+		<fcs_function name="fcs/fbw/roll/p-rate/demand">
+			<function>
+				<sum>
+					<product>
+						<p> -fcs/fbw/roll/pilot-input/output </p>
+						<p> fcs/fbw/roll/p-rate/max </p>
+					</product>
+					
+					<p> fcs/fbw/roll/over-roll/active-feedback </p>
+				</sum>
+			</function>
+			<clipto>
+				<min> -fcs/fbw/roll/p-rate/max </min>
+				<max>  fcs/fbw/roll/p-rate/max </max>
+			</clipto>
+		</fcs_function>
+
+		<!-- Error = p-rate_demand - p-rate_current. -->
+		<fcs_function name="fcs/fbw/roll/p-rate/raw-error">
+			<function>
+				<difference>
+					<p> fcs/fbw/roll/p-rate/demand </p>
+					<p> -velocities/p-rad_sec </p>
+				</difference>
+			</function>
+		</fcs_function>
+
+		<!-- TODO: See if we can remove the p-rate-error lag filter and use the p-rate-controller input lag filter instead. -->
+		<!-- Lag filter for the p-rate_error. -->
+		<lag_filter name="fcs/fbw/roll/p-rate/error">
+			<input> -fcs/fbw/roll/p-rate/raw-error </input>
+			<c1> fcs/fbw/roll/p-rate/rate-Klag </c1>
+		</lag_filter>
+	</channel>
+</system>

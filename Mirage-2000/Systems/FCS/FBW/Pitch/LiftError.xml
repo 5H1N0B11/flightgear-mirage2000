@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	TODO.
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<channel name="Pitch">
+		<!-- Compute the error in lift in the kinetic referential according to the error in acceleration (N). -->
+		<fcs_function name="fcs/fbw/pitch/lift/kinetic-error">
+			<function>
+				<product>
+					<p> fcs/fbw/pitch/g/error </p>
+					<p> accelerations/g </p>
+					<p> inertia/mass-kg </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Compute the error in lift in the body referential (N). -->
+		<fcs_function name="fcs/fbw/pitch/lift/error">
+			<function>
+				<!-- Trigo sec(alpha) proportion of what force difference we need to achieve on the kinetic Z axis  -->
+				<quotient>
+					<p> fcs/fbw/pitch/lift/kinetic-error </p>
+
+					<!-- Limit the sec parameter to +- 30°. -->
+					<ifthen>
+						<ge>
+							<p> aero/cos-alpha </p>
+							<value> 0.86602540378 </value>
+						</ge>
+
+						<p> aero/cos-alpha </p>  <!-- cos(alpha) -->
+
+						<value> 0.86602540378 </value> <!-- cos(30°) -->
+					</ifthen>
+				</quotient>
+			</function>
+		</fcs_function>
+
+		<!-- Compute the error in the lift coefficient. -->
+		<fcs_function name="fcs/fbw/pitch/lift/k-error">
+			<function>
+				<quotient>
+					<p> fcs/fbw/pitch/lift/error </p>
+					<!-- Make sure we never divide by 0 (should only happen when the plane is stopped, relative to the wind). -->
+					<ifthen>
+						<ge>
+							<p> aero/qsw </p>
+							<value> 0.00000001 </value>
+						</ge>
+
+						<p> aero/qsw </p>
+						
+						<value> 0.00000001 </value>
+					</ifthen>
+				</quotient>
+			</function>
+		</fcs_function>
+	</channel>
+</system>

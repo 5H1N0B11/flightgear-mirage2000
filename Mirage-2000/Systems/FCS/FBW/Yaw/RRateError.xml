@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	TODO ...
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<channel name="Yaw">		
+		<!-- Compute angular velocity needed around the R axis to match the beta-rate demand -->
+		<!-- If on the ground, we will pretend that our aero-vector is not rotating. -->
+		<fcs_function name="fcs/fbw/yaw/r-rate/beta-based-demand">
+			<function>
+				<sum>
+					<p> fcs/fbw/yaw/beta-rate/error </p>
+					<ifthen>
+						<eq>
+							<p> fcs/fbw/wow </p>
+							<value> 1 </value>
+						</eq>
+	
+						<value> 0 </value>
+	
+						<p> velocities/r-aero-rad_sec </p>
+					</ifthen>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- Error = r-rate_demand - r-rate_current. -->
+		<summer name="fcs/fbw/yaw/r-rate/beta-based-error">
+			<input> fcs/fbw/yaw/r-rate/beta-based-demand </input>
+			<input> -velocities/r-rad_sec </input>
+		</summer>
+		
+		
+		<!-- Total error = sum of both errors. -->
+		<summer name="fcs/fbw/yaw/r-rate/error">
+			<input> fcs/fbw/yaw/r-rate/beta-based-error </input>
+		</summer>
+		
+	</channel>
+</system>

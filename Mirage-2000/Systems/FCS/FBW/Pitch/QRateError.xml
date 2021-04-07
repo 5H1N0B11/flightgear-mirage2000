@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	TODO ...
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<channel name="Pitch">
+		<!-- Compute angular velocity needed around the Q axis to match the alpha-rate demand -->
+		<fcs_function name="fcs/fbw/pitch/q-rate/demand">
+			<function>
+				<sum>
+					<p> -fcs/fbw/pitch/alpha-rate/error </p>
+					<p> -fcs/fbw/pitch/alpha-limit/active-feedback </p>
+
+					<p> velocities/q-aero-rad_sec </p>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<!-- Error = q-rate_demand - q-rate_current. -->
+
+		<summer name="fcs/fbw/pitch/q-rate/error">
+			<input> fcs/fbw/pitch/q-rate/demand </input>
+			<input> -velocities/q-rad_sec </input>
+		</summer>
+		
+	</channel>
+</system>

@@ -13,10 +13,10 @@
 	
 	<property value= "0.6"> fcs/fbw/roll/over-roll/control-limit-window </property>   <!-- Tuning param (yaw-control +- window). -->
 	
-	<property value= "0.9"> fcs/fbw/roll/over-roll/beta-limit-window </property>  <!-- Tuning param (beta +- window). -->
-	<property value= "6.0"> fcs/fbw/roll/over-roll/max-beta </property>           <!-- Max absolute beta for the over-roll to trigger completely. -->
+	<property value= "0.6"> fcs/fbw/roll/over-roll/beta-limit-window </property>  <!-- Tuning param (beta +- window). -->
+	<property value= "5.0"> fcs/fbw/roll/over-roll/max-beta </property>           <!-- Max absolute beta for the over-roll to trigger completely. -->
 	
-	<property value= "3.0"> fcs/fbw/roll/over-roll/Klag </property>  <!-- Tuning param (lag filter coeff for the over-roll feedback). -->
+	<property value= "10.0"> fcs/fbw/roll/over-roll/Klag </property>  <!-- Tuning param (lag filter coeff for the over-roll feedback). -->
 	
 	<channel name="Roll">
 
@@ -179,13 +179,12 @@
 			</clipto>
 		</fcs_function>
 		
-		<!-- Product of the current roll(theta)-rate and both feedback coefficients. -->
-		<fcs_function name="fcs/fbw/roll/over-roll/d-theta-feedback-prod">
+		<!-- Product of the current roll(p)-rate and both feedback coefficients. -->
+		<fcs_function name="fcs/fbw/roll/over-roll/d-p-feedback-prod">
 			<function>
 				<product>
-					<abs><p> velocities/p-rad_sec </p></abs>
-					<p> -fcs/fbw/roll/over-roll/outside-control-window </p>
-					<abs><p> fcs/fbw/roll/over-roll/outside-beta-window </p></abs>
+					<p> velocities/p-rad_sec </p>
+					<abs><p> fcs/fbw/roll/over-roll/outside-control-window </p></abs>
 				</product>
 			</function>
 		</fcs_function>
@@ -193,28 +192,28 @@
 		<!-- Some (up to all) of the opposite of the current roll-rate can be applied as new error if both of the following condition are met. -->
 		<!--   - The yaw channel output direction is INTO the roll-rate direction and it's value is outside the inner perimeter of it's feedback window). -->
 		<!--   - The beta angle direction is INTO the roll-rate direction it's value and is outside the inner perimeter of it's feedback window). -->
-		<switch name="fcs/fbw/roll/over-roll/d-theta-feedback">
+		<switch name="fcs/fbw/roll/over-roll/d-p-feedback">
 			<default value="0"/>
-			<test logic="AND" value="fcs/fbw/roll/over-roll/d-theta-feedback-prod">
-				velocities/p-rad_sec gt 0
+			<test logic="AND" value="fcs/fbw/roll/over-roll/d-p-feedback-prod">
+				fcs/fbw/roll/over-roll/d-p-feedback-prod gt 0
 
 				fcs/fbw/roll/over-roll/outside-control-window gt 0
 				fcs/fbw/roll/over-roll/outside-beta-window gt 0
 			</test>
-			<test logic="AND" value="fcs/fbw/roll/over-roll/d-theta-feedback-prod">
-				velocities/p-rad_sec lt 0
+			<test logic="AND" value="fcs/fbw/roll/over-roll/d-p-feedback-prod">
+				fcs/fbw/roll/over-roll/d-p-feedback-prod lt 0
 
 				fcs/fbw/roll/over-roll/outside-control-window lt 0
 				fcs/fbw/roll/over-roll/outside-beta-window lt 0
 			</test>
 		</switch>
 
-		<!-- Product of the current roll(theta)-rate error and both feedback coefficients. -->
-		<fcs_function name="fcs/fbw/roll/over-roll/d-theta-error-feedback-prod">
+		<!-- Product of the current roll(p)-rate error and both feedback coefficients. -->
+		<fcs_function name="fcs/fbw/roll/over-roll/d-p-error-feedback-prod">
 			<function>
 				<product>
-					<abs><p> fcs/fbw/roll/theta-rate/error </p></abs>
-					<p> -fcs/fbw/roll/over-roll/outside-control-window </p>
+					<p> -fcs/fbw/roll/p-rate/error </p>
+					<abs><p> fcs/fbw/roll/over-roll/outside-control-window </p></abs>
 				</product>
 			</function>
 		</fcs_function>
@@ -222,24 +221,24 @@
 		<!-- Some (up to all) of the opposite of the current roll-rate error can be applied as new error if both of the following condition are met. -->
 		<!--   - The yaw channel output direction is INTO the roll-rate error direction and is outside the inner perimeter of it's feedback window). -->
 		<!--   - The beta angle direction is INTO the roll-rate error direction and it's value is outside the inner perimeter of it's feedback window). -->
-		<switch name="fcs/fbw/roll/over-roll/d-theta-error-feedback">
+		<switch name="fcs/fbw/roll/over-roll/d-p-error-feedback">
 			<default value="0"/>
-			<test logic="AND" value="fcs/fbw/roll/over-roll/d-theta-error-feedback-prod">
+			<test logic="AND" value="fcs/fbw/roll/over-roll/d-p-error-feedback-prod">
+				fcs/fbw/roll/over-roll/d-p-error-feedback-prod gt 0
+				
 				fcs/fbw/roll/over-roll/outside-control-window gt 0
-				fcs/fbw/roll/over-roll/outside-beta-window gt 0
-				fcs/fbw/roll/theta-rate/error gt 0
 			</test>
-			<test logic="AND" value="fcs/fbw/roll/over-roll/d-theta-error-feedback-prod">
+			<test logic="AND" value="fcs/fbw/roll/over-roll/d-p-error-feedback-prod">
+				fcs/fbw/roll/over-roll/d-p-error-feedback-prod lt 0
+				
 				fcs/fbw/roll/over-roll/outside-control-window lt 0
-				fcs/fbw/roll/over-roll/outside-beta-window gt 0
-				fcs/fbw/roll/theta-rate/error lt 0
 			</test>
 		</switch>
 
-		<!-- Sum of both the d-theta and the d-theta_error induced feedbacks. -->
+		<!-- Sum of both the d-p and the d-p_error induced feedbacks. -->
 		<summer name="fcs/fbw/roll/over-roll/direct-feedback">
-			<input> fcs/fbw/roll/over-roll/d-theta-feedback </input>
-			<input> fcs/fbw/roll/over-roll/d-theta-error-feedback </input>
+			<input> fcs/fbw/roll/over-roll/d-p-feedback </input>
+			<input> fcs/fbw/roll/over-roll/d-p-error-feedback </input>
 		</summer>
 
 		<!-- Lag filter for the over-roll feedback. -->

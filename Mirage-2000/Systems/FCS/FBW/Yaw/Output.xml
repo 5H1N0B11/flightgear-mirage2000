@@ -38,7 +38,7 @@
 				<ifthen>
 					<and>
 						<eq>
-							<p> fcs/fbw/enable </p>
+							<p> fcs/fbw/mode </p>
 							<value> 1 </value>
 						</eq>
 						<gt>
@@ -47,14 +47,9 @@
 						</gt>
 					</and>
 					
-					<sum>
-						<p> fcs/fbw/yaw/beta-rate/active-output </p>        <!-- The active control -->
-						<p> fcs/fbw/yaw/alpha-to-beta/active-output </p>        <!-- The damping control -->
-						<p> fcs/fbw/yaw/damping/active-output </p>        <!-- The damping control -->
-						<p> fcs/fbw/yaw/stability/active-output </p>      <!-- The control to compensate for the moment induced by (in)stability -->
-					</sum>
+					<p> fcs/fbw/yaw/beta-rate/active-output </p> <!-- The active control -->
 
-					<p> fcs/fbw/yaw/pilot-input/output </p>  <!-- Direct pilot input. -->
+					<p> /controls/flight/rudder </p>  <!-- Direct pilot input. -->
 				</ifthen>
 			</function>
 			<clipto>

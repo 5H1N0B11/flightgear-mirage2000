@@ -16,7 +16,7 @@
 				<ifthen>
 					<and>
 						<eq>
-							<p> fcs/fbw/enable </p>
+							<p> fcs/fbw/mode </p>
 							<value> 1 </value>
 						</eq>
 						<gt>
@@ -25,13 +25,9 @@
 						</gt>
 					</and>
 
-					<sum>
-						<p> fcs/fbw/roll/theta-rate/active-output </p>  <!-- The active control -->
-						<p> fcs/fbw/roll/damping/active-output </p>     <!-- The damping control -->
-						<p> fcs/fbw/roll/stability/active-output </p>   <!-- The control to compensate for the moment induced by (in)stability -->
-					</sum>
-
-					<p> fcs/fbw/roll/pilot-input/output </p>  <!-- Direct pilot input. -->
+					<p> fcs/fbw/roll/p-rate/active-output </p>  <!-- The active control -->
+					
+					<p> /controls/flight/aileron </p>  <!-- Direct pilot input. -->
 				</ifthen>
 			</function>
 			<clipto>

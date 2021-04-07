@@ -16,20 +16,24 @@
 		<!-- TODO: Find a replacement for the following, which will mess up with the attitude during lift off and touchdown-->
 		
 		<!-- If we are on the ground, we will pretend that we have 0 beta -->
-		<switch name="fcs/fbw/yaw/beta-deg">
-			<default value="aero/beta-deg"/>
-			<test value="0">
-				fcs/fbw/wow ne 0
-			</test>
-		</switch >
+		<fcs_function name="fcs/fbw/yaw/beta-deg">
+			<function>
+				<product>
+					<p> aero/beta-deg </p>
+					<p> fcs/fbw/state </p>
+				</product>
+			</function>
+		</fcs_function>
 
 		<!-- If we are on the ground, we will pretend that we have 0 beta -->
-		<switch name="fcs/fbw/yaw/beta-rad">
-			<default value="aero/beta-rad"/>
-			<test value="0">
-				fcs/fbw/wow ne 0
-			</test>
-		</switch >
+		<fcs_function name="fcs/fbw/yaw/beta-rad">
+			<function>
+				<product>
+					<p> aero/beta-rad </p>
+					<p> fcs/fbw/state </p>
+				</product>
+			</function>
+		</fcs_function>
 		
 		<!-- Simply keeps track of the change of beta over time (direct derivative) -->		
 		<pid name="fcs/fbw/yaw/d-beta-controller">
@@ -51,5 +55,24 @@
 				fcs/fbw/wow ne 0
 			</test>
 		</switch>
+		
+		<fcs_function name="fcs/fbw/pitch/d-alpha">
+			<function>
+				<sum>
+					<product>
+						<p> velocities/r-rad_sec </p>
+
+						<difference>
+							<value> 1 </value>
+							<p> fcs/fbw/state </p>
+						</difference>
+					</product>
+					<product>
+						<p> fcs/fbw/yaw/d-beta-raw </p>
+						<p> fcs/fbw/state </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
 	</channel>
 </system>

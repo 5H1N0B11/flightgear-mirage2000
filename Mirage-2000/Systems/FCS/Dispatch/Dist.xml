@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	External control for the various actuators.
+-->
+
+<system name="Mirage-2000: FCS/Actuators">
+	<property value="0"> fcs/dispatch/dist/elevons/OL </property>
+	<property value="0"> fcs/dispatch/dist/elevons/OR </property>
+	<property value="0"> fcs/dispatch/dist/elevons/IL </property>
+	<property value="0"> fcs/dispatch/dist/elevons/IR </property>
+	<property value="0"> fcs/dispatch/dist/rudder </property>
+	<property value="0"> fcs/dispatch/dist/gears/steering </property>
+	<property value="0"> fcs/dispatch/dist/slats </property>
+	<property value="0"> fcs/dispatch/dist/spoilers </property>
+</system>

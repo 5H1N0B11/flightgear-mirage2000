@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	TODO ...
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value=  "10"> fcs/fbw/steering/torque/accel-Kp </property>    <!-- Tuning param (gain to convert R-rate error to angular-acceleration error) -->
+
+	<channel name="Pitch">	
+		<!-- Compute angular acceleration error around the Q axis according to the error in the R-rate demand -->
+		<fcs_function name="fcs/fbw/steering/torque/accel-error">
+			<function>
+				<product>
+					<p> fcs/fbw/steering/r-rate/error </p>
+					
+					<p> fcs/fbw/steering/torque/accel-Kp </p> 
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Torque required along the steering axis -->
+		<fcs_function name="fcs/fbw/steering/torque/demand/n">
+			<function>
+				<product>
+					<p> fcs/fbw/steering/torque/accel-error </p>
+					<p> inertia/j/zz </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Sum the torque demand related to the pitch axis, computed via the error in each axes angular-acceleration -->
+		<summer name="fcs/fbw/steering/torque/demand/total">
+			<input> fcs/fbw/steering/torque/demand/n </input>
+		</summer>
+		
+		<!-- Error in torque [error = demand - current]. -->
+		<fcs_function name="fcs/fbw/steering/torque/error">
+			<function>
+				<difference>
+					<p> fcs/fbw/steering/torque/demand/total </p>
+					
+					<product>
+						<p> moments/n-total-lbsft </p>
+						<p> units/lbsft-nm </p>  <!-- lbs.ft to N.m -->
+					</product>
+				</difference>
+			</function>
+		</fcs_function>
+
+		<!-- Dynamic torque proportional -->
+		<fcs_function name="fcs/fbw/steering/torque/p">
+			<function>
+				<pow>
+					<product>
+						<p> velocities/vg-fps </p>
+						<p> units/ft-m </p>
+					</product>
+					<value> 2 </value>
+				</pow>
+			</function>
+		</fcs_function>
+		
+		<!-- Compute the error in the torque coefficient -->
+		<fcs_function name="fcs/fbw/steering/torque/k-error">
+			<function>
+				<quotient>
+					<p> fcs/fbw/steering/torque/error </p>
+					
+					<!-- Make sure we never divide by 0 (should only happen when the plane is stopped, relative to the wind). -->
+					<ifthen>
+						<ge>
+							<p> fcs/fbw/steering/torque/p </p>
+							<value> 0.00000001 </value>
+						</ge>
+
+						<p> fcs/fbw/steering/torque/p </p>
+
+						<value> 0.00000001 </value>
+					</ifthen>
+				</quotient>
+			</function>
+		</fcs_function>
+	</channel>
+</system>

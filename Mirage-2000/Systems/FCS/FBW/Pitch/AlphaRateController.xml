@@ -11,43 +11,20 @@
 <system name="Mirage-2000: FCS/FBW">
 	<property value= "1">   fcs/fbw/pitch/alpha-rate/enable </property>  <!-- Pilot available toggle. -->
 	
-	<property value= "1.0">  fcs/fbw/pitch/alpha-rate/input-gain </property>     <!-- Tuning param (gain for the controller input). -->
-	<property value= "100.0">  fcs/fbw/pitch/alpha-rate/input-lag-c </property>  <!-- Tuning param (constant lag coefficient for the controller input). -->
+	<property value= "10.0">  fcs/fbw/pitch/alpha-rate/input-gain </property>     <!-- Tuning param (gain for the controller input). -->
+	<property value= "200.0">  fcs/fbw/pitch/alpha-rate/input-lag-c </property>  <!-- Tuning param (constant lag coefficient for the controller input). -->
 	<property value= "0.0">  fcs/fbw/pitch/alpha-rate/input-lag-p </property>    <!-- Tuning param (speed² proportional lag coefficient for the controller input). -->
 	
-	<property value= "3.2">  fcs/fbw/pitch/alpha-rate/Kp </property>  <!-- Tuning param (proportional coefficient for the controller). -->
-	<property value= "2.0">  fcs/fbw/pitch/alpha-rate/Ki </property>  <!-- Tuning param (integration coefficient for the controller). -->
+	<property value= "0.5">  fcs/fbw/pitch/alpha-rate/Kp </property>  <!-- Tuning param (proportional coefficient for the controller). -->
+	<property value= "20.0">  fcs/fbw/pitch/alpha-rate/Ki </property>  <!-- Tuning param (integration coefficient for the controller). -->
+	<property value= "0.0">  fcs/fbw/pitch/alpha-rate/Kd </property>  <!-- Tuning param (integration coefficient for the controller). -->
 
 	<channel name="Pitch">
-		<!-- Make Kp linear to (1-norm_IAS²) to account for authority due to speed. -->
-		<fcs_function name="fcs/fbw/pitch/alpha-rate/Kpe">
-			<function>
-				<product>
-					<p> fcs/fbw/energy-coefficient </p>
-					<p> fcs/fbw/pitch/alpha-rate/Kp </p>
-				</product>
-			</function>
-		</fcs_function>
-		
-		<!-- Make Ki linear to (1-norm_IAS²) to account for authority due to speed. -->
-		<fcs_function name="fcs/fbw/pitch/alpha-rate/Kie">
-			<function>
-				<product>
-					<p> fcs/fbw/energy-coefficient </p>
-					<p> fcs/fbw/pitch/alpha-rate/Ki </p>
-				</product>
-			</function>
-		</fcs_function>
-
 		<!-- Alpha-limiter interference & input-gain application -->
 		<fcs_function name="fcs/fbw/pitch/alpha-rate/input">
 			<function>
 				<product>
-					<sum>
-						<p> fcs/fbw/pitch/alpha-rate/error </p>
-
-						<p> fcs/fbw/pitch/alpha-limit/active-feedback </p>
-					</sum>
+					<p> -fcs/fbw/pitch/torque/k-error </p>
 					
 					<p> fcs/fbw/pitch/alpha-rate/input-gain </p>
 				</product>
@@ -76,23 +53,23 @@
 
 		<!-- Controller integration blocking flag. -->
 		<switch name="fcs/fbw/pitch/alpha-rate/i-trigger">
-			<default value="0"/>
-			<test logic="OR" value="1">
-				fcs/fbw/pitch/i-trigger ne 0
-				fcs/fbw/pitch/alpha-rate/enable ne 1
+			<default value="1"/>
+			<test logic="AND" value="0">
+				fcs/fbw/pitch/i-trigger eq 0
+				fcs/fbw/pitch/alpha-rate/enable eq 1
 
-				fcs/fbw/pitch/alpha-rate/output le -0.999
-				fcs/fbw/pitch/alpha-rate/output ge  0.999
+				fcs/fbw/pitch/alpha-rate/output gt -0.999
+				fcs/fbw/pitch/alpha-rate/output lt  0.999
 			</test>
 		</switch>
 
 		<!-- PID controller acting as the main driver for the pitch channel. -->
 		<pid name="fcs/fbw/pitch/alpha-rate/input">
-			<input>fcs/fbw/pitch/alpha-rate/input-lag</input>
+			<input> fcs/fbw/pitch/alpha-rate/input-lag </input>
 			
-			<kp> fcs/fbw/pitch/alpha-rate/Kpe </kp>
-			<ki> fcs/fbw/pitch/alpha-rate/Kie </ki>
-			<kd> 0.0 </kd>
+			<kp> fcs/fbw/pitch/alpha-rate/Kp </kp>
+			<ki> fcs/fbw/pitch/alpha-rate/Ki </ki>
+			<kd> fcs/fbw/pitch/alpha-rate/Kd </kd>
 
 			<trigger> fcs/fbw/pitch/alpha-rate/i-trigger </trigger>
 			

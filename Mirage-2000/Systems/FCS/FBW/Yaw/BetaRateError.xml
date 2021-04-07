@@ -10,10 +10,10 @@
 <system name="Mirage-2000: FCS/FBW">
 	<!-- TODO Find what's the max beta angle allowed during yaw. -->
 	<property value= "10.0">  fcs/fbw/yaw/beta-rate/max-beta-deg </property>  <!-- Guess -->
-	
-	<property value=  "0.12"> fcs/fbw/yaw/beta-rate/rate-Kp </property>  <!-- Tuning param (Gain for the conversion beta-error => beta-rate_demand). -->
-	
-	<property value= "200.0">  fcs/fbw/yaw/beta-rate/beta-Klag </property>  <!-- Tuning param (constant lag coefficient for the beta-error). -->
+
+	<property value=  "0.02"> fcs/fbw/yaw/beta-rate/rate-Kp </property>  <!-- Tuning param. -->
+
+	<property value= "200.0"> fcs/fbw/yaw/beta-rate/beta-Klag </property>  <!-- Tuning param (constant lag coefficient for the beta-error). -->
 
 	<channel name="Yaw">	
 		
@@ -40,7 +40,7 @@
 			<input> fcs/fbw/yaw/beta-rate/beta-error </input>
 			<c1> fcs/fbw/yaw/beta-rate/beta-Klag </c1>
 		</lag_filter>
-
+		
 		<!-- Convert the error in beta to a beta-rate demand. -->
 		<fcs_function name="fcs/fbw/yaw/beta-rate/demand">
 			<function>

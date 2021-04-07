@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	TODO ...
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value=  "10"> fcs/fbw/yaw/torque/accel-Kp </property>    <!-- Tuning param (gain to convert R-rate error to angular-acceleration error) -->
+
+	<channel name="Pitch">	
+		<!-- Compute angular acceleration error around the Q axis according to the error in the R-rate demand -->
+		<fcs_function name="fcs/fbw/yaw/torque/accel-error">
+			<function>
+				<product>
+					<p> fcs/fbw/yaw/r-rate/error </p>
+					
+					<p> fcs/fbw/yaw/torque/accel-Kp </p> 
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Compute the torque required along each axis to meet the demanded angular acceleration on the Z axis. [tau = omega * J] -->
+		<!-- Torque required along the roll axis -->
+		<fcs_function name="fcs/fbw/roll/torque/demand/static/n">
+			<function>
+				<product>
+					<p> fcs/fbw/yaw/torque/accel-error </p>
+					<p> inertia/j/xz </p>
+				</product>
+			</function>
+		</fcs_function>
+		<!-- Torque required along the pitch axis -->
+		<fcs_function name="fcs/fbw/pitch/torque/demand/static/n">
+			<function>
+				<product>
+					<p> fcs/fbw/yaw/torque/accel-error </p>
+					<p> inertia/j/yz </p>
+				</product>
+			</function>
+		</fcs_function>
+		<!-- Torque required along the yaw axis -->
+		<fcs_function name="fcs/fbw/yaw/torque/demand/static/n">
+			<function>
+				<product>
+					<p> fcs/fbw/yaw/torque/accel-error </p>
+					<p> inertia/j/zz </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- Sum the torque demand related to the pitch axis, computed via the error in each axes angular-acceleration -->
+		<summer name="fcs/fbw/yaw/torque/demand/static/total">
+			<input> fcs/fbw/yaw/torque/demand/static/l </input>
+			<input> fcs/fbw/yaw/torque/demand/static/m </input>
+			<input> fcs/fbw/yaw/torque/demand/static/n </input>
+		</summer>
+		
+		<!-- Actual aerodynamic torque required -->
+		<summer name="fcs/fbw/yaw/torque/demand/dynamic">
+			<input> fcs/fbw/yaw/torque/demand/static/total </input>
+			<input> torque/momentum/z </input>
+		</summer>
+		
+		<!-- Error in torque [error = demand - current] -->
+		<fcs_function name="fcs/fbw/yaw/torque/error">
+			<function>
+				<difference>
+					<p> fcs/fbw/yaw/torque/demand/dynamic </p>
+					
+					<product>
+						<sum>
+							<p> moments/n-aero-lbsft </p>
+							<p> moments/n-prop-lbsft </p>
+						</sum>
+						<p> units/lbsft-nm </p>
+					</product>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<!-- Compute the error in the torque coefficient -->
+		<fcs_function name="fcs/fbw/yaw/torque/k-error">
+			<function>
+				<quotient>
+					<p> fcs/fbw/yaw/torque/error </p>
+					
+					<!-- Make sure we never divide by 0 (should only happen when the plane is stopped, relative to the wind). -->
+					<ifthen>
+						<ge>
+							<p> aero/qswbw </p>
+							<value> 0.00000001 </value>
+						</ge>
+
+						<p> aero/qswbw </p>
+
+						<value> 0.00000001 </value>
+					</ifthen>
+				</quotient>
+			</function>
+		</fcs_function>
+	</channel>
+</system>

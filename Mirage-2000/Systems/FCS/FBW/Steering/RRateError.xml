@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Axel Paccalin.
+	Version: 0.1
+	
+	TODO ...
+-->
+
+<system name="Mirage-2000: FCS/FBW">
+	<property value= "0.01">  fcs/fbw/steering/r-rate/hs-max </property>  <!-- Tuning param (max R-Rate at high speeds). -->
+	<property value=  "0.4">  fcs/fbw/steering/r-rate/ls-max </property>  <!-- Tuning param (max R-Rate at low speeds). -->
+
+	<property value="236">  fcs/fbw/steering/r-rate/hs-fps </property>      <!-- Tuning param (high speed threshold, 140kts in fps). -->
+
+	<channel name="Yaw">
+		<!-- Linear interpolation coefficient between low speed config and standard config. -->
+		<fcs_function name="fcs/fbw/steering/r-rate/li-ls-hs">
+			<function>
+				<ifthen>
+					<le>
+						<p> velocities/vg-fps </p>
+						<value> 0 </value>
+					</le>
+
+					<value> 0 </value>
+
+					<ifthen>
+						<ge>
+							<p> velocities/vg-fps </p>
+							<p> fcs/fbw/steering/r-rate/hs-fps </p>
+						</ge>
+
+						<value> 1 </value>
+
+						<quotient>
+							<p> velocities/vg-fps </p>
+							<p> fcs/fbw/steering/r-rate/hs-fps </p>
+						</quotient>
+					</ifthen>
+				</ifthen>
+			</function>
+		</fcs_function>
+
+		<!-- Maximum R-rate according to the ground speed. -->
+		<fcs_function name="fcs/fbw/steering/r-rate/max-rate">
+			<function>
+				<sum>
+					<product>
+						<p> fcs/fbw/steering/r-rate/hs-max </p>
+						<p> fcs/fbw/steering/r-rate/li-ls-hs </p>
+					</product>
+
+					<product>
+						<p> fcs/fbw/steering/r-rate/ls-max</p>
+						<difference>
+							<value> 1 </value>
+							<p> fcs/fbw/steering/r-rate/li-ls-hs </p>
+						</difference>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<!-- Compute angular velocity needed around the R axis to match the pilot demand -->
+		<fcs_function name="fcs/fbw/steering/r-rate/demand">
+			<function>
+				<product>
+					<p> -fcs/fbw/yaw/pilot-input/output </p>
+					<p> fcs/fbw/steering/r-rate/max-rate </p>
+				</product>
+			</function>
+		</fcs_function>
+
+		<!-- Error = r-rate_demand - r-rate_current. -->
+		<summer name="fcs/fbw/steering/r-rate/error">
+			<input> fcs/fbw/steering/r-rate/demand </input>
+			<input> -velocities/r-rad_sec </input>
+		</summer>
+		
+	</channel>
+</system>

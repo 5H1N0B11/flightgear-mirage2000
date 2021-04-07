@@ -8,8 +8,8 @@
 
 <system name="Mirage-2000: FCS/Dispatch">
 	<channel name="Rudder">
-		<!-- Command for the rudder (in degrees). -->
-		<pure_gain name="fcs/dispatch/rudder/output">
+		<!-- FBW Command for the rudder (in degrees). -->
+		<pure_gain name="fcs/dispatch/rudder/fbw-output">
 			<input> fcs/fbw/yaw/output </input>
 			<gain> 25.0 </gain>  <!-- TODO: Pulled from old FBW. To be classified (documented / guess). -->
 			<clipto>
@@ -17,5 +17,17 @@
 				<max>  25.0</max>
 			</clipto>
 		</pure_gain>
+
+		<!-- Command for the rudder (toggled by the FBW mode switching mechanism). -->
+		<switch name="fcs/dispatch/rudder/output">
+			<default value="0"/>  <!-- No hydraulics -->
+			<test logic="OR" value="fcs/dispatch/rudder/fbw-output">
+				fcs/fbw/mode eq 1
+				fcs/fbw/mode eq 0
+			</test>
+			<test logic="OR" value="fcs/dispatch/dist/rudder">
+				fcs/fbw/mode eq 2
+			</test>
+		</switch>
 	</channel>
 </system>

@@ -612,39 +612,40 @@
 <system file="FCS/FBW/Base"/>
   <!-- FBW Pitch channel: -->
 <system file="FCS/FBW/Pitch/Base"/>
-<system file="FCS/FBW/Pitch/StabilityController"/>
-<system file="FCS/FBW/Pitch/DampingController"/>
-<system file="FCS/FBW/Pitch/NeutralMomentController"/>
 <system file="FCS/FBW/Pitch/PilotInput"/>
 <system file="FCS/FBW/Pitch/GError"/>
+<system file="FCS/FBW/Pitch/LiftError"/>
 <system file="FCS/FBW/Pitch/AlphaRateError"/>
+<system file="FCS/FBW/Pitch/QRateError"/>
+<system file="FCS/FBW/Pitch/TorqueError"/>
 <system file="FCS/FBW/Pitch/AlphaLimitFeedback"/>
 <system file="FCS/FBW/Pitch/AlphaRateController"/>
 <system file="FCS/FBW/Pitch/Output"/>
   <!-- FBW Yaw channel: -->
 <system file="FCS/FBW/Yaw/Base"/>
-<system file="FCS/FBW/Yaw/StabilityController"/>
-<system file="FCS/FBW/Yaw/DampingController"/>
-<system file="FCS/FBW/Yaw/AlphaToBeta"/>
 <system file="FCS/FBW/Yaw/PilotInput"/>
 <system file="FCS/FBW/Yaw/BetaRateError"/>
+<system file="FCS/FBW/Yaw/RRateError"/>
+<system file="FCS/FBW/Yaw/TorqueError"/>
 <system file="FCS/FBW/Yaw/BetaRateController"/>
 <system file="FCS/FBW/Yaw/Output"/>
   <!-- FBW Roll channel: -->
 <system file="FCS/FBW/Roll/Base"/>
-<system file="FCS/FBW/Roll/StabilityController"/>
-<system file="FCS/FBW/Roll/DampingController"/>
 <system file="FCS/FBW/Roll/PilotInput"/>
-<system file="FCS/FBW/Roll/ThetaRateError"/>
+<system file="FCS/FBW/Roll/PRateError"/>
 <system file="FCS/FBW/Roll/OverRollFeedback"/>
-<system file="FCS/FBW/Roll/ThetaRateController"/>
+<system file="FCS/FBW/Roll/TorqueError"/>
+<system file="FCS/FBW/Roll/PRateController"/>
 <system file="FCS/FBW/Roll/Output"/>
   <!-- FBW Steering channel: -->
-<system file="FCS/FBW/Steering"/>
+<system file="FCS/FBW/Steering/RRateError"/>
+<system file="FCS/FBW/Steering/TorqueError"/>
+<system file="FCS/FBW/Steering/Controller"/>
   <!-- FBW Slats channel: -->
 <system file="FCS/FBW/Slats"/>
 
 <!-- Channel dispatch systems -->
+<system file="FCS/Dispatch/Dist"/>
 <system file="FCS/Dispatch/Elevons"/>
 <system file="FCS/Dispatch/Rudder"/>
 <system file="FCS/Dispatch/Gear"/>
@@ -727,12 +728,43 @@
             </function>
         </fcs_function>
 
+        <fcs_function name="aero/cos-beta">
+            <function>
+                <cos>
+                    <property>aero/beta-rad</property>
+                </cos>
+            </function>
+        </fcs_function>
+
         <fcs_function name="aero/sin-alpha">
             <function>
                 <sin>
                     <property>aero/alpha-rad</property>
                 </sin>
             </function>
+        </fcs_function>
+        <fcs_function name="aero/sin-beta">
+            <function>
+                <sin>
+                    <property>aero/beta-rad</property>
+                </sin>
+            </function>
+        </fcs_function>
+        <fcs_function name="aero/qsw">
+            <function>
+                <product>
+                    <property> aero/qbar-psf </property>
+                    <property> metrics/Sw-sqft </property>
+                </product>
+            </function>
+        </fcs_function>
+        <fcs_function name="aero/qswbw">
+          <function>
+            <product>
+              <p> aero/qsw </p>
+              <p> metrics/bw-ft </p>
+            </product>
+          </function>
         </fcs_function>
         <fcs_function name="position/h-agl-m">
             <description>Height above ground (meters)</description>

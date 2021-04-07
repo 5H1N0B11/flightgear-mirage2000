@@ -17,7 +17,7 @@
 				<ifthen>
 					<and>
 						<eq>
-							<p> fcs/fbw/enable </p>
+							<p> fcs/fbw/mode </p>
 							<value> 1 </value>
 						</eq>
 						<gt>
@@ -26,14 +26,9 @@
 						</gt>
 					</and>
 
-					<sum>
-						<p> fcs/fbw/pitch/alpha-rate/active-output </p>     <!-- The active control. -->
-						<p> fcs/fbw/pitch/damping/active-output </p>        <!-- The damping control. -->
-						<p> fcs/fbw/pitch/stability/active-output </p>      <!-- The control to compensate for the moment induced by (in)stability. -->
-						<p> fcs/fbw/pitch/neutral-moment/active-output </p> <!-- The control to compensate for the neutral moment of the airframe. -->
-					</sum>
+					<p> fcs/fbw/pitch/alpha-rate/active-output </p>     <!-- The active control. -->
 					
-					<p> -fcs/fbw/pitch/pilot-input/output </p>  <!-- Direct pilot input (inverted because Z points downward). -->
+					<p> /controls/flight/elevator </p>  <!-- Direct pilot input (inverted because Z points downward). -->
 				</ifthen>
 			</function>
 			<clipto>
