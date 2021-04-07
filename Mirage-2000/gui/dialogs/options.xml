@@ -254,6 +254,21 @@
     </button>
   </group>
   
+    <hrule />
+  <group>
+    <layout>table</layout>
+    <halign>center</halign> 
+    <button>
+      <legend>Test Dev</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+          mirage2000.showLiveryDialog();
+        </script>
+      </binding>
+    </button>
+  </group>
+  
   
   
 </PropertyList>

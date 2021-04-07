@@ -62,7 +62,15 @@
         </binding>
       </item>
 
-      <item n="7">
+       <item n="7">
+         <label>Select Service-door</label>
+         <binding>
+           <command>nasal</command>
+           <script>mirage2000.service_door_dialog.toggle()</script>
+         </binding>
+        </item>
+
+      <item n="8">
         <label>Options</label>
         <name>options</name>
         <binding>
@@ -71,7 +79,7 @@
         </binding>
       </item>
 
-      <item n="8">
+      <item n="9">
         <label>Radar</label>
         <name>radar</name>
         <binding>
@@ -79,8 +87,18 @@
           <dialog-name>radar</dialog-name>
         </binding>
       </item>
+
+      <item>
+	<label>IFF codes</label>
+	<name>iff</name>
+	<binding>
+	  <command>dialog-show</command>
+	  <dialog-name>iff</dialog-name>
+	</binding>
+      </item>
+      
 <!--      
-     <item n="9">
+     <item n="10">
         <label>Rwr</label>
         <binding>
           <command>nasal</command>
@@ -88,7 +106,7 @@
         </binding>
       </item>
 -->
-      <item n="10">
+      <item n="11">
         <label>FBW</label>
         <name>fbw</name>
         <binding>
@@ -96,8 +114,8 @@
             <dialog-name>fbw</dialog-name>
         </binding>
       </item>
-        
-      <item n="11">
+
+      <item n="12">
         <label>About</label>
         <name>AboutMirage</name>
         <binding>
@@ -106,7 +124,7 @@
         </binding>
       </item>
 
-      <item n="12">
+      <item n="13">
         <label>Wingmen</label>
         <name>wingmen</name>
         <binding>
@@ -115,7 +133,7 @@
         </binding>
       </item>
       
-      <item n="13">
+      <item n="14">
         <label>Training</label>
         <name>training</name>
         <binding>
@@ -124,7 +142,7 @@
         </binding>
       </item>
 
-      <item n="14">
+      <item n="15">
 	<label>Quick Payload Reload</label>
 	<name>payload-qs</name>
 	<binding>
@@ -155,7 +173,7 @@
 	</binding>
       </item>
       
-  <item n="15">
+  <item n="16">
     <label>Combat event log</label>
     <name>event-log</name>
     <binding>

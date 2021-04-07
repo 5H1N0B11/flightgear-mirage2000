@@ -46,7 +46,7 @@
 	<input>
 	  	<width>250</width>
 	  	<height>25</height>
-	  	<label>Wingman 1</label>
+	  	<label>Wingman #1</label>
 	  	<property>link16/wingman-1</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
@@ -66,7 +66,7 @@
 	<input>
 	  	<width>250</width>
 	  	<height>25</height>
-	  	<label>Wingman 2</label>
+	  	<label>Wingman #2</label>
 	  	<property>link16/wingman-2</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
@@ -86,7 +86,7 @@
 	<input>
 	  	<width>250</width>
 	  	<height>25</height>
-	  	<label>Wingman 3</label>
+	  	<label>Wingman #3</label>
 	  	<property>link16/wingman-3</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
@@ -106,7 +106,7 @@
 	<input>
 	  	<width>250</width>
 	  	<height>25</height>
-	  	<label>Wingman 5</label>
+	  	<label>Wingman #5</label>
 	  	<property>link16/wingman-5</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
@@ -126,7 +126,7 @@
 	<input>
 	  	<width>250</width>
 	  	<height>25</height>
-	  	<label>Wingman 6</label>
+	  	<label>Wingman #6</label>
 	  	<property>link16/wingman-6</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
@@ -146,7 +146,7 @@
 	<input>
 	  	<width>250</width>
 	  	<height>25</height>
-	  	<label>Wingman 7</label>
+	  	<label>Wingman #7</label>
 	  	<property>link16/wingman-7</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
@@ -166,7 +166,7 @@
 	<input>
 	  	<width>250</width>
 	  	<height>25</height>
-	  	<label>Wingman 8</label>
+	  	<label>Wingman #8</label>
 	  	<property>link16/wingman-8</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
@@ -186,7 +186,7 @@
 	<input>
 	  	<width>250</width>
 	  	<height>25</height>
-	  	<label>Wingman 9</label>
+	  	<label>Wingman #9</label>
 	  	<property>link16/wingman-9</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
@@ -206,7 +206,7 @@
 	<input>
 	  	<width>250</width>
 	  	<height>25</height>
-	  	<label>Wingman 10</label>
+	  	<label>Wingman #10</label>
 	  	<property>link16/wingman-10</property>
 	  	<live>true</live>
 	  	<halign>left</halign>

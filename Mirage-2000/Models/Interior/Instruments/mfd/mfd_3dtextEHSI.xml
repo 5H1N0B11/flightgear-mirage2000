@@ -16,7 +16,7 @@
     <type>literal</type>
     <text>EHSI</text>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -34,7 +34,7 @@
     <type>literal</type>
     <text>NAVSRC</text>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -68,7 +68,7 @@
 
     <type type="string">text-value</type>
     <property>autopilot/internal/nav-id</property>
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -87,7 +87,7 @@
     <format>%3.1f NM</format>
     <truncate>false</truncate>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -112,7 +112,7 @@
 
     <type type="string">text-value</type>
     <property>instrumentation/mfd/rmi-1-src</property>
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -129,7 +129,7 @@
     <type type="string">text-value</type>
     <property>instrumentation/mfd/rmi-1-ident</property>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -146,7 +146,7 @@
     <property>instrumentation/mfd/rmi-1-dist</property>
     <format>%3.1f NM</format>
     <truncate>false</truncate>
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -177,7 +177,7 @@
     <type type="string">text-value</type>
     <property>instrumentation/mfd/rmi-2-src</property>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -194,7 +194,7 @@
     <type type="string">text-value</type>
     <property>instrumentation/mfd/rmi-2-ident</property>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -213,7 +213,7 @@
     <format>%3.1f NM</format>
     <truncate>false</truncate>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -387,7 +387,7 @@
     <format>%3.0f'</format>
     <truncate>true</truncate>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -406,7 +406,7 @@
     <format>%3.0f kt</format>
     <truncate>true</truncate>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -424,7 +424,7 @@
     <property>environment/temperature-degc</property>
     <format>OAT%2.0fC</format>
     <truncate>true</truncate>
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -443,7 +443,7 @@
     <format>DEW%2.0fC</format>
     <truncate>true</truncate>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 
@@ -474,7 +474,7 @@
     <type>literal</type>
     <text>ENV</text>
 
-    <font>helvetica.txf</font>
+    <font>Helvetica.txf</font>
     <character-size>0.006</character-size>
   </text>
 

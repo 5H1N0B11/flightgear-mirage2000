@@ -107,7 +107,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[1]/collector-valve EQ 0
         propulsion/tank[1]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5
+        accelerations/Nz LE -0.01
       </test>
     </switch>
 
@@ -117,7 +117,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[2]/collector-valve EQ 0
         propulsion/tank[2]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -129,7 +129,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[6]/collector-valve EQ 0
         propulsion/tank[6]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5
+        accelerations/Nz LE -0.01
       </test>
 
     </switch>
@@ -140,7 +140,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[7]/collector-valve EQ 0
         propulsion/tank[7]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
 
@@ -151,7 +151,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[5]/collector-valve EQ 0
         propulsion/tank[5]/contents-lbs LE 0
         propulsion/tank[1]/contents-lbs GE 669 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5
+        accelerations/Nz LE -0.01
       </test>
     </switch>
 
@@ -161,7 +161,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[5]/collector-valve EQ 0
         propulsion/tank[5]/contents-lbs LE 0
         propulsion/tank[6]/contents-lbs GE 669 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -173,7 +173,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[8]/collector-valve EQ 0
         propulsion/tank[8]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -183,7 +183,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[8]/collector-valve EQ 0
         propulsion/tank[8]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -195,7 +195,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[9]/collector-valve EQ 0
         propulsion/tank[9]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -206,7 +206,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[11]/collector-valve EQ 0
         propulsion/tank[11]/contents-lbs LE 0
         propulsion/tank[3]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -218,7 +218,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[10]/collector-valve EQ 0
         propulsion/tank[10]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -229,7 +229,7 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
         propulsion/tank[12]/collector-valve EQ 0
         propulsion/tank[12]/contents-lbs LE 0
         propulsion/tank[4]/contents-lbs GE 1305 <!-- 1 lb below capacity -->
-        accelerations/Nz LE -1.5 
+        accelerations/Nz LE -0.01 
       </test>
     </switch>
     
@@ -240,9 +240,9 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
       <test logic="OR" value="0">
         propulsion/tank[3]/collector-valve EQ 0
         propulsion/tank[3]/contents-lbs LE 0
-        propulsion/tank[0]/contents-lbs GE 9 <!-- 1 lb below capacity -->
+        propulsion/tank[0]/contents-lbs GE 110 <!-- 1 lb below capacity -->
         /systems/fuel/collector/pump-BPD-function LE 1  <!-- if the pump is working or not : a low pressure would make the flow slowing down. not implemented yet -->
-        accelerations/Nz LE -1.5
+        accelerations/Nz LE -0.01
       </test>
     </switch>
     
@@ -252,9 +252,9 @@ Negative Gs (<-0.5g) cuts the supply to the collector tanks -->
       <test logic="OR" value="0">
         propulsion/tank[4]/collector-valve EQ 0
         propulsion/tank[4]/contents-lbs LE 0
-        propulsion/tank[0]/contents-lbs GE 9 <!-- 1 lb below capacity -->
+        propulsion/tank[0]/contents-lbs GE 110 <!-- 1 lb below capacity -->
         /systems/fuel/collector/pump-BPG-function LE 1 <!-- if the pump is working or not : a low pressure would make the flow slowing down. not implemented yet -->
-        accelerations/Nz LE -1.5
+        accelerations/Nz LE -0.01
       </test>
     </switch>
     
