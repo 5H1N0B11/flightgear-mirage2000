@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<system name="Mirage-2000: Momentum">
+	<channel name="Angular">
+		<!-- The angular momentum around the X axis (kg.m²/sec). -->
+		<fcs_function name="momentum/angular/x">
+			<function>
+				<sum>
+					<product>
+						<p> velocities/p-rad_sec </p>
+						<p> inertia/j/xx </p>
+					</product>
+					<product>
+						<p> velocities/q-rad_sec </p>
+						<p> inertia/j/xy </p>
+					</product>
+					<product>
+						<p> velocities/r-rad_sec </p>
+						<p> inertia/j/xz </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- The angular momentum around the Y axis (kg.m²/sec). -->
+		<fcs_function name="momentum/angular/y">
+			<function>
+				<sum>
+					<product>
+						<p> velocities/p-rad_sec </p>
+						<p> inertia/j/yx </p>
+					</product>
+					<product>
+						<p> velocities/q-rad_sec </p>
+						<p> inertia/j/yy </p>
+					</product>
+					<product>
+						<p> velocities/r-rad_sec </p>
+						<p> inertia/j/yz </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+
+		<!-- The angular momentum around the Z axis (kg.m²/sec). -->
+		<fcs_function name="momentum/angular/z">
+			<function>
+				<sum>
+					<product>
+						<p> velocities/p-rad_sec </p>
+						<p> inertia/j/zx </p>
+					</product>
+					<product>
+						<p> velocities/q-rad_sec </p>
+						<p> inertia/j/zy </p>
+					</product>
+					<product>
+						<p> velocities/r-rad_sec </p>
+						<p> inertia/j/zz </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+	</channel>
+
+	<channel name="Linear">
+		<!-- The linear momentum along the X axis (kg.m/sec). -->
+		<fcs_function name="momentum/linear/x">
+			<function>
+				<product>
+					<p> velocities/u-fps </p>
+					<p> inertia/mass-kg </p>
+					<p> units/ft-m </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- The linear momentum along the Y axis (kg.m/sec). -->
+		<fcs_function name="momentum/linear/y">
+			<function>
+				<product>
+					<p> velocities/v-fps </p>
+					<p> inertia/mass-kg </p>
+					<p> units/ft-m </p>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<!-- The linear momentum along the Z axis (kg.m/sec). -->
+		<fcs_function name="momentum/linear/z">
+			<function>
+				<product>
+					<p> velocities/w-fps </p>
+					<p> inertia/mass-kg </p>
+					<p> units/ft-m </p>
+				</product>
+			</function>
+		</fcs_function>
+	</channel>
+</system>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<system name="Mirage-2000: Inertia">
+	<channel name="J">
+		<pure_gain name="inertia/j/xx">
+			<input> inertia/ixx-slugs_ft2 </input>
+			<gain> units/slugft2-kgm2 </gain>
+		</pure_gain>
+		<pure_gain name="inertia/j/xy">
+			<input> inertia/ixy-slugs_ft2 </input>
+			<gain> -units/slugft2-kgm2 </gain>
+		</pure_gain>
+		<pure_gain name="inertia/j/xz">
+			<input> inertia/ixz-slugs_ft2 </input>
+			<gain> -units/slugft2-kgm2 </gain>
+		</pure_gain>
+		<pure_gain name="inertia/j/yx">
+			<input> inertia/ixy-slugs_ft2 </input>
+			<gain> -units/slugft2-kgm2 </gain>
+		</pure_gain>
+		<pure_gain name="inertia/j/yy">
+			<input> inertia/iyy-slugs_ft2 </input>
+			<gain> units/slugft2-kgm2 </gain>
+		</pure_gain>
+		<pure_gain name="inertia/j/yz">
+			<input> inertia/iyz-slugs_ft2 </input>
+			<gain> -units/slugft2-kgm2 </gain>
+		</pure_gain>
+		<pure_gain name="inertia/j/zx">
+			<input> inertia/ixz-slugs_ft2 </input>
+			<gain> -units/slugft2-kgm2 </gain>
+		</pure_gain>
+		<pure_gain name="inertia/j/zy">
+			<input> inertia/iyz-slugs_ft2 </input>
+			<gain> -units/slugft2-kgm2 </gain>
+		</pure_gain>
+		<pure_gain name="inertia/j/zz">
+			<input> inertia/izz-slugs_ft2 </input>
+			<gain> units/slugft2-kgm2 </gain>
+		</pure_gain>
+	</channel>	
+	
+	
+	<channel name="Ji">
+		<fcs_function name="inertia/ji/k1-slugs_ft2">
+			<function>
+				<difference>
+					<product>
+						<p> inertia/iyy-slugs_ft2 </p>
+						<p> inertia/izz-slugs_ft2 </p>
+					</product>
+					<product>
+						<p> inertia/iyz-slugs_ft2 </p>
+						<p> inertia/iyz-slugs_ft2 </p>
+					</product>
+				</difference>
+			</function>
+		</fcs_function>
+		<fcs_function name="inertia/ji/k2-slugs_ft2">
+			<function>
+				<sum>
+					<product>
+						<p> inertia/iyz-slugs_ft2 </p>
+						<p> inertia/ixz-slugs_ft2 </p>
+					</product>
+					<product>
+						<p> inertia/ixy-slugs_ft2 </p>
+						<p> inertia/izz-slugs_ft2 </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+		<fcs_function name="inertia/ji/k3-slugs_ft2">
+			<function>
+				<sum>
+					<product>
+						<p> inertia/ixy-slugs_ft2 </p>
+						<p> inertia/iyz-slugs_ft2 </p>
+					</product>
+					<product>
+						<p> inertia/iyy-slugs_ft2 </p>
+						<p> inertia/ixz-slugs_ft2 </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+		<fcs_function name="inertia/ji/k4-slugs_ft2">
+			<function>
+				<difference>
+					<product>
+						<p> inertia/izz-slugs_ft2 </p>
+						<p> inertia/ixx-slugs_ft2 </p>
+					</product>
+					<product>
+						<p> inertia/ixz-slugs_ft2 </p>
+						<p> inertia/ixz-slugs_ft2 </p>
+					</product>
+				</difference>
+			</function>
+		</fcs_function>
+		<fcs_function name="inertia/ji/k5-slugs_ft2">
+			<function>
+				<sum>
+					<product>
+						<p> inertia/ixy-slugs_ft2 </p>
+						<p> inertia/ixz-slugs_ft2 </p>
+					</product>
+					<product>
+						<p> inertia/iyz-slugs_ft2 </p>
+						<p> inertia/ixx-slugs_ft2 </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+		<fcs_function name="inertia/ji/k6-slugs_ft2">
+			<function>
+				<difference>
+					<product>
+						<p> inertia/ixx-slugs_ft2 </p>
+						<p> inertia/iyy-slugs_ft2 </p>
+					</product>
+					<product>
+						<p> inertia/ixy-slugs_ft2 </p>
+						<p> inertia/ixy-slugs_ft2 </p>
+					</product>
+				</difference>
+			</function>
+		</fcs_function>
+		<fcs_function name="inertia/ji/denom">
+			<function>
+				<quotient>
+					<p> units/slugft2-kgm2 </p>
+					<sum>
+						<product>
+							<p> inertia/ixx-slugs_ft2 </p>
+							<p> inertia/ji/k1-slugs_ft2</p>
+						</product>
+						<product>
+							<p> inertia/ixy-slugs_ft2 </p>
+							<p> -inertia/ji/k2-slugs_ft2</p>
+						</product>
+						<product>
+							<p> inertia/ixz-slugs_ft2 </p>
+							<p> -inertia/ji/k3-slugs_ft2</p>
+						</product>
+					</sum>
+				</quotient>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="inertia/ji/xx">
+			<input> inertia/ji/k1-slugs_ft2 </input>
+			<gain> inertia/ji/denom </gain>
+		</pure_gain>
+		<pure_gain name="inertia/ji/xy">
+			<input> inertia/ji/k2-slugs_ft2 </input>
+			<gain> inertia/ji/denom </gain>
+		</pure_gain>
+		<pure_gain name="inertia/ji/xz">
+			<input> inertia/ji/k3-slugs_ft2 </input>
+			<gain> inertia/ji/denom </gain>
+		</pure_gain>
+		<pure_gain name="inertia/ji/yx">
+			<input> inertia/ji/k2-slugs_ft2 </input>
+			<gain> inertia/ji/denom </gain>
+		</pure_gain>
+		<pure_gain name="inertia/ji/yy">
+			<input> inertia/ji/k4-slugs_ft2 </input>
+			<gain> inertia/ji/denom </gain>
+		</pure_gain>
+		<pure_gain name="inertia/ji/yz">
+			<input> inertia/ji/k5-slugs_ft2 </input>
+			<gain> inertia/ji/denom </gain>
+		</pure_gain>
+		<pure_gain name="inertia/ji/zx">
+			<input> inertia/ji/k3-slugs_ft2 </input>
+			<gain> inertia/ji/denom </gain>
+		</pure_gain>
+		<pure_gain name="inertia/ji/zy">
+			<input> inertia/ji/k5-slugs_ft2 </input>
+			<gain> inertia/ji/denom </gain>
+		</pure_gain>
+		<pure_gain name="inertia/ji/zz">
+			<input> inertia/ji/k6-slugs_ft2 </input>
+			<gain> inertia/ji/denom </gain>
+		</pure_gain>
+	</channel>
+	
+	
+	<channel name="dCG">
+		<pure_gain name="inertia/d-cg/x">
+			<input> inertia/cg-x-offset-chord-in </input>
+			<gain> units/in-m </gain>
+		</pure_gain>
+		<pure_gain name="inertia/d-cg/y">
+			<input> inertia/cg-y-in </input>
+			<gain> units/in-m </gain>
+		</pure_gain>
+		<pure_gain name="inertia/d-cg/z">
+			<input> inertia/cg-z-in </input>
+			<gain> units/in-m </gain>
+		</pure_gain>
+	</channel>	
+	
+	
+	<channel name="Mass">
+		<pure_gain name="inertia/mass-kg">
+			<input> inertia/mass-slugs </input>
+			<gain> units/slug-kg </gain>
+		</pure_gain>
+	</channel>
+</system>

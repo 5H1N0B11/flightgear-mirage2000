@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+	Authors: Josh Davidson (Octal450), Richard Harrison, Axel Paccalin.
+	Version: 0.2
+	
+	Controller for the steering wheel output based on pilot command and ground speed. 
+-->
+
+<system name="Mirage-2000: Accelerations">
+	<property value="9.80665002863898"> accelerations/g </property>
+	
+	<channel name="Angular">
+		<!-- The angular acceleration around the X axis (rad/sec²). -->
+		<fcs_function name="accelerations/angular/x">
+			<function>
+				<sum>
+					<product>
+						<p> torque/aero/x </p>
+						<p> inertia/ji/xx </p>
+					</product>
+					<product>
+						<p> torque/aero/y </p>
+						<p> inertia/ji/xy </p>
+					</product>
+					<product>
+						<p> torque/aero/z </p>
+						<p> inertia/ji/xz </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>		
+		
+		<!-- The angular acceleration around the Y axis (rad/sec²). -->
+		<fcs_function name="accelerations/angular/y">
+			<function>
+				<sum>
+					<product>
+						<p> torque/aero/x </p>
+						<p> inertia/ji/yx </p>
+					</product>
+					<product>
+						<p> torque/aero/y </p>
+						<p> inertia/ji/yy </p>
+					</product>
+					<product>
+						<p> torque/aero/z </p>
+						<p> inertia/ji/yz </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<!-- The angular acceleration around the Z axis (rad/sec²). -->
+		<fcs_function name="accelerations/angular/z">
+			<function>
+				<sum>
+					<product>
+						<p> torque/aero/x </p>
+						<p> inertia/ji/zx </p>
+					</product>
+					<product>
+						<p> torque/aero/y </p>
+						<p> inertia/ji/zy </p>
+					</product>
+					<product>
+						<p> torque/aero/z </p>
+						<p> inertia/ji/zz </p>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+	</channel>	
+	
+	<channel name="Linear">
+		<!-- The linear acceleration along the x axis (m/sec²). -->
+		<fcs_function name="accelerations/linear/x">
+			<function>
+				<quotient>
+					<p> aero/force/DRAG </p>
+					<p> inertia/mass-kg </p>
+				</quotient>
+			</function>
+		</fcs_function>
+		<!-- The linear acceleration along the y axis (m/sec²). -->
+		<fcs_function name="accelerations/linear/y">
+			<function>
+				<quotient>
+					<p> aero/force/SIDE </p>
+					<p> inertia/mass-kg </p>
+				</quotient>
+			</function>
+		</fcs_function>
+		<!-- The linear acceleration along the z axis (m/sec²). -->
+		<fcs_function name="accelerations/linear/z">
+			<function>
+				<quotient>
+					<p> aero/force/LIFT </p>
+					<p> inertia/mass-kg </p>
+				</quotient>
+			</function>
+		</fcs_function>
+	</channel>
+</system>

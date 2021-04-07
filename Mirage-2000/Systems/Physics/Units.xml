@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<system name="Mirage-2000: Units">
+	<property value="1.3558179619"> units/slugft2-kgm2 </property>
+	<property value="14.5939"> units/slug-kg </property>
+	<property value="0.3048"> units/ft-m </property>
+	<property value="0.0254"> units/in-m </property>
+	<property value="4.44822"> units/p-n </property>
+	<property value="1.3558179483314003"> units/lbsft-nm </property>
+</system>
