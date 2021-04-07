@@ -12,7 +12,7 @@
 	<property value="0"> fcs/dispatch/dist/elevons/IL </property>
 	<property value="0"> fcs/dispatch/dist/elevons/IR </property>
 	<property value="0"> fcs/dispatch/dist/rudder </property>
-	<property value="0"> fcs/dispatch/dist/gears/steering </property>
+	<property value="0"> fcs/dispatch/dist/steering </property>
 	<property value="0"> fcs/dispatch/dist/slats </property>
 	<property value="0"> fcs/dispatch/dist/spoilers </property>
 </system>
