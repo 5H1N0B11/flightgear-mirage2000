@@ -112,13 +112,13 @@
             <value>1</value>
           </equals>
           <equals>
-            <property>/sim/current-view/view-number</property>
+            <property>/sim/current-view/view-number-raw</property>
             <value>0</value>
           </equals>
         </and>
         <not>
           <equals>
-            <property>/sim/current-view/view-number</property>
+            <property>/sim/current-view/view-number-raw</property>
             <value>0</value>
           </equals>
         </not>
@@ -143,14 +143,14 @@
             <value>1</value>
           </equals>
           <equals>
-            <property>/sim/current-view/view-number</property>
-            <value>11</value>
+            <property>/sim/current-view/view-number-raw</property>
+            <value>103</value>
           </equals>
         </and>
         <not>
           <equals>
-            <property>/sim/current-view/view-number</property>
-            <value>11</value>
+            <property>/sim/current-view/view-number-raw</property>
+            <value>103</value>
           </equals>
         </not>
       </or>

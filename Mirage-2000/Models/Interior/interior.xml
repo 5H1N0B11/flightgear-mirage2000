@@ -91,13 +91,13 @@
             <value>1</value>
           </equals>
           <equals>
-            <property>/sim/current-view/view-number</property>
+            <property>/sim/current-view/view-number-raw</property>
             <value>0</value>
           </equals>
         </and>
         <not>
           <equals>
-            <property>/sim/current-view/view-number</property>
+            <property>/sim/current-view/view-number-raw</property>
             <value>0</value>
           </equals>
         </not>

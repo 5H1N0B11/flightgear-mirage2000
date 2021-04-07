@@ -536,7 +536,7 @@ var init_EjectionKey = func(){
 
 var flightmode = func (){
   #print("Called");
-  if(getprop("/sim/current-view/view-number") == 0) {
+  if(getprop("/sim/current-view/view-number-raw") == 0) {
     if(getprop("/instrumentation/flightmode/app")){
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.1019);
@@ -666,7 +666,7 @@ var quickstart = func() {
       call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "config"}))},nil,var err2 = []);
     
       #Placing the view on take off view
-      if(getprop("/sim/current-view/view-number") == 0) {
+      if(getprop("/sim/current-view/view-number-raw") == 0) {
         setprop("/sim/current-view/x-offset-m",0);
         setprop("/sim/current-view/y-offset-m",0.1019);
         setprop("/sim/current-view/z-offset-m",-2.9);
@@ -693,7 +693,7 @@ var quickstart = func() {
 
       #Zooming on starting panel
       settimer(func {
-        if(getprop("/sim/current-view/view-number") == 0) {
+        if(getprop("/sim/current-view/view-number-raw") == 0) {
           setprop("/sim/current-view/pitch-offset-deg",-62);
           setprop("/sim/current-view/heading-offset-deg",312);
           setprop("/sim/current-view/field-of-view",21.6);
@@ -742,7 +742,7 @@ var quickstart = func() {
       
       #zooming on fuel, electrics and alerts
       settimer(func {
-        if(getprop("/sim/current-view/view-number") == 0) {
+        if(getprop("/sim/current-view/view-number-raw") == 0) {
           setprop("/sim/current-view/pitch-offset-deg",-38);
           setprop("/sim/current-view/heading-offset-deg",338);
           setprop("/sim/current-view/field-of-view",36);
@@ -751,7 +751,7 @@ var quickstart = func() {
 
      #puting back the view on take off view
       settimer(func {
-        if(getprop("/sim/current-view/view-number") == 0) {
+        if(getprop("/sim/current-view/view-number-raw") == 0) {
           setprop("/sim/current-view/pitch-offset-deg",-14);
           setprop("/sim/current-view/heading-offset-deg",0);
           setprop("/sim/current-view/field-of-view",83);
