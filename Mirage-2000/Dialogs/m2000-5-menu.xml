@@ -174,7 +174,17 @@
     </binding>
   </item>
 
+  <item n="16">
+    <label>Tacview</label>
+    <name>event-log</name>
+    <binding>
+      <command>dialog-show</command>
+      <dialog-name>tacview</dialog-name>
+    </binding>
+  </item>
+
     </menu>
   </default>
-
+  
+  
 </PropertyList>

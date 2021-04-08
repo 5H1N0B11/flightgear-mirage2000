@@ -176,6 +176,15 @@ var Target = {
         obj.RadarStandby    = c.getNode("sim/multiplay/generic/int[2]");
         
         obj.deviation       = nil;
+        obj.elevation = nil;
+        obj.virtual = 0;
+        obj.iff = -1000;
+        
+        
+        obj.unique = obj.Callsign.getValue()~c.getPath();# should be very unique, callsign might not be enough. Path by itself is not enough either, as paths gets reused.
+        obj.tacobj = {parents: [tacview.tacobj]};
+        obj.tacobj.tacviewID = left(md5(obj.unique),5);
+        obj.tacobj.valid = 1;
     
         obj.type = armament.AIR;
         
@@ -352,6 +361,31 @@ var Target = {
             }
         }
     },
+    getIff: func {
+        if (getprop("sim/time/elapsed-sec")-me.iff < 3.5) {
+            return 1;
+        }
+        return 0;
+    },
+    getCarrierSign: func {
+        # When there is 2 Eisenhovers this can tell them apart:
+        var s = me.propNode.getNode("sign");
+        if (s != nil) {
+            s = s.getValue();
+            if (s=="") {
+                s = nil;
+            }
+            if (s != nil) {
+                var i = me.propNode.getNode("id");
+                if (i != nil) {
+                    i = i.getValue();
+                    s = s ~ i;
+                }
+            }
+        }
+        return s;
+    },
+    
 
     get_Validity: func(){
         var n = 0;
@@ -741,16 +775,33 @@ var Target = {
         me.type = typ;
     },
 
-    getUnique: func () {
-      #var myIndex = me.getIndex();
-       #print("getUnique:"~me.propNode.getName()~me.fname~me.Callsign.getValue());
-      return me.propNode.getName()~me.fname~me.get_Callsign();
-      #~me.ID;
-        #return me.get_type()~me.fname~me.ID;
-    },
+#     getUnique: func () {
+#       #var myIndex = me.getIndex();
+#        #print("getUnique:"~me.propNode.getName()~me.fname~me.Callsign.getValue());
+#       return me.propNode.getName()~me.fname~me.get_Callsign();
+#       #~me.ID;
+#         #return me.get_type()~me.fname~me.ID;
+#     },
 
     isValid: func() {
-        return me.Valid.getValue();
+      var valid = me.Valid.getValue();
+      if (valid == nil) {
+        valid = FALSE;
+      }
+      if (!valid and me.tacobj.valid) {
+          if (tacview.starttime) {
+#            thread.lock(tacview.mutexWrite);
+#            tacview.write("#" ~ (systime() - tacview.starttime)~"\n");
+#            tacview.write("0,Event=LeftArea|"~me.tacobj.tacviewID~"|\n");
+#            tacview.write("-"~me.tacobj.tacviewID~"\n");
+#            thread.unlock(tacview.mutexWrite);
+            me.tacobj.valid = 0;
+          }
+      }
+      return valid;
+    },
+    getUnique: func {
+        return me.unique;
     },
     isFriend: func(){
       #link16 is declared in radar2.nas

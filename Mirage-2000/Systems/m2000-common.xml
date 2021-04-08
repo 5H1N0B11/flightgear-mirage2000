@@ -73,6 +73,7 @@
       <path>/instrumentation/tacan/frequencies/selected-channel[4]</path>
 -->
     </aircraft-data>
+    <tacview-recording type="bool">0</tacview-recording>
 
   </sim>
 
@@ -297,6 +298,9 @@
     <iff>
        <file>Aircraft/Mirage-2000/Nasal/iff.nas</file>
     </iff>
+    <tacview>
+        <file>Aircraft/Mirage-2000/Nasal/tacview.nas</file>
+    </tacview>
   </nasal>
 
 </PropertyList>
