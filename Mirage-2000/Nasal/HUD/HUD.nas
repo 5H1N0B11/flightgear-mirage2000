@@ -174,7 +174,8 @@ var HUD = {
     
     m.MaxTarget = 30;
     
-    m.myGreen = [0.3,1.0,0.3,1];
+    #m.myGreen = [0.3,1.0,0.3,1];
+    m.myGreen = [0,1,0,1];
     
 #     .setColor(m.myGreen)
     
@@ -204,8 +205,6 @@ var HUD = {
             .setTranslation(0, 70)
             .setColor(m.myGreen)
             .setDouble("character-size", 42);
-            
-            
     #fpv
     m.fpv = m.root.createChild("path")
         .setColor(m.myGreen)
@@ -219,7 +218,7 @@ var HUD = {
         .moveTo(0, -15)
         .vert(-15)
         .setStrokeLineWidth(4);
-        
+      
   m.AutopilotStar = m.root.createChild("text")
     .setColor(m.myGreen)
     .setTranslation(150,0)
@@ -925,7 +924,58 @@ var HUD = {
    m.myRunwayGroup = m.root.createChild("group");
    m.selectedRunway = 0;
    
+   #################################### CCIP #########################################
 
+    m.CCIP = m.root.createChild("group");
+    # Bomb Fall Line (BFL)
+    m.CCIP_BFL = m.CCIP.createChild("group");
+    
+    m.CCIP_BFL_line = m.CCIP_BFL.createChild("path");
+    
+    #Bomb impact    
+    m.CCIP_piper = m.CCIP.createChild("path")
+        .setColor(m.myGreen)
+        .moveTo(15, 0)
+        .horiz(40)
+        .moveTo(15, 0)
+        .lineTo(7.5,13)
+        .lineTo(-7.5,13)
+        .lineTo(-15,0)
+        .lineTo(-7.5,-13)
+        .lineTo(7.5,-13)
+        .lineTo(15,0)
+        .moveTo(-15, 0)
+        .horiz(-40)
+        .setStrokeLineWidth(4);
+    
+    m.CCIP_safe_alt = m.CCIP.createChild("path")
+        .setColor(m.myGreen)
+        .moveTo(15, 0)
+        .horiz(40)
+        .vert(-15)
+
+        .moveTo(-15, 0)
+        .horiz(-40)
+        .vert(-15)
+        .setStrokeLineWidth(4);
+        
+     # Distance to impact
+     m.CCIP_impact_dist = m.CCIP.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(m.maxladderspan,-120)
+      .setDouble("character-size", 35)
+      .setAlignment("left-center")
+      .setText("0.0");
+      
+     m.CCIP_no_go_cross = m.CCIP.createChild("path")
+        .setColor(m.myGreen)
+        .moveTo(80, 80)
+        .lineTo(-80,-80)
+        .moveTo(-80, 80)
+        .lineTo(80,-80)
+        .setStrokeLineWidth(4);
+   
+   
        
    ##################################### Target Circle ####################################
     m.targetArray = [];
@@ -1155,6 +1205,7 @@ var HUD = {
       z_offset_m:    "/sim/current-view/z-offset-m",
       MasterArm      :"/controls/armament/master-arm",
       TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
+      IsRadarWorking : "/systems/electrical/outputs/radar",
     };
     
     foreach(var name; keys(m.input)){
@@ -1205,7 +1256,7 @@ var HUD = {
     
     me.Fire_GBU.setText("Fire");
     me.showFire_GBU = 0;
-    
+    me.show_CCIP = 0;
     
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
       if(me.selectedWeap.type != "30mm Cannon"){
@@ -1217,6 +1268,7 @@ var HUD = {
           me.DistanceToShoot = me.selectedWeap.getCCRP(me.input.TimeToTarget.getValue(), 0.05);
         
           if(me.DistanceToShoot != nil ){
+            #This should be the CCRP function
             if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30){
               me.showFire_GBU = 1;
                 me.Fire_GBU.setText(sprintf("TTR: %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
@@ -1225,13 +1277,17 @@ var HUD = {
               }
             }
           }else{
-             #print("Distance to shoot : nil");
+            me.show_CCIP = me.display_CCIP_mode();
+            #print("Distance to shoot : nil");
           }
         }
       }else{me.eegsShow=me.input.MasterArm.getValue();}
     }
     
     me.Fire_GBU.setVisible(me.showFire_GBU);
+    me.CCIP.setVisible(me.show_CCIP);
+
+
     
     
 
@@ -1266,7 +1322,6 @@ var HUD = {
      
     #Gun Cross (bore)
     me.displayBoreCross();
-    
     
     
     
@@ -1414,8 +1469,53 @@ var HUD = {
       me.ILS_Scale_dependant.hide();
       
     }
-
   },
+  display_CCIP_mode:func(){
+    #me.fpvCalc => fpv coordinates
+    #me.CCIP_BFL
+    me.ccipPos = me.selectedWeap.getCCIPadv(me.input.TimeToTarget.getValue(), 0.20);
+    if(me.ccipPos != nil){
+      me.hud_pos = HudMath.getPosFromCoord(me.ccipPos[0]);
+      if(me.hud_pos != nil) {
+          me.pos_x = me.hud_pos[0];
+          me.pos_y = me.hud_pos[1];
+          me.CCIP_piper.setTranslation(me.pos_x,me.pos_y);
+          
+          #Updating : clear all previous stuff
+          me.CCIP_BFL.removeAllChildren();
+          
+          #Drawing the line
+          me.CCIP_BFL_line = me.CCIP_BFL.createChild("path")
+            .setColor(me.myGreen)
+            .moveTo(me.fpvCalc)
+            .lineTo(me.pos_x,me.pos_y)
+            .setStrokeLineWidth(4);
+            
+          #Calculate safe alt :
+          #me.selectedWeap.reportDist*2) is an arbitrary choice
+          me.safe_alt = int(me.ccipPos[0].alt()+me.selectedWeap.reportDist*2);
+          #print("me.safe_alt:" ~me.safe_alt);
+          #print("diff elevation vs target_alt:" ~ int(me.input.alt.getValue()*FT2M));
+          #print("%off line : " ~ me.safe_alt/(me.input.alt.getValue()*FT2M));
+          me.safe_alt_pourcent = me.safe_alt/(me.input.alt.getValue()); 
+          me.CCIP_safe_alt.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-(me.fpvCalc[1]-me.pos_y)*(1-clamp(me.safe_alt_pourcent,0,1)));
+          
+          #Distance to ground impact : only working if radar is on
+          if(me.input.IsRadarWorking.getValue()>24){
+            me.CCIP_impact_dist.setText(sprintf("%.1f KM", me.ccipPos[0].direct_distance_to(geo.aircraft_position())/1000));
+          }else{
+            me.CCIP_impact_dist.setText(sprintf("%.1f KM", 0));
+          }
+          
+          #No go : too dangerous to drop the bomb
+          me.CCIP_no_go_cross.setVisible(me.safe_alt_pourcent>0.85);
+            
+          return 1;
+      }
+    }
+    return 0;
+  },
+  
   display_ILS_Square:func(){
     if(me.input.ILS_gs_in_range.getValue()and !me.input.MasterArm.getValue()){
       me.ILS_Square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
