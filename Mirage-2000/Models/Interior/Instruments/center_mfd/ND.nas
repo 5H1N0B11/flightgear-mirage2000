@@ -64,7 +64,7 @@ var CANVAS_init = func()
     
     nd_display.cpt = canvas.new({
         "name":       "ND",
-        "size":       [2048, 2048],
+        "size":       [256, 256],
         "view":       [1024, 1024],
         "mipmapping": 1
     });
@@ -74,16 +74,16 @@ var CANVAS_init = func()
     #NDCpt.update();
 }
 
-var showNd = func(pilot='cpt')
-{
+ var showNd = func(pilot='cpt')
+ {
     # The optional second arguments enables creating a window decoration
     var dlg = canvas.Window.new([400, 400], "dialog");
     dlg.setCanvas( nd_display[pilot] );
-}
+ }
 
-var mdfselection = func()
+ var mdfselection = func()
 {
-    print("That worked");
+     print("That worked");
     
     if(getprop("/instrumentation/efis/Mode") and IsIntialised != 1)
     {
@@ -100,7 +100,7 @@ var mdfselection = func()
             print("Killed ?");
         }
     }
-}
+ }
 
 #var _list = setlistener("sim/signals/fdm-initialized", func(){
 #    CANVAS_init();

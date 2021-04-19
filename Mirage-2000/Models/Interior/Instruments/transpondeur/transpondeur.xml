@@ -667,7 +667,6 @@
     </axis>
   </animation>
 
-  <!-- Switch 6
   <animation>
     <type>pick</type>
     <object-name>transpondeur.switch6</object-name>
@@ -675,7 +674,7 @@
       <button>0</button>
       <binding>
         <command>property-toggle</command>
-        <property>...</property>
+        <property>controls/iff/iff-power</property>
       </binding>
     </action>
   </animation>
@@ -683,7 +682,7 @@
   <animation>
     <type>rotate</type>
     <object-name>transpondeur.switch6</object-name>
-    <property>...</property>
+    <property>controls/iff/iff-power</property>
     <factor>70</factor>
     <center>
       <x-m>-3.4972</x-m>
@@ -695,7 +694,7 @@
       <y>-1</y>
       <z> 0</z>
     </axis>
-  </animation> -->
+  </animation>
 
   <!-- Switch 7
   <animation>
@@ -709,12 +708,14 @@
       </binding>
     </action>
   </animation>
-
+  -->
+  
   <animation>
     <type>rotate</type>
     <object-name>transpondeur.switch7</object-name>
-    <property>...</property>
-    <factor>70</factor>
+    <!-- <property>...</property> -->
+    <!-- <factor>35</factor> -->
+    <offset-deg>35</offset-deg>
     <center>
       <x-m>-3.4941</x-m>
       <y-m>-0.049527</y-m>
@@ -757,36 +758,6 @@
     </axis>
   </animation> -->
 
-  <!-- button1.2
-  <animation>
-    <type>pick</type>
-    <object-name>transpondeur.button1.2</object-name>
-    <action>
-      <button>0</button>
-      <binding>
-        <command>property-toggle</command>
-        <property>...</property>
-      </binding>
-    </action>
-  </animation>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>transpondeur.button1.2</object-name>
-    <property>...</property>
-    <factor>45</factor>
-    <center>
-      <x-m> 0.00395</x-m>
-      <y-m>-0.02391</y-m>
-      <z-m>-0.02300</z-m>
-    </center>
-    <axis>
-      <x>1</x>
-      <y>0</y>
-      <z>0</z>
-    </axis>
-  </animation> -->
-
   <animation>
     <name>transpondeur.MoletteIFF</name>
     <object-name>transpondeur.button1.2</object-name>
@@ -794,9 +765,11 @@
   </animation>
 
   <animation>
-    <type>rotate</type>
+    <type>knob</type>
     <object-name>transpondeur.MoletteIFF</object-name>
-    <offset-deg>48</offset-deg>
+    <property>controls/iff/channel-select</property>
+    <factor>35</factor>
+    <offset-deg>-50</offset-deg>
     <center>
       <x-m>-3.4811</x-m>
       <y-m>-0.024328</y-m>
@@ -810,6 +783,16 @@
       <y2-m>-0.024329</y2-m>
       <z2-m>-0.60792</z2-m>
     </axis>
+    <action>
+	<binding>
+	    <command>property-adjust</command>
+	    <property>controls/iff/channel-select</property>
+	    <factor>1</factor>
+	    <min>-1</min>
+	    <max>2</max>
+	</binding>
+    </action>
+    
   </animation>
 
   <animation>

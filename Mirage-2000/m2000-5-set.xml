@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<PropertyList include="Systems/m2000-5-base.xml">
+<PropertyList include="Systems/m2000-common.xml">
 
   <scalp-pos-norm type="float">0</scalp-pos-norm>
 
@@ -59,8 +59,11 @@
         <tag>hud</tag>
         <tag>afterburner</tag>
     </tags>
-    
-    <model><fallback-model-index type="int">527</fallback-model-index></model>
+
+    <model>
+	<path>Aircraft/Mirage-2000/Models/m2000-5.xml</path>
+	<fallback-model-index type="int">527</fallback-model-index>
+    </model>
 
     <gui n="0" include="gui/it-gui.xml"/>
     
@@ -87,6 +90,7 @@
       </preview>
     </previews>
 
+    
   </sim>
 
 </PropertyList>

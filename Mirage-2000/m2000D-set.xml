@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<PropertyList include="Systems/m2000-5B-base.xml">
+<PropertyList include="Systems/m2000-common.xml">
 
   <scalp-pos-norm type="float">0</scalp-pos-norm>
 
@@ -68,9 +68,12 @@
         <tag>hud</tag>
         <tag>afterburner</tag>
     </tags>
-    
-    <model><fallback-model-index type="int">527</fallback-model-index></model>
 
+    <model>
+	<path>Aircraft/Mirage-2000/Models/m2000-5B.xml</path>
+	<fallback-model-index type="int">527</fallback-model-index>
+    </model>
+    
     <gui n="0" include="gui/it-gui.xml"/>
     
      <previews>
@@ -80,6 +83,22 @@
         <path>Splashes/splashB-01.png</path>
       </preview>
      </previews>
+
+     <view n="103">
+	 <name>Navigator View</name>
+	 <type>lookfrom</type>
+	 <internal>true</internal>
+	 <config>
+             <from-model type="bool">true</from-model>
+             <from-model-idx type="int">0</from-model-idx>
+             <x-offset-m type="double">  0.00 </x-offset-m>
+             <y-offset-m type="double">  0.26 </y-offset-m>
+             <z-offset-m type="double"> -1.06 </z-offset-m>
+             <pitch-offset-deg type="double"> -10 </pitch-offset-deg>
+             <heading-offset-deg type="double"> 0 </heading-offset-deg>
+             <default-field-of-view-deg type="double">82</default-field-of-view-deg>
+	 </config>
+     </view>
 
   </sim>
 

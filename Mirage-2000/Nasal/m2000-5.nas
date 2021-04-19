@@ -536,7 +536,7 @@ var init_EjectionKey = func(){
 
 var flightmode = func (){
   #print("Called");
-  if(getprop("/sim/current-view/view-number") == 0) {
+  if(getprop("/sim/current-view/view-number-raw") == 0) {
     if(getprop("/instrumentation/flightmode/app")){
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.1019);
@@ -654,11 +654,10 @@ var quickstart = func() {
             # So 1 is allumage 0 vent.
             setprop("/controls/switches/vent-allumage", 1);
             setprop("/controls/switches/pump-BP",       1);
+            setprop("/controls/switches/hide-starter",1);
             
-            # Starter
-            quickstart();
-            
-            
+            setprop("/controls/engines/engine/starter",1);
+            mystarter(); 
         }
  }
  
@@ -667,7 +666,7 @@ var quickstart = func() {
       call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "config"}))},nil,var err2 = []);
     
       #Placing the view on take off view
-      if(getprop("/sim/current-view/view-number") == 0) {
+      if(getprop("/sim/current-view/view-number-raw") == 0) {
         setprop("/sim/current-view/x-offset-m",0);
         setprop("/sim/current-view/y-offset-m",0.1019);
         setprop("/sim/current-view/z-offset-m",-2.9);
@@ -694,7 +693,7 @@ var quickstart = func() {
 
       #Zooming on starting panel
       settimer(func {
-        if(getprop("/sim/current-view/view-number") == 0) {
+        if(getprop("/sim/current-view/view-number-raw") == 0) {
           setprop("/sim/current-view/pitch-offset-deg",-62);
           setprop("/sim/current-view/heading-offset-deg",312);
           setprop("/sim/current-view/field-of-view",21.6);
@@ -736,12 +735,14 @@ var quickstart = func() {
       #Starting the engine
       settimer(func { 
         setprop("/controls/engines/engine/starter",1);
+        mystarter();
       }, 13);  
+      
       
       
       #zooming on fuel, electrics and alerts
       settimer(func {
-        if(getprop("/sim/current-view/view-number") == 0) {
+        if(getprop("/sim/current-view/view-number-raw") == 0) {
           setprop("/sim/current-view/pitch-offset-deg",-38);
           setprop("/sim/current-view/heading-offset-deg",338);
           setprop("/sim/current-view/field-of-view",36);
@@ -750,7 +751,7 @@ var quickstart = func() {
 
      #puting back the view on take off view
       settimer(func {
-        if(getprop("/sim/current-view/view-number") == 0) {
+        if(getprop("/sim/current-view/view-number-raw") == 0) {
           setprop("/sim/current-view/pitch-offset-deg",-14);
           setprop("/sim/current-view/heading-offset-deg",0);
           setprop("/sim/current-view/field-of-view",83);
@@ -771,8 +772,9 @@ var quickstart = func() {
  
  
 #  #This is the starup listener. It will put a value into n1 and n2 in order start jsbsim engine without playing with cutoff
- var starterlistener = setlistener("/controls/engines/engine/starter", func() {
+#var starterlistener = setlistener("/controls/engines/engine/starter", func() {
 # var starterlistener = setlistener("/fdm/jsbsim/propulsion/starter_cmd", func() {
+var mystarter = func(){
    if(getprop("/fdm/jsbsim/propulsion/engine/n1")<0.5 and  getprop("/fdm/jsbsim/propulsion/engine/n2")<0.5 
      and getprop("/controls/switches/pump-BP") and getprop("/controls/switches/vent-allumage")){
      setprop("/fdm/jsbsim/propulsion/engine/n1",1);
@@ -780,7 +782,8 @@ var quickstart = func() {
      setprop("engines/engine[0]/out-of-fuel",0);
    }
    print("You are starting the mirage, dude");
-});
+#});
+}
  
  
 setprop("consumables/fuel/tank[8]/capacity-gal_us",0);

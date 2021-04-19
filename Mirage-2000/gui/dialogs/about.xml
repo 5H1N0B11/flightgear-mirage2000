@@ -55,11 +55,11 @@
   <hrule />
 
   <button>
-    <legend>Developpement link</legend>
+    <legend>Development link</legend>
     <binding>
       <command>nasal</command>
       <script>
-        var phrase = "Developpement link : https://github.com/5H1N0B11/Aircraft";
+        var phrase = "Development link : https://github.com/5H1N0B11/Aircraft";
         setprop("/sim/multiplay/chat", phrase);
         </script>
     </binding>

@@ -123,7 +123,7 @@ var update_piste_fl = func(element, my_heading, target_heading)
 var rightMFDcanvas = {
   canvas_settings: {
       "name": "PFD-Test",   # The name is optional but allow for easier identification
-      "size": [1024, 1024], # Size of the underlying texture (should be a power of 2, required) [Resolution]
+      "size": [512, 512], # Size of the underlying texture (should be a power of 2, required) [Resolution]
       "view": [width, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
                             # which will be stretched the size of the texture, required)
       "mipmapping": 1       # Enable mipmapping (optional)

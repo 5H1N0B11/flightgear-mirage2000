@@ -87,6 +87,16 @@
           <dialog-name>radar</dialog-name>
         </binding>
       </item>
+
+      <item>
+	<label>IFF codes</label>
+	<name>iff</name>
+	<binding>
+	  <command>dialog-show</command>
+	  <dialog-name>iff</dialog-name>
+	</binding>
+      </item>
+      
 <!--      
      <item n="10">
         <label>Rwr</label>
@@ -164,7 +174,17 @@
     </binding>
   </item>
 
+  <item n="16">
+    <label>Tacview</label>
+    <name>event-log</name>
+    <binding>
+      <command>dialog-show</command>
+      <dialog-name>tacview</dialog-name>
+    </binding>
+  </item>
+
     </menu>
   </default>
-
+  
+  
 </PropertyList>
