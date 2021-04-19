@@ -974,6 +974,56 @@ var HUD = {
         .moveTo(-80, 80)
         .lineTo(80,-80)
         .setStrokeLineWidth(4);
+        
+     #################################### CCRP #########################################
+
+    m.CCRP = m.root.createChild("group");
+    # Bomb Fall Line (BFL)
+    m.CCIP_BFL = m.CCIP.createChild("group");
+    
+    m.CCIP_BFL_line = m.CCIP_BFL.createChild("path");
+    
+    #Bomb impact    
+    m.CCRP_piper = m.CCRP.createChild("path")
+        .setColor(m.myGreen)
+        .moveTo(15, 0)
+        .lineTo(0,20)
+        .lineTo(-15,0)
+        .lineTo(0,-20)
+        .lineTo(15,0)
+        .moveTo(1,1)
+        .lineTo(1,-1)
+        .lineTo(-1,-1)
+        .lineTo(-1,1)
+        .moveTo(15, 0)
+        .lineTo(20,0)
+        .moveTo(-15, 0)
+        .lineTo(-20,0)
+        .setStrokeLineWidth(4);
+    
+        
+    m.CCRP_release_cue = m.CCRP.createChild("path")
+        .setColor(m.myGreen)
+        .moveTo(55, 0)
+        .horiz(-110)
+        .setStrokeLineWidth(4);
+        
+        
+     # Distance to target
+     m.CCRP_impact_dist = m.CCRP.createChild("text")
+      .setColor(m.myGreen)
+      .setTranslation(m.maxladderspan,-120)
+      .setDouble("character-size", 35)
+      .setAlignment("left-center")
+      .setText("0.0");
+      
+     m.CCRP_no_go_cross = m.CCRP.createChild("path")
+        .setColor(m.myGreen)
+        .moveTo(80, 80)
+        .lineTo(-80,-80)
+        .moveTo(-80, 80)
+        .lineTo(80,-80)
+        .setStrokeLineWidth(4);
    
    
        
@@ -1268,7 +1318,16 @@ var HUD = {
           me.DistanceToShoot = me.selectedWeap.getCCRP(me.input.TimeToTarget.getValue(), 0.05);
         
           if(me.DistanceToShoot != nil ){
-            #This should be the CCRP function
+            # This should be the CCRP function
+            # The no go CCRP is when speed < 350 kts.
+            # We need the house and the nav point display to display the target.
+            # the CCRP piper is a fixed pointand replace the FPV
+            
+            # CCRP steering cues:
+            # They appear only after a target point has been selected. They are centered on the
+            # CCRP piper and rotate to show deviation from the course to target. The aircraft is
+            # flying directly to the target when they are level.
+           
             if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30){
               me.showFire_GBU = 1;
                 me.Fire_GBU.setText(sprintf("TTR: %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
@@ -1283,13 +1342,10 @@ var HUD = {
         }
       }else{me.eegsShow=me.input.MasterArm.getValue();}
     }
-    
+    me.CCRP.setVisible(0);
     me.Fire_GBU.setVisible(me.showFire_GBU);
     me.CCIP.setVisible(me.show_CCIP);
-
-
-    
-    
+  
 
     #me.hdg.setText(sprintf("%03d", me.input.hdg.getValue()));
     me.horizStuff = HudMath.getStaticHorizon();
@@ -1624,8 +1680,6 @@ var HUD = {
   },
   
   display_Chevron : func(){
-     #print(me.input.acc.getValue());
-    #
     if(me.input.afterburner.getValue()){me.chevronGroupAB.show();}else{me.chevronGroupAB.hide();}
     me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc.getValue()*FT2M*me.chevronFactor);
     
@@ -1633,15 +1687,8 @@ var HUD = {
   },
   
   display_heading_bug : func(){
-      #Depend of which heading we want to display
-#       if(me.input.hdgDisplay.getValue()){
-#         me.heading = me.input.hdgReal.getValue();
-#       }else{
-#         me.heading = me.input.hdg.getValue();
-#       }
       headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
       me.head_scale_route_pointer.setTranslation(headOffset,0);
-      
       me.headingScaleGroup.update();
   },
   
@@ -1829,13 +1876,9 @@ var HUD = {
   },
   
   displayTarget:func(){
-#     if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list)>mirage2000.myRadar3.Target_Index){
-#       me.radarStuffGroup.show();
     #To put a triangle on the selected target
     #This should be changed by calling directly the radar object (in case of multi targeting)
-    
-#     var closestCallsign = getprop("ai/closest/callsign");
-#     var closestRange = getprop("ai/closest/range");
+
     closestCallsign = "";
     closestRange = -1;
     #Getting the radar target from radar tgts_list
@@ -1848,9 +1891,7 @@ var HUD = {
     var Token = 0;
     
 
-    raw_list = mirage2000.myRadar3.ContactsList;
-#     print("Size:" ~ size(raw_list));
-    
+    raw_list = mirage2000.myRadar3.ContactsList; 
     i = 0;
     
     me.designatedDistanceFT = nil;
@@ -1858,15 +1899,9 @@ var HUD = {
     foreach(var c; raw_list){
       
       if(i<size(me.targetArray) and size(raw_list)>0){
-
-
         displayIt = c.objectDisplay;
-        #var myTest = c.isPainted();
-        
-        #print("Display it : %d",displayIt);
         
         if(displayIt==1 ){
-
 
           target_callsign = c.get_Callsign();
           #print("Paint : " ~ target_callsign ~ " : "~ myTest);
@@ -1919,26 +1954,17 @@ var HUD = {
       }
       i+=1;
     }
-#     print("Size2:" ~ size(raw_list));
-#     print("MyToken:" ~Token);
+
     #The token has 1 when we have a selected target
     if(Token == 0){
       #me.TriangleGroupe.hide();
       me.Square_Group.hide();
     }
-    
-    
-    
+  
     for(var y=i;y<size(me.targetArray);y+=1){
       me.targetArray[y].hide();
       me.TextInfoArray[y].hide();
     } 
-#     }else{
-#       
-#       me.radarStuffGroup.hide();
-#       me.distanceToTargetLineGroup.hide(); 
-#       me.missileFireRange.hide();    
-#     }
   },
   
   displayDistanceToTargetLine : func(contact){
@@ -1965,9 +1991,6 @@ var HUD = {
       me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
     }
   },
-  
-
-  
   
   displayDLZ:func(){
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
@@ -2011,14 +2034,7 @@ var HUD = {
   
   
   displayRunway:func(){
-    
-    #Coord of the runways gps coord
-#     var RunwayCoord =  geo.Coord.new();
-#     var RunwaysCoordCornerLeft = geo.Coord.new();
-#     var RunwaysCoordCornerRight = geo.Coord.new();
-#     var RunwaysCoordEndCornerLeft = geo.Coord.new();
-#     var RunwaysCoordEndCornerRight = geo.Coord.new();
-    
+
     #var info = airportinfo(icao;
     #Need to select the runways and write the conditions
     #2. SYNTHETIC RUNWAY. The synthetic runway symbol is an aid for locating the real runway, especially during low visibility conditions. 
@@ -2053,17 +2069,13 @@ var HUD = {
       me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
       me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
     }
-    
-    
+     
     #Calculating the HUD coord of the runways coord
     me.MyRunwayTripos                     = HudMath.getPosFromCoord(me.RunwayCoord);
     me.MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(me.RunwaysCoordCornerLeft);
     me.MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(me.RunwaysCoordCornerRight);
     me.MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerLeft);
     me.MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerRight);
-    
-    
-    
 
     #Updating : clear all previous stuff
     me.myRunwayGroup.removeAllChildren();
@@ -2078,18 +2090,6 @@ var HUD = {
     .setStrokeLineWidth(4);
     
     me.myRunwayGroup.update();
-    
-    #tranlating the circle ...
-    #old stuff : not used anymore
-    #me.myRunway.setTranslation(MyRunwayTripos);
-    #me.myRunwayBeginLeft.setTranslation(MyRunwayCoordCornerLeftTripos);
-    #me.myRunwayBeginRight.setTranslation(MyRunwayCoordCornerRightTripos);
-    #me.myRunwayEndRight.setTranslation(MyRunwayCoordCornerEndLeftTripos);
-    #me.myRunwayEndLeft.setTranslation(MyRunwayCoordCornerEndRightTripos);
-    
-    
-    #myRunwayBeginLeft
-    #me.myRunway.hide();
   },
   
   displayBoreCross:func(){
