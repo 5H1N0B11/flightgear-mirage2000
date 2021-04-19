@@ -12,7 +12,7 @@ OBJECT poly
 name "cond.lampeC-OFF"
 loc 0.0004613 0.0000000 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 102
 -0.0028950 0.0017310 0.0174040
@@ -706,7 +706,7 @@ OBJECT poly
 name "cond.lampeC-ON"
 loc 0.0004613 0.0000812 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 102
 -0.0028950 0.0017310 0.0174040
@@ -1400,7 +1400,7 @@ OBJECT poly
 name "cond.lampeF-OFF"
 loc 0.0004613 0.0000000 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 14
 0.0109170 0.0017310 0.0174040
@@ -1478,7 +1478,7 @@ OBJECT poly
 name "cond.lampeF-ON"
 loc 0.0004613 0.0001625 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 14
 0.0109170 0.0017310 0.0174040
@@ -1556,7 +1556,7 @@ OBJECT poly
 name "cond.molette"
 loc -0.0002167 0.0016250 -0.0112800
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 163
 -0.0000000 0.0044400 0.0000000
@@ -2784,7 +2784,7 @@ OBJECT poly
 name "cond.switch0"
 loc -0.0005136 0.0012700 0.0336410
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 -0.0007550 -0.0003830 0.0000000
@@ -4042,7 +4042,7 @@ OBJECT poly
 name "cond.switch1"
 loc 0.0056934 0.0012700 0.0082010
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 -0.0007550 -0.0003830 0.0000000
@@ -5300,7 +5300,7 @@ OBJECT poly
 name "cond.switch2"
 loc -0.0083888 0.0012700 0.0082010
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 -0.0007550 -0.0003830 0.0000000
@@ -6558,7 +6558,7 @@ OBJECT poly
 name "cond.switch3"
 loc -0.0083096 0.0012700 -0.0341810
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 -0.0007550 -0.0003830 0.0000000
@@ -7816,7 +7816,7 @@ OBJECT poly
 name "cond.texte"
 loc 0.0004613 0.0000000 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 2491
 -0.0006780 0.0016520 -0.0212080

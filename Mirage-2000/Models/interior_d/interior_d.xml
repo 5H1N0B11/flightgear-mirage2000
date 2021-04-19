@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+	<model>
+		<name>cockpit_front</name>
+		<path>cockpit_front.xml</path>
+	</model>
+
+	<model>
+		<name>vth_canvas_front</name>
+		<path>vth_canvas_front.gltf</path>
+		<offsets>
+			<x-m>-3.38</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.08</z-m>
+		</offsets>
+	</model>
+
+</PropertyList>

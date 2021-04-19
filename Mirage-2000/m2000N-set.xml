@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList include="Systems/m2000-common.xml">
+
+	<scalp-pos-norm type="float">0</scalp-pos-norm>
+
+	<_debug>
+		<x type="float">0</x>
+		<y type="float">0</y>
+		<z type="float">0</z>
+	</_debug>
+
+	<sim>
+		<description>Mirage 2000N with a -5 cockpit</description>
+		<variant-id type="int">3</variant-id>
+
+		<model>
+			<path>Aircraft/Mirage-2000/Models/m2000-N.xml</path>
+			<fallback-model-index type="int">527</fallback-model-index>
+		</model>
+
+		<gui n="0" include="gui/it-gui.xml"/>
+
+		<previews>
+			<preview>
+				<type>exterior</type>
+				<splash type="bool">true</splash>
+				<path>Splashes/splashB-01.png</path>
+			</preview>
+		</previews>
+
+		<view n="103">
+			<name>Navigator View</name>
+			<type>lookfrom</type>
+			<internal>true</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<from-model-idx type="int">0</from-model-idx>
+				<x-offset-m type="double">  0.00 </x-offset-m>
+				<y-offset-m type="double">  0.26 </y-offset-m>
+				<z-offset-m type="double"> -1.06 </z-offset-m>
+				<pitch-offset-deg type="double"> -10 </pitch-offset-deg>
+				<heading-offset-deg type="double"> 0 </heading-offset-deg>
+				<default-field-of-view-deg type="double">82</default-field-of-view-deg>
+			</config>
+		</view>
+
+	</sim>
+
+</PropertyList>

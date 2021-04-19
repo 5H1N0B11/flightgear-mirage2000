@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+
+  <name>mission-preplanning</name>
+  <modal type="bool">false</modal>
+  <layout>vbox</layout>
+  <draggable>true</draggable>
+  <width>520</width>
+
+  <group>
+    <layout>hbox</layout>
+    <text><label>Mission Preplanning</label></text>
+    <empty><stretch>1</stretch></empty>
+
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
+
+  <hrule/>
+
+   <group>
+    <layout>hbox</layout>
+    <input>
+      <width>250</width>
+      <hight>25</hight>
+      <label>IFF Code A</label>
+      <property>instrumentation/iff/channel_A</property>
+      <live>true</live>
+      <halight>left</halight>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </input>
+
+    <button>
+        <legend>Clear</legend>
+        <halign>right</halign>
+        <binding>
+          <command>nasal</command>
+          <script><![CDATA[
+            setprop("instrumentation/iff/channel_A", 0);
+          ]]></script>
+        </binding>
+    </button>
+  </group>
+
+  <group>
+    <layout>hbox</layout>
+    <input>
+      <width>250</width>
+      <hight>25</hight>
+      <label>IFF Code B</label>
+      <property>instrumentation/iff/channel_B</property>
+      <live>true</live>
+      <halight>left</halight>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </input>
+
+    <button>
+        <legend>Clear</legend>
+        <halign>right</halign>
+        <binding>
+          <command>nasal</command>
+          <script><![CDATA[
+            setprop("instrumentation/iff/channel_B", 0);
+          ]]></script>
+        </binding>
+    </button>
+  </group>
+
+  <empty>
+    <stretch>1</stretch>
+  </empty>
+
+  <group>
+    <layout>hbox</layout>
+    <input>
+      <width>250</width>
+      <hight>25</hight>
+      <label>Data Link Channel (aka. Link 16)</label>
+      <property>instrumentation/datalink/channel</property>
+      <live>true</live>
+      <halight>left</halight>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </input>
+
+    <button>
+      <legend>Clear</legend>
+      <halign>right</halign>
+      <binding>
+        <command>nasal</command>
+        <script><![CDATA[
+            setprop("instrumentation/datalink/channel", 0);
+          ]]>
+        </script>
+      </binding>
+    </button>
+  </group>
+
+  <empty>
+    <stretch>1</stretch>
+  </empty>
+
+  <hrule/>
+
+  <text><halign>left</halign><label>Bullseye Designation</label></text>
+
+  <group>
+    <layout>hbox</layout>
+
+    <input>
+        <width>150</width>
+        <height>25</height>
+        <label>Lat </label>
+        <property>instrumentation/bullseye/bulls-eye-lat</property>
+        <live>true</live>
+        <halign>left</halign>
+          <binding>
+              <command>dialog-apply</command>
+          </binding>
+          <color>
+            <red>0.44</red>
+        <green>0.55</green>
+        <blue>0.8</blue>
+          </color>
+    </input>
+    <input>
+        <width>150</width>
+        <height>25</height>
+        <label>Lon</label>
+        <property>instrumentation/bullseye/bulls-eye-lon</property>
+        <live>true</live>
+        <halign>left</halign>
+          <binding>
+              <command>dialog-apply</command>
+          </binding>
+          <color>
+            <red>0.44</red>
+        <green>0.55</green>
+        <blue>0.8</blue>
+          </color>
+    </input>
+    <checkbox>
+      <label>Display BE</label>
+      <halign>right</halign>
+      <live>true</live>
+      <property>instrumentation/bullseye/bulls-eye-defined</property>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </checkbox>
+
+    <button>
+      <legend>Clear</legend>
+      <halign>right</halign>
+      <binding>
+        <command>nasal</command>
+        <script><![CDATA[
+          setprop("instrumentation/bullseye/bulls-eye-lat", 0);
+          setprop("instrumentation/bullseye/bulls-eye-lon", 0);
+        ]]></script>
+      </binding>
+    </button>
+  </group>
+
+  <empty>
+    <stretch>1</stretch>
+  </empty>
+
+</PropertyList>

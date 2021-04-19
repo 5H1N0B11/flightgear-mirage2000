@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- http://wiki.flightgear.org/Property_tree -->
+<PropertyList>
+
+	<!-- This is in order to make flare working -->
+	<!-- We use/ hack a mp variable -->
+	<rotors include="rotors.xml" />
+
+	<aircraft>
+		<flir>
+			<input>
+				<yaw-deg type="double">0.0</yaw-deg>
+				<pitch-deg type="double">0.0</pitch-deg>
+			</input>
+			<target>
+				<yaw-deg type="double">0.0</yaw-deg>
+				<pitch-deg type="double">0.0</pitch-deg>
+				<auto-track type="bool">false</auto-track>
+			</target>
+			<locks>
+				<auto-track type="bool">false</auto-track>
+			</locks>
+		</flir>
+	</aircraft>
+
+	<sim include="sim.xml">
+
+		<model>
+			<livery>
+				<file type="string">default</file>
+			</livery>
+			<logos>
+				<file type="string">default</file>
+			</logos>
+			<!-- canopy opened at game start -->
+			<doors>
+				<crew>
+				<position-norm type="float">1</position-norm>
+				</crew>
+			</doors>
+			<!-- Pushback -->
+			<pushback>
+				<kp type="double">100</kp>
+				<ki type="double">25</ki>
+				<kd type="double">0</kd>
+				<position-norm type="double">0</position-norm>
+			</pushback>
+		</model>
+		<dialog>
+			<groundTargeting>
+				<primary-latitude-deg type="double">0</primary-latitude-deg>
+				<primary-longitude-deg type="double">0</primary-longitude-deg>
+				<secondary-latitude-deg type="double">0</secondary-latitude-deg>
+				<secondary-longitude-deg type="double">0</secondary-longitude-deg>
+				<time-to-target>20</time-to-target>
+			</groundTargeting>
+		</dialog>
+		<aircraft-data>
+			<!-- Here is if we want to save properties from one session to another -->
+			<path>/link16/wingman-1</path>
+			<path>/link16/wingman-2</path>
+			<path>/link16/wingman-3</path>
+			<!-- wingman #4 excluded on purpose -->
+			<path>/link16/wingman-5</path>
+			<path>/link16/wingman-6</path>
+			<path>/link16/wingman-7</path>
+			<path>/link16/wingman-8</path>
+			<path>/link16/wingman-9</path>
+			<path>/link16/wingman-10</path>
+			<!--
+			<path>/instrumentation/transponder/inputs/digit[0]</path>
+			<path>/instrumentation/transponder/inputs/digit[1]</path>
+			<path>/instrumentation/transponder/inputs/digit[2]</path>
+			<path>/instrumentation/transponder/inputs/digit[3]</path>
+			<path>/instrumentation/tacan/frequencies/selected-channel[1]</path>
+			<path>/instrumentation/tacan/frequencies/selected-channel[2]</path>
+			<path>/instrumentation/tacan/frequencies/selected-channel[3]</path>
+			<path>/instrumentation/tacan/frequencies/selected-channel[4]</path>
+			-->
+		</aircraft-data>
+		<tacview-recording type="bool">false</tacview-recording>
+	</sim>
+
+	<debug-radar> <!-- Needed as dependency when using radar-generic.nas / from F-16 -->
+		<debug-mapper type="int">0</debug-mapper>
+		<debug-main type="int">0</debug-main>
+		<debug-stt type="int">0</debug-stt>
+	</debug-radar>
+
+	<mouse>
+		<invert-mouse-wheel type="bool">true</invert-mouse-wheel>
+	</mouse>
+
+	<controls include="controls.xml" />
+
+	<engines include="engines.xml" />
+
+	<instrumentation include="cnf-instrumentation.xml" />
+
+	<input include="m2000-5-keyboard.xml" />
+
+	<environment include="environment.xml" />
+
+	<systems include="cnf-systems.xml" />
+
+	<consumables include="consumables.xml" />
+
+	<ai include="ai.xml" />
+
+	<sound>
+		<!-- Needed for damage.nas to indicate that at least one missile is in the air -->
+		<rwr-launch type="string"></rwr-launch>
+		<rwr-launch-sam type="bool">false</rwr-launch-sam>
+		<!-- RWR -->
+		<rwr-threat-new type="int">0</rwr-threat-new>
+		<rwr-threat-stt type="int">0</rwr-threat-stt> <!-- aka. spike -->
+		<rwr-maw-semi-active type="int">0</rwr-maw-semi-active> <!-- maw = missile approach warning -->
+		<rwr-maw-active type="int">0</rwr-maw-active>
+	</sound>
+
+	<f16>
+		<sound><acm-lock type="bool">false</acm-lock></sound><!-- referenced in apg-68.nas -->
+	</f16>
+
+	<autopilot include="cnf-autopilot.xml" />
+
+	<payload include="payload.xml" />
+
+	<systems n="0">
+		<hydraulical>
+			<circuit1_press alias="/fdm/jsbsim/systems/hydraulics/number1-system-pressure" />
+			<circuit2_press alias="/fdm/jsbsim/systems/hydraulics/number2-system-pressure" />
+		</hydraulical>
+		<fuel>
+			<collector>
+				<pump-BPG-damage>1</pump-BPG-damage> <!-- this is a factor that can drive the pump pressure : put 0.5 to have half-->
+				<pump-BPD-damage>1</pump-BPD-damage> <!-- this is a factor that can drive the pump pressure : put 0.5 to have half-->
+			</collector>
+		</fuel>
+	</systems>
+
+	<fdm n="0">
+		<jsbsim n="0">
+			<metrics>
+				<stores-centre-tank type="double">0</stores-centre-tank>
+				<stores-wing-tank-left type="double">0</stores-wing-tank-left>
+				<stores-wing-tank-right type="double">0</stores-wing-tank-right>
+			</metrics>
+			<systems>
+				<electrics>
+					<ac-left-main-bus>0</ac-left-main-bus>
+					<dc-main-bus>0</dc-main-bus>
+					<dc-essential-bus1>0</dc-essential-bus1>
+				</electrics>
+				<hydraulics>
+					<selected-system type="int">0</selected-system>
+					<electric-pump-normal-pressure>190</electric-pump-normal-pressure>
+					<electric-pump-start-request>0</electric-pump-start-request>
+					<emerg-electric-pump-power>0</emerg-electric-pump-power>
+					<emerg-electric-pump-start-request>0</emerg-electric-pump-start-request>
+					<ep-running-6seconds>0</ep-running-6seconds>
+					<landing-gear-standby-accumulator-psi>0</landing-gear-standby-accumulator-psi>
+					<normal-pressure>280</normal-pressure>
+					<number1-system-pump-failed>0</number1-system-pump-failed>
+					<number2-system-pump-failed>0</number2-system-pump-failed>
+				</hydraulics>
+			</systems>
+			<external_reactions>
+				<chute>
+					<magnitude type="double"> 0.0 </magnitude>
+				</chute>
+			</external_reactions>
+			<inertia>
+				<pointmass-dragarea-sqft type="double" n="0">0</pointmass-dragarea-sqft>
+				<pointmass-dragarea-sqft type="double" n="1">0</pointmass-dragarea-sqft>
+				<pointmass-dragarea-sqft type="double" n="2">0</pointmass-dragarea-sqft>
+				<pointmass-dragarea-sqft type="double" n="3">0</pointmass-dragarea-sqft>
+				<pointmass-dragarea-sqft type="double" n="4">0</pointmass-dragarea-sqft>
+				<pointmass-dragarea-sqft type="double" n="5">0</pointmass-dragarea-sqft>
+				<pointmass-dragarea-sqft type="double" n="6">0</pointmass-dragarea-sqft>
+				<pointmass-dragarea-sqft type="double" n="7">0</pointmass-dragarea-sqft>
+				<pointmass-dragarea-sqft type="double" n="8">0</pointmass-dragarea-sqft>
+			</inertia>
+		</jsbsim>
+	</fdm>
+
+	<nasal include="nasal.xml" />
+
+</PropertyList>

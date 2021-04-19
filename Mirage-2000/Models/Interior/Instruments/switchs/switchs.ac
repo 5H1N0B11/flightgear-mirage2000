@@ -12,7 +12,7 @@ OBJECT poly
 name "switch.switch_alt"
 loc -0.0000083 -0.0002010 -0.0278844
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 963
 0.0011195 -0.0000889 -0.0008050
@@ -7608,7 +7608,7 @@ OBJECT poly
 name "switch.switch_bat"
 loc 0.0001059 0.0000134 0.0188876
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 321
 0.0047474 0.0000000 -0.0008970
@@ -10146,7 +10146,7 @@ OBJECT poly
 name "switch.switch_bat_light"
 loc 0.0002844 0.0000134 0.0188876
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 64
 0.0125015 0.0000001 -0.0006861
@@ -10443,7 +10443,7 @@ OBJECT poly
 name "switch.switch_test"
 loc 0.0015137 -0.0057081 -0.0395563
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 321
 0.0010387 -0.0006614 0.0000000

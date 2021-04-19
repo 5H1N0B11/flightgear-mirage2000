@@ -1,15 +1,13 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-  <nasal>
-    <load>
-      #print("Gun splash");
-      #print("Number of impact :"~ guns.Nb_Impact());
-      guns.flare();
-    </load>
-  </nasal>
-  <model>
-    <name>default_flares</name>
-    <path>Aircraft/Mirage-2000/Missiles/the-flare.xml</path>
-  </model>
+	<nasal>
+		<load>
+			guns.flare();
+		</load>
+	</nasal>
+	<model>
+		<name>default_flares</name>
+		<path>Aircraft/Mirage-2000/Missiles/the-flare.xml</path>
+	</model>
 </PropertyList>

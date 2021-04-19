@@ -202,7 +202,7 @@ OBJECT poly
 name "center_mfd.bt-b1"
 loc 0.0364759 -0.0777039 0.0500000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -318,7 +318,7 @@ OBJECT poly
 name "center_mfd.bt-b2"
 loc 0.0364759 -0.0777039 0.0250000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -434,7 +434,7 @@ OBJECT poly
 name "center_mfd.bt-b3"
 loc 0.0364759 -0.0777039 0.0000000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -550,7 +550,7 @@ OBJECT poly
 name "center_mfd.bt-b4"
 loc 0.0364759 -0.0777039 -0.0250000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -666,7 +666,7 @@ OBJECT poly
 name "center_mfd.bt-h1"
 loc 0.0019853 0.0823714 0.0500000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -782,7 +782,7 @@ OBJECT poly
 name "center_mfd.bt-h2"
 loc 0.0019853 0.0823714 0.0250000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -898,7 +898,7 @@ OBJECT poly
 name "center_mfd.bt-h3"
 loc 0.0019853 0.0823714 0.0000000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -1014,7 +1014,7 @@ OBJECT poly
 name "center_mfd.bt-h4"
 loc 0.0019853 0.0823714 -0.0250000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -1130,7 +1130,7 @@ OBJECT poly
 name "center_mfd.bt-h5"
 loc 0.0019853 0.0823714 -0.0500000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -1246,7 +1246,7 @@ OBJECT poly
 name "center_mfd.bt-hb5"
 loc 0.0364759 -0.0777039 -0.0500000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 16
 0.0020810 -0.0032294 0.0046860
@@ -1362,7 +1362,7 @@ OBJECT poly
 name "center_mfd.light"
 loc 0.0224328 0.0477622 0.0809530
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 296
 0.0057446 -0.0577853 -0.0054125
@@ -2633,7 +2633,7 @@ OBJECT poly
 name "center_mfd.pot-l1"
 loc 0.0224328 0.0477622 0.0809530
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 49
 -0.0016696 -0.0002309 -0.0019917
@@ -3011,7 +3011,7 @@ OBJECT poly
 name "center_mfd.pot-l2"
 loc 0.0224328 0.0477622 0.0809530
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 49
 0.0024098 -0.0297301 -0.0021617
@@ -3389,7 +3389,7 @@ OBJECT poly
 name "center_mfd.pot-l3"
 loc 0.0224328 0.0477622 0.0809530
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 49
 0.0062698 -0.0576435 -0.0021617
@@ -3767,7 +3767,7 @@ OBJECT poly
 name "center_mfd.pot-l4"
 loc 0.0224328 0.0477622 0.0809530
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 49
 0.0102774 -0.0866237 -0.0021617
@@ -4145,7 +4145,7 @@ OBJECT poly
 name "center_mfd.pot-r1"
 loc 0.0224328 0.0477622 0.0809530
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 49
 -0.0016696 -0.0002309 -0.1635937
@@ -4523,7 +4523,7 @@ OBJECT poly
 name "center_mfd.pot-r2"
 loc 0.0224328 0.0477622 0.0809530
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 49
 0.0024098 -0.0297301 -0.1635937
@@ -4901,7 +4901,7 @@ OBJECT poly
 name "center_mfd.pot-r3"
 loc 0.0224328 0.0477622 0.0809530
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 49
 0.0062698 -0.0576435 -0.1635937
@@ -5279,7 +5279,7 @@ OBJECT poly
 name "center_mfd.pot-r4"
 loc 0.0224328 0.0477622 0.0809530
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 49
 0.0102774 -0.0866237 -0.1635937
@@ -5657,7 +5657,7 @@ OBJECT poly
 name "center_mfd.trim1"
 loc 0.0428209 -0.0648052 -0.0809210
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 65
 -0.0074293 -0.0010274 -0.0077650
@@ -6163,7 +6163,7 @@ OBJECT poly
 name "center_mfd.trim2"
 loc 0.0428209 -0.0648052 0.0808390
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 65
 -0.0074293 -0.0010274 -0.0077650
@@ -6669,7 +6669,7 @@ OBJECT poly
 name "center_mfd.trim3"
 loc 0.0244365 0.0681387 -0.0809210
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 65
 -0.0074293 -0.0010274 -0.0077650

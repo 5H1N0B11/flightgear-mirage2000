@@ -32,7 +32,7 @@ OBJECT poly
 name "adi.bkg"
 loc -3.8478332 -0.2158590 0.0000000
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 24
 0.3208466 -0.0546489 -0.1731496
@@ -156,7 +156,7 @@ OBJECT poly
 name "adi.button"
 loc -3.5135229 -0.2456892 -0.1490632
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 41
 0.0304835 -0.0191310 -0.0174820
@@ -981,7 +981,7 @@ OBJECT poly
 name "adi.plane"
 loc -3.5135229 -0.2456892 -0.1490632
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 64
 0.0215642 0.0002980 -0.0006070

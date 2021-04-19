@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- changelog 26/06/2017 Updated by Helijah -->
+<PropertyList>
+
+   <nasal>
+    <load>
+      <![CDATA[
+
+      ########################################################################################
+      # WARNING : The on-load Nasal is not executed when this file is loaded as the
+      # user aircraft.
+      #
+      # load the needed modules if it hasn't been done yet.
+      # load handles broadcast of:
+      #   - external load set.
+      if(! contains(globals, "m2000_mp"))
+      {
+          var import = func (file, module) {
+              file = string.normpath(file);
+              var local_file = globals.io.dirname(caller()[2]) ~ file;
+              var path = (globals.io.stat(local_file) != nil) ? local_file : resolvepath(file);
+              globals.io.load_nasal(path, module);
+          };
+          import("Aircraft/Mirage-2000/Nasal/MP.nas", "m2000_mp");
+      }
+
+      var update = aircraft.overlay_update.new();
+      update.add("Aircraft/Mirage-2000/Models/Liveries", "sim/model/livery/file");
+      update.add("Aircraft/Mirage-2000/Models/Logos/", "sim/multiplay/generic/string");
+      
+      #var livery_update = aircraft.livery_update.new("Aircraft/Mirage-2000/Models/Liveries", 10);
+      #var update = aircraft.overlay_update.new();
+      #update.add("Aircraft/F4U/Models/Logos", "sim/multiplay/generic/string");
+      
+      var self = cmdarg();
+      
+      m2000_mp.MP_missile(self);
+      
+      var float_0 = self.getNode("sim/multiplay/generic/float[0]", 1);
+      var float_1 = self.getNode("sim/multiplay/generic/float[1]", 1);
+      
+      var myLoadString = self.getNode("sim/multiplay/generic/string[1]",1);
+      var myLoadInt = self.getNode("sim/multiplay/generic/int[8]",1);
+      
+      var crew_door = self.getNode("sim/model/door-positions/crew/position-norm", 1);
+      var passenger_door = self.getNode("sim/model/door-positions/passenger/position-norm", 1);
+      
+      # Update Time
+      var myDecodeur = m2000_mp.Decode_Load.new(self,myLoadString,0.5);
+      var LoadListening = setlistener(myLoadString, func {
+          #We have to use a timer, otherwwise, this is too fast and the new changed variable isn't loaded yet
+          settimer(func(){myDecodeur.decode();},1,1);
+      }, 1, 0);
+      
+      
+      var myBoolDecodeur = m2000_mp.Decode_Bool.new(self,myLoadInt,0.5);
+      var BoolListening = setlistener(myLoadInt, func {
+          myBoolDecodeur.decode();
+      }, 1, 0); 
+      var myMP_light = m2000_mp.MP_light.new(self);
+      
+      crew_door.alias(float_0);
+      passenger_door.alias(float_1);
+      #print("multiplay");
+      #MP.loads(1);
+      ]]>
+    </load>
+    <unload>
+      <![CDATA[
+      #myDecodeur.stop();
+      #myBoolDecodeur.stop();
+      removelistener(LoadListening);
+      removelistener(BoolListening);
+      
+      #livery_update.stop();
+      update.stop();
+      crew_door.unalias();
+      passenger_door.unalias();
+      #MP.loads(0);
+      ]]>
+    </unload>
+  </nasal>
+
+  <model>
+    <path>Aircraft/Mirage-2000/Models/main.xml</path>
+  </model>
+
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Logos/logosB.xml</path>
+  </model>
+
+  <model>
+    <path>Aircraft/Mirage-2000/Models/Service-door/service-door.xml</path>
+  </model>
+
+  <!-- HIDING MONOPLACE PARTS -->
+  <animation>
+    <type>select</type>
+    <object-name>queue-MONOPLACE</object-name>
+    <object-name>canope-MONOPLACE</object-name>
+    <object-name>verriere-MONOPLACE</object-name>
+    <object-name>antennes-MONOPLACE</object-name>
+    <object-name>radome</object-name>
+    <condition>
+      <false />
+    </condition>
+  </animation>
+
+  <model>
+    <name>Interior</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/interiorB.xml</path>
+  </model>
+  
+  <animation>
+    <type>translate</type>
+    <object-name>Interior</object-name>
+    <property>controls/cabin/shaking</property>
+    <axis>
+      <x1-m>  0.0 </x1-m>
+      <y1-m>  0.0 </y1-m>
+      <z1-m>  0.0 </z1-m>
+      <x2-m>  0.5 </x2-m>
+      <y2-m> -0.5 </y2-m>
+      <z2-m>  0.8 </z2-m>
+    </axis>
+  </animation>
+
+  <!-- open canopy pilot-->
+  <animation>
+    <name>EnsembleCanopeAvant</name>
+    <object-name>canopeAvant-BIPLACE</object-name>
+    <object-name>verriereAvant-BIPLACE</object-name>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>EnsembleCanopeAvant</object-name>
+    <property>sim/model/door-positions/crew/position-norm</property>
+    <interpolation>
+      <entry><ind> 0 </ind><dep>  0 </dep></entry>
+      <entry><ind> 1 </ind><dep> 45 </dep></entry>
+    </interpolation>
+    <center>
+      <x-m>-1.8695</x-m>
+      <y-m>  0.000 </y-m>
+      <z-m>0.481605</z-m>
+    </center>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+  
+  <!-- open canopy copilot-->
+  <animation>
+    <name>EnsembleCanopeArriere</name>
+    <object-name>canopeArriere-BIPLACE</object-name>
+    <object-name>verriereArriere-BIPLACE</object-name>
+  </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>EnsembleCanopeArriere</object-name>
+    <property>sim/model/door-positions/crew/position-norm</property>
+    <interpolation>
+      <entry><ind> 0 </ind><dep>  0 </dep></entry>
+      <entry><ind> 1 </ind><dep> 55 </dep></entry>
+    </interpolation>
+    <center>
+      <x-m>-0.435658</x-m>
+      <y-m>  0.000 </y-m>
+      <z-m>0.48736</z-m>
+    </center>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+      <z> 0 </z>
+    </axis>
+  </animation>
+
+  <!-- remove canopy if ejection -->
+  <animation>
+    <type>select</type>
+    <object-name>EnsembleCanopeAvant</object-name>
+    <object-name>EnsembleCanopeArriere</object-name>
+    <object-name>IntEnsembleCanopeAvant</object-name>
+    <object-name>IntEnsembleCanopeArriere</object-name>
+    <object-name>retro</object-name>
+    <object-name>loquet</object-name>
+    <object-name>pilot</object-name>
+    <object-name>copilot</object-name>
+    <object-name>seat.backseat-BIPLACE</object-name>
+    <object-name>seat.seat-BIPLACE</object-name>
+    <condition>
+      <not><property>instrumentation/ejection/done</property></not>
+    </condition>
+  </animation>
+
+</PropertyList>

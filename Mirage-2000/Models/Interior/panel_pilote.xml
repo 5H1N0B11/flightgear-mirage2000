@@ -16,12 +16,18 @@
     <object-name>panel.hud</object-name>
     <object-name>panel.sideparts</object-name>
     <object-name>panneaux</object-name>
+    <object-name>panel.hydraulic_pressure_left</object-name>
+    <object-name>panel.hydraulic_pressure_right</object-name>
+    <object-name>panel.cabinpressure_pointer</object-name>
   </animation>
 
   <animation>
     <!-- lights : illuminations -->
     <type>material</type>
     <object-name>panel.board_asymetric_light</object-name>
+    <object-name>panel.hydraulic_pressure_left</object-name>
+    <object-name>panel.hydraulic_pressure_right</object-name>
+    <object-name>panel.cabinpressure_pointer</object-name>
     <object-name>panel.board_inscriptions</object-name>
     <emission>
       <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
@@ -71,6 +77,17 @@
   <model>
     <name>revi</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/revi/revi.xml</path>
+  </model>
+
+  <model>
+    <name>vtm</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/vtm/vtm.xml</path>
+    <offsets>
+      <x-m>-3.33</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.12</z-m>
+      <pitch-deg>-20</pitch-deg>
+    </offsets>
   </model>
 
   <model>
@@ -126,17 +143,6 @@
   <model>
     <name>manette</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/manette/manette.xml</path>
-  </model>
-
-  <model>
-    <name>radar</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/radar/radar.xml</path>
-    <offsets>
-      <x-m>-3.35</x-m>
-      <y-m>0</y-m>
-      <z-m>-0.116</z-m>
-      <pitch-deg>-8</pitch-deg>
-    </offsets>
   </model>
 
 <!--  <model>

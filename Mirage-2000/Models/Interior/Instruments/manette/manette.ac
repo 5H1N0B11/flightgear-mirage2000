@@ -12,7 +12,7 @@ OBJECT poly
 name "manette.manette1"
 loc -3.1003749 -0.3574662 -0.3483495
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 240
 -0.0022308 0.0002585 0.0057845
@@ -1713,7 +1713,7 @@ OBJECT poly
 name "manette.manette2"
 loc -3.1003749 -0.3283854 -0.3370143
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 417
 -0.0010460 0.0198728 -0.0000000

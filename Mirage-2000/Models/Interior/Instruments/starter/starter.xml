@@ -120,6 +120,15 @@
         <value>1</value>
       </binding>
       
+      <binding>
+        <command>nasal</command>
+        <script>
+          mirage2000.mystarter();
+        </script>
+      </binding>
+      
+      
+      
       <!-- Hacking jsbsim in order to make it start without playing with cutoff during startup, which does not happen IRL : 
       when we press start it goes on, and there is nothing else to do-->
       <binding>

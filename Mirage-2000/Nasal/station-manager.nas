@@ -6,12 +6,23 @@
 #
 # Initial implementation: Leto
 #
-# License: GPL 2
+# License: GPL 2.0 or later
 #
 ###############################################
 
 var fdm = getprop("/sim/flight-model");
 var baseGui = fdm=="jsb"?"payload":"sim";
+
+var preAlphaKey = "ABC";# for hash keys that could start with number, which is not allowed.
+
+var reload_payload_dialog = func {
+	# Touching payload-reload reloads the fuel and payload dialog (duh).
+	# This function might be called (through Pylon.guiChanged) inside the update function of said dialog.
+	# Reloading the dialog while its update function is running sounds like a bad idea,
+	# and segfaults in some systems with FG 2020.4.  Delay the update to the next frame to avoid that.
+	settimer(func { setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload")); }, 0, 1);
+}
+
 
 var Station = {
 # pylon or fixed mounted weapon on the aircraft
@@ -36,14 +47,23 @@ var Station = {
 		p.currentSet = nil;
 		p.myListener = nil;#will be called when a stations loadout changes from outside.
 		p.AIMListener = nil;#will be called when a weapon is fired. argument=the weapon
+		p.JettListener = nil;#will be called when a weapon is fired. argument=the weapon
 		return p;
 	},
 
 	setAIMListener: func (f) {
+		# install a listener in this station that get called when an armament.AIM weapon is released (not jettisoned). The listener should have 1 argument: the AIM weapon.
 		me.AIMListener = f;
 	},
 
+	setJettListener: func (f) {
+		# install a listener in this station that get called when an armament.AIM weapon is jettisoned. The listener should have 1 argument: the AIM weapon.
+		me.JettListener = f;
+	},
+
 	getCategory: func {
+		# Get current category for this station. This is a concept, where category is a number and the higher the number,
+		# the more restrictions on the flight envelope should be applied. In U.S. this is from 1 (no restrictions) to 3 (restrictions, typically limits on G during rolling).
 		if (me.currentSet != nil and me.currentSet["category"] != nil) {
 			foreach(me.weapon ; me.weapons) {
 				if (me.weapon != nil) {
@@ -55,10 +75,20 @@ var Station = {
 	},
 
 	getCurrentName: func {
+		# Get name of this station.
 		return me.currentName;
+	},
+
+	isOperable: func {
+		# Returns if is operable.
+		if (me.operableFunction != nil) {
+			return me.operableFunction();
+		}
+		return 1;
 	},
 	
 	isActive: func {
+		# Returns if is active. This is for example used in F-14, where stations be individually enabled or disabled.
 		if (me.activeFunction != nil) {
 			return me.activeFunction();
 		}
@@ -66,6 +96,9 @@ var Station = {
 	},
 
 	loadSet: func (set) {
+		# This will load a set (which is a hash) onto the station.
+		# If any of the stores in the set is armament.AIM weapons, they will be created.
+		# After loading it will update mass for the station, update the payload GUI and set the FDM properties for drag, yaw and mass.
 		foreach(me.weapon ; me.weapons) {
 			if (me.weapon != nil) {
 				me.weapon.del();
@@ -82,42 +115,162 @@ var Station = {
 					if (me.weaponName == "AGM-154A") {
 						mf = func (struct) {
 							if (struct.dist_m != -1 and struct.dist_m*M2NM < 4) {
-								return {"guidanceLaw":"PN"};
+								return {"guidanceLaw":"direct","abort_midflight_function":1};
 							}
 							return {};
 						};
 					} elsif (me.weaponName == "AGM-158") {
 						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 7 and struct.guidance == "gps") {
-								return {"guidance":"vision","class":"GM","target":"nil","guidanceLaw":"PN"};
+							if (struct.dist_m != -1 and struct.speed_fps != 0) {
+								if (struct.dist_m*M2NM > 10) {
+									# 22000 ft above sealevel, authentic value
+									return {"altitude": 22000};
+								}
+								if (struct.dist_horz_m != nil and M2NM*struct.dist_horz_m > 1.75 and struct.hasTarget) {
+									# Lower altitude to 5000 ft above target
+									return {"altitude_at": 5000};
+								}
+								if (struct.dist_horz_m != nil and M2NM*struct.dist_horz_m < 1.75 and struct.guidanceLaw == "direct-alt") {
+									# start terminal diving
+									return {"altitude":0,"guidanceLaw":"direct"};
+								}
+								if (M2FT*struct.dist_m/struct.speed_fps < 8 and struct.guidance == "gps") {
+									# 8s before impact switch to IR, authentic value
+									return {"guidance":"heat","guidanceLaw":"PN","altitude":0,"class":"GM","target":"closest","abort_midflight_function":1};
+								}
 							}
 							return {};
 						};
+					} elsif (me.weaponName == "AGM-88") {
+						mf = func (struct) {
+							if (!struct.hasTarget) {
+								# Is in maddog mode
+								return {"class": "GM","abort_midflight_function":1};
+							}
+							return {"abort_midflight_function":1};
+						};
 					} elsif (me.weaponName == "AIM-54") {
 						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 11 and struct.guidance == "semi-radar") {
-								return {"guidance":"radar"};
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 11 and struct.guidance == "sample") {
+								return {"guidance":"radar","guidanceLaw":"PN","abort_midflight_function":1};
 							}
 							return {};
 						};
 					} elsif (me.weaponName == "AIM-120") {
 						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "inertial") {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "sample") {
 								screen.log.write("AIM-120: Pitbull", 1,1,0);
-								return {"guidance":"radar"};
+								return {"guidance":"radar","abort_midflight_function":1};
 							}
 							return {};
 						};
 					} elsif (me.weaponName == "MICA-EM") {
 						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 12 and struct.guidance == "inertial") {
+							if (struct.guidance == "inertial" and !struct.hasTarget) {
+								return {"guidance":"radar","abort_midflight_function":1};
+							}
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 12 and struct.guidance == "inertial" and struct.deviation_deg != nil and struct.deviation_deg < 70) {
 								screen.log.write("MICA-EM: Pitbull", 1,1,0);
+								return {"guidance":"radar","abort_midflight_function":1};
+							}
+							return {};
+						};
+					} elsif (me.weaponName == "MICA-IR") {
+						mf = func (struct) {
+							if (struct.guidance == "inertial" and !struct.hasTarget) {
+								return {"guidance":"heat","abort_midflight_function":1};
+							}
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 12 and struct.guidance == "inertial" and struct.deviation_deg != nil and struct.deviation_deg < 70) {
+								return {"guidance":"heat","abort_midflight_function":1};
+							}
+							return {};
+						};
+					} elsif (me.weaponName == "AGM-84") {
+						mf = func (struct) {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 5 and struct.guidance == "inertial") {
+								return {"guidance":"radar","abort_midflight_function":1};
+							}
+							return {};
+						};
+					} elsif (me.weaponName == "AIM-9X") {
+						mf = func (struct) {
+						    var settings = {};
+						    settings.seeker_fov = 90;
+							if (struct.deviation_deg != nil) {
+								if (struct.deviation_deg > 70) {
+								    settings.guidanceLaw = "direct";
+								    #settings.guidance = "inertial";
+								} else {
+								    settings.guidanceLaw = "OPN";
+								    #settings.guidance = "heat";
+								    if (struct.deviation_deg < 55) {
+									    settings.abort_midflight_function = 1;
+									}
+								}
+							}
+							# Remove redundant values to keep logs clean
+							if (settings.seeker_fov == struct.seeker_fov) {
+							    settings.seeker_fov = nil;
+							}
+							if (settings["guidanceLaw"] == struct.guidanceLaw) {
+							    settings.guidanceLaw = nil;
+							}
+							#if (settings["guidance"] == struct.guidance) {
+							#    settings.guidance = nil;
+							#}
+							return settings;
+						};
+					} elsif (me.weaponName == "AIM-120AUT") {#varient used for automat that does not need new radar-system
+						mf = func (struct) {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "inertial") {
 								return {"guidance":"radar"};
 							}
 							return {};
 						};
-					}
-					
+					} elsif (me.weaponName == "RB-99AUT") {
+						mf = func (struct) {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "inertial") {
+								return {"guidance":"radar"};
+							}
+							return {};
+						};
+					} elsif (me.weaponName == "R-77") {
+						mf = func (struct) {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 12 and struct.guidance == "inertial") {
+								return {"guidance":"radar"};
+							}
+							return {};
+						};
+					} elsif (me.weaponName == "R-73") {
+						mf = func (struct) {
+						    var settings = {};
+						    settings.seeker_fov = 90;
+							if (struct.deviation_deg != nil) {
+								if (struct.deviation_deg > 70) {
+								    settings.guidanceLaw = "direct";
+								    #settings.guidance = "inertial";
+								} else {
+								    settings.guidanceLaw = "OPN";
+								    #settings.guidance = "heat";
+								    if (struct.deviation_deg < 55) {
+									    settings.abort_midflight_function = 1;
+									}
+								}
+							}
+							# Remove redundant values to keep logs clean
+							if (settings.seeker_fov == struct.seeker_fov) {
+							    settings.seeker_fov = nil;
+							}
+							if (settings["guidanceLaw"] == struct.guidanceLaw) {
+							    settings.guidanceLaw = nil;
+							}
+							#if (settings["guidance"] == struct.guidance) {
+							#    settings.guidance = nil;
+							#}
+							return settings;
+						};
+			        }
+
 					me.aim = armament.AIM.new(me.id*100+me.i, me.weaponName, "", mf, me.position);
 					if (me.aim == -1) {
 						print("Pylon could not create "~me.weaponName);
@@ -158,20 +311,29 @@ var Station = {
 		}
 	},
 
+	reloadCurrentSet: func {
+		me.loadSet(me.currentSet);
+	},
+
 	loadingSet: func (set) {
+		# Override this function. Gets called after a set is loaded, but before any mass, fdm, gui settings is applied.
 	},
 
 	setPylonListener: func (ml) {
+		# Installs a listener. The listener should implement the method updateAll() which will be called only when set is changed.
+		# Warning: is not called when stores are released, jettisoned or likewise.
 		me.myListener = ml;
 	},
 	
 	getMass: func {
+		# Return a vector with launcher/rack/pylon/tube mass and the combined mass of all stores mounted.
 		if (me["weaponsMass"] == nil) me.weaponsMass = 0;
 		return [me.weaponsMass, me.launcherMass];
 	},
 
 	calculateMass: func {
-		# do mass
+		# Calc the masses of this station.
+		# Is also sets the 3D model properties used to display the stores. (optional system)
 		me.totalMass = 0;
 		me.weaponsMass = 0;
 		me.singleName = "";#this is hack to show stores locally
@@ -202,13 +364,16 @@ var Station = {
 	},
 
 	calculateFDM: func {
+		# Override this and calculate yaw, drag and mass properties for FDM.
 	},
 
 	getWeapons: func {
+		# Returns a vector with all current stores. Elements in vector might be nil, meaning they have been jettisoned/released.
 		return me.weapons;
 	},
 
 	fireWeapon: func (index, contacts=nil) {
+		# Release a weapon.
 		if (index >= size(me.weapons) or index < 0) {
 			print("Pylon recieved illegal fire operation. No such weapon.");
 		} elsif (me.weapons[index] == nil) {
@@ -233,11 +398,12 @@ var Station = {
 	},
 
 	getAmmo: func (type = nil) {
+		# Get total ammo for this station. For missiles/bombs this is typically the numbers, for cannon submodel weapons it is the shell count.
 		me.ammo = 0;
 		foreach(me.weapon ; me.getWeapons()) {
-			if (me.weapon != nil and me.weapon.parents[0] == armament.AIM and (me.weapon.type == nil or me.weapon.type == type)) {
+			if (me.weapon != nil and me.weapon.parents[0] == armament.AIM and (type == nil or me.weapon.type == type)) {
 				me.ammo += 1;
-			} elsif (me.weapon != nil and me.weapon.parents[0] == SubModelWeapon and (me.weapon.type == nil or me.weapon.type == type)) {
+			} elsif (me.weapon != nil and me.weapon.parents[0] == SubModelWeapon and (type == nil or me.weapon.type == type)) {
 				me.ammo += me.weapon.getAmmo();
 			}
 		}
@@ -245,6 +411,7 @@ var Station = {
 	},
 
 	findSetFromName: func (name) {
+		# Return a set from the (optionally loaded) list of possible sets that can be mounted. Return nil, if its not in the list.
 		foreach (me.set; me.sets) {
 			if (me.set.name == name) {
 				return me.set;
@@ -254,6 +421,7 @@ var Station = {
 	},
 
 	vectorIndex: func (vec, item) {
+		# Internal used method, do not call me from outside.
 		me.i = 0;
 		foreach(test; vec) {
 			if (test == item) {
@@ -264,18 +432,19 @@ var Station = {
 		return -1;
 	},
 
-	setGUI: func {},
-	initGUI: func {},
-	jettisonAll: func {},
-	jettisonLauncher: func {},
-	getCurrentShortName: func {},
-	getCurrentSMSName: func {},
-	getCurrentPylon: func {},
-	getCurrentRack: func {},
+	# Methods to override:
+	setGUI: func {}, # Write to the payload GUI or any other GUI info on this station.
+	initGUI: func {},# Create the gui properties for this station.
+	jettisonAll: func {},# Jettison all stores on this station that are jettisonable.
+	jettisonLauncher: func {},# Jettison the launcher/rack/tube if it can be jettisoned.
+	getCurrentShortName: func {},# Get shortened name for this station.
+	getCurrentSMSName: func {},# Get short name for this station. Called from displays in the aircraft.
+	getCurrentPylon: func {},# Get the name of the pylon (the part of station attached to the aircraft).
+	getCurrentRack: func {},# Get the name of the rack/launcher (the part of station between the weapon and the pylon).
 };
 
 var InternalStation = {
-# simulates a fixed station, for example a cannon mounted inside the aircraft
+# simulates a fixed internal station, for example a for cannon mounted inside the aircraft
 # inherits from Station
 	new: func (name, id, sets, pointmassNode, operableFunction = nil) {
 		var s = Station.new(name, id, [0,0,0], sets, nil, pointmassNode, operableFunction, nil);
@@ -286,6 +455,43 @@ var InternalStation = {
 		s.loadSet(sets[0]);
 		return s;
 	}
+};
+
+var FixedStation = {
+# simulates a fixed station, for example for CFT tanks
+# inherits from Station
+	new: func (name, id, sets, pointmassNode, dragareaNode, operableFunction = nil) {
+		var s = Station.new(name, id, [0,0,0], sets, nil, pointmassNode, operableFunction, nil);
+		s.parents = [FixedStation, Station];
+
+		s.node_dragaera = dragareaNode;
+		# these should not be called in parent.new(), as they are empty there.
+		s.initGUI();
+		s.loadSet(sets[0]);
+		return s;
+	},
+
+	loadingSet: func (set) {
+		# override this method to set custom attributes, before calculateFDM is ran after a set is loaded.
+		if (set != nil) {
+			me.launcherDA   = set.launcherDragArea;
+		} else {
+			me.launcherDA   = 0;
+		}
+	},
+
+	calculateFDM: func {
+		# override this method to set custom FDM attributes.
+		# do dragarea
+		me.totalDA = 0;
+		foreach(me.weapon;me.weapons) {
+			if (me.weapon != nil) {
+				me.totalDA += me.weapon.Cd_base*me.weapon.ref_area_sqft;
+			}
+		}
+		me.totalDA += me.launcherDA;
+		me.node_dragaera.setDoubleValue(me.totalDA);
+	},
 };
 
 var Pylon = {
@@ -318,7 +524,7 @@ var Pylon = {
 	},
 
 	guiChanged: func {
-		#print("GUI changed");
+		# Called when the GUI for this station has changed (typically by user interaction to mount another set)
 		if(!me.changingGui) {
 			me.desiredSet = getprop(baseGui~"/weight["~me.guiID~"]/selected");
 			if (me.desiredSet != me.currentName) {
@@ -388,7 +594,15 @@ var Pylon = {
 
 	setGUI: func {
 		me.nameGUI = "";
-		if (me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet["showNameInsteadOfCount"]) {
+			# Only check that something is loaded
+			foreach(me.wapny;me.weapons) {
+				if (me.wapny != nil) {
+					me.nameGUI = me.currentSet.name;
+					break;
+				}
+			}
+		} elsif (me.currentSet["showLongTypeInsteadOfCount"]) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					me.nameGUI = me.wapny.typeLong;
@@ -399,15 +613,15 @@ var Pylon = {
 			foreach(me.weapon;me.weapons) {
 				if(me.weapon != nil) {
 					me.type = me.weapon.type;
-					if (me.calcName[me.type]==nil) {
-						me.calcName[me.type]=1;
+					if (me.calcName[preAlphaKey ~ me.type]==nil) {
+						me.calcName[preAlphaKey ~ me.type]=1;
 					} else {
-						me.calcName[me.type] += 1;
+						me.calcName[preAlphaKey ~ me.type] += 1;
 					}
 				}
 			}
 			foreach(key;keys(me.calcName)) {
-				me.nameGUI = me.nameGUI~", "~me.calcName[key]~" x "~key;
+				me.nameGUI = me.nameGUI~", "~me.calcName[key]~" x "~substr(key,size(preAlphaKey));
 			}
 			me.nameGUI = right(me.nameGUI, size(me.nameGUI)-2);#remove initial comma
 		}
@@ -442,7 +656,7 @@ var Pylon = {
 
 	getCurrentShortName: func {
 		me.nameS = "";
-		if (me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet["showNameInsteadOfCount"] or me.currentSet["showLongTypeInsteadOfCount"]) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					me.nameS = me.wapny.typeShort;
@@ -453,15 +667,15 @@ var Pylon = {
 			foreach(me.weapon;me.weapons) {
 				if(me.weapon != nil) {
 					me.type = me.weapon.typeShort;
-					if (me.calcName[me.type]==nil) {
-						me.calcName[me.type]=1;
+					if (me.calcName[preAlphaKey ~ me.type]==nil) {
+						me.calcName[preAlphaKey ~ me.type]=1;
 					} else {
-						me.calcName[me.type] += 1;
+						me.calcName[preAlphaKey ~ me.type] += 1;
 					}
 				}
 			}
 			foreach(key;keys(me.calcName)) {
-				me.nameS = me.nameS~", "~me.calcName[key]~"x"~key;
+				me.nameS = me.nameS~", "~me.calcName[key]~"x"~substr(key,size(preAlphaKey));
 			}
 			me.nameS = right(me.nameS, size(me.nameS)-2);#remove initial comma
 		}
@@ -478,10 +692,14 @@ var Pylon = {
 	
 	getCurrentSMSName: func {
 		me.nameS = "";
-		if (me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet["showLongTypeInsteadOfCount"]) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
-					me.nameS = me.wapny.typeShort;
+					if (me.wapny.typeShort != nil) {
+						me.nameS = "1 "~me.wapny.typeShort;
+					} else {
+						me.nameS = "1 "~me.wapny.type;
+					}
 				}
 			}
 		} else {
@@ -489,21 +707,23 @@ var Pylon = {
 			foreach(me.weapon;me.weapons) {
 				if(me.weapon != nil) {
 					me.type = me.weapon.typeShort;
-					if (me.calcName[me.type]==nil) {
-						me.calcName[me.type]=1;
+					if (me.calcName[preAlphaKey ~ me.type] == nil) {
+						me.calcName[preAlphaKey ~ me.type] = 1;
 					} else {
-						me.calcName[me.type] += 1;
+						me.calcName[preAlphaKey ~ me.type] += 1;
 					}
 				}
 			}
 			foreach(key;keys(me.calcName)) {
-				me.nameS = me.nameS~", "~me.calcName[key]~" "~key;
+				me.nameS = me.nameS~", "~me.calcName[key]~" "~substr(key,size(preAlphaKey));
 			}
 			me.nameS = right(me.nameS, size(me.nameS)-2);#remove initial comma
 		}
-		if(me.nameS == "" and me.currentSet != nil and size(me.currentSet.content)!=0) {
+		if(me.nameS == "" and me.currentSet != nil and size(me.currentSet.content) != 0) {
+			# all launched or jettisoned
 			me.nameS = nil;
-		} elsif (me.nameS == "" and me.currentSet != nil and size(me.currentSet.content)==0) {
+		} elsif (me.nameS == "" and me.currentSet != nil and size(me.currentSet.content) == 0) {
+			# No launchable weapons
 			me.nameS = me.currentSet.name;
 		}
 		if(me.nameS == "" or me.nameS == "Empty") {
@@ -520,6 +740,9 @@ var Pylon = {
 			foreach(me.weapon ; me.getWeapons()) {
 				if (me.weapon != nil) {
 					me.weapon.eject();
+					if (me.JettListener != nil) {
+						me.JettListener(me.weapon);
+					}
 				}
 				append(me.tempWeapons, nil);
 			}
@@ -563,6 +786,212 @@ var Pylon = {
 
 };
 
+var WPylon = {
+# inherits from station. Is a station that cannot hold droptanks. And it will not write to GUI or FDM directly.
+#                        Droptanks on this kind of station must be implemented in a parallel system.
+#                        It will however read from GUI if it is required to change set.
+#                        The GUI properties must be present and initialized.
+#						 The first set in the set list MUST be a set containing no stores.
+# Implements a pylon.
+#  missiles/bombs/rockets and methods to give them commands.
+#  sets jsbsim/yasim point mass and drag. Mass is combined of all missile-code instances + launcher mass. Same with drag.
+#  interacts with GUI payload dialog  ("2 x AIM9L", "1 x GBU-82"), auto-adjusts the name when munitions is fired/jettisoned.
+#  should be able to hold missile-code arms.
+#  handle propeties to show the correct models in 3D and over MP.
+#  electricity and other conditions..use operableFunction
+#  no loop, but lots of listeners.
+#
+# Attributes:
+#   missile-code instance(s) [each with a unique id number that corresponds to a 3D position]
+#   pylon id number
+#   jsb pointmass id number
+#   GUI payload id number
+#   shared position for 3D release (from xml?)
+#   possible sets that can be loaded ("2 x AIM9L", "1 x GBU-82") At loadtime, this can be many, so store in Nasal :(
+	new: func (name, id, position, sets, guiID, pointmassNode, dragareaNode, operableFunction = nil, activeFunction = nil) {
+		var p = Station.new(name, id, position, sets, guiID, pointmassNode, operableFunction, activeFunction);
+		p.parents = [WPylon, Station];
+		p.node_dragaera = dragareaNode;
+		
+		# these should not be called in parent.new(), as they are empty there.
+		p.initGUI();
+		p.loadSet(sets[0]);
+		return p;
+	},
+
+	guiChanged: func {
+		# Called when the GUI for this station has changed (typically by user interaction to mount another set)
+		if(!me.changingGui) {
+			me.desiredSet = getprop(baseGui~"/weight["~me.guiID~"]/selected");
+			if (me.desiredSet != me.currentName) {
+				me.set = me.findSetFromName(me.desiredSet);
+				if (me.set != nil) {
+					#print("GUI wants set: "~me.set.name);
+					me.loadSet(me.set);
+				} else {
+					#print("GUI wants unknown set. Thats okay.");
+					me.loadSet(me.sets[0]);
+				}
+			}
+			if(me.myListener != nil) {
+				me.myListener.updateAll();
+			}
+		}
+	},
+
+	initGUI: func {
+		if (me.guiListener != nil) {
+			removelistener(me.guiListener);
+		}
+		me.guiNode = props.globals.getNode(baseGui~"/weight["~me.guiID~"]");
+		me.i = 0;
+		me.guiListener = setlistener(baseGui~"/weight["~me.guiID~"]/selected", func me.guiChanged());
+	},
+	
+	setGUI: func {
+	},
+	
+	getCurrentPylon: func {
+		me.nameP = nil;
+		if(me.currentSet != nil and me.currentSet["pylon"] != nil) {
+			me.nameP = me.currentSet.pylon;
+		}
+		return me.nameP;
+	},
+	
+	getCurrentRack: func {
+		me.nameR = nil;
+		if(me.currentSet != nil and me.currentSet["rack"] != nil and me.launcherJettisoned == 0) {
+			me.nameR = me.currentSet.rack;
+		}
+		return me.nameR;
+	},
+
+	getCurrentShortName: func {
+		me.nameS = "";
+		if (me.currentSet["showLongTypeInsteadOfCount"]) {
+			foreach(me.wapny;me.weapons) {
+				if (me.wapny != nil) {
+					me.nameS = me.wapny.typeShort;
+				}
+			}
+		} else {
+			me.calcName = {};
+			foreach(me.weapon;me.weapons) {
+				if(me.weapon != nil) {
+					me.type = me.weapon.typeShort;
+					if (me.calcName[preAlphaKey ~ me.type]==nil) {
+						me.calcName[preAlphaKey ~ me.type]=1;
+					} else {
+						me.calcName[preAlphaKey ~ me.type] += 1;
+					}
+				}
+			}
+			foreach(key;keys(me.calcName)) {
+				me.nameS = me.nameS~", "~me.calcName[key]~"x"~substr(key,size(preAlphaKey));
+			}
+			me.nameS = right(me.nameS, size(me.nameS)-2);#remove initial comma
+		}
+		if(me.nameS == "" and me.currentSet != nil and size(me.currentSet.content)!=0) {
+			me.nameS = nil;
+		} elsif (me.nameS == "" and me.currentSet != nil and size(me.currentSet.content)==0) {
+			me.nameS = me.currentSet.name;
+		}
+		if(me.nameS == "" or me.nameS == "Empty") {
+			me.nameS = nil;
+		}
+		return me.nameS;
+	},
+	
+	getCurrentSMSName: func {
+		me.nameS = "";
+		if (me.currentSet["showNameInsteadOfCount"] or me.currentSet["showLongTypeInsteadOfCount"]) {
+			foreach(me.wapny;me.weapons) {
+				if (me.wapny != nil) {
+					me.nameS = me.wapny.typeShort;
+				}
+			}
+		} else {
+			me.calcName = {};
+			foreach(me.weapon;me.weapons) {
+				if(me.weapon != nil) {
+					me.type = me.weapon.typeShort;
+					if (me.calcName[preAlphaKey ~ me.type]==nil) {
+						me.calcName[preAlphaKey ~ me.type]=1;
+					} else {
+						me.calcName[preAlphaKey ~ me.type] += 1;
+					}
+				}
+			}
+			foreach(key;keys(me.calcName)) {
+				me.nameS = me.nameS~", "~me.calcName[key]~" "~substr(key,size(preAlphaKey));
+			}
+			me.nameS = right(me.nameS, size(me.nameS)-2);#remove initial comma
+		}
+		if(me.nameS == "" and me.currentSet != nil and size(me.currentSet.content)!=0) {
+			me.nameS = nil;
+		} elsif (me.nameS == "" and me.currentSet != nil and size(me.currentSet.content)==0) {
+			me.nameS = me.currentSet.name;
+		}
+		if(me.nameS == "" or me.nameS == "Empty") {
+			me.nameS = nil;
+		}
+		return me.nameS;
+	},
+
+	jettisonAll: func {
+		# drops everything.
+		if (me.weaponJettisonable) {
+			me.tempWeapons = [];
+		
+			foreach(me.weapon ; me.getWeapons()) {
+				if (me.weapon != nil) {
+					me.weapon.eject();
+					if (me.JettListener != nil) {
+						me.JettListener(me.weapon);
+					}
+				}
+				append(me.tempWeapons, nil);
+			}
+			me.jettisonLauncher();
+			me.weapons = me.tempWeapons;
+			me.calculateMass();
+			me.calculateFDM();
+			me.setGUI();
+		}
+	},
+
+	jettisonLauncher: func {
+		if (me.launcherJettisonable) {
+			me.launcherMass = 0;
+			me.launcherDA   = 0;
+			me.launcherJettisoned = 1;
+		}
+	},
+	
+	loadingSet: func (set) {
+		# override this method to set custom attributes, before calculateFDM is ran after a set is loaded.
+		if (set != nil) {
+			me.launcherDA   = set.launcherDragArea;
+		} else {
+			me.launcherDA   = 0;
+		}
+	},
+
+	calculateFDM: func {
+		# override this method to set custom FDM attributes.
+		# do dragarea
+		me.totalDA = 0;
+		foreach(me.weapon;me.weapons) {
+			if (me.weapon != nil) {
+				me.totalDA += me.weapon.Cd_base*me.weapon.ref_area_sqft;
+			}
+		}
+		me.totalDA += me.launcherDA;
+		me.node_dragaera.setDoubleValue(me.totalDA);
+	},
+};
+
 var SubModelWeapon = {
 # Implements a fixed/attachable submodel station.
 #  cannon/rockets and methods to give them commands.
@@ -572,13 +1001,14 @@ var SubModelWeapon = {
 #
 # Attributes:
 #  drag, weight, submodel(s)
-	new: func (name, munitionMass, maxAmmo, subModelNumbers, tracerSubModelNumbers, trigger, jettisonable, operableFunction=nil, alternate = 0) {
+	new: func (name, munitionMass, maxAmmo, subModelNumbers, tracerSubModelNumbers, trigger, jettisonable, operableFunction=nil, alternate=0, podSubModelNumbers=nil, podSubModelTrigger=nil) {
 		var s = {parents:[SubModelWeapon]};
 		s.type = name;
 		s.typeLong = name;
 		s.typeShort = name;
 		s.subModelNumbers = subModelNumbers;
 		s.tracerSubModelNumbers = tracerSubModelNumbers;
+		s.podSubModelNumbers = podSubModelNumbers;
 		s.operableFunction = operableFunction;
 		s.maxAmmo = maxAmmo;
 		s.munitionMass = munitionMass;
@@ -586,6 +1016,7 @@ var SubModelWeapon = {
 		s.weight_launch_lbm = 0;
 		s.trigger = trigger;
 		s.triggerNode = nil;
+		s.podSubModelTrigger = podSubModelTrigger;
 		s.active = 0;
 		s.alternate = alternate;
 		s.timer = nil;
@@ -639,6 +1070,7 @@ var SubModelWeapon = {
 
 	mount: func(pylon) {
 		me.reloadAmmo();
+		me.loadPodSubModels(1);
 		#if (me.timer != nil and me.timer.isRunning) me.timer.stop();
 		#me.timer = nil;
 		me.timer = 1;#maketimer(0.1, me, func me.loop());
@@ -655,6 +1087,7 @@ var SubModelWeapon = {
 			me.timer = nil;
 			me.trigger.unalias();
 			me.trigger.setBoolValue(0);
+			me.ejectPodSubModels();
 		}
 	},
 
@@ -663,6 +1096,7 @@ var SubModelWeapon = {
 		me.timer = nil;
 		me.trigger.unalias();
 		me.trigger.setBoolValue(0);
+		me.loadPodSubModels(0);
 	},
 
 	getAmmo: func () {
@@ -678,6 +1112,22 @@ var SubModelWeapon = {
 		for(me.i = 0;me.i<size(me.subModelNumbers);me.i+=1) {
 			setprop("ai/submodels/submodel["~me.subModelNumbers[me.i]~"]/count", me.maxAmmo);
 		}
+	},
+
+	loadPodSubModels: func(count) {
+		if (me.podSubModelNumbers == nil) return;
+		foreach(me.submodel; me.podSubModelNumbers) {
+			setprop("ai/submodels/submodel["~me.submodel~"]/count", count);
+		}
+	},
+
+	ejectPodSubModels: func {
+		if (me.podSubModelTrigger == nil) return;
+
+		me.podSubModelTrigger.setBoolValue(1);
+		me.podTimer = maketimer(0, me, func { me.podSubModelTrigger.setBoolValue(0); });
+		me.podTimer.singleShot = 1;
+		me.podTimer.start();
 	},
 };
 
@@ -705,8 +1155,10 @@ var FuelTank = {
 
 	mount: func(pylon) {
 #		print(pylon.name);
-		me.guiNode = props.globals.getNode(baseGui~"/weight["~pylon.guiID~"]",1);
-		me.guiNode.initNode("tank",me.fuelTankNumber,"DOUBLE");
+		if (pylon.guiID != nil) {
+			me.guiNode = props.globals.getNode(baseGui~"/weight["~pylon.guiID~"]",1);
+			me.guiNode.initNode("tank",me.fuelTankNumber,"DOUBLE");
+		}		
 
 		# set capacity in fuel tank
 		if (fdm == "jsb") {
@@ -717,7 +1169,7 @@ var FuelTank = {
 		me.setv("selected", 1);
 		me.setv("name", me.typeLong);
 		setprop(me.modelPath, 1);
-		setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload"));
+		reload_payload_dialog();
 	},
 
 	eject: func {
@@ -728,7 +1180,7 @@ var FuelTank = {
 		me.setv("selected", 0);
 		me.setv("name", "Not attached");
 		setprop(me.modelPath, 0);
-		setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload"));
+		reload_payload_dialog();
 		if (fdm == "jsb") {
 			setprop("fdm/jsbsim/propulsion/tank["~me.fuelTankNumber~"]/external-flow-rate-pps", -1000);
 		}
@@ -744,7 +1196,7 @@ var FuelTank = {
 		me.setv("selected", 0);
 		me.setv("name", "Not attached");
 		setprop(me.modelPath, 0);
-		setprop("sim/gui/dialogs/payload-reload",!getprop("sim/gui/dialogs/payload-reload"));
+		reload_payload_dialog();
 		if (fdm == "jsb") {
 			setprop("fdm/jsbsim/propulsion/tank["~me.fuelTankNumber~"]/external-flow-rate-pps", -1000);
 		}
@@ -759,14 +1211,12 @@ var FuelTank = {
 	stop: func {},
 };
 
-var Smoker = {
-# Implements a external fuel tank.
+var Submodel = {
+# Implements a generic model, e.g., smoker or pod.
 #  no loop, but lots of listeners.
 #
-# Attributes:
-#  fuel tank number
 	new: func (name, short, model_path) {
-		var s = {parents:[Smoker]};
+		var s = {parents:[Submodel]};
 		s.type = name;
 		s.typeLong = name;
 		s.typeShort = short;
@@ -780,22 +1230,18 @@ var Smoker = {
 	},
 
 	mount: func(pylon) {
-		# set capacity in fuel tank
 		setprop(me.modelPath, 1);
 	},
 
 	eject: func {
-		# spill out all the fuel?
 		setprop(me.modelPath, 0);
 	},
 
 	del: func {
-		# delete all the fuel
 		setprop(me.modelPath, 0);
 	},
 
 	getAmmo: func {
-		# return 0
 		return 0;
 	},
 
@@ -819,22 +1265,13 @@ var Dummy = {
 		return s;
 	},
 
-	mount: func(pylon) {
-		
-	},
+	mount: func(pylon) {},
 
-	eject: func {
-		# spill out all the fuel?
-		
-	},
+	eject: func {},
 
-	del: func {
-		# delete all the fuel
-		
-	},
+	del: func {},
 
 	getAmmo: func {
-		# return 0
 		return 0;
 	},
 

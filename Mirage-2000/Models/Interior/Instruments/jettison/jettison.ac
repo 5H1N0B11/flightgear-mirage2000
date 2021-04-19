@@ -12,7 +12,7 @@ OBJECT poly
 name "jettison.button"
 loc 0.0000000 -0.0002481 0.0000000
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 129
 -0.0007796 0.0000000 -0.0097598
@@ -1014,7 +1014,7 @@ OBJECT poly
 name "jettison.fond"
 loc 0.0000000 -0.0002481 0.0000000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 320
 -0.0024447 0.0000000 -0.0107762

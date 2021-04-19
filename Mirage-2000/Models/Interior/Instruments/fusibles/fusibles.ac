@@ -12,7 +12,7 @@ OBJECT poly
 name "fusibles.fusibles"
 loc -0.0000970 -0.0020850 -0.0000253
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 14154
 0.0295289 0.0021375 0.0230788
@@ -102207,7 +102207,7 @@ OBJECT poly
 name "fusibles.texte"
 loc -0.0000343 0.0002293 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 3000
 0.0224270 0.0013520 0.0184710

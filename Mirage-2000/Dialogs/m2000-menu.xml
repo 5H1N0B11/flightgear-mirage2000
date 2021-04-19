@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+	<default>
+		<menu n="100">
+			<label>|</label>
+			<enabled type="bool">false</enabled>
+		</menu>
+		<menu n="101">
+			<label>Mirage 2000</label>
+			<enabled type="bool">true</enabled>
+
+			<item n="1">
+				<label>New PDF Manual (opens in browser)</label>
+				<binding>
+					<command>open-browser</command>
+					<path>Aircraft/Mirage-2000/Docs/mirage2000-new-manual.pdf</path>
+				</binding>
+			</item>
+
+			<item n="2">
+				<label>Old PDF Manual (opens in browser)</label>
+				<binding>
+					<command>open-browser</command>
+					<path>Aircraft/Mirage-2000/Docs/mirage2000-old-manual.pdf</path>
+				</binding>
+			</item>
+
+			<item n="3">
+				<label>--- Basics ---</label>
+				<enabled>false</enabled>
+			</item>
+
+			<item n="4">
+				<label>Configuration</label>
+				<name>config</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>config</dialog-name>
+				</binding>
+			</item>
+
+			<item n="5">
+				<label>Lighting</label>
+				<name>lighting</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>lighting</dialog-name>
+				</binding>
+			</item>
+
+			<item n="6">
+				<label>--- The Looks ---</label>
+				<enabled>false</enabled>
+			</item>
+
+			<item n="7">
+				<label>Select Livery</label>
+				<binding>
+					<command>nasal</command>
+					<script>aircraft.livery.dialog.toggle()</script>
+				</binding>
+			</item>
+
+			<item n="8">
+				<label>Select Logos</label>
+				<binding>
+					<command>nasal</command>
+					<script>mirage2000.logo_dialog.toggle()</script>
+				</binding>
+			</item>
+
+			<item n="9">
+				<label>Select Service-Door Art</label>
+				<binding>
+					<command>nasal</command>
+					<script>mirage2000.service_door_dialog.toggle()</script>
+				</binding>
+			</item>
+
+			<item n="10">
+				<label>Alternative Livery and Logo Selection</label>
+				<binding>
+					<command>nasal</command>
+					<script>mirage2000.showLiveryDialog()</script>
+				</binding>
+			</item>
+
+			<item n="11">
+				<label>--- Weapons and Ops ---</label>
+				<enabled>false</enabled>
+			</item>
+
+			<item n="12">
+				<label>Payload Selection</label>
+				<name>payload-qs</name>
+				<binding>
+					<condition>
+						<or>
+							<equals>
+								<property>sim/variant-id</property>
+								<value>1</value>
+							</equals>
+							<equals>
+								<property>sim/variant-id</property>
+								<value>2</value>
+							</equals>
+						</or>
+					</condition>
+					<command>dialog-show</command>
+					<dialog-name>payload-5</dialog-name><!-- is referenced in m2000-5.nas -->
+				</binding>
+				<binding>
+					<condition>
+						<equals>
+							<property>sim/variant-id</property>
+							<value>3</value>
+						</equals>
+					</condition>
+					<command>dialog-show</command>
+					<dialog-name>payload-n</dialog-name><!-- is referenced in m2000-5.nas -->
+				</binding>
+				<binding>
+					<condition>
+						<equals>
+							<property>sim/variant-id</property>
+							<value>4</value>
+						</equals>
+					</condition>
+					<command>dialog-show</command>
+					<dialog-name>payload-d</dialog-name><!-- is referenced in m2000-5.nas -->
+				</binding>
+			</item>
+
+			<item n="13">
+				<label>Ground Targeting</label>
+				<name>ground-targeting</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>ground-targeting</dialog-name>
+				</binding>
+			</item>
+
+			<item n="14">
+				<label>Reload Guns, Flares and Chaffs</label>
+				<binding>
+					<command>nasal</command>
+					<script>
+						if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")) {
+							guns.reload_cannon_and_flares();
+						} else {
+							screen.log.write(mirage2000.msgB);
+						}
+					</script>
+				</binding>
+			</item>
+
+			<item n="15">
+				<label>Mission Preplanning</label>
+				<name>mission-preplanning</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>mission-preplanning</dialog-name><!-- is referenced in m2000-5.nas -->
+				</binding>
+			</item>
+
+			<item n="16">
+				<label>--- Other Stuff ---</label>
+				<enabled>false</enabled>
+			</item>
+
+			<item n="17">
+				<label>Combat Event Log</label>
+				<name>event-log</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>flightlog</dialog-name>
+				</binding>
+			</item>
+
+			<item n="18">
+				<label>Tacview</label>
+				<name>tacview</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>tacview</dialog-name>
+				</binding>
+			</item>
+
+			<item n="19">
+				<label>Call Pushback</label>
+				<name>pushback</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>pushback</dialog-name>
+				</binding>
+			</item>
+
+			<item n="20">
+				<label>Training</label>
+				<name>training</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>scenario28</dialog-name>
+				</binding>
+			</item>
+
+			<item n="21">
+				<label>AI Wingmen</label>
+				<name>wingmen</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>wingmen</dialog-name>
+				</binding>
+			</item>
+
+			<item n="22">
+				<label>Show Performance Metrics</label>
+				<binding>
+					<command>nasal</command>
+					<script>monitor.PerformanceMonitor.instance().start()</script>
+				</binding>
+			</item>
+		</menu>
+
+		<menu n="116">
+			<label>Reset</label>
+			<enabled type="bool">true</enabled>
+
+			<item>
+				<label>Reset to Airbase (military only)</label>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>airbases</dialog-name>
+				</binding>
+			</item>
+		</menu>
+	</default>
+</PropertyList>

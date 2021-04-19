@@ -39,4 +39,4 @@ var init = func {
         me.setBool("visible", vis);
   };
 };
-init();
+#init();
