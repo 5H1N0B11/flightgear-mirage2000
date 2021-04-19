@@ -198,6 +198,7 @@
         <file>Aircraft/Mirage-2000/Nasal/vector.nas</file>
     </vector>
     <rcs>
+        <file>Aircraft/Mirage-2000/Nasal/RADAR/rcs_mand.nas</file>
         <file>Aircraft/Mirage-2000/Nasal/RADAR/rcs.nas</file>
     </rcs>
     
