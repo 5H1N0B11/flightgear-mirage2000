@@ -60,12 +60,12 @@ var vec_length = func(x, y,z=0) { return math.sqrt(pow2(x) + pow2(y)+pow2(z)); }
 var mydeviation = 0;
 var myelevation = 0;
 var displayIt = 0;
-var target_callsign = "";
-var target_altitude = 0;
-var target_closureRate = 0;
-var target_heading_deg = 0;
-var target_Distance = 0;
-var raw_list = [];
+# var target_callsign = "";
+# var target_altitude = 0;
+# var target_closureRate = 0;
+# var target_heading_deg = 0;
+# var target_Distance = 0;
+# var raw_list = [];
 
 
 #verre2
@@ -1300,6 +1300,10 @@ var HUD = {
 
     
     #Think this code sucks. If everyone have better, please, proceed :)
+    #Weapons management should be in a function.
+    #Taking radar should be done once for all
+    #missile management aren't made : it should be
+    
     me.eegsShow=0;
     me.selectedWeap = pylons.fcs.getSelectedWeapon();
     
@@ -1312,35 +1316,21 @@ var HUD = {
       if(me.selectedWeap.type != "30mm Cannon"){
         #Doing the math only for bombs
         if(me.selectedWeap.stage_1_duration+me.selectedWeap.stage_2_duration == 0){
-          
-          #print("Class of Load:" ~ me.selectedWeap.class);     
-          me.DistanceToShoot = nil;
-          me.DistanceToShoot = me.selectedWeap.getCCRP(me.input.TimeToTarget.getValue(), 0.05);
-        
-          if(me.DistanceToShoot != nil ){
-            # This should be the CCRP function
-            # The no go CCRP is when speed < 350 kts.
-            # We need the house and the nav point display to display the target.
-            # the CCRP piper is a fixed pointand replace the FPV
-            
-            # CCRP steering cues:
-            # They appear only after a target point has been selected. They are centered on the
-            # CCRP piper and rotate to show deviation from the course to target. The aircraft is
-            # flying directly to the target when they are level.
-           
-            if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30){
-              me.showFire_GBU = 1;
-                me.Fire_GBU.setText(sprintf("TTR: %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
-              if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 15){
-                me.Fire_GBU.setText(sprintf("Fire : %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
-              }
-            }
+          if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list) > 0){
+            #if target selected : CCRP
+            print("Should CCRP : size target list" ~ size(mirage2000.myRadar3.tgts_list));
+            me.show_CCRP = me.display_CCRP_mode();
           }else{
+            #Else CCIP
+            print("Should CCIP");
             me.show_CCIP = me.display_CCIP_mode();
             #print("Distance to shoot : nil");
           }
         }
-      }else{me.eegsShow=me.input.MasterArm.getValue();}
+      }else{
+        #Else showing the gun
+        me.eegsShow=me.input.MasterArm.getValue();
+      }
     }
     me.CCRP.setVisible(0);
     me.Fire_GBU.setVisible(me.showFire_GBU);
@@ -1527,8 +1517,8 @@ var HUD = {
     }
   },
   display_CCIP_mode:func(){
-    #me.fpvCalc => fpv coordinates
-    #me.CCIP_BFL
+    #CCIP : for bomb dropping. 
+    #Source : DCS manual / tutorials
     me.ccipPos = me.selectedWeap.getCCIPadv(me.input.TimeToTarget.getValue(), 0.20);
     if(me.ccipPos != nil){
       me.hud_pos = HudMath.getPosFromCoord(me.ccipPos[0]);
@@ -1572,6 +1562,33 @@ var HUD = {
     return 0;
   },
   
+  display_CCRP_mode:func(){
+    #print("Class of Load:" ~ me.selectedWeap.class);     
+    me.DistanceToShoot = nil;
+    me.DistanceToShoot = me.selectedWeap.getCCRP(me.input.TimeToTarget.getValue(), 0.05);
+
+    if(me.DistanceToShoot != nil ){
+      # This should be the CCRP function
+      # The no go CCRP is when speed < 350 kts.
+      # We need the house and the nav point display to display the target.
+      # the CCRP piper is a fixed pointand replace the FPV
+
+      # CCRP steering cues:
+      # They appear only after a target point has been selected. They are centered on the
+      # CCRP piper and rotate to show deviation from the course to target. The aircraft is
+      # flying directly to the target when they are level.
+
+      if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30){
+        me.showFire_GBU = 1;
+        me.Fire_GBU.setText(sprintf("TTR: %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
+        if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 15){
+          me.Fire_GBU.setText(sprintf("Fire : %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
+        }
+      }
+    }
+    return 0;
+  },
+      
   display_ILS_Square:func(){
     if(me.input.ILS_gs_in_range.getValue()and !me.input.MasterArm.getValue()){
       me.ILS_Square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
@@ -1592,17 +1609,10 @@ var HUD = {
   },
   
   displayHeadingHorizonScale:func(){
-      #Depend of which heading we want to display
-#       if(me.input.hdgDisplay.getValue()){
-#         me.heading = me.input.hdgReal.getValue();
-#       }else{
-#         me.heading = me.input.hdg.getValue();
-#       }
-    
+    #we only need those digit : this tricks avoid too much drawing
       me.headOffset = me.heading/10 - int (me.heading/10);
       me.headScaleOffset = me.headOffset;
       me.middleText = roundabout(me.heading/10);
-
       me.middleText = me.middleText == 36?0:me.middleText;
       me.leftText = me.middleText == 0?35:me.middleText-1;
       me.rightText = me.middleText == 35?0:me.middleText+1;
@@ -1610,14 +1620,9 @@ var HUD = {
       
       if (me.headOffset > 0.5) {
         me.middleOffset = -(me.headScaleOffset-1)*me.headScaleTickSpacing*2;
-        #me.hdgLineL.show();
-        #me.hdgLineR.hide();
       } else {
         me.middleOffset = -me.headScaleOffset*me.headScaleTickSpacing*2;
-        #me.hdgLineR.show();
-        #me.hdgLineL.hide();
       }
-      #print(" me.heading:", me.heading,", me.headOffset:",me.headOffset, ", me.middleOffset:",me.middleOffset);
       me.headingScaleGroup.setTranslation(me.middleOffset , 0);
       me.hdgRH.setText(sprintf("%02d", me.rightText));
       me.hdgMH.setText(sprintf("%02d", me.middleText));
@@ -1646,24 +1651,12 @@ var HUD = {
       if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 and
         (!me.isInCanvas(HudMath.getPosFromCoord(me.NXTWP)[0],HudMath.getPosFromCoord(me.NXTWP)[1]) or me.input.distNextWay.getValue()>10) ){
         #Depend of which heading we want to display
-#           if(me.input.hdgDisplay.getValue()){
-#             me.heading = me.input.hdgReal.getValue();
-#           }else{
-#             me.heading = me.input.hdg.getValue();
-#           }
           if(me.input.hdgDisplay.getValue()){
             me.houseTranslation = -(geo.normdeg180(me.heading - me.input.NextWayTrueBearing.getValue() ))*me.headScaleTickSpacing/5;
-            #me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayTrueBearing.getValue()));
           }else{
             me.houseTranslation = -(geo.normdeg180(me.heading - me.input.NextWayBearing.getValue() ))*me.headScaleTickSpacing/5;
-            #me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayBearing.getValue()));
           }
-          #headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
-          #me.head_scale_route_pointer.setTranslation(headOffset,0);
-        
-        
-        #print(me.houseTranslation/(me.headScaleTickSpacing/5));
-        
+ 
         me.HeadingHouse.setTranslation(clamp(me.houseTranslation,-me.maxladderspan,me.maxladderspan),me.fpvCalc[1]);
         if(abs(me.houseTranslation/(me.headScaleTickSpacing/5))>90){
           me.HeadingHouse.setRotation(me.horizStuff[1]+(180* D2R));
@@ -1671,12 +1664,10 @@ var HUD = {
           me.HeadingHouse.setRotation(me.horizStuff[1]);
         }
         me.HeadingHouse.show();
-      }else{
-        me.HeadingHouse.hide();
+        return;
       }
-    }else{
-        me.HeadingHouse.hide();
     }
+    me.HeadingHouse.hide();
   },
   
   display_Chevron : func(){
@@ -1711,18 +1702,15 @@ var HUD = {
         me.Speed_Mach.show();
       }else{
         me.Speed_Mach.hide();
-      } 
-      
+      }  
     #print("Alt:",me.input.alt.getValue()," Calcul:" ,int(((me.input.alt.getValue()/100) - int(me.input.alt.getValue()/100))*100));
     me.feet_Alt.setText(sprintf("%02d",abs(int(((me.input.alt_instru.getValue()/100) - int(me.input.alt_instru.getValue()/100))*100))));
     if(me.input.alt_instru.getValue()>0){
       me.hundred_feet_Alt.setText(sprintf("%d",abs(int((me.input.alt_instru.getValue()/100)))));
     }else{
       me.hundred_feet_Alt.setText(sprintf("-%d",abs(int((me.input.alt_instru.getValue()/100)))));
-    }
-    
-    me.speedAltGroup.update();
-    
+    }   
+    me.speedAltGroup.update();    
   },
   
   display_radarAltimeter:func(){
@@ -1879,32 +1867,34 @@ var HUD = {
     #To put a triangle on the selected target
     #This should be changed by calling directly the radar object (in case of multi targeting)
 
-    closestCallsign = "";
-    closestRange = -1;
+
     #Getting the radar target from radar tgts_list
     if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list)>mirage2000.myRadar3.Target_Index){
-      var MytargetIndex = mirage2000.myRadar3.Target_Index;
-      var closestCallsign = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].get_Callsign():"";
-      var is_Painted = MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[MytargetIndex].isPainted():0;
-      var closestRange = MytargetIndex != -1 and is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[MytargetIndex]):0;
+      me.MytargetIndex = mirage2000.myRadar3.Target_Index;
+      me.closestCallsign = me.MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[me.MytargetIndex].get_Callsign():"";
+      me.is_Painted = me.MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[me.MytargetIndex].isPainted():0;
+      me.closestRange = me.MytargetIndex != -1 and me.is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[me.MytargetIndex]):0;
+    }else{
+      me.closestCallsign = "";
+      me.closestRange = -1;
     }
     var Token = 0;
     
 
-    raw_list = mirage2000.myRadar3.ContactsList; 
+    me.raw_list = mirage2000.myRadar3.ContactsList; 
     i = 0;
     
     me.designatedDistanceFT = nil;
     
-    foreach(var c; raw_list){
+    foreach(var c; me.raw_list){
       
-      if(i<size(me.targetArray) and size(raw_list)>0){
+      if(i<size(me.targetArray) and size(me.raw_list)>0){
         displayIt = c.objectDisplay;
         
         if(displayIt==1 ){
 
-          target_callsign = c.get_Callsign();
-          #print("Paint : " ~ target_callsign ~ " : "~ myTest);
+          me.target_callsign = c.get_Callsign();
+          #print("Paint : " ~ me.target_callsign ~ " : "~ myTest);
           
           target_altitude = c.get_altitude();
           target_heading_deg = c.get_heading();
@@ -1913,7 +1903,7 @@ var HUD = {
           var triPos = HudMath.getPosFromCoord(c.get_Coord());
           
           #If we have a selected target we display a triangle
-          if(target_callsign == closestCallsign and closestRange > 0){
+          if(me.target_callsign == me.closestCallsign and me.closestRange > 0){
             Token = 1;
             #me.TriangleGroupe.show();
             #me.triangle.setTranslation(triPos);
@@ -1938,7 +1928,7 @@ var HUD = {
           me.TextInfoArray[i].show();
           me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
           
-          me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", target_callsign, target_Distance, target_altitude, target_heading_deg));
+          me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", me.target_callsign, target_Distance, target_altitude, target_heading_deg));
 
         }else{
           me.targetArray[i].hide();
@@ -2346,7 +2336,7 @@ var HUD = {
                 me.eegsMe.eegsPos.apply_course_distance(me.eegsMe.hdg, me.eegsMe.dist);
                 me.eegsMe.eegsPos.set_alt(me.eegsMe.altC);
                 
-                var old = me.gunPos[j];
+                me.old = me.gunPos[j];
                 me.gunPos[j] = [[geo.Coord.new(me.eegsMe.eegsPos),me.eegsMe.ac]];
                 for (var m = 0;m<j+1;m+=1) {
                     append(me.gunPos[j], old[m]);
