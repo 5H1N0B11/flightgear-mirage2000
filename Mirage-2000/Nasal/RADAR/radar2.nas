@@ -1208,17 +1208,20 @@ var RWR_APG = {
               me.rwrTargetAzimuth = me.TargetWhichRadarAzimut(me.u);
               #print(me.rwrTargetAzimuth);
               
-              if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviation)) < me.rwrTargetAzimuth and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {
+              #if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviation)) < me.rwrTargetAzimuth and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {
+              if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) < me.rwrTargetAzimuth and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {  
+                
                   # we detect its radar is pointed at us and active
                   me.show = 1;
               }
             }
-            if(!me.u.isValid()){me.show = 0;}
-            #print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show ~ " Name:"~me.u.propNode.getName()~" Model:"~me.u.get_model() ~ " isValid:"~me.u.isValid());
+            #if(!me.u.isValid()){me.show = 0;}
+            #print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show ~ " Name:"~me.u.propNode.getName()~" Model:"~me.u.get_model() ~ 
+              #" ModelType:"~me.u.ModelType ~ " isValid:"~me.u.isValid());
             
             if (me.show == 1) {
                 me.threat = 0;
-                if (me.u.get_model() != "missile_frigate" and me.u.propNode.getName() != "carrier" and me.u.get_model() != "fleet" and me.u.get_model() != "buk-m2") {
+                if (me.u.get_model() != "missile_frigate" and me.u.propNode.getName() != "carrier" and me.u.get_model() != "fleet" and me.u.get_model() != "buk-m2" and me.u.get_model() != "MIM104D") {
                     me.threat += ((180-me.dev)/180)*0.30;
                     me.spd = (60-me.u.get_Speed())/60;
                     me.threat -= me.spd>0?me.spd:0;
@@ -1235,6 +1238,10 @@ var RWR_APG = {
                 } elsif (me.u.propNode.getName() == "carrier") {
                     me.danger = 60;
                 }
+                
+#                 if (me.u.get_model() == "MIM104D") {
+#                   printf("%d %d %d %d %d", me.rdrAct != nil and me.rdrAct.getValue()!=1, me.rdrAct == nil, me.dev < me.rwrTargetAzimuth, me.NotBeyondHorizon(me.u), me.isNotBehindTerrain(me.u));
+#                 }
                 
                 me.threat += ((me.danger-me.rn)/me.danger)>0?((me.danger-me.rn)/me.danger)*0.60:0;
                 me.clo = me.u.get_closure_rate_from_Coord(me.MyCoord);

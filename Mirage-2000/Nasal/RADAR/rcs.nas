@@ -7,6 +7,8 @@
 #
 # The file vector.nas needs to be available in namespace 'vector'.
 #
+var TRUE = 1;
+var FALSE = 0;
 
 var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
   var myCoord = geo.aircraft_position();

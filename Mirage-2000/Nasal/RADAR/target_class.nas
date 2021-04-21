@@ -188,7 +188,7 @@ var Target = {
     
         obj.type = armament.AIR;
         
-        obj.model = "";
+        obj.model = obj.ModelType; #was "" : now it is model type, until something set it up
         
         return obj;
     },
@@ -828,7 +828,7 @@ var Target = {
           return 1;
       }
       return 0;
-      print("Is Not Radiating");
+      #print("Is Not Radiating");
     },
 
     getElevation: func () {

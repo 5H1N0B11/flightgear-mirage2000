@@ -127,7 +127,7 @@ var RadarTool = {
                   if(u.get_Callsign() == "GROUND_TARGET"){
                     u.setType(armament.SURFACE);
                   }
-                  #print(folderName ~ " type:" ~ u.get_type()~ " Skipping Doppler: " ~ me.skipDoppler);
+                  #print(folderName ~ " type:" ~ u.get_type()~ " Skipping Doppler: " ~ u.skipDoppler);
 #                   if(Tree_Name != "munition"){ 
 #                     print("Test Important:");
                     me.update_array(u,me.raw_selection);
