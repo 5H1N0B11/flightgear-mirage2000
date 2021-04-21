@@ -1,6 +1,6 @@
 var rcs_oprf_database = {
     # This list contains the mandatory RCS frontal values for OPRF (anno 1997), feel free to add non-OPRF to your aircraft we don't care.
-    #REVISION: 2021/04/17
+    #REVISION: 2021/04/21
     "default":                  150,    #default value if target's model isn't listed
     "f-14b":                    12,     
     "F-14D":                    12,     
