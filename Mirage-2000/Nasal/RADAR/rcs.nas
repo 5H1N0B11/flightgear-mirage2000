@@ -18,7 +18,7 @@ var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
 
 var rcs_database = {
     parents: [rcs_oprf_database],
-    #REVISION: 2021/04/17
+	#REVISION: 2021/04/17
     "YF-16":                    5,      #higher because earlier blocks had larger RCS
     "F-16CJ":                   2,      #average
     "f16":                      2,      #average
@@ -59,9 +59,9 @@ var rcs_database = {
     #Stealth
     "b2-spirit":                0.001,  #actual: 0.0001
     "B-2A":                     0.001,  #actual: 0.0001
-    "F-22-Raptor":              0.001,  #actual: 0.0001
-    "F-35A":                    0.0005,
-    "F-35B":                    0.0005,
+    "F-22-Raptor":				0.001,	#actual: 0.0001
+    "F-35A":					0.0005,
+    "F-35B":					0.0005,
     "F-35C":                    0.0005,
     "daVinci_F-35A":            0.0005,
     "daVinci_F-35B":            0.0005,
@@ -72,9 +72,32 @@ var rcs_database = {
 };
 
 var prevVisible = {};
+var lastUpdateTime = {};
 
-var inRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
-    return rand() < 0.05?rcs.isInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs) == 1:rcs.wasInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
+var timeNode = props.globals.getNode("sim/time/elapsed-sec");
+
+
+# For 'inRadarRange', decide if the previous RCS test result can be result, or if a new test should be done.
+# If the previous test is more than 'max_refresh_sec' old (resp. less than 'min_refresh_sec'),
+# then a new test is always (resp. never) done.
+# In between these two values, a test is done with probability 'refresh_prob'.
+var refreshRequired = func (contact, min_refresh_sec, max_refresh_sec, refresh_prob) {
+    var callsign = contact.get_Callsign();
+    if (callsign == nil or !contains(lastUpdateTime, callsign)) return TRUE;
+
+    var update_age = timeNode.getValue() - lastUpdateTime[callsign];
+    if (update_age < min_refresh_sec) return FALSE;
+    elsif (update_age > max_refresh_sec) return TRUE;
+    else return (rand() < refresh_prob);
+}
+
+var inRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs,
+                         min_refresh_sec=1, max_refresh_sec=10, refresh_prob=0.05) {
+    if (refreshRequired(contact, min_refresh_sec, max_refresh_sec, refresh_prob)) {
+        return isInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
+    } else {
+        return wasInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
+    }
 }
 
 var wasInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
@@ -97,7 +120,9 @@ var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
             # open radar for one will make this happen.
             return value;
         }
-        prevVisible[contact.get_Callsign()] = value;
+        var callsign = contact.get_Callsign();
+        prevVisible[callsign] = value;
+        lastUpdateTime[callsign] = timeNode.getValue();
         return value;
     }
     return 0;
