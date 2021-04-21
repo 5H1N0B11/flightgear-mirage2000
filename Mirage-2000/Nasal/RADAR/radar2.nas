@@ -64,7 +64,7 @@ listOfGroundTargetNames = ["groundvehicle"];
 listOfShipNames      = ["carrier", "ship"];
 listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle", "Mig-28", "F-16"];
 listOfAIRadarEchoes2 = keys(weaponRadarNames);
-listOfGroundVehicleModels = ["buk-m2", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
+listOfGroundVehicleModels = ["buk-m2", "MIM104D", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
 #listOfGroundVehicleModels = ["GROUND_TARGET"];
 listOfShipModels          = ["frigate", "missile_frigate", "USS-LakeChamplain", "USS-NORMANDY", "USS-OliverPerry", "USS-SanAntonio"];
 # 
@@ -85,6 +85,7 @@ listOfShipModels_hash = {
 listOfGroundTargetNames_hash = {
   "groundvehicle":armament.SURFACE,
   "buk-m2":armament.SURFACE,
+  "MIM104D":armament.SURFACE,
   "depot":armament.SURFACE,
   "truck":armament.SURFACE,
   "tower":armament.SURFACE,
