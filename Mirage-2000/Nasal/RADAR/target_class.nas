@@ -813,7 +813,8 @@ var Target = {
     
     isRadiating: func (coord) {
       me.rn = me.get_range();
-      if (me.get_model() != "buk-m2" and me.get_model() != "MIM104D" and me.get_model() != "missile_frigate" or me.get_type()== armament.MARINE) {
+      #if (me.get_model() != "buk-m2" and me.get_model() != "MIM104D" and me.get_model() != "missile_frigate" or me.get_type()== armament.MARINE) {
+      if(me.get_type()== armament.AIR){
           me.bearingR = coord.course_to(me.get_Coord());
           me.headingR = me.get_heading();
           me.inv_bearingR =  me.bearingR+180;
@@ -822,9 +823,11 @@ var Target = {
           me.deviationRd = 0;
       }
       me.rdrAct = me.propNode.getNode("sim/multiplay/generic/int[2]");
-      if (me.rn < 70 and ((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviationRd)) < 60) {
+      #if the radar is SURFACE or MARINE, it turns, so no orientation asked
+      if (me.rn < 70 and ((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) 
+          and (math.abs(geo.normdeg180(me.deviationRd)) < 60 or me.get_type()!= armament.AIR)) {
           # our radar is active and pointed at coord.
-          #print("Is Radiating");
+          {#print("Is Radiating");
           return 1;
       }
       return 0;
