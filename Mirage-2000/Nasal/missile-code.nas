@@ -2225,7 +2225,7 @@ var AIM = {
 				me.x = me.x - (me.movement_on_rail * FT2M);# negative cause positive is rear in body coordinates
 			} else {
 				me.position_on_rail += math.max(0, me.movement_on_rail * FT2M);# only can move forward on rail.
-				me.railPos = myMath.alongVector(me.railBegin, me.railEnd, me.rail_dist_m, me.position_on_rail);
+				me.railPos = me.myMath.alongVector(me.railBegin, me.railEnd, me.rail_dist_m, me.position_on_rail);
 			}
 		}
 
@@ -4690,12 +4690,21 @@ var AIM = {
 
 			me.curr_deviation_e = deviation_normdeg(OurPitch.getValue(), me.Tgt.getElevation());
 			me.curr_deviation_h = deviation_normdeg(OurHdg.getValue(), me.Tgt.get_bearing());
-			if (!me.caged) {
+			if (!me.caged or (me.mode_slave and me.command_tgt)) {
 				me.seeker_elev_target = me.curr_deviation_e;
 				me.seeker_head_target = me.curr_deviation_h;
 				me.rotateTarget();
 				me.moveSeeker();
-			}			
+			} elsif (me.mode_bore) {
+				me.seeker_elev_target = 0;
+				me.seeker_head_target = 0;
+				me.moveSeeker();
+			} elsif (me.mode_slave and !me.command_tgt) {
+				me.seeker_elev_target = me.command_dir_pitch;
+				me.seeker_head_target = me.command_dir_heading;
+				me.moveSeeker();
+			}
+
 			me.seeker_elev_target = me.curr_deviation_e;
 			me.seeker_head_target = me.curr_deviation_h;
 			me.rotateTarget();
