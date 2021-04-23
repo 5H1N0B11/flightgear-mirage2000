@@ -827,7 +827,7 @@ var Target = {
       if (me.rn < 70 and ((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) 
           and (math.abs(geo.normdeg180(me.deviationRd)) < 60 or me.get_type()!= armament.AIR)) {
           # our radar is active and pointed at coord.
-          {#print("Is Radiating");
+          #print("Is Radiating");
           return 1;
       }
       return 0;
