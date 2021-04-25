@@ -978,28 +978,35 @@ var HUD = {
      #################################### CCRP #########################################
 
     m.CCRP = m.root.createChild("group");
-    # Bomb Fall Line (BFL)
-    m.CCIP_BFL = m.CCIP.createChild("group");
     
-    m.CCIP_BFL_line = m.CCIP_BFL.createChild("path");
+    m.CCRP_Piper_group = m.CCRP.createChild("group");   
     
-    #Bomb impact    
-    m.CCRP_piper = m.CCRP.createChild("path")
+    m.CCRP_piper = m.CCRP_Piper_group.createChild("path")
         .setColor(m.myGreen)
-        .moveTo(15, 0)
-        .lineTo(0,20)
-        .lineTo(-15,0)
-        .lineTo(0,-20)
-        .lineTo(15,0)
+        .moveTo(24, 0)
+        .lineTo(0,32)
+        .lineTo(-24,0)
+        .lineTo(0,-32)
+        .lineTo(24,0)
         .moveTo(1,1)
         .lineTo(1,-1)
         .lineTo(-1,-1)
         .lineTo(-1,1)
-        .moveTo(15, 0)
-        .lineTo(20,0)
-        .moveTo(-15, 0)
-        .lineTo(-20,0)
+        .moveTo(24, 0)
+        .lineTo(44,0)
+        .moveTo(-24, 0)
+        .lineTo(-44,0)
         .setStrokeLineWidth(4);
+        
+    m.CCRP_Deviation = m.CCRP_Piper_group.createChild("path")
+        .setColor(m.myGreen)
+        .moveTo(34, 0)
+        .lineTo(80,0)
+        .moveTo(-34, 0)
+        .lineTo(-80,0)
+        .setStrokeLineWidth(4);
+        
+    #m.CCRP_Piper_group.setTranslation(0,-250);
     
         
     m.CCRP_release_cue = m.CCRP.createChild("path")
@@ -1311,6 +1318,10 @@ var HUD = {
     me.Fire_GBU.setText("Fire");
     me.showFire_GBU = 0;
     me.show_CCIP = 0;
+    me.show_CCRP = 0;
+    me.CCRP_Piper_group_visibilty = 1;
+    me.CCRP_cue_visbility = 0;
+    me.CCRP_no_go_cross_visibility = 0;
     
     if(me.selectedWeap != nil and me.input.MasterArm.getValue()){
       if(me.selectedWeap.type != "30mm Cannon"){
@@ -1318,11 +1329,11 @@ var HUD = {
         if(me.selectedWeap.stage_1_duration+me.selectedWeap.stage_2_duration == 0){
           if(mirage2000.myRadar3.tgts_list != nil and size(mirage2000.myRadar3.tgts_list) > 0){
             #if target selected : CCRP
-            print("Should CCRP : size target list" ~ size(mirage2000.myRadar3.tgts_list));
+            #print("Should CCRP : size target list" ~ size(mirage2000.myRadar3.tgts_list));
             me.show_CCRP = me.display_CCRP_mode();
           }else{
             #Else CCIP
-            print("Should CCIP");
+            #print("Should CCIP");
             me.show_CCIP = me.display_CCIP_mode();
             #print("Distance to shoot : nil");
           }
@@ -1332,8 +1343,20 @@ var HUD = {
         me.eegsShow=me.input.MasterArm.getValue();
       }
     }
-    me.CCRP.setVisible(0);
+    
+    #CCRP visibility : 
+    #piper when we have a target
+    #Cue line when time to target < 15
+    #Cross when speed <350
+    #target and house (to be defined)
+    me.CCRP.setVisible(me.show_CCRP);
+    me.CCRP_Piper_group.setVisible(me.CCRP_Piper_group_visibilty);
+    me.CCRP_release_cue.setVisible( me.CCRP_cue_visbility);
+    me.CCRP_no_go_cross.setVisible(me.CCRP_no_go_cross_visibility);
+    
     me.Fire_GBU.setVisible(me.showFire_GBU);
+    
+    #CCIP Visibility
     me.CCIP.setVisible(me.show_CCIP);
   
 
@@ -1578,15 +1601,40 @@ var HUD = {
       # CCRP piper and rotate to show deviation from the course to target. The aircraft is
       # flying directly to the target when they are level.
 
-      if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30){
-        me.showFire_GBU = 1;
-        me.Fire_GBU.setText(sprintf("TTR: %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
+      #if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30){
+        #me.showFire_GBU = 1;
+        #me.Fire_GBU.setText(sprintf("TTR: %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
         if(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 15){
-          me.Fire_GBU.setText(sprintf("Fire : %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
+          #me.Fire_GBU.setText(sprintf("Fire : %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
+          me.BorePos =  HudMath.getBorePos();
+          me.hud_pos = HudMath.getPosFromCoord(me.selectedWeap.Tgt.get_Coord());
+          if(me.hud_pos != nil) {
+            #print('CCRP_release_cue should move');
+            me.pos_x = me.hud_pos[0];
+            me.pos_y = me.hud_pos[1];          
+            me.CCRP_release_percent = (me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))/30; 
+            me.CCRP_release_cue.setTranslation(me.BorePos[0],me.BorePos[1]-(me.BorePos[1]-me.pos_y)*(clamp(me.CCRP_release_percent,0,1)));
+            me.CCRP_cue_visbility = 1;
+          }
+            
         }
-      }
+      #}
+      printf("me.DistanceToShoot: %.2f ; Time to shoot : %.2f",me.DistanceToShoot,me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS));
+      print("Deviation:"~me.selectedWeap.Tgt.get_deviation(me.input.hdgReal.getValue(), geo.aircraft_position()));
     }
-    return 0;
+    
+    # The no go CCRP is when speed < 350 kts.
+    if(me.input.airspeed.getValue()<350){
+      me.CCRP_no_go_cross_visibility = 1;
+    }      
+    
+    #There is a target so the piper and the deviation should get displayed.
+    me.CCRP_Piper_group.setTranslation(HudMath.getBorePos());
+    if(me.selectedWeap.Tgt != nil){
+      # * 10 to see if that can improves precisions
+      me.CCRP_Deviation.setRotation(me.selectedWeap.Tgt.get_deviation(me.input.hdgReal.getValue(), geo.aircraft_position())*D2R*2);
+    }
+    return 1;
   },
       
   display_ILS_Square:func(){
