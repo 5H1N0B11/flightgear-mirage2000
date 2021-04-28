@@ -143,13 +143,13 @@
   <hrule />
 
   <text><label>Rate of Fire </label></text>
-  <text><label>A/A => A/G => Lower..</label></text>
+  <text><label>A/A => A/G</label></text>
   <group>
     <layout>hbox</layout>
     <group>
       <layout>vbox</layout>
       <halign>left</halign>
-      <text><label>1800rnd/min-1100rnd/min-Lower</label></text>
+      <text><label>1800rnd/min=>1100rnd/min</label></text>
     </group>
     
     <group>
@@ -160,7 +160,7 @@
         <property>/ai/submodels/submodel/delay</property>
         <live>1</live>
         <min>0.03</min>
-        <max>0.09</max>
+        <max>0.06</max>
         <step>0.03</step>
         <binding>
           <command>dialog-apply</command>

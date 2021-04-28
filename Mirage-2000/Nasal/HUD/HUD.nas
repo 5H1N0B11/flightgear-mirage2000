@@ -867,39 +867,47 @@ var HUD = {
     m.eegsRightY = [0];
     m.eegsLeftX  = [0];
     m.eegsLeftY  = [0]; 
-    m.gunPos  = [[nil,nil]];
+    m.gunPos  = nil;
     m.shellPosXInit = [0];
     m.shellPosYInit =  [0];
     m.shellPosDistInit = [0];
     m.wingspanFT = 35;# 7- to 40 meter
+    m.resetGunPos();
+    
+    m.eegsRightX = m.makeVector(m.funnelParts,0);
+    m.eegsRightY = m.makeVector(m.funnelParts,0);
+    m.eegsLeftX  = m.makeVector(m.funnelParts,0);
+    m.eegsLeftY  = m.makeVector(m.funnelParts,0);
+    
+    m.eegsMe = {ac: geo.Coord.new(), eegsPos: geo.Coord.new(),shellPosX: m.makeVector(m.funnelParts,0),shellPosY: m.makeVector(m.funnelParts,0),shellPosDist: m.makeVector(m.funnelParts,0)};
+    
+    m.lastTime = systime();
+    m.eegsLoop = maketimer(m.averageDt, m, m.displayEEGS);
+    m.eegsLoop.simulatedTime = 1;
     
     #m.gunTemp = [nil,nil];
     
-    for(i = 0;i < m.funnelParts;i+=1){
-      append(m.eegsRightX,0);
-      append(m.eegsRightY,0);
-      append(m.eegsLeftX,0);
-      append(m.eegsLeftY,0);
+#     for(i = 0;i < m.funnelParts;i+=1){
+#       append(m.eegsRightX,0);
+#       append(m.eegsRightY,0);
+#       append(m.eegsLeftX,0);
+#       append(m.eegsLeftY,0);
 
       #print ("i:"~i);
       #print("size:"~size(m.gunPos));
       #print("size[i]:"~size(m.gunPos[i]));
-      
-      var tmp = [];
-      for( myloopy = 0;myloopy <= i+2;myloopy+=1){
-        append(tmp,nil);
-      }
-      append(m.gunPos, tmp);
-      
+   
       #print("After append size:"~size(m.gunPos));
       #print("After append size[i]:"~size(m.gunPos[i]));
       #print("After append size[i+1]:"~size(m.gunPos[i+1]));
       #append(m.gunPos,append(m.gunPos[i],[nil]));
       
-      append(m.shellPosXInit,0);
-      append(m.shellPosYInit,0);
-      append(m.shellPosDistInit,0);
-    }
+#       append(m.shellPosXInit,0);
+#       append(m.shellPosYInit,0);
+#       append(m.shellPosDistInit,0);
+#     }
+#     
+
     #print(size(m.eegsRightX));
     #print(size(m.gunPos[size(m.gunPos)-1]));
     
@@ -908,13 +916,11 @@ var HUD = {
     #m.eegsLeftX = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     #m.eegsLeftY = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     #m.gunPos   = [[nil,nil],[nil,nil,nil],[nil,nil,nil,nil],[nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil]];
-    m.eegsMe = {ac: geo.Coord.new(), eegsPos: geo.Coord.new(),
-        shellPosX:     m.shellPosXInit,
-        shellPosY:     m.shellPosYInit,
-        shellPosDist:  m.shellPosDistInit};
-    m.lastTime = systime();
-    m.eegsLoop = maketimer(m.averageDt, m, m.displayEEGS);
-    m.eegsLoop.simulatedTime = 1;
+#     m.eegsMe = {ac: geo.Coord.new(), eegsPos: geo.Coord.new(),
+#         shellPosX:     m.shellPosXInit,
+#         shellPosY:     m.shellPosYInit,
+#         shellPosDist:  m.shellPosDistInit};
+
                      
     
     
@@ -1263,6 +1269,7 @@ var HUD = {
       MasterArm      :"/controls/armament/master-arm",
       TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
       IsRadarWorking : "/systems/electrical/outputs/radar",
+      gun_rate       : "/ai/submodels/submodel[1]/delay",
     };
     
     foreach(var name; keys(m.input)){
@@ -1280,6 +1287,9 @@ var HUD = {
   },
   update: func()
   {
+    
+    me.hydra = 0; #for rocket
+    me.strf = me.input.gun_rate.getValue()==0.06?1:0; #Air to ground fire : based on the gun rate
     #me.airspeed.setText(sprintf("%d", me.input.ias.getValue()));
     #me.groundspeed.setText(sprintf("G %3d", me.input.gs.getValue()));
     #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
@@ -2171,23 +2181,33 @@ var HUD = {
       }
   },
   
+  resetGunPos: func {
+      me.gunPos   = [];
+      for(i = 0;i < me.funnelParts*4;i+=1){
+        var tmp = [];
+        for(var myloopy = 0;myloopy <= i+1;myloopy+=1){
+          append(tmp,nil);
+        }
+        append(me.gunPos, tmp);
+      }
+  },
+  makeVector: func (siz,content) {
+        var vec = setsize([],siz*4);
+        var k = 0;
+        while(k<siz*4) {
+            vec[k] = content;
+            k += 1;
+        }
+        return vec;
+  },
   displayEEGS: func() {
         #note: this stuff is expensive like hell to compute, but..lets do it anyway.
-        
         #var me.funnelParts = 40;#max 10
         var st = systime();
         me.eegsMe.dt = st-me.lastTime;
         if (me.eegsMe.dt > me.averageDt*3) {
             me.lastTime = st;
-            me.gunPos   = [[nil,nil]];
-            for(i = 1;i < me.funnelParts;i+=1){
-              var tmp = [];
-              for(var myloopy = 0;myloopy <= i+2;myloopy+=1){
-                append(tmp,nil);
-              }
-              append(me.gunPos, tmp);
-            }
-  
+            me.resetGunPos();  
             me.eegsGroup.removeAllChildren();
         } else {
             #printf("dt %05.3f",me.eegsMe.dt);
@@ -2205,57 +2225,113 @@ var HUD = {
             me.drawEEGSPipper = 0;
             me.drawEEGS300 = 0;
             me.drawEEGS600 = 0;
-            for (var l = 0;l < me.funnelParts;l+=1) {
-                # compute display positions of funnel on hud
-                var pos = me.gunPos[l][l+1];
-                if (pos == nil) {
-                    me.eegsMe.allow = 0;
-                } else {
-                    var ac  = me.gunPos[l][l][1];
-                    pos     = me.gunPos[l][l][0];
-                    
-                    var ps = HudMath.getPosFromCoord(pos, ac);
-                    me.eegsMe.xcS = ps[0];
-                    me.eegsMe.ycS = ps[1];
-                    me.eegsMe.shellPosDist[l] = ac.direct_distance_to(pos)*M2FT;
-                    me.eegsMe.shellPosX[l] = me.eegsMe.xcS;
-                    me.eegsMe.shellPosY[l] = me.eegsMe.ycS;
-                    if (me.designatedDistanceFT != nil and !me.drawEEGSPipper) {
-                      if (l != 0 and me.eegsMe.shellPosDist[l] >= me.designatedDistanceFT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
-                        var highdist = me.eegsMe.shellPosDist[l];
-                        var lowdist = me.eegsMe.shellPosDist[l-1];
-                        var fractionX = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
-                        var fractionY = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
-                        me.eegsRightX[0] = fractionX;
-                        me.eegsRightY[0] = fractionY;
-                        me.drawEEGSPipper = 1;
-                      }
-                    }
-                    if (!me.drawEEGS300) {
-                      if (l != 0 and me.eegsMe.shellPosDist[l] >= 300*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
-                        var highdist = me.eegsMe.shellPosDist[l];
-                        var lowdist = me.eegsMe.shellPosDist[l-1];
-                        var fractionX = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
-                        var fractionY = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
-                        me.eegsRightX[1] = fractionX;
-                        me.eegsRightY[1] = fractionY;
-                        me.drawEEGS300 = 1;
-                      }
-                    }
-                    if (!me.drawEEGS600) {
-                      if (l != 0 and me.eegsMe.shellPosDist[l] >= 600*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
-                        var highdist = me.eegsMe.shellPosDist[l];
-                        var lowdist = me.eegsMe.shellPosDist[l-1];
-                        var fractionX = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
-                        var fractionY = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
-                        me.eegsRightX[2] = fractionX;
-                        me.eegsRightY[2] = fractionY;
-                        me.drawEEGS600 = 1;
-                      }
+            me.strfRange = 4500 * M2FT;  
+            if(me.strf or me.hydra) {
+                me.groundDistanceFT = nil;
+                var l = 0;
+                for (l = 0;l < me.funnelParts*4;l+=1) {
+                    # compute display positions of funnel on hud
+                    var pos = me.gunPos[l][0];
+                    if (pos == nil) {
+                        me.eegsMe.allow = 0;
+                    } else {
+                        var ac  = me.gunPos[l][0][1];
+                        pos     = me.gunPos[l][0][0];
+                        var el = geo.elevation(pos.lat(),pos.lon());
+                        if (el == nil) {
+                            el = 0;
+                        }
+
+                        if (l != 0 and el > pos.alt()) {
+                            var hitPos = geo.Coord.new(pos);
+                            hitPos.set_alt(el);
+                            me.groundDistanceFT = (el-pos.alt())*M2FT;#ac.direct_distance_to(hitPos)*M2FT;
+                            me.strfRange = hitPos.direct_distance_to(me.eegsMe.ac)*M2FT;
+                            l = l;
+                            break;
+                        }
                     }
                 }
+                print("me.eegsMe.allow:" ~ me.eegsMe.allow);
+                print(" me.groundDistanceFT:"~ (me.groundDistanceFT==nil?"nil":me.groundDistanceFT));
+                # compute display positions of pipper on hud                
+                if (me.eegsMe.allow and me.groundDistanceFT != nil) {
+                    print("test");
+                    for (var ll = l-1;ll <= l;ll+=1) {
+                        var ac    = me.gunPos[ll][0][1];
+                        var pos   = me.gunPos[ll][0][0];
+                        var pitch = me.gunPos[ll][0][2];
+
+                        me.eegsMe.posTemp = HudMath.getPosFromCoord(pos,ac);
+                        me.eegsMe.shellPosDist[ll] = ac.direct_distance_to(pos)*M2FT;
+                        me.eegsMe.shellPosX[ll] = me.eegsMe.posTemp[0];#me.eegsMe.xcS;
+                        me.eegsMe.shellPosY[ll] = me.eegsMe.posTemp[1];#me.eegsMe.ycS;
+                        
+                        if (l == ll and me.strfRange*FT2M < 4500) {
+                            var highdist = me.eegsMe.shellPosDist[ll];
+                            var lowdist = me.eegsMe.shellPosDist[ll-1];
+                            me.groundDistanceFT = me.groundDistanceFT/math.cos(90-pitch*D2R);
+                            #me.groundDistanceFT = math.sqrt(me.groundDistanceFT*me.groundDistanceFT+me.groundDistanceFT*me.groundDistanceFT);#we just assume impact angle of 45 degs
+                            me.eegsPipperX = HudMath.extrapolate(highdist-me.groundDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[ll-1],me.eegsMe.shellPosX[ll]);
+                            me.eegsPipperY = HudMath.extrapolate(highdist-me.groundDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[ll-1],me.eegsMe.shellPosY[ll]);
+                            me.drawEEGSPipper = 1;
+                            print("Should draw Piper");
+                        }
+                    }
+                }
+            }else{       
+              for (var l = 0;l < me.funnelParts;l+=1) {
+                  # compute display positions of funnel on hud
+                  var pos = me.gunPos[l][l+1];
+                  if (pos == nil) {
+                      me.eegsMe.allow = 0;
+                  } else {
+                      var ac  = me.gunPos[l][l][1];
+                      pos     = me.gunPos[l][l][0];
+                      
+                      var ps = HudMath.getPosFromCoord(pos, ac);
+                      me.eegsMe.xcS = ps[0];
+                      me.eegsMe.ycS = ps[1];
+                      me.eegsMe.shellPosDist[l] = ac.direct_distance_to(pos)*M2FT;
+                      me.eegsMe.shellPosX[l] = me.eegsMe.xcS;
+                      me.eegsMe.shellPosY[l] = me.eegsMe.ycS;
+                      if (me.designatedDistanceFT != nil and !me.drawEEGSPipper) {
+                        if (l != 0 and me.eegsMe.shellPosDist[l] >= me.designatedDistanceFT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+                          var highdist = me.eegsMe.shellPosDist[l];
+                          var lowdist = me.eegsMe.shellPosDist[l-1];
+                          var fractionX = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+                          var fractionY = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+                          me.eegsRightX[0] = fractionX;
+                          me.eegsRightY[0] = fractionY;
+                          me.drawEEGSPipper = 1;
+                        }
+                      }
+                      if (!me.drawEEGS300) {
+                        if (l != 0 and me.eegsMe.shellPosDist[l] >= 300*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+                          var highdist = me.eegsMe.shellPosDist[l];
+                          var lowdist = me.eegsMe.shellPosDist[l-1];
+                          var fractionX = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+                          var fractionY = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+                          me.eegsRightX[1] = fractionX;
+                          me.eegsRightY[1] = fractionY;
+                          me.drawEEGS300 = 1;
+                        }
+                      }
+                      if (!me.drawEEGS600) {
+                        if (l != 0 and me.eegsMe.shellPosDist[l] >= 600*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+                          var highdist = me.eegsMe.shellPosDist[l];
+                          var lowdist = me.eegsMe.shellPosDist[l-1];
+                          var fractionX = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+                          var fractionY = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+                          me.eegsRightX[2] = fractionX;
+                          me.eegsRightY[2] = fractionY;
+                          me.drawEEGS600 = 1;
+                        }
+                      }
+                  }
+              }
             }
-            if (me.eegsMe.allow) {
+            if (me.eegsMe.allow and !(me.strf or me.hydra)) {
                 # draw the funnel
                 for (var k = 0;k<me.funnelParts;k+=1) {
                     
@@ -2343,6 +2419,106 @@ var HUD = {
                 }                
                 me.eegsGroup.update();
             }
+            print("me.strfRange in meters:" ~me.strfRange*FT2M);
+            #Same Piper asthe A/A it should be done in a function
+            if (me.eegsMe.allow and (me.strf or me.hydra)) {
+                me.eegsGroup.removeAllChildren();
+                if (me.drawEEGSPipper and me.strfRange*FT2M <= 4000) {
+
+                    #print("me.strfRange in meters:" ~me.strfRange*FT2M);
+                    me.EEGSdeg = math.max(0,HudMath.extrapolate(me.strfRange*FT2M,2400,600,360,0))*D2R;
+                    me.EEGSdegPos = [math.sin(me.EEGSdeg)*40,40-math.cos(me.EEGSdeg)*40];
+                  
+                    
+                    #drawing mini line and centra point 
+                    me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsPipperX,me.eegsPipperY)
+                          .lineTo(me.eegsPipperX,me.eegsPipperY)
+                          .arcSmallCW(3, 3, 0, 3*2, 0)
+                          .arcSmallCW(3, 3, 0, -3*2, 0)
+                          .moveTo(me.eegsPipperX, me.eegsPipperY-40)  
+                          .lineTo(me.eegsPipperX, me.eegsPipperY-55)
+                          .moveTo(me.eegsPipperX, me.eegsPipperY+40)  
+                          .lineTo(me.eegsPipperX, me.eegsPipperY+55)
+                          .moveTo(me.eegsPipperX-40, me.eegsPipperY)  
+                          .lineTo(me.eegsPipperX-55, me.eegsPipperY)
+                          .moveTo(me.eegsPipperX+40, me.eegsPipperY)  
+                          .lineTo(me.eegsPipperX+55, me.eegsPipperY)
+                          .setColor(me.myGreen)
+                          .setStrokeLineWidth(4);
+                          
+                          # Distance to target
+                    me.eegsGroup.createChild("text")
+                    .setColor(me.myGreen)
+                    .setTranslation(me.maxladderspan,-120)
+                    .setDouble("character-size", 35)
+                    .setAlignment("left-center")
+                    .setText(sprintf("%.1f KM", me.strfRange*FT2M/1000));     
+                          
+                    
+                     #drawing piper
+                    if(me.strfRange*FT2M <4000){
+                    me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsPipperX,me.eegsPipperY-40)
+                          .lineTo(me.eegsPipperX, me.eegsPipperY-55)
+                          .setCenter(me.eegsPipperX,me.eegsPipperY)
+                          .setColor(me.myGreen)
+                          .setStrokeLineWidth(4)
+                          .setRotation(me.EEGSdeg);
+                    }
+                    
+                    if (me.EEGSdeg<180*D2R) {
+                      me.eegsGroup.createChild("path")
+                          .setColor(me.myGreen)
+                          .moveTo(me.eegsPipperX, me.eegsPipperY-40)
+                          .arcSmallCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
+                          .setStrokeLineWidth(4);
+                    } elsif (me.EEGSdeg>=360*D2R) {
+                      me.eegsGroup.createChild("path")
+                          .setColor(me.myGreen)
+                          .moveTo(me.eegsPipperX, me.eegsPipperY-40)
+                          .arcSmallCW(40,40,0,0,80)
+                          .arcSmallCW(40,40,0,0,-80)
+                          .setStrokeLineWidth(4);
+                    } else {
+                      me.eegsGroup.createChild("path")
+                          .setColor(me.myGreen)
+                          .moveTo(me.eegsPipperX, me.eegsPipperY-40)
+                          .arcLargeCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
+                          .setStrokeLineWidth(4);
+                    }
+                  
+                  
+                  
+                    #var mr = 0.4 * 1.5;
+#                     var mr = 1.8;
+#                     var pipperRadius = 15 * mr;
+#                     if (me.strfRange <= 4000) {
+#                         me.eegsGroup.createChild("path")
+#                             .moveTo(me.eegsPipperX-pipperRadius, me.eegsPipperY-pipperRadius-2)
+#                             .horiz(pipperRadius*2)
+#                             .moveTo(me.eegsPipperX-pipperRadius, me.eegsPipperY)
+#                             .arcSmallCW(pipperRadius, pipperRadius, 0, pipperRadius*2, 0)
+#                             .arcSmallCW(pipperRadius, pipperRadius, 0, -pipperRadius*2, 0)
+#                             .moveTo(me.eegsPipperX-2*mr,me.eegsPipperY)
+#                             .arcSmallCW(2*mr,2*mr, 0, 2*mr*2, 0)
+#                             .arcSmallCW(2*mr,2*mr, 0, -2*mr*2, 0)
+#                             .setStrokeLineWidth(4)
+#                             .setColor(me.myGreen);
+#                     } else {
+#                         me.eegsGroup.createChild("path")
+#                             .moveTo(me.eegsPipperX-pipperRadius, me.eegsPipperY)
+#                             .arcSmallCW(pipperRadius, pipperRadius, 0, pipperRadius*2, 0)
+#                             .arcSmallCW(pipperRadius, pipperRadius, 0, -pipperRadius*2, 0)
+#                             .moveTo(me.eegsPipperX-2*mr,me.eegsPipperY)
+#                             .arcSmallCW(2*mr,2*mr, 0, 2*mr*2, 0)
+#                             .arcSmallCW(2*mr,2*mr, 0, -2*mr*2, 0)
+#                             .setStrokeLineWidth(4)
+#                             .setColor(me.myGreen);
+#                     }
+                }
+                me.eegsGroup.update();
+            }
             
             
             
@@ -2362,8 +2538,8 @@ var HUD = {
             #print("x,y");
             #printf("%d,%d",0,0);
             #print("-----");
-            
-            for (var j = 0;j < me.funnelParts;j+=1) {
+            var multi = (me.strf or me.hydra)?4:1;
+            for (var j = 0;j < me.funnelParts*multi;j+=1) {
                 
                 #calc new speed
                 me.eegsMe.Cd = drag(me.eegsMe.vel/ me.eegsMe.rs[1],0.193);#0.193=cd
@@ -2385,7 +2561,7 @@ var HUD = {
                 me.eegsMe.eegsPos.set_alt(me.eegsMe.altC);
                 
                 me.old = me.gunPos[j];
-                me.gunPos[j] = [[geo.Coord.new(me.eegsMe.eegsPos),me.eegsMe.ac]];
+                me.gunPos[j] = [[geo.Coord.new(me.eegsMe.eegsPos),me.eegsMe.ac, me.eegsMe.pitch]];
                 for (var m = 0;m<j+1;m+=1) {
                     append(me.gunPos[j], me.old[m]);
                 } 
