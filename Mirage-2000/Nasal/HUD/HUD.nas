@@ -2387,7 +2387,7 @@ var HUD = {
                 me.old = me.gunPos[j];
                 me.gunPos[j] = [[geo.Coord.new(me.eegsMe.eegsPos),me.eegsMe.ac]];
                 for (var m = 0;m<j+1;m+=1) {
-                    append(me.gunPos[j], old[m]);
+                    append(me.gunPos[j], me.old[m]);
                 } 
                 
                 me.eegsMe.vel = math.sqrt(me.eegsMe.speed_down_fps*me.eegsMe.speed_down_fps+me.eegsMe.speed_horizontal_fps*me.eegsMe.speed_horizontal_fps);
