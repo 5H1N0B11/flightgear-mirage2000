@@ -311,6 +311,10 @@ var AIM = {
         m.standbyFlight         = getprop(m.nodeString~"prowl-flight");               # unguided/level/gyro-pitch/5/terrain-follow for LOAL and that stuff, when not locked onto stuff.
         m.switchTime            = getprop(m.nodeString~"switch-time-sec");            # auto switch of targets in flight: time to scan FoV.
         m.noCommonTarget        = getprop(m.nodeString~"no-common-target");           # bool. If true, target must be set directly on weapon.
+        m.radarOrigin           = getprop(m.nodeString~"FCS-at-origin");              # bool.
+        m.radarX                = getprop(m.nodeString~"FCS-x");                      # 
+		m.radarY                = getprop(m.nodeString~"FCS-y");                      # 
+		m.radarZ                = getprop(m.nodeString~"FCS-z");                      # 
 		# navigation, guiding and seekerhead
 		m.max_seeker_dev        = getprop(m.nodeString~"seeker-field-deg") / 2;       # missiles own seekers total FOV diameter.
 		m.guidance              = getprop(m.nodeString~"guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided/level/gyro-pitch/radiation/inertial/remote/remote-stable
@@ -407,6 +411,10 @@ var AIM = {
 
         if (m.rail_head_deg == nil) {
         	m.rail_head_deg  = 0;
+        }
+
+        if (m.radarOrigin == nil) {
+        	m.radarOrigin = 1;
         }
         
         if (m.guideWhileDrop == nil) {
@@ -616,7 +624,7 @@ var AIM = {
 			m.mpLon          = props.globals.getNode(m.mpLon, FALSE);
 			m.mpAlt          = props.globals.getNode(m.mpAlt, FALSE);
 			m.mpAltft        = props.globals.getNode(m.mpAltft, FALSE);
-			if (m.mpLat != nil and m.mpLon != nil and m.mpAlt != nil) {
+			if (m.mpLat != nil and m.mpLon != nil and m.mpAlt != nil and m.mpAltft != nil) {
 				m.mpShow = TRUE;
 			}
 		}
@@ -4173,6 +4181,11 @@ var AIM = {
 	checkForView: func {
 		if (me.guidance != "gps" and me.guidance != "inertial") {
 			me.launchCoord = geo.aircraft_position();
+			if (!me.radarOrigin) {
+				me.geodPos = aircraftToCart({x:-me.radarX, y:me.radarY, z: -me.radarZ});
+				me.launchCoord.set_xyz(me.geodPos.x, me.geodPos.y, me.geodPos.z);
+			}
+			
 			me.potentialCoord = me.tagt.get_Coord();
 			me.xyz          = {"x":me.launchCoord.x(),                  "y":me.launchCoord.y(),                 "z":me.launchCoord.z()};
 		    me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
@@ -4920,7 +4933,7 @@ var AIM = {
 		thread.lock(mutexTimer);
 		append(AIM.timerQueue, [me, func me.explode_prop.setBoolValue(FALSE), [], 0.5]);
 		append(AIM.timerQueue, [me, func me.explode_smoke_prop.setBoolValue(TRUE), [], 0.5]);
-		append(AIM.timerQueue, [me, func me.explode_smoke_prop.setBoolValue(FALSE), [], 3]);
+		append(AIM.timerQueue, [me, func {me.explode_smoke_prop.setBoolValue(FALSE);if (me.first == TRUE and size(keys(AIM.flying))>1) {me.resetFirst();}}, [], 3]);
 		thread.unlock(mutexTimer);
 		if (info == nil or !hitGround or getprop("payload/armament/enable-craters") == nil or !getprop("payload/armament/enable-craters")) {return;};
 		thread.lock(mutexTimer);
