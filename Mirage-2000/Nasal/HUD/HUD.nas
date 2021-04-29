@@ -2252,11 +2252,11 @@ var HUD = {
                         }
                     }
                 }
-                print("me.eegsMe.allow:" ~ me.eegsMe.allow);
-                print(" me.groundDistanceFT:"~ (me.groundDistanceFT==nil?"nil":me.groundDistanceFT));
+                #print("me.eegsMe.allow:" ~ me.eegsMe.allow);
+                #print(" me.groundDistanceFT:"~ (me.groundDistanceFT==nil?"nil":me.groundDistanceFT));
                 # compute display positions of pipper on hud                
                 if (me.eegsMe.allow and me.groundDistanceFT != nil) {
-                    print("test");
+                    #print("test");
                     for (var ll = l-1;ll <= l;ll+=1) {
                         var ac    = me.gunPos[ll][0][1];
                         var pos   = me.gunPos[ll][0][0];
@@ -2275,7 +2275,7 @@ var HUD = {
                             me.eegsPipperX = HudMath.extrapolate(highdist-me.groundDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[ll-1],me.eegsMe.shellPosX[ll]);
                             me.eegsPipperY = HudMath.extrapolate(highdist-me.groundDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[ll-1],me.eegsMe.shellPosY[ll]);
                             me.drawEEGSPipper = 1;
-                            print("Should draw Piper");
+                            #print("Should draw Piper");
                         }
                     }
                 }
@@ -2419,7 +2419,7 @@ var HUD = {
                 }                
                 me.eegsGroup.update();
             }
-            print("me.strfRange in meters:" ~me.strfRange*FT2M);
+            #print("me.strfRange in meters:" ~me.strfRange*FT2M);
             #Same Piper asthe A/A it should be done in a function
             if (me.eegsMe.allow and (me.strf or me.hydra)) {
                 me.eegsGroup.removeAllChildren();
