@@ -64,7 +64,7 @@ var RadarTool = {
                   u.setType(armament.AIR);
                   
                   #print("Update Type of " ~ u.get_Callsign());
-                  #printf("Elevation :%f00" , me.get_elevation(u.get_Latitude(), u.get_Longitude()));
+                  #printf("Elevation of the tile :%f00" , me.get_elevation(u.get_Latitude(), u.get_Longitude()));
                   #print("Target Altitude:" ~u.get_altitude()*FT2M);
                   
                   #var ground_alt = geo.elevation(u.get_Latitude(), u.get_Longitude());
@@ -72,7 +72,7 @@ var RadarTool = {
                   
                   # We are testing if it is near the ground
                   if(me.type_ground_alt!=nil){
-                    if(abs(me.type_ground_alt - u.get_altitude()*FT2M) < 60) { # in meters
+                    if(abs(me.type_ground_alt - u.get_altitude()*FT2M) < 20 or u.get_altitude()*FT2M < 50) { # in meters
                       #print("It is close to the ground");
                       me.info = geodinfo(u.get_Latitude(), u.get_Longitude());
                       if (me.info != nil and me.info[1] != nil) {
@@ -88,7 +88,7 @@ var RadarTool = {
                           u.skipDoppler = 1;
                         }
                       #if we can't get the geoinfo it is because the terrain didn't load. So doing a default altitude check to choose
-                      }elsif(u.get_altitude()*FT2M < 10){
+                      }elsif(u.get_altitude()*FT2M < 50){
                           #print("MARINE");
                           u.setType(armament.MARINE);
                           u.skipDoppler = 1;
@@ -98,6 +98,8 @@ var RadarTool = {
                           u.skipDoppler = 0;
                       }
                     }
+                  }else{
+                    print("Tiles not loaded for target load moar" ~ u.get_Callsign() ~ " at " ~ u.get_range() ~"nm");
                   }
  
                   
