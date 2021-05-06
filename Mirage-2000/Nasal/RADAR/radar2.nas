@@ -536,7 +536,8 @@ var Radar = {
 
                         if(size(me.tgts_list)>me.Target_Index){
                           #This shouldn't be here. See how to delete it
-                          if(me.update_u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and me.update_u.getUnique() == me.Target_Callsign){
+                          if(me.update_u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and me.update_u.getUnique() == me.Target_Callsign 
+                              and me.az_fld == me.focused_az_fld){
                             #print("Picasso painting");
                             me.update_u.setPainted(1);
                             armament.contact = me.tgts_list[me.Target_Index];
@@ -569,7 +570,7 @@ var Radar = {
         me.ContactsList = me.decrease_life(me.ContactsList);
         
         
-        if (armament.contact != nil and armament.contact.get_display() and getprop("controls/armament/master-arm") and armament.contact.get_Callsign() != nil and armament.contact.get_Callsign() != "") {
+        if (armament.contact != nil and armament.contact.get_display() and getprop("controls/armament/master-arm") and armament.contact.get_Callsign() != nil and armament.contact.get_Callsign() != "" and armament.contact.isPainted()) {
           #print("armament.contact.get_Callsign"~armament.contact.get_Callsign());
           setprop("sim/multiplay/generic/string[6]", left(md5(armament.contact.get_Callsign()), 4));
         } else {
@@ -838,40 +839,6 @@ var Radar = {
         return me.az_fld;
     },
 
-    next_Target_Index_Old: func(){
-      if(me.az_fld == me.focused_az_fld){  
-      if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
-        me.Target_Index = me.Target_Index + 1;
-        if(me.Target_Index > (size(me.tgts_list)-1))
-        {
-            me.Target_Index = 0;
-        }
-        if (size(me.tgts_list) > 0) {
-        
-          ###  Verification of each valid elements
-          var tempo = 0;
-          foreach(tgts;me.tgts_list){
-            tempo = tgts.get_display()==1?tempo+1:tempo;
-          }
-          if(tempo ==0){
-            me.Target_Index = 0;
-            me.Target_Callsign = nil;
-            setprop("/ai/closest/range", 0);
-            return;
-          }
-          
-          if(me.tgts_list[me.Target_Index].get_display()!=1){
-            me.next_Target_Index();
-          }
-          
-          me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
-          me.tgts_list[me.Target_Index].setPainted(1);
-        } else {
-          me.Target_Callsign = nil;
-          return
-        } 
-      }
-    },
     
     next_loop: func(index,factor){
       var number = 0;
@@ -883,40 +850,42 @@ var Radar = {
     },
     
     next_Target_Index: func(){
-      if(me.az_fld == me.focused_az_fld){
-        #Stuff to un paint previous target
-        if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
-        
+      #Stuff to un paint previous target
+      if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
+      
+    
         #Stuff to decrease the index
         me.Target_Index = me.next_loop(me.Target_Index, 1);
 
         #Stuff to do with new index        
         if (size(me.tgts_list) > 0) {
           me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
-          me.tgts_list[me.Target_Index].setPainted(1);
+          if(me.az_fld == me.focused_az_fld){me.tgts_list[me.Target_Index].setPainted(1);} #If it require a focus, paint it
+          screen.log.write("Target is :" ~ me.tgts_list[me.Target_Index].get_Callsign() ~ " Painted :" ~ me.tgts_list[me.Target_Index].isPainted(), 0.0, 0.5, 1.0);
+          print("Target is :" ~ me.tgts_list[me.Target_Index].get_Callsign() ~ " Painted :" ~ me.tgts_list[me.Target_Index].isPainted());
         } else {
           me.Target_Callsign = nil;
         }
-      }
+
 
     },
     
     previous_Target_Index: func(){
-      if(me.az_fld == me.focused_az_fld){
-        #Stuff to un paint previous target
-        if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
-        
+      #Stuff to un paint previous target
+      if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         #Stuff to decrease the index
         me.Target_Index = me.next_loop(me.Target_Index, -1);
         
         #Stuff to do with new index        
         if (size(me.tgts_list) > 0) {
           me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
-          me.tgts_list[me.Target_Index].setPainted(1);
+          if(me.az_fld == me.focused_az_fld){me.tgts_list[me.Target_Index].setPainted(1);} #If it require a focus, paint it
+          screen.log.write("Target is :" ~ me.tgts_list[me.Target_Index].get_Callsign() ~ " Painted :" ~ me.tgts_list[me.Target_Index].isPainted(), 0.0, 0.5, 1.0);
+          print("Target is :" ~ me.tgts_list[me.Target_Index].get_Callsign() ~ " Painted :" ~ me.tgts_list[me.Target_Index].isPainted());
         } else {
           me.Target_Callsign = nil;
         }
-      }
+        
 
     },
 
@@ -949,35 +918,37 @@ var Radar = {
              }
             
             var MyTarget = me.tgts_list[ me.Target_Index];
-            me.tgts_list[ me.Target_Index].setPainted(1);
-            closeRange   = me.targetRange(MyTarget);
-            heading      = MyTarget.get_heading();
-            altitude     = MyTarget.get_altitude();
-            speed        = MyTarget.get_Speed();
-            callsign     = MyTarget.get_Callsign();
-            longitude    = MyTarget.get_Longitude();
-            latitude     = MyTarget.get_Latitude();
-            bearing      = me.targetBearing(MyTarget);
-            if(speed == nil)
-            {
-                speed = 0;
-            }
-            setprop("/ai/closest/range", closeRange);
-            setprop("/ai/closest/bearing", bearing);
-            setprop("/ai/closest/heading", heading);
-            setprop("/ai/closest/altitude", altitude);
-            setprop("/ai/closest/speed", speed);
-            setprop("/ai/closest/callsign", callsign);
-            setprop("/ai/closest/longitude", longitude);
-            setprop("/ai/closest/latitude", latitude);
+            
+#             me.tgts_list[ me.Target_Index].setPainted(1);#That sucks for mica
+#             closeRange   = me.targetRange(MyTarget);
+#             heading      = MyTarget.get_heading();
+#             altitude     = MyTarget.get_altitude();
+#             speed        = MyTarget.get_Speed();
+#             callsign     = MyTarget.get_Callsign();
+#             longitude    = MyTarget.get_Longitude();
+#             latitude     = MyTarget.get_Latitude();
+#             bearing      = me.targetBearing(MyTarget);
+#             if(speed == nil)
+#             {
+#                 speed = 0;
+#             }
+            #It shouldn't be use anymore
+#             setprop("/ai/closest/range", closeRange);
+#             setprop("/ai/closest/bearing", bearing);
+#             setprop("/ai/closest/heading", heading);
+#             setprop("/ai/closest/altitude", altitude);
+#             setprop("/ai/closest/speed", speed);
+#             setprop("/ai/closest/callsign", callsign);
+#             setprop("/ai/closest/longitude", longitude);
+#             setprop("/ai/closest/latitude", latitude);
         }else{
             if(me.az_fld != me.focused_az_fld){
               if (size(me.tgts_list) > 0) {
-                me.tgts_list[me.Target_Index].setPainted(0);
-                armament.contact = nil;
+#                 me.tgts_list[me.Target_Index].setPainted(0);
+#                 armament.contact = nil;
               }
             }
-            setprop("/ai/closest/range", 0);
+#             setprop("/ai/closest/range", 0);
         }
     },
     
@@ -1118,7 +1089,7 @@ var Radar = {
             return nil;#me.Target_Index = 0;
         }
         if (me.Target_Callsign == me.tgts_list[me.Target_Index].getUnique()) {
-          me.tgts_list[me.Target_Index].setPainted(1);
+          #me.tgts_list[me.Target_Index].setPainted(1); <- The fuck is that doing here
           return me.tgts_list[me.Target_Index];
         } else {
           me.Target_Callsign = nil;

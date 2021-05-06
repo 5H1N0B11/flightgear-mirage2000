@@ -1931,7 +1931,7 @@ var HUD = {
       me.MytargetIndex = mirage2000.myRadar3.Target_Index;
       me.closestCallsign = me.MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[me.MytargetIndex].get_Callsign():"";
       me.is_Painted = me.MytargetIndex != -1 ? mirage2000.myRadar3.tgts_list[me.MytargetIndex].isPainted():0;
-      me.closestRange = me.MytargetIndex != -1 and me.is_Painted == 1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[me.MytargetIndex]):0;
+      me.closestRange = me.MytargetIndex != -1 ? mirage2000.myRadar3.targetRange(mirage2000.myRadar3.tgts_list[me.MytargetIndex]):0;
     }else{
       me.closestCallsign = "";
       me.closestRange = -1;
