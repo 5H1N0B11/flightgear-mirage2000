@@ -69,6 +69,20 @@
     </button>
   </group>
 
+  <button>
+    <legend>Reload Guns, Flares and Chaffs</legend>
+    <binding>
+      <command>nasal</command>
+      <script>
+        if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
+        guns.reload_Cannon()
+        }else{
+        screen.log.write(mirage2000.msgB);
+        }
+      </script>
+    </binding>
+  </button>
+
   <hrule />
 
   <!--
@@ -112,36 +126,6 @@
 
   <hrule />
 
-  <button>
-    <legend>Ground targeting</legend>
-    <!--    <binding>
-	 <command>nasal</command>
-	 <script>missile.targetingGround()</script>
-	 </binding>-->
-    <binding>
-      <command>dialog-show</command>
-      <dialog-name>Ground_Targeting</dialog-name>
-    </binding>
-  </button>
-
-  <hrule />
-
-  <button>
-    <legend>Reload Guns, Flares and Chaffs</legend>
-    <binding>
-      <command>nasal</command>
-      <script>
-        if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
-        guns.reload_Cannon()
-        }else{
-        screen.log.write(mirage2000.msgB);
-        }
-      </script>
-    </binding>
-  </button>
-
-  <hrule />
-
   <text><label>Rate of Fire </label></text>
   <text><label>A/A => A/G</label></text>
   <group>
@@ -175,6 +159,101 @@
 
   <hrule />
 
+    <button>
+    <legend>Ground targeting</legend>
+    <!--    <binding>
+   <command>nasal</command>
+   <script>missile.targetingGround()</script>
+   </binding>-->
+    <binding>
+      <command>dialog-show</command>
+      <dialog-name>Ground_Targeting</dialog-name>
+    </binding>
+  </button>
+
+    <hrule />
+
+  <text><label>Fly-by-wire</label></text>
+  <group>
+    <layout>hbox</layout>
+    <group>
+      <layout>vbox</layout>
+      <halign>left</halign>
+      <text><label>A/A - CHARGES</label></text>
+    </group>
+    <group>
+      <layout>vbox</layout>
+      <halign>right</halign>
+      <slider>
+        <name>CAT</name>
+        <property>/fdm/jsbsim/fbw/mode</property>
+        <live>1</live>
+        <min>0</min>
+        <max>1</max>
+        <step>1</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+      </slider>
+    </group>
+  </group>
+        
+  <hrule />
+  
+    <group>
+    <layout>hbox</layout>
+    <text><halign>left</halign><label>AP TF Smooth (- +)</label></text>
+    <group>
+    <layout>vbox</layout>
+    <halign>right</halign>
+      <slider>
+        <name>APTF</name>
+        <property>/autopilot/settings/tf-mode</property>
+        <live>1</live>
+        <min>1</min>
+        <max>10</max>
+        <step>1</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>
+              gui.popupTip(sprintf("AP TF Smooth (- +) : %d", getprop("/autopilot/settings/tf-mode")));
+          </script>
+        </binding>
+      </slider>
+      </group>
+  </group>
+  
+  <group>
+    <layout>hbox</layout>
+    <group><text><label>Predictions (- +)</label></text></group>
+    <group>
+    <layout>vbox</layout>
+    <halign>right</halign>
+      <slider>
+        <name>APTF</name>
+        <property>/instrumentation/tfs/delay-sec</property>
+        <live>1</live>
+        <min>0.5</min>
+        <max>5</max>
+        <step>0.5</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>
+              gui.popupTip(sprintf("Predictions (- +) : %.1f", getprop("/instrumentation/tfs/delay-sec")));
+          </script>
+        </binding>
+      </slider>
+      </group>
+  </group>
+
+  <hrule />
+
   <!-- Bingo Fuel  -->
   <text>
     <label>Enter the Bingo Fuel value</label>
@@ -192,6 +271,77 @@
       <object-name>bingo_fuel</object-name>
     </binding>
   </input>
+
+    <hrule />
+
+  <group>
+    <layout>hbox</layout>
+    <text><label>Show Pilot</label></text>
+    <checkbox>
+      <property>/controls/seat/pilot</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/seat/pilot</property>
+      </binding>
+    </checkbox>
+  </group>
+  
+  <group>
+    <layout>hbox</layout>
+    <text><label>Dynamic view Enabled</label></text>
+    <checkbox>
+      <property>sim/disable-custom-view</property>
+      <live>false</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>sim/disable-custom-view</property>
+      </binding>
+    </checkbox>
+  </group>
+  
+  <group>
+    <layout>hbox</layout>
+    <text><label>Cockpit Vibration</label></text>
+    <checkbox>
+      <property>/controls/cabin/shake-effect</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/cabin/shake-effect</property>
+      </binding>
+    </checkbox>
+  </group>
+
+    <group>
+    <layout>hbox</layout>
+    <text><label>Ground equipment</label></text>
+    <checkbox>
+      <property>/controls/ground-equipment</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>/controls/ground-equipment</property>
+      </binding>
+    </checkbox>
+  </group>
+
+  <group>
+    <layout>hbox</layout>
+    <text><label>Smoke (Needs pods)</label></text>
+    <checkbox>
+      <property>payload/armament/smoke-pod/flags/smoke-id-500</property>
+      <live>false</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>payload/armament/smoke-pod/flags/smoke-id-100</property>
+      </binding>
+      <binding>
+        <command>property-toggle</command>
+        <property>payload/armament/smoke-pod/flags/smoke-id-500</property>
+      </binding>
+    </checkbox>
+  </group>
 
   <empty>
       <stretch>1</stretch>

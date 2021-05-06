@@ -40,159 +40,90 @@
 
   <hrule />
 
+ <group>
+  <layout>hbox</layout>
   <group>
-    <layout>hbox</layout>
-    <text><label>Show Pilot</label></text>
-    <checkbox>
-      <property>/controls/seat/pilot</property>
-      <live>true</live>
-      <binding>
-        <command>property-toggle</command>
-        <property>/controls/seat/pilot</property>
-      </binding>
-    </checkbox>
-  </group>
-  
-  <group>
-    <layout>hbox</layout>
-    <text><label>Dynamic view Enabled</label></text>
-    <checkbox>
-      <property>sim/disable-custom-view</property>
-      <live>false</live>
-      <binding>
-        <command>property-toggle</command>
-        <property>sim/disable-custom-view</property>
-      </binding>
-    </checkbox>
-  </group>
-  
-
-  <group>
-    <layout>hbox</layout>
-    <text><label>Cockpit Vibration</label></text>
-    <checkbox>
-      <property>/controls/cabin/shake-effect</property>
-      <live>true</live>
-      <binding>
-        <command>property-toggle</command>
-        <property>/controls/cabin/shake-effect</property>
-      </binding>
-    </checkbox>
-  </group>
-
-  <hrule />
-
-  <button>
-    <legend>Toggle ground equipment</legend>
-    <binding>
-      <command>property-toggle</command>
-      <property>/controls/ground-equipment</property>
-    </binding>
-  </button>
-  
-  <hrule />
-  <group>
-    <layout>hbox</layout>
-    <text><label>Smoke (Needs pods)</label></text>
-    <checkbox>
-      <property>payload/armament/smoke-pod/flags/smoke-id-500</property>
-      <live>false</live>
-      <binding>
-        <command>property-toggle</command>
-        <property>payload/armament/smoke-pod/flags/smoke-id-100</property>
-      </binding>
-      <binding>
-        <command>property-toggle</command>
-        <property>payload/armament/smoke-pod/flags/smoke-id-500</property>
-      </binding>
-    </checkbox>
-  </group>
-  
-  <hrule />
-  <text><label>Fly-by-wire</label></text>
-  <group>
-    <layout>hbox</layout>
-    <group>
+      <!-- Labels -->
       <layout>vbox</layout>
       <halign>left</halign>
-      <text><label>A/A - CHARGES</label></text>
+      <text>
+        <label>Radar</label>
+      </text>
     </group>
     <group>
       <layout>vbox</layout>
       <halign>right</halign>
-      <slider>
-        <name>CAT</name>
-        <property>/fdm/jsbsim/fbw/mode</property>
-        <live>1</live>
-        <min>0</min>
-        <max>1</max>
-        <step>1</step>
+      <checkbox>
+        <name>Radar</name>
+        <property>instrumentation/radar/radar-standby</property>
+        <live>true</live>
         <binding>
-          <command>dialog-apply</command>
+          <command>property-toggle</command>
+          <property>instrumentation/radar/radar-standby</property>
         </binding>
-      </slider>
+      </checkbox>
     </group>
   </group>
-        
-  
-  <hrule />
-  
-    <group>
-    <layout>hbox</layout>
-    <text><halign>left</halign><label>AP TF Smooth (- +)</label></text>
-    <group>
-    <layout>vbox</layout>
-    <halign>right</halign>
-      <slider>
-        <name>APTF</name>
-        <property>/autopilot/settings/tf-mode</property>
-        <live>1</live>
-        <min>1</min>
-        <max>10</max>
-        <step>1</step>
-        <binding>
-          <command>dialog-apply</command>
-        </binding>
-        <binding>
-          <command>nasal</command>
-          <script>
-              gui.popupTip(sprintf("AP TF Smooth (- +) : %d", getprop("/autopilot/settings/tf-mode")));
-          </script>
-        </binding>
-      </slider>
-      </group>
-  </group>
-  
+
   <group>
     <layout>hbox</layout>
-    <group><text><label>Predictions (- +)</label></text></group>
+    <!--
     <group>
-    <layout>vbox</layout>
-    <halign>right</halign>
-      <slider>
-        <name>APTF</name>
-        <property>/instrumentation/tfs/delay-sec</property>
-        <live>1</live>
-        <min>0.5</min>
-        <max>5</max>
-        <step>0.5</step>
+      <layout>vbox</layout>
+      <halign>left</halign>
+      <text>
+        <label>Doppler exclusion</label>
+      </text>
+    </group>
+    <group>
+      <layout>vbox</layout>
+      <halign>right</halign>
+      <checkbox>
+        <name>Doppler_exclusion</name>
+        <property>instrumentation/radar/radar-selection-type-bool</property>
+        <live>true</live>
         <binding>
-          <command>dialog-apply</command>
+          <command>property-toggle</command>
+          <property>instrumentation/radar/radar-selection-type-bool</property>
         </binding>
         <binding>
           <command>nasal</command>
           <script>
-              gui.popupTip(sprintf("Predictions (- +) : %.1f", getprop("/instrumentation/tfs/delay-sec")));
-          </script>
+if(getprop(instrumentation/radar/radar-selection-type-bool) == 0)
+{
+    mirage2000.myRadar3.setDetectiontype("laser");
+}
+else
+{
+    mirage2000.myRadar3.setDetectiontype("radar");
+}
+            </script>
         </binding>
-      </slider>
-      </group>
+      </checkbox>
+    </group>-->
   </group>
-
-  <hrule />
   
-  
+  <!--<button>
+    <legend>Toogle Detection Type</legend>
+    <binding>
+      <command>nasal</command>
+      <script>mirage2000.myRadar3.toggle_Type()</script>
+    </binding>
+  </button>-->
+  <button>
+    <legend>Re Init Radar</legend>
+    <binding>
+      <command>nasal</command>
+      <script>
+        mirage2000.myRadar3.delete();
+        mirage2000.myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:1, forcePath:"instrumentation/radar2/targets", NewAutoUpdate:1);
+        <!--mirage2000.myRadar3.AutoUpdate = 1;-->
+        mirage2000.myRadar3.init();
+      </script>
+    </binding>
+  </button>
 
+<hrule />
   
   <!--group>
     <layout>hbox</layout>
@@ -268,7 +199,9 @@
       </binding>
     </button>
   </group>
-  
-  
-  
+
+  <empty>
+      <stretch>1</stretch>
+  </empty>
+
 </PropertyList>

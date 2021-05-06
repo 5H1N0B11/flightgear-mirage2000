@@ -80,21 +80,12 @@
       </item>
 
       <item n="9">
-        <label>Radar</label>
-        <name>radar</name>
-        <binding>
-          <command>dialog-show</command>
-          <dialog-name>radar</dialog-name>
-        </binding>
-      </item>
-
-      <item>
-	<label>IFF codes</label>
-	<name>iff</name>
-	<binding>
-	  <command>dialog-show</command>
-	  <dialog-name>iff</dialog-name>
-	</binding>
+	       <label>IFF codes</label>
+	       <name>iff</name>
+	       <binding>
+	          <command>dialog-show</command>
+	           <dialog-name>iff</dialog-name>
+      	</binding>
       </item>
       
 <!--      
@@ -107,7 +98,7 @@
       </item>
 -->
 
-      <item n="11">
+      <item n="10">
         <label>About</label>
         <name>AboutMirage</name>
         <binding>
@@ -116,7 +107,7 @@
         </binding>
       </item>
 
-      <item n="12">
+      <item n="11">
         <label>Wingmen</label>
         <name>wingmen</name>
         <binding>
@@ -125,7 +116,7 @@
         </binding>
       </item>
       
-      <item n="13">
+      <item n="12">
         <label>Training</label>
         <name>training</name>
         <binding>
@@ -134,7 +125,7 @@
         </binding>
       </item>
 
-      <item n="14">
+      <item n="13">
 	<label>Quick Payload Reload</label>
 	<name>payload-qs</name>
 	<binding>
@@ -165,7 +156,7 @@
 	</binding>
       </item>
       
-  <item n="15">
+  <item n="14">
     <label>Combat event log</label>
     <name>event-log</name>
     <binding>
@@ -174,7 +165,7 @@
     </binding>
   </item>
 
-  <item n="16">
+  <item n="15">
     <label>Tacview</label>
     <name>event-log</name>
     <binding>

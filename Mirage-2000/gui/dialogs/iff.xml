@@ -55,4 +55,8 @@
       <command>dialog-apply</command>
     </binding>
   </input>
+
+  <empty>
+      <stretch>1</stretch>
+  </empty>
 </PropertyList>
