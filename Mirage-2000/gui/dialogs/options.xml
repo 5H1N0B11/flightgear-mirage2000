@@ -111,7 +111,7 @@ else
     </binding>
   </button>-->
   <button>
-    <legend>Re Init Radar</legend>
+    <legend>Shoot whoever: kill J-Mav16</legend>
     <binding>
       <command>nasal</command>
       <script>
