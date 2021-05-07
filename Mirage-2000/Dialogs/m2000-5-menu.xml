@@ -80,7 +80,7 @@
       </item>
 
       <item n="9">
-	       <label>IFF codes</label>
+	       <label>IFF/Datalink Settings</label>
 	       <name>iff</name>
 	       <binding>
 	          <command>dialog-show</command>

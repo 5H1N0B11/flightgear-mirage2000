@@ -6,12 +6,12 @@
   <modal type="bool">false</modal>
   <layout>vbox</layout>
   <draggable>true</draggable>
-  <width>200</width>
+  <width>300</width>
   <hight>70</hight>
 
   <group>
     <layout>hbox</layout>
-    <text><label>IFF/Datalink code selection</label></text>
+    <text><label>IFF/Datalink Settings</label></text>
     <empty><stretch>1</stretch></empty>
     
     <button>
@@ -22,53 +22,99 @@
       <keynum>27</keynum>
       <border>2</border>
       <binding>
-	<command>dialog-close</command>
+	   <command>dialog-close</command>
       </binding>
       <binding>
-	<command>dialog-apply</command>
+	   <command>dialog-apply</command>
       </binding>
     </button>
   </group>
 
   <hrule/>
 
-  <input>
-    <width>250</width>
-    <hight>25</hight>
-    <label>IFF code A</label>
-    <property>instrumentation/iff/channel_A</property>
-    <live>true</live>
-    <halight>left</halight>
-    <binding>
-      <command>dialog-apply</command>
-    </binding>
-  </input>
-  
-  <input>
-    <width>250</width>
-    <hight>25</hight>
-    <label>IFF code B</label>
-    <property>instrumentation/iff/channel_B</property>
-    <live>true</live>
-    <halight>left</halight>
-    <binding>
-      <command>dialog-apply</command>
-    </binding>
-  </input>
+   <group>
+    <layout>hbox</layout>
+    <input>
+      <width>250</width>
+      <hight>25</hight>
+      <label>IFF Code A</label>
+      <property>instrumentation/iff/channel_A</property>
+      <live>true</live>
+      <halight>left</halight>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </input>
+
+    <button>
+        <legend>Clear</legend>
+        <halign>right</halign>
+        <binding>
+          <command>nasal</command>
+          <script><![CDATA[
+            setprop("instrumentation/iff/channel_A", 0);
+          ]]></script>
+        </binding>
+    </button>
+  </group>
+
+  <group>
+    <layout>hbox</layout>
+    <input>
+      <width>250</width>
+      <hight>25</hight>
+      <label>IFF Code B</label>
+      <property>instrumentation/iff/channel_B</property>
+      <live>true</live>
+      <halight>left</halight>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </input>
+
+    <button>
+        <legend>Clear</legend>
+        <halign>right</halign>
+        <binding>
+          <command>nasal</command>
+          <script><![CDATA[
+            setprop("instrumentation/iff/channel_B", 0);
+          ]]></script>
+        </binding>
+    </button>
+  </group>
 
   <empty>
       <stretch>1</stretch>
   </empty>
 
-  <input>
-    <width>250</width>
-    <hight>25</hight>
-    <label>Datalink channel</label>
-    <property>instrumentation/datalink/channel</property>
-    <live>true</live>
-    <halight>left</halight>
-    <binding>
-      <command>dialog-apply</command>
-    </binding>
-  </input>
+<group>
+    <layout>hbox</layout>
+    <input>
+      <width>250</width>
+      <hight>25</hight>
+      <label>Datalink Channel</label>
+      <property>instrumentation/datalink/channel</property>
+      <live>true</live>
+      <halight>left</halight>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </input>
+
+    <button>
+        <legend>Clear</legend>
+        <halign>right</halign>
+        <binding>
+          <command>nasal</command>
+          <script><![CDATA[
+            setprop("instrumentation/datalink/channel", 0);
+          ]]></script>
+        </binding>
+    </button>
+  </group>
+
+  <empty>
+      <stretch>1</stretch>
+  </empty>
 </PropertyList>
