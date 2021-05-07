@@ -11,7 +11,7 @@
 
   <group>
     <layout>hbox</layout>
-    <text><label>IFF code selection</label></text>
+    <text><label>IFF/Datalink code selection</label></text>
     <empty><stretch>1</stretch></empty>
     
     <button>
@@ -35,7 +35,7 @@
   <input>
     <width>250</width>
     <hight>25</hight>
-    <label>code A</label>
+    <label>IFF code A</label>
     <property>instrumentation/iff/channel_A</property>
     <live>true</live>
     <halight>left</halight>
@@ -47,7 +47,7 @@
   <input>
     <width>250</width>
     <hight>25</hight>
-    <label>code B</label>
+    <label>IFF code B</label>
     <property>instrumentation/iff/channel_B</property>
     <live>true</live>
     <halight>left</halight>
@@ -59,4 +59,16 @@
   <empty>
       <stretch>1</stretch>
   </empty>
+
+  <input>
+    <width>250</width>
+    <hight>25</hight>
+    <label>Datalink channel</label>
+    <property>instrumentation/datalink/channel</property>
+    <live>true</live>
+    <halight>left</halight>
+    <binding>
+      <command>dialog-apply</command>
+    </binding>
+  </input>
 </PropertyList>
