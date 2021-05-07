@@ -229,4 +229,13 @@
 	<channel_B_hold type="int">0</channel_B_hold>
     </iff>
 
+    <datalink>
+            <power type="bool">true</power>
+            <power_prop type="string">instrumentation/datalink/power</power_prop>
+            <channel_prop type="string">instrumentation/datalink/channel</channel_prop>
+            <receive_period type="double">5</receive_period>
+            <channel type="int">0</channel>
+            <!--identifier_prop type="string">instrumentation/datalink/ident</identifier_prop-->
+        </datalink>
+
 </PropertyList>

@@ -299,6 +299,9 @@
     <iff>
        <file>Aircraft/Mirage-2000/Nasal/iff.nas</file>
     </iff>
+    <datalink>
+        <file>Aircraft/Mirage-2000/Nasal/datalink.nas</file>
+    </datalink>
     <tacview>
         <file>Aircraft/Mirage-2000/Nasal/tacview.nas</file>
     </tacview>
