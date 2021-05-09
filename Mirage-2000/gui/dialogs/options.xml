@@ -40,34 +40,9 @@
 
   <hrule />
 
- <group>
-  <layout>hbox</layout>
-  <group>
-      <!-- Labels -->
-      <layout>vbox</layout>
-      <halign>left</halign>
-      <text>
-        <label>Radar</label>
-      </text>
-    </group>
-    <group>
-      <layout>vbox</layout>
-      <halign>right</halign>
-      <checkbox>
-        <name>Radar</name>
-        <property>instrumentation/radar/radar-standby</property>
-        <live>true</live>
-        <binding>
-          <command>property-toggle</command>
-          <property>instrumentation/radar/radar-standby</property>
-        </binding>
-      </checkbox>
-    </group>
-  </group>
-
-  <group>
+  <!--group>
     <layout>hbox</layout>
-    <!--
+    <!-
     <group>
       <layout>vbox</layout>
       <halign>left</halign>
@@ -100,8 +75,8 @@ else
             </script>
         </binding>
       </checkbox>
-    </group>-->
-  </group>
+    </group>->
+  </group-->
   
   <!--<button>
     <legend>Toogle Detection Type</legend>
@@ -110,18 +85,18 @@ else
       <script>mirage2000.myRadar3.toggle_Type()</script>
     </binding>
   </button>-->
-  <button>
+  <!--button>
     <legend>Shoot whoever: kill J-Mav16</legend>
     <binding>
       <command>nasal</command>
       <script>
         mirage2000.myRadar3.delete();
         mirage2000.myRadar3 = radar.Radar.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:1, forcePath:"instrumentation/radar2/targets", NewAutoUpdate:1);
-        <!--mirage2000.myRadar3.AutoUpdate = 1;-->
+        <!-mirage2000.myRadar3.AutoUpdate = 1;->
         mirage2000.myRadar3.init();
       </script>
     </binding>
-  </button>
+  </button-->
 
 <hrule />
   

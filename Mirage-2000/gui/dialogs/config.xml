@@ -83,6 +83,33 @@
     </binding>
   </button>
 
+  <group>
+    <layout>table</layout>
+    <button>
+      <row>0</row>
+      <col>0</col>
+      <legend>Ground targeting</legend>
+      <!--    <binding>
+     <command>nasal</command>
+     <script>missile.targetingGround()</script>
+     </binding>-->
+    <binding>
+      <command>dialog-show</command>
+      <dialog-name>Ground_Targeting</dialog-name>
+    </binding>
+  </button>
+
+  <button>
+      <row>0</row>
+      <col>1</col>
+      <legend>Flight Mode</legend>
+      <binding>
+      <command>dialog-show</command>
+      <dialog-name>flightmode</dialog-name>
+    </binding>
+  </button>
+</group>
+
   <hrule />
 
   <!--
@@ -158,20 +185,6 @@
   </group>
 
   <hrule />
-
-    <button>
-    <legend>Ground targeting</legend>
-    <!--    <binding>
-   <command>nasal</command>
-   <script>missile.targetingGround()</script>
-   </binding>-->
-    <binding>
-      <command>dialog-show</command>
-      <dialog-name>Ground_Targeting</dialog-name>
-    </binding>
-  </button>
-
-    <hrule />
 
   <text><label>Fly-by-wire</label></text>
   <group>
@@ -259,7 +272,6 @@
     <label>Enter the Bingo Fuel value</label>
   </text>
   
-  
   <input>
     <name>bingo_fuel</name>
     <width>75</width>
@@ -276,6 +288,19 @@
 
   <group>
     <layout>hbox</layout>
+    <text><label>Radar</label></text>
+    <checkbox>
+      <property>instrumentation/radar/radar-standby</property>
+      <live>true</live>
+      <binding>
+        <command>property-toggle</command>
+        <property>instrumentation/radar/radar-standby</property>
+      </binding>
+    </checkbox>
+  </group>
+
+  <group>
+    <layout>hbox</layout>
     <text><label>Show Pilot</label></text>
     <checkbox>
       <property>/controls/seat/pilot</property>
@@ -289,7 +314,7 @@
   
   <group>
     <layout>hbox</layout>
-    <text><label>Dynamic view Enabled</label></text>
+    <text><label>Enable Dynamic view</label></text>
     <checkbox>
       <property>sim/disable-custom-view</property>
       <live>false</live>
@@ -342,6 +367,41 @@
       </binding>
     </checkbox>
   </group>
+
+      <hrule />
+
+  <group>
+    <layout>table</layout>
+    <button>
+      <row>0</row>
+      <col>0</col>
+      <legend>About</legend>
+      <binding>
+      <command>dialog-show</command>
+      <dialog-name>about_Mirage</dialog-name>
+    </binding>
+  </button>
+
+  <button>
+      <row>0</row>
+      <col>1</col>
+      <legend>Lights</legend>
+      <binding>
+      <command>dialog-show</command>
+      <dialog-name>lightning</dialog-name>
+    </binding>
+  </button>
+
+  <button>
+      <row>0</row>
+      <col>2</col>
+      <legend>Options</legend>
+      <binding>
+      <command>dialog-show</command>
+      <dialog-name>options</dialog-name>
+    </binding>
+  </button>
+</group>
 
   <empty>
       <stretch>1</stretch>
