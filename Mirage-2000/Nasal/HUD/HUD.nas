@@ -1287,7 +1287,7 @@ var HUD = {
   },
   update: func()
   {
-    
+    me.aircraft_position = geo.aircraft_position();
     me.hydra = 0; #for rocket
     me.strf = me.input.gun_rate.getValue()==0.06?1:0; #Air to ground fire : based on the gun rate
     #me.airspeed.setText(sprintf("%d", me.input.ias.getValue()));
@@ -1393,22 +1393,38 @@ var HUD = {
     #Calculate the GPS coord of the next WP
     me.NextWaypointCoordinate();
       
-    #Display the Next WP
-    if( me.input.currentWp.getValue() != me.lastWP){
-      me.displayWaypointCross();
-    }
     
+    
+    
+    
+    #Display the Next WP ##################################################
+    #Should be displayed for : 
+    #1-Next waypoint
+    #2-bulleseye
+    #3-ground target
+    me.displayWaypointCrossShow = 0;
+    me.display_houseShow = 0;
+    
+    if(!me.input.MasterArm.getValue() and me.input.gearPos.getValue() == 0){# if masterArm is not selected
+      #if there is a route selected and Bulleye isn't selected
+      if( me.NXTWP != nil){#if waypoint is active
+        me.displayWaypointCross(me.NXTWP);
+      }
+      # displaying the little house
+      me.display_house(me.NXTWP);
+    }
+    me.WaypointCross.setVisible(me.displayWaypointCrossShow);
+    me.HeadingHouse.setVisible(me.display_houseShow);
      
     #Gun Cross (bore)
     me.displayBoreCross();
     
-    
+
     
     # flight path vector (FPV)
     me.display_Fpv();
     
-    # displaying the little house
-    me.display_house();
+
     
     #chevronGroup
     me.display_Chevron();
@@ -1704,15 +1720,16 @@ var HUD = {
     }
   },
   
-  display_house:func(){
-    if(me.input.NextWayNum.getValue()!=-1){
-      if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0 and
-        (!me.isInCanvas(HudMath.getPosFromCoord(me.NXTWP)[0],HudMath.getPosFromCoord(me.NXTWP)[1]) or me.input.distNextWay.getValue()>10) ){
+  #This should be called with a geo.coord object.
+  #Doing that way it could be used for waypoint, bullseye and ground target
+  display_house:func(coord){
+    if(coord != nil){
+      if(!me.isInCanvas(HudMath.getPosFromCoord(coord)[0],HudMath.getPosFromCoord(coord)[1]) or me.aircraft_position.direct_distance_to(coord)*M2NM >=10 ){
         #Depend of which heading we want to display
           if(me.input.hdgDisplay.getValue()){
-            me.houseTranslation = -(geo.normdeg180(me.heading - me.input.NextWayTrueBearing.getValue() ))*me.headScaleTickSpacing/5;
+            me.houseTranslation = -(geo.normdeg180(me.heading - me.aircraft_position.course_to(coord)))*me.headScaleTickSpacing/5;
           }else{
-            me.houseTranslation = -(geo.normdeg180(me.heading - me.input.NextWayBearing.getValue() ))*me.headScaleTickSpacing/5;
+            me.houseTranslation = -(geo.normdeg180(me.heading - me.aircraft_position.course_to(coord)))*me.headScaleTickSpacing/5;
           }
  
         me.HeadingHouse.setTranslation(clamp(me.houseTranslation,-me.maxladderspan,me.maxladderspan),me.fpvCalc[1]);
@@ -1721,11 +1738,11 @@ var HUD = {
         }else{
           me.HeadingHouse.setRotation(me.horizStuff[1]);
         }
-        me.HeadingHouse.show();
+        me.display_houseShow = 1;
         return;
       }
     }
-    me.HeadingHouse.hide();
+    #me.HeadingHouse.hide();
   },
   
   display_Chevron : func(){
@@ -2154,28 +2171,42 @@ var HUD = {
     }
     
   },
+  #This should be called with a geo.coord object.
+  #Doing that way it could be used for waypoint, bullseye and ground target
+#       if(me.input.distNextWay.getValue()!= nil and me.input.distNextWay.getValue()<10 and me.input.gearPos.getValue() == 0 
+#                        and me.input.NextWayNum.getValue()!=-1 and me.NXTWP != nil and me.fp.currentWP() != nil){#if waypoint is active
   
-  displayWaypointCross:func(){
-    if(me.input.distNextWay.getValue()!= nil and me.input.distNextWay.getValue()<10 and me.input.gearPos.getValue() == 0 
-                       and me.input.NextWayNum.getValue()!=-1 and me.NXTWP != nil and me.fp.currentWP() != nil){#if waypoint is active
-      me.WaypointCross.setTranslation(HudMath.getPosFromCoord(me.NXTWP));
-      me.WaypointCross.show();
-    }else{
-      me.WaypointCross.hide();
+  
+  displayWaypointCross:func(coord){
+    #print("runing displayWaypointCross"); 
+    if(coord != nil){ #The aircraft should be flying ... This need to be done before in hud mode selection
+      #print("coord is not nil");
+      if(me.aircraft_position.direct_distance_to(coord)*M2NM<10){
+        #print("Shoud display the waypoint");
+        me.WaypointCross.setTranslation(HudMath.getPosFromCoord(coord));
+        me.displayWaypointCrossShow = 1;
+        return;
+      }
     }
+    #me.WaypointCross.hide();
   },
+  
   #This should be called at every iteration
   NextWaypointCoordinate:func(){ 
       if(me.fp.currentWP() != nil){
+          #Sometime you can set up an altitude to your waypoint. if it's the case we take it.
           me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
+          
           #print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
+          #if the altitude isn't set, just take the ground alt.
           var Geo_Elevation = geo.elevation(me.fp.currentWP().lat , me.fp.currentWP().lon);    
           Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation; 
           #print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
-          if( me.NxtElevation  == nil or me.NxtElevation  < Geo_Elevation){
+          
+          #if no altitude, then take ground alt
+          if( me.NxtElevation  != nil){
+            Geo_Elevation = me.NxtElevation  > Geo_Elevation ? me.NxtElevation : Geo_Elevation ;     
             me.NXTWP.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon ,  Geo_Elevation + 2);
-          }else{
-            me.NXTWP.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon , me.NxtElevation );
           }
           
       }
