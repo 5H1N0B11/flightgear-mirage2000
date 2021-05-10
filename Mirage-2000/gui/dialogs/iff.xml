@@ -6,8 +6,8 @@
   <modal type="bool">false</modal>
   <layout>vbox</layout>
   <draggable>true</draggable>
-  <width>300</width>
-  <hight>70</hight>
+  <width>520</width>
+<!--   <height>70</height> -->
 
   <group>
     <layout>hbox</layout>
@@ -117,4 +117,72 @@
   <empty>
       <stretch>1</stretch>
   </empty>
+  
+  <hrule/>
+
+	<text><halign>left</halign><label>Bullseye designation</label></text>
+	<empty><stretch>1</stretch></empty>
+	
+	<group>
+		<layout>hbox</layout>
+
+		<input>
+		  	<width>150</width>
+		  	<height>25</height>
+		  	<label>Lat </label>
+		  	<property>instrumentation/bullseye/bulls-eye-lat</property>
+		  	<live>true</live>
+		  	<halign>left</halign>
+	        <binding>
+	            <command>dialog-apply</command>
+	      	</binding>
+	      	<color>
+	      		<red>0.44</red>
+				<green>0.55</green>
+				<blue>0.8</blue>
+	      	</color>
+		</input>
+		<input>
+		  	<width>150</width>
+		  	<height>25</height>
+		  	<label>Lon</label>
+		  	<property>instrumentation/bullseye/bulls-eye-lon</property>
+		  	<live>true</live>
+		  	<halign>left</halign>
+	        <binding>
+	            <command>dialog-apply</command>
+	      	</binding>
+	      	<color>
+	      		<red>0.44</red>
+				<green>0.55</green>
+				<blue>0.8</blue>
+	      	</color>
+		</input>
+		<checkbox>
+			<label>Display BE</label>
+			<halign>right</halign>
+			<live>true</live>
+			<property>instrumentation/bullseye/bulls-eye-defined</property>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+		</checkbox>
+		<button>
+			<legend>Clear</legend>
+			<halign>center</halign>
+			<binding>
+				<command>nasal</command>
+				<script><![CDATA[
+					setprop("instrumentation/bullseye/bulls-eye-lat", 0);
+					setprop("instrumentation/bullseye/bulls-eye-lon", 0);
+				]]></script>
+			</binding>
+		</button>
+	</group>
+
+	<empty><stretch>1</stretch></empty>
+	<hrule/>
+  
+  
+  
 </PropertyList>
