@@ -1186,9 +1186,7 @@ var HUD = {
 #       .setColor(0,1,0).hide();
 #       append(obj.total, obj.ASC);  
       
- 
-      
-    
+   
     
     m.root.setColor(m.red,m.green,m.blue,1);
     
@@ -1270,6 +1268,9 @@ var HUD = {
       TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
       IsRadarWorking : "/systems/electrical/outputs/radar",
       gun_rate       : "/ai/submodels/submodel[1]/delay",
+      bullseye_lat   : "/instrumentation/bullseye/bulls-eye-lat",
+      bullseye_lon   : "instrumentation/bullseye/bulls-eye-lon",
+      bullseye_def   : "instrumentation/bullseye/bulls-eye-defined"
     };
     
     foreach(var name; keys(m.input)){
@@ -1282,6 +1283,9 @@ var HUD = {
     m.RunwaysCoordCornerRight = geo.Coord.new();
     m.RunwaysCoordEndCornerLeft = geo.Coord.new();
     m.RunwaysCoordEndCornerRight = geo.Coord.new();
+    m.bullseyeGeo = geo.Coord.new();
+    m.NXTWP = geo.Coord.new();
+    
         
     return m;
   },
@@ -1388,12 +1392,16 @@ var HUD = {
     
     
     # Bore Cross. In navigation, the cross should only appear on NextWaypoint gps cooord, when dist to this waypoint is bellow 10 nm
-    me.NXTWP = geo.Coord.new();
+    #me.NXTWP = geo.Coord.new();
     
     #Calculate the GPS coord of the next WP
     me.NextWaypointCoordinate();
       
-    
+    if(me.input.bullseye_def.getValue()){
+      if(me.input.bullseye_lat.getValue() != nil and me.input.bullseye_lon.getValue() != nil){
+        me.bullseyeGeo.set_latlon(me.input.bullseye_lat.getValue(),me.input.bullseye_lon.getValue());
+      }
+    }
     
     
     
@@ -1404,18 +1412,40 @@ var HUD = {
     #3-ground target
     me.displayWaypointCrossShow = 0;
     me.display_houseShow = 0;
+    me.waypointGroupshow = 0;
+    me.waypointSimpleGroupShow = 0;
     
-    if(!me.input.MasterArm.getValue() and me.input.gearPos.getValue() == 0){# if masterArm is not selected
+    
+    
+    if(me.input.gearPos.getValue() == 0){# if masterArm is not selected
       #if there is a route selected and Bulleye isn't selected
-      if( me.NXTWP != nil){#if waypoint is active
-        me.displayWaypointCross(me.NXTWP);
+      if( me.NXTWP != nil and !me.input.MasterArm.getValue()){#if waypoint is active
+        me.displayWaypointCross(me.NXTWP);  # displaying the ground cross
+        me.display_house(me.NXTWP);         # displaying the little house
+        me.display_Waypoint(me.NXTWP,"DEST",me.input.NextWayNum.getValue());
       }
-      # displaying the little house
-      me.display_house(me.NXTWP);
+      
+      if(me.input.bullseye_def.getValue()){
+        me.displayWaypointCross(me.bullseyeGeo);  # displaying the ground cross
+        me.display_house(me.bullseyeGeo);         # displaying the little house
+        me.display_Waypoint(me.bullseyeGeo,"BE ",nil);
+      }
     }
+    
+    
+    
+    
+    
+    
     me.WaypointCross.setVisible(me.displayWaypointCrossShow);
     me.HeadingHouse.setVisible(me.display_houseShow);
+    me.waypointGroup.setVisible(me.waypointGroupshow);
+    me.waypointSimpleGroup.setVisible(0);
      
+###################################################
+    
+    
+    
     #Gun Cross (bore)
     me.displayBoreCross();
     
@@ -1465,7 +1495,7 @@ var HUD = {
     me.displaySelectedPylons();
     
     #Display Route dist and waypoint number
-    me.display_Waypoint();
+    #me.display_Waypoint();
     
     #me.hdg.hide();
     #me.groundspeed.hide();  
@@ -1905,37 +1935,34 @@ var HUD = {
   },
   
   
-  display_Waypoint:func(){
+  display_Waypoint:func(coord,TEXT,NextNUM){
+    #coord is a geo object of the current destination
+    #TEXT is what will be written to describe our target : BE (Bullseye) ou DEST (route)
+    #NextNUM is the next waypoint/bullseye number (most of the time it's the waypoint number)
     
-    if(me.input.distNextWay.getValue() != nil and me.input.gearPos.getValue() == 0){
-      if(me.input.distNextWay.getValue()>10){
-        me.waypointDist.setText(sprintf("%d N",int(me.input.distNextWay.getValue())));
-        me.waypointDistSimple.setText(sprintf("%d N",int(me.input.distNextWay.getValue())));
+    if(coord != nil){
+      if(me.aircraft_position.direct_distance_to(coord)*M2NM>10){
+        me.waypointDist.setText(sprintf("%d N",int(me.aircraft_position.direct_distance_to(coord)*M2NM)));
+        me.waypointDistSimple.setText(sprintf("%d N",int(me.aircraft_position.direct_distance_to(coord)*M2NM)));
       }else{
-        me.waypointDist.setText(sprintf("%0.1f N",me.input.distNextWay.getValue()));
-        me.waypointDistSimple.setText(sprintf("%0.1f N",me.input.distNextWay.getValue()));
+        me.waypointDist.setText(sprintf("%0.1f N",me.aircraft_position.direct_distance_to(coord)*M2NM));
+        me.waypointDistSimple.setText(sprintf("%0.1f N",me.aircraft_position.direct_distance_to(coord)*M2NM));
       }
-      me.waypointNumber.setText(sprintf("%02d",me.input.NextWayNum.getValue()));
-      me.waypointNumberSimple.setText(sprintf("%02d",me.input.NextWayNum.getValue()));
+      
+      
+      if(NextNUM != nil){
+        me.waypointNumber.setText(sprintf("%02d",NextNUM));
+        me.waypointNumberSimple.setText(sprintf("%02d",NextNUM));
+      }
+      me.DEST.setText(TEXT);
       
       if(me.input.hdgDisplay.getValue()){
-        me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayTrueBearing.getValue()));
+        me.waypointHeading.setText(sprintf("%03d/",me.aircraft_position.course_to(coord)));
       }else{
-        me.waypointHeading.setText(sprintf("%03d/",me.input.NextWayBearing.getValue()));
+        me.waypointHeading.setText(sprintf("%03d/",me.aircraft_position.course_to(coord)));
       }
-      
-      if(me.input.AutopilotStatus.getValue()=="AP1"){
-        me.waypointGroup.show();
-        me.waypointSimpleGroup.hide();
-      }else{
-        me.waypointSimpleGroup.show();
-        me.waypointGroup.hide();
-      }
-    }else{
-      me.waypointGroup.hide();
-      me.waypointSimpleGroup.hide();
+      me.waypointGroupshow = 1;
     }
-      
   },
   
   displayTarget:func(){
