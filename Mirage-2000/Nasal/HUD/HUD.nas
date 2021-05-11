@@ -1419,7 +1419,7 @@ var HUD = {
     
     if(me.input.gearPos.getValue() == 0){# if masterArm is not selected
       #if there is a route selected and Bulleye isn't selected
-      if( me.NXTWP != nil and !me.input.MasterArm.getValue()){#if waypoint is active
+      if( me.NXTWP.is_defined() and !me.input.MasterArm.getValue()){#if waypoint is active
         me.displayWaypointCross(me.NXTWP);  # displaying the ground cross
         me.display_house(me.NXTWP);         # displaying the little house
         me.display_Waypoint(me.NXTWP,"DEST",me.input.NextWayNum.getValue());
@@ -2000,7 +2000,7 @@ var HUD = {
           
           target_altitude = c.get_altitude();
           target_heading_deg = c.get_heading();
-          target_Distance = c.get_range();
+          target_Distance = c.get_range_from_Coord(me.aircraft_position);
           
           var triPos = HudMath.getPosFromCoord(c.get_Coord());
           
@@ -2064,14 +2064,14 @@ var HUD = {
     var myString ="";
     #< 10 nm should be a float
     #< 1000 m should be in meters 
-    if(contact.get_range()<= me.MaxRadarRange){
+    if(contact.get_range_from_Coord(me.aircraft_position)<= me.MaxRadarRange){
       #Text for distance to target
-      if(contact.get_range()*NM2M<1200){
-        myString = sprintf("%dm",contact.get_range()*NM2M);
-      }elsif(contact.get_range()<10){
-        myString = sprintf("%.1fnm",contact.get_range());
+      if(contact.get_range_from_Coord(me.aircraft_position)*NM2M<1200){
+        myString = sprintf("%dm",contact.get_range_from_Coord(me.aircraft_position)*NM2M);
+      }elsif(contact.get_range_from_Coord(me.aircraft_position)<10){
+        myString = sprintf("%.1fnm",contact.get_range_from_Coord(me.aircraft_position));
       }else{
-        myString = sprintf("%dnm",contact.get_range());
+        myString = sprintf("%dnm",contact.get_range_from_Coord(me.aircraft_position));
       }
 
       if (me.displayDLZ(me.MaxRadarRange)){
@@ -2080,7 +2080,7 @@ var HUD = {
         me.missileFireRange.hide();
       }   
       me.distanceToTargetLineChevronText.setText(myString);
-      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range()*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
+      me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range_from_Coord(me.aircraft_position)*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100); 
     }
   },
   
