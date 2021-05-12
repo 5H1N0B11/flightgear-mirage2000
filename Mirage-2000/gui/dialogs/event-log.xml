@@ -50,7 +50,6 @@
 	<button>
 		<!--<x>0</x>
 		<y>0</y>-->
-		<halign>centre</halign>
 		<legend>Refresh</legend>
 		<binding>
 			<command>nasal</command>
@@ -76,9 +75,10 @@
 	</text>
 
 	<textbox>
-	    <!-- position -->
-	    <!--<x>100</x>
-	    <y>100</y>-->
+	   <!-- Makes window content resizable. -->
+           <halign>fill</halign>
+           <valign>fill</valign>
+           <stretch>true</stretch>
 
 	    <!-- dimensions -->
 	    <pref-width>500</pref-width>
