@@ -11,7 +11,7 @@
 
   <group>
     <layout>hbox</layout>
-    <text><label>IFF/Datalink Settings</label></text>
+    <text><label>Mission Preplanning</label></text>
     <empty><stretch>1</stretch></empty>
     
     <button>
@@ -121,7 +121,6 @@
   <hrule/>
 
 	<text><halign>left</halign><label>Bullseye designation</label></text>
-	<empty><stretch>1</stretch></empty>
 	
 	<group>
 		<layout>hbox</layout>
@@ -167,9 +166,10 @@
 				<command>dialog-apply</command>
 			</binding>
 		</checkbox>
+
 		<button>
 			<legend>Clear</legend>
-			<halign>center</halign>
+			<halign>right</halign>
 			<binding>
 				<command>nasal</command>
 				<script><![CDATA[
@@ -180,9 +180,8 @@
 		</button>
 	</group>
 
-	<empty><stretch>1</stretch></empty>
-	<hrule/>
-  
-  
+	<empty>
+    <stretch>1</stretch>
+  </empty>
   
 </PropertyList>

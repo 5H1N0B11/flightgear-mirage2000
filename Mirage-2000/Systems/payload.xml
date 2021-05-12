@@ -702,7 +702,7 @@
       <thrust-lbf-stage-2 type="double"> 0 </thrust-lbf-stage-2>
       <stage-1-duration-sec type="double"> 0 </stage-1-duration-sec>
       <stage-2-duration-sec type="double"> 0 </stage-2-duration-sec>
-      <weight-launch-lbs type="double"> 500 </weight-launch-lbs>
+      <weight-launch-lbs type="double"> 550 </weight-launch-lbs> <!-- Weapons file 2004 -->
       <weight-warhead-lbs type="double"> 190 </weight-warhead-lbs>
       <weight-fuel-lbm type="double"> 0 </weight-fuel-lbm>
       <drag-coeff type="double"> 0.125 </drag-coeff>

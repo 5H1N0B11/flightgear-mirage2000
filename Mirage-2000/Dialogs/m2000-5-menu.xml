@@ -53,7 +53,7 @@
         </item>
 
       <item n="7">
-	       <label>IFF/Datalink Settings</label>
+	       <label>Mission Preplanning</label>
 	       <name>iff</name>
 	       <binding>
 	          <command>dialog-show</command>

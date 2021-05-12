@@ -50,6 +50,7 @@
 	<button>
 		<!--<x>0</x>
 		<y>0</y>-->
+		<halign>centre</halign>
 		<legend>Refresh</legend>
 		<binding>
 			<command>nasal</command>
