@@ -39,6 +39,13 @@
           <position-norm type="float">1</position-norm>
         </crew>
       </doors>
+      <!-- Pushback -->
+      <pushback>
+        <kp type="double">100</kp>
+        <ki type="double">25</ki>
+        <kd type="double">0</kd>
+        <position-norm type="double">0</position-norm>
+      </pushback>
     </model>
     <dialog>
       <groundtTargeting>
