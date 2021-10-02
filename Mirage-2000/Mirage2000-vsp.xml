@@ -597,6 +597,9 @@
   
 </propulsion>
 
+<!-- Add pushback file -->
+<system file="pushback"/>
+
 <system file="Mirage-2000-hydraulics"/>
 <system file="Mirage-2000-avionics"/>
 <system file="Mirage-2000-fadec"/>
@@ -4748,4 +4751,22 @@
     </function>
   </axis>
 </aerodynamics>
+
+<!-- Pushback section -->
+<external_reactions>
+    <force name="pushback" frame="BODY">
+        <!-- TODO: Add correct coords here -->
+        <location unit="IN">
+            <x>-139</x>
+            <y>0.0</y>
+            <z>-71.0</z>
+        </location>
+        <direction>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </direction>
+    </force>
+</external_reactions>
+
 </fdm_config>

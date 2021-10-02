@@ -190,6 +190,17 @@
   <model>
     <path>Aircraft/Mirage-2000/Models/Parking/parking.xml</path>
   </model>
+
+  <!-- Pushback Model Loeader -->
+  <model>
+    <name>Pushback</name>
+    <path>Models/Airport/Pushback/Military.xml</path>
+    <offsets>
+      <x-m>-3</x-m>
+      <y-m>0</y-m>
+      <z-m>-2.7</z-m>
+    </offsets>
+  </model>
   
   <effect>
     <!--inherits-from>Aircraft/Generic/Effects/Fuselagereflect</inherits-from-->
