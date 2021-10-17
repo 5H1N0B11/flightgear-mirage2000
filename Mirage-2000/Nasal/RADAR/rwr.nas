@@ -165,7 +165,7 @@ RWRCanvas = {
 #                   .hide();
 #        }
 # Threat list ID:
-        #REVISION: 2021/04/21
+        #REVISION: 2021/10/17
         #OPRF Fleet
         rwr.AIRCRAFT_WARTHOG  = "10";
         rwr.AIRCRAFT_TOMCAT   = "14";
@@ -180,6 +180,7 @@ RWRCanvas = {
         rwr.AIRCRAFT_MIRAGE   = "M2";
         rwr.AIRCRAFT_SEARCH   = "S";
         rwr.ASSET_AAA         = "A";
+        rwr.ASSET_VOLGA       = "2";
         rwr.ASSET_BUK         = "11";
         rwr.ASSET_GARGOYLE    = "20"; # Other namings for tracking and radar: BB, CS.
         rwr.ASSET_PAC2        = "P";
@@ -246,6 +247,7 @@ RWRCanvas = {
                 "A-10-model":               rwr.AIRCRAFT_WARTHOG,
                 "Typhoon":                  rwr.AIRCRAFT_TYPHOON,
                 "ZSU-23-4M":                rwr.ASSET_AAA,
+                "S-75":                     rwr.ASSET_VOLGA,
                 "buk-m2":                   rwr.ASSET_BUK,
                 "s-300":                    rwr.ASSET_GARGOYLE,
                 "MIM104D":                  rwr.ASSET_PAC2,
@@ -286,6 +288,8 @@ RWRCanvas = {
                 "F-4EJ_ADTW":               rwr.AIRCRAFT_PHANTOM,
                 "FGR2-Phantom":             rwr.AIRCRAFT_PHANTOM,
                 "F4J":                      rwr.AIRCRAFT_PHANTOM,
+                "F-4D":                     rwr.AIRCRAFT_PHANTOM,
+                "F-4E":                     rwr.AIRCRAFT_PHANTOM,
                 "F-4N":                     rwr.AIRCRAFT_PHANTOM,
                 "a4f":                      rwr.AIRCRAFT_SKYHAWK,
                 "A-4K":                     rwr.AIRCRAFT_SKYHAWK,
@@ -340,6 +344,7 @@ RWRCanvas = {
                 "ufo":                      rwr.AIRCRAFT_UFO,
                 "bluebird-osg":             rwr.AIRCRAFT_UFO,
                 "Vostok-1":                 rwr.AIRCRAFT_UFO,
+                "V-1":                      rwr.AIRCRAFT_UFO,
                 "SpaceShuttle":             rwr.AIRCRAFT_UFO,
                 "F-23C_BlackWidow-II":      rwr.AIRCRAFT_UFO,
         };
