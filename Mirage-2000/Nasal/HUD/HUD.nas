@@ -1965,6 +1965,40 @@ var HUD = {
     }
   },
   
+  displayHeattarget:func(c){
+    if(me.selectedWeap == nil or !me.input.MasterArm.getValue()){return 0;}
+    if(me.selectedWeap.type == "30mm Cannon"){return 0;}
+    if(me.selectedWeap.guidance == "heat" and me.selectedWeap.status == armament.MISSILE_LOCK){
+      
+        #show triangle if IR missile have a lock (but don't show if it's a radar lock)
+        #screen.log.write("me.selectedWeap.class:"~ me.selectedWeap.class, 1.0, 1.0, 0.0);
+        #screen.log.write("me.selectedWeap.guidance:"~ me.selectedWeap.guidance, 1.0, 1.0, 0.0);
+        if(me.selectedWeap.Tgt == nil){return 0;}
+        if(c.get_Callsign() != me.selectedWeap.Tgt.get_Callsign()){return 0;}
+        screen.log.write("me.selectedWeap.Tgt.get_Callsign():"~ me.selectedWeap.Tgt.get_Callsign(), 1.0, 1.0, 0.0);
+        return 1;
+        #Should now display the triangle group
+        
+        #             me.TriangleGroupe.show();
+        #             me.triangle.setTranslation(triPos);
+        #             me.triangle2.setTranslation(triPos);
+    }else{return 0;}
+  },
+  
+  displayRectangletarget:func(c,i){
+    #if(me.selectedWeap == nil or !me.input.MasterArm.getValue()){return 0;}
+    #if(me.selectedWeap.type == "30mm Cannon"){return 0;}
+    #if(me.selectedWeap.guidance == "heat" and me.selectedWeap.status == armament.MISSILE_LOCK){
+      if(i<size(me.targetArray) and size(me.raw_list)>0 and c.objectDisplay ==1 ){
+         if(c.get_Callsign() == me.closestCallsign and me.closestRange > 0){
+           #screen.log.write("me.selectedWeap.Tgt.get_Callsign():"~ me.selectedWeap.Tgt.get_Callsign(), 1.0, 1.0, 0.0);
+           return 1;
+         }
+      }
+      return 0;
+  },
+  
+  
   displayTarget:func(){
     #To put a triangle on the selected target
     #This should be changed by calling directly the radar object (in case of multi targeting)
@@ -1980,7 +2014,7 @@ var HUD = {
       me.closestCallsign = "";
       me.closestRange = -1;
     }
-    var Token = 0;
+    me.showdistanceToken = 0;
     
 
     me.raw_list = mirage2000.myRadar3.ContactsList; 
@@ -1989,69 +2023,94 @@ var HUD = {
     me.designatedDistanceFT = nil;
     
     foreach(var c; me.raw_list){
+      #This is too complicated :
+      #I need to change  the way those things are displayed:
+      #list what should be displayed and make a fonction if it needs to be displayed
+      me.ShouldDisplayheat = me.displayHeattarget(c);
       
-      if(i<size(me.targetArray) and size(me.raw_list)>0){
-        displayIt = c.objectDisplay;
-        
-        if(displayIt==1 ){
-
-          me.target_callsign = c.get_Callsign();
-          #print("Paint : " ~ me.target_callsign ~ " : "~ myTest);
-          
-          target_altitude = c.get_altitude();
-          target_heading_deg = c.get_heading();
-          target_Distance = c.get_range_from_Coord(me.aircraft_position);
-          
-          var triPos = HudMath.getPosFromCoord(c.get_Coord());
-          
-          #If we have a selected target we display a triangle
-          if(me.target_callsign == me.closestCallsign and me.closestRange > 0){
-            Token = 1;
-            #me.TriangleGroupe.show();
-            #me.triangle.setTranslation(triPos);
-            #me.triangle2.setTranslation(triPos);
+      me.target_callsign = c.get_Callsign();
+      #print("Paint : " ~ me.target_callsign ~ " : "~ myTest);
+      
+      #Position of the "target"
+      target_altitude = c.get_altitude();
+      target_heading_deg = c.get_heading();  
+      target_Distance = c.get_range_from_Coord(me.aircraft_position);  
+      var triPos = HudMath.getPosFromCoord(c.get_Coord());
+      #1- Show Rectangle : habe been painted (or selected ?)
+      #2- Show double triangle : IR missile LOCK without radar
+      #3- Show circle : the radar see it, without focusing
+      #4- Do not show anything : nothing see it
+      
+      #Should this be displayed by a radar
+      #displayIt = c.objectDisplay;
+      
+      #1 Rectangle :  
+      if(me.displayRectangletarget(c,i)){
+    
+          #Here for displaying the square (painting)
+            me.showdistanceToken = 1;
+            #Show square group            
             me.Square_Group.show();
             me.Locked_Square.setTranslation(triPos);
             me.Locked_Square_Dash.setTranslation(clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
+            #hide triangle and circle
+            me.TriangleGroupe.hide();
+            me.targetArray[i].hide();
+            
             me.distanceToTargetLineGroup.show(); 
             me.displayDistanceToTargetLine(c);
             
-            #And we hide the circle
+            if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
+             me.designatedDistanceFT = c.get_Coord().direct_distance_to(geo.aircraft_position())*M2FT;
+            }        
+      }elsif(me.displayHeattarget(c)) {
+            me.showdistanceToken = 1;
+            me.TriangleGroupe.show();
+            me.triangle.setTranslation(triPos);
+            me.triangle2.setTranslation(triPos);
+            
+            #hide rectangle and circle
+            me.Square_Group.hide();
             me.targetArray[i].hide();
+            
+
+            
             if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
               me.designatedDistanceFT = c.get_Coord().direct_distance_to(geo.aircraft_position())*M2FT;
             }
-          }else{
-            #Else  the circle
-            me.targetArray[i].show();
-            me.targetArray[i].setTranslation(triPos);
-          }
-          #here is the text display
-          me.TextInfoArray[i].show();
-          me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
-          
-          me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", me.target_callsign, target_Distance, target_altitude, target_heading_deg));
+      }elsif(c.objectDisplay == 1){
+        #show circle
+          me.targetArray[i].show();
+          me.targetArray[i].setTranslation(triPos);
 
-        }else{
-          me.targetArray[i].hide();
-          me.TextInfoArray[i].hide();
-        }
-        #The token has 1 when we have a selected target
-        if(Token == 0){
-          #me.TriangleGroupe.hide();
-          me.Square_Group.hide();
-          me.distanceToTargetLineGroup.hide(); 
-          me.missileFireRange.hide();
-        }
+      }else{
+        #dont show anything
+        me.targetArray[i].hide();
+      }
+        
+        
+      #here is the text display : Normally not in the real HUD
+      if(c.objectDisplay == 1){
+        #here is the text display
+        me.TextInfoArray[i].show();
+        me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
+
+        me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", me.target_callsign, target_Distance, target_altitude, target_heading_deg));
+      }else{
+        me.targetArray[i].hide();
+        me.TextInfoArray[i].hide();
       }
       i+=1;
     }
 
     #The token has 1 when we have a selected target
-    if(Token == 0){
-      #me.TriangleGroupe.hide();
-      me.Square_Group.hide();
-    }
+    #if we don't have target : 
+      if(me.showdistanceToken == 0){
+        me.TriangleGroupe.hide();
+        me.Square_Group.hide();
+        me.distanceToTargetLineGroup.hide(); 
+        me.missileFireRange.hide();
+      }
   
     for(var y=i;y<size(me.targetArray);y+=1){
       me.targetArray[y].hide();
