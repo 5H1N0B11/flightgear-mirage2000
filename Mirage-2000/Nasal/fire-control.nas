@@ -29,10 +29,111 @@ var FireControl = {
 		fc.WeaponNotification = VectorNotification.new("WeaponNotification");
 		fc.setupMFDObservers();
 		fc.dropMode = 0;          # 0=ccrp, 1 = ccip
+		fc.changeListener = nil;
 		setlistener("controls/armament/trigger",func{fc.trigger();fc.updateDual()},nil,0);
-		setlistener("controls/armament/master-arm",func{fc.updateCurrent()},nil,0);
+		#setlistener("controls/armament/master-arm",func{fc.updateCurrent()},nil,0);
+		setlistener(masterArmSwitch,func{fc.masterArmSwitch()},nil,0);
 		setlistener("controls/armament/dual",func{fc.updateDual()},nil,0);
 		return fc;
+	},
+
+	cage: func (cageIt) {
+		foreach (var p;me.pylons) {
+			var ws = p.getWeapons();
+			foreach (var w;ws) {
+				if (w != nil and w.parents[0] == armament.AIM and (w.guidance == "heat" and w.target_air)) {# or w.guidance=="vision"
+					w.setCaged(cageIt);
+				}
+			}
+		}
+	},
+
+	isCaged: func () {
+		foreach (var p;me.pylons) {
+			var ws = p.getWeapons();
+			foreach (var w;ws) {
+				if (w != nil and w.parents[0] == armament.AIM and (w.guidance == "heat" and w.target_air)) {# or w.guidance=="vision"
+					return w.isCaged();
+				}
+			}
+		}
+		return 1;
+	},
+
+	toggleCage: func () {
+		var c = 0;
+		foreach (var p;me.pylons) {
+			var ws = p.getWeapons();
+			foreach (var w;ws) {
+				if (w != nil and w.parents[0] == armament.AIM and (w.guidance == "heat" and w.target_air)) {# or w.guidance=="vision"
+					c = w.isCaged()?1:-1;
+					break;
+				}
+			}
+			if (c != 0) break;
+		}
+		if (c != 0) me.cage(c==-1?1:0);
+	},
+
+	setAutocage: func (auto) {
+		foreach (var p;me.pylons) {
+			var ws = p.getWeapons();
+			foreach (var w;ws) {
+				if (w != nil and w.parents[0] == armament.AIM and (w.guidance == "heat" and w.target_air)) {# or w.guidance=="vision"
+					w.setAutoUncage(auto);
+				}
+			}
+		}
+	},
+
+	isAutocage: func () {
+		foreach (var p;me.pylons) {
+			var ws = p.getWeapons();
+			foreach (var w;ws) {
+				if (w != nil and w.parents[0] == armament.AIM and (w.guidance == "heat" and w.target_air)) {# or w.guidance=="vision"
+					return w.isAutoUncage();
+				}
+			}
+		}
+		return 1;
+	},
+
+	setXfov: func (xfov) {
+		foreach (var p;me.pylons) {
+			var ws = p.getWeapons();
+			foreach (var w;ws) {
+				if (w != nil and w.parents[0] == armament.AIM and (w.guidance == "heat" and w.target_air)) {# or w.guidance=="vision"
+					w.setSEAMscan(xfov);
+				}
+			}
+		}
+	},
+
+	isXfov: func () {
+		foreach (var p;me.pylons) {
+			var ws = p.getWeapons();
+			foreach (var w;ws) {
+				if (w != nil and w.parents[0] == armament.AIM and (w.guidance == "heat" and w.target_air)) {# or w.guidance=="vision"
+					return w.isSEAMscan();
+				}
+			}
+		}
+		return 0;
+	},
+
+	toggleXfov: func () {
+		var x = 0;
+		foreach (var p;me.pylons) {
+			var ws = p.getWeapons();
+			foreach (var w;ws) {
+				if (w != nil and w.parents[0] == armament.AIM and (w.guidance == "heat" and w.target_air)) {# or w.guidance=="vision"
+					x = w.isSEAMscan()?1:-1;
+					break;
+				}
+			}
+			if (x != 0) break;
+		}
+		if (x != 0) me.setXfov(x==-1?1:0);
 	},
 	
 	getDropMode: func {
@@ -78,6 +179,11 @@ var FireControl = {
 			}
 		}
 		return me.cat;
+	},
+
+	setChangeListener: func (l) {
+		# install a listener in this station that get called when an armament.AIM weapon is released or selected pylon changed.
+		me.changeListener = l;
 	},
 
 	setupMFDObservers: func {
@@ -180,6 +286,7 @@ var FireControl = {
 		me.selectedAdd = nil;
 		me.selectedType = nil;
 		screen.log.write("Selected nothing", 0.5, 0.5, 1);
+		if (me.changeListener != nil) me.changeListener();
 	},
 
 	_isSelectedWeapon: func {
@@ -294,11 +401,14 @@ var FireControl = {
 		}
 		if (me.selectedType != nil) {
 			screen.log.write("Deselected "~me.selectedType, 0.5, 0.5, 1);
+			me.stopCurrent();
 		} else {
 			screen.log.write("Selected nothing", 0.5, 0.5, 1);
 		}
-		me.selectedType = nil;
-		me.selected = nil;
+		
+		me.selectedType = "30mm Cannon";
+		me.nextWeapon(me.selectedType);
+		
 		me.selectedAdd = nil;
 		me.updateDual();
 	},
@@ -397,18 +507,22 @@ var FireControl = {
 		}
 		if (me.selectedType != nil) {
 			screen.log.write("Deselected "~me.selectedType, 0.5, 0.5, 1);
+			me.stopCurrent();
 		} else {
 			screen.log.write("Selected nothing", 0.5, 0.5, 1);
 		}
-		me.selectedType = nil;
-		me.selected = nil;
+		
+		me.selectedType = "30mm Cannon";
+		me.nextWeapon(me.selectedType);
+		
 		me.selectedAdd = nil;
+		if (me.changeListener != nil) me.changeListener();
 	},
 
 	updateAll: func {
 		# called from the stations when they change.
 		if (me.selectedType != nil) {
-			screen.log.write("Fire-control: deselecting "~me.selectedType, 0.5, 0.5, 1);
+			screen.log.write("Fire-control: deselecting "~me.selectedType, 1, 0.5, 0.5);
 		}
 		me.noWeapon();
 	},
@@ -509,6 +623,7 @@ var FireControl = {
 		if (me.selectedType != nil) {
 			me.nextWeapon(me.selectedType);
 		}
+		if (me.changeListener != nil) me.changeListener();
 	},
 
 	jettisonAll: func {
@@ -516,6 +631,7 @@ var FireControl = {
 		foreach (pyl;me.pylons) {
 			pyl.jettisonAll();
 		}
+		if (me.changeListener != nil) me.changeListener();
 	},
 
 	jettisonFuelAndAG: func (exclude = nil) {
@@ -533,6 +649,7 @@ var FireControl = {
 			}
 			pyl.jettisonAll();
 		}
+		if (me.changeListener != nil) me.changeListener();
 	},
 	
 	jettisonSpecificPylons: func (list, also_heat) {
@@ -550,6 +667,7 @@ var FireControl = {
 				pyl.jettisonAll();
 			}			
 		}
+		if (me.changeListener != nil) me.changeListener();
 	},
 	
 	jettisonAllButHeat: func (exclude = nil) {
@@ -567,6 +685,7 @@ var FireControl = {
 			}
 			pyl.jettisonAll();
 		}
+		if (me.changeListener != nil) me.changeListener();
 	},
 
 	jettisonFuel: func {
@@ -580,6 +699,7 @@ var FireControl = {
 			}
 			pyl.jettisonAll();
 		}
+		if (me.changeListener != nil) me.changeListener();
 	},
 
 	getSelectedPylonNumber: func {
@@ -593,13 +713,15 @@ var FireControl = {
 	selectWeapon: func (w) {
 		me.stopCurrent();
 		me.selectedType = w;
-		return me.nextWeapon(w);
+		var nw = me.nextWeapon(w);
+		return nw;
 	},
 	
 	selectNothing: func {
 		me.stopCurrent();
 		me.selectedType = nil;
 		me.selected = nil;
+		if (me.changeListener != nil) me.changeListener();
 	},
 	
 	selectPylon: func (p, w=nil) {
@@ -613,6 +735,7 @@ var FireControl = {
 				me.selected = [p, w];
 				me.selectedType = me.ws[w].type;
 				me.updateDual();
+				if (me.changeListener != nil) me.changeListener();
 				return;
 			} elsif (me.ws != nil and w == nil and size(me.ws) > 0) {
 				w = 0;
@@ -622,6 +745,7 @@ var FireControl = {
 						me.selected = [p, w];
 						me.selectedType = me.ws[w].type;
 						me.updateDual();
+						if (me.changeListener != nil) me.changeListener();
 						return;
 					}
 					w+=1;
@@ -711,6 +835,7 @@ var FireControl = {
 			#me.aim.sendMessage(me.aim.brevity~add);
 			damage.damageLog.push(me.aim.brevity~add);
 		}
+		if (me.changeListener != nil) me.changeListener();
 		return me.aim;
 	},
 	
@@ -769,14 +894,24 @@ var FireControl = {
 			if (me.aimNext != nil) {
 				me.aimNext.start();
 			}
+			if (me.changeListener != nil) me.changeListener();
 		}
 		return;
+	},
+
+	masterArmSwitch: func () {
+		if (getprop("controls/armament/master-arm-switch") == pylons.ARM_ARM) {
+			setprop("controls/armament/master-arm", 1);
+		} else {
+			setprop("controls/armament/master-arm", 0);
+		}
+		me.updateCurrent();
 	},
 
 	updateCurrent: func {
 		# will start/stop current weapons depending on masterarm
 		# will also update mass (for cannon mainly)
-		if (getprop("controls/armament/master-arm")==1 and me.selected != nil) {
+		if (getprop("controls/armament/master-arm-switch")!=pylons.ARM_OFF and me.selected != nil) {
 			me.sweaps = me.getSelectedWeapons();
 			if (me.sweaps != nil) {
 				foreach(me.sweap ; me.sweaps) {
@@ -784,7 +919,7 @@ var FireControl = {
 #					print("starting a weapon");
 				}
 			}
-		} elsif (getprop("controls/armament/master-arm")==0 and me.selected != nil) {
+		} elsif (getprop("controls/armament/master-arm-switch")==pylons.ARM_OFF and me.selected != nil) {
 			me.sweaps = me.getSelectedWeapons();
 			if (me.sweaps != nil) {
 				foreach(me.sweap ; me.sweaps) {
@@ -795,7 +930,7 @@ var FireControl = {
 		if (me.selected == nil) {
 			return;
 		}
-		printDebug("FC: Masterarm "~getprop("controls/armament/master-arm"));
+		printDebug("FC: Masterarm "~getprop("controls/armament/master-arm-switch"));
 		
 		me.pylons[me.selected[0]].calculateMass();#kind of a hack to get cannon ammo changed.
 	},
@@ -817,6 +952,7 @@ var FireControl = {
 				me.selectDualWeapons(type, me.duality);
 			}
 			me.updateCurrent();
+			if (me.changeListener != nil) me.changeListener();
 			return;
 		}
 	},
@@ -907,12 +1043,14 @@ var FireControl = {
 				#me.updateCurrent();#TODO: think a bit more about this
 				me.wap = me.pylons[me.pylon].getWeapons()[me.indexWeapon];
 				#me.selectedType = me.wap.type;
+				if (me.changeListener != nil) me.changeListener();
 				return me.wap;
 			}
 		}
 		printDebug(" Next weapon not found");
 		me.selected = nil;
 		me.selectedAdd = nil;
+		if (me.changeListener != nil) me.changeListener();
 		return nil;
 	},
 
@@ -946,8 +1084,17 @@ var FireControl = {
 	getAmmo: func {
 		# return ammo count of currently selected type
 		me.count = 0;
-		foreach (p;me.pylons) {
+		foreach (var p;me.pylons) {
 			me.count += p.getAmmo(me.selectedType);
+		}
+		return me.count;
+	},
+
+	getAmmoOfType: func (type) {
+		# return ammo count of type
+		me.count = 0;
+		foreach (var p;me.pylons) {
+			me.count += p.getAmmo(type);
 		}
 		return me.count;
 	},
@@ -955,7 +1102,7 @@ var FireControl = {
 	getAllAmmo: func (type = nil) {
         # return ammo count of all pylons in a vector
         me.ammoVector = [];
-        foreach (p;me.pylons) {
+        foreach (var p;me.pylons) {
             append(me.ammoVector, p.getAmmo(type));
         }
         return me.ammoVector;
@@ -964,7 +1111,7 @@ var FireControl = {
 	getActiveAmmo: func {
 		# return ammo count of currently selected type that are on active pylons
 		me.count = 0;
-		foreach (p;me.pylons) {
+		foreach (var p;me.pylons) {
 			if (p.isActive()) {
 				me.count += p.getAmmo(me.selectedType);
 			}
@@ -1004,6 +1151,7 @@ var FireControl = {
 		me.selectedAdd = nil;
 		me.selectedType = nil;
 		printDebug("FC: nothing selected");
+		if (me.changeListener != nil) me.changeListener();
 	},
 
 	setPoint: func (c) {
@@ -1015,7 +1163,7 @@ var FireControl = {
 				me.ag.setContacts([]);
 			} else {
 				print("agm65 xfer");
-				me.tgp_point = ContactTGP.new("TGP-Spot",c);
+				me.tgp_point = radar_system.ContactTGP.new("TGP-Spot",c);
 				me.ag.setContacts([me.tgp_point]);
 			}
 		}
@@ -1042,160 +1190,10 @@ var printfDebug = func {if (debug == 1) call(printf,arg);};
 
 
 # This is non-generic methods, please edit it to fit your radar setup:
-var dualWeapons = ["MK-82","MK-83","MK-84","GBU-12","GBU-24","GBU-54","CBU-87","CBU-105","GBU-31","AGM-154A","B61-7","B61-12"];
+# List of weapons that can be ripple/dual dropped:
+var dualWeapons = ["MK-82","MK-82AIR","MK-83","MK-84","GBU-12","GBU-24","GBU-54","CBU-87","CBU-105","GBU-31","AGM-154A","B61-7","B61-12"];
 var getCompleteRadarTargetsList = func {
-	# A list of all MP/AI aircraft/ships/surface-targets around the aircraft.
+	# A list of all MP/AI aircraft/ships/surface-targets around the aircraft, including those that is outside radar line of sight etc..
 	radar.completeList;
 }
-
-var ContactTGP = {
-  new: func(callsign, coord, laser = 1) {
-    var obj             = { parents : [ContactTGP]};# in real OO class this should inherit from Contact, but in nasal it does not need to
-    obj.coord           = geo.Coord.new(coord);
-    obj.coord.set_alt(coord.alt()+1);#avoid z fighting
-    obj.callsign        = callsign;
-    obj.unique          = rand();
-    
-    obj.tacobj = {parents: [tacview.tacobj]};
-    obj.tacobj.tacviewID = right((obj.unique~""),5);
-    obj.tacobj.valid = 1;
-    
-    obj.laser = laser;
-    return obj;
-  },
-
-  isValid: func () {
-    return 1;
-  },
-
-  isVirtual: func () {
-    return 1;
-  },
-
-  isPainted: func () {
-    return 0;
-  },
-
-  isLaserPainted: func{
-    return getprop("controls/armament/laser-arm-dmd") and me.laser;
-  },
-
-  isRadiating: func (c) {
-  	return 0;
-  },
-
-  getUnique: func () {
-    return me.unique;
-  },
-
-  getElevation: func() {
-      #var e = 0;
-      var self = geo.aircraft_position();
-      #var angleInv = ja37.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
-      #e = (self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D;
-      return vector.Math.getPitch(self, me.coord);
-  },
-
-  getFlareNode: func () {
-    return nil;
-  },
-
-  getChaffNode: func () {
-    return nil;
-  },
-
-  get_Coord: func(inaccurate = 1){
-      return me.coord;
-  },
-
-  getETA: func {
-      return nil;
-    },
-
-	getHitChance: func {
-	  return nil;
-	},
-
-  get_Callsign: func(){
-      return me.callsign;
-  },
-
-  get_model: func(){
-      return "TGP spot";
-  },
-
-  get_Speed: func(){
-      # return true airspeed
-      return 0;
-  },
-  
-  get_uBody: func {
-      return 0;
-	},    
-	get_vBody: func {
-	  return 0;
-	},    
-	get_wBody: func {
-	  return 0;
-	},
-
-  get_Longitude: func(){
-      var n = me.coord.lon();
-      return n;
-  },
-
-  get_Latitude: func(){
-      var n = me.coord.lat();
-      return n;
-  },
-
-  get_Pitch: func(){
-      return 0;
-  },
-
-  get_Roll: func(){
-      return 0;
-  },
-
-  get_heading : func(){
-      return 0;
-  },
-
-  get_bearing: func(){
-      var n = me.get_bearing_from_Coord(geo.aircraft_position());
-      return n;
-  },
-  
-  get_relative_bearing : func() {
-        return geo.normdeg180(me.get_bearing()-getprop("orientation/heading-deg"));
-	},
-
-  get_altitude: func(){
-      #Return Alt in feet
-      return me.coord.alt()*M2FT;
-  },
-  
-  get_Longitude: func {
-        return me.coord.lon()*M2FT;
-	},
-	get_Latitude: func {
-	    return me.coord.lat();
-	},
-
-  get_range: func() {
-      var r = me.coord.direct_distance_to(geo.aircraft_position()) * M2NM;
-      return r;
-  },
-
-  get_type: func () {
-    return armament.POINT;
-  },
-
-  get_bearing_from_Coord: func(MyAircraftCoord){
-      var myBearing = 0;
-      if(me.coord.is_defined()) {
-          myBearing = MyAircraftCoord.course_to(me.coord);
-      }
-      return myBearing;
-  },
-};
+var masterArmSwitch = "controls/armament/master-arm-switch";

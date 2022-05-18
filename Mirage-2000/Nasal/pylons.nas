@@ -7,6 +7,9 @@ print("*** LOADING pylons.nas ... ***");
 
 var TRUE=1;
 var FALSE=0;
+var ARM_SIM = -1;
+var ARM_OFF = 0;# these 3 are needed by fire-control.
+var ARM_ARM = 1;
 
 var fcs = nil;
 var pylon1 = nil;

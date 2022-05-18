@@ -1507,6 +1507,7 @@ var HUD = {
     
     #Displaying the circles, the squares or even the triangles (triangles will be for a IR lock without radar)
     me.displayTarget();
+    me.displayHeattarget();
     
    
     
@@ -1965,24 +1966,48 @@ var HUD = {
     }
   },
   
-  displayHeattarget:func(c){
-    if(me.selectedWeap == nil or !me.input.MasterArm.getValue()){return 0;}
-    if(me.selectedWeap.type == "30mm Cannon"){return 0;}
-    if(me.selectedWeap.guidance == "heat" and me.selectedWeap.status == armament.MISSILE_LOCK){
+  displayHeattarget:func(){
+    if(me.selectedWeap == nil or !me.input.MasterArm.getValue()){me.TriangleGroupe.hide();return;}
+    if(me.selectedWeap.type == "30mm Cannon"){me.TriangleGroupe.hide();return;}
+    if(me.selectedWeap.guidance != "heat"){me.TriangleGroupe.hide();return;}
+    
+    #Starting to search (Shouldn't be there but in the controls)
+    #me.selectedWeap.start();
+    #me.selectedWeap.contacts = radar.completeList;#This shoiuldn't be here.
+    #screen.log.write("starting IR sweep", 1.0, 1.0, 0.0);
+    #veryTempo = me.selectedWeap.getSeekerInfo();
+    #print("veryTempo.seeker_head:"~veryTempo.seeker_head);
+    #screen.log.write("getSeekerInfo:"~me.selectedWeap.getSeekerInfo[0],1.0, 1.0, 0.0);
+    if (me.selectedWeap != nil and me.selectedWeap.isCaged()) {
+      var coords = me.selectedWeap.getSeekerInfo();
+      if (coords != nil) {
+         var seekerTripos = HudMath.getCenterPosFromDegs(coords[0],coords[1]);
+#         if(seekerTripos == triPos)
+          #print("Perlinpipin. Status :"~me.selectedWeap.status~ "; missile contacts size : "~ size(me.selectedWeap.contacts));
+            me.TriangleGroupe.show();
+            me.triangle.setTranslation(seekerTripos);
+            me.triangle2.setTranslation(seekerTripos);
+      } else {me.TriangleGroupe.hide();}      
+    }else{me.TriangleGroupe.hide();}
+    
+#     if(me.selectedWeap.status == armament.MISSILE_LOCK){
       
         #show triangle if IR missile have a lock (but don't show if it's a radar lock)
         #screen.log.write("me.selectedWeap.class:"~ me.selectedWeap.class, 1.0, 1.0, 0.0);
         #screen.log.write("me.selectedWeap.guidance:"~ me.selectedWeap.guidance, 1.0, 1.0, 0.0);
-        if(me.selectedWeap.Tgt == nil){return 0;}
-        if(c.get_Callsign() != me.selectedWeap.Tgt.get_Callsign()){return 0;}
-        screen.log.write("me.selectedWeap.Tgt.get_Callsign():"~ me.selectedWeap.Tgt.get_Callsign(), 1.0, 1.0, 0.0);
-        return 1;
+      
+
+#         
+#         if(me.selectedWeap.Tgt == nil){return 0;}
+#         
+#         if(c.get_Callsign() != me.selectedWeap.Tgt.get_Callsign()){return 0;}
+#         screen.log.write("me.selectedWeap.Tgt.get_Callsign():"~ me.selectedWeap.Tgt.get_Callsign(), 1.0, 1.0, 0.0);
+#         return 1;
         #Should now display the triangle group
         
         #             me.TriangleGroupe.show();
         #             me.triangle.setTranslation(triPos);
         #             me.triangle2.setTranslation(triPos);
-    }else{return 0;}
   },
   
   displayRectangletarget:func(c,i){
@@ -2026,7 +2051,7 @@ var HUD = {
       #This is too complicated :
       #I need to change  the way those things are displayed:
       #list what should be displayed and make a fonction if it needs to be displayed
-      me.ShouldDisplayheat = me.displayHeattarget(c);
+      #me.ShouldDisplayheat = me.displayHeattarget(c);
       
       me.target_callsign = c.get_Callsign();
       #print("Paint : " ~ me.target_callsign ~ " : "~ myTest);
@@ -2054,7 +2079,7 @@ var HUD = {
             me.Locked_Square.setTranslation(triPos);
             me.Locked_Square_Dash.setTranslation(clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
             #hide triangle and circle
-            me.TriangleGroupe.hide();
+            #me.TriangleGroupe.hide();
             me.targetArray[i].hide();
             
             me.distanceToTargetLineGroup.show(); 
@@ -2063,21 +2088,18 @@ var HUD = {
             if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
              me.designatedDistanceFT = c.get_Coord().direct_distance_to(geo.aircraft_position())*M2FT;
             }        
-      }elsif(me.displayHeattarget(c)) {
-            me.showdistanceToken = 1;
-            me.TriangleGroupe.show();
-            me.triangle.setTranslation(triPos);
-            me.triangle2.setTranslation(triPos);
-            
-            #hide rectangle and circle
-            me.Square_Group.hide();
-            me.targetArray[i].hide();
-            
-
-            
-            if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
-              me.designatedDistanceFT = c.get_Coord().direct_distance_to(geo.aircraft_position())*M2FT;
-            }
+#       }elsif(me.displayHeattarget(triPos)) {
+#             me.showdistanceToken = 1;
+#             me.TriangleGroupe.show();
+# #             me.triangle.setTranslation(triPos);
+# #             me.triangle2.setTranslation(triPos);
+#             
+#             #hide rectangle and circle
+#             me.Square_Group.hide();
+#             me.targetArray[i].hide();         
+#             if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
+#               me.designatedDistanceFT = c.get_Coord().direct_distance_to(geo.aircraft_position())*M2FT;
+#             }
       }elsif(c.objectDisplay == 1){
         #show circle
           me.targetArray[i].show();
@@ -2106,7 +2128,7 @@ var HUD = {
     #The token has 1 when we have a selected target
     #if we don't have target : 
       if(me.showdistanceToken == 0){
-        me.TriangleGroupe.hide();
+#         me.TriangleGroupe.hide();
         me.Square_Group.hide();
         me.distanceToTargetLineGroup.hide(); 
         me.missileFireRange.hide();
