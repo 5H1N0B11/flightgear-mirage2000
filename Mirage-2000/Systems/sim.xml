@@ -85,6 +85,7 @@
       -->
       <bool n="2" alias ="/instrumentation/gci/cutoff"/> <!-- gci request -->
     </generic>
+    <visibility-range-nm>200</visibility-range-nm>
   </multiplay>
 
   <panel include="panel.xml" />
