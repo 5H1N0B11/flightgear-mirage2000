@@ -12,6 +12,9 @@ print("*** LOADING m2000-5-electrical.nas ... ***");
 # Modified by PAF team for DC-3
 # Modifed & adapted by 5H1N0B1 (2014-10)
 #
+var TRUE = 1;
+var FALSE = 0;
+
 var last_time           = 0.0;
 var OutPuts             = props.globals.getNode("/systems/electrical/outputs", 1);
 var Volts               = props.globals.getNode("/systems/electrical/volts", 1);
@@ -21,6 +24,7 @@ var BATT_CHARGE_PERCENT = props.globals.getNode("/systems/electrical/battery_cha
 var BATT                = props.globals.getNode("/controls/switches/battery-switch", 1);
 var ALT_1               = props.globals.getNode("/controls/switches/ALT1-switch", 1);
 var ALT_2               = props.globals.getNode("/controls/switches/ALT2-switch", 1);
+var HUD_switch       = props.globals.getNode("/systems/electrical/switches/HUD", 1);
 var DIMMER              = props.globals.getNode("/controls/lighting/instruments-norm", 1);
 var ALT1_Amp            = props.globals.getNode("/systems/electrical/suppliers/ALT_1", 1);
 var ALT2_Amp            = props.globals.getNode("/systems/electrical/suppliers/ALT_2", 1);
@@ -32,6 +36,9 @@ var Alternator          = {};
 var load                = 0.0;
 var fuel_pump_BPD       = props.globals.getNode("/systems/electrical/outputs/fuel-pump-BPD", 1);
 var fuel_pump_BPG       = props.globals.getNode("/systems/electrical/outputs/fuel-pump-BPG", 1);
+var HUD_Power       = props.globals.getNode("/systems/electrical/outputs/HUD", 1);
+
+HUD_switch.setBoolValue(TRUE);
 
 # var battery = Battery.new(volts, amps, amp_hours, charge_percent, charge_amps);
 Battery = {
@@ -569,6 +576,11 @@ var avionics_bus = func(bus_volts)
         OutPuts.getNode("radar", 1).setValue(bus_volts);
         load += 0.00015;
     }
+    if(HUD_switch.getBoolValue()){
+        HUD_Power.setValue(bus_volts);
+        load += 0.00001;
+    }
+    
     else
     {
         OutPuts.getNode("radar", 1).setValue(0.0);

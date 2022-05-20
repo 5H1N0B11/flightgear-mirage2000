@@ -1270,7 +1270,8 @@ var HUD = {
       gun_rate       : "/ai/submodels/submodel[1]/delay",
       bullseye_lat   : "/instrumentation/bullseye/bulls-eye-lat",
       bullseye_lon   : "instrumentation/bullseye/bulls-eye-lon",
-      bullseye_def   : "instrumentation/bullseye/bulls-eye-defined"
+      bullseye_def   : "instrumentation/bullseye/bulls-eye-defined",
+      HUD_POWER_VOLT : "/systems/electrical/outputs/HUD"
     };
     
     foreach(var name; keys(m.input)){
@@ -1291,6 +1292,14 @@ var HUD = {
   },
   update: func()
   {
+    #if electrical < 23 volts then hud should hide
+    
+    if(me.input.HUD_POWER_VOLT.getValue()<23){
+      me.root.setVisible(0);
+    }else{
+      me.root.setVisible(1);
+    }
+    
     me.aircraft_position = geo.aircraft_position();
     me.hydra = 0; #for rocket
     me.strf = me.input.gun_rate.getValue()==0.06?1:0; #Air to ground fire : based on the gun rate
@@ -1972,13 +1981,14 @@ var HUD = {
     if(me.selectedWeap.guidance != "heat"){me.TriangleGroupe.hide();return;}
     
     #Starting to search (Shouldn't be there but in the controls)
-    #me.selectedWeap.start();
+    me.selectedWeap.start();
     #me.selectedWeap.contacts = radar.completeList;#This shoiuldn't be here.
     #screen.log.write("starting IR sweep", 1.0, 1.0, 0.0);
     #veryTempo = me.selectedWeap.getSeekerInfo();
     #print("veryTempo.seeker_head:"~veryTempo.seeker_head);
     #screen.log.write("getSeekerInfo:"~me.selectedWeap.getSeekerInfo[0],1.0, 1.0, 0.0);
-    if (me.selectedWeap != nil and me.selectedWeap.isCaged()) {
+    #if (me.selectedWeap != nil and me.selectedWeap.isCaged()) {
+    if (me.selectedWeap != nil) {
       var coords = me.selectedWeap.getSeekerInfo();
       if (coords != nil) {
          var seekerTripos = HudMath.getCenterPosFromDegs(coords[0],coords[1]);
