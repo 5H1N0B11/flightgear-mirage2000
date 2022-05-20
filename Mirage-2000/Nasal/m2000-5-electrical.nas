@@ -571,21 +571,27 @@ var avionics_bus = func(bus_volts)
         OutPuts.getNode("transponder", 1).setValue(0.0);
     }
     
+    #Radar
     if(props.globals.getNode("/instrumentation/radar/radar-standby").getBoolValue())
     {
         OutPuts.getNode("radar", 1).setValue(bus_volts);
         load += 0.00015;
     }
-    if(HUD_switch.getBoolValue()){
-        HUD_Power.setValue(bus_volts);
-        load += 0.00001;
-    }
-    
     else
     {
         OutPuts.getNode("radar", 1).setValue(0.0);
     }
     
+    # HUD
+    if(HUD_switch.getBoolValue()){
+        HUD_Power.setValue(bus_volts);
+        load += 0.00001;
+    }else{
+        HUD_Power.setValue(0);
+    }
+    
+    
+
     if(props.globals.getNode("/instrumentation/nav[0]/serviceable").getBoolValue())
     {
         OutPuts.getNode("nav", 1).setValue(bus_volts);
