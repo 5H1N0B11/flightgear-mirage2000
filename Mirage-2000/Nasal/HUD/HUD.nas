@@ -1271,7 +1271,8 @@ var HUD = {
       bullseye_lat   : "/instrumentation/bullseye/bulls-eye-lat",
       bullseye_lon   : "instrumentation/bullseye/bulls-eye-lon",
       bullseye_def   : "instrumentation/bullseye/bulls-eye-defined",
-      HUD_POWER_VOLT : "/systems/electrical/outputs/HUD"
+      HUD_POWER_VOLT : "/systems/electrical/outputs/HUD",
+      flightmode     : "/instrumentation/flightmode/selected"
     };
     
     foreach(var name; keys(m.input)){
@@ -1391,13 +1392,28 @@ var HUD = {
     
 #     var rot = -me.input.roll.getValue() * math.pi / 180.0;
     #me.Textrot.setRotation(rot);
-
-    #Displaying ILS STUFF (but only show after LOCALIZER capture)
-    me.display_ILS_STUFF();
     
-    #ILS not dependent of the Scale (but only show after GS capture)
-    me.display_ILS_Square();
-    #me.RunwayOnTheHorizonLine.hide();
+    
+    #############################################################
+    #-------------  Approach stuff -------------
+    if (me.input.flightmode.getValue() == "APP"){
+      #Displaying ILS STUFF (but only show after LOCALIZER capture)
+      me.display_ILS_STUFF();
+      
+      #ILS not dependent of the Scale (but only show after GS capture)
+      me.display_ILS_Square();
+      #me.RunwayOnTheHorizonLine.hide();
+      
+      #Runway
+      me.call_display_runway();
+      
+    }else{
+      me.ILS_Scale_dependant.hide();
+      me.ILS_Scale_Independant.hide();
+      me.myRunwayGroup.removeAllChildren();
+    }
+    #############################################################
+    
     
     
     # Bore Cross. In navigation, the cross should only appear on NextWaypoint gps cooord, when dist to this waypoint is bellow 10 nm
@@ -1518,8 +1534,36 @@ var HUD = {
     me.displayTarget();
     me.displayHeattarget();
     
-   
+
+    # -------------------- displayHeadingHorizonScale ---------------
+    me.displayHeadingHorizonScale();
     
+    
+    # -------------------- display_heading_bug ---------------
+    me.display_heading_bug();
+    
+    
+    #---------------------- EEFS --------------------
+    if (!me.eegsShow) {
+      me.eegsGroup.setVisible(me.eegsShow);
+    }
+    if (me.eegsShow and !me.eegsLoop.isRunning) {
+        me.eegsLoop.start();
+    } elsif (!me.eegsShow and me.eegsLoop.isRunning) {
+        me.eegsLoop.stop();
+    }
+
+    #settimer(func me.update(), 0.1);
+    me.lastWP = me.input.currentWp.getValue();
+    #------------------------End of the Update------------------------------------------------------------------------
+  },
+  
+  
+  
+  
+  
+  
+  call_display_runway:func(){
     #--------------------- Selecting the Airport and the runway -------------
     #------------------------------------------------------------------------
     #Need to select the runways and write the conditions
@@ -1566,29 +1610,11 @@ var HUD = {
     }else{
       me.myRunwayGroup.removeAllChildren();
     }
-    
-    # -------------------- displayHeadingHorizonScale ---------------
-    me.displayHeadingHorizonScale();
-    
-    
-    # -------------------- display_heading_bug ---------------
-    me.display_heading_bug();
-    
-    
-    #---------------------- EEFS --------------------
-    if (!me.eegsShow) {
-      me.eegsGroup.setVisible(me.eegsShow);
-    }
-    if (me.eegsShow and !me.eegsLoop.isRunning) {
-        me.eegsLoop.start();
-    } elsif (!me.eegsShow and me.eegsLoop.isRunning) {
-        me.eegsLoop.stop();
-    }
-
-    #settimer(func me.update(), 0.1);
-    me.lastWP = me.input.currentWp.getValue();
-    #------------------------End of the Update------------------------------------------------------------------------
   },
+  
+  
+  
+  
   display_ILS_STUFF:func(){
     if(me.input.ILS_valid.getValue() and !me.input.MasterArm.getValue()){
       me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading - me.input.NavHeadingRunwayILS.getValue() ));

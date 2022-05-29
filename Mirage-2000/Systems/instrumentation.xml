@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<!-- <?xml version="1.0" encoding="UTF-8" ?> -->
 
 <!--
 **********************************************************************
@@ -86,7 +86,9 @@ Mirage 2000 instrument defintions
 		<name>marker-beacon</name>
 		<number>0</number>
 	</marker-beacon>
-
+  <flightmode>
+    <selected>DEC</selected>
+  </flightmode>
 
   <heading-indicator>
     <name>heading-indicator</name>

@@ -538,13 +538,14 @@ var flightmode = func (){
   #print("Called");
   if(getprop("/sim/current-view/view-number-raw") == 0) {
     if(getprop("/instrumentation/flightmode/app")){
+      setprop("/instrumentation/flightmode/selected","APP");
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.1019);
       setprop("/sim/current-view/z-offset-m",-2.9);  
       setprop("/sim/current-view/field-of-view",83);
       
     }elsif(getprop("/instrumentation/flightmode/to")){
-      
+      setprop("/instrumentation/flightmode/selected","DEC");
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.1019);
       setprop("/sim/current-view/z-offset-m",-2.9);
@@ -552,12 +553,14 @@ var flightmode = func (){
 
       
     }elsif(getprop("/instrumentation/flightmode/nav")){
+      setprop("/instrumentation/flightmode/selected","NAV");
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.025);
       setprop("/sim/current-view/z-offset-m",-2.9);
       setprop("/sim/current-view/field-of-view",83);
       
     }elsif(getprop("/instrumentation/flightmode/arm")){
+      setprop("/instrumentation/flightmode/selected","ARM");
       setprop("/sim/current-view/x-offset-m",0);
       setprop("/sim/current-view/y-offset-m",0.099);
       setprop("/sim/current-view/z-offset-m",-2.67);
