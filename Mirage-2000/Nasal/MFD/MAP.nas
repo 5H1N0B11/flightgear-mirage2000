@@ -140,7 +140,7 @@ var rightMFDcanvas = {
       m.mapStuff = m.root.createChild("group").set("z-index",0);
       m.radarStuff = m.root.createChild("group").set("z-index",9500);
       m.rwr = m.root.createChild("group").set("z-index",10000);
-      rwr.setGroup(m.rwr);
+      #rwr.setGroup(m.rwr);
       
       #MAP stuff
       m.g_front = m.mapStuff.createChild("group");

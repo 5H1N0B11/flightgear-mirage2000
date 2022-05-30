@@ -1,16 +1,16 @@
-RadarRDY_PPI = {
+var RadarRDY_PPI = {
     new: func {
-        var size_x = 329;
-        var size_y = 254;
+        var size_x = 256;
+        var size_y = 256;
         
-        var window = canvas.Window.new([329, 254],"dialog")
-                .set('x', 825)#position on screen
+        var window = canvas.Window.new([size_x, size_y],"dialog")
+                .set('x', 550)#position on screen
                 .set('title', "Radar PPI");
         var root = window.getCanvas(1).createGroup();
         window.getCanvas(1).setColorBackground(0,0,0);
         
-
-
+        
+        
 # Here you define the canvas elements
         me.rootCenter = root.createChild("group")
 				.setTranslation(size_x/2,size_y);
@@ -47,7 +47,7 @@ RadarRDY_PPI = {
       	  .setFontSize(12, 1.0)
       	  .setTranslation(0,30)
 	      .setColor(1, 1, 1);
-
+      root.show();
         me.loop();
     },
 
@@ -56,7 +56,8 @@ RadarRDY_PPI = {
     loop: func {
 
 # Here you Move, rotate and show the canvas elements
-
+        me.rootCenter.show();
+      
         settimer(func me.loop(), 0.05);
     },
 };
@@ -288,7 +289,7 @@ var button26 = nil;
 
 var Launch_Canvas = func (){
 
-var rdy = RadarRDY_PPI.new();
+var my_rdy = RadarRDY_PPI.new();
 var button = buttonWindow();
 }
 

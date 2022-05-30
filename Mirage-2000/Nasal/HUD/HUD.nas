@@ -1515,7 +1515,7 @@ var HUD = {
     #me.vertical_speed.hide();
     
     #Displaying the circles, the squares or even the triangles (triangles will be for a IR lock without radar)
-    me.displayTarget();
+    #me.displayTarget();
     me.displayHeattarget();
     
    
