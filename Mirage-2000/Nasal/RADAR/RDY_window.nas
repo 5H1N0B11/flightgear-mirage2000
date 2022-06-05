@@ -4,8 +4,8 @@ var RadarRDY_PPI = {
         var size_y = 256;
         
         var window = canvas.Window.new([size_x, size_y],"dialog")
-                .set('x', 256)#position on screen
-                .set('y', 350)
+                .set('x', size_x)#position on screen
+                .set('y', size_y)
                 .set('title', "Radar PPI");
         var root = window.getCanvas(1).createGroup();
         window.getCanvas(1).setColorBackground(0,0,0);
@@ -16,15 +16,20 @@ var RadarRDY_PPI = {
         me.rootCenter = root.createChild("group")
 				.setTranslation(size_x/2,size_y);
         
+        me.rayon = size_y-5;
         me.Circle = root.createChild("path");
         me.Circle.setStrokeLineWidth(4).set("stroke", "rgba(0,255,0,1)")
-        .moveTo(100,100).arcSmallCW(10,10, 0, 10, 10);
+        .moveTo(size_x/2-me.rayon,size_y).arcSmallCW(me.rayon,me.rayon, 0, 2*me.rayon, 0);
         
         me.test = root.createChild("path");
         me.test.setStrokeLineWidth(4).set("stroke", "rgba(0,255,0,1)")
           .moveTo(0,0).lineTo(100,100).lineTo(100,90);
 
         
+          
+          
+          
+          
         me.rootCenterBleps = root.createChild("group")
 				.setTranslation(size_x/2,256);
 		me.sweepDistance = size_x/2/math.cos(30*D2R);
