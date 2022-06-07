@@ -30,38 +30,38 @@ var RadarRDY_PPI = {
           
           
           
-        me.rootCenterBleps = root.createChild("group")
-				.setTranslation(size_x/2,256);
-		me.sweepDistance = size_x/2/math.cos(30*D2R);
-		me.sweep = me.rootCenter.createChild("path")
-				.moveTo(0,0)
-				.vert(-me.sweepDistance)
-				.setStrokeLineWidth(2.5)
-				.setColor(1,1,1);
-		me.sweepA = me.rootCenter.createChild("path")
-				.moveTo(0,0)
-				.vert(-me.sweepDistance)
-				.setStrokeLineWidth(1)
-				.setColor(0.5,0.5,1);
-		me.sweepB = me.rootCenter.createChild("path")
-				.moveTo(0,0)
-				.vert(-me.sweepDistance)
-				.setStrokeLineWidth(1)
-				.setColor(0.5,0.5,1);
-		me.text = root.createChild("text")
-	      .setAlignment("left-top")
-      	  .setFontSize(12, 1.0)
-	      .setColor(1, 1, 1);
-	    me.text2 = root.createChild("text")
-	      .setAlignment("left-top")
-      	  .setFontSize(12, 1.0)
-      	  .setTranslation(0,15)
-	      .setColor(1, 1, 1);
-	    me.text3 = root.createChild("text")
-	      .setAlignment("left-top")
-      	  .setFontSize(12, 1.0)
-      	  .setTranslation(0,30)
-	      .setColor(1, 1, 1);
+#         me.rootCenterBleps = root.createChild("group")
+# 				.setTranslation(size_x/2,256);
+# 		me.sweepDistance = size_x/2/math.cos(30*D2R);
+# 		me.sweep = me.rootCenter.createChild("path")
+# 				.moveTo(0,0)
+# 				.vert(-me.sweepDistance)
+# 				.setStrokeLineWidth(2.5)
+# 				.setColor(1,1,1);
+# 		me.sweepA = me.rootCenter.createChild("path")
+# 				.moveTo(0,0)
+# 				.vert(-me.sweepDistance)
+# 				.setStrokeLineWidth(1)
+# 				.setColor(0.5,0.5,1);
+# 		me.sweepB = me.rootCenter.createChild("path")
+# 				.moveTo(0,0)
+# 				.vert(-me.sweepDistance)
+# 				.setStrokeLineWidth(1)
+# 				.setColor(0.5,0.5,1);
+# 		me.text = root.createChild("text")
+# 	      .setAlignment("left-top")
+#       	  .setFontSize(12, 1.0)
+# 	      .setColor(1, 1, 1);
+# 	    me.text2 = root.createChild("text")
+# 	      .setAlignment("left-top")
+#       	  .setFontSize(12, 1.0)
+#       	  .setTranslation(0,15)
+# 	      .setColor(1, 1, 1);
+# 	    me.text3 = root.createChild("text")
+# 	      .setAlignment("left-top")
+#       	  .setFontSize(12, 1.0)
+#       	  .setTranslation(0,30)
+# 	      .setColor(1, 1, 1);
       root.show();
       
         me.loop();
