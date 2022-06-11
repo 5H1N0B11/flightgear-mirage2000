@@ -2,6 +2,7 @@ var RadarRDY_PPI = {
     new: func {
         var size_x = 330;
         var size_y = 256;
+        me.myGreen = [0,1,0,1];
         
         var window = canvas.Window.new([size_x, size_y],"dialog")
                 .set('x', size_x)#position on screen
@@ -18,12 +19,28 @@ var RadarRDY_PPI = {
         
         me.rayon = size_y-5;
         me.Circle = root.createChild("path");
-        me.Circle.setStrokeLineWidth(4).set("stroke", "rgba(0,255,0,1)")
+        me.Circle.setStrokeLineWidth(2).set("stroke", "rgba(0,255,0,1)")
         .moveTo(size_x/2-me.rayon,size_y).arcSmallCW(me.rayon,me.rayon, 0, 2*me.rayon, 0);
         
-        me.test = root.createChild("path");
-        me.test.setStrokeLineWidth(4).set("stroke", "rgba(0,255,0,1)")
-          .moveTo(0,0).lineTo(100,100).lineTo(100,90);
+        me.cross = root.createChild("path")
+        .setColor(me.myGreen)
+      .moveTo(-30, 0)
+      .horiz(22)
+      .moveTo(8, 0)
+      .horiz(22)
+      .moveTo(0, -30)
+      .vert(22)
+      .moveTo(0, 8)
+      .vert(22)
+      .setStrokeLineWidth(2);
+        
+        me.cross.setTranslation(150, 100);
+        
+        
+        
+#         me.test = root.createChild("path");
+#         me.test.setStrokeLineWidth(4).set("stroke", "rgba(0,255,0,1)")
+#           .moveTo(0,0).lineTo(100,100).lineTo(100,90);
 
         
           
