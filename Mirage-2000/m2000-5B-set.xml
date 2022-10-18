@@ -2,8 +2,7 @@
 
 <PropertyList include="Systems/m2000-common.xml">
 
-
-    <scalp-pos-norm type="float">0</scalp-pos-norm>
+  <scalp-pos-norm type="float">0</scalp-pos-norm>
 
   <_debug>
     <x type="float">0</x>
@@ -14,24 +13,23 @@
   <sim>
     <description>Mirage 2000-5B</description>
     <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe, Marsdolphin</author>
-
-      <!-- 
-          Elijah (3D/FDM)
-          5H1N0B1 (Weapons, systems)
-          F-Sig
-          hardball (3D, systems, dual seat)
-          Josh Davidson (FCS/FBW/Autopilot)
-          Leto
-          Richard Harrison (Flight Model)
-          onox
-          legoboyvdlp
-          Domokos "Rudolf" Juttner
-          ravenclaw_007
-          J Maverick 16
-          Niall "Salmon" Roe
-      -->
+    <!-- 
+        Elijah (first 3D model / first FDM yasim)
+        5H1N0B1 (Weapons, systems)
+        F-Sig
+        hardball (improve 3D, systems, dual seat version, new cockpit)
+        Josh Davidson (FCS/FBW/Autopilot)
+        Leto
+        Richard Harrison (Flight Model)
+        onox
+        legoboyvdlp
+        Domokos "Rudolf" Juttner
+        ravenclaw_007
+        J Maverick 16
+        Niall "Salmon" Roe
+    -->
     <long-description>The Dassault Mirage 2000-5 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
-    <aircraft-version>2020-06-27</aircraft-version>
+    <aircraft-version>2022-09-25</aircraft-version>
     <status>production</status>
     <variant-of>m2000-5</variant-of>
 
@@ -45,54 +43,54 @@
     </rating>
 
     <tags>
-        <tag>dassault</tag>
-        <tag>single-engine</tag>
-        <tag>jet</tag>
-        <tag>retractable-gear</tag>
-        <tag>supersonic</tag>
-        <tag>coldwar</tag>
-        <tag>fighter</tag>
-        <tag>tricycle</tag>
-        <tag>1970s</tag>
-        <tag>1980s</tag>
-        <tag>1990s</tag>
-        <tag>2000s</tag>
-        <tag>delta</tag>
-        <tag>hud</tag>
-        <tag>afterburner</tag>
+      <tag>dassault</tag>
+      <tag>single-engine</tag>
+      <tag>jet</tag>
+      <tag>retractable-gear</tag>
+      <tag>supersonic</tag>
+      <tag>coldwar</tag>
+      <tag>fighter</tag>
+      <tag>tricycle</tag>
+      <tag>1970s</tag>
+      <tag>1980s</tag>
+      <tag>1990s</tag>
+      <tag>2000s</tag>
+      <tag>delta</tag>
+      <tag>hud</tag>
+      <tag>afterburner</tag>
     </tags>
-    
+
     <model>
-	<path>Aircraft/Mirage-2000/Models/m2000-5B.xml</path>
-	<fallback-model-index type="int">527</fallback-model-index>
+      <path>Aircraft/Mirage-2000/Models/m2000-5B.xml</path>
+      <fallback-model-index type="int">527</fallback-model-index>
     </model>
 
     <gui n="0" include="gui/it-gui.xml"/>
-    
-     <previews>
+
+    <previews>
       <preview>
         <type>exterior</type>
         <splash type="bool">true</splash>
         <path>Splashes/splashB-01.png</path>
       </preview>
-     </previews>
+    </previews>
 
-     <view n="103">
-	 <name>Navigator View</name>
-	 <type>lookfrom</type>
-	 <internal>true</internal>
-	 <config>
-             <from-model type="bool">true</from-model>
-             <from-model-idx type="int">0</from-model-idx>
-             <x-offset-m type="double">  0.00 </x-offset-m>
-             <y-offset-m type="double">  0.26 </y-offset-m>
-             <z-offset-m type="double"> -1.06 </z-offset-m>
-             <pitch-offset-deg type="double"> -10 </pitch-offset-deg>
-             <heading-offset-deg type="double"> 0 </heading-offset-deg>
-             <default-field-of-view-deg type="double">82</default-field-of-view-deg>
-	 </config>
-     </view>
-     
+    <view n="103">
+      <name>Navigator View</name>
+      <type>lookfrom</type>
+      <internal>true</internal>
+      <config>
+        <from-model type="bool">true</from-model>
+        <from-model-idx type="int">0</from-model-idx>
+        <x-offset-m type="double">  0.00 </x-offset-m>
+        <y-offset-m type="double">  0.26 </y-offset-m>
+        <z-offset-m type="double"> -1.06 </z-offset-m>
+        <pitch-offset-deg type="double"> -10 </pitch-offset-deg>
+        <heading-offset-deg type="double"> 0 </heading-offset-deg>
+        <default-field-of-view-deg type="double">82</default-field-of-view-deg>
+      </config>
+    </view>
+
   </sim>
 
 </PropertyList>
