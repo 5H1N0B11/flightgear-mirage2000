@@ -64,7 +64,7 @@ listOfGroundTargetNames = ["groundvehicle"];
 listOfShipNames      = ["carrier", "ship"];
 listOfAIRadarEchoes  = ["multiplayer", "tanker", "aircraft", "carrier", "ship", "missile", "groundvehicle", "Mig-28", "F-16"];
 listOfAIRadarEchoes2 = keys(weaponRadarNames);
-listOfGroundVehicleModels = ["buk-m2", "MIM104D", "s-300", "ZSU-23-4M", "S-75", "SA-6", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
+listOfGroundVehicleModels = ["buk-m2", "MIM104D", "s-200", "s-300", "ZSU-23-4M", "S-75", "SA-6", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
 #listOfGroundVehicleModels = ["GROUND_TARGET"];
 listOfShipModels          = ["frigate", "missile_frigate", "USS-LakeChamplain", "USS-NORMANDY", "USS-OliverPerry", "USS-SanAntonio"];
 # 
@@ -86,6 +86,7 @@ listOfGroundTargetNames_hash = {
   "groundvehicle":armament.SURFACE,
   "buk-m2":armament.SURFACE,
   "MIM104D":armament.SURFACE,
+  "s-200":armament.SURFACE,
   "s-300":armament.SURFACE,
   "S-75":armament.SURFACE,
   "SA-6":armament.SURFACE,
@@ -1196,7 +1197,7 @@ var RWR_APG = {
             
             if (me.show == 1) {
                 me.threat = 0;
-                if (me.u.get_model() != "missile_frigate" and me.u.propNode.getName() != "carrier" and me.u.get_model() != "fleet" and me.u.get_model() != "buk-m2" and me.u.get_model() != "MIM104D" and me.u.get_model() != "s-300" and me.u.get_model() != "S-75" and me.u.get_model() != "SA-6" and me.u.get_model() != "ZSU-23-4M") {
+                if (me.u.get_model() != "missile_frigate" and me.u.propNode.getName() != "carrier" and me.u.get_model() != "fleet" and me.u.get_model() != "buk-m2" and me.u.get_model() != "MIM104D" and me.u.get_model() != "s-200" and me.u.get_model() != "s-300" and me.u.get_model() != "S-75" and me.u.get_model() != "SA-6" and me.u.get_model() != "ZSU-23-4M") {
                     me.threat += ((180-me.dev)/180)*0.30;
                     me.spd = (60-me.u.get_Speed())/60;
                     me.threat -= me.spd>0?me.spd:0;
@@ -1212,6 +1213,8 @@ var RWR_APG = {
                     me.danger = 35;
                 } elsif (me.u.propNode.getName() == "carrier") {
                     me.danger = 60;
+                } elsif (me.u.propNode.getName() == "s-200") {
+                    me.danger = 165;
                 } elsif (me.u.propNode.getName() == "s-300") {
                     me.danger = 75;
                 } elsif (me.u.propNode.getName() == "S-75") {

@@ -163,12 +163,13 @@ var warheads = {
     "BETAB-500ShP":      [94, 1160.00,1,0],
     "Flare":             [95,    0.00,0,0],
     "3M9":               [96,  125.00,0,0],# 3M9 Missile used with 2K12/SA-6
+    "5V28V":             [97,  478.00,0,0],# Missile used with S-200D/SA-5
 };
 
 var id2warhead = [];
 var launched = {};# callsign: elapsed-sec
 var approached = {};# callsign: uniqueID
-var heavy_smoke = [61,62,63,65,92,96];
+var heavy_smoke = [61,62,63,65,92,96,97];
 
 var k = keys(warheads);
 
