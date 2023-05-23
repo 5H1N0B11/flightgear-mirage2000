@@ -770,7 +770,7 @@ var quickstart = func() {
 }
 
 
- 
+ setprop("/sim/multiplay/visibility-range-nm", 200);
  
  
  
