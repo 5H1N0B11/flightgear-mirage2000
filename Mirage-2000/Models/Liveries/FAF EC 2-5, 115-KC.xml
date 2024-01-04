@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+
+  <sim>
+    <model>
+      <livery>
+
+        <name type="string">FAF EC 2/5 "Ile De France", 115-KC</name>
+        <texture>Liveries/2048x2048/ec25_80y.png</texture>
+        <texture-tank-2000>tank2000.png</texture-tank-2000>
+
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </livery>
+      <logos>
+        <name type="string">EC 2/5 Ile De France (80 years)</name>
+        <texture>ile-de-france_80-years.png</texture>
+        <specular>
+          <red>   0.3 </red>
+          <green> 0.3 </green>
+          <blue>  0.3 </blue>
+        </specular>
+      </logos>
+    </model>
+  </sim>
+
+</PropertyList>
