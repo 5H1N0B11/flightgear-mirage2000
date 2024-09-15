@@ -87,10 +87,10 @@
   <armament>
     <!--
       note :
-        Missile property. the value here doesn't really count, beacause it's reloaded
+        Missile property. The value here doesn't really count, beacause it's reloaded
         by a Nasal for each missile. Anyway this is nessecary for variable declaration
     -->
-    <automissileview type="bool">true</automissileview>
+    <automissileview type="bool">false</automissileview>
     <missile>
       <name>Matra MICA</name>
       <address>Aircraft/Mirage-2000/Missiles/MatraMica/MatraMica.xml</address>
