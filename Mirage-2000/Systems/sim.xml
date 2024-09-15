@@ -94,7 +94,7 @@
 
   <help include="help.xml" />
 
-  <menubar include="../Dialogs/m2000-5-menu.xml" />
+  <menubar include="../Dialogs/m2000-menu.xml" />
   
   <!-- ~~~~~~~~~~~~~~~~~~ weights for each pylon -->
   <!-- note : pylon options

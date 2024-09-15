@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
-  
-  <!-- If you put the dialog file in the Aircraft/aircraftname/gui/dialog the dialog box is loaded -->
+
   <name>config</name>
   <modal type="bool">false</modal>
   <layout>vbox</layout>
-  
+
   <group>
     <layout>hbox</layout>
     <empty>
       <stretch>1</stretch>
     </empty>
-    
+
     <text>
       <label>Mirage 2000 Configuration</label>
     </text>
-    
+
     <empty>
       <stretch>1</stretch>
     </empty>
-    
+
     <button>
       <pref-width>16</pref-width>
       <pref-height>16</pref-height>
@@ -57,8 +56,8 @@
       <col>1</col>
       <legend>Repair Damage</legend>
       <binding>
-	<command>nasal</command>
-	<script>
+        <command>nasal</command>
+        <script>
           var failure_modes = FailureMgr._failmgr.failure_modes;
           var mode_list = keys(failure_modes);
           foreach(var failure_mode_id; mode_list) {
@@ -69,61 +68,11 @@
     </button>
   </group>
 
-  <button>
-    <legend>Reload Guns, Flares and Chaffs</legend>
-    <binding>
-      <command>nasal</command>
-      <script>
-        if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
-        guns.reload_Cannon()
-        }else{
-        screen.log.write(mirage2000.msgB);
-        }
-      </script>
-    </binding>
-  </button>
-
-  <group>
-    <layout>table</layout>
-    <button>
-      <row>0</row>
-      <col>0</col>
-      <legend>Ground targeting</legend>
-      <!--    <binding>
-     <command>nasal</command>
-     <script>missile.targetingGround()</script>
-     </binding>-->
-    <binding>
-      <command>dialog-show</command>
-      <dialog-name>Ground_Targeting</dialog-name>
-    </binding>
-  </button>
-
-  <button>
-      <row>0</row>
-      <col>1</col>
-      <legend>Flight Mode</legend>
-      <binding>
-      <command>dialog-show</command>
-      <dialog-name>flightmode</dialog-name>
-    </binding>
-  </button>
-</group>
-
   <hrule />
 
-  <!--
-      <button>
-      <legend>MP Shot Report</legend>
-      <binding>
-      <command>nasal</command>
-      <script>missile.MPReport()</script>
-      </binding>
-      </button>
-  -->
   <group>
     <layout>hbox</layout>
-    <text><label>MP Shot Report</label></text>
+    <text><label>Weapons Multiplayer Damage</label></text>
     <checkbox>
       <property>/payload/armament/msg</property>
       <live>true</live>
@@ -133,14 +82,15 @@
           if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){ 
           setprop("payload/armament/msg", !getprop("payload/armament/msg")); 
           }
-        screen.log.write("MP messaging : " ~ (getprop("/payload/armament/msg") ? "Activated" : "Deactivated")  , 0.5, 0.5, 1);</script>
+          screen.log.write("MP messaging : " ~ (getprop("/payload/armament/msg") ? "Activated" : "Deactivated")  , 0.5, 0.5, 1);
+        </script>
       </binding>
     </checkbox>
   </group>
 
   <group>
     <layout>hbox</layout>
-    <text><label>Activate Auto missile view</label></text>
+    <text><label>Activate Auto Missile View</label></text>
     <checkbox>
       <property>/controls/armament/automissileview</property>
       <live>true</live>
@@ -153,7 +103,7 @@
 
   <hrule />
 
-  <text><label>Rate of Fire </label></text>
+  <text><label>Rate of Fire</label></text>
   <text><label>A/A => A/G</label></text>
   <group>
     <layout>hbox</layout>
@@ -210,15 +160,15 @@
       </slider>
     </group>
   </group>
-        
+
   <hrule />
-  
-    <group>
+
+  <group>
     <layout>hbox</layout>
     <text><halign>left</halign><label>AP TF Smooth (- +)</label></text>
     <group>
-    <layout>vbox</layout>
-    <halign>right</halign>
+      <layout>vbox</layout>
+      <halign>right</halign>
       <slider>
         <name>APTF</name>
         <property>/autopilot/settings/tf-mode</property>
@@ -236,15 +186,17 @@
           </script>
         </binding>
       </slider>
-      </group>
+    </group>
   </group>
   
   <group>
     <layout>hbox</layout>
-    <group><text><label>Predictions (- +)</label></text></group>
     <group>
-    <layout>vbox</layout>
-    <halign>right</halign>
+      <text><label>Predictions (- +)</label></text>
+    </group>
+    <group>
+      <layout>vbox</layout>
+      <halign>right</halign>
       <slider>
         <name>APTF</name>
         <property>/instrumentation/tfs/delay-sec</property>
@@ -262,14 +214,13 @@
           </script>
         </binding>
       </slider>
-      </group>
+    </group>
   </group>
 
   <hrule />
 
-  <!-- Bingo Fuel  -->
   <text>
-    <label>Enter the Bingo Fuel value</label>
+    <label>Bingo Fuel Value</label>
   </text>
   
   <input>
@@ -311,10 +262,10 @@
       </binding>
     </checkbox>
   </group>
-  
+
   <group>
     <layout>hbox</layout>
-    <text><label>Enable Dynamic view</label></text>
+    <text><label>Enable Dynamic View</label></text>
     <checkbox>
       <property>sim/disable-custom-view</property>
       <live>false</live>
@@ -324,7 +275,7 @@
       </binding>
     </checkbox>
   </group>
-  
+
   <group>
     <layout>hbox</layout>
     <text><label>Cockpit Vibration</label></text>
@@ -340,7 +291,7 @@
 
     <group>
     <layout>hbox</layout>
-    <text><label>Ground equipment</label></text>
+    <text><label>Ground Equipment</label></text>
     <checkbox>
       <property>/controls/ground-equipment</property>
       <live>true</live>
@@ -353,7 +304,7 @@
 
   <group>
     <layout>hbox</layout>
-    <text><label>Smoke (Needs pods)</label></text>
+    <text><label>Smoke (Needs Pods)</label></text>
     <checkbox>
       <property>payload/armament/smoke-pod/flags/smoke-id-500</property>
       <live>false</live>
@@ -368,43 +319,8 @@
     </checkbox>
   </group>
 
-      <hrule />
-
-  <group>
-    <layout>table</layout>
-    <button>
-      <row>0</row>
-      <col>0</col>
-      <legend>About</legend>
-      <binding>
-      <command>dialog-show</command>
-      <dialog-name>about_Mirage</dialog-name>
-    </binding>
-  </button>
-
-  <button>
-      <row>0</row>
-      <col>1</col>
-      <legend>Lights</legend>
-      <binding>
-      <command>dialog-show</command>
-      <dialog-name>lightning</dialog-name>
-    </binding>
-  </button>
-
-  <button>
-      <row>0</row>
-      <col>2</col>
-      <legend>Options</legend>
-      <binding>
-      <command>dialog-show</command>
-      <dialog-name>options</dialog-name>
-    </binding>
-  </button>
-</group>
-
   <empty>
-      <stretch>1</stretch>
-    </empty>
+    <stretch>1</stretch>
+  </empty>
 
 </PropertyList>

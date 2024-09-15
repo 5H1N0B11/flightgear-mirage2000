@@ -3,7 +3,7 @@
 <PropertyList>
   
   <!-- If you put the dialog file in the Aircraft/aircraftname/gui/dialog the dialog box is loaded -->
-  <name>Ground_Targeting</name>
+  <name>ground_targeting</name>
   <modal type="bool">false</modal>
   <layout>vbox</layout>
 <!--  <width>800</width>

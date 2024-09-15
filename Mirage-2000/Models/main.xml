@@ -191,7 +191,7 @@
     <path>Aircraft/Mirage-2000/Models/Parking/parking.xml</path>
   </model>
 
-  <!-- Pushback Model Loeader -->
+  <!-- Pushback Model Loader -->
   <model>
     <name>Pushback</name>
     <path>Models/Airport/Pushback/Military.xml</path>
