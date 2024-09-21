@@ -41,6 +41,8 @@ setprop("/instrumentation/radar/az-fieldCenter", 0);
 var hud_pilot = hud.HUD.new({"node": "revi.canvasHUD", "texture": "hud.png"});
 # var rwr = hud.HUD.new({"node": "canvasRWR", "texture": "hud.png"});
 
+var vtm = vtm.VTM.new();
+
 var prop = "payload/armament/fire-control";
 var actuator_fc = compat_failure_modes.set_unserviceable(prop);
 FailureMgr.add_failure_mode(prop, "Fire control", actuator_fc);
@@ -102,8 +104,11 @@ var main_Init_Loop = func()
     print("blackout ... Check");
     blackout.blackout_init();
     
-    print("HUD canvas...Check");
+    print("HUD canvas ... Check");
     hud_pilot.update();
+
+    print("VTM canvas ... Check");
+    vtm.update();
     
     print("MFD ... Check");
     mirage2000.setCentralMFD();
@@ -166,6 +171,7 @@ var updatefunction = func()
     if(AbsoluteTime - myFramerate.a > 0.05){
       #call(hud_pilot.update,nil,nil,nil, myErr);
       hud_pilot.update();
+      vtm.update();
       call(mirage2000.theShakeEffect,nil,nil,nil, myErr);
       mirage2000.mfd_update_main();
       myFramerate.a = AbsoluteTime;

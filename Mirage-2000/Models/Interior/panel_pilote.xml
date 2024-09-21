@@ -74,6 +74,11 @@
   </model>
 
   <model>
+    <name>vtm</name>
+    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/vtm/vtm.xml</path>
+  </model>
+
+  <model>
     <name>left_mfd</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/mfd/left_mfd.xml</path>
   </model>

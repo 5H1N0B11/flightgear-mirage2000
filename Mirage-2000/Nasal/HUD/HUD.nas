@@ -590,7 +590,7 @@ var HUD = {
     
     
 
-    #a line representthe middle and the actual heading
+    #a line represent the middle and the actual heading
     m.heading_pointer_line = m.headingStuff.createChild("path")
       .setColor(m.myGreen)
       .setStrokeLineWidth(4)
