@@ -46,6 +46,9 @@ var GRID_TICK_LENGTH = 10;
 var FONT_SIZE = 18;
 var FONT_ASPECT_RATIO = 1;
 
+var MAX_TARGETS = 28;
+var TARGET_WIDTH = 30;
+
 var VTM = {
   new: func() {
     print("*** VTM.new called");
@@ -60,65 +63,82 @@ var VTM = {
     vtm_obj.vtm_canvas.addPlacement({"node": "vtm_ac_object"});
     vtm_obj.vtm_canvas.setColorBackground(COLOR_BACKGROUND);
 
-    # draw the corners
-    vtm_obj.corners_group = vtm_obj.vtm_canvas.createGroup("corners_group");
-    vtm_obj.left_upper_corner = vtm_obj.corners_group.createChild("path", "left_upper_corner")
+    vtm_obj._create_visible_corners();
+    vtm_obj._create_screen_mode_group();
+    vtm_obj._create_rectangular_field_of_view_grid();
+    vtm_obj._create_targets();
+
+    return vtm_obj;
+  },
+
+  # The 4 visible corners at the edges of the main screen estate
+  _create_visible_corners: func() {
+    me.corners_group = me.vtm_canvas.createGroup("corners_group");
+    me.left_upper_corner      = me.corners_group.createChild("path", "left_upper_corner")
                                 .setColor(COLOR_FOREGROUND)
                                 .moveTo(PADDING_HORIZONTAL + CORNER_LINE_LENGTH,
                                         PADDING_TOP)
                                 .horizTo(PADDING_HORIZONTAL)
                                 .vertTo(PADDING_TOP + CORNER_LINE_LENGTH)
                                 .setStrokeLineWidth(LINE_WIDTH);
-    vtm_obj.right_upper_corner = vtm_obj.corners_group.createChild("path", "right_upper_corner")
+    me.right_upper_corner      = me.corners_group.createChild("path", "right_upper_corner")
                                  .setColor(COLOR_FOREGROUND)
                                  .moveTo(SCREEN_WIDTH - PADDING_HORIZONTAL - CORNER_LINE_LENGTH,
                                          PADDING_TOP)
                                  .horizTo(SCREEN_WIDTH - PADDING_HORIZONTAL)
                                  .vertTo(PADDING_TOP + CORNER_LINE_LENGTH)
                                  .setStrokeLineWidth(LINE_WIDTH);
-    vtm_obj.left_lower_corner  = vtm_obj.corners_group.createChild("path", "left_lower_corner")
+    me.left_lower_corner       = me.corners_group.createChild("path", "left_lower_corner")
                                  .setColor(COLOR_FOREGROUND)
                                  .moveTo(PADDING_HORIZONTAL + CORNER_LINE_LENGTH,
                                          SCREEN_HEIGHT - PADDING_BOTTOM)
                                  .horizTo(PADDING_HORIZONTAL)
                                  .vertTo(SCREEN_HEIGHT - PADDING_BOTTOM - CORNER_LINE_LENGTH)
                                  .setStrokeLineWidth(LINE_WIDTH);
-    vtm_obj.right_lower_corner  = vtm_obj.corners_group.createChild("path", "right_lower_corner")
+    me.right_lower_corner      = me.corners_group.createChild("path", "right_lower_corner")
                                   .setColor(COLOR_FOREGROUND)
                                   .moveTo(SCREEN_WIDTH - PADDING_HORIZONTAL - CORNER_LINE_LENGTH,
                                           SCREEN_HEIGHT - PADDING_BOTTOM)
                                   .horizTo(SCREEN_WIDTH - PADDING_HORIZONTAL)
                                   .vertTo(SCREEN_HEIGHT - PADDING_BOTTOM - CORNER_LINE_LENGTH)
                                   .setStrokeLineWidth(LINE_WIDTH);
-    # the text for the screen main modes: RDR (radar) and LDP (laser designation point)
-    vtm_obj.screen_mode_group = vtm_obj.vtm_canvas.createGroup("screen_mode_group");
-    vtm_obj.screen_mode_rdr = vtm_obj.screen_mode_group.createChild("text", "screen_mode_rdr")
+  },
+
+  # The text for the screen main modes: RDR (radar) and LDP (laser designation point)
+  # appears at the bottom of the screen
+  _create_screen_mode_group: func() {
+    me.screen_mode_group = me.vtm_canvas.createGroup("screen_mode_group");
+    me.screen_mode_rdr      = me.screen_mode_group.createChild("text", "screen_mode_rdr")
                               .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
                               .setColor(COLOR_FOREGROUND)
                               .setAlignment("left-top")
                               .setText("RDR")
                               .setTranslation(PADDING_HORIZONTAL + 0.5*0.25*RADAR_VIEW_HORIZONTAL,
                                               SCREEN_HEIGHT - PADDING_BOTTOM + 5);
-    vtm_obj.screen_mode_ldp = vtm_obj.screen_mode_group.createChild("text", "screen_mode_ldp")
+    me.screen_mode_ldp      = me.screen_mode_group.createChild("text", "screen_mode_ldp")
                               .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
                               .setColor(COLOR_FOREGROUND)
                               .setAlignment("left-top")
                               .setText("LDP")
                               .setTranslation(PADDING_HORIZONTAL + 1.5*0.25*RADAR_VIEW_HORIZONTAL,
                                               SCREEN_HEIGHT - PADDING_BOTTOM + 5);
-    vtm_obj.screen_mode_box = vtm_obj.screen_mode_group.createChild("path", "screen_mode_box")
+    me.screen_mode_rdr_box  = me.screen_mode_group.createChild("path", "screen_mode_rdr_box")
                               .setColor(COLOR_FOREGROUND)
                               .rect(PADDING_HORIZONTAL + 0.4*0.25*RADAR_VIEW_HORIZONTAL,
                                     SCREEN_HEIGHT - PADDING_BOTTOM + 1,
                                     0.5*0.25*RADAR_VIEW_HORIZONTAL, 25)
                               .setStrokeLineWidth(LINE_WIDTH);
-
-    vtm_obj.draw_rectangular_field_of_view_grid();
-
-    return vtm_obj;
+    me.screen_mode_ldp_box  = me.screen_mode_group.createChild("path", "screen_mode_ldp_box")
+                              .setColor(COLOR_FOREGROUND)
+                              .rect(PADDING_HORIZONTAL + 1.4*0.25*RADAR_VIEW_HORIZONTAL,
+                                    SCREEN_HEIGHT - PADDING_BOTTOM + 1,
+                                    0.5*0.25*RADAR_VIEW_HORIZONTAL, 25)
+                              .setStrokeLineWidth(LINE_WIDTH);
+    me.screen_mode_ldp_box.hide();
   },
 
-  draw_rectangular_field_of_view_grid: func() {
+  # Create the stippled grid for B-scope
+  _create_rectangular_field_of_view_grid: func() {
     me.rectangular_fov_grid_group = me.vtm_canvas.createGroup("rectangular_fov_grid");
     me.top_grid_line = me.rectangular_fov_grid_group.createChild("path", "top_grid_line")
                             .setColor(COLOR_RADAR)
@@ -179,6 +199,50 @@ var VTM = {
                                     PADDING_TOP + 4*spacing + 3*2*GRID_TICK_LENGTH)
                             .vert(2*GRID_TICK_LENGTH)
                             .setStrokeLineWidth(LINE_WIDTH);
+  },
+
+  # 3 types of targets: selected target, friend targets, foe targets.
+  # The selected target (max 1) is a cross.
+  # The friendly targets (given the IFF) are drawn as a filled circle.
+  # Foe targets are drawn as open squares - with the opening being on the back side of the target
+  _create_targets: func() {
+    var x_pos = 0;
+    var y_pos = 0;
+    me.targets_group = me.vtm_canvas.createGroup("targets_group");
+    me.selected_target = me.targets_group.createChild("path", "selected_target")
+                         .setColor(COLOR_RADAR)
+                         .moveTo(PADDING_HORIZONTAL + 0.8*RADAR_VIEW_HORIZONTAL, 
+                                 PADDING_TOP + 0.9*RADAR_VIEW_VERTICAL + TARGET_WIDTH/2)
+                         .horiz(TARGET_WIDTH)
+                         .moveTo(PADDING_HORIZONTAL + 0.8*RADAR_VIEW_HORIZONTAL + TARGET_WIDTH/2, 
+                                 PADDING_TOP + 0.9*RADAR_VIEW_VERTICAL)
+                         .vert(TARGET_WIDTH)
+                         .setStrokeLineWidth(2*LINE_WIDTH);
+
+    me.friend_targets = setsize([],MAX_TARGETS);
+    y_pos = PADDING_TOP + 100;
+    for (var i = 0; i<MAX_TARGETS; i += 1) {
+      x_pos = PADDING_HORIZONTAL + (i + 2)*TARGET_WIDTH;
+      me.friend_targets[i] = me.targets_group.createChild("path")
+                             .setColor(COLOR_RADAR)
+                             .circle(TARGET_WIDTH/2, x_pos, y_pos)
+                             .setStrokeLineWidth(2*LINE_WIDTH);
+    }
+
+    me.foe_targets = setsize([],MAX_TARGETS);
+    y_pos = PADDING_TOP + 300;
+    for (var i = 0; i<MAX_TARGETS; i += 1) {
+      x_pos = PADDING_HORIZONTAL + (i + 2)*TARGET_WIDTH;
+      me.foe_targets[i]    = me.targets_group.createChild("path")
+                             .setColor(COLOR_RADAR)
+                             .moveTo(x_pos, y_pos)
+                             .vert(TARGET_WIDTH)
+                             .moveTo(x_pos, y_pos)
+                             .horiz(TARGET_WIDTH)
+                             .moveTo(x_pos + TARGET_WIDTH, y_pos)
+                             .vert(TARGET_WIDTH)
+                             .setStrokeLineWidth(LINE_WIDTH);
+    }
   },
 
   update: func() {
