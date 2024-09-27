@@ -45,6 +45,7 @@ var GRID_TICK_LENGTH = 10;
 
 var FONT_SIZE = 18;
 var FONT_ASPECT_RATIO = 1;
+var FONT_MONO_REGULAR = "LiberationFonts/LiberationSansNarrow-Bold.ttf";
 
 var MAX_TARGETS = 28;
 var TARGET_WIDTH = 30;
@@ -110,6 +111,7 @@ var VTM = {
     me.screen_mode_group = me.vtm_canvas.createGroup("screen_mode_group");
     me.screen_mode_rdr      = me.screen_mode_group.createChild("text", "screen_mode_rdr")
                               .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+                              .setFont(FONT_MONO_REGULAR)
                               .setColor(COLOR_FOREGROUND)
                               .setAlignment("left-top")
                               .setText("RDR")
@@ -117,6 +119,7 @@ var VTM = {
                                               SCREEN_HEIGHT - PADDING_BOTTOM + 5);
     me.screen_mode_ldp      = me.screen_mode_group.createChild("text", "screen_mode_ldp")
                               .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+                              .setFont(FONT_MONO_REGULAR)
                               .setColor(COLOR_FOREGROUND)
                               .setAlignment("left-top")
                               .setText("LDP")
@@ -219,6 +222,16 @@ var VTM = {
                          .vert(TARGET_WIDTH)
                          .setStrokeLineWidth(2*LINE_WIDTH);
 
+    me.selected_target_callsign = me.targets_group.createChild("text", "selected_target_callsign")
+                                  .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+                                  .setFont(FONT_MONO_REGULAR)
+                                  .setColor(COLOR_RADAR)
+                                  .setAlignment("left-top")
+                                  .setText("")
+                                  .setTranslation(PADDING_HORIZONTAL + 3.5*0.25*RADAR_VIEW_HORIZONTAL,
+                                                  SCREEN_HEIGHT - PADDING_BOTTOM + 5);
+    me.selected_target_callsign.enableUpdate();
+
     me.friend_targets = setsize([],MAX_TARGETS);
     y_pos = PADDING_TOP + 100;
     for (var i = 0; i<MAX_TARGETS; i += 1) {
@@ -246,5 +259,33 @@ var VTM = {
   },
 
   update: func() {
+    var target_contacts_list = mirage2000.myRadar3.ContactsList;
+    var selected_target = mirage2000.myRadar3.Target_Index;
+    var i = 0;
+    var has_painted = 0;
+
+    # walk through all existing targets as per available list
+    foreach(var c; target_contacts_list) {
+      me.friend_targets[i].hide(); # currently we do not know the friends
+      if (selected_target == i) {
+        has_painted = 1;
+        me.selected_target.show();
+        me.selected_target_callsign.updateText(c.get_Callsign());
+        me.selected_target_callsign.show();
+        me.foe_targets[i].hide();
+      } else {
+        me.foe_targets[i].show();
+      }
+      i += 1;
+    }
+    # handle the index positions if the target list was shorter than the reserved elements
+    for (var j = i; j < MAX_TARGETS; j += 1) {
+      me.friend_targets[j].hide();
+      me.foe_targets[j].hide();
+    }
+    if (has_painted == 0) {
+      me.selected_target.hide();
+      me.selected_target_callsign.hide();
+    }
   },
 }
