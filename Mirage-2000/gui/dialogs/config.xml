@@ -239,7 +239,7 @@
 
   <group>
     <layout>hbox</layout>
-    <text><label>Radar</label></text>
+    <text><label>Radar emitting</label></text>
     <checkbox>
       <property>instrumentation/radar/radar-standby</property>
       <live>true</live>

@@ -43,9 +43,11 @@ var CORNER_LINE_LENGTH = 75;
 var LINE_WIDTH = 2;
 var GRID_TICK_LENGTH = 10;
 
-var FONT_SIZE = 18;
+var FONT_SIZE = 24;
+var FONT_SIZE_BIG = 48;
 var FONT_ASPECT_RATIO = 1;
-var FONT_MONO_REGULAR = "LiberationFonts/LiberationSansNarrow-Bold.ttf";
+var FONT_MONO_REGULAR = "LiberationFonts/LiberationMono-Regular.ttf";
+var FONT_MONO_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
 
 var MAX_TARGETS = 28;
 var TARGET_WIDTH = 30;
@@ -68,6 +70,8 @@ var VTM = {
     vtm_obj._create_screen_mode_group();
     vtm_obj._create_rectangular_field_of_view_grid();
     vtm_obj._create_targets();
+    vtm_obj._create_standby_text();
+    vtm_obj._create_radar_modes_group();
 
     return vtm_obj;
   },
@@ -103,6 +107,7 @@ var VTM = {
                                   .horizTo(SCREEN_WIDTH - PADDING_HORIZONTAL)
                                   .vertTo(SCREEN_HEIGHT - PADDING_BOTTOM - CORNER_LINE_LENGTH)
                                   .setStrokeLineWidth(LINE_WIDTH);
+    me.corners_group.hide();
   },
 
   # The text for the screen main modes: RDR (radar) and LDP (laser designation point)
@@ -129,15 +134,16 @@ var VTM = {
                               .setColor(COLOR_FOREGROUND)
                               .rect(PADDING_HORIZONTAL + 0.4*0.25*RADAR_VIEW_HORIZONTAL,
                                     SCREEN_HEIGHT - PADDING_BOTTOM + 1,
-                                    0.5*0.25*RADAR_VIEW_HORIZONTAL, 25)
+                                    0.5*0.25*RADAR_VIEW_HORIZONTAL, 30)
                               .setStrokeLineWidth(LINE_WIDTH);
     me.screen_mode_ldp_box  = me.screen_mode_group.createChild("path", "screen_mode_ldp_box")
                               .setColor(COLOR_FOREGROUND)
                               .rect(PADDING_HORIZONTAL + 1.4*0.25*RADAR_VIEW_HORIZONTAL,
                                     SCREEN_HEIGHT - PADDING_BOTTOM + 1,
-                                    0.5*0.25*RADAR_VIEW_HORIZONTAL, 25)
+                                    0.5*0.25*RADAR_VIEW_HORIZONTAL, 30)
                               .setStrokeLineWidth(LINE_WIDTH);
     me.screen_mode_ldp_box.hide();
+    me.screen_mode_group.hide();
   },
 
   # Create the stippled grid for B-scope
@@ -202,6 +208,7 @@ var VTM = {
                                     PADDING_TOP + 4*spacing + 3*2*GRID_TICK_LENGTH)
                             .vert(2*GRID_TICK_LENGTH)
                             .setStrokeLineWidth(LINE_WIDTH);
+    me.rectangular_fov_grid_group.hide();
   },
 
   # 3 types of targets: selected target, friend targets, foe targets.
@@ -256,9 +263,62 @@ var VTM = {
                              .vert(TARGET_WIDTH)
                              .setStrokeLineWidth(LINE_WIDTH);
     }
+    me.targets_group.hide();
   },
 
-  update: func() {
+  # When the radar goes into stand-by mode
+  _create_standby_text: func () {
+    me.standby_group = me.vtm_canvas.createGroup("standby_group");
+    me.standby_text = me.standby_group.createChild("text", "standby_text")
+                      .setFontSize(FONT_SIZE_BIG, FONT_ASPECT_RATIO)
+                      .setFont(FONT_MONO_BOLD)
+                      .setColor(COLOR_RADAR)
+                      .setAlignment("center-center")
+                      .setText("SILENCE")
+                      .setTranslation(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL,
+                                      PADDING_TOP + 200);
+    me.standby_group.hide();
+  },
+
+  # When the radar goes into stand-by mode
+  _create_radar_modes_group: func () {
+    var y_top_pos = PADDING_TOP + 10;
+    me.radar_modes_group = me.vtm_canvas.createGroup("radar_range_group");
+    me.radar_left_text   = me.radar_modes_group.createChild("text", "radar_left_text")
+                           .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+                           .setFont(FONT_MONO_REGULAR)
+                           .setColor(COLOR_RADAR)
+                           .setAlignment("left-top")
+                           .setText("MRF")
+                           .setTranslation(PADDING_HORIZONTAL + 10, y_top_pos);
+    me.radar_a_bars      = me.radar_modes_group.createChild("text", "radar_a_bars")
+                           .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+                           .setFont(FONT_MONO_REGULAR)
+                           .setColor(COLOR_RADAR)
+                           .setAlignment("center-top")
+                           .setText("A1")
+                           .setTranslation(PADDING_HORIZONTAL + 0.125*RADAR_VIEW_HORIZONTAL, y_top_pos);
+    me.radar_a_bars.enableUpdate();
+    me.radar_b_bars      = me.radar_modes_group.createChild("text", "radar_b_bars")
+                           .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+                           .setFont(FONT_MONO_REGULAR)
+                           .setColor(COLOR_RADAR)
+                           .setAlignment("right-top")
+                           .setText("HI")
+                           .setTranslation(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL - 10, y_top_pos);
+    me.radar_b_bars.enableUpdate();
+    me.radar_range_text  = me.radar_modes_group.createChild("text", "radar_range_text")
+                           .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+                           .setFont(FONT_MONO_REGULAR)
+                           .setColor(COLOR_RADAR)
+                           .setAlignment("right-top")
+                           .setText("")
+                           .setTranslation(SCREEN_WIDTH - PADDING_HORIZONTAL - 10, y_top_pos);
+    me.radar_range_text.enableUpdate();
+    me.radar_modes_group.hide();
+  },
+
+  _update_targets: func() {
     var target_contacts_list = mirage2000.myRadar3.ContactsList;
     var selected_target = mirage2000.myRadar3.Target_Index;
     var i = 0;
@@ -286,6 +346,56 @@ var VTM = {
     if (has_painted == 0) {
       me.selected_target.hide();
       me.selected_target_callsign.hide();
+    }
+  },
+
+  _update_radar_texts: func() {
+    # this is fictional based on radar2.nas->radar_mode_toggle(). In the real screen it reads e.g. "MRF"
+    var tws_auto = props.globals.getNode("/instrumentation/radar/mode/tws-auto").getBoolValue();
+    var radar_mode = "RWS";
+    if (tws_auto) {
+      radar_mode = "TWS";
+    }
+    me.radar_left_text.setText(radar_mode);
+
+    # this is fictional based on interpretation of https://github.com/NikolaiVChr/f16/wiki/FCR
+    var az_text = "A1";
+    if (mirage2000.myRadar3.az_fld >= 49.9 and mirage2000.myRadar3.az_fld < 59.9) {
+      az_text = "A2";
+    } else if (mirage2000.myRadar3.az_fld >= 59.9 and mirage2000.myRadar3.az_fld < 119.9) {
+      az_text = "A3";
+    } else if (mirage2000.myRadar3.az_fld >= 119.9) {
+      az_text = "A4";
+    }
+    me.radar_a_bars.setText(az_text);
+
+    # right now there is no information about the b_bars
+
+    me.radar_range_text.setText(mirage2000.myRadar3.get_radar_distance());
+  },
+
+  update: func() {
+    var global_visible = 0;
+    var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
+    if (radar_voltage != nil and radar_voltage >= 23) {
+        global_visible = 1;
+    }
+    me.corners_group.setVisible(global_visible);
+    me.screen_mode_group.setVisible(global_visible);
+    me.rectangular_fov_grid_group.setVisible(global_visible);
+    me.radar_modes_group.setVisible(global_visible);
+
+    if (global_visible == 0) {
+      me.standby_group.setVisible(global_visible);
+      me.targets_group.setVisible(global_visible);
+    #} else if (props.globals.getNode("/instrumentation/radar/radar-standby").getBoolValue()) {
+    #  me.standby_group.show();
+    #  me.targets_group.hide();
+    } else {
+      me.standby_group.hide();
+      me.targets_group.show();
+      me._update_targets();
+      me._update_radar_texts();
     }
   },
 }
