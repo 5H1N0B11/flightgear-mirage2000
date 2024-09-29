@@ -31,13 +31,13 @@ var SCREEN_HEIGHT = 768;
 # The main dimensions and corners of the screen. 
 # x=0, y=0 is in the top left corner; x increases towards right; y increases downwards
 # There is a small padding around the drawable screen area, because the pilot moves the head etc.
-var PADDING_TOP = 34; # 768 - 2*34 = 700 left
+var PADDING_TOP = 34; 
 var PADDING_BOTTOM = 54; 
-var PADDING_HORIZONTAL = 47; # 1024 - 2*47 = 930 left
+var PADDING_HORIZONTAL = 47; 
 
 # The radar view is where radar stuff gets displayed - between the 4 corners
-var RADAR_VIEW_VERTICAL = SCREEN_HEIGHT - PADDING_TOP - PADDING_BOTTOM;
-var RADAR_VIEW_HORIZONTAL = SCREEN_WIDTH - 2 * PADDING_HORIZONTAL;
+var RADAR_VIEW_VERTICAL = SCREEN_HEIGHT - PADDING_TOP - PADDING_BOTTOM; # 768 - 34 - 54 = 680 left
+var RADAR_VIEW_HORIZONTAL = SCREEN_WIDTH - 2 * PADDING_HORIZONTAL; # 1024 - 2*47 = 930 left
 
 var CORNER_LINE_LENGTH = 75;
 var LINE_WIDTH = 2;
@@ -54,7 +54,6 @@ var TARGET_WIDTH = 30;
 
 var VTM = {
   new: func() {
-    print("*** VTM.new called");
     var vtm_obj = {parents: [VTM]};
     vtm_obj.vtm_canvas = canvas.new({
       "name": "vtm_canvas",
@@ -65,6 +64,9 @@ var VTM = {
 
     vtm_obj.vtm_canvas.addPlacement({"node": "vtm_ac_object"});
     vtm_obj.vtm_canvas.setColorBackground(COLOR_BACKGROUND);
+
+    vtm_obj.root = vtm_obj.vtm_canvas.createGroup("root");
+    vtm_obj.root.setTranslation(_get_center_coord());
 
     vtm_obj._create_visible_corners();
     vtm_obj._create_screen_mode_group();
@@ -78,7 +80,8 @@ var VTM = {
 
   # The 4 visible corners at the edges of the main screen estate
   _create_visible_corners: func() {
-    me.corners_group = me.vtm_canvas.createGroup("corners_group");
+    me.corners_group = me.root.createChild("group", "corners_group");
+    me.corners_group.setTranslation(_get_top_left_translation());
     me.left_upper_corner      = me.corners_group.createChild("path", "left_upper_corner")
                                 .setColor(COLOR_FOREGROUND)
                                 .moveTo(PADDING_HORIZONTAL + CORNER_LINE_LENGTH,
@@ -113,7 +116,8 @@ var VTM = {
   # The text for the screen main modes: RDR (radar) and LDP (laser designation point)
   # appears at the bottom of the screen
   _create_screen_mode_group: func() {
-    me.screen_mode_group = me.vtm_canvas.createGroup("screen_mode_group");
+    me.screen_mode_group = me.root.createChild("group", "screen_mode_group");
+    me.screen_mode_group.setTranslation(_get_top_left_translation());
     me.screen_mode_rdr      = me.screen_mode_group.createChild("text", "screen_mode_rdr")
                               .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
                               .setFont(FONT_MONO_REGULAR)
@@ -148,7 +152,8 @@ var VTM = {
 
   # Create the stippled grid for B-scope
   _create_rectangular_field_of_view_grid: func() {
-    me.rectangular_fov_grid_group = me.vtm_canvas.createGroup("rectangular_fov_grid");
+    me.rectangular_fov_grid_group = me.root.createChild("group", "rectangular_fov_grid");
+    me.rectangular_fov_grid_group.setTranslation(_get_top_left_translation());
     me.top_grid_line = me.rectangular_fov_grid_group.createChild("path", "top_grid_line")
                             .setColor(COLOR_RADAR)
                             .moveTo(PADDING_HORIZONTAL + GRID_TICK_LENGTH, PADDING_TOP - GRID_TICK_LENGTH)
@@ -216,16 +221,12 @@ var VTM = {
   # The friendly targets (given the IFF) are drawn as a filled circle.
   # Foe targets are drawn as open squares - with the opening being on the back side of the target
   _create_targets: func() {
-    var x_pos = 0;
-    var y_pos = 0;
-    me.targets_group = me.vtm_canvas.createGroup("targets_group");
+    me.targets_group = me.root.createChild("group", "targets_group");
     me.selected_target = me.targets_group.createChild("path", "selected_target")
                          .setColor(COLOR_RADAR)
-                         .moveTo(PADDING_HORIZONTAL + 0.8*RADAR_VIEW_HORIZONTAL, 
-                                 PADDING_TOP + 0.9*RADAR_VIEW_VERTICAL + TARGET_WIDTH/2)
+                         .moveTo(-0.5 * TARGET_WIDTH, 0)
                          .horiz(TARGET_WIDTH)
-                         .moveTo(PADDING_HORIZONTAL + 0.8*RADAR_VIEW_HORIZONTAL + TARGET_WIDTH/2, 
-                                 PADDING_TOP + 0.9*RADAR_VIEW_VERTICAL)
+                         .moveTo(0, -0.5 * TARGET_WIDTH)
                          .vert(TARGET_WIDTH)
                          .setStrokeLineWidth(2*LINE_WIDTH);
 
@@ -233,33 +234,28 @@ var VTM = {
                                   .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
                                   .setFont(FONT_MONO_REGULAR)
                                   .setColor(COLOR_RADAR)
-                                  .setAlignment("left-top")
+                                  .setAlignment("right-top")
                                   .setText("")
-                                  .setTranslation(PADDING_HORIZONTAL + 3.5*0.25*RADAR_VIEW_HORIZONTAL,
-                                                  SCREEN_HEIGHT - PADDING_BOTTOM + 5);
+                                  .setTranslation(0.5 * RADAR_VIEW_HORIZONTAL - 5,
+                                                  0.5 * RADAR_VIEW_VERTICAL + 5);
     me.selected_target_callsign.enableUpdate();
 
     me.friend_targets = setsize([],MAX_TARGETS);
-    y_pos = PADDING_TOP + 100;
     for (var i = 0; i<MAX_TARGETS; i += 1) {
-      x_pos = PADDING_HORIZONTAL + (i + 2)*TARGET_WIDTH;
       me.friend_targets[i] = me.targets_group.createChild("path")
                              .setColor(COLOR_RADAR)
-                             .circle(TARGET_WIDTH/2, x_pos, y_pos)
+                             .circle(0.5 * TARGET_WIDTH, 0, 0)
                              .setStrokeLineWidth(2*LINE_WIDTH);
     }
 
     me.foe_targets = setsize([],MAX_TARGETS);
-    y_pos = PADDING_TOP + 300;
     for (var i = 0; i<MAX_TARGETS; i += 1) {
-      x_pos = PADDING_HORIZONTAL + (i + 2)*TARGET_WIDTH;
       me.foe_targets[i]    = me.targets_group.createChild("path")
                              .setColor(COLOR_RADAR)
-                             .moveTo(x_pos, y_pos)
+                             .moveTo(-0.5 * TARGET_WIDTH, -0.5 * TARGET_WIDTH)
                              .vert(TARGET_WIDTH)
-                             .moveTo(x_pos, y_pos)
+                             .moveTo(-0.5 * TARGET_WIDTH, -0.5 * TARGET_WIDTH)
                              .horiz(TARGET_WIDTH)
-                             .moveTo(x_pos + TARGET_WIDTH, y_pos)
                              .vert(TARGET_WIDTH)
                              .setStrokeLineWidth(LINE_WIDTH);
     }
@@ -268,7 +264,8 @@ var VTM = {
 
   # When the radar goes into stand-by mode
   _create_standby_text: func () {
-    me.standby_group = me.vtm_canvas.createGroup("standby_group");
+    me.standby_group = me.root.createChild("group", "standby_group");
+    me.standby_group.setTranslation(_get_top_left_translation());
     me.standby_text = me.standby_group.createChild("text", "standby_text")
                       .setFontSize(FONT_SIZE_BIG, FONT_ASPECT_RATIO)
                       .setFont(FONT_MONO_BOLD)
@@ -283,7 +280,8 @@ var VTM = {
   # When the radar goes into stand-by mode
   _create_radar_modes_group: func () {
     var y_top_pos = PADDING_TOP + 10;
-    me.radar_modes_group = me.vtm_canvas.createGroup("radar_range_group");
+    me.radar_modes_group = me.root.createChild("group", "radar_range_group");
+    me.radar_modes_group.setTranslation(_get_top_left_translation());
     me.radar_left_text   = me.radar_modes_group.createChild("text", "radar_left_text")
                            .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
                            .setFont(FONT_MONO_REGULAR)
@@ -318,22 +316,35 @@ var VTM = {
     me.radar_modes_group.hide();
   },
 
-  _update_targets: func() {
+  _update_targets: func(heading_true) {
     var target_contacts_list = mirage2000.myRadar3.ContactsList;
     var selected_target = mirage2000.myRadar3.Target_Index;
     var i = 0;
     var has_painted = 0;
+    var this_aircraft_position = geo.aircraft_position();
+    var target_position = nil;
+    var direct_distance = 0;
+    var bearing = 0; # from this aircraft to the target
+    var screen_pos = nil;
+    var max_distance = mirage2000.myRadar3.get_radar_distance() * NM2M;
+    var max_angle = mirage2000.myRadar3.az_fld / 2;
 
     # walk through all existing targets as per available list
     foreach(var c; target_contacts_list) {
+      target_position = c.get_Coord();
+      direct_distance = this_aircraft_position.direct_distance_to(target_position);
+      bearing = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true);
+      screen_pos = _calc_target_screen_position_b_scope(direct_distance, max_distance, bearing, max_angle);
+
       me.friend_targets[i].hide(); # currently we do not know the friends
       if (selected_target == i) {
         has_painted = 1;
-        me.selected_target.show();
+        me.selected_target.setTranslation(screen_pos[0], screen_pos[1]);
         me.selected_target_callsign.updateText(c.get_Callsign());
-        me.selected_target_callsign.show();
         me.foe_targets[i].hide();
       } else {
+        me.foe_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
+        me.foe_targets[i].setRotation(c.get_heading() * D2R);
         me.foe_targets[i].show();
       }
       i += 1;
@@ -343,10 +354,8 @@ var VTM = {
       me.friend_targets[j].hide();
       me.foe_targets[j].hide();
     }
-    if (has_painted == 0) {
-      me.selected_target.hide();
-      me.selected_target_callsign.hide();
-    }
+    me.selected_target.setVisible(has_painted);
+    me.selected_target_callsign.setVisible(has_painted);
   },
 
   _update_radar_texts: func() {
@@ -377,9 +386,11 @@ var VTM = {
   update: func() {
     var global_visible = 0;
     var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
+    var heading_true = props.globals.getNode("/orientation/heading-deg").getValue();
     if (radar_voltage != nil and radar_voltage >= 23) {
         global_visible = 1;
     }
+    global_visible = 1; # FIXME
     me.corners_group.setVisible(global_visible);
     me.screen_mode_group.setVisible(global_visible);
     me.rectangular_fov_grid_group.setVisible(global_visible);
@@ -394,8 +405,27 @@ var VTM = {
     } else {
       me.standby_group.hide();
       me.targets_group.show();
-      me._update_targets();
+      me._update_targets(heading_true);
       me._update_radar_texts();
     }
   },
-}
+};
+
+
+# Calculates the relative screen position of a target in B-scope
+# Returns the x/y position on the Canvas
+var _calc_target_screen_position_b_scope = func(distance, max_distance, angle, max_angle) {
+  var x_pos = angle / max_angle * 0.5 * RADAR_VIEW_HORIZONTAL;
+  var y_pos = 0.5 * RADAR_VIEW_VERTICAL - distance / max_distance * RADAR_VIEW_VERTICAL;
+  return [x_pos, y_pos];
+};
+
+# the absolute coordinate from top left to screen middle
+var _get_center_coord = func() {
+  return [0.5 * SCREEN_WIDTH, 0.5 * SCREEN_HEIGHT];
+};
+
+# get the transaltion from the center of screen coordinates to top left
+var _get_top_left_translation = func() {
+  return [-0.5 * SCREEN_WIDTH, -0.5 * SCREEN_HEIGHT];
+};
