@@ -325,6 +325,7 @@ var VTM = {
     var target_position = nil;
     var direct_distance = 0;
     var bearing = 0; # from this aircraft to the target
+    var relative_heading = 0; # the heading of the target as seen by this aircraft with nose = North
     var screen_pos = nil;
     var max_distance = mirage2000.myRadar3.get_radar_distance() * NM2M;
     var max_angle = mirage2000.myRadar3.az_fld / 2;
@@ -334,6 +335,7 @@ var VTM = {
       target_position = c.get_Coord();
       direct_distance = this_aircraft_position.direct_distance_to(target_position);
       bearing = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true);
+      relative_heading = geo.normdeg(c.get_heading() - heading_true);
       screen_pos = _calc_target_screen_position_b_scope(direct_distance, max_distance, bearing, max_angle);
 
       me.friend_targets[i].hide(); # currently we do not know the friends
@@ -343,8 +345,8 @@ var VTM = {
         me.selected_target_callsign.updateText(c.get_Callsign());
         me.foe_targets[i].hide();
       } else {
+        me.foe_targets[i].setRotation(relative_heading * D2R);
         me.foe_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
-        me.foe_targets[i].setRotation(c.get_heading() * D2R);
         me.foe_targets[i].show();
       }
       i += 1;
