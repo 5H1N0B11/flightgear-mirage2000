@@ -48,6 +48,7 @@ var FONT_SIZE_BIG = 48;
 var FONT_ASPECT_RATIO = 1;
 var FONT_MONO_REGULAR = "LiberationFonts/LiberationMono-Regular.ttf";
 var FONT_MONO_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
+var TEXT_PADDING = 5; # when a text needs to be away from something else a bit
 
 var MAX_TARGETS = 28;
 var TARGET_WIDTH = 30;
@@ -125,7 +126,7 @@ var VTM = {
                               .setAlignment("left-top")
                               .setText("RDR")
                               .setTranslation(PADDING_HORIZONTAL + 0.5*0.25*RADAR_VIEW_HORIZONTAL,
-                                              SCREEN_HEIGHT - PADDING_BOTTOM + 5);
+                                              SCREEN_HEIGHT - PADDING_BOTTOM + TEXT_PADDING);
     me.screen_mode_ldp      = me.screen_mode_group.createChild("text", "screen_mode_ldp")
                               .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
                               .setFont(FONT_MONO_REGULAR)
@@ -133,7 +134,7 @@ var VTM = {
                               .setAlignment("left-top")
                               .setText("LDP")
                               .setTranslation(PADDING_HORIZONTAL + 1.5*0.25*RADAR_VIEW_HORIZONTAL,
-                                              SCREEN_HEIGHT - PADDING_BOTTOM + 5);
+                                              SCREEN_HEIGHT - PADDING_BOTTOM + TEXT_PADDING);
     me.screen_mode_rdr_box  = me.screen_mode_group.createChild("path", "screen_mode_rdr_box")
                               .setColor(COLOR_FOREGROUND)
                               .rect(PADDING_HORIZONTAL + 0.4*0.25*RADAR_VIEW_HORIZONTAL,
@@ -186,20 +187,7 @@ var VTM = {
                             .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL, 
                                     PADDING_TOP + 4*spacing + 3*2*GRID_TICK_LENGTH)
                             .vert(2*GRID_TICK_LENGTH)
-                            # 
-                            .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL, 
-                                    PADDING_TOP + spacing)
-                            .vert(2*GRID_TICK_LENGTH)
-                            .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL, 
-                                    PADDING_TOP + 2*spacing + 2*GRID_TICK_LENGTH)
-                            .vert(2*GRID_TICK_LENGTH)
-                            .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL, 
-                                    PADDING_TOP + 3*spacing + 2*2*GRID_TICK_LENGTH)
-                            .vert(2*GRID_TICK_LENGTH)
-                            .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL, 
-                                    PADDING_TOP + 4*spacing + 3*2*GRID_TICK_LENGTH)
-                            .vert(2*GRID_TICK_LENGTH)
-                            # 
+                            # there is no grid line in the middle
                             .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_HORIZONTAL, 
                                     PADDING_TOP + spacing)
                             .vert(2*GRID_TICK_LENGTH)
@@ -236,8 +224,8 @@ var VTM = {
                                   .setColor(COLOR_RADAR)
                                   .setAlignment("right-top")
                                   .setText("")
-                                  .setTranslation(0.5 * RADAR_VIEW_HORIZONTAL - 5,
-                                                  0.5 * RADAR_VIEW_VERTICAL + 5);
+                                  .setTranslation(0.5 * RADAR_VIEW_HORIZONTAL - TEXT_PADDING,
+                                                  0.5 * RADAR_VIEW_VERTICAL + TEXT_PADDING);
     me.selected_target_callsign.enableUpdate();
 
     me.friend_targets = setsize([],MAX_TARGETS);
@@ -336,8 +324,7 @@ var VTM = {
     var target_speed_m_s = 0;
 
     me.targets_speed_group.removeAllChildren();
-    var one_min = nil;
-    var speed_pos = nil;
+    var delta = nil;
 
     # walk through all existing targets as per available list
     foreach(var c; target_contacts_list) {
@@ -362,17 +349,14 @@ var VTM = {
       # draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
       # on the pict from the book the selected target does not get a line, here we do
       target_speed_m_s = c.get_Speed() * KT2MPS;
-      if (target_speed_m_s > -25) {
-        one_min = _calc_target_one_minute(target_speed_m_s, relative_heading_deg, direct_distance_m, bearing_deg);
-        #print("one_min[0]: "~one_min[0]~", direct_distance_m: "~direct_distance_m~", target_speed_m_s: "~target_speed_m_s);
-        #print("one_min[1]: "~one_min[1]~", bearing_deg: "~bearing_deg~", relative_heading_deg: "~relative_heading_deg);
-        speed_pos = _calc_target_screen_position_b_scope(one_min[0], max_distance_m, one_min[1], max_angle);
+      if (target_speed_m_s > 25) {
+        delta = _calc_target_speed_indication(target_speed_m_s, relative_heading_deg);
         me.targets_speeds[i] = me.targets_speed_group.createChild("path")
                                .setColor(COLOR_RADAR)
                                .moveTo(screen_pos[0], screen_pos[1])
-                               .lineTo(speed_pos[0], speed_pos[1])
+                               .lineTo(screen_pos[0] + delta[0], screen_pos[1] - delta[1])
                                .setStrokeLineWidth(LINE_WIDTH);
-        me.targets_speeds[i].show();
+        me.targets_speeds[i].update(); # because targets_speed_group children get deleted in next frame
       }
 
       i += 1;
@@ -448,8 +432,18 @@ var _calc_target_screen_position_b_scope = func(distance_m, max_distance_m, angl
   return [x_pos, y_pos];
 };
 
+# Calculates an indication of the speed and direction of a target.
+# For each 100 m/s (ca. 200 kt) extra the length increases
+var _calc_target_speed_indication = func(target_speed_m_s, relative_heading_deg) {
+  var dist_away = TARGET_WIDTH + math.floor(target_speed_m_s/100) * 0.5 * TARGET_WIDTH;
+  var x_delta = dist_away * math.sin(relative_heading_deg * D2R);
+  var y_delta = dist_away * math.cos(relative_heading_deg * D2R);
+  return [x_delta, y_delta];
+};
+
 # assuming a x/y coordinate system with x towards left and y towards up
 # calculate a new direct_distance and bearing 1 minute away
+# not suitable for B-scope
 var _calc_target_one_minute = func(speed_m_s, relative_heading_deg, direct_distance_m, bearing_deg) {
   var dist_away = speed_m_s * 60;
   var x_new = direct_distance_m * math.sin(bearing_deg * D2R) + dist_away * math.sin(relative_heading_deg * D2R);
