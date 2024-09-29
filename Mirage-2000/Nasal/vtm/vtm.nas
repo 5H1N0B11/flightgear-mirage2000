@@ -260,6 +260,10 @@ var VTM = {
                              .setStrokeLineWidth(LINE_WIDTH);
     }
     me.targets_group.hide();
+
+    # a special group for drawing a speed indicating line for targets with a minimum speed
+    me.targets_speed_group = me.root.createChild("group", "targets_speed_group");
+    me.targets_speeds = setsize([],MAX_TARGETS);
   },
 
   # When the radar goes into stand-by mode
@@ -323,20 +327,25 @@ var VTM = {
     var has_painted = 0;
     var this_aircraft_position = geo.aircraft_position();
     var target_position = nil;
-    var direct_distance = 0;
-    var bearing = 0; # from this aircraft to the target
-    var relative_heading = 0; # the heading of the target as seen by this aircraft with nose = North
+    var direct_distance_m = 0;
+    var bearing_deg = 0; # from this aircraft to the target
+    var relative_heading_deg = 0; # the heading of the target as seen by this aircraft with nose = North
     var screen_pos = nil;
-    var max_distance = mirage2000.myRadar3.get_radar_distance() * NM2M;
+    var max_distance_m = mirage2000.myRadar3.get_radar_distance() * NM2M;
     var max_angle = mirage2000.myRadar3.az_fld / 2;
+    var target_speed_m_s = 0;
+
+    me.targets_speed_group.removeAllChildren();
+    var one_min = nil;
+    var speed_pos = nil;
 
     # walk through all existing targets as per available list
     foreach(var c; target_contacts_list) {
       target_position = c.get_Coord();
-      direct_distance = this_aircraft_position.direct_distance_to(target_position);
-      bearing = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true);
-      relative_heading = geo.normdeg(c.get_heading() - heading_true);
-      screen_pos = _calc_target_screen_position_b_scope(direct_distance, max_distance, bearing, max_angle);
+      direct_distance_m = this_aircraft_position.direct_distance_to(target_position);
+      bearing_deg = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true);
+      relative_heading_deg = geo.normdeg(c.get_heading() - heading_true);
+      screen_pos = _calc_target_screen_position_b_scope(direct_distance_m, max_distance_m, bearing_deg, max_angle);
 
       me.friend_targets[i].hide(); # currently we do not know the friends
       if (selected_target == i) {
@@ -345,10 +354,27 @@ var VTM = {
         me.selected_target_callsign.updateText(c.get_Callsign());
         me.foe_targets[i].hide();
       } else {
-        me.foe_targets[i].setRotation(relative_heading * D2R);
+        me.foe_targets[i].setRotation(relative_heading_deg * D2R);
         me.foe_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
         me.foe_targets[i].show();
       }
+
+      # draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
+      # on the pict from the book the selected target does not get a line, here we do
+      target_speed_m_s = c.get_Speed() * KT2MPS;
+      if (target_speed_m_s > -25) {
+        one_min = _calc_target_one_minute(target_speed_m_s, relative_heading_deg, direct_distance_m, bearing_deg);
+        #print("one_min[0]: "~one_min[0]~", direct_distance_m: "~direct_distance_m~", target_speed_m_s: "~target_speed_m_s);
+        #print("one_min[1]: "~one_min[1]~", bearing_deg: "~bearing_deg~", relative_heading_deg: "~relative_heading_deg);
+        speed_pos = _calc_target_screen_position_b_scope(one_min[0], max_distance_m, one_min[1], max_angle);
+        me.targets_speeds[i] = me.targets_speed_group.createChild("path")
+                               .setColor(COLOR_RADAR)
+                               .moveTo(screen_pos[0], screen_pos[1])
+                               .lineTo(speed_pos[0], speed_pos[1])
+                               .setStrokeLineWidth(LINE_WIDTH);
+        me.targets_speeds[i].show();
+      }
+
       i += 1;
     }
     # handle the index positions if the target list was shorter than the reserved elements
@@ -392,7 +418,6 @@ var VTM = {
     if (radar_voltage != nil and radar_voltage >= 23) {
         global_visible = 1;
     }
-    global_visible = 1; # FIXME
     me.corners_group.setVisible(global_visible);
     me.screen_mode_group.setVisible(global_visible);
     me.rectangular_fov_grid_group.setVisible(global_visible);
@@ -407,6 +432,7 @@ var VTM = {
     } else {
       me.standby_group.hide();
       me.targets_group.show();
+      me.targets_speed_group.show();
       me._update_targets(heading_true);
       me._update_radar_texts();
     }
@@ -416,10 +442,24 @@ var VTM = {
 
 # Calculates the relative screen position of a target in B-scope
 # Returns the x/y position on the Canvas
-var _calc_target_screen_position_b_scope = func(distance, max_distance, angle, max_angle) {
-  var x_pos = angle / max_angle * 0.5 * RADAR_VIEW_HORIZONTAL;
-  var y_pos = 0.5 * RADAR_VIEW_VERTICAL - distance / max_distance * RADAR_VIEW_VERTICAL;
+var _calc_target_screen_position_b_scope = func(distance_m, max_distance_m, angle_deg, max_angle_deg) {
+  var x_pos = angle_deg / max_angle_deg * 0.5 * RADAR_VIEW_HORIZONTAL;
+  var y_pos = 0.5 * RADAR_VIEW_VERTICAL - distance_m / max_distance_m * RADAR_VIEW_VERTICAL;
   return [x_pos, y_pos];
+};
+
+# assuming a x/y coordinate system with x towards left and y towards up
+# calculate a new direct_distance and bearing 1 minute away
+var _calc_target_one_minute = func(speed_m_s, relative_heading_deg, direct_distance_m, bearing_deg) {
+  var dist_away = speed_m_s * 60;
+  var x_new = direct_distance_m * math.sin(bearing_deg * D2R) + dist_away * math.sin(relative_heading_deg * D2R);
+  var y_new = direct_distance_m * math.cos(bearing_deg * D2R) + dist_away * math.cos(relative_heading_deg * D2R);
+  if (y_new == 0) {
+    y_new = 0.001;
+  }
+  var new_angle = 90 - math.atan2(x_new, y_new) * R2D;
+  var new_dist = math.sqrt(x_new * x_new + y_new * y_new); 
+  return [new_dist, new_angle];
 };
 
 # the absolute coordinate from top left to screen middle
