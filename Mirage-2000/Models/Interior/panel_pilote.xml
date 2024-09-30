@@ -76,6 +76,12 @@
   <model>
     <name>vtm</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/vtm/vtm.xml</path>
+    <offsets>
+      <x-m>-3.325</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.12</z-m>
+      <pitch-deg>-20</pitch-deg>
+    </offsets>
   </model>
 
   <model>
@@ -131,17 +137,6 @@
   <model>
     <name>manette</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/manette/manette.xml</path>
-  </model>
-
-  <model>
-    <name>radar</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/radar/radar.xml</path>
-    <offsets>
-      <x-m>-3.35</x-m>
-      <y-m>0</y-m>
-      <z-m>-0.116</z-m>
-      <pitch-deg>-8</pitch-deg>
-    </offsets>
   </model>
 
 <!--  <model>

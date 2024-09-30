@@ -148,17 +148,6 @@
   </model>
 -->
 
-  <model>
-    <name>radar</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/radar/radar.xml</path>
-    <offsets>
-      <x-m>-3.35</x-m>
-      <y-m>0</y-m>
-      <z-m>-0.116</z-m>
-      <pitch-deg>-8</pitch-deg>
-    </offsets>
-  </model>
-
 <!--  <model>
     <name>surf-indic</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/surf-indic/surf-indic.xml</path>

@@ -31,27 +31,27 @@ var SCREEN_HEIGHT = 768;
 # The main dimensions and corners of the screen. 
 # x=0, y=0 is in the top left corner; x increases towards right; y increases downwards
 # There is a small padding around the drawable screen area, because the pilot moves the head etc.
-var PADDING_TOP = 34; 
-var PADDING_BOTTOM = 54; 
+var PADDING_TOP = 38; 
+var PADDING_BOTTOM = 60; 
 var PADDING_HORIZONTAL = 47; 
 
 # The radar view is where radar stuff gets displayed - between the 4 corners
-var RADAR_VIEW_VERTICAL = SCREEN_HEIGHT - PADDING_TOP - PADDING_BOTTOM; # 768 - 34 - 54 = 680 left
+var RADAR_VIEW_VERTICAL = SCREEN_HEIGHT - PADDING_TOP - PADDING_BOTTOM; # 768 - 38 - 60 = 670 left
 var RADAR_VIEW_HORIZONTAL = SCREEN_WIDTH - 2 * PADDING_HORIZONTAL; # 1024 - 2*47 = 930 left
 
 var CORNER_LINE_LENGTH = 75;
-var LINE_WIDTH = 2;
-var GRID_TICK_LENGTH = 10;
+var LINE_WIDTH = 4;
+var GRID_TICK_LENGTH = 16;
 
-var FONT_SIZE = 24;
+var FONT_SIZE = 36;
 var FONT_SIZE_BIG = 48;
 var FONT_ASPECT_RATIO = 1;
 var FONT_MONO_REGULAR = "LiberationFonts/LiberationMono-Regular.ttf";
 var FONT_MONO_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
-var TEXT_PADDING = 5; # when a text needs to be away from something else a bit
+var TEXT_PADDING = 6; # when a text needs to be away from something else a bit
 
 var MAX_TARGETS = 28;
-var TARGET_WIDTH = 30;
+var TARGET_WIDTH = 36;
 
 var VTM = {
   new: func() {
