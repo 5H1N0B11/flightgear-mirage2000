@@ -283,7 +283,7 @@
     
     <key n="110">
       <name>n</name>
-      <desc>Changes Target</desc>
+      <desc>Change to Next Target</desc>
       <binding>
         <command>nasal</command>
         <script>mirage2000.myRadar3.next_Target_Index()</script>
@@ -292,7 +292,7 @@
     
     <key n="14">
       <name>Ctrl-n</name>
-      <desc>Changes Target</desc>
+      <desc>Change to Previous Target</desc>
       <binding>
         <command>nasal</command>
         <script>mirage2000.myRadar3.previous_Target_Index()</script>

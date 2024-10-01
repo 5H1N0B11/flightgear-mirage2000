@@ -406,7 +406,7 @@ var sniping = func(){
   setprop("/sim/dialog/groundtTargeting/target-longitude-deg",coord.lon());
   #setprop("/sim/dialog/groundtTargeting/target-alt-feet",coord.alt()*M2FT);
   
-  gui.dialog_update("Ground_Targeting");
+  gui.dialog_update("ground_targeting");
 
 }
 

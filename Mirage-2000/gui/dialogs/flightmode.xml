@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
-    <!-- If you put the dialog file in the Aircraft/aircraftname/gui/dialog the dialog box is loaded -->
   <name>flightmode</name>
   <modal type="bool">false</modal>
   <layout>vbox</layout>
@@ -56,11 +55,11 @@
           setprop("/instrumentation/flightmode/nav",0);
           setprop("/instrumentation/flightmode/arm",0);
           mirage2000.flightmode();
-          </script>
+        </script>
       </binding>
     </checkbox>
   </group>
-  
+
   <group>
     <layout>hbox</layout>
     <text><label>APP</label></text>
@@ -78,12 +77,11 @@
           setprop("/instrumentation/flightmode/nav",0);
           setprop("/instrumentation/flightmode/arm",0);
           mirage2000.flightmode();
-          </script>
+        </script>
       </binding>
     </checkbox>
   </group>
-  
-    
+
   <group>
     <layout>hbox</layout>
     <text><label>NAV</label></text>
@@ -99,9 +97,9 @@
         <script>
           setprop("/instrumentation/flightmode/app",0);
           setprop("/instrumentation/flightmode/to",0);
-          setprop("/instrumentation/flightmode/arm",0);          
+          setprop("/instrumentation/flightmode/arm",0);
           mirage2000.flightmode();
-          </script>
+        </script>
       </binding>
     </checkbox>
   </group>
@@ -121,12 +119,11 @@
         <script>
           setprop("/instrumentation/flightmode/app",0);
           setprop("/instrumentation/flightmode/nav",0);
-          setprop("/instrumentation/flightmode/to",0);          
+          setprop("/instrumentation/flightmode/to",0);
           mirage2000.flightmode();
-          </script>
+        </script>
       </binding>
     </checkbox>
   </group>
-
 
 </PropertyList>

@@ -165,7 +165,7 @@ var updatelink16 = func(){
 var Radar = {
     new: func(
         NewRangeTab = nil,             # array with all the different possible range
-        NewRangeIndex = nil,           # range indexshould not be greater than NewRangeTab
+        NewRangeIndex = nil,           # range index should not be greater than NewRangeTab
         NewTypeTarget = nil,           # array of different kind of object that can be seen.
         NewRadarType = nil,            # array that indicate wich type of detector we have "radar","laser",
         NewshowAI = nil,               # show or not AI. (It will be depreciated)

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
-
-  <!-- If you put the dialog file in the Aircraft/aircraftname/gui/dialog the dialog box is loaded -->
   <name>about_Mirage</name>
   <modal type="bool">false</modal>
   <layout>vbox</layout>
@@ -25,7 +23,6 @@
       <pref-width>16</pref-width>
       <pref-height>16</pref-height>
       <legend></legend>
-
       <default>1</default>
       <keynum>27</keynum>
       <border>2</border>
@@ -39,18 +36,18 @@
   </group>
 
   <hrule />
-  
+
   <text><label>Dassault Mirage 2000-5 by 5H1N0B1</label></text>
 
-    <empty>
-      <stretch>1</stretch>
-    </empty>
+  <empty>
+    <stretch>1</stretch>
+  </empty>
 
   <text><label>Special Thanks to: </label></text>
 
-    <empty>
-      <stretch>1</stretch>
-    </empty>
+  <empty>
+    <stretch>1</stretch>
+  </empty>
 
   <text><label>Helijah (3D model), Buckaroo (FDM), 5HIN0B1 (working weapons and systems), hardball (3D, systems,</label></text>
   <text><label>dual seat), Josh Davidson (FCS/FBW/Autopilot), Leto, Richard, onox, legoboyvdlp, Domokos Juttner (Rudolf),</label></text>
@@ -65,32 +62,32 @@
     <button>
       <row>0</row>
       <col>0</col>
-    <legend>Development link</legend>
-    <binding>
-      <command>nasal</command>
-      <script>
-        var phrase = "Development link: https://github.com/5H1N0B11/Aircraft";
-        setprop("/sim/multiplay/chat", phrase);
+      <legend>Development link</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+          var phrase = "Development link: https://github.com/5H1N0B11/Aircraft";
+          setprop("/sim/multiplay/chat", phrase);
         </script>
-    </binding>
-  </button>
+      </binding>
+    </button>
 
-  <button>
+    <button>
       <row>0</row>
       <col>1</col>
-    <legend>Stable Release</legend>
-    <binding>
-      <command>nasal</command>
-      <script>
-        var phrase = "Stable Release: Available on FGADDON";
-        setprop("/sim/multiplay/chat", phrase);
+      <legend>Stable Release</legend>
+      <binding>
+        <command>nasal</command>
+        <script>
+          var phrase = "Stable Release: Available on FGADDON";
+          setprop("/sim/multiplay/chat", phrase);
         </script>
-    </binding>
-  </button>
-</group>
+      </binding>
+    </button>
+  </group>
 
-<empty>
-      <stretch>1</stretch>
-    </empty>
+  <empty>
+    <stretch>1</stretch>
+  </empty>
 
 </PropertyList>
