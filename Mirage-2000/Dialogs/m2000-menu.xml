@@ -188,7 +188,7 @@
 
       <item n="19">
         <label>Tacview</label>
-        <name>event-log</name>
+        <name>tacview</name>
         <binding>
           <command>dialog-show</command>
           <dialog-name>tacview</dialog-name>

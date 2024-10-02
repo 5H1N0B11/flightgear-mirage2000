@@ -31,7 +31,7 @@ var geooutgoingBridge = emesary_mp_bridge.OutgoingMPBridge.new("mp.geo",geoRoute
 
 # bridge should be tuned to be around 90% of the packet size full.
 geooutgoingBridge.TransmitFrequencySeconds = 0.75;
-geooutgoingBridge.MPStringMaxLen = 150;
+geooutgoingBridge.MPStringMaxLen = 175; # each is 34 bytes
 emesary_mp_bridge.IncomingMPBridge.startMPBridge(geoRoutedNotifications, 18, emesary.GlobalTransmitter);
 
 
@@ -51,3 +51,33 @@ objectoutgoingBridge.TransmitFrequencySeconds = 0.2;
 objectoutgoingBridge.MessageLifeTime = 1;
 objectoutgoingBridge.MPStringMaxLen = 150;
 emesary_mp_bridge.IncomingMPBridge.startMPBridge(objectRoutedNotifications, 17, emesary.GlobalTransmitter);
+
+#
+# debug all messages - this can be removed when testing isn't required.
+var debugRecipient = emesary.Recipient.new("Debug");
+debugRecipient.Receive = func(notification)
+{
+    if (notification.NotificationType != "FrameNotification")  {
+        print ("recv(0): type=",notification.NotificationType, " fromIncoming=",notification.FromIncomingBridge);
+
+        if (notification.NotificationType == "ArmamentInFlightNotification") {
+            print("recv(1): ",notification.NotificationType, " ", notification.Ident);
+            debug.dump(notification);
+
+        } else if (notification.NotificationType == "ArmamentNotification") {
+            if (notification.FromIncomingBridge) {
+                print("recv(2): ",notification.NotificationType, " ", notification.Ident,
+                      " Kind=",notification.Kind,
+                      " SecondaryKind=",notification.SecondaryKind,
+                      " RelativeAltitude=",notification.RelativeAltitude,
+                      " Distance=",notification.Distance,
+                      " Bearing=",notification.Bearing,
+                      " RemoteCallsign=",notification.RemoteCallsign);
+                debug.dump(notification);
+            }
+        }
+    }
+    return emesary.Transmitter.ReceiptStatus_NotProcessed; # we're not processing it, just looking
+}
+# uncomment next line to activate debug recipient.
+#emesary.GlobalTransmitter.Register(debugRecipient);
