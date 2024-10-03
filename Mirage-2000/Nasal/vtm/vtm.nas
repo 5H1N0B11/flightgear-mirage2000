@@ -22,7 +22,7 @@ print("*** LOADING vtm.nas ... ***");
 
 # It is basically a black and green screen.
 var COLOR_BACKGROUND = [0,0.02,0]; # almost black with a bit of green
-var COLOR_FOREGROUND = [0.75,1,0]; # between yellow and green
+var COLOR_FOREGROUND = [0.75,1,0.25]; # between yellow and green with some white
 var COLOR_RADAR = [0,1,0]; # green
 
 var SCREEN_WIDTH = 1228;
@@ -40,8 +40,8 @@ var RADAR_VIEW_VERTICAL = SCREEN_HEIGHT - PADDING_TOP - PADDING_BOTTOM; # 768 - 
 var RADAR_VIEW_HORIZONTAL = SCREEN_WIDTH - 2 * PADDING_HORIZONTAL; # 1228 - 2*144 = 940 left
 
 var CORNER_LINE_LENGTH = 75;
-var LINE_WIDTH = 4;
-var GRID_TICK_LENGTH = 16;
+var LINE_WIDTH = 3;
+var GRID_TICK_LENGTH = 12;
 
 var FONT_SIZE = 36;
 var FONT_SIZE_BIG = 48;
@@ -175,6 +175,7 @@ var VTM = {
 		var spacing = (RADAR_VIEW_VERTICAL - 4 * 2 * GRID_TICK_LENGTH) / 4;
 		me.line_ticks    = me.rectangular_fov_grid_group.createChild("path", "line_ticks")
 		                                                .setColor(COLOR_FOREGROUND)
+		                                                # left
 		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL, 
 		                                                        PADDING_TOP + spacing)
 		                                                .vert(2*GRID_TICK_LENGTH)
@@ -185,9 +186,9 @@ var VTM = {
 		                                                        PADDING_TOP + 3*spacing + 2*2*GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
 		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL, 
-		                                                        PADDING_TOP + 4*spacing + 3*2*GRID_TICK_LENGTH)
+		                                                        PADDING_TOP + RADAR_VIEW_VERTICAL - GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
-		                                                # there is no grid line in the middle
+		                                                # right
 		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_HORIZONTAL, 
 		                                                        PADDING_TOP + spacing)
 		                                                .vert(2*GRID_TICK_LENGTH)
@@ -198,7 +199,14 @@ var VTM = {
 		                                                        PADDING_TOP + 3*spacing + 2*2*GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
 		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_HORIZONTAL, 
-		                                                        PADDING_TOP + 4*spacing + 3*2*GRID_TICK_LENGTH)
+		                                                        PADDING_TOP + RADAR_VIEW_VERTICAL - GRID_TICK_LENGTH)
+		                                                .vert(2*GRID_TICK_LENGTH)
+		                                                # middle
+		                                                .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL, 
+		                                                        PADDING_TOP + RADAR_VIEW_VERTICAL - CORNER_LINE_LENGTH - 2*GRID_TICK_LENGTH)
+		                                                .vert(2*GRID_TICK_LENGTH)
+		                                                .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL, 
+		                                                        PADDING_TOP + RADAR_VIEW_VERTICAL - GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
 		                                                .setStrokeLineWidth(LINE_WIDTH);
 		me.rectangular_fov_grid_group.hide();
