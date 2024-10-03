@@ -77,7 +77,7 @@
     <name>vtm</name>
     <path>Aircraft/Mirage-2000/Models/Interior/Instruments/vtm/vtm.xml</path>
     <offsets>
-      <x-m>-3.325</x-m>
+      <x-m>-3.33</x-m>
       <y-m>0</y-m>
       <z-m>-0.12</z-m>
       <pitch-deg>-20</pitch-deg>
