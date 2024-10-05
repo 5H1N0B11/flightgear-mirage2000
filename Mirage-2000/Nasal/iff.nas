@@ -1,7 +1,7 @@
 # IFF system
 # turns a channel number into an iff md5 hash
 #
-# gplv2 by pinto aka justin nicholson
+# gplv2 or later by pinto aka justin nicholson
 #
 # installation instructions:
 #
@@ -30,43 +30,6 @@
 # tgt should be a node pointing to the targets /ai/models/multiplayer[x] root
 # returns 1 if a match, otherwise 0.
 #
-# IFF Panel
-
-# Mirage 2000 specific part
-var iff_knob = func {
-    mode = getprop("/controls/iff/channel-select");
-    if (mode == 0) {
-	setprop("/instrumentation/iff/channel", getprop("/instrumentation/iff/channel_A"));
-    } elsif (mode == 1) {
-	setprop("/instrumentation/iff/channel", getprop("/instrumentation/iff/channel_B"));
-    } elsif (mode == -1) {
-	setprop("/instrumentation/iff/channel_A_hold", getprop("/instrumentation/iff/channel_A"));
-	setprop("/instrumentation/iff/channel_B_hold", getprop("/instrumentation/iff/channel_B"));
-    } elsif (mode == 2 and getprop("/controls/iff/iff-power") == 1) {
-	setprop("instrumentation/iff/channel_A", 0);
-	setprop("instrumentation/iff/channel_B", 0);
-	setprop("instrumentation/iff/channel", 0);
-    }
-}
-
-var hold_reset = func {
-    setprop("/instrumentation/iff/channel_A_hold", 0);
-    setprop("/instrumentation/iff/channel_B_hold", 0);
-    iff_knob();
-}
-
-
-var iff_init = setlistener("/sim/fdm-initialized", func {
-    setprop("/instrumentation/iff/channel_A", getprop("/instrumentation/iff/channel_A_hold"));
-    setprop("/instrumentation/iff/channel_B", getprop("/instrumentation/iff/channel_B_hold"));
-    
-    setlistener("/controls/iff/channel-select", iff_knob, 1, 0);
-    setlistener("/instrumentation/iff/channel_A", hold_reset, 1, 0);
-    setlistener("/instrumentation/iff/channel_B", hold_reset, 1, 0);
-    removelistener(iff_init);
-});
-
-# generic part
 
 var iff_refresh_rate = getprop("/instrumentation/iff/iff_refresh_rate") or 120;
 var iff_unique_id = getprop("/instrumentation/iff/iff_unique_id") or "";
@@ -100,10 +63,10 @@ var iff_hash = {
 			me.int_systime = int(systime());
 			me.update_time = int(math.mod(me.int_systime,iff_refresh_rate));
 			me.time = me.int_systime - me.update_time;
-			node.hash.setValue(_calculate_hash(me.time, me.callsign, node.channel.getValue()));
+			node.hash.setValue(_calculate_hash(me.time, node.callsign.getValue(), node.channel.getValue()));
 		} else {
-			node.hash.setValue("");
 			me.timer.stop();
+			node.hash.setValue("");
 		}
 	},
 };
@@ -111,13 +74,16 @@ var iff_hash = {
 var hash1 = "";
 var hash2 = "";
 var check_hash = "";
+var last_interogate = 0;
 
 var interrogate = func(tgt) {
 	if ( tgt.getChild("callsign") == nil or tgt.getNode("sim/multiplay/generic/string["~iff_mp_string~"]") == nil ) {
 		return 0;
 	}
-	hash1 = _calculate_hash(int(systime()) - int(math.mod(int(systime()),iff_refresh_rate)), tgt.getChild("callsign").getValue(),node.channel.getValue());
-	hash2 = _calculate_hash(int(systime()) - int(math.mod(int(systime()),iff_refresh_rate)) - iff_refresh_rate, tgt.getChild("callsign").getValue(),node.channel.getValue());
+	var cs = tgt.getChild("callsign").getValue();
+	cs = size(cs) < 8?cs:left(cs, 7);
+	hash1 = _calculate_hash(int(systime()) - int(math.mod(int(systime()),iff_refresh_rate)), cs,node.channel.getValue());
+	hash2 = _calculate_hash(int(systime()) - int(math.mod(int(systime()),iff_refresh_rate)) - iff_refresh_rate, cs,node.channel.getValue());
 	check_hash = tgt.getNode("sim/multiplay/generic/string["~iff_mp_string~"]").getValue();
 	#print("hash1 " ~ hash1);
 	#print("hash2 " ~ hash2);
@@ -134,6 +100,7 @@ var _calculate_hash = func(time, callsign, channel) {
 	#print("callsign|" ~ callsign ~ "|");
 	#print("channel|" ~ channel ~ "|");
 	#print("hash|"~left(md5(time ~ callsign ~ channel ~ iff_unique_id),iff_hash_length)~"|");
+	callsign = size(callsign) < 8?callsign:left(callsign, 7);
 	return left(md5(time ~ callsign ~ channel ~ iff_unique_id),iff_hash_length);
 }
 
@@ -141,3 +108,4 @@ var new_hashing = iff_hash.new();
 new_hashing.loop();
 setlistener(node.channel,func(){new_hashing.loop();},nil,0);
 setlistener(node.power,func(){new_hashing.loop();},nil,0);
+setlistener(node.callsign,func(){new_hashing.loop();},nil,0);
