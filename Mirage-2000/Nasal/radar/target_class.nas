@@ -11,18 +11,18 @@ var Target = {
         obj.propNode        = c;
         obj.RdrProp         = c.getNode("radar");
         obj.Heading         = c.getNode("orientation/true-heading-deg");
-        
+
         obj.Alt             = c.getNode("position/altitude-ft");
           obj.ubody           = c.getNode("velocities/uBody-fps");
           obj.vbody           = c.getNode("velocities/vBody-fps");
           obj.wbody           = c.getNode("velocities/wBody-fps");
         obj.lat             = c.getNode("position/latitude-deg");
         obj.lon             = c.getNode("position/longitude-deg");
-        
+
         #As it is a geo.Coord object, we have to update lat/lon/alt ->and alt is in meters
         #print("obj.lat:"~obj.lat~" obj.lon:"~" obj.Alt * FT2M:"~obj.Alt * FT2M);
         obj.set_latlon(obj.lat.getValue(), obj.lon.getValue(), obj.Alt.getValue() * FT2M);
-        
+
         obj.pitch           = c.getNode("orientation/pitch-deg");
         obj.roll           = c.getNode("orientation/roll-deg");
         obj.Speed           = c.getNode("velocities/true-airspeed-kt");
@@ -32,25 +32,25 @@ var Target = {
         obj.Valid            = c.getNode("valid");
         obj.validTree       = 0;
         obj.TransponderID = c.getNode("instrumentation/transponder/transmitted-id");
-        
+
         obj.engineTree      = c.getNode("engines");
-        
+
         obj.AcType          = c.getNode("sim/model/ac-type");
         obj.typeString      = c.getName();
         obj.fname           = c.getName();
-        
+
         obj.index           = c.getIndex();
-        
+
         #print(obj.fname);
         obj.flareNode       = c.getNode("rotors/main/blade[3]/flap-deg");
         obj.chaffNode       = c.getNode("rotors/main/blade[3]/position-deg");
-        
+
         #Variable that can/or not being written onthe tree
         obj.InRange = 0 ;
-        
+
         #Change here the object type to set the radar2 path
         #This have to be in a separate function
-        
+
         #Overwrite selectedType if missile
         var TestIfMissileNode = c.getNode("missile");
         if(TestIfMissileNode != nil) {
@@ -58,7 +58,7 @@ var Target = {
             #print("It is a missile");
             obj.typeString  = "missile";
             missileIndex = missileIndex + 1;
-            obj.index = missileIndex;            
+            obj.index = missileIndex;
           }
         }
 
@@ -94,7 +94,7 @@ var Target = {
         {
             #print("----------------------------------- FIRST CONTACT ---------------- " ~ obj.name.getValue());
             if (obj.name == nil or obj.name.getValue() == "") {
-                obj.myStaticCallsign = obj.ModelType;# last resort. 
+                obj.myStaticCallsign = obj.ModelType;# last resort.
             } else {
                 obj.myStaticCallsign = obj.name.getValue();# for AI ships.
             }
@@ -102,18 +102,18 @@ var Target = {
             obj.myStaticCallsign = obj.Callsign.getValue();
         }
         #print("----------------------------------- AFTER CONTACT ---------------- " ~ obj.myStaticCallsign);
-        
+
         obj.life = 5; #Have to be given in parameters, but now written in hard
         obj.objectDeviationDeg = 0;
         obj.objectElevationDeg = 0;
         obj.objectDisplay       = 0;
-        
-        
+
+
         obj.string          = "ai/models/" ~ obj.typeString ~ "[" ~ obj.index ~ "]";
         obj.shortstring     = obj.typeString ~ "[" ~ obj.index ~ "]";
-        
-        
-        
+
+
+
 #         var TestID = c.getNode("unicId",1);
 # #         if(TestID.getValue() != nil) {
 #           obj.ID = TestID.getValue();
@@ -125,8 +125,8 @@ var Target = {
 #           #print("Id Creation" ~ obj.ID);
 #         }
 
-        
-        
+
+
         if(theTree == nil)
         {
             obj.InstrString     = "instrumentation/radar2/targets";
@@ -136,73 +136,73 @@ var Target = {
             obj.InstrString     = theTree;
         }
         #print("obj.InstrString:" ~obj.InstrString);
-        
+
         #================== This create the tree ===========================
         #on the long term, tree have to disapear
         obj.InstrTgts       = props.globals.getNode(obj.InstrString, 1);
-        
+
         obj.TgtsFiles       =   0; #obj.InstrTgts.getNode(obj.shortstring, 1);
-        
+
         obj.Range           = obj.RdrProp.getNode("range-nm");
         obj.Bearing         = obj.RdrProp.getNode("bearing-deg");
         obj.Elevation       = obj.RdrProp.getNode("elevation-deg");
         obj.InRangeProperty = obj.RdrProp.getNode("in-range",1);
-        
+
         obj.MyCallsign      = 0;
-        obj.BBearing        = 0; 
-        obj.BHeading        = 0; 
-        obj.RangeScore      = 0; 
-        obj.RelBearing      = 0; 
-        obj.Carrier         = 0; 
-        obj.EcmSignal       = 0; 
-        obj.EcmSignalNorm   = 0; 
-        obj.EcmTypeNum      = 0; 
-        obj.Display         = 0; 
-        obj.Fading          = 0; 
-        obj.DddDrawRangeNm  = 0; 
-        obj.TidDrawRangeNm  = 0; 
-        obj.RoundedAlt      = 0; 
+        obj.BBearing        = 0;
+        obj.BHeading        = 0;
+        obj.RangeScore      = 0;
+        obj.RelBearing      = 0;
+        obj.Carrier         = 0;
+        obj.EcmSignal       = 0;
+        obj.EcmSignalNorm   = 0;
+        obj.EcmTypeNum      = 0;
+        obj.Display         = 0;
+        obj.Fading          = 0;
+        obj.DddDrawRangeNm  = 0;
+        obj.TidDrawRangeNm  = 0;
+        obj.RoundedAlt      = 0;
         obj.TimeLast        = 0;
         obj.lifetime        = 3; #Not implemented yet : should represent the life time in sec of a target. (simpler than actually)
-        obj.RangeLast       = 0; 
+        obj.RangeLast       = 0;
         obj.ClosureRate     = 0;
         obj.Display_Node    = nil;
         obj.skipDoppler     = 1;
-        
+
         obj.ispainted       = 0;
-        
+
         #obj.TimeLast.setValue(ElapsedSec.getValue());
-        
+
         obj.RadarStandby    = c.getNode("sim/multiplay/generic/int[2]");
-        
+
         obj.deviation       = nil;
         obj.elevation = nil;
         obj.virtual = 0;
         obj.iff = -1000;
-        
-        
+
+
         obj.unique = obj.Callsign.getValue()~c.getPath();# should be very unique, callsign might not be enough. Path by itself is not enough either, as paths gets reused.
         obj.tacobj = {parents: [tacview.tacobj]};
         obj.tacobj.tacviewID = left(md5(obj.unique),5);
         obj.tacobj.valid = 1;
-    
+
         obj.type = armament.AIR;
-        
+
         obj.model = obj.ModelType; #was "" : now it is model type, until something set it up
-        
+
         return obj;
     },
-    
+
     update:func(c){
         me.RdrProp         = c.RdrProp;
         me.Heading         = c.Heading;
-        
+
         me.Alt             = c.Alt;
         me.lat             = c.lat;
         me.lon             = c.lon;
-        
+
         me.set_latlon(me.lat.getValue(), me.lon.getValue(), me.Alt.getValue() * FT2M);
-        
+
         me.pitch           = c.pitch;
         me.roll            = c.roll;
         me.Speed           = c.Speed;
@@ -212,40 +212,40 @@ var Target = {
         me.Valid            = c.Valid;
         me.validTree       = c.validTree;
         me.TransponderID   = c.TransponderID;
-        
+
         me.engineTree      = c.engineTree;
-        
+
         me.AcType          = c.AcType;
-        
+
         me.index           = c.index;
         me.flareNode       = c.flareNode;
         me.chaffNode       = c.chaffNode;
         me.RadarStandby    = c.RadarStandby;
-        
-        
-        
+
+
+
         me.InstrTgts       = props.globals.getNode(me.InstrString, 1);
-        
+
         me.TgtsFiles       =   0; #me.InstrTgts.getNode(me.shortstring, 1);
-        
+
         me.Range           = c.Range;
         me.Bearing         = c.Bearing;
         me.Elevation       = c.Elevation;
         me.InRangeProperty = c.InRangeProperty;
-        
+
         me.MyCallsign      = c.MyCallsign;
-        me.BBearing        = c.BBearing; 
-        me.BBearing        = c.BBearing; 
-        me.RangeScore      = c.RangeScore; 
-        me.RelBearing      = c.RelBearing; 
-        me.Carrier         = c.Carrier; 
-        me.EcmSignal       = c.EcmSignal; 
-        me.EcmSignalNorm   = c.EcmSignalNorm; 
-        me.EcmTypeNum      = c.EcmTypeNum; 
-        me.Fading          = c.Fading; 
-        me.DddDrawRangeNm  = c.DddDrawRangeNm; 
-        me.TidDrawRangeNm  = c.TidDrawRangeNm; 
-        me.RoundedAlt      = c.RoundedAlt; 
+        me.BBearing        = c.BBearing;
+        me.BBearing        = c.BBearing;
+        me.RangeScore      = c.RangeScore;
+        me.RelBearing      = c.RelBearing;
+        me.Carrier         = c.Carrier;
+        me.EcmSignal       = c.EcmSignal;
+        me.EcmSignalNorm   = c.EcmSignalNorm;
+        me.EcmTypeNum      = c.EcmTypeNum;
+        me.Fading          = c.Fading;
+        me.DddDrawRangeNm  = c.DddDrawRangeNm;
+        me.TidDrawRangeNm  = c.TidDrawRangeNm;
+        me.RoundedAlt      = c.RoundedAlt;
         me.TimeLast        = 0;
         if(me.life<1){
           me.ispainted       = c.ispainted;
@@ -255,25 +255,25 @@ var Target = {
           #if(me.get_Callsign() != ""){print("Update Target :" ~ me.get_Callsign() ~ " Paiting : " ~ me.ispainted ~" and Display : " ~ me.Display);}
         }
         me.lifetime        = 3; # We reinit the lifetime
-        me.RangeLast       = c.RangeLast; 
+        me.RangeLast       = c.RangeLast;
         me.ClosureRate     = c.ClosureRate;
-        
-        
-        
-        me.life = 5; 
+
+
+
+        me.life = 5;
         me.objectDeviationDeg = c.objectDeviationDeg;
         me.objectElevationDeg = c.objectElevationDeg;
         me.objectDisplay       = c.objectDisplay;
-        
-        
+
+
         me.string          = c.string;
         me.shortstring     = c.shortstring;
-    
+
     },
 
     create_tree: func(MyAircraftCoord,MyAircraftHeading = nil) {
         me.TgtsFiles      = me.InstrTgts.getNode(me.shortstring, 1);
-        
+
         me.MyCallsign     = me.TgtsFiles.getNode("callsign", 1);
         me.BBearing       = me.TgtsFiles.getNode("bearing-deg", 1);
         me.BHeading       = me.TgtsFiles.getNode("true-heading-deg", 1);
@@ -291,11 +291,11 @@ var Target = {
         me.TimeLast       = me.TgtsFiles.getNode("closure-last-time", 1);
         me.RangeLast      = me.TgtsFiles.getNode("closure-last-range-nm", 1);
         me.ClosureRate    = me.TgtsFiles.getNode("closure-rate-kts", 1);
-        
+
         me.TimeLast.setDoubleValue(ElapsedSec.getValue());
         me.RangeLast.setValue(me.get_range_from_Coord(MyAircraftCoord));
         me.Carrier.setBoolValue(0);
-        
+
         #Create essential tree
         var altTree =me.TgtsFiles.getNode("position/altitude-ft",1);
         var latTree =me.TgtsFiles.getNode("position/latitude-deg",1);
@@ -349,7 +349,7 @@ var Target = {
         # So this is a little hack for HUD.
         if(me.validTree != 0){me.validTree.setValue(0);}
         #me.RdrProp.getNode("in-range").setValue("false");
-        
+
         var Tempo_TgtsFiles = me.InstrTgts.getNode(me.shortstring, 1);
         var Property_list   = Tempo_TgtsFiles.getChildren();
         foreach(var myProperty ; Property_list)
@@ -385,7 +385,7 @@ var Target = {
         }
         return s;
     },
-    
+
 
     get_Validity: func(){
         var n = 0;
@@ -426,7 +426,7 @@ var Target = {
         }
         return me.Callsign.getValue();
     },
-    
+
     get_Name:func(){
             if (me.name == nil or me.name.getValue() == "") {
                 return me.get_model();
@@ -510,13 +510,13 @@ var Target = {
     get_Elevation_from_Coord: func(MyAircraftCoord){
         var myCoord = me.get_Coord();
         #me.objectElevationDeg = math.asin((myCoord.alt() - MyAircraftCoord.alt()) / myCoord.direct_distance_to(MyAircraftCoord)) * R2D;
-        me.objectElevationDeg = vector.Math.getPitch(geo.aircraft_position(), me.get_Coord()); 
+        me.objectElevationDeg = vector.Math.getPitch(geo.aircraft_position(), me.get_Coord());
         me.Elevation.setValue(me.objectElevationDeg);
         return me.objectElevationDeg;
     },
     get_Elevation_from_Coord_HUD:func(){
         var myCoord = me.get_Coord();
-        return vector.Math.getPitch(geo.viewer_position(), me.get_Coord()); 
+        return vector.Math.getPitch(geo.viewer_position(), me.get_Coord());
     },
 
     get_total_elevation_from_Coord: func(own_pitch, MyAircraftCoord){
@@ -524,7 +524,7 @@ var Target = {
         me.Elevation.setValue(myTotalElevation);
         return myTotalElevation;
     },
-    
+
     get_total_elevation: func(own_pitch){
         me.myTotalElevation =  - deviation_normdeg(own_pitch, me.Elevation.getValue());
         return me.myTotalElevation;
@@ -628,7 +628,7 @@ var Target = {
         }
         me.objectDisplay = n;
     },
-    
+
     set_relative_bearing: func(n,writeTree = nil){
         if(n == nil)
         {
@@ -636,7 +636,7 @@ var Target = {
         }
         if(writeTree == nil or writeTree==1){
           me.RelBearing.setValue(n);
-        }else{          
+        }else{
           me.RelBearing = n;
         }
     },
@@ -714,25 +714,25 @@ var Target = {
     get_closure_rate_from_Coord: func(MyAircraftCoord) {
         # First step : find the target heading.
         var myHeading = me.Heading.getValue();
-        
+
         # Second What would be the aircraft heading to go to us
         var myCoord = me.get_Coord();
         var projectionHeading = myCoord.course_to(MyAircraftCoord);
-        
+
         # Calculate the angle difference
         var myAngle = myHeading - projectionHeading; #Should work even with negative values
-        
+
         # take the "ground speed"
         # velocities/true-air-speed-kt
         var mySpeed = me.Speed.getValue();
         var myProjetedHorizontalSpeed = mySpeed*math.cos(myAngle*D2R); #in KTS
-        
+
         #print("Projetted Horizontal Speed:"~ myProjetedHorizontalSpeed);
-        
+
         # Now getting the pitch deviation
         var myPitchToAircraft = - me.Elevation.getValue();
         #print("My pitch to Aircraft:"~myPitchToAircraft);
-        
+
         # Get V speed
         if(me.VSpeed.getValue() == nil)
         {
@@ -740,16 +740,16 @@ var Target = {
         }
         var myVspeed = me.VSpeed.getValue()*FPS2KT;
         # This speed is absolutely vertical. So need to remove pi/2
-        
+
         var myProjetedVerticalSpeed = myVspeed * math.cos(myPitchToAircraft-90*D2R);
-        
+
         # Control Print
         #print("myVspeed = " ~myVspeed);
         #print("Total Closure Rate:" ~ (myProjetedHorizontalSpeed+myProjetedVerticalSpeed));
-        
+
         # Total Calculation
         var cr = myProjetedHorizontalSpeed+myProjetedVerticalSpeed;
-        
+
         # Setting Essential properties
         var rng = me. get_range_from_Coord(MyAircraftCoord);
         var newTime= ElapsedSec.getValue();
@@ -758,7 +758,7 @@ var Target = {
             setprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-last-range-nm", rng);
             setprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-rate-kts", cr);
         }
-        
+
         return cr;
     },
 
@@ -810,7 +810,7 @@ var Target = {
       }
       return 0;
     },
-    
+
     isRadiating: func (coord) {
       me.rn = me.get_range();
       #if (me.get_model() != "buk-m2" and me.get_model() != "MIM104D" and me.get_model() != "missile_frigate" or me.get_type()== armament.MARINE) {
@@ -824,7 +824,7 @@ var Target = {
       }
       me.rdrAct = me.propNode.getNode("sim/multiplay/generic/int[2]");
       #if the radar is SURFACE or MARINE, it turns, so no orientation asked
-      if (me.rn < 70 and ((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) 
+      if (me.rn < 70 and ((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil)
           and (math.abs(geo.normdeg180(me.deviationRd)) < 60 or me.get_type()!= armament.AIR)) {
           # our radar is active and pointed at coord.
           #print("Is Radiating");
@@ -857,13 +857,13 @@ var Target = {
         return me.ispainted;            # Shinobi this is if laser/lock is still on it. Used for laser and semi-radar guided missiles/bombs.
     },
     isLaserPainted: func() {
-        return me.ispainted; 
+        return me.ispainted;
     },
-    
+
     setVirtual: func (virt) {
         me.virtual = virt;
     },
-    
+
     isVirtual: func(){
       if(me.get_Callsign() == "GROUND_TARGET"){return 1;}else{return 0;}
     },
@@ -871,7 +871,12 @@ var Target = {
     get_model: func {
         return me.model;
     },
- 
+
+	# an alias to keep rcs.nas happy
+	getModel: func {
+		return me.model;
+	},
+
     set_model: func (mdl) {
         me.model = mdl;
     },
@@ -884,7 +889,7 @@ var Target = {
         body = me.get_Speed()*KT2FPS;
       }
       return body;
-    },    
+    },
     get_vBody: func {
       var body = nil;
       if (me.ubody != nil) {
@@ -894,7 +899,7 @@ var Target = {
         body = 0;
       }
       return body;
-    },    
+    },
     get_wBody: func {
       var body = nil;
       if (me.ubody != nil) {
@@ -905,7 +910,7 @@ var Target = {
       }
       return body;
     },
-    
+
 
     list : [],
 };

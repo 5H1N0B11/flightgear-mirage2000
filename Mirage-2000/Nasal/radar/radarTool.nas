@@ -1,13 +1,13 @@
 var RadarTool = {
-  
+
   ##############################################################################################
   # This function will explore the proprty tree and create new contact in the raw_selection.
   ##############################################################################################
-  
+
   get_elevation : func(lat,lon){
     #first looking if the tile is loaded
     me.local_ground_alt = geo.elevation(lat, lon);
-    
+
     #if geo is nil, the tile is not loaded. There is no fucking way to get the ground elevation (except what I'm about to do)
     if(me.local_ground_alt == nil){
         #finding the closest navaid and take its altitude
@@ -16,8 +16,8 @@ var RadarTool = {
     }
     return me.local_ground_alt;
   },
-  
-  
+
+
   scan_update_tgt_list_func:func(){
       if(scan_update_tgt_list){
         me.temp_raw_list = me.Mp.getChildren();
@@ -31,7 +31,7 @@ var RadarTool = {
               {
                   continue;
               }
-              
+
               # the 2 following line are needed : If not, it would detects our own missiles...
               # this will come soon
   #             var HaveRadarNode = c.getNode("radar");
@@ -46,12 +46,12 @@ var RadarTool = {
               var Tree_Name = c.getName();
               #print("folderName:" ~ c.getName());
               #print("type:" ~ type);
-              
+
               if(me.check_selected_type(c))
               {
                   # creation of the tempo object Target
                   var u = Target.new(c,me.myTree.getPath());
-                
+
 
                   folderName = c.getName();
 
@@ -62,14 +62,14 @@ var RadarTool = {
                   # also consider if doppler do not see them that they are either SURFACE or MARINE, depending on if they have alt = ~ 0
                   # notice that GROUND_TARGET is set inside Target.new().
                   u.setType(armament.AIR);
-                  
+
                   #print("Update Type of " ~ u.get_Callsign());
                   #printf("Elevation of the tile :%f00" , me.get_elevation(u.get_Latitude(), u.get_Longitude()));
                   #print("Target Altitude:" ~u.get_altitude()*FT2M);
-                  
+
                   #var ground_alt = geo.elevation(u.get_Latitude(), u.get_Longitude());
                   me.type_ground_alt = me.get_elevation(u.get_Latitude(), u.get_Longitude());#= ground_alt==nil?0:ground_alt;
-                  
+
                   # We are testing if it is near the ground
                   if(me.type_ground_alt!=nil){
                     if(abs(me.type_ground_alt - u.get_altitude()*FT2M) < 20 or u.get_altitude()*FT2M < 50) { # in meters
@@ -101,8 +101,8 @@ var RadarTool = {
                   }else{
                     print("Tiles not loaded for target load moar" ~ u.get_Callsign() ~ " at " ~ u.get_range() ~"nm");
                   }
- 
-                  
+
+
                   if(u.get_type() == armament.AIR){
                   # now we test the model name to guess what type it is:
                         me.pathNode = c.getNode("sim/model/path");
@@ -113,7 +113,7 @@ var RadarTool = {
                         }
                         u.skipDoppler = 0;
                   }
-                  
+
                   #Testing if ORDNANCE
                   if (c.getNode("missile") != nil and c.getNode("missile").getValue()) {
                       u.setType(armament.ORDNANCE);
@@ -130,7 +130,7 @@ var RadarTool = {
                     u.setType(armament.SURFACE);
                   }
                   #print(folderName ~ " type:" ~ u.get_type()~ " Skipping Doppler: " ~ u.skipDoppler);
-#                   if(Tree_Name != "munition"){ 
+#                   if(Tree_Name != "munition"){
 #                     print("Test Important:");
                     me.update_array(u,me.raw_selection);
                     me.update_array(u,completeList);
@@ -138,24 +138,24 @@ var RadarTool = {
               }
           }
       }
-      
+
       scan_update_tgt_list = 0;
     },
-  
-  
+
+
   ##############################################################################################
   # Checking if behind terrain or Not
   ##############################################################################################
-  
+
   isNotBehindTerrain: func(SelectedObject){
         if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
         isVisible = 0;
-        
+
         # As the script is relatively ressource consuming, then, we do a maximum of test before doing it
 #         if(me.get_check())
 #         {
             SelectCoord = SelectedObject.get_Coord();
-            
+
             SelectCoord.set_alt(SelectCoord.alt()+1);
             # Because there is no terrain on earth that can be between these 2
             if(me.our_alt < 8900 and SelectCoord.alt() < 8900)
@@ -185,8 +185,8 @@ var RadarTool = {
                   }
                   }
                 } else {
-            
-            
+
+
                   # Temporary variable
                   # A (our plane) coord in meters
                   a = me.MyCoord.x();
@@ -206,7 +206,7 @@ var RadarTool = {
                   # direct Distance in meters
                   myDistance = SelectCoord.direct_distance_to(me.MyCoord);
                   Aprime = geo.Coord.new();
-                  
+
                   # Here is to limit FPS drop on very long distance
                   L = 500;
                   if(myDistance > 50000)
@@ -215,7 +215,7 @@ var RadarTool = {
                   }
                   step = L;
                   maxLoops = int(myDistance / L);
-                  
+
                   isVisible = 1;
                   # This loop will make travel a point between us and the target and check if there is terrain
                   for(var i = 0 ; i < maxLoops ; i += 1)
@@ -223,7 +223,7 @@ var RadarTool = {
                       L = i * step;
                       K = (L * L) / (1 + (-1 / difa) * (-1 / difa) * (difb * difb + difc * difc));
                       DELTA = (-2 * a) * (-2 * a) - 4 * (a * a - K);
-                      
+
                       if(DELTA >= 0)
                       {
                           # So 2 solutions or 0 (1 if DELTA = 0 but that 's just 2 solution in 1)
@@ -238,10 +238,10 @@ var RadarTool = {
                           # Creation Of 2 points
                           Aprime1  = geo.Coord.new();
                           Aprime1.set_xyz(x1, y1, z1);
-                          
+
                           Aprime2  = geo.Coord.new();
                           Aprime2.set_xyz(x2, y2, z2);
-                          
+
                           # Here is where we choose the good
                           if(math.round((myDistance - L), 2) == math.round(Aprime1.direct_distance_to(SelectCoord), 2))
                           {
@@ -258,7 +258,7 @@ var RadarTool = {
                           {
                               AprimeTerrainAlt = 0;
                           }
-                          
+
                           if(AprimeTerrainAlt > Aprime.alt())
                           {
                               isVisible = 0;
@@ -280,8 +280,8 @@ var RadarTool = {
     NotBeyondHorizon: func(SelectedObject){
         me.MyCoord = geo.aircraft_position();
         me.our_alt = me.MyCoord.alt();
-      
-      
+
+
         if(SelectedObject.get_Callsign()=="GROUND_TARGET"){return 1;}
         # if distance is beyond the earth curve
         var horizon = SelectedObject.get_horizon(me.our_alt);
@@ -292,7 +292,7 @@ var RadarTool = {
     },
 
     doppler: func(SelectedObject){
-      
+
         #if it is a radiating stuff, skip doppler
       #print("In the doppler");
       if(pylons.fcs.getSelectedWeapon() != nil){
@@ -307,10 +307,10 @@ var RadarTool = {
           }
         }
       }
-      
+
         # Test to check if the target can hide bellow us
         # Or Hide using anti doppler movements
-        
+
         var InDoppler = 0;
         var groundNotbehind = me.isGroundNotBehind(SelectedObject);
         if(groundNotbehind)
@@ -332,10 +332,10 @@ var RadarTool = {
     #     Checking if ground isn't behind : this is done for non doppler radar that should be blind
     #       or also a way to blind a doppler radar
     ##############################################################################################
-    
+
     isGroundNotBehind: func(SelectedObject){
 
-      
+
         var myPitch = SelectedObject.get_Elevation_from_Coord(me.MyCoord);
         var GroundNotBehind = 1; # sky is behind the target (this don't work on a valley)
         if(myPitch < 0 and me.NotBeyondHorizon(SelectedObject))
@@ -358,13 +358,13 @@ var RadarTool = {
     #     Checking azimuth
     ##############################################################################################
     inAzimuth: func(SelectedObject,ExceptGroundTarget = 1){
-        
+
         if(SelectedObject.get_Callsign()=="GROUND_TARGET" and ExceptGroundTarget){return 1;}
         # Check if it's in Azimuth.
         # first we check our heading+ center az deviation + the sweep if the radar is mechanical
         tempAz = me.az_fld;
         var inMyAzimuth = 0;
-        
+
         var myHeading = math.mod(me.fieldazCenter + me.OurHdg, 360);
         if(me.haveSweep)
         {
@@ -380,7 +380,7 @@ var RadarTool = {
         }
         return inMyAzimuth;
     },
-    
+
     ##############################################################################################
     #  Don't know what this. With canvas this should be deleted
     ##############################################################################################
@@ -389,29 +389,29 @@ var RadarTool = {
         # swp_diplay_width = Global
         # az_fld = Global
         # ppi_diplay_radius = Global
-        
+
         SelectedObject.check_carrier_type();
         mydeviation = SelectedObject.get_deviation(me.OurHdg, me.MyCoord);
         #print("My Radar deviation %f", mydeviation);
         var u_rng = me.targetRange(SelectedObject);
-        
+
         # compute mp position in our B-scan like display. (Bearing/horizontal + Range/Vertical).
         SelectedObject.set_relative_bearing(me.swp_diplay_width / me.az_fld * mydeviation,me.UseATree);
         var factor_range_radar = me.rng_diplay_width / me.rangeTab[me.rangeIndex]; # length of the distance range on the B-scan screen.
         SelectedObject.set_ddd_draw_range_nm(factor_range_radar * u_rng,me.UseATree);
         u_fading = 1;
         u_display = 1;
-        
+
         # Compute mp position in our PPI like display.
         factor_range_radar = me.ppi_diplay_radius / me.rangeTab[me.rangeIndex]; # Length of the radius range on the PPI like screen.
         SelectedObject.set_tid_draw_range_nm(factor_range_radar * u_rng,me.UseATree);
-        
+
         # Compute first digit of mp altitude rounded to nearest thousand. (labels).
         SelectedObject.set_rounded_alt(rounding1000(SelectedObject.get_altitude()) / 1000,me.UseATree);
-        
+
         # Compute closure rate in Kts.
         #SelectedObject.get_closure_rate_from_Coord(me.MyCoord) * MPS2KT;
-            
+
         # Check if u = nearest echo.
         if(SelectedObject.get_Callsign() == getprop("/ai/closest/callsign"))
         {
@@ -450,7 +450,7 @@ var RadarTool = {
         }
         return IsInRange;
     },
-    
+
     ##############################################################################################
     # Checking the heat (n1 rotation) need improvement (like heat attenuation)
     ##############################################################################################
@@ -486,37 +486,23 @@ var RadarTool = {
         }
         # Here we could add a velocity test : if speed >mach 1, we can imagine that friction provides heat
     },
-    
 
-    ##############################################################################################
-    #Detection of the link16 : Should allow us to see it as a friend and avoiding shooting it
-    ##############################################################################################
-    IsFriendlink16: func(SelectedObject){
-      cs = SelectedObject.get_Callsign();
-      rn = SelectedObject.get_range();
-      if (getprop("link16/wingman-1")==cs or getprop("link16/wingman-2")==cs or getprop("link16/wingman-3")==cs or getprop("link16/wingman-4")==cs  or getprop("link16/wingman-5")==cs  or getprop("link16/wingman-6")==cs  or getprop("link16/wingman-7")==cs  or getprop("link16/wingman-8")==cs  or getprop("link16/wingman-9")==cs or rn > 150) {
-        return 1;
-      }else{
-        return 0;
-      }
-    },
-    
     ##############################################################################################
     #Transponder detection : if transponder still on, the target will be easy to detect
     ##############################################################################################
     HasTransponderOn: func(SelectedObject){
       trAct = SelectedObject.propNode.getNode("instrumentation/transponder/transmitted-id");
       rn    = SelectedObject.get_range();
-      
+
       if(SelectedObject.propNode.getName() != "multiplayer" and rn < 55) {
         return 1;#non MP always has transponder on.
-      } elsif (trAct != nil and trAct.getValue() != -9999 and rn < 55) { 
+      } elsif (trAct != nil and trAct.getValue() != -9999 and rn < 55) {
         return 1; # transponder on
       }else{
         return 0;
       }
     },
-    
+
     targetRange: func(SelectedObject){
       me.MyCoord = geo.aircraft_position();
         # This is a way to shortcurt the issue that some of node have : in-range =0
@@ -531,23 +517,12 @@ var RadarTool = {
         #print("targetRange : " ~ SelectedObject.get_Callsign() ~" longitude : " ~ SelectedObject.get_Longitude() ~ " latitude : " ~ SelectedObject.get_Latitude() ~" result="~myRange);
         return myRange;
     },
-    
-    targetBearing: func(SelectedObject){
-        # This is a way to shortcurt the issue that some of node have : bearing =0
-        # So by giving the second fucntion our coord, we just have to calculate it
-        var myBearing = 0;
-        myBearing = SelectedObject.get_bearing();
-        if(myBearing == 0)
-        {
-            myBearing = SelectedObject.get_bearing_from_Coord(me.MyCoord);
-        }
-        return myBearing;
-    },
+
     TargetWhichRadarAzimut: func(SelectedObject){
       if(SelectedObject.type == armament.SURFACE or SelectedObject.type == armament.MARINE) {
-        return 180;    
+        return 180;
       }else{
-        return 60;     
+        return 60;
       }
     }
 }
