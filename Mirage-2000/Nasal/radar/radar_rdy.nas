@@ -37,9 +37,9 @@ if ((major == 2017 and minor == 2 and pica >= 1) or (major == 2017 and minor > 2
 }
 #print("Version is "~ versionString ~ " So Picking method : "~pickingMethod);
 
-  
+
 var weaponRadarNames = {
-    # 
+    #
     # this should match weaponNames in ext_stores.nas
     # Its a list of folders inside ai/models that has weapons.
     #
@@ -67,15 +67,15 @@ listOfAIRadarEchoes2 = keys(weaponRadarNames);
 listOfGroundVehicleModels = ["buk-m2", "MIM104D", "s-200", "s-300", "ZSU-23-4M", "S-75", "SA-6", "depot", "truck", "tower", "germansemidetached1","GROUND_TARGET"];
 #listOfGroundVehicleModels = ["GROUND_TARGET"];
 listOfShipModels          = ["frigate", "missile_frigate", "USS-LakeChamplain", "USS-NORMANDY", "USS-OliverPerry", "USS-SanAntonio"];
-# 
+#
 listOfShipModels_hash = {
   "carrier":"MARINE",
   "ship"   :"MARINE",
-  "frigate":"MARINE", 
-  "missile_frigate":"MARINE", 
-  "USS-LakeChamplain":"MARINE", 
-  "USS-NORMANDY":"MARINE", 
-  "USS-OliverPerry":"MARINE", 
+  "frigate":"MARINE",
+  "missile_frigate":"MARINE",
+  "USS-LakeChamplain":"MARINE",
+  "USS-NORMANDY":"MARINE",
+  "USS-OliverPerry":"MARINE",
   "USS-SanAntonio":"MARINE",
   "san_antonio":"MARINE",
   "oliver_perry":"MARINE",
@@ -100,8 +100,8 @@ listOfGroundTargetNames_hash = {
   "F-16":armament.AIR,
 };
 var shouldHaveRadarNodearray = ["tanker","aircraft","missile"];
-#   
-  
+#
+
 #WTF ?
 foreach(var addMe ; listOfAIRadarEchoes2) {
     append(listOfAIRadarEchoes, addMe);
@@ -162,7 +162,7 @@ var updatelink16 = func(){
 #var Mp = props.globals.getNode("ai/models");
 
 # radar class
-var Radar = {
+var RadarRDY = {
     new: func(
         NewRangeTab = nil,             # array with all the different possible range
         NewRangeIndex = nil,           # range index should not be greater than NewRangeTab
@@ -173,7 +173,7 @@ var Radar = {
         Newfocused_az_fld = nil,       # total angle of focused radar
         NewFieldAzimuthCenter = nil,   # 0-360.For rear radar. 0 is the default value.
         NewVerticalAzimuth = nil,      # 0-180
-        NewhaveSweep = nil,            # boolean 1 or 0. Has a Sweep or not 
+        NewhaveSweep = nil,            # boolean 1 or 0. Has a Sweep or not
         NewHaveDoppler = nil,          # boolean 1 or 0. Has a Doppler or not
         newDopplerSpeedLimit = nil,    # value in kts. This the min speed a doppler radar can detect. the less it is, more your doppler radar is recent and precise
         NewMyTimeLimit = nil,
@@ -185,7 +185,7 @@ var Radar = {
         NewSourcePath = nil)
     {
         # if we want to use a different source than AI
-        var m = { parents : [Radar,RadarTool] };
+        var m = { parents : [RadarRDY,RadarTool] };
         # variable that can be passed in parameters
         m.rangeTab          = (NewRangeTab == nil) ? [10, 20, 40, 60, 160] : NewRangeTab; # radar Ranges in nm
         m.rangeIndex        = (NewRangeIndex == nil) ? 0 : math.mod(NewRangeIndex, size(m.rangeTab)); # tab starts at index 1 so here it's 20
@@ -206,13 +206,13 @@ var Radar = {
         m.detectionTypetab  = (NewRadarType == nil) ? "radar" : NewRadarType; # old : m.detectionTypetab = ["radar","laser"];
         m.source            = (NewSourcePath == nil) ? "ai/models" : NewSourcePath;
         m.Mp               = props.globals.getNode(m.source);
-        
+
         #m.detectionTypeIndex = 0;
-        
+
         # variables that need to be initialised
         m.loop_running  = 0;
         m.LoopElapsed = 0;
-       
+
         m.MyCoord       = geo.aircraft_position(); # this is when the radar is on our own aircraft. This part have to change if we want to put the radar on a missile/AI
         m.az_fld        = m.unfocused_az_fld;
         #m.vt_az_fld     = m.az_fld;
@@ -225,7 +225,7 @@ var Radar = {
         m.Target_Callsign = nil;
         m.radarMaxSize    = 20;
         m.selectedArmament= nil; #Actually useless : The idea is to allow the radar to occult everything that is not for the current loaded weapon
-        
+
         # source behavior
         m.OurHdg        = 0;
         m.OurPitch      = 0;
@@ -243,7 +243,7 @@ var Radar = {
         m.rng_diplay_width  = 0;
         m.ppi_diplay_radius = 0;
         m.isdeleting = 0;
-        
+
         m.tempo_Index = 0;
 
         if(m.haveSweep == 1)
@@ -271,11 +271,11 @@ var Radar = {
         m.UseATree = 1;
 
         #print(m.myTree.getPath());
-        
+
         # update interval for engine init() functions
         m.updating_now = 0;
-        m.UPDATE_PERIOD = 0.05; 
-        
+        m.UPDATE_PERIOD = 0.05;
+
             #Some are not need there
             m.input = {
               pitch:      "/orientation/pitch-deg",
@@ -321,12 +321,12 @@ var Radar = {
               TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
               AbsoluteElapsedtime : "sim/time/elapsed-sec",
             };
-    
+
             foreach(var name; keys(m.input))
               m.input[name] = props.globals.getNode(m.input[name], 1);
-        
-        
-        
+
+
+
         # return our new object
         return m;
     },
@@ -340,9 +340,9 @@ var Radar = {
             return;
         }
         me.loop_running = 1;
-        
+
         # init Radar Distance
-        
+
         # launch only On time : this is an auto updated loop.
         if(me.haveSweep == 1)
         {
@@ -350,7 +350,7 @@ var Radar = {
         }
 
         var loop_Update = func() {
-            
+
             #rwr stuff
             if (rwr.rwr != nil) {
               if (size(rwrList)>0) {
@@ -358,8 +358,8 @@ var Radar = {
               } else {
                 rwr.rwr.update(rwrList16,"normal");
               }
-            }  
-            
+            }
+
             var radarWorking = getprop(me.ElectricalPath);
             radarWorking = (radarWorking == nil) ? 0 : radarWorking;
             if(radarWorking > 24 and me.AutoUpdate)
@@ -370,7 +370,7 @@ var Radar = {
               var UpdateErr = [];
 #                 print("Calling radar");
               call(me.scan_update_tgt_list_func,[],me,nil,UpdateErr);
-              
+
               call(me.update,[],me,nil,UpdateErr);
               if(size(UpdateErr) > 0)
               {
@@ -389,10 +389,10 @@ var Radar = {
               setprop("sim/multiplay/generic/string[6]", "");
             }
             #me.Global_janitor();
-            
+
             # RWR launch
             RWR_APG.run();
-            
+
             if(me.isdeleting == 0){settimer(loop_Update, me.UPDATE_PERIOD)};
         };
         if(me.isdeleting == 0){settimer(loop_Update, me.UPDATE_PERIOD)};
@@ -403,7 +403,7 @@ var Radar = {
         };
         if(me.isdeleting == 0){settimer(loop_Sweep,0.05);}
     },
-    
+
     delete: func(){
       me.AutoUpdate = 0;
       me.isdeleting = 1;
@@ -415,8 +415,8 @@ var Radar = {
       MytargetVariable = nil;
       completeList     = [];
       me.ContactsList  = [];
-      
-      
+
+
       #rwr Stuff
       rwrList   = [];
       rwrList16 = [];
@@ -426,20 +426,20 @@ var Radar = {
     ############
     #  UPDATE  #
     ############
-    
-    
-    ## How the radar should work : 
+
+
+    ## How the radar should work :
     ## 1 - use the tree via getNode
     ## 2 - ARRAY1 : Stock contact in an array. This array should never be deleted and contact never be removed from it.
     ## 3 - ARRAY1 : Update this array (new coord etc all data of the contact), and above all, update if "Display" or not.
     ## 4 - ARRAY2 : Stock only "Display" Contact. This array can be tempo and contact can/have to be REMOVED once it is not "Display"
-    ## 5 - ARRAY3 : Stock Contact contact that can be targeted. Contact must not be deleted. (in case of a firing missile, the contact stocked here is the 
+    ## 5 - ARRAY3 : Stock Contact contact that can be targeted. Contact must not be deleted. (in case of a firing missile, the contact stocked here is the
     #       one that is updated. If we lose this contact, we cannont have action on the missile anymore (lost of the contact or anything else)
     ## 6 - ARRAY3 : Update this array (new coord etc all data of the contact), and above all, update if "Display" or not.
     ## 7 - ARRAY4 : Stock and update array with "Display" target. <-This is for target selection. Unavailable Target => must be REMOVED
     ## 8 - ARRAY5 : Stock and update selected Target. Put the tag Painted on it. (Use an array here allow multiple selection and firing all the target in the same time)
-    
-    ## Schematic : 
+
+    ## Schematic :
     ##   PROPERTY TREE                "Display"
     ##        =============> ARRAY1  =========> ARRAY2
     ##                          |
@@ -448,74 +448,74 @@ var Radar = {
     ##                                            |
     ##                                            |   Painted/selected
     ##                                             ====================> ARRAY5
-    
+
     ## STOCRAGE ARRAY :     functions : add, update
     ##  ARRAY1, ARRAY3
     ##
     ## DIPLAY ARRAY :       functions : add, update, remove
     ##  ARRAY2, ARRAY4, ARRAY5
-    
+
     ## Simplification : Only use ARRAY1, ARRAY2 and ARRAY5
-    
-    
-    
+
+
+
     update: func(tempCoord = nil, tempHeading = nil, tempPitch = nil) {
-      
+
 
         #Double Run prevention
         if(me.updating_now == 1){return;}else{me.updating_now = 1;}
-        
+
         #Interval calculation
         me.LoopElapsed = me.input.AbsoluteElapsedtime.getValue() - me.TimeWhenUpdate;
         # This is to know when was the last time we called the update
         me.TimeWhenUpdate = me.input.AbsoluteElapsedtime.getValue();
-        
-        
-        # First update Coord, Alt, heeading and Pitch. 
+
+
+        # First update Coord, Alt, heeading and Pitch.
         # The code pout the aircraft properties if nothing has been passed in parameters
         # Coord update ! Should be filled with altitude
         if(tempCoord == nil){me.MyCoord = geo.aircraft_position();}else{me.MyCoord = tempCoord;}
 
         # Altitude update (in meters)
         me.our_alt = me.MyCoord.alt();
-        
+
         # Heading Update (should be the airplane heading, not the radar look direction)
         if(tempHeading == nil){me.OurHdg = me.input.hdgReal.getValue();}else{me.OurHdg = tempHeading;}
-        
+
         # Pitch Update (should be the airplane heading, not the radar look direction)
         if(tempPitch == nil){me.OurPitch = me.input.pitch.getValue();}else{me.OurPitch = tempPitch;}
         # Variable initialized
-        
+
         # This is the return array. Made First for Canvas, but can be usefull to a lot of other things
 #         var CANVASARRAY = [];
-        
+
         #This is the missile index. It is reset on each loop.
         me.missileIndex = 0;
-        
+
 #         var raw_list = me.Mp.getChildren();
         foreach(me.update_u  ; me.raw_selection)
         {
-                              
+
                 # set Check_List to void
                 me.Check_List = [];
                 # this function do all the checks and put all result of each
                 # test on an array[] named Check_List
 
                 me.go_check(me.update_u);
-                
-                #Displaying Check                
+
+                #Displaying Check
                 # then a function just check it all
                 #print("Update targetList" ~ me.update_u.get_Callsign());
                 #print("get_type()" ~ me.update_u.get_type());
                 if(me.get_check() and me.update_u.isValid())
                 {
-                                        
+
                     #Is in Range : Should be added to the main ARRAY1 (Here : ContactsList)
 #                     var HaveRadarNode = c.getNode("radar");
 
                     #Update ContactList : Only updated when target is valid
                     #Should return an Index, in order to take the object from the table and not the property tree
-                    
+
                     if(me.UseATree){
                       me.update_u.create_tree(me.MyCoord, me.OurHdg);
                       me.update_u.set_all(me.MyCoord);
@@ -525,23 +525,23 @@ var Radar = {
                     me.update_array(me.update_u,me.ContactsList);
 
                     me.update_u.set_display(1);
-               
+
                     # for Target Selection
                     # here we disable the capacity of targeting a missile.
-                    
+
                     if(me.update_u.get_type != armament.ORDNANCE and !contains(weaponRadarNames, me.update_u.get_Callsign) and !me.update_u.isFriend())
                     {
                         #tgts_list => ARRAY4
-                        
+
                         me.TargetList_Update(me.update_u);
                         me.TargetList_AddingTarget(me.update_u);
-                        
+
                         #We should UPDATE tgts_list here
-                        
+
 
                         if(size(me.tgts_list)>me.Target_Index){
                           #This shouldn't be here. See how to delete it
-                          if(me.update_u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and me.update_u.getUnique() == me.Target_Callsign 
+                          if(me.update_u.getUnique() == me.tgts_list[me.Target_Index].getUnique() and me.update_u.getUnique() == me.Target_Callsign
                               and me.az_fld == me.focused_az_fld){
                             #print("Picasso painting");
                             me.update_u.setPainted(1);
@@ -558,8 +558,8 @@ var Radar = {
                 {
                     #me.tempo_Index = me.find_index_inArray(u,me.ContactsList);
                     #if(me.tempo_Index != nil){me.ContactsList[me.tempo_Index].set_display(1,me.myTree);}
-                  
-                 #Here we shouldn't see the target anymore. It should disapear. So for that, we are calling the Tempo_Janitor      
+
+                 #Here we shouldn't see the target anymore. It should disapear. So for that, we are calling the Tempo_Janitor
                     if(me.update_u.get_Validity() == 1)
                     {
                         if(me.input.AbsoluteElapsedtime.getValue() - me.update_u.get_TimeLast() > me.MyTimeLimit)
@@ -567,30 +567,30 @@ var Radar = {
                           me.Tempo_janitor(me.update_u);
                         }
                     }
-                    
-                }    
+
+                }
             }
 
-                
+
         me.ContactsList = me.decrease_life(me.ContactsList);
-        
-        
+
+
         if (armament.contact != nil and armament.contact.get_display() and getprop("controls/armament/master-arm") and armament.contact.get_Callsign() != nil and armament.contact.get_Callsign() != "" and armament.contact.isPainted()) {
           #print("armament.contact.get_Callsign"~armament.contact.get_Callsign());
           setprop("sim/multiplay/generic/string[6]", left(md5(armament.contact.get_Callsign()), 4));
         } else {
             setprop("sim/multiplay/generic/string[6]", "");
         }
-        
-        
+
+
 
         me.updating_now = 0;
 
     },
-    
 
 
-    
+
+
     maj_sweep: func(){
         var x = (getprop("sim/time/elapsed-sec") / (me.sweep_frequency)) * (0.0844 / me.swp_diplay_width); # shorten the period time when illuminating a target
         #print("SINUS (X) = "~math.sin(x);
@@ -609,8 +609,8 @@ var Radar = {
       }
       return nil;
     },
-    
-    
+
+
     TargetList_AddingTarget: func(SelectedObject){
         # This is selectioned target management.
         if(me.TargetList_LookingForATarget(SelectedObject) == 0)
@@ -671,7 +671,7 @@ var Radar = {
     #function in order to make it work with unified missile method in FG
     type_selector: func(SelectedObject){
         me.type_selector_selectedType = SelectedObject.getName();
-        
+
         #Overwrite selectedType if missile
         me.type_selector_TestIfMissileNode = SelectedObject.getNode("missile");
         if(me.type_selector_TestIfMissileNode != nil) {
@@ -680,7 +680,7 @@ var Radar = {
             me.type_selector_selectedType = "missile";
           }
         }
-    
+
         return me.type_selector_selectedType;
     },
     check_selected_type: func(SelectedObject)
@@ -688,7 +688,7 @@ var Radar = {
       me.check_selected_type_result = 0;
       #Variable for the selection Type test
       me.check_selected_type_selectedType = SelectedObject.getName();
-      
+
 
       me.check_selected_type_selectedType = me.type_selector(SelectedObject);
 
@@ -724,7 +724,7 @@ var Radar = {
         #if laser : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, isNotBehindTerrain
         #if cam  : check : InRange, inAzimuth, inElevation, NotBeyondHorizon, isNotBehindTerrain
         # Need to add the fonction flare_sensivity : is there flare near aircraft and should we get fooled by it
-    
+
         append(me.Check_List, me.InRange(SelectedObject));
         if(me.Check_List[0] == 0)
         {
@@ -762,7 +762,7 @@ var Radar = {
         {
             return;
         }
-        
+
         # Has to be last coz it will call the get_checked function
         append(me.Check_List, me.isNotBehindTerrain(SelectedObject));
     },
@@ -771,7 +771,7 @@ var Radar = {
         SelectedObject.set_nill();
         me.TargetList_RemovingTarget(SelectedObject);
     },
-    
+
     Global_janitor: func(){
         #Action on tree. Too complicated. has to be corrected or removed
         # This function is made to remove all persistent non relevant data on radar2 tree
@@ -810,7 +810,7 @@ var Radar = {
     get_radar_distance: func(){
         return me.rangeTab[me.rangeIndex];
     },
-    
+
     radar_mode_toggle: func(){
         # FIXME: Modes props should provide their own data instead of being hardcoded.
         # Toggles between the available modes.
@@ -844,7 +844,7 @@ var Radar = {
         return me.az_fld;
     },
 
-    
+
     next_loop: func(index,factor){
       var number = 0;
       for(i=1;i<size(me.tgts_list);i = i + 1){
@@ -853,16 +853,16 @@ var Radar = {
       }
       return index;
     },
-    
+
     next_Target_Index: func(){
       #Stuff to un paint previous target
       if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
-      
-    
+
+
         #Stuff to decrease the index
         me.Target_Index = me.next_loop(me.Target_Index, 1);
 
-        #Stuff to do with new index        
+        #Stuff to do with new index
         if (size(me.tgts_list) > 0) {
           me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
           if(me.az_fld == me.focused_az_fld){me.tgts_list[me.Target_Index].setPainted(1);} #If it require a focus, paint it
@@ -874,14 +874,14 @@ var Radar = {
 
 
     },
-    
+
     previous_Target_Index: func(){
       #Stuff to un paint previous target
       if (size(me.tgts_list) > 0) {me.tgts_list[me.Target_Index].setPainted(0);}
         #Stuff to decrease the index
         me.Target_Index = me.next_loop(me.Target_Index, -1);
-        
-        #Stuff to do with new index        
+
+        #Stuff to do with new index
         if (size(me.tgts_list) > 0) {
           me.Target_Callsign = me.tgts_list[me.Target_Index].getUnique();
           if(me.az_fld == me.focused_az_fld){me.tgts_list[me.Target_Index].setPainted(1);} #If it require a focus, paint it
@@ -890,7 +890,7 @@ var Radar = {
         } else {
           me.Target_Callsign = nil;
         }
-        
+
 
     },
 
@@ -921,9 +921,9 @@ var Radar = {
 #                 setprop("/ai/closest/range", 0);
                 return;
              }
-            
+
             var MyTarget = me.tgts_list[ me.Target_Index];
-            
+
 #             me.tgts_list[ me.Target_Index].setPainted(1);#That sucks for mica
 #             closeRange   = me.targetRange(MyTarget);
 #             heading      = MyTarget.get_heading();
@@ -956,9 +956,9 @@ var Radar = {
 #             setprop("/ai/closest/range", 0);
         }
     },
-    
-    
-    
+
+
+
     ###########################################################################
     ###   Update element of the actual diplayed array
     update_Element_of_array: func(SelectedObject,myArray){
@@ -971,13 +971,13 @@ var Radar = {
       }
       return myArray;
     },
-    
+
     ###   add element to the array
     add_Element_to_Array: func(SelectedObject,myArray){
       append(myArray,SelectedObject);
       return myArray;
-    },   
-    
+    },
+
     ###   update array : update element, or add it if there aren't present
     update_array: func(SelectedObject,myArray){
       tempo = nil;
@@ -985,36 +985,36 @@ var Radar = {
         myArray = me.update_Element_of_array(SelectedObject,myArray);
         tempo = me.find_index_inArray(SelectedObject,myArray);
       }
-      
+
       if(tempo == nil){;
         myArray = me.add_Element_to_Array(SelectedObject,myArray);
       }
       return myArray;
     },
-    
+
     find_index_inArray: func(SelectedObject,myArray){
           forindex(i; myArray){
             #print("myArray[i].getUnique() : " ~ myArray[i].getUnique() ~" And SelectedObject.getUnique() : "~SelectedObject.getUnique());
             if(myArray[i].getUnique()==SelectedObject.getUnique()){return i;}
           }
-        return nil; 
+        return nil;
     },
-    
+
     update_array_no_life_reset: func(SelectedObject,myArray){
       tempo = nil;
       if(size(myArray) > 0){
           #The idea is to keep the values of the variables and not reseting them
           #This way it does not impact the radar
           myIndex = me.find_index_inArray(SelectedObject,myArray);
-        
+
         if(myIndex != nil and myArray[myIndex].Display_Node != nil){
           var mypaint = myArray[myIndex].isPainted();
           var myDisplay = myArray[myIndex].get_display();
           var myLife = myArray[myIndex].life;
         }
-        
+
           me.update_array(SelectedObject,myArray);
-          
+
         if(myIndex != nil and myArray[myIndex].Display_Node != nil){
           myArray[myIndex].setPainted(mypaint);
           myArray[myIndex].set_display(myDisplay, me.UseATree);
@@ -1023,14 +1023,14 @@ var Radar = {
       }else{
           me.update_array(SelectedObject,myArray);
       }
-      
+
       return myArray;
-      
+
     },
-    
+
     #############################################################################
-    
-    
+
+
     #decrease life of element. < 0 then it's not displayed anymore
     #should call a remove_element function to remove element from array
     decrease_life: func(myArray){
@@ -1038,7 +1038,7 @@ var Radar = {
       foreach(contact;myArray){
         contact.life = contact.life - me.LoopElapsed;
         #print("Elapsed = " ~ me.LoopElapsed ~" Then " ~ contact.get_Callsign() ~ " 's life : "~ contact.life);
-        
+
         if(contact.life<3){
           #print("Elapsed = " ~ me.LoopElapsed ~" Then " ~ contact.get_Callsign() ~ " 's life : "~ contact.life);
           contact.set_display(0, me.UseATree);
@@ -1047,8 +1047,8 @@ var Radar = {
       }
       return myArray;
     },
- 
- 
+
+
     #This function should sort and suppr
     sorting_and_suppr: func(myArray){
     #print("Test2 : size : " ~ size(me.ContactsList));
@@ -1059,12 +1059,12 @@ var Radar = {
           if(myArray[i].life<myArray[j].life){
             var u = myArray[i];
             myArray[i] = myArray[j];
-            myArray[j] = u; 
+            myArray[j] = u;
           }
         }
       }
     },
-    
+
     cut_array : func(ChoosenSize, Myarray){
       var tempArray = [];
       for(var i=0;i<size(Myarray)-1;i = i + 1){
@@ -1074,8 +1074,8 @@ var Radar = {
       }
       return tempArray;
     },
-    
- 
+
+
     GetTarget: func(){
         if(me.tgts_list == nil)
         {
@@ -1139,19 +1139,19 @@ var RWR_APG = {
 #     parents : [RWR_APG,RadarTool],
     run: func () {
         me.parents = [RadarTool];
-      
+
         rwrList = [];
         rwrList16 = [];
         me.MyCoord = geo.aircraft_position();
 #         printf("clist %d", size(completeList));
-        
+
         #Sound of Lock
         #setprop("sound/rwr-lck", 0);
         me.myCallsign = getprop("sim/multiplay/callsign");
         me.myCallsign = size(me.myCallsign) < 8 ? me.myCallsign : left(me.myCallsign,7);
         me.act_lck = 0;
-      
-        
+
+
         foreach(me.u;completeList) {
             me.cs = me.u.get_Callsign();
 #             print("Will test  : "~ me.u.get_Callsign()~" as Type: " ~ me.u.type);
@@ -1164,12 +1164,12 @@ var RWR_APG = {
             if (me.lck != nil and me.lck.getValue() != nil and me.lck.getValue() != "" and size(""~me.lck.getValue())==4 and left(md5(me.myCallsign),4) == me.lck.getValue()) {
               me.act_lck = 1;
             }
-            
-            
+
+
             me.bearing = geo.aircraft_position().course_to(me.u.get_Coord());
             me.trAct = me.u.propNode.getNode("instrumentation/transponder/transmitted-id");
             me.show = 0;
-            me.heading = me.u.get_heading();  
+            me.heading = me.u.get_heading();
             me.inv_bearing =  me.bearing+180;
             me.deviation = me.inv_bearing - me.heading;
             me.dev = math.abs(geo.normdeg180(me.deviation));
@@ -1180,21 +1180,21 @@ var RWR_APG = {
               me.show = 1;
             }else{
               me.rdrAct = me.u.propNode.getNode("sim/multiplay/generic/int[2]");
-              
+
               me.rwrTargetAzimuth = me.TargetWhichRadarAzimut(me.u);
               #print(me.rwrTargetAzimuth);
-              
+
               #if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) and math.abs(geo.normdeg180(me.deviation)) < me.rwrTargetAzimuth and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {
-              if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) < me.rwrTargetAzimuth and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {  
-                
+              if (((me.rdrAct != nil and me.rdrAct.getValue()!=1) or me.rdrAct == nil) < me.rwrTargetAzimuth and me.NotBeyondHorizon(me.u) and me.isNotBehindTerrain(me.u) ) {
+
                   # we detect its radar is pointed at us and active
                   me.show = 1;
               }
             }
             #if(!me.u.isValid()){me.show = 0;}
-            #print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show ~ " Name:"~me.u.propNode.getName()~" Model:"~me.u.get_model() ~ 
+            #print("should show : " ~ me.u.get_Callsign()~" as Type: " ~ me.u.type ~ " Show : "~ me.show ~ " Name:"~me.u.propNode.getName()~" Model:"~me.u.get_model() ~
               #" ModelType:"~me.u.ModelType ~ " isValid:"~me.u.isValid());
-            
+
             if (me.show == 1) {
                 me.threat = 0;
                 if (me.u.get_model() != "missile_frigate" and me.u.propNode.getName() != "carrier" and me.u.get_model() != "fleet" and me.u.get_model() != "buk-m2" and me.u.get_model() != "MIM104D" and me.u.get_model() != "s-200" and me.u.get_model() != "s-300" and me.u.get_model() != "S-75" and me.u.get_model() != "SA-6" and me.u.get_model() != "ZSU-23-4M") {
@@ -1226,11 +1226,11 @@ var RWR_APG = {
                 } elsif (me.u.propNode.getName() == "MIM104D") {
                     me.danger = 40;
                 }
-                
+
 #                 if (me.u.get_model() == "MIM104D") {
 #                   printf("%d %d %d %d %d", me.rdrAct != nil and me.rdrAct.getValue()!=1, me.rdrAct == nil, me.dev < me.rwrTargetAzimuth, me.NotBeyondHorizon(me.u), me.isNotBehindTerrain(me.u));
 #                 }
-                
+
                 me.threat += ((me.danger-me.rn)/me.danger)>0?((me.danger-me.rn)/me.danger)*0.60:0;
                 me.clo = me.u.get_closure_rate_from_Coord(me.MyCoord);
                 me.threat += me.clo>0?(me.clo/500)*0.10:0;

@@ -21,7 +21,7 @@ RWRCanvas = {
                 .setTranslation(center[0],center[1]);
         var rootOffset = root.createChild("group")
                 .setTranslation(center[0]-diameter/2,center[1]-diameter/2);
-        
+
 #        root.createChild("path")
 #           .moveTo(0, diameter/2)
 #           .arcSmallCW(diameter/2, diameter/2, 0, diameter, 0)
@@ -153,10 +153,10 @@ RWRCanvas = {
                     .setStrokeLineWidth(lineWidth)
                     .setColor(colorG)
                     .hide();
-        
+
 #        rwr.symbol_16_air = setsize([],max_icons);
 #        for (var i = 0;i<max_icons;i+=1) {
- #          rwr.symbol_16_air[i] = rwr.rootCenter.createChild("path")
+#          rwr.symbol_16_air[i] = rwr.rootCenter.createChild("path")
 #                   .moveTo(15, 0)
 #                   .lineTo(0,-15)
 #                   .lineTo(-15,0)
@@ -403,7 +403,7 @@ RWRCanvas = {
             if(a[1] > b[1]){
                 return -1; # A should before b in the returned vector
             }elsif(a[1] == b[1]){
-                return 0; # A is equivalent to b 
+                return 0; # A is equivalent to b
             }else{
                 return 1; # A should after b in the returned vector
             }
@@ -430,7 +430,7 @@ RWRCanvas = {
             }
             #print("show "~me.i~" "~me.typ~" "~contact[0].get_model()~"  "~contact[1]);
             me.threat = me.contact[1];#print(me.threat);
-            
+
             if (me.threat > 0.5 and me.typ != me.AIRCRAFT_UNKNOWN and me.typ != me.ASSET_AI) {
                 me.threat = me.inner_radius;# inner circle
             } elsif (me.threat > 0) {
@@ -447,7 +447,7 @@ RWRCanvas = {
             me.texts[me.i].setTranslation(me.x,me.y);
             me.texts[me.i].setText(me.typ);
             me.texts[me.i].show();
-            if (me.prio == 0 and me.typ != me.ASSET_AI and me.typ != me.AIRCRAFT_UNKNOWN) {# 
+            if (me.prio == 0 and me.typ != me.ASSET_AI and me.typ != me.AIRCRAFT_UNKNOWN) {#
                 me.symbol_priority.setTranslation(me.x,me.y);
                 me.symbol_priority.show();
                 me.prio = 1;
@@ -508,10 +508,10 @@ var cv = nil;
 #      var diam = 256;
 #      cv = canvas.new({
 #         "name": "Rwr",
-#         "size": [diam,diam], 
+#         "size": [diam,diam],
 #         "view": [diam,diam],
 #         "mipmapping": 1
-#     });  
+#     });
 
 # # #   cv.addPlacement({"node": "bkg", "texture":"rwr-bkg.png"});
 #     cv.setColorBackground(0, 0.20, 0);
@@ -526,17 +526,17 @@ var openDialog = func(){
    var diam = 256;
      cv = canvas.new({
         "name": "Rwr",
-        "size": [diam,diam], 
+        "size": [diam,diam],
         "view": [diam,diam],
         "mipmapping": 1
-      });  
-        
+      });
+
     cv.setColorBackground(0, 0.20, 0);
     var root = cv.createGroup();
-    
+
     rwr = RWRCanvas.new(root, [diam/2,diam/2],diam);
-  
-  
+
+
   var window = canvas.Window.new([256,256],"Rwr");
   window.setCanvas(cv);
 }
