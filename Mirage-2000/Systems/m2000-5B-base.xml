@@ -235,13 +235,13 @@
 
 		<!--The radar object is created is m2000-5.nas; the Script use this order to load everything.
 		So we have to load radar2.nas before m2000.nas -->
-		<radar>
+		<radar_system>
 			<file>Aircraft/Mirage-2000/Nasal/radar/radar_rdy.nas</file>
 			<file>Aircraft/Mirage-2000/Nasal/radar/target_class.nas</file>
 			<file>Aircraft/Mirage-2000/Nasal/radar/radarTool.nas</file>
 			<file>Aircraft/Mirage-2000/Nasal/radar/radar-system.nas</file>
 			<file>Aircraft/Mirage-2000/Nasal/radar/radar-system-database.nas</file>
-		</radar>
+		</radar_system>
 
 		<!-- First attempt to standardise the weapons system -->
 		<stations>
