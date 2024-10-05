@@ -7,8 +7,6 @@
 #
 # The file vector.nas needs to be available in namespace 'vector'.
 #
-var TRUE = 1;
-var FALSE = 0;
 
 var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
   var myCoord = geo.aircraft_position();
@@ -19,7 +17,6 @@ var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
 };
 
 var rcs_database = {
-    parents: [rcs_oprf_database],
 	#REVISION: 2024/03/10
     "YF-16":                    5,      #higher because earlier blocks had larger RCS
     "F-16CJ":                   2,      #average
@@ -104,9 +101,9 @@ var rcs_database = {
     #Stealth
     "b2-spirit":                0.0001,  #actual: 0.0001
     "B-2A":                     0.0001,  #actual: 0.0001
-    "F-22-Raptor":              0.0001,  #actual: 0.0001
-    "F-35A":                    0.0015,
-    "F-35B":                    0.0015,
+    "F-22-Raptor":				0.0001,	 #actual: 0.0001
+    "F-35A":					0.0015,
+    "F-35B":					0.0015,
     "F-35C":                    0.0015,
     "daVinci_F-35A":            0.0015,
     "daVinci_F-35B":            0.0015,
@@ -133,11 +130,11 @@ var timeNode = props.globals.getNode("sim/time/elapsed-sec");
 # In between these two values, a test is done with probability 'refresh_prob'.
 var refreshRequired = func (contact, min_refresh_sec, max_refresh_sec, refresh_prob) {
     var callsign = contact.get_Callsign();
-    if (callsign == nil or !contains(lastUpdateTime, callsign)) return TRUE;
+    if (callsign == nil or !contains(lastUpdateTime, callsign)) return 1;
 
     var update_age = timeNode.getValue() - lastUpdateTime[callsign];
-    if (update_age < min_refresh_sec) return FALSE;
-    elsif (update_age > max_refresh_sec) return TRUE;
+    if (update_age < min_refresh_sec) return 0;
+    elsif (update_age > max_refresh_sec) return 1;
     else return (rand() < refresh_prob);
 }
 
@@ -162,7 +159,7 @@ var wasInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
 var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
     if (contact != nil and contact.get_Coord() != nil) {
         var value = 1;
-        call(func {value = targetRCSSignal(contact.get_Coord(), contact.get_model(), contact.get_heading(), contact.get_Pitch(), contact.get_Roll(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs)},nil, var err = []);
+        call(func {value = targetRCSSignal(contact.get_Coord(), contact.getModel(), contact.get_heading(), contact.get_Pitch(), contact.get_Roll(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs)},nil, var err = []);
         if (size(err)) {
             foreach(line;err) {
                 print(line);
@@ -189,7 +186,7 @@ var targetRCSSignal = func(targetCoord, targetModel, targetHeading, targetPitch,
         target_front_rcs = rcs_database[targetModel];
     } else {
         return 1;
-        target_front_rcs = rcs_database["default"];
+        target_front_rcs = rcs_oprf_database["default"];
     }
     #print(target_front_rcs," RCS from ", targetModel, " m:", myRadarDistance_m, " rcs:",myRadarStrength_rcs);
     var target_rcs = getRCS(targetCoord, targetHeading, targetPitch, targetRoll, myCoord, target_front_rcs);
@@ -200,20 +197,18 @@ var targetRCSSignal = func(targetCoord, targetModel, targetHeading, targetPitch,
     return currMaxDist > target_distance;
 }
 
-var getRCS = func (echoCoord, echoHeading, echoPitch, echoRoll, myCoord, frontRCS) {
+var getRCS = func (echoCoord, echoHeading, echoPitch, echoRoll, radarCoord, frontRCS) {
     var sideRCSFactor  = 2.50;
     var rearRCSFactor  = 1.75;
-    var bellyRCSFactor = 3.50;
-    #first we calculate the 2D RCS:
-    var vectorToEcho   = vector.Math.eulerToCartesian2(myCoord.course_to(echoCoord), vector.Math.getPitch(myCoord,echoCoord));
-    var vectorEchoNose = vector.Math.eulerToCartesian3X(echoHeading, echoPitch, echoRoll);
-    var vectorEchoTop  = vector.Math.eulerToCartesian3Z(echoHeading, echoPitch, echoRoll);
-    var view2D         = vector.Math.projVectorOnPlane(vectorEchoTop,vectorToEcho);
-    #print("top  "~vector.Math.format(vectorEchoTop));
-    #print("nose "~vector.Math.format(vectorEchoNose));
-    #print("view "~vector.Math.format(vectorToEcho));
-    #print("view2D "~vector.Math.format(view2D));
-    var angleToNose    = geo.normdeg180(vector.Math.angleBetweenVectors(vectorEchoNose, view2D)+180);
+    var bellyRCSFactor = 3.50;# and top
+
+    var vectorToEcho   = vector.Math.eulerToCartesian2(-radarCoord.course_to(echoCoord), vector.Math.getPitch(radarCoord,echoCoord));
+    var vectorFromEcho = vector.Math.opposite(vectorToEcho);
+    var vectorEchoNose = vector.Math.eulerToCartesian3X(-echoHeading, echoPitch, echoRoll);
+    var vectorEchoTop  = vector.Math.eulerToCartesian3Z(-echoHeading, echoPitch, echoRoll);
+    var view2D         = vector.Math.projVectorOnPlane(vectorEchoTop,vectorFromEcho);
+
+    var angleToNose    = geo.normdeg180(vector.Math.angleBetweenVectors(vectorEchoNose, view2D));
     #print("horz aspect "~angleToNose);
     var horzRCS = 0;
     if (math.abs(angleToNose) <= 90) {
@@ -223,13 +218,13 @@ var getRCS = func (echoCoord, echoHeading, echoPitch, echoRoll, myCoord, frontRC
     }
     #print("RCS horz "~horzRCS);
     #next we calculate the 3D RCS:
-    var angleToBelly    = geo.normdeg180(vector.Math.angleBetweenVectors(vectorEchoTop, vectorToEcho));
-    #print("angle to belly "~angleToBelly);
+    var angleToTop    = geo.normdeg180(vector.Math.angleBetweenVectors(vectorEchoTop, vectorFromEcho));
+    #print("angle to top "~angleToTop);
     var realRCS = 0;
-    if (math.abs(angleToBelly) <= 90) {
-      realRCS = extrapolate(math.abs(angleToBelly),  0,  90, bellyRCSFactor*frontRCS, horzRCS);
+    if (math.abs(angleToTop) <= 90) {
+      realRCS = extrapolate(math.abs(angleToTop),  0,  90, bellyRCSFactor*frontRCS, horzRCS);
     } else {
-      realRCS = extrapolate(math.abs(angleToBelly), 90, 180, horzRCS, bellyRCSFactor*frontRCS);
+      realRCS = extrapolate(math.abs(angleToTop), 90, 180, horzRCS, bellyRCSFactor*frontRCS);
     }
     return realRCS;
 };
