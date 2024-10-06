@@ -217,6 +217,7 @@
 		<radar_system>
 			<file>Aircraft/Mirage-2000/Nasal/radar/radar-system-database.nas</file>
 			<file>Aircraft/Mirage-2000/Nasal/radar/radar-system.nas</file>
+			<file>Aircraft/Mirage-2000/Nasal/radar/radar-generic.nas</file>
 			<file>Aircraft/Mirage-2000/Nasal/radar/radar_rdy.nas</file>
 			<file>Aircraft/Mirage-2000/Nasal/radar/target_class.nas</file>
 			<file>Aircraft/Mirage-2000/Nasal/radar/radarTool.nas</file>

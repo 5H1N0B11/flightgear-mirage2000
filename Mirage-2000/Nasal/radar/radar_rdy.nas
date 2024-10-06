@@ -1,4 +1,4 @@
-print("*** LOADING radar2.nas ... ***");
+print("*** LOADING radar_rdy.nas ... ***");
 ################################################################################
 #
 #                        m2005-5's RADAR SETTINGS
@@ -146,7 +146,7 @@ var updatelink16 = func() {
 # transponder : check :   radar, transponderOn (not yet implemented)
 
 # radar class
-var RadarRDY = {
+var RadarOld = {
 	new: func(
 		      NewRangeTab = nil,             # array with all the different possible range
 		      NewRangeIndex = nil,           # range index should not be greater than NewRangeTab
@@ -168,7 +168,7 @@ var RadarRDY = {
 		      forcePath = nil,               # force the full tree. That prevent to use targets[1] when targets[0] is existing already.
 		      NewSourcePath = nil) {
 		# if we want to use a different source than AI
-		var m = { parents : [RadarRDY,RadarTool] };
+		var m = { parents : [RadarOld,RadarTool] };
 		# variable that can be passed in parameters
 		m.rangeTab          = (NewRangeTab == nil) ? [10, 20, 40, 60, 160] : NewRangeTab; # radar Ranges in nm
 		m.rangeIndex        = (NewRangeIndex == nil) ? 0 : math.mod(NewRangeIndex, size(m.rangeTab)); # tab starts at index 1 so here it's 20
@@ -972,7 +972,12 @@ var rounding1000 = func(n) {
 	return(n);
 }
 
-#RWR stuff, thank to Leto
+# ██████  ██     ██ ██████
+# ██   ██ ██     ██ ██   ██
+# ██████  ██  █  ██ ██████
+# ██   ██ ██ ███ ██ ██   ██
+# ██   ██  ███ ███  ██   ██
+
 var rwrList   = [];
 var rwrList16 = [];
 
@@ -1076,3 +1081,33 @@ var RWR_APG = {
 		setprop("sound/rwr-lck", me.act_lck);
 	},
 };
+
+
+# =============================================================================================
+# =============================================================================================
+# =============================================================================================
+#
+# ************** New radar based on F-16 / F-14 design by Leto
+#
+# =============================================================================================
+# =============================================================================================
+# =============================================================================================
+
+
+
+
+
+# ██ ███    ██ ██ ████████ ██  █████  ██      ██ ███████  █████  ████████ ██  ██████  ███    ██
+# ██ ████   ██ ██    ██    ██ ██   ██ ██      ██      ██ ██   ██    ██    ██ ██    ██ ████   ██
+# ██ ██ ██  ██ ██    ██    ██ ███████ ██      ██    ██   ███████    ██    ██ ██    ██ ██ ██  ██
+# ██ ██  ██ ██ ██    ██    ██ ██   ██ ██      ██  ██     ██   ██    ██    ██ ██    ██ ██  ██ ██
+# ██ ██   ████ ██    ██    ██ ██   ██ ███████ ██ ███████ ██   ██    ██    ██  ██████  ██   ████
+
+
+# start generic radar systems from radar-system.nas
+# var baser = AIToNasal.new(); # Listen to and periodicaly scan AI properties for contacts/targets
+# var noseRadar = NoseRadar.new();
+# var omni = OmniRadar.new(1.0, 150, -1);
+# var terrain = TerrainChecker.new(0.05, 1, 30);
+# var callsignToContact = CallsignToContact.new(); # lookup of callsigns
+
