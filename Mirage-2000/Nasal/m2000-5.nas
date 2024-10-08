@@ -26,8 +26,6 @@ var msgB = "Please land before changing payload.";
 
 #====== OBJECT CREATION =======
 
-var myRadar3 = radar_system.RadarOld.new(NewRangeTab:[10, 20, 40, 60, 160], NewRangeIndex:1, forcePath:"instrumentation/radar2/targets", NewAutoUpdate:1);
-#var LaserDetection = radar.Radar.new(NewRangeTab:[20], NewVerticalAzimuth:180, NewRangeIndex:0, NewTypeTarget:["aircraft", "multiplayer", "carrier", "ship", "missile", "aim120", "aim-9"], NewRadarType:"laser", NewhaveSweep:0, NewAutoUpdate:0, forcePath:"instrumentation/radar2/targets");
 setprop("/instrumentation/radar/az-fieldCenter", 0);
 
 var hud_pilot = hud.HUD.new({"node": "revi.canvasHUD", "texture": "hud.png"});
@@ -76,9 +74,7 @@ var main_Init_Loop = func() {
 	print("Intrumentation ... Check");
 	instrumentation.initIns();
 
-	print("Radar ... Check");
-	myRadar3.init();
-	#LaserDetection.init();
+	#print("Radar ... Check");
 
 	print("Flight Director ... Check");
 	mirage2000.init_set();
@@ -104,7 +100,7 @@ var main_Init_Loop = func() {
 		mirage2000.mdfselection();
 	}
 	print("Missile view Check");
-	view.init_missile_view();
+	viewMissile.init_missile_view();
 
 	environment.environment();
 	#Should be replaced by an object creation
@@ -464,7 +460,7 @@ var ejection = func(){
 	var es = armament.AIM.new(10, "es","gamma", nil ,[-3.65,0,0.7]);
 
 	es.releaseAtNothing();
-	view.view_firing_missile(es);
+	viewMissile.view_firing_missile(es);
 	setprop("sim/view[0]/enabled",0);
 	# settimer(func {crash.exp();},3.5);
 }

@@ -1,6 +1,7 @@
 # Direct copy of lines 0 - 1058 from apg-68.nas in F-16 as per 2024-10-06.
 
-
+# Changes from original:
+#  * Around line 300 3 times: steerpoints.sending == nil replaced with 1 == 1
 
 
 
@@ -310,12 +311,12 @@ var AirborneRadar = {
 			if (me.focus != nil and me.focus.callsign != "") {
 				if (me.currentMode.painter) sttSend.setValue(left(md5(me.focus.callsign), 4));
 				else sttSend.setValue("");
-				if (steerpoints.sending == nil) {
+				if (1 == 1) {
 			        datalink.send_data({"contacts":[{"callsign":me.focus.callsign,"iff":0}]});
 			    }
 			} else {
 				sttSend.setValue("");
-				if (steerpoints.sending == nil) {
+				if (1 == 1) {
 		            datalink.clear_data();
 		        }
 			}
@@ -325,7 +326,7 @@ var AirborneRadar = {
 			armament.contact = nil;
 			sttSend.setValue("");
 			stbySend.setIntValue(1);
-			if (steerpoints.sending == nil) {
+			if (1 == 1) {
 	            datalink.clear_data();
 	        }
 		}

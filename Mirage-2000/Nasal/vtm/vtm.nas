@@ -67,22 +67,22 @@ var VTM = {
 		vtm_obj.vtm_canvas.setColorBackground(COLOR_BACKGROUND);
 
 		vtm_obj.root = vtm_obj.vtm_canvas.createGroup("root");
-		vtm_obj.root.setTranslation(_get_center_coord());
+		vtm_obj.root.setTranslation(_getCenterCoord());
 
-		vtm_obj._create_visible_corners();
-		vtm_obj._create_screen_mode_group();
-		vtm_obj._create_rectangular_field_of_view_grid();
-		vtm_obj._create_targets();
-		vtm_obj._create_standby_text();
-		vtm_obj._create_radar_modes_group();
+		vtm_obj._createVisibleCorners();
+		vtm_obj._createScreenModeGroup();
+		vtm_obj._createRectangularFieldOfViewGrid();
+		vtm_obj._createTargets();
+		vtm_obj._createStandbyText();
+		vtm_obj._createRadarModesGroup();
 
 		return vtm_obj;
 	},
 
 	# The 4 visible corners at the edges of the main screen estate
-	_create_visible_corners: func() {
+	_createVisibleCorners: func() {
 		me.corners_group = me.root.createChild("group", "corners_group");
-		me.corners_group.setTranslation(_get_top_left_translation());
+		me.corners_group.setTranslation(_getTopLeftTranslation());
 		me.left_upper_corner  = me.corners_group.createChild("path", "left_upper_corner")
 		                                        .setColor(COLOR_FOREGROUND)
 		                                        .moveTo(PADDING_HORIZONTAL + CORNER_LINE_LENGTH,
@@ -116,9 +116,9 @@ var VTM = {
 
 	# The text for the screen main modes: RDR (radar) and LDP (laser designation point)
 	# appears at the bottom of the screen
-	_create_screen_mode_group: func() {
+	_createScreenModeGroup: func() {
 		me.screen_mode_group = me.root.createChild("group", "screen_mode_group");
-		me.screen_mode_group.setTranslation(_get_top_left_translation());
+		me.screen_mode_group.setTranslation(_getTopLeftTranslation());
 		me.screen_mode_rdr     = me.screen_mode_group.createChild("text", "screen_mode_rdr")
 		                                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
 		                                             .setFont(FONT_MONO_REGULAR)
@@ -152,9 +152,9 @@ var VTM = {
 	},
 
 	# Create the stippled grid for B-scope
-	_create_rectangular_field_of_view_grid: func() {
+	_createRectangularFieldOfViewGrid: func() {
 		me.rectangular_fov_grid_group = me.root.createChild("group", "rectangular_fov_grid");
-		me.rectangular_fov_grid_group.setTranslation(_get_top_left_translation());
+		me.rectangular_fov_grid_group.setTranslation(_getTopLeftTranslation());
 		me.top_grid_line = me.rectangular_fov_grid_group.createChild("path", "top_grid_line")
 		                                                .setColor(COLOR_RADAR)
 		                                                .moveTo(PADDING_HORIZONTAL + GRID_TICK_LENGTH, PADDING_TOP - GRID_TICK_LENGTH)
@@ -216,7 +216,7 @@ var VTM = {
 	# The selected target (max 1) is a cross.
 	# The friendly targets (given the IFF) are drawn as a filled circle.
 	# Foe targets are drawn as open squares - with the opening being on the back side of the target
-	_create_targets: func() {
+	_createTargets: func() {
 		me.targets_group = me.root.createChild("group", "targets_group");
 		me.selected_target          = me.targets_group.createChild("path", "selected_target")
 		                                              .setColor(COLOR_RADAR)
@@ -263,9 +263,9 @@ var VTM = {
 	},
 
 	# When the radar goes into stand-by mode
-	_create_standby_text: func () {
+	_createStandbyText: func () {
 		me.standby_group = me.root.createChild("group", "standby_group");
-		me.standby_group.setTranslation(_get_top_left_translation());
+		me.standby_group.setTranslation(_getTopLeftTranslation());
 		me.standby_text = me.standby_group.createChild("text", "standby_text")
 		                                  .setFontSize(FONT_SIZE_BIG, FONT_ASPECT_RATIO)
 		                                  .setFont(FONT_MONO_BOLD)
@@ -278,10 +278,10 @@ var VTM = {
 	},
 
 	# When the radar goes into stand-by mode
-	_create_radar_modes_group: func () {
+	_createRadarModesGroup: func () {
 		var y_top_pos = PADDING_TOP + 10;
 		me.radar_modes_group = me.root.createChild("group", "radar_range_group");
-		me.radar_modes_group.setTranslation(_get_top_left_translation());
+		me.radar_modes_group.setTranslation(_getTopLeftTranslation());
 		me.radar_left_text  = me.radar_modes_group.createChild("text", "radar_left_text")
 		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
 		                                          .setFont(FONT_MONO_REGULAR)
@@ -316,37 +316,36 @@ var VTM = {
 		me.radar_modes_group.hide();
 	},
 
-	_update_targets: func(heading_true) {
-		var target_contacts_list = mirage2000.myRadar3.ContactsList;
-		var selected_target = mirage2000.myRadar3.Target_Index;
+	_updateTargets: func(heading_true) {
+		var target_contacts_list = radar_system.rdyRadar.getActiveBleps();
 		var i = 0;
-		var has_painted = 0;
+		var has_priority = 0;
 		var this_aircraft_position = geo.aircraft_position();
 		var target_position = nil;
 		var direct_distance_m = 0;
 		var bearing_deg = 0; # from this aircraft to the target
 		var relative_heading_deg = 0; # the heading of the target as seen by this aircraft with nose = North
 		var screen_pos = nil;
-		var max_distance_m = mirage2000.myRadar3.get_radar_distance() * NM2M;
-		var max_angle = mirage2000.myRadar3.az_fld / 2;
+		var max_distance_m = radar_system.rdyRadar.getRange();
+		var max_azimuth_deg = radar_system.rdyRadar.getAzimuthRadius();
 		var target_speed_m_s = 0;
 
 		me.targets_speed_group.removeAllChildren();
 		var delta = nil;
 
 		# walk through all existing targets as per available list
-		foreach(var c; target_contacts_list) {
-			target_position = c.get_Coord();
-			direct_distance_m = this_aircraft_position.direct_distance_to(target_position);
+		foreach(var contact; target_contacts_list) {
+			target_position = contact.getCoord();
+			direct_distance_m = contact.getRangeDirect();
 			bearing_deg = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true);
-			relative_heading_deg = geo.normdeg(c.get_heading() - heading_true);
-			screen_pos = _calc_target_screen_position_b_scope(direct_distance_m, max_distance_m, bearing_deg, max_angle);
+			relative_heading_deg = geo.normdeg(contact.getHeading() - heading_true);
+			screen_pos = _calcTargetScreenPositionBScope(direct_distance_m, max_distance_m, bearing_deg, max_azimuth_deg);
 
 			me.friend_targets[i].hide(); # currently we do not know the friends
-			if (selected_target == i) {
-				has_painted = 1;
+			if (contact.equalsFast(radar_system.rdyRadar.getPriorityTarget())) {
+				has_priority = 1;
 				me.selected_target.setTranslation(screen_pos[0], screen_pos[1]);
-				me.selected_target_callsign.updateText(c.get_Callsign());
+				me.selected_target_callsign.updateText(contact.getCallsign());
 				me.foe_targets[i].hide();
 			} else {
 				me.foe_targets[i].setRotation(relative_heading_deg * D2R);
@@ -356,9 +355,9 @@ var VTM = {
 
 			# draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
 			# on the pict from the book the selected target does not get a line, here we do
-			target_speed_m_s = c.get_Speed() * KT2MPS;
+			target_speed_m_s = contact.get_Speed() * KT2MPS;
 			if (target_speed_m_s > 25) {
-				delta = _calc_target_speed_indication(target_speed_m_s, relative_heading_deg);
+				delta = _calcTargetSpeedIndication(target_speed_m_s, relative_heading_deg);
 				me.targets_speeds[i] = me.targets_speed_group.createChild("path")
 				                                             .setColor(COLOR_RADAR)
 				                                             .moveTo(screen_pos[0], screen_pos[1])
@@ -374,11 +373,11 @@ var VTM = {
 			me.friend_targets[j].hide();
 			me.foe_targets[j].hide();
 		}
-		me.selected_target.setVisible(has_painted);
-		me.selected_target_callsign.setVisible(has_painted);
+		me.selected_target.setVisible(has_priority);
+		me.selected_target_callsign.setVisible(has_priority);
 	},
 
-	_update_radar_texts: func() {
+	_updateRadarTexts: func() {
 		# this is fictional based on radar2.nas->radar_mode_toggle(). In the real screen it reads e.g. "MRF"
 		var tws_auto = props.globals.getNode("/instrumentation/radar/mode/tws-auto").getBoolValue();
 		var radar_mode = "RWS";
@@ -387,20 +386,28 @@ var VTM = {
 		}
 		me.radar_left_text.setText(radar_mode);
 
-		# this is fictional based on interpretation of https://github.com/NikolaiVChr/f16/wiki/FCR
-		var az_text = "A1";
-		if (mirage2000.myRadar3.az_fld >= 49.9 and mirage2000.myRadar3.az_fld < 59.9) {
+		# This is fictional based on interpretation of display_system.nas in the F16
+		# The azimuth is only to one side - i.e. az=40 means plus/minus 40 -> 80 degrees
+		var max_azimuth_deg = radar_system.rdyRadar.getAzimuthRadius();
+		var az_text = "A0"; # does not exist
+		if (max_azimuth_deg < 20) {
+			az_text = "A1";
+		} elsif (max_azimuth_deg < 30) {
 			az_text = "A2";
-		} else if (mirage2000.myRadar3.az_fld >= 59.9 and mirage2000.myRadar3.az_fld < 119.9) {
+		} elsif (max_azimuth_deg < 40) {
 			az_text = "A3";
-		} else if (mirage2000.myRadar3.az_fld >= 119.9) {
+		} elsif (max_azimuth_deg < 50) {
 			az_text = "A4";
+		} elsif (max_azimuth_deg < 60) {
+			az_text = "A5";
+		} elsif (max_azimuth_deg < 70) {
+			az_text = "A6";
 		}
 		me.radar_a_bars.setText(az_text);
 
 		# right now there is no information about the b_bars
 
-		me.radar_range_text.setText(mirage2000.myRadar3.get_radar_distance());
+		me.radar_range_text.setText(radar_system.rdyRadar.getRange());
 	},
 
 	update: func() {
@@ -425,8 +432,8 @@ var VTM = {
 			me.standby_group.hide();
 			me.targets_group.show();
 			me.targets_speed_group.show();
-			me._update_targets(heading_true);
-			me._update_radar_texts();
+			me._updateTargets(heading_true);
+			me._updateRadarTexts();
 		}
 	},
 };
@@ -434,15 +441,15 @@ var VTM = {
 
 # Calculates the relative screen position of a target in B-scope
 # Returns the x/y position on the Canvas
-var _calc_target_screen_position_b_scope = func(distance_m, max_distance_m, angle_deg, max_angle_deg) {
-	var x_pos = angle_deg / max_angle_deg * 0.5 * RADAR_VIEW_HORIZONTAL;
+var _calcTargetScreenPositionBScope = func(distance_m, max_distance_m, angle_deg, max_azimuth_deg) {
+	var x_pos = angle_deg / max_azimuth_deg * (0.5 * RADAR_VIEW_HORIZONTAL);
 	var y_pos = 0.5 * RADAR_VIEW_VERTICAL - distance_m / max_distance_m * RADAR_VIEW_VERTICAL;
 	return [x_pos, y_pos];
 };
 
 # Calculates an indication of the speed and direction of a target.
 # For each 100 m/s (ca. 200 kt) extra the length increases
-var _calc_target_speed_indication = func(target_speed_m_s, relative_heading_deg) {
+var _calcTargetSpeedIndication = func(target_speed_m_s, relative_heading_deg) {
 	var dist_away = TARGET_WIDTH + math.floor(target_speed_m_s/100) * 0.5 * TARGET_WIDTH;
 	var x_delta = dist_away * math.sin(relative_heading_deg * D2R);
 	var y_delta = dist_away * math.cos(relative_heading_deg * D2R);
@@ -452,7 +459,7 @@ var _calc_target_speed_indication = func(target_speed_m_s, relative_heading_deg)
 # assuming a x/y coordinate system with x towards left and y towards up
 # calculate a new direct_distance and bearing 1 minute away
 # not suitable for B-scope
-var _calc_target_one_minute = func(speed_m_s, relative_heading_deg, direct_distance_m, bearing_deg) {
+var _calcTargetOneMinute = func(speed_m_s, relative_heading_deg, direct_distance_m, bearing_deg) {
 	var dist_away = speed_m_s * 60;
 	var x_new = direct_distance_m * math.sin(bearing_deg * D2R) + dist_away * math.sin(relative_heading_deg * D2R);
 	var y_new = direct_distance_m * math.cos(bearing_deg * D2R) + dist_away * math.cos(relative_heading_deg * D2R);
@@ -465,11 +472,11 @@ var _calc_target_one_minute = func(speed_m_s, relative_heading_deg, direct_dista
 };
 
 # the absolute coordinate from top left to screen middle
-var _get_center_coord = func() {
+var _getCenterCoord = func() {
 	return [0.5 * SCREEN_WIDTH, 0.5 * SCREEN_HEIGHT];
 };
 
-# get the transaltion from the center of screen coordinates to top left
-var _get_top_left_translation = func() {
+# get the translation from the center of screen coordinates to top left
+var _getTopLeftTranslation = func() {
 	return [-0.5 * SCREEN_WIDTH, -0.5 * SCREEN_HEIGHT];
 };

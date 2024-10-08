@@ -37,7 +37,7 @@ var get_contacts_list = func {
 
 # Function returning the focused/locked aircraft, as a "contact" object (or nil).
 var get_primary_contact = func {
-    return radar_system.apg68Radar.getPriorityTarget();
+    return radar_system.rdyRadar.getPriorityTarget();
 }
 
 # Radar range. May return nil if n/a
