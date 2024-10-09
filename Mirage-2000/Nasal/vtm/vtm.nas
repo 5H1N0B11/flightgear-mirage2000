@@ -415,7 +415,7 @@ var VTM = {
 		var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
 		var heading_true = props.globals.getNode("/orientation/heading-deg").getValue();
 		if (radar_voltage != nil and radar_voltage >= 23) {
-				global_visible = 1;
+			global_visible = 1;
 		}
 		me.corners_group.setVisible(global_visible);
 		me.screen_mode_group.setVisible(global_visible);

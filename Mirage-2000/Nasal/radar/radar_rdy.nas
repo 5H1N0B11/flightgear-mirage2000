@@ -21,7 +21,7 @@ print("*** LOADING radar_rdy.nas ... ***");
 
 var RDY = {
 	# This class controls the overall modes plus whether it is on at all.
-	# There is currently only one root modes is  0: GM (Ground Map)
+	# There is currently only one root mode -> 0: GM (Ground Map)
 	#
 	instantFoVradius: 3.90*0.5,#average of horiz/vert radius - TODO find m2000 specific values (copy from F16)
 	instantVertFoVradius: 4.55*0.5,# real vert radius (used by ground mapper) - TODO find m2000 specific values (copy from F16)
@@ -30,7 +30,7 @@ var RDY = {
 	rcsRefValue: 3.2, # TODO find m2000 specific values (copy from F16)
 	targetHistory: 3,# Not used in TWS - TODO find m2000 specific values (copy from F16)
 	isEnabled: func {
-		var radarWorking = getprop("/systems/electrical/outputs/radar");
+		var radarWorking = getprop("/systems/electrical/outputs/gps");  # FIXME hack to get it working
 		return radarWorking != nil and radarWorking > 24;
 	},
 	setAGMode: func {
@@ -221,6 +221,7 @@ var RDYGMFTTMode = {
 
 # the following are needed for AirborneRadar in radar-generic.nas
 var scanInterval = 0.05; # 20hz for main radar - TODO m2000 specific value
+var datalink_power = props.globals.getNode("instrumentation/datalink/power",0);
 var wndprop = props.globals.getNode("environment/wind-speed-kt",0);
 
 
@@ -235,6 +236,7 @@ var ecm = ECMChecker.new(0.05, 6);
 
 var gmMode = RDYGMMode.new(RDYGMFTTMode.new());
 var rdyRadar = AirborneRadar.newAirborne([[gmMode]], RDY);
+# var mapper = TerrainMapper.new(rdyRadar, 0.50);
 
 # needed utility function
 var getCompleteList = func {

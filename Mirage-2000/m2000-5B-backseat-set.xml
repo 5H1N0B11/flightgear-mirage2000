@@ -113,7 +113,7 @@
 				<!-- immat -->
 				<int type="int"       n="0"> 0 </int>
 				<int type="int"       n="1"> 0 </int>
-				<int type="int"       n="2"> 0 </int>
+				<int type="int"       n="2"> 0 </int><!-- radar-standby -->
 				<int type="int"       n="3"> 0 </int>
 				<int type="int"       n="4"> 0 </int>
 				<int type="int"       n="5"> 0 </int>

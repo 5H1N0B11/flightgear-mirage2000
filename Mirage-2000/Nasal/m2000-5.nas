@@ -567,14 +567,14 @@ var autostart = func{
 
 		# Place here all the switch 'on' needed for the autostart
 		# First electrics switchs
-		setprop("/controls/switches/battery-switch",		 1);
+		setprop("/controls/switches/battery-switch", 1);
 		setprop("/controls/switches/transformator-switch", 1);
-		setprop("/controls/switches/ALT1-switch",		  1);
-		setprop("/controls/switches/ALT2-switch",		  1);
+		setprop("/controls/switches/ALT1-switch", 1);
+		setprop("/controls/switches/ALT2-switch", 1);
 
 		# Launching process
 		# Cut Off
-		setprop("/controls/switches/hide-cutoff",  0);
+		setprop("/controls/switches/hide-cutoff", 0);
 		setprop("/controls/engines/engine/cutoff", 0);
 		# Fuel Pumps
 		setprop("/controls/switches/pump-BPG", 1);
@@ -583,7 +583,7 @@ var autostart = func{
 		# Vent is to clear fuel of the engine, allumage is to burn it.
 		# So 1 is allumage 0 vent.
 		setprop("/controls/switches/vent-allumage", 1);
-		setprop("/controls/switches/pump-BP",		 1);
+		setprop("/controls/switches/pump-BP", 1);
 		setprop("/controls/switches/hide-starter",1);
 		setprop("/controls/engines/engine/starter",1);
 		mystarter();
