@@ -219,8 +219,10 @@ var RDYGMFTTMode = {
 # ██ ██  ██ ██ ██    ██    ██ ██   ██ ██      ██  ██     ██   ██    ██    ██ ██    ██ ██  ██ ██
 # ██ ██   ████ ██    ██    ██ ██   ██ ███████ ██ ███████ ██   ██    ██    ██  ██████  ██   ████
 
-# the following is needed for AirborneRadar in radar-generic.nas
+# the following are needed for AirborneRadar in radar-generic.nas
 var scanInterval = 0.05; # 20hz for main radar - TODO m2000 specific value
+var wndprop = props.globals.getNode("environment/wind-speed-kt",0);
+
 
 # start generic radar systems from radar-system.nas
 var baser = AIToNasal.new();
