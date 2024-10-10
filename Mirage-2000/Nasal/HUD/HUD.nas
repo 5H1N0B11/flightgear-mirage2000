@@ -1351,9 +1351,9 @@ var HUD = {
       if (me.selectedWeap.type != "30mm Cannon") {
         #Doing the math only for bombs
         if (me.selectedWeap.stage_1_duration+me.selectedWeap.stage_2_duration == 0) {
-          if (radar_system.rdyRadar.tgts_list != nil and size(radar_system.rdyRadar.tgts_list) > 0) {
+          if (radar_system.apg68Radar.tgts_list != nil and size(radar_system.apg68Radar.tgts_list) > 0) {
             #if target selected : CCRP
-            #print("Should CCRP : size target list" ~ size(radar_system.rdyRadar.tgts_list));
+            #print("Should CCRP : size target list" ~ size(radar_system.apg68Radar.tgts_list));
             me.show_CCRP = me.display_CCRP_mode();
           } else {
             #Else CCIP
@@ -2043,7 +2043,7 @@ var HUD = {
 
 		me.showDistanceToken = 0;
 
-		me.raw_list = radar_system.rdyRadar.getActiveBleps();
+		me.raw_list = radar_system.apg68Radar.getActiveBleps();
 		var i = 0;
 
 		me.designatedDistanceFT = nil;
@@ -2061,7 +2061,7 @@ var HUD = {
 			#4- Do not show anything : nothing see it
 
 			#1 Rectangle :
-			if (contact.equalsFast(radar_system.rdyRadar.getPriorityTarget())) {
+			if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
 
 				#Here for displaying the square (painting)
 				me.showDistanceToken = 1;
@@ -2074,7 +2074,7 @@ var HUD = {
 				me.targetArray[i].hide();
 
 				me.distanceToTargetLineGroup.show();
-				me._displayDistanceToTargetLine(c);
+				me._displayDistanceToTargetLine(contact);
 
 				if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
 					me.designatedDistanceFT = contact.getCoord().direct_distance_to(geo.aircraft_position())*M2FT;
@@ -2089,16 +2089,16 @@ var HUD = {
 			}
 
 			#here is the text display : Normally not in the real HUD
-			if (contact.objectDisplay == 1) {
+			#if (contact.objectDisplay == 1) {  # FIXME RICK - from
 				#here is the text display
-				me.TextInfoArray[i].show();
-				me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
+			#	me.TextInfoArray[i].show();
+			#	me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
 
-				me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", me.target_callsign, target_Distance, target_altitude, target_heading_deg));
-			} else {
-				me.targetArray[i].hide();
-				me.TextInfoArray[i].hide();
-			}
+			#	me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", me.target_callsign, target_Distance, target_altitude, target_heading_deg));
+			#} else {
+			me.targetArray[i].hide();
+			me.TextInfoArray[i].hide();
+			#}
 			i+=1;
 		}
 
@@ -2117,18 +2117,19 @@ var HUD = {
 	},
 
 	_displayDistanceToTargetLine : func(contact) {
-		me.MaxRadarRange = radar_system.rdyRadar.getRange();
+		me.MaxRadarRange = radar_system.apg68Radar.getRange() * NM2M;
+		var direct_distance_m = contact.getRangeDirect();
 		var myString ="";
 		#< 10 nm should be a float
-		#< 1000 m should be in meters
-		if (contact.get_range_from_Coord(me.aircraft_position)<= me.MaxRadarRange) {
+		#< 1200 m should be in meters
+		if (direct_distance_m <= me.MaxRadarRange) {
 			#Text for distance to target
-			if (contact.get_range_from_Coord(me.aircraft_position)*NM2M<1200) {
-				myString = sprintf("%dm",contact.get_range_from_Coord(me.aircraft_position)*NM2M);
-			} elsif (contact.get_range_from_Coord(me.aircraft_position)<10) {
-			myString = sprintf("%.1fnm",contact.get_range_from_Coord(me.aircraft_position));
+			if (direct_distance_m < 1200) {
+				myString = sprintf("%dm",direct_distance_m);
+			} elsif (direct_distance_m < 10 * NM2M) {
+				myString = sprintf("%.1fnm",direct_distance_m * M2NM);
 			} else {
-			myString = sprintf("%dnm",contact.get_range_from_Coord(me.aircraft_position));
+				myString = sprintf("%dnm",direct_distance_m * M2NM);
 			}
 
 			if (me._displayDLZ(me.MaxRadarRange)) {
@@ -2137,7 +2138,7 @@ var HUD = {
 				me.missileFireRange.hide();
 			}
 			me.distanceToTargetLineChevronText.setText(myString);
-			me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(contact.get_range_from_Coord(me.aircraft_position)*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100);
+			me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(direct_distance_m * M2NM *(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100);
 		}
 	},
 

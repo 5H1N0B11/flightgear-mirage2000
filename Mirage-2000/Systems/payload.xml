@@ -20,7 +20,7 @@
 		<models type="string">Aircraft/Mirage-2000/Missiles/</models>
 		<modelsUseCase type="bool">false</modelsUseCase>
 		<modelsUpperCase type="bool">false</modelsUpperCase>
-		<msg type="bool">true</msg>
+		<msg type="bool">false</msg>
 		<tacview type="bool">true</tacview>
 		<enable-craters type="bool">true</enable-craters>
 		<pylon-offset type="int">0</pylon-offset>
@@ -95,7 +95,7 @@
 			<weight-launch-lbs type="double"> 216 </weight-launch-lbs>
 			<weight-warhead-lbs type="double"> 30 </weight-warhead-lbs>
 		</mica-em>
-		
+
 		<mica-ir> <!-- Matra Mica IR http://www.areamilitar.net/directorio/MIS.aspx?nm=205 -->
 			<type-id type="int">73</type-id>
 			<short-name type="string">MICA-IR</short-name>
@@ -109,7 +109,7 @@
 			<DLZ-optimal-alt-feet type="double">10000</DLZ-optimal-alt-feet>
 			<DLZ-optimal-closing-mach type="double">1.5</DLZ-optimal-closing-mach>
 			<drag-coeff type="double"> 0.35 </drag-coeff>
-			<drop-time type="double">0.5</drop-time>	
+			<drop-time type="double">0.5</drop-time>
 			<ejector-speed-fps type="double">20</ejector-speed-fps>
 			<FCS-field-deg type="int"> 40 </FCS-field-deg>
 			<fire-msg type="string">Fox 2</fire-msg>
@@ -169,7 +169,7 @@
 			<thrust-lbf-stage-2 type="double"> 460 </thrust-lbf-stage-2><!-- To be changed -->
 			<stage-1-duration-sec type="double"> 10 </stage-1-duration-sec>
 			<stage-2-duration-sec type="double"> 20 </stage-2-duration-sec>
-			<weight-launch-lbs type="double"> 595 </weight-launch-lbs> 
+			<weight-launch-lbs type="double"> 595 </weight-launch-lbs>
 			<weight-warhead-lbs type="double"> 66 </weight-warhead-lbs>
 			<weight-fuel-lbm type="double"> 280 </weight-fuel-lbm> <!-- To be changed -->
 			<drag-coeff type="double"> 0.15 </drag-coeff> <!-- To be changed -->
@@ -211,7 +211,7 @@
 			<DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
 			<drag-coeff type="double"> 0.30 </drag-coeff>
 			<FCS-field-deg type="int"> 55 </FCS-field-deg> <!-- guess here... based on the aim9 -->
-			<fire-msg type="string">Fox 2</fire-msg> 
+			<fire-msg type="string">Fox 2</fire-msg>
 			<guidance type="string">heat</guidance> <!-- heat. radar or semi-radar -->
 			<lock-on-after-launch type="bool">true</lock-on-after-launch>
 			<lock-on-sun-deg type="double"> 5 </lock-on-sun-deg>
@@ -256,7 +256,7 @@
 			<short-name type="string">GBU12</short-name>
 			<long-name type="string">GBU-12 Paveway II</long-name>
 			<all-aspect type="bool">true</all-aspect>
-			
+
 			<arming-time-sec type="double"> 3 </arming-time-sec>
 			<auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
 			<class type="string">GM</class>
@@ -304,7 +304,7 @@
 			<weight-launch-lbs type="double"> 610 </weight-launch-lbs>
 			<weight-warhead-lbs type="double"> 190 </weight-warhead-lbs>
 		</gbu-12>
-		
+
 		<gbu-24>
 			<type-id type="int">19</type-id>
 			<short-name type="string">GB24</short-name>
@@ -406,7 +406,7 @@
 			<weight-launch-lbs type="double"> 2866 </weight-launch-lbs> <!-- 1300kg (MBDA) -->
 			<weight-warhead-lbs type="double"> 992 </weight-warhead-lbs>
 		</scalp>
-		
+
 		<apache> <!-- APACHE anti runway cruise missile -->
 			<type-id type="int"></type-id>
 			<short-name type="string">APACHE</short-name>
@@ -502,7 +502,7 @@
 			<weight-launch-lbs type="double">1168</weight-launch-lbs>
 			<weight-warhead-lbs type="double">330</weight-warhead-lbs>
 		</as-37-martel>
-		
+
 		<as-37-armat>
 			<type-id type="int">14</type-id>
 			<short-name type="string">ARMAT</short-name>
@@ -534,7 +534,7 @@
 			<release-limit-roll type="double"> 45 </release-limit-roll>
 			<require-lock-to-fire type="bool">true</require-lock-to-fire>
 			<seeker-field-deg type="int">100</seeker-field-deg>
-			<self-destruct-time-sec type="double">600</self-destruct-time-sec> 
+			<self-destruct-time-sec type="double">600</self-destruct-time-sec>
 			<!-- The large airframe accommodates a Hotchkiss-Brandt/SNPE Basile solid propellant boost stage with a 2.4 second burn. and an SNPE Cassandre solid propellant sustainer with a 22 second burn-->
 			<stage-1-duration-sec type="double">4</stage-1-duration-sec>
 			<stage-2-duration-sec type="double">22</stage-2-duration-sec>
@@ -548,7 +548,7 @@
 			<weight-launch-lbs type="double">1168</weight-launch-lbs>
 			<weight-warhead-lbs type="double">330</weight-warhead-lbs>
 		</as-37-armat>
-		
+
 		<as30l>
 			<type-id type="int">10</type-id>
 			<short-name type="string">AS30l</short-name>
@@ -602,13 +602,13 @@
 			<weight-launch-lbs type="double">1146 </weight-launch-lbs>
 			<weight-warhead-lbs type="double"> 529 </weight-warhead-lbs>
 		</as30l>
-		
-	
+
+
 		<am39-exocet> <!-- Exocet -->
 			<type-id type="int">8</type-id>
 			<short-name type="string">exocet</short-name>
 			<long-name type="string">AM39 Exocet</long-name>
-			
+
 			<all-aspect type="bool">true</all-aspect>
 			<arming-time-sec type="double"> 2.0 </arming-time-sec>
 			<class type="string">M</class>
@@ -655,7 +655,7 @@
 			<weight-warhead-lbs type="double"> 364 </weight-warhead-lbs>
 		</am39-exocet>
 
-		<mk-82> 
+		<mk-82>
 			<type-id type="int">32</type-id>
 			<short-name type="string">Mk-82</short-name>
 			<long-name type="string">SAMP Mk-82</long-name>
@@ -696,10 +696,10 @@
 			<max-pitch-deg type="double">-90</max-pitch-deg>
 			<hit-everything-nearby type="bool">true</hit-everything-nearby>
 			<ejector-speed-fps type="double">20</ejector-speed-fps>
-			<ready-time type="double">0.5</ready-time>							 
+			<ready-time type="double">0.5</ready-time>
 		</mk-82>
 
-		<mk-82se> 
+		<mk-82se>
 			<type-id type="int">3</type-id>
 			<short-name type="string">Mk-82SE</short-name>
 			<long-name type="string">SAMP Mk-82 Snake-eye</long-name>
@@ -743,7 +743,7 @@
 			<ejector-speed-fps type="double">20</ejector-speed-fps>
 			<ready-time type="double">0.5</ready-time>
 		</mk-82se>
-		
+
 		<es> <!-- Ejection seat -->
 			<type-id type="int">93</type-id>
 			<vol-search type="double">0.075</vol-search>
@@ -751,7 +751,7 @@
 			<vol-track-weak type="double">0.175</vol-track-weak>
 			<guidance type="string">unguided</guidance>
 			<navigation type="string">direct</navigation>
-			<all-aspect type="bool">false</all-aspect> 
+			<all-aspect type="bool">false</all-aspect>
 			<max-fire-range-nm type="double">6.9</max-fire-range-nm>
 			<FCS-field-deg type="int">50</FCS-field-deg>
 			<seeker-field-deg type="int">54</seeker-field-deg>

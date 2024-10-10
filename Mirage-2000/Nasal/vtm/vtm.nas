@@ -317,7 +317,7 @@ var VTM = {
 	},
 
 	_updateTargets: func(heading_true) {
-		var target_contacts_list = radar_system.rdyRadar.getActiveBleps();
+		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 		var i = 0;
 		var has_priority = 0;
 		var this_aircraft_position = geo.aircraft_position();
@@ -326,8 +326,8 @@ var VTM = {
 		var bearing_deg = 0; # from this aircraft to the target
 		var relative_heading_deg = 0; # the heading of the target as seen by this aircraft with nose = North
 		var screen_pos = nil;
-		var max_distance_m = radar_system.rdyRadar.getRange();
-		var max_azimuth_deg = radar_system.rdyRadar.getAzimuthRadius();
+		var max_distance_m = radar_system.apg68Radar.getRange() * NM2M;
+		var max_azimuth_deg = radar_system.apg68Radar.getAzimuthRadius();
 		var target_speed_m_s = 0;
 
 		me.targets_speed_group.removeAllChildren();
@@ -342,7 +342,7 @@ var VTM = {
 			screen_pos = _calcTargetScreenPositionBScope(direct_distance_m, max_distance_m, bearing_deg, max_azimuth_deg);
 
 			me.friend_targets[i].hide(); # currently we do not know the friends
-			if (contact.equalsFast(radar_system.rdyRadar.getPriorityTarget())) {
+			if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
 				has_priority = 1;
 				me.selected_target.setTranslation(screen_pos[0], screen_pos[1]);
 				me.selected_target_callsign.updateText(contact.getCallsign());
@@ -379,16 +379,11 @@ var VTM = {
 
 	_updateRadarTexts: func() {
 		# this is fictional based on radar2.nas->radar_mode_toggle(). In the real screen it reads e.g. "MRF"
-		var tws_auto = props.globals.getNode("/instrumentation/radar/mode/tws-auto").getBoolValue();
-		var radar_mode = "RWS";
-		if (tws_auto) {
-			radar_mode = "TWS";
-		}
-		me.radar_left_text.setText(radar_mode);
+		me.radar_left_text.setText(radar_system.apg68Radar.getMode());
 
 		# This is fictional based on interpretation of display_system.nas in the F16
 		# The azimuth is only to one side - i.e. az=40 means plus/minus 40 -> 80 degrees
-		var max_azimuth_deg = radar_system.rdyRadar.getAzimuthRadius();
+		var max_azimuth_deg = radar_system.apg68Radar.getAzimuthRadius();
 		var az_text = "A0"; # does not exist
 		if (max_azimuth_deg < 20) {
 			az_text = "A1";
@@ -407,7 +402,7 @@ var VTM = {
 
 		# right now there is no information about the b_bars
 
-		me.radar_range_text.setText(radar_system.rdyRadar.getRange());
+		me.radar_range_text.setText(radar_system.apg68Radar.getRange());
 	},
 
 	update: func() {

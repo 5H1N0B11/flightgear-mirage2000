@@ -109,6 +109,79 @@ var MainMode = {
 };
 
 
+#  ██████  ██     ██ ███████
+#  ██   ██ ██     ██ ██
+#  ██████  ██  █  ██ ███████
+#  ██   ██ ██ ███ ██      ██
+#  ██   ██  ███ ███  ███████
+#
+
+# Direct copy from F-16 as per 2024-10-06 - TODO find m2000 specific values (copy from F16)
+
+var RDYRWSMode = {
+	radar: nil,
+	shortName: "RWS",
+	longName: "Range While Search",
+	superMode: nil,
+	subMode: nil,
+	maxRange: 160,
+	discSpeed_dps: 65,#authentic for RWS
+	rcsFactor: 0.9,
+	EXPsupport: 1,#if support zoom
+	EXPsearch: 1,# if zoom should include search targets
+	new: func (subMode, radar = nil) {
+		var mode = {parents: [F16RWSMode, APG68Mode, RadarMode]};
+		mode.radar = radar;
+		mode.subMode = subMode;
+		subMode.superMode = mode;
+		subMode.shortName = mode.shortName;
+		return mode;
+	},
+	cycleAZ: func {
+		if (me.az == 10) me.az = 30;
+		elsif (me.az == 30) me.az = 60;
+		elsif (me.az == 60) me.az = 10;
+	},
+	cycleBars: func {
+		me.bars += 1;
+		if (me.bars == 3) me.bars = 4;# 3 is only for TWS
+		elsif (me.bars == 5) me.bars = 1;
+		me.nextPatternNode = 0;
+	},
+	designate: func (designate_contact) {
+		if (designate_contact == nil) return;
+		me.radar.setCurrentMode(me.subMode, designate_contact);
+		me.subMode.radar = me.radar;# find some smarter way of setting it.
+	},
+	undesignate: func {},
+	designatePriority: func (contact) {
+		me.designate(contact);
+	},
+	preStep: func {
+		var dev_tilt_deg = me.cursorAz;
+		me.elevationTilt = me.radar.getTiltKnob();
+		if (me.az == 60) {
+			dev_tilt_deg = 0;
+		}
+		me.azimuthTilt = dev_tilt_deg;
+		if (me.azimuthTilt > me.radar.fieldOfRegardMaxAz-me.az) {
+			me.azimuthTilt = me.radar.fieldOfRegardMaxAz-me.az;
+		} elsif (me.azimuthTilt < -me.radar.fieldOfRegardMaxAz+me.az) {
+			me.azimuthTilt = -me.radar.fieldOfRegardMaxAz+me.az;
+		}
+	},
+	increaseRange: func {
+		me._increaseRange();
+	},
+	decreaseRange: func {
+		me._decreaseRange();
+	},
+	getSearchInfo: func (contact) {
+		# searchInfo:               dist, groundtrack, deviations, speed, closing-rate, altitude
+		return [1,0,1,0,1,1];
+	},
+};
+
 
 #   ██████  ███    ███
 #  ██       ████  ████

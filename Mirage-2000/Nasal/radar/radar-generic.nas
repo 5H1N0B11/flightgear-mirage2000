@@ -1,4 +1,5 @@
 # Direct copy of lines 0 - 1058 from apg-68.nas in F-16 as per 2024-10-06.
+# Same for lines 2926 - 3348: TerrainMapper/Ground Mapper
 
 # Changes from original:
 #  * Around line 300 3 times: steerpoints.sending == nil replaced with 1 == 1
@@ -1062,6 +1063,429 @@ DatalinkRadar = {
 
 
 
+
+#   ██████  ██████   ██████  ██    ██ ███    ██ ██████      ███    ███  █████  ██████  ██████  ███████ ██████
+#  ██       ██   ██ ██    ██ ██    ██ ████   ██ ██   ██     ████  ████ ██   ██ ██   ██ ██   ██ ██      ██   ██
+#  ██   ███ ██████  ██    ██ ██    ██ ██ ██  ██ ██   ██     ██ ████ ██ ███████ ██████  ██████  █████   ██████
+#  ██    ██ ██   ██ ██    ██ ██    ██ ██  ██ ██ ██   ██     ██  ██  ██ ██   ██ ██      ██      ██      ██   ██
+#   ██████  ██   ██  ██████   ██████  ██   ████ ██████      ██      ██ ██   ██ ██      ██      ███████ ██   ██
+#
+#
+var TerrainMapper = {
+	new: func (radar, rate) {
+		var tm = {parents: [TerrainMapper, Radar]};
+		tm.radar = radar;
+		tm.timer = maketimer(rate, tm, func tm.loop());
+		tm.timer.start();
+		radar.installMapper(tm);
+		tm.lowestElev = 0;
+		tm.highestElev = 5000;
+		tm.minElev = 35000;
+		tm.maxElev = 0;
+		tm.cleaned = 0;
+		tm.exp = 0;
+		tm.debug = 0;
+		tm.t_geo = 0;
+		tm.t_pix = 0;
+		return tm;
+	},
+	##################################################################################################
+	##################################################################################################
+	#
+	# TODO:
+	#   Remove image painting from this class
+	#   EXP mode
+	#   Optimize
+	#   Find reason for failing Coord._lat
+	#   Pixel rounding error review (fills too few x)
+	#
+	azData: {
+				radius: nil,
+				az: 0,
+				fromDist: nil,
+				toDist: nil,
+				domainNm: nil,
+				domainFwdNm: nil,
+				rangeFwdNm: nil,
+				returns: nil,
+			},
+	scanGM: func (eulerX, eulerY, verticalInstantFoV, horizontalInstantFoV, bottomBar, topBar) {
+		# GM test code
+		if (displays.fcrFrz) return;
+		if (me.radar.currentMode.mapper and me.enabled and me.radar.horizonStabilized and me["gmPic"] != nil and !me.exp) {
+			if (me.debug > 3) {
+				me.t0 = systime();
+			}
+			me.debug = getprop("debug-radar/debug-mapper");
+			me.mapperHeading = eulerX+self.getHeading();
+			me.discDirforGMTop = vector.Math.pitchYawVector(eulerY+verticalInstantFoV,-me.mapperHeading,[1,0,0]);
+			me.discDirforGMBot = vector.Math.pitchYawVector(eulerY-verticalInstantFoV,-me.mapperHeading,[1,0,0]);
+			if (me.debug) {
+				setprop("debug-radar/mapper-pitch-high", eulerY+verticalInstantFoV);
+				setprop("debug-radar/mapper-pitch", eulerY);
+				setprop("debug-radar/mapper-pitch-low", eulerY-verticalInstantFoV);
+			}
+
+			me.selfCoord = self.getCoord();
+
+			me.radarBeamGeoVectorTop = vector.Math.vectorToGeoVector(me.discDirforGMTop, me.selfCoord);
+			me.radarBeamGeoVectorBot = vector.Math.vectorToGeoVector(me.discDirforGMBot, me.selfCoord);
+
+			me.xyzSelf = {"x":me.selfCoord.x(), "y":me.selfCoord.y(), "z":me.selfCoord.z()};
+
+            # Check for terrain at top and bottom of radar instant FoV
+            me.terrainGeodTop = get_cart_ground_intersection(me.xyzSelf, me.radarBeamGeoVectorTop);
+            me.terrainGeodBot = get_cart_ground_intersection(me.xyzSelf, me.radarBeamGeoVectorBot);
+            #if (me.debug) {
+			#	setprop("debug-radar/mapper-last-deg", math.abs(eulerX-me.azData.az));
+			#}
+            me.azData.az = eulerX;
+            me.azData.radius = horizontalInstantFoV;
+            me.azData.returns = [];
+            if (me.terrainGeodBot != nil) {
+            	me.terrainCoordBot = geo.Coord.new().set_latlon(me.terrainGeodBot.lat, me.terrainGeodBot.lon, me.terrainGeodBot.elevation);
+            	me.azData.fromDist = me.selfCoord.distance_to(me.terrainCoordBot)*M2NM;
+            	if (!me.testRange(me.azData.fromDist, me.radar.getRange(), me.azData.az)) return;
+            	if (me.terrainGeodTop != nil) {
+            		me.terrainCoordTop = geo.Coord.new().set_latlon(me.terrainGeodTop.lat, me.terrainGeodTop.lon, me.terrainGeodTop.elevation);
+            		if (me.debug) {
+						setprop("debug-radar/mapper-domain-lost-nm", "works");
+					}
+            	} else {
+            		# The upper part of this instantFoV does not hit terrain here. So we manually add a little bit.
+            		me.terrainCoordTop = geo.Coord.new(me.terrainCoordBot);
+            		if (me.azData.domainNm != nil) {
+            			me.topRange = me.azData.domainNm;
+            		} else {
+            			me.topRange = me.radar.getRange() * 1.25 - me.azData.fromDist;
+            		}
+            		me.topRange = math.max(me.topRange, 15);
+            		if (me.debug) {
+						setprop("debug-radar/mapper-domain-lost-nm", me.topRange);
+					}
+            		me.terrainCoordTop.apply_course_distance(me.mapperHeading, me.topRange*NM2M);
+            	}
+            	me.azData.toDist = me.selfCoord.distance_to(me.terrainCoordTop)*M2NM;
+            	me.azData.domainNm = me.azData.toDist-me.azData.fromDist;
+            	me.azCos = math.cos(me.azData.az*D2R);
+            	me.azData.rangeFwdNm = me.azData.fromDist*me.azCos;
+            	me.azData.domainFwdNm = me.azData.domainNm*me.azCos;
+            	me.pixelsBetweenTopAndBot = math.ceil(me.gmPicSize*me.azData.domainFwdNm/me.radar.getRange());
+				me.maskAlt  = 0;
+				me.maskStep = -1;
+
+				# Amount each step changes in altitude meters for center of beam.
+				# Curvature of earth is negliable.
+				# Each steps has different angle in reality, but its minute.
+				me.maskAltPerStep = math.tan(eulerY*D2R)*NM2M*me.azData.domainNm/me.pixelsBetweenTopAndBot;
+
+            	for (var i = 0; i <= me.pixelsBetweenTopAndBot; i += 1) {
+            		me.testCoord = me.interpolateCoords(me.terrainCoordBot, me.terrainCoordTop, i/me.pixelsBetweenTopAndBot);
+            		me.gm_geod = geodinfo(me.testCoord.lat(), me.testCoord.lon(), 10000);
+            		if (debug.isnan(me.testCoord._lat)) {
+            			#print("self ",me.selfCoord._lat);
+            			print("test ",me.testCoord._lat," , ",me.testCoord.lat()," , ",me.testCoord.alt());
+            			#print("bot  ",me.terrainCoordBot._x," , ",me.terrainCoordBot._y," , ",me.terrainCoordBot._z,"  ,  ",me.terrainGeodBot.elevation*M2FT);
+            			#print(i);
+            			append(me.azData.returns, 0);
+            			continue;
+            		}
+            		me.gmReturn = 0;
+            		if (me.gm_geod != nil) {
+            			if (me.gm_geod[0] > me.maskAlt+(i - me.maskStep)*me.maskAltPerStep) {
+            				# Terrain not masked by previous terrain
+            				me.maskAlt = me.gm_geod[0];
+            				me.maskStep = i;
+            				me.gmReturn = me.backScatter(me.gm_geod);
+            			} else {
+            				me.gmReturn = -1;
+            			}
+            		} else {
+            			me.gmReturn = -2;
+            		}
+            		append(me.azData.returns, me.gmReturn);
+            	}
+            	#me.debugOutput();
+            	if (me.debug > 3) {
+            		me.t1 = systime();
+            	}
+            	me.paintImage(me.azData, bottomBar, topBar);
+            	if (me.debug > 3) {
+	            	me.t2 = systime();
+	            	me.t_geo += me.t1-me.t0;
+	            	me.t_pix += me.t2-me.t1;
+	            }
+            }
+            if (me.dirty) {
+            	me.gmPic.dirtyPixels();
+            	me.dirty = 0;
+            }
+		}
+	},
+	setImage: func (image, origin_x, origin_y, dimension, monochrome, gainNode) {
+		if (me["gmPic"] == nil) {
+			#me.canvas = canvas.Window.new([512,512],"dialog").set('title',"GM").getCanvas(1);
+			#me.canvas_root = me.canvas.createGroup();
+			#me.canvas.setColorBackground(0,0,0,1);
+			me.gainNode = gainNode;
+			me.gmPic = image;
+            me.dirty = 0;
+            me.gmPicSize  = dimension;
+            me.mono = monochrome;
+            me.gm_x_origin = origin_x;
+            me.gm_y_origin = origin_y;
+            #me.gmPic.setPixel(me.gm_x_origin, me.gm_y_origin, [0,0,1,1]);#blue pixel at ownship
+            return 1;
+		} else {
+			return 0;
+		}
+	},
+	removeImage: func {
+		me.gmPic = nil;
+	},
+	paintImage: func (azData, bottomBar, topBar) {
+
+		me.iStart = math.floor(me.gmPicSize*azData.rangeFwdNm/me.radar.getRange());
+
+		if (me.debug) {
+			setprop("debug-radar/mapper-steps", size(azData.returns));
+			setprop("debug-radar/mapper-domain-fwd-nm", azData.domainFwdNm);
+		}
+
+		# If top or bottom or only 1 bar, pad ahead/behind with nil. This will clear old returns on screen.
+		if (bottomBar and me.iStart > 0) {
+			azData.returns = setsize([], me.iStart) ~ azData.returns;
+			me.iStart = 0;
+		}
+		me.behindPad = (int)((1-me.azData.rangeFwdNm/me.radar.getRange())*me.gmPicSize*1.3);
+		if (topBar and me.behindPad > 0) {
+			azData.returns = azData.returns ~ setsize([], me.behindPad);
+		}
+
+		me.jStart = math.tan((azData.az-azData.radius)*D2R);
+		me.jMid   = math.tan(azData.az*D2R);
+		me.jEnd   = math.tan((azData.az+azData.radius)*D2R);
+		me.jFactor = me.jEnd-me.jStart;
+
+		#me.firstY = 0;
+		#me.firstX = 0;
+
+		for (var i = 0; i < size(azData.returns); i+=1 ) {
+			me.debugColor = nil;
+			if (me.debug > 2) {
+				if (azData.returns[i] == nil) {
+					me.debugColor = [0,0,1,1];# Blue for not hit by FoV
+				} elsif (azData.returns[i] == -1) {
+					me.debugColor = [1,1,0,1];# Yellow for terrain masked
+				} elsif (azData.returns[i] == -2) {
+					me.debugColor = [1,0,0,1];# Red for terrasunk
+				} else {
+					me.gmColor = math.pow(math.clamp(azData.returns[i],0,1), me.gainNode.getValue());
+				}
+			} else {
+				me.gmColor = azData.returns[i]==nil?0:math.pow(math.clamp(azData.returns[i],0,1), me.gainNode.getValue());
+			}
+
+			me.gmY  = me.gm_y_origin+me.iStart+i;
+			me.gmX  = math.floor(me.gm_x_origin+me.jMid*(i+me.iStart));
+			me.gmX0 = me.gm_x_origin+me.jStart*(i+me.iStart);
+			me.gmXj = math.round(me.gmX0+(i+me.iStart)*me.jFactor-0.5);
+			me.gmX0 = math.min(me.gmX, math.round(me.gmX0));
+			#if (me.firstY == 0) {
+			#	me.firstY = math.max(me.gmY, 0)-me.gm_y_origin;
+			#	me.firstX = me.gmXj;
+			#}
+			for (var j = me.gmX0; j <= me.gmXj; j += 1) {
+				if (j >= 0 and j <= me.gmPicSize-1 and me.gmY <= me.gmPicSize-1) {
+					me.gmPic.setPixel(j, math.max(me.gmY, 0), me.debugColor==nil?[me.gmColor*me.mono,me.gmColor,me.gmColor*me.mono,1]:me.debugColor);
+					me.dirty = 1;
+				}
+			}
+		}
+		#if (bottomBar and me.firstY != 0) {
+		#	# Clear the field below the bottom bar as we might have risen in alitude so its old data shown closer to ownship that can confuse pilot.
+		#	for (var y = me.firstY-1; y >= 0; y-=1 ) {
+		#		#var x = math.clamp(me.gm_x_origin + (y/me.firstY) * me.firstX, 0, 63);
+		#		if (me.firstX > 31)    {me.gmPic.setPixel(me.firstX,   y, [0,0,0,1]);me.gmPic.setPixel(me.firstX-1, y, [0,0,0,1]);me.gmPic.setPixel(me.firstX-2, y, [0,0,0,1]);}
+		#		elsif (me.firstX < 31) {me.gmPic.setPixel(me.firstX+1, y, [0,0,0,1]);me.gmPic.setPixel(me.firstX+2, y, [0,0,0,1]);me.gmPic.setPixel(me.firstX+3, y, [0,0,0,1]);}
+		#		else                    me.gmPic.setPixel(me.firstX,   y, [0,0,0,1]);
+		#	}
+		#}
+	},
+	expChanged: func (exp) {
+		if (me["gmPic"] == nil or exp == me.exp) return;
+		me.exp = exp;
+		if (me.exp) {
+			me.gmPic.fillRect([0,0,me.gmPicSize,me.gmPicSize], [0.0*me.mono,0.0,0.0*me.mono,0]);# why does it allow 64??
+			me.gmPic.dirtyPixels();
+			me.dirty = 0;
+		} else {
+			me.cleanImage();
+		}
+	},
+	cleanImage: func {
+		if (me["gmPic"] == nil) return;
+		me.gmPic.fillRect([0,0,me.gmPicSize,me.gmPicSize], [0,0,0,0]);# why does it allow 64??
+		#me.gmPic.setPixel(me.gm_x_origin, me.gm_y_origin, [0,0,1,1]);#blue pixel at ownship
+		me.gmPic.dirtyPixels();
+		me.dirty = 0;
+	},
+	loop: func {
+		if (displays.fcrFrz) return;
+		if (me.enabled and me.radar.currentMode.mapper and me["gmPic"] != nil and me.dirty) {
+			me.gmPic.dirtyPixels();
+		}
+		if (!me.radar.enabled and !me.cleaned) {
+			me.cleanImage();
+			me.cleaned = 1;
+		} else {
+			me.cleaned = 0;
+		}
+		if (me.debug > 3) {
+			printf("geo=%8.6f pix=%8.6f",me.t_geo, me.t_pix);
+			me.t_geo = 0;
+			me.t_pix = 0;
+		}
+	},
+	clear: func {
+		#me.lowestElev = 0;
+		#me.highestElev = 1000*math.ceil(getprop("position/ground-elev-ft")*0.001);
+		#me.minElev = 35000;
+		#me.maxElev = 0;
+		me.cleanImage();
+	},
+	testRange: func (range, maxRange, az) {
+		if (range > maxRange) {
+			return 0;
+		}
+		az = math.abs(az)*D2R;
+		if (math.sin(az)*range > maxRange*0.5) {
+			return 0;
+		}
+		return 1;
+	},
+	debugOutput: func {
+		if (me.radar.currentMode.bars == 4 and me.radar.currentMode["nextPatternNode"] != nil) {
+        	if (me.radar.currentMode.nextPatternNode == 0) {
+        		me.barCount = "4th";
+        	} elsif (me.radar.currentMode.nextPatternNode == 1) {
+        		me.barCount = "   ";return;
+        	} elsif (me.radar.currentMode.nextPatternNode == 2) {
+        		me.barCount = "1st";
+        	} elsif (me.radar.currentMode.nextPatternNode == 3) {
+        		me.barCount = "   ";return;
+        	} elsif (me.radar.currentMode.nextPatternNode == 4) {
+        		me.barCount = "2nd";
+        	} elsif (me.radar.currentMode.nextPatternNode == 5) {
+        		me.barCount = "   ";return;
+        	} elsif (me.radar.currentMode.nextPatternNode == 6) {
+        		me.barCount = "3rd";
+        	} elsif (me.radar.currentMode.nextPatternNode == 7) {
+        		me.barCount = "   ";return;
+        	} else {
+        		me.barCount = "Unk";return;
+        	}
+        	printf("AGL %5dft. Bar %s. Distance to bottom %.1fnm. Bottom to top %6.2fnm. Pitch %5.2f to %5.2f degs",getprop("position/altitude-agl-ft"), me.barCount, me.selfCoord.direct_distance_to(me.terrainCoordBot)*M2NM, me.terrainCoordBot.direct_distance_to(me.terrainCoordTop)*M2NM,me.eulerY-me.radar.instantFoVradius,me.radar.eulerY+me.radar.instantFoVradius);
+        }
+	},
+	backScatter: func (gm_geod) {
+		if (gm_geod == nil) {
+			me.reflection = 0;
+		} else {
+			if (gm_geod[1] == nil) {
+				me.reflection = 1;
+			} elsif (!gm_geod[1].solid) {
+				me.reflection = 0.05;
+				if (me.gm_geod[0] != nil) {
+					me.testElev = me.gm_geod[0]*M2FT;
+					if (me.testElev < me.minElev) {
+						me.minElev = me.testElev;
+					}
+				}
+			} else {
+				me.retur = me.howReflective(gm_geod[1]);
+				if (me.retur == 0) {
+					me.retur = gm_geod[1].bumpiness;
+				}
+				me.testElev = me.gm_geod[0]*M2FT;
+				if (me.testElev < me.minElev) {
+					me.minElev = me.testElev;
+				}
+				if (me.testElev > me.maxElev) {
+					me.maxElev = me.testElev;
+				}
+				me.reflection = math.min(1, me.extrapolate(me.testElev, me.lowestElev, me.highestElev, 0.15, 0.6)+me.retur*0.4);
+			}
+		}
+		return me.reflection;
+	},
+	frameDone: func {
+		if (me.minElev != 35000 or me.maxElev != 0) {
+			me.highestElev = (me.highestElev*1.5+me.maxElev)/2.5;# a simple lowpass filter to prevent it from changing too abrupt.
+			me.lowestElev = (me.lowestElev*1.5+math.max(0, math.min(me.maxElev-1000, me.minElev)))/2.5;# prevent somewhat flat terrain to show as very undulated.
+		}
+		if (me.debug) setprop("debug-radar/mapper-elevation-min", me.lowestElev);
+		if (me.debug) setprop("debug-radar/mapper-elevation-max", me.highestElev);
+
+		me.minElev = 35000;
+		me.maxElev = 0;
+	},
+	howReflective: func(info) {
+		# from AJS-37
+	    foreach (var name; info.names) {
+	        if (contains(me.urban_names, name)) return 1;
+	    }
+	    foreach (var name; info.names) {
+	        if (contains(me.natural_names, name)) return me.natural_names[name];
+	    }
+    	return 0;
+    },
+    urban_names: {
+		# from AJS-37
+	    "Urban": 1,
+	    "BuiltUpCover": 1,
+	    "Construction": 1,
+	    "Industrial": 1,
+	    "Port": 1,
+	    "Town": 1,
+	    "SubUrban": 1,
+	},
+	natural_names: {
+		# TODO: find more real data on this. Best source so far: AP3456 – 11-x - Radar
+	    "Cliffs": 0.8,  # tend to be steep, hence greater return
+	    "Asphalt": 0.7, # very granular hence good backscatter
+	    "Airport": 0.5, #
+	    "Rock": 0.6,    # tend to be somewhat steep, hence some solid backscatter
+	    "RainForest": 0.35,
+	    "MixedForest": 0.35,# wood does very little backscatter, but trees are upright, so good opportunity for specular return
+	    "AgroForest": 0.25,
+	    "SnowCover": 0.2,   # snow is very diffuse, hence very little backscatter
+	    "PolarIce": 0.4,
+	    "PackIce": 0.25,    # very smooth like the water it formed on, hence little return
+	    "Glacier": 0.5,
+	},
+	interpolateCoords: func (start, end, fraction) {
+		if (fraction == 0) {
+			return geo.Coord.new(start);
+		}
+		if (fraction == 1) return geo.Coord.new(end);
+		me.xx = (start.x()*(1-fraction)+end.x()*fraction);
+		me.yy = (start.y()*(1-fraction)+end.y()*fraction);
+		me.zz = (start.z()*(1-fraction)+end.z()*fraction);
+
+		me.cc = geo.Coord.new();
+		me.cc.set_xyz(me.xx,me.yy,me.zz);
+
+		return me.cc;
+	},
+	extrapolate: func (x, x1, x2, y1, y2) {
+    	return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+	},
+	##################################################################################################
+	##################################################################################################
+	##################################################################################################
+	##################################################################################################
+};
 
 
 

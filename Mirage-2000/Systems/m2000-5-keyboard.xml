@@ -135,7 +135,7 @@
 			<desc>Next TWS target select</desc>
 			<binding>
 				<command>nasal</command>
-				<script>radar_system.rdyRadar.cycleDesignate();</script>
+				<script>radar_system.apg68Radar.cycleDesignate();</script>
 			</binding>
 		</key>
 
@@ -144,7 +144,53 @@
 			<desc>Target deselect</desc>
 			<binding>
 				<command>nasal</command>
-				<script>radar_system.rdyRadar.undesignate();</script>
+				<script>radar_system.apg68Radar.undesignate();</script>
+			</binding>
+		</key>
+
+		<key n="89">
+			<name>Y</name>
+			<desc>Antennae level</desc>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/radar/antennae-knob</property>
+				<value>0</value>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>screen.log.write(sprintf("Antennae knob at %+d degrees",getprop("controls/radar/antennae-knob")*60));</script>
+			</binding>
+		</key>
+		<key n="105">
+			<name>i</name>
+			<desc>Antennae up</desc>
+			<binding>
+				<command>property-adjust</command>
+				<property>controls/radar/antennae-knob</property>
+				<step>0.025</step>
+				<min>-1</min>
+				<max>1</max>
+				<wrap>false</wrap>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>screen.log.write(sprintf("Antennae knob at %+.1f degrees",getprop("controls/radar/antennae-knob")*60));</script>
+			</binding>
+		</key>
+		<key n="73">
+			<name>I</name>
+			<desc>Antennae down</desc>
+			<binding>
+				<command>property-adjust</command>
+				<property>controls/radar/antennae-knob</property>
+				<step>-0.025</step>
+				<min>-1</min>
+				<max>1</max>
+				<wrap>false</wrap>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>screen.log.write(sprintf("Antennae knob at %+.1f degrees",getprop("controls/radar/antennae-knob")*60));</script>
 			</binding>
 		</key>
 
@@ -153,15 +199,16 @@
 			<desc>Increase Radar Range</desc>
 			<binding>
 				<command>nasal</command>
-				<script>radar_system.rdyRadar.increaseRange();</script>
+				<script>radar_system.apg68Radar.increaseRange();</script>
 			</binding>
 		</key>
+
 		<key n="69">
 			<name>E</name>
 			<desc>Decrease Radar Range</desc>
 			<binding>
 				<command>nasal</command>
-				<script>radar_system.rdyRadar.decreaseRange();</script>
+				<script>radar_system.apg68Radar.decreaseRange();</script>
 			</binding>
 		</key>
 
@@ -227,10 +274,19 @@
 		<!--This should be used to compute ECM-->
 		<key n="113">
 			<name>q</name>
-			<desc>Toggle radar standby mode</desc>
+			<desc>Cycle radar root modes</desc>
 			<binding>
-			<command>property-toggle</command>
-			<property>instrumentation/radar/radar-standby</property>
+				<command>nasal</command>
+				<script>radar_system.apg68Radar.cycleRootMode();</script>
+			</binding>
+		</key>
+
+		<key n="114">
+			<name>r</name>
+			<desc>Cycle radar mode within root mode</desc>
+			<binding>
+				<command>nasal</command>
+				<script>radar_system.apg68Radar.cycleMode();</script>
 			</binding>
 		</key>
 
