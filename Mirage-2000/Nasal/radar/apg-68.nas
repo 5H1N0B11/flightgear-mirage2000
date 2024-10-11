@@ -1303,7 +1303,7 @@ var F16LRSMode = {
 #
 var F16SeaMode = {
 	rootName: "SEA",
-	shortName: "MER",
+	shortName: "AUTO",
 	longName: "Sea Navigation Mode",
 	discSpeed_dps: 55,# was 55
 	maxRange: 80,

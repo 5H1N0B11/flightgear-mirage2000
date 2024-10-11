@@ -40,7 +40,7 @@ var RADAR_VIEW_VERTICAL = SCREEN_HEIGHT - PADDING_TOP - PADDING_BOTTOM; # 768 - 
 var RADAR_VIEW_HORIZONTAL = SCREEN_WIDTH - 2 * PADDING_HORIZONTAL; # 1228 - 2*144 = 940 left
 
 var CORNER_LINE_LENGTH = 75;
-var LINE_WIDTH = 3;
+var LINE_WIDTH = 4;
 var GRID_TICK_LENGTH = 12;
 
 var FONT_SIZE = 36;
@@ -278,6 +278,8 @@ var VTM = {
 	},
 
 	# When the radar goes into stand-by mode
+	# The a-bars and the b-bars should be 0.25 to the left cf. the original in the book, but then there would not be space for the
+	# root mode name plus the short name of the radar mode.
 	_createRadarModesGroup: func () {
 		var y_top_pos = PADDING_TOP + 10;
 		me.radar_modes_group = me.root.createChild("group", "radar_range_group");
@@ -295,7 +297,7 @@ var VTM = {
 		                                          .setColor(COLOR_RADAR)
 		                                          .setAlignment("center-top")
 		                                          .setText("A1")
-		                                          .setTranslation(PADDING_HORIZONTAL + 0.125*RADAR_VIEW_HORIZONTAL, y_top_pos);
+		                                          .setTranslation(PADDING_HORIZONTAL + 0.375*RADAR_VIEW_HORIZONTAL, y_top_pos);
 		me.radar_a_bars.enableUpdate();
 		me.radar_b_bars     = me.radar_modes_group.createChild("text", "radar_b_bars")
 		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
@@ -303,7 +305,7 @@ var VTM = {
 		                                          .setColor(COLOR_RADAR)
 		                                          .setAlignment("right-top")
 		                                          .setText("HI")
-		                                          .setTranslation(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL - 10, y_top_pos);
+		                                          .setTranslation(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL - 10, y_top_pos);
 		me.radar_b_bars.enableUpdate();
 		me.radar_range_text = me.radar_modes_group.createChild("text", "radar_range_text")
 		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
@@ -379,7 +381,7 @@ var VTM = {
 
 	_updateRadarTexts: func() {
 		# this is fictional based on radar2.nas->radar_mode_toggle(). In the real screen it reads e.g. "MRF"
-		me.radar_left_text.setText(radar_system.apg68Radar.getMode());
+		me.radar_left_text.setText(radar_system.apg68Radar.currentMode.rootName~"-"~radar_system.apg68Radar.getMode());
 
 		# This is fictional based on interpretation of display_system.nas in the F16
 		# The azimuth is only to one side - i.e. az=40 means plus/minus 40 -> 80 degrees
@@ -400,7 +402,7 @@ var VTM = {
 		}
 		me.radar_a_bars.setText(az_text);
 
-		# right now there is no information about the b_bars
+		me.radar_b_bars.setText(radar_system.apg68Radar.getBars()~"B");
 
 		me.radar_range_text.setText(radar_system.apg68Radar.getRange());
 	},

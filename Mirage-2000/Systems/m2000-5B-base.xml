@@ -126,6 +126,10 @@
 
 	<ai include="ai.xml" />
 
+	<f16>
+		<sound><acm-lock type="bool">false</acm-lock></sound><!-- referenced in apg-68.nas -->
+	</f16>
+
 	<autopilot include="cnf-autopilot.xml" />
 
 	<payload include="payload.xml" />
