@@ -121,7 +121,7 @@ var VTM = {
 		me.screen_mode_group.setTranslation(_getTopLeftTranslation());
 		me.screen_mode_rdr     = me.screen_mode_group.createChild("text", "screen_mode_rdr")
 		                                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                             .setFont(FONT_MONO_REGULAR)
+		                                             .setFont(FONT_MONO_BOLD)
 		                                             .setColor(COLOR_FOREGROUND)
 		                                             .setAlignment("left-top")
 		                                             .setText("RDR")
@@ -129,7 +129,7 @@ var VTM = {
 		                                                             SCREEN_HEIGHT - PADDING_BOTTOM + TEXT_PADDING);
 		me.screen_mode_ldp     = me.screen_mode_group.createChild("text", "screen_mode_ldp")
 		                                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                             .setFont(FONT_MONO_REGULAR)
+		                                             .setFont(FONT_MONO_BOLD)
 		                                             .setColor(COLOR_FOREGROUND)
 		                                             .setAlignment("left-top")
 		                                             .setText("LDP")
@@ -228,7 +228,7 @@ var VTM = {
 
 		me.selected_target_callsign = me.targets_group.createChild("text", "selected_target_callsign")
 		                                              .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                              .setFont(FONT_MONO_REGULAR)
+		                                              .setFont(FONT_MONO_BOLD)
 		                                              .setColor(COLOR_RADAR)
 		                                              .setAlignment("right-top")
 		                                              .setText("")
@@ -286,14 +286,14 @@ var VTM = {
 		me.radar_modes_group.setTranslation(_getTopLeftTranslation());
 		me.radar_left_text  = me.radar_modes_group.createChild("text", "radar_left_text")
 		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                          .setFont(FONT_MONO_REGULAR)
+		                                          .setFont(FONT_MONO_BOLD)
 		                                          .setColor(COLOR_RADAR)
 		                                          .setAlignment("left-top")
 		                                          .setText("MRF")
 		                                          .setTranslation(PADDING_HORIZONTAL + 10, y_top_pos);
 		me.radar_a_bars     = me.radar_modes_group.createChild("text", "radar_a_bars")
 		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                          .setFont(FONT_MONO_REGULAR)
+		                                          .setFont(FONT_MONO_BOLD)
 		                                          .setColor(COLOR_RADAR)
 		                                          .setAlignment("center-top")
 		                                          .setText("A1")
@@ -301,7 +301,7 @@ var VTM = {
 		me.radar_a_bars.enableUpdate();
 		me.radar_b_bars     = me.radar_modes_group.createChild("text", "radar_b_bars")
 		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                          .setFont(FONT_MONO_REGULAR)
+		                                          .setFont(FONT_MONO_BOLD)
 		                                          .setColor(COLOR_RADAR)
 		                                          .setAlignment("right-top")
 		                                          .setText("HI")
@@ -309,7 +309,7 @@ var VTM = {
 		me.radar_b_bars.enableUpdate();
 		me.radar_range_text = me.radar_modes_group.createChild("text", "radar_range_text")
 		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                          .setFont(FONT_MONO_REGULAR)
+		                                          .setFont(FONT_MONO_BOLD)
 		                                          .setColor(COLOR_RADAR)
 		                                          .setAlignment("right-top")
 		                                          .setText("")
@@ -355,15 +355,15 @@ var VTM = {
 				me.foe_targets[i].show();
 			}
 
-			# draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
-			# on the pict from the book the selected target does not get a line, here we do
+			# Draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
+			# Based on the pict from the book the selected target does not get a line, here we do
 			target_speed_m_s = contact.get_Speed() * KT2MPS;
 			if (target_speed_m_s > 25) {
 				delta = _calcTargetSpeedIndication(target_speed_m_s, relative_heading_deg);
 				me.targets_speeds[i] = me.targets_speed_group.createChild("path")
 				                                             .setColor(COLOR_RADAR)
-				                                             .moveTo(screen_pos[0], screen_pos[1])
-				                                             .lineTo(screen_pos[0] + delta[0], screen_pos[1] - delta[1])
+				                                             .moveTo(screen_pos[0] + delta[0], screen_pos[1] - delta[1])
+				                                             .lineTo(screen_pos[0] + delta[2], screen_pos[1] - delta[3])
 				                                             .setStrokeLineWidth(LINE_WIDTH);
 				me.targets_speeds[i].update(); # because targets_speed_group children get deleted in next frame
 			}
@@ -447,10 +447,16 @@ var _calcTargetScreenPositionBScope = func(distance_m, max_distance_m, angle_deg
 # Calculates an indication of the speed and direction of a target.
 # For each 100 m/s (ca. 200 kt) extra the length increases
 var _calcTargetSpeedIndication = func(target_speed_m_s, relative_heading_deg) {
-	var dist_away = TARGET_WIDTH + math.floor(target_speed_m_s/100) * 0.5 * TARGET_WIDTH;
-	var x_delta = dist_away * math.sin(relative_heading_deg * D2R);
-	var y_delta = dist_away * math.cos(relative_heading_deg * D2R);
-	return [x_delta, y_delta];
+	# the start point
+	var dist_away = 0.5 * TARGET_WIDTH;
+	var x_start_delta = dist_away * math.sin(relative_heading_deg * D2R);
+	var y_start_delta = dist_away * math.cos(relative_heading_deg * D2R);
+
+	# the end point
+	dist_away = dist_away + TARGET_WIDTH + math.floor(target_speed_m_s/100) * 0.5 * TARGET_WIDTH;
+	var x_end_delta = dist_away * math.sin(relative_heading_deg * D2R);
+	var y_end_delta = dist_away * math.cos(relative_heading_deg * D2R);
+	return [x_start_delta, y_start_delta, x_end_delta, y_end_delta];
 };
 
 # assuming a x/y coordinate system with x towards left and y towards up

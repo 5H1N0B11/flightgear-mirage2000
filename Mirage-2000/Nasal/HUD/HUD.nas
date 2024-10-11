@@ -1347,11 +1347,13 @@ var HUD = {
     me.CCRP_cue_visbility = 0;
     me.CCRP_no_go_cross_visibility = 0;
 
+	var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
+
     if (me.selectedWeap != nil and me.input.MasterArm.getValue()) {
       if (me.selectedWeap.type != "30mm Cannon") {
         #Doing the math only for bombs
         if (me.selectedWeap.stage_1_duration+me.selectedWeap.stage_2_duration == 0) {
-          if (radar_system.apg68Radar.tgts_list != nil and size(radar_system.apg68Radar.tgts_list) > 0) {
+          if (target_contacts_list != nil and size(target_contacts_list) > 0) {
             #if target selected : CCRP
             #print("Should CCRP : size target list" ~ size(radar_system.apg68Radar.tgts_list));
             me.show_CCRP = me.display_CCRP_mode();
