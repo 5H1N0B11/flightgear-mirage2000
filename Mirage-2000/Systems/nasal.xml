@@ -3,6 +3,7 @@
 <PropertyList>
 	<notifications>
 		<file>Aircraft/Mirage-2000/Nasal/ArmamentNotification.nas</file>
+		<file>Aircraft/Mirage-2000/Nasal/M_frame_notification.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/GeoBridgedTransmitter.nas</file>
 	</notifications>
 	<hack>
@@ -50,6 +51,7 @@
 		<file>Aircraft/Mirage-2000/Nasal/rwr.nas</file>
 	</rwr>
 	<mirage2000>
+		<file>Aircraft/Mirage-2000/Nasal/exec.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/m2000-5_mfd.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/liveries.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/m2000-5_flightdirector.nas</file>

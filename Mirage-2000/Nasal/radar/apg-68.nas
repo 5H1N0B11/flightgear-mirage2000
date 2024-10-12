@@ -309,12 +309,12 @@ var AirborneRadar = {
 			if (me.focus != nil and me.focus.callsign != "") {
 				if (me.currentMode.painter) sttSend.setValue(left(md5(me.focus.callsign), 4));
 				else sttSend.setValue("");
-				if (1 == 1) {  # FIXME RICK
+				if (1 == 1) {  # ADAPT_TO_M2000
 			        datalink.send_data({"contacts":[{"callsign":me.focus.callsign,"iff":0}]});
 			    }
 			} else {
 				sttSend.setValue("");
-				if (1 == 1) {  # FIXME RICK
+				if (1 == 1) {  # ADAPT_TO_M2000
 		            datalink.clear_data();
 		        }
 			}
@@ -324,7 +324,7 @@ var AirborneRadar = {
 			armament.contact = nil;
 			sttSend.setValue("");
 			stbySend.setIntValue(1);
-			if (1 == 1) {  # FIXME RICK
+			if (1 == 1) {  # ADAPT_TO_M2000
 	            datalink.clear_data();
 	        }
 		}
@@ -1092,8 +1092,13 @@ var APG68 = {
 	rcsRefValue: 3.2,
 	targetHistory: 3,# Not used in TWS
 	isEnabled: func {
-		var radarWorking = getprop("/systems/electrical/outputs/gps");  # FIXME RICK hack to get it working
-		return radarWorking != nil and radarWorking > 24;
+		var radarWorking = getprop("/systems/electrical/outputs/gps");  # ADAPT_TO_M2000 hack to get it working
+		if (radarWorking != nil and radarWorking > 24) {
+			setprop("instrumentation/radar/radar-enable", 1);
+			return 1;
+		} else {
+			return 0;
+		}
 		# return getprop("/f16/avionics/power-fcr-bit") == 2 and getprop("instrumentation/radar/radar-enable") and !getprop("instrumentation/radar/ovrd") and getprop("instrumentation/radar/serviceable") and !getprop("/fdm/jsbsim/gear/unit[0]/WOW");
 	},
 	setAGMode: func {
@@ -1361,7 +1366,7 @@ var F16SeaMode = {
 		} elsif (me.azimuthTilt < -me.radar.fieldOfRegardMaxAz+me.az) {
 			me.azimuthTilt = -me.radar.fieldOfRegardMaxAz+me.az;
 		}
-		# if (me.radar.getTiltKnob() == 0 and steerpoints.getCurrentNumber() != 0) {  # RICK FIXME
+		# if (me.radar.getTiltKnob() == 0 and steerpoints.getCurrentNumber() != 0) {  # ADAPT_TO_M2000
 		#	me.groundPitch = steerpoints.getCurrentGroundPitch();
 		#	if (me.groundPitch != nil and me.groundPitch > -55 and me.groundPitch < 55) {
 		#		me.elevationTilt = me.groundPitch;
@@ -2489,7 +2494,6 @@ var RWR = {
 		rr.RWRRecipient.radar = rr;
 		rr.RWRRecipient.Receive = func(notification) {
 	        if (notification.NotificationType == "OmniNotification") {
-	        	#printf("RWR recv: %s", notification.NotificationType);
 	            if (me.radar.enabled == 1) {
 	    		    me.radar.vector_aicontacts = notification.vector;
 	    		    me.radar.scan();
@@ -2522,11 +2526,13 @@ var RWR = {
 		#       IFF info
 		#       ECM
 		#       radar on/off
-		if (!getprop("instrumentation/rwr/serviceable") or getprop("f16/avionics/power-ufc-warm") != 1 or getprop("f16/ews/ew-rwr-switch") != 1) {
-            setprop("sound/rwr-lck", 0);
-            setprop("ai/submodels/submodel[0]/flare-auto-release-cmd", 0);
-            return;
-        }
+
+
+		#if (!getprop("instrumentation/rwr/serviceable") or getprop("f16/avionics/power-ufc-warm") != 1 or getprop("f16/ews/ew-rwr-switch") != 1) {
+        #    setprop("sound/rwr-lck", 0);
+        #    setprop("ai/submodels/submodel[0]/flare-auto-release-cmd", 0);
+        #    return;
+        #} ADAPT_TO_M2000
         me.vector_aicontacts_threats = [];
 		me.fct = 10*2.0;
         me.myCallsign = self.getCallsign();
@@ -2973,7 +2979,7 @@ var TerrainMapper = {
 			},
 	scanGM: func (eulerX, eulerY, verticalInstantFoV, horizontalInstantFoV, bottomBar, topBar) {
 		# GM test code
-		if (1 > 2) return;  # FIXME RICK - from if (displays.fcrFrz)
+		if (1 > 2) return;  # ADAPT_TO_M2000 - from if (displays.fcrFrz)
 		if (me.radar.currentMode.mapper and me.enabled and me.radar.horizonStabilized and me["gmPic"] != nil and !me.exp) {
 			if (me.debug > 3) {
 				me.t0 = systime();
@@ -3193,7 +3199,7 @@ var TerrainMapper = {
 		me.dirty = 0;
 	},
 	loop: func {
-		if (1 > 2) return;  # FIXME RICK
+		if (1 > 2) return;  # ADAPT_TO_M2000
 		if (me.enabled and me.radar.currentMode.mapper and me["gmPic"] != nil and me.dirty) {
 			me.gmPic.dirtyPixels();
 		}

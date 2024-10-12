@@ -109,6 +109,8 @@ var main_Init_Loop = func() {
 	MirageBingo = instrumentation.bingo.new();
 	MirageBingo.update();
 
+	rtExec_loop(); # to make the ememsary FrameNotification work
+
 	print("system loop ... Check");
 	UpdateMain();
 }
@@ -674,6 +676,11 @@ var long_starting = func() {
 			setprop("/sim/current-view/field-of-view",36);
 		}
 	}, 15);
+
+	# Close the canopy one notch
+	settimer(func {
+		doors.move_canopy();
+	}, 42);
 
 	#puting back the view on take off view
 	settimer(func {

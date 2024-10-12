@@ -61,7 +61,7 @@
 
 		<key n="68">
 			<name>D</name>
-			<desc>Passenger door</desc>
+			<desc>Passenger canopy</desc>
 			<binding>
 				<command>nasal</command>
 				<script>doors.passenger.toggle();</script>
@@ -70,7 +70,7 @@
 
 		<key n="100">
 			<name>d</name>
-			<desc>Doors</desc>
+			<desc>Pilot canopy</desc>
 			<binding>
 				<command>nasal</command>
 				<script>doors.move_canopy();</script>

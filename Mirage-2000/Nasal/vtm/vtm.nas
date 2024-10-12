@@ -393,7 +393,7 @@ var VTM = {
 			bearing_rad = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true) * D2R;
 			relative_heading_rad = geo.normdeg(contact.getHeading() - heading_true) * D2R;
 			if (is_ppi = 1) {
-				screen_pos = _calcTargetScreenPositionPPIScope(direct_distance_m, max_distance_m, bearing_rad, max_azimuth_rad);
+				screen_pos = _calcTargetScreenPositionPPIScope(direct_distance_m, max_distance_m, bearing_rad);
 			} else {
 				screen_pos = _calcTargetScreenPositionBScope(direct_distance_m, max_distance_m, bearing_rad, max_azimuth_rad);
 			}
@@ -521,12 +521,11 @@ var VTM = {
 	},
 };
 
-
 # Calculates the relative screen position of a target in PPI-scope
 # Returns the x/y position on the Canvas
-var _calcTargetScreenPositionPPIScope = func(distance_m, max_distance_m, angle_rad, max_azimuth_rad) {
-	var x_pos = RADAR_VIEW_VERTICAL * math.sin(angle_rad);
-	var y_pos = 0.5 * RADAR_VIEW_VERTICAL - RADAR_VIEW_VERTICAL * math.cos(angle_rad);
+var _calcTargetScreenPositionPPIScope = func(distance_m, max_distance_m, angle_rad) {
+	var x_pos = RADAR_VIEW_VERTICAL * math.sin(angle_rad) * distance_m / max_distance_m;
+	var y_pos = 0.5 * RADAR_VIEW_VERTICAL - RADAR_VIEW_VERTICAL * math.cos(angle_rad) * distance_m / max_distance_m;
 	return [x_pos, y_pos];
 };
 

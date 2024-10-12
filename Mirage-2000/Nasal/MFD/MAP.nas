@@ -25,22 +25,22 @@ var height = 576;
 # {
 #     var coord_start_x = center_x + (radius * math.cos(start_angle * D2R));
 #     var coord_start_y = center_y - (radius * math.sin(start_angle * D2R));
-# 
+#
 #     var to_x = -(radius * math.cos(start_angle * D2R)) + (radius * math.cos(end_angle * D2R));
 #     var to_y = (radius * math.sin(start_angle * D2R)) - (radius * math.sin(end_angle * D2R));
-# 
+#
 #     element.setStrokeLineWidth(line_width)
 #         .set("stroke", color)
 #         .moveTo(coord_start_x, coord_start_y)
 #         .arcSmallCCW(radius, radius, 0, to_x, to_y);
-#         
+#
 #     print("coord_start_x:"~coord_start_x~"| coord_start_y:"~coord_start_y~"| radius:"~ radius ~"| to_x:"~to_x~"| to_y:"~ to_y);
 # }
 
 #-------------------------------------------------------------------------------
 #                                                                     draw_piste
 # this function creates a piste
-#   
+#
 # params :
 # - element  : canvas object created by createChild()
 #
@@ -70,7 +70,7 @@ var draw_piste = func(element)
 #-------------------------------------------------------------------------------
 #                                                                   update_piste
 # this function updates piste - length of vector = distance in 15s
-#   
+#
 # params :
 # - element  : canvas object created by createChild()
 # - FIXME ...
@@ -103,7 +103,7 @@ var update_piste = func(element, my_heading, my_alt, target_heading, target_alt,
 #-------------------------------------------------------------------------------
 #                                                                update_piste_fl
 # this function updates flight level piste label position
-#   
+#
 # params :
 # - element  : canvas object created by createChild()
 # - FIXME ...
@@ -141,22 +141,22 @@ var rightMFDcanvas = {
       m.radarStuff = m.root.createChild("group").set("z-index",9500);
       m.rwr = m.root.createChild("group").set("z-index",10000);
       rwr.setGroup(m.rwr);
-      
+
       #MAP stuff
       m.g_front = m.mapStuff.createChild("group");
       m.g_back = m.mapStuff.createChild("group");
-      
+
       #Aircraft orientation/position stuff
       m.myHeadingProp = props.globals.getNode("orientation/heading-deg");
       m.myCoord = geo.aircraft_position();
-      
+
       #Center of the canvas
       m.root.setCenter(384,256);
-      
+
       ##MAP stuff : Set up of the tiles
       m.tile_size = 256;
       m.num_tiles = [4, 3];
-      
+
       m.type = "map";
       m.home =  props.globals.getNode("/sim/fg-home");
       m.maps_base = m.home.getValue() ~ '/cache/maps';
@@ -166,16 +166,16 @@ var rightMFDcanvas = {
       # http://otile1.mqcdn.com/tiles/1.0.0/map
       # http://otile1.mqcdn.com/tiles/1.0.0/sat
       # (also see http://wiki.openstreetmap.org/wiki/Tile_usage_policy)
-      
+
       #var makeUrl  = string.compileTemplate('http://{server}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg');
       #var servers = ["otile1", "otile2", "otile3", "otile4"];
 
-      
+
       m.makeUrl  = string.compileTemplate('http://{server}.tile.osm.org/{z}/{x}/{y}.png');
       m.servers = ["a", "b", "c"];
       m.makePath = string.compileTemplate(m.maps_base ~ '/osm-{type}/{z}/{x}/{y}.png');
 
-      
+
       #Setting up red little aircraft
       m.center_tile_offset = [
           (m.num_tiles[0] - 1) / 2,
@@ -186,15 +186,15 @@ var rightMFDcanvas = {
       m.svg_symbol = m.root.createChild("group").set("z-index",9750);
       canvas.parsesvg(m.svg_symbol, m.filename);
       m.svg_symbol.setScale(0.05);
-      
+
       m.svg_symbol.setTranslation((width/2)-20,height/2-45);
-      
+
       m.myVector = m.svg_symbol.getBoundingBox();
       #svg_symbol.setCenter(width/2,height/2);
       m.svg_symbol.updateCenter();
       m.svg_symbol.set("z-index", 1);
-      
-      
+
+
       var make_tiles = func (canvas_group) {
           var tiles = setsize([], m.num_tiles[0]);
           for (var x = 0; x < m.num_tiles[0]; x += 1) {
@@ -205,9 +205,9 @@ var rightMFDcanvas = {
           }
           return tiles;
       }
-      
-      
-      
+
+
+
       #MAP Stuff
       m.tiles_front = make_tiles(m.g_front);
       m.tiles_back  = make_tiles(m.g_back);
@@ -216,14 +216,14 @@ var rightMFDcanvas = {
 
       m.last_tile = [-1,-1];
       m.last_type = m.type;
-      
-      ##ETC all needed for MAP and RWR canvas  
+
+      ##ETC all needed for MAP and RWR canvas
       m.zoom = 10;
       m.update_timer = nil;
-      
+
       ## RADAR STUFF ##
       m.MapToggle = 1;
-      
+
       # creation des arcs "range"
 #       m.arc_range1 = m.radarStuff.createChild("path", "arc_range1");
 #       m.arc_range1.moveTo(334,256).arcSmallCCW(50, 50, 0,  434, 256);
@@ -232,15 +232,15 @@ var rightMFDcanvas = {
 #       .set("stroke", "rgba(100, 100, 100, 1)")
 #       .arcSmallCCW(100, 100, 0, -200, 0)
 #       .arcSmallCCW(100, 100, 0, 200, 0);
-#       
+#
 #         draw_arc(m.arc_range1, 384,256 , 100 , 0, 180, "rgba(100, 100, 100, 1)", 3);
-      
-      
-      
-      
+
+
+
+
       return m;
     },
-        
+
     changeZoomMap: func(d) {
       new_zoom = math.max(2, math.min(15, me.zoom + d));
       if (new_zoom != me.zoom) {
@@ -257,8 +257,8 @@ var rightMFDcanvas = {
           me.myCoord = geo.aircraft_position();
           lat = me.myCoord.lat();
           lon = me.myCoord.lon();
-        
-        
+
+
           var n = math.pow(2, me.zoom);
           var offset = [
               n * ((lon + 180) / 360) - me.center_tile_offset[0],
@@ -298,7 +298,7 @@ var rightMFDcanvas = {
                           type: me.type,
                           server: server_name
                       };
-                      
+
                       (func {
                           var img_path = me.makePath(pos);
 
@@ -332,7 +332,7 @@ var rightMFDcanvas = {
                       })();
                   }
               }
-              
+
               me.last_tile = tile_index;
               me.last_type = me.type;
           }
@@ -340,13 +340,13 @@ var rightMFDcanvas = {
       updateRadar:func(){
         #Rotating aircraft to the front.
          me.svg_symbol.setRotation(0*D2R);
-        
+
       },
-      
-      
-      
+
+
+
       changeMfD_Displaying:func(){
-        
+
         #Temporary function : we change the displaying called : mirage2000.changeMfD_Displaying()
         if(me.MapToggle){
           me.mapStuff.hide();
@@ -357,12 +357,12 @@ var rightMFDcanvas = {
           me.radarStuff.hide();
           me.MapToggle = 1;
         }
-        
+
       },
-    
-    
-    
-    
+
+
+
+
     update: func()
     {
       #Whatever need to be updated
@@ -380,7 +380,7 @@ var rightMFDcanvas = {
           }
       });
       update_timer.start();
-      
+
     },
     #Other function like zoom in/out changing tile index, etc
 };
