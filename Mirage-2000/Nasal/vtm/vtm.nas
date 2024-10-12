@@ -72,6 +72,7 @@ var VTM = {
 		vtm_obj._createVisibleCorners();
 		vtm_obj._createScreenModeGroup();
 		vtm_obj._createRectangularFieldOfViewGrid();
+		vtm_obj._createPPIView();
 		vtm_obj._createTargets();
 		vtm_obj._createStandbyText();
 		vtm_obj._createRadarModesGroup();
@@ -212,6 +213,56 @@ var VTM = {
 		me.rectangular_fov_grid_group.hide();
 	},
 
+
+	# Create circle sector grid for PPI view. We draw stippled lines at 30 and 60 degs to each side.
+	# Because the sectors can have different angles, the circle at the top cannot be drawn fixed.
+	_createPPIView: func() {
+		me.ppi_fov_grid_group = me.root.createChild("group", "ppi_fov_grid");
+		me.ppi_fov_grid_group.setTranslation(0, 0.5 * SCREEN_HEIGHT - PADDING_BOTTOM);
+
+		me.ppi_circle_group = me.ppi_fov_grid_group.createChild("group", "ppi_circle_group");
+
+		me.angle_markers = setsize([],5);
+		var angle_rad = 30 * D2R;
+		var circle_x = RADAR_VIEW_VERTICAL * math.sin(angle_rad);
+		var circle_y = RADAR_VIEW_VERTICAL * math.cos(angle_rad);
+		var dash_array = [1*GRID_TICK_LENGTH, 4*GRID_TICK_LENGTH];
+		me.angle_markers[0] = me.ppi_fov_grid_group.createChild("path")
+		                                           .moveTo(0, 0)
+		                                           .lineTo(-circle_x, -circle_y)
+		                                           .setStrokeLineWidth(LINE_WIDTH)
+		                                           .setColor(COLOR_FOREGROUND)
+		                                           .setStrokeDashArray(dash_array);
+		me.angle_markers[1] = me.ppi_fov_grid_group.createChild("path")
+		                                           .moveTo(0, 0)
+		                                           .lineTo(circle_x, -circle_y)
+		                                           .setStrokeLineWidth(LINE_WIDTH)
+		                                           .setColor(COLOR_FOREGROUND)
+		                                           .setStrokeDashArray(dash_array);
+		angle_rad = 60 * D2R;
+		circle_x = RADAR_VIEW_VERTICAL * math.sin(angle_rad);
+		circle_y = RADAR_VIEW_VERTICAL * math.cos(angle_rad);
+		me.angle_markers[2] = me.ppi_fov_grid_group.createChild("path")
+		                                           .moveTo(0, 0)
+		                                           .lineTo(-circle_x, -circle_y)
+		                                           .setStrokeLineWidth(LINE_WIDTH)
+		                                           .setColor(COLOR_FOREGROUND)
+		                                           .setStrokeDashArray(dash_array);
+		me.angle_markers[3] = me.ppi_fov_grid_group.createChild("path")
+		                                           .moveTo(0, 0)
+		                                           .lineTo(circle_x, -circle_y)
+		                                           .setStrokeLineWidth(LINE_WIDTH)
+		                                           .setColor(COLOR_FOREGROUND)
+		                                           .setStrokeDashArray(dash_array);
+		me.angle_markers[4] = me.ppi_fov_grid_group.createChild("path")
+		                                           .moveTo(0, -RADAR_VIEW_VERTICAL)
+		                                           .lineTo(0, -RADAR_VIEW_VERTICAL + 2*GRID_TICK_LENGTH)
+		                                           .setStrokeLineWidth(LINE_WIDTH)
+		                                           .setColor(COLOR_RADAR);
+		me.ppi_fov_grid_group.hide();
+	},
+
+
 	# 3 types of targets: selected target, friend targets, foe targets.
 	# The selected target (max 1) is a cross.
 	# The friendly targets (given the IFF) are drawn as a filled circle.
@@ -318,18 +369,18 @@ var VTM = {
 		me.radar_modes_group.hide();
 	},
 
-	_updateTargets: func(heading_true) {
+	_updateTargets: func(heading_true, is_ppi) {
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 		var i = 0;
 		var has_priority = 0;
 		var this_aircraft_position = geo.aircraft_position();
 		var target_position = nil;
 		var direct_distance_m = 0;
-		var bearing_deg = 0; # from this aircraft to the target
-		var relative_heading_deg = 0; # the heading of the target as seen by this aircraft with nose = North
+		var bearing_rad = 0; # from this aircraft to the target
+		var relative_heading_rad = 0; # the heading of the target as seen by this aircraft with nose = North
 		var screen_pos = nil;
 		var max_distance_m = radar_system.apg68Radar.getRange() * NM2M;
-		var max_azimuth_deg = radar_system.apg68Radar.getAzimuthRadius();
+		var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
 		var target_speed_m_s = 0;
 
 		me.targets_speed_group.removeAllChildren();
@@ -339,9 +390,13 @@ var VTM = {
 		foreach(var contact; target_contacts_list) {
 			target_position = contact.getCoord();
 			direct_distance_m = contact.getRangeDirect();
-			bearing_deg = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true);
-			relative_heading_deg = geo.normdeg(contact.getHeading() - heading_true);
-			screen_pos = _calcTargetScreenPositionBScope(direct_distance_m, max_distance_m, bearing_deg, max_azimuth_deg);
+			bearing_rad = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true) * D2R;
+			relative_heading_rad = geo.normdeg(contact.getHeading() - heading_true) * D2R;
+			if (is_ppi = 1) {
+				screen_pos = _calcTargetScreenPositionPPIScope(direct_distance_m, max_distance_m, bearing_rad, max_azimuth_rad);
+			} else {
+				screen_pos = _calcTargetScreenPositionBScope(direct_distance_m, max_distance_m, bearing_rad, max_azimuth_rad);
+			}
 
 			me.friend_targets[i].hide(); # currently we do not know the friends
 			if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
@@ -350,7 +405,7 @@ var VTM = {
 				me.selected_target_callsign.updateText(contact.getCallsign());
 				me.foe_targets[i].hide();
 			} else {
-				me.foe_targets[i].setRotation(relative_heading_deg * D2R);
+				me.foe_targets[i].setRotation(relative_heading_rad);
 				me.foe_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
 				me.foe_targets[i].show();
 			}
@@ -359,7 +414,7 @@ var VTM = {
 			# Based on the pict from the book the selected target does not get a line, here we do
 			target_speed_m_s = contact.get_Speed() * KT2MPS;
 			if (target_speed_m_s > 25) {
-				delta = _calcTargetSpeedIndication(target_speed_m_s, relative_heading_deg);
+				delta = _calcTargetSpeedIndication(target_speed_m_s, relative_heading_rad);
 				me.targets_speeds[i] = me.targets_speed_group.createChild("path")
 				                                             .setColor(COLOR_RADAR)
 				                                             .moveTo(screen_pos[0] + delta[0], screen_pos[1] - delta[1])
@@ -379,9 +434,9 @@ var VTM = {
 		me.selected_target_callsign.setVisible(has_priority);
 	},
 
-	_updateRadarTexts: func() {
+	_updateRadarTexts: func(radar_mode_root_name, radar_mode_name) {
 		# this is fictional based on radar2.nas->radar_mode_toggle(). In the real screen it reads e.g. "MRF"
-		me.radar_left_text.setText(radar_system.apg68Radar.currentMode.rootName~"-"~radar_system.apg68Radar.getMode());
+		me.radar_left_text.setText(radar_mode_root_name~"-"~radar_mode_name);
 
 		# This is fictional based on interpretation of display_system.nas in the F16
 		# The azimuth is only to one side - i.e. az=40 means plus/minus 40 -> 80 degrees
@@ -407,6 +462,19 @@ var VTM = {
 		me.radar_range_text.setText(radar_system.apg68Radar.getRange());
 	},
 
+	_updatePPICircle: func(max_azimuth_rad) {
+		me.ppi_circle_group.removeAllChildren();
+		var circle_x = RADAR_VIEW_VERTICAL * math.sin(max_azimuth_rad);
+		var circle_y = RADAR_VIEW_VERTICAL * math.cos(max_azimuth_rad);
+
+		var ppi_circle = me.ppi_circle_group.createChild("path")
+		                                    .moveTo(-circle_x, -circle_y)
+		                                    .arcSmallCW(RADAR_VIEW_VERTICAL, RADAR_VIEW_VERTICAL, 0, 2*circle_x, 0)
+		                                    .setStrokeLineWidth(LINE_WIDTH)
+		                                    .setColor(COLOR_RADAR);
+		ppi_circle.update();
+	},
+
 	update: func() {
 		var global_visible = 0;
 		var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
@@ -416,8 +484,27 @@ var VTM = {
 		}
 		me.corners_group.setVisible(global_visible);
 		me.screen_mode_group.setVisible(global_visible);
-		me.rectangular_fov_grid_group.setVisible(global_visible);
 		me.radar_modes_group.setVisible(global_visible);
+
+		var is_ppi = 0;
+		if (global_visible == 1) {
+			var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
+			var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;
+			var radar_mode_name = radar_system.apg68Radar.getMode();
+			if (radar_mode_root_name == 'SEA' or radar_mode_root_name == 'GM' or radar_mode_root_name == 'GMT') {
+				is_ppi = 1;
+				me.ppi_fov_grid_group.setVisible(1);
+				me._updatePPICircle(max_azimuth_rad);
+				me.rectangular_fov_grid_group.setVisible(0);
+			} else {
+				me.ppi_fov_grid_group.setVisible(0);
+				me.rectangular_fov_grid_group.setVisible(1);
+			}
+			me._updateRadarTexts(radar_mode_root_name, radar_mode_name);
+		} else {
+			me.ppi_fov_grid_group.setVisible(0);
+			me.rectangular_fov_grid_group.setVisible(0);
+		}
 
 		if (global_visible == 0) {
 			me.standby_group.setVisible(global_visible);
@@ -429,43 +516,50 @@ var VTM = {
 			me.standby_group.hide();
 			me.targets_group.show();
 			me.targets_speed_group.show();
-			me._updateTargets(heading_true);
-			me._updateRadarTexts();
+			me._updateTargets(heading_true, is_ppi);
 		}
 	},
 };
 
 
+# Calculates the relative screen position of a target in PPI-scope
+# Returns the x/y position on the Canvas
+var _calcTargetScreenPositionPPIScope = func(distance_m, max_distance_m, angle_rad, max_azimuth_rad) {
+	var x_pos = RADAR_VIEW_VERTICAL * math.sin(angle_rad);
+	var y_pos = 0.5 * RADAR_VIEW_VERTICAL - RADAR_VIEW_VERTICAL * math.cos(angle_rad);
+	return [x_pos, y_pos];
+};
+
 # Calculates the relative screen position of a target in B-scope
 # Returns the x/y position on the Canvas
-var _calcTargetScreenPositionBScope = func(distance_m, max_distance_m, angle_deg, max_azimuth_deg) {
-	var x_pos = angle_deg / max_azimuth_deg * (0.5 * RADAR_VIEW_HORIZONTAL);
+var _calcTargetScreenPositionBScope = func(distance_m, max_distance_m, angle_rad, max_azimuth_rad) {
+	var x_pos = angle_rad / max_azimuth_rad * (0.5 * RADAR_VIEW_HORIZONTAL);
 	var y_pos = 0.5 * RADAR_VIEW_VERTICAL - distance_m / max_distance_m * RADAR_VIEW_VERTICAL;
 	return [x_pos, y_pos];
 };
 
 # Calculates an indication of the speed and direction of a target.
 # For each 100 m/s (ca. 200 kt) extra the length increases
-var _calcTargetSpeedIndication = func(target_speed_m_s, relative_heading_deg) {
+var _calcTargetSpeedIndication = func(target_speed_m_s, relative_heading_rad) {
 	# the start point
 	var dist_away = 0.5 * TARGET_WIDTH;
-	var x_start_delta = dist_away * math.sin(relative_heading_deg * D2R);
-	var y_start_delta = dist_away * math.cos(relative_heading_deg * D2R);
+	var x_start_delta = dist_away * math.sin(relative_heading_rad);
+	var y_start_delta = dist_away * math.cos(relative_heading_rad);
 
 	# the end point
 	dist_away = dist_away + TARGET_WIDTH + math.floor(target_speed_m_s/100) * 0.5 * TARGET_WIDTH;
-	var x_end_delta = dist_away * math.sin(relative_heading_deg * D2R);
-	var y_end_delta = dist_away * math.cos(relative_heading_deg * D2R);
+	var x_end_delta = dist_away * math.sin(relative_heading_rad);
+	var y_end_delta = dist_away * math.cos(relative_heading_rad);
 	return [x_start_delta, y_start_delta, x_end_delta, y_end_delta];
 };
 
 # assuming a x/y coordinate system with x towards left and y towards up
 # calculate a new direct_distance and bearing 1 minute away
 # not suitable for B-scope
-var _calcTargetOneMinute = func(speed_m_s, relative_heading_deg, direct_distance_m, bearing_deg) {
+var _calcTargetOneMinute = func(speed_m_s, relative_heading_rad, direct_distance_m, bearing_rad) {
 	var dist_away = speed_m_s * 60;
-	var x_new = direct_distance_m * math.sin(bearing_deg * D2R) + dist_away * math.sin(relative_heading_deg * D2R);
-	var y_new = direct_distance_m * math.cos(bearing_deg * D2R) + dist_away * math.cos(relative_heading_deg * D2R);
+	var x_new = direct_distance_m * math.sin(bearing_rad) + dist_away * math.sin(relative_heading_rad);
+	var y_new = direct_distance_m * math.cos(bearing_rad) + dist_away * math.cos(relative_heading_rad);
 	if (y_new == 0) {
 		y_new = 0.001;
 	}
