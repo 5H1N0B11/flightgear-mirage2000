@@ -142,8 +142,6 @@
 	<radar_system>
 		<file>Aircraft/Mirage-2000/Nasal/radar/radar-system-database.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/radar/radar-system.nas</file>
-		<!-- <file>Aircraft/Mirage-2000/Nasal/radar/radar-generic.nas</file>
-		<file>Aircraft/Mirage-2000/Nasal/radar/radar_rdy.nas</file> -->
 		<file>Aircraft/Mirage-2000/Nasal/radar/apg-68.nas</file>
 	</radar_system>
 </PropertyList>
