@@ -150,6 +150,7 @@
 			<weight-launch-lbs type="double"> 216 </weight-launch-lbs>
 			<weight-warhead-lbs type="double"> 30 </weight-warhead-lbs>
 		</mica-ir>
+
 		<s530d> <!-- Matra Super 530D http://www.areamilitar.net/directorio/MIS.aspx?nm=205 --> <!-- Name of the file matra-super530d-2.xml or matra-super530d-4.xml-->
 			<type-id type="int">91</type-id>
 			<short-name type="string">S-530D</short-name>
@@ -197,6 +198,7 @@
 			<vol-track type="double"> 0.25 </vol-track>
 			<vol-track-weak type="double"> 0.175 </vol-track-weak>
 		</s530d>
+
 		<magic-2> <!-- Matra R550 Magic 2 -->
 			<type-id type="int">66</type-id>
 			<short-name type="string">MAGIC-2</short-name>
@@ -251,15 +253,15 @@
 			<detect-range-nm type="double">9.7</detect-range-nm>
 			<pro_constant>2</pro_constant>
 		</magic-2>
+
 		<gbu-12> <!-- GBU 12 -->
 			<type-id type="int">18</type-id>
 			<short-name type="string">GBU12</short-name>
 			<long-name type="string">GBU-12 Paveway II</long-name>
 			<all-aspect type="bool">true</all-aspect>
-
 			<arming-time-sec type="double"> 3 </arming-time-sec>
 			<auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
-			<class type="string">GM</class>
+			<class type="string">GMP</class>
 			<cross-section-sqft type="double"> 0.63 </cross-section-sqft>
 			<deploy-time type="double">2</deploy-time>
 			<drag-coeff type="double"> 0.012 </drag-coeff>
@@ -603,12 +605,10 @@
 			<weight-warhead-lbs type="double"> 529 </weight-warhead-lbs>
 		</as30l>
 
-
 		<am39-exocet> <!-- Exocet -->
 			<type-id type="int">8</type-id>
 			<short-name type="string">exocet</short-name>
 			<long-name type="string">AM39 Exocet</long-name>
-
 			<all-aspect type="bool">true</all-aspect>
 			<arming-time-sec type="double"> 2.0 </arming-time-sec>
 			<class type="string">M</class>

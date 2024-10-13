@@ -146,7 +146,7 @@ RWRCanvas = {
 		{
 			if (notification.NotificationType == "FrameNotification" and notification.FrameCount == 2)
 			{
-				me.parent_obj.update(radar_system.f16_rwr.vector_aicontacts_threats, "normal");
+				me.parent_obj._update(radar_system.f16_rwr.vector_aicontacts_threats, "normal");
 				return emesary.Transmitter.ReceiptStatus_OK;
 			}
 			return emesary.Transmitter.ReceiptStatus_NotProcessed;
@@ -155,14 +155,14 @@ RWRCanvas = {
 
 		return rwr;
 	},
-	assignSepSpot: func {
+	_assignSepSpot: func {
 		# me.dev        angle_deg
 		# me.sep_spots  0 to 2  45, 20, 15
 		# me.threat     0 to 2
 		# me.sep_angles
 		# return   me.dev,  me.threat
 		me.newdev = me.dev;
-		me.assignIdealSepSpot();
+		me._assignIdealSepSpot();
 		me.plus = me.sep_angles[me.threat];
 		me.dir  = 0;
 		me.count = 1;
@@ -176,7 +176,7 @@ RWRCanvas = {
 
 			me.newdev = me.dev + me.plus * me.dir;
 
-			me.assignIdealSepSpot();
+			me._assignIdealSepSpot();
 			me.count += 1;
 		}
 
@@ -193,11 +193,11 @@ RWRCanvas = {
 			me.threat = me.sep3_radius;
 		}
 	},
-	assignIdealSepSpot: func {
+	_assignIdealSepSpot: func {
 		me.spot = math.round(geo.normdeg(me.newdev)/me.sep_angles[me.threat]);
 		if (me.spot >= size(me.sep_spots[me.threat])) me.spot = 0;
 	},
-	update: func (list, type) {
+	_update: func (list, type) {
 		me.sep = 0; # not yet implemented - in F16 getprop("f16/ews/rwr-separate");
 		me.showUnknowns = 1;
 		me.elapsed = getprop("sim/time/elapsed-sec");
@@ -279,7 +279,7 @@ RWRCanvas = {
 				} else {
 					me.threat = 2;
 				}
-				me.assignSepSpot();
+				me._assignSepSpot();
 			}
 
 			me.x = math.cos(me.dev*D2R)*me.threat;
