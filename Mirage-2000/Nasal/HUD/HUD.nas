@@ -712,20 +712,20 @@ var HUD = {
 		# Bomb Fall Line (BFL)
 		m.CCIP_BFL = m.CCIP.createChild("group");
 
-		#Bomb impact
+		#Bomb impact - a hexagon with wings on each side - each side in the hexagon is 24
 		m.CCIP_piper = m.CCIP.createChild("path")
 		                     .setColor(m.myGreen)
-		                     .moveTo(15, 0)
-		                     .horiz(40)
-		                     .moveTo(15, 0)
-		                     .lineTo(7.5,13)
-		                     .lineTo(-7.5,13)
-		                     .lineTo(-15,0)
-		                     .lineTo(-7.5,-13)
-		                     .lineTo(7.5,-13)
-		                     .lineTo(15,0)
-		                     .moveTo(-15, 0)
-		                     .horiz(-40)
+		                     .moveTo(24, 0)
+		                     .horiz(40) # right wing
+		                     .moveTo(24, 0)
+		                     .lineTo(12,20)
+		                     .lineTo(-12,20)
+		                     .lineTo(-24,0)
+		                     .lineTo(-12,-20)
+		                     .lineTo(12,-20)
+		                     .lineTo(24,0)
+		                     .moveTo(-24, 0)
+		                     .horiz(-40) # left wing
 		                     .setStrokeLineWidth(4);
 
 		m.CCIP_safe_alt = m.CCIP.createChild("path") # pull up cue
@@ -1076,16 +1076,15 @@ var HUD = {
 
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 
-		if (me.selectedWeapon != nil and me.input.MasterArm.getValue()) {
+		if (me.selectedWeapon != nil and me.input.MasterArm.getValue() and me.selectedWeapon.type != CANNON_30MM and me.input.wow_nlg.getValue() == 0) {
 			if (me.selectedWeapon.class == AIM_CLASS_GMP and me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
 				if (me.selectedWeapon.stage_1_duration + me.selectedWeapon.stage_2_duration == 0) {
-					if (target_contacts_list != nil and size(target_contacts_list) > 0) {
+					if (1 > 2) { #target_contacts_list != nil and size(target_contacts_list) > 0) {
 						#if target selected : CCRP
 						#print("Should CCRP : size target list" ~ size(radar_system.apg68Radar.tgts_list));
 						me.show_CCRP = me._displayCCRPMode();
 					} else {
 						me.show_CCIP = me._displayCCIPMode();
-						print("me.show_CCIP: "~me.show_CCIP);
 					}
 				}
 			} else { # Else showing the gun
@@ -1301,13 +1300,10 @@ var HUD = {
 	}, # END _displayILSSquare()
 
 	_displayCCIPMode: func() {
-		print("_displayCCIPMode() called");
 		me.ccipPos = me.selectedWeapon.getCCIPadv(18, 0.20);
 		if (me.ccipPos != nil) {
-			print("ccipPos is not nil");
 			me.hud_pos = HudMath.getPosFromCoord(me.ccipPos[0]);
 			if (me.hud_pos != nil) {
-				print("hud_pos is not nil");
 				me.pos_x = me.hud_pos[0];
 				me.pos_y = me.hud_pos[1];
 				me.CCIP_piper.setTranslation(me.pos_x,me.pos_y);
@@ -1326,11 +1322,11 @@ var HUD = {
 
 				# Calculate safe altitude - me.selectedWeapon.reportDist*2 is an arbitrary choice
 				me.safe_alt = int(me.ccipPos[0].alt() + me.selectedWeapon.reportDist * 2);
-				#print("me.safe_alt:" ~me.safe_alt);
-				#print("diff elevation vs target_alt:" ~ int(me.input.alt.getValue()*FT2M));
-				#print("%off line : " ~ me.safe_alt/(me.input.alt.getValue()*FT2M));
 				me.safe_alt_percent = me.safe_alt / (me.input.alt.getValue());
-				me.CCIP_safe_alt.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-(me.fpvCalc[1]-me.pos_y)*(1-math.clamp(me.safe_alt_percent,0,1)));
+				me.safe_y_pos = me.fpvCalc[1]-(me.fpvCalc[1]-me.pos_y)*(1-math.clamp(me.safe_alt_percent,0,1));
+				me.safe_diff_factor = (me.safe_y_pos - me.fpvCalc[1]) / (me.pos_y - me.fpvCalc[1]);
+				me.safe_x_pos = me.fpvCalc[0] - (me.fpvCalc[0] - me.pos_x) * me.safe_diff_factor;
+				me.CCIP_safe_alt.setTranslation(me.safe_x_pos, me.safe_y_pos);
 
 				# Distance to ground impact : only working if radar is on
 				if (me.input.IsRadarWorking.getValue()>24) {
