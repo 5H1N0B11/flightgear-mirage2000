@@ -274,10 +274,10 @@ var VTM = {
 	_createCursors: func() { # Selection cursor
 		me.cursor_group = me.root.createChild("group");
 		me.cursor_stt = me.cursor_group.createChild("path")
-		                               .moveTo(0, GRID_TICK_LENGTH/2).vert(GRID_TICK_LENGTH*2)
-		                               .moveTo(0, -GRID_TICK_LENGTH/2).vert(-GRID_TICK_LENGTH*2)
-		                               .moveTo(-GRID_TICK_LENGTH/2, 0).horiz(-GRID_TICK_LENGTH*2)
-		                               .moveTo(GRID_TICK_LENGTH/2, 0).horiz(GRID_TICK_LENGTH*2)
+		                               .moveTo(0, GRID_TICK_LENGTH/2).vert(GRID_TICK_LENGTH*3)
+		                               .moveTo(0, -GRID_TICK_LENGTH/2).vert(-GRID_TICK_LENGTH*3)
+		                               .moveTo(-GRID_TICK_LENGTH/2, 0).horiz(-GRID_TICK_LENGTH*3)
+		                               .moveTo(GRID_TICK_LENGTH/2, 0).horiz(GRID_TICK_LENGTH*3)
 		                               .setStrokeLineWidth(LINE_WIDTH)
 		                               .setColor(COLOR_RADAR);
 		me.cursor_group.hide();
@@ -307,17 +307,17 @@ var VTM = {
 		                                                              0.5 * RADAR_VIEW_VERTICAL + TEXT_PADDING);
 		me.selected_target_callsign.enableUpdate();
 
-		me.friend_targets = setsize([],MAX_CONTACTS);
+		me.friend_contacts = setsize([],MAX_CONTACTS);
 		for (var i = 0; i<MAX_CONTACTS; i += 1) {
-			me.friend_targets[i] = me.targets_group.createChild("path")
+			me.friend_contacts[i] = me.targets_group.createChild("path")
 			                                       .setColor(COLOR_RADAR)
 			                                       .circle(0.5 * TARGET_WIDTH, 0, 0)
 			                                       .setStrokeLineWidth(2*LINE_WIDTH);
 		}
 
-		me.foe_targets = setsize([],MAX_CONTACTS);
+		me.air_targets = setsize([],MAX_CONTACTS); # foe's in the air - which are not on the ground or at sea
 		for (var i = 0; i<MAX_CONTACTS; i += 1) {
-			me.foe_targets[i]    = me.targets_group.createChild("path")
+			me.air_targets[i]    = me.targets_group.createChild("path")
 			                                       .setColor(COLOR_RADAR)
 			                                       .moveTo(-0.5 * TARGET_WIDTH, -0.5 * TARGET_WIDTH)
 			                                       .vert(TARGET_WIDTH)
@@ -326,6 +326,19 @@ var VTM = {
 			                                       .vert(TARGET_WIDTH)
 			                                       .setStrokeLineWidth(LINE_WIDTH);
 		}
+
+		me.gnd_targets = setsize([],MAX_CONTACTS); # targets on the ground or at sea
+		for (var i = 0; i<MAX_CONTACTS; i += 1) {
+			me.gnd_targets[i]    = me.targets_group.createChild("path")
+			                                       .setColor(COLOR_RADAR)
+			                                       .setColorFill(COLOR_RADAR)
+			                                       .moveTo(0, -0.5 * TARGET_WIDTH)
+			                                       .lineTo(0.5 * TARGET_WIDTH, 0)
+			                                       .lineTo(0, 0.5 * TARGET_WIDTH)
+			                                       .lineTo(-0.5 * TARGET_WIDTH, 0)
+			                                       .setStrokeLineWidth(LINE_WIDTH);
+		}
+
 		me.targets_group.hide();
 
 		# a special group for drawing a speed indicating line for targets with a minimum speed
@@ -389,7 +402,7 @@ var VTM = {
 		me.radar_modes_group.hide();
 	},
 
-	_updateTargets: func(max_azimuth_rad, max_distance_m, heading_true, is_ppi) {
+	_updateTargets: func(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_root_name) {
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 		var i = 0;
 		var has_priority = FALSE;
@@ -402,6 +415,8 @@ var VTM = {
 		me.radar_contacts_pos = [];
 		me.targets_speed_group.removeAllChildren();
 		var delta = nil;
+
+		var is_gnd = _is_ground_mode(radar_mode_root_name);
 
 		# walk through all existing targets as per available list
 		foreach(var contact; target_contacts_list) {
@@ -416,16 +431,24 @@ var VTM = {
 			}
 			append(me.radar_contacts_pos, screen_pos);
 
-			me.friend_targets[i].hide(); # currently we do not know the friends
+			me.friend_contacts[i].hide(); # currently we do not know the friends
 			if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
 				has_priority = TRUE;
 				me.selected_target.setTranslation(screen_pos[0], screen_pos[1]);
 				me.selected_target_callsign.updateText(contact.getCallsign());
-				me.foe_targets[i].hide();
+				me.air_targets[i].hide();
+				me.gnd_targets[i].hide();
 			} else {
-				me.foe_targets[i].setRotation(relative_heading_rad);
-				me.foe_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
-				me.foe_targets[i].show();
+				if (is_gnd == FALSE) {
+					me.air_targets[i].setRotation(relative_heading_rad);
+					me.air_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
+					me.air_targets[i].show();
+					me.gnd_targets[i].hide();
+				} else {
+					me.gnd_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
+					me.gnd_targets[i].show();
+					me.air_targets[i].hide();
+				}
 			}
 
 			# Draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
@@ -446,8 +469,9 @@ var VTM = {
 
 		# handle the index positions if the target list was shorter than the reserved elements
 		for (var j = i; j < MAX_CONTACTS; j += 1) {
-			me.friend_targets[j].hide();
-			me.foe_targets[j].hide();
+			me.friend_contacts[j].hide();
+			me.air_targets[j].hide();
+			me.gnd_targets[j].hide();
 		}
 		me.selected_target.setVisible(has_priority);
 		me.selected_target_callsign.setVisible(has_priority);
@@ -580,6 +604,8 @@ var VTM = {
 		var heading_true = props.globals.getNode("/orientation/heading-deg").getValue();
 		var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
 		var max_distance_m = radar_system.apg68Radar.getRange() * NM2M;
+		var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;
+		var radar_mode_name = radar_system.apg68Radar.getMode();
 		if (radar_voltage != nil and radar_voltage >= 23) {
 			global_visible = TRUE;
 		}
@@ -589,9 +615,7 @@ var VTM = {
 
 		var is_ppi = FALSE;
 		if (global_visible == TRUE) {
-			var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;
-			var radar_mode_name = radar_system.apg68Radar.getMode();
-			if (radar_mode_root_name == 'SEA' or radar_mode_root_name == 'GM' or radar_mode_root_name == 'GMT') {
+			if (_is_ground_mode(radar_mode_root_name)) {
 				is_ppi = TRUE;
 				me.ppi_fov_grid_group.setVisible(TRUE);
 				me._updatePPICircle(max_azimuth_rad);
@@ -616,10 +640,17 @@ var VTM = {
 			me.standby_group.hide();
 			me.targets_group.show();
 			me.targets_speed_group.show();
-			me._updateTargets(max_azimuth_rad, max_distance_m, heading_true, is_ppi);
+			me._updateTargets(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_root_name);
 			me._updateCursor(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_name); # needs to be after _updateTargets()
 		}
 	},
+};
+
+var _is_ground_mode = func(radar_mode_root_name) {
+	if (radar_mode_root_name == 'SEA' or radar_mode_root_name == 'GM' or radar_mode_root_name == 'GMT') {
+		return TRUE;
+	}
+	return FALSE;
 };
 
 # Calculates the relative screen position of a target in PPI-scope
