@@ -393,10 +393,6 @@ var VTM = {
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 		var i = 0;
 		var has_priority = FALSE;
-		var this_aircraft_position = geo.aircraft_position();
-		var target_position = nil;
-		var direct_distance_m = 0;
-		var bearing_rad = 0; # from this aircraft to the target
 		var relative_heading_rad = 0; # the heading of the target as seen by this aircraft with nose = North
 		var screen_pos = nil;
 		var target_speed_m_s = 0;
@@ -410,14 +406,13 @@ var VTM = {
 		# walk through all existing targets as per available list
 		foreach(var contact; target_contacts_list) {
 			append(me.radar_contacts, contact);
-			target_position = contact.getCoord();
-			direct_distance_m = contact.getRangeDirect();
-			bearing_rad = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true) * D2R;
+			var info = contact.getLastBlep();
+			var screen_pos = nil;
 			relative_heading_rad = geo.normdeg(contact.getHeading() - heading_true) * D2R;
 			if (is_ppi = TRUE) {
-				screen_pos = _calcTargetScreenPositionPPIScope(direct_distance_m, max_distance_m, bearing_rad);
+				screen_pos = _calcTargetScreenPositionPPIScope(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R);
 			} else {
-				screen_pos = _calcTargetScreenPositionBScope(direct_distance_m, max_distance_m, bearing_rad, max_azimuth_rad);
+				screen_pos = _calcTargetScreenPositionBScope(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R, max_azimuth_rad);
 			}
 			append(me.radar_contacts_pos, screen_pos);
 
@@ -445,7 +440,6 @@ var VTM = {
 				                                             .setStrokeLineWidth(LINE_WIDTH);
 				me.targets_speeds[i].update(); # because targets_speed_group children get deleted in next frame
 			}
-
 			i += 1;
 		}
 		me.n_contacts = i;
