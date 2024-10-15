@@ -66,7 +66,7 @@ var VTM = {
 		                     "mipmapping": 0
 		});
 
-		vtm_obj.cursor_pos = [0,-RADAR_VIEW_VERTICAL/2];
+		vtm_obj.cursor_pos = [RADAR_VIEW_HORIZONTAL/8,-RADAR_VIEW_VERTICAL*3/8]; # a bit off middle towards right and the top part of the screen
 		vtm_obj.cursor_trigger_prev = FALSE;
 		vtm_obj.n_contacts = 0;
 
@@ -506,6 +506,10 @@ var VTM = {
 			me.cursor_group.hide();
 			return;
 		}
+		if (radar_mode_name == "TWS") {
+			me.cursor_group.hide();
+			return;
+		}
 
 		# Retrieve cursor movement from JSBSim
 		var cursor_mov = displays.common.getCursorDelta();
@@ -520,25 +524,23 @@ var VTM = {
 			if (click) {
 				# cursor restarts from current target position
 				var info = radar_priority_target.getLastBlep();
+				var screen_pos = nil;
 				if (info != nil) {
-					me.cursor_pos[0] = info.getAZDeviation() * HEADING_DEG_TO_MM;
-					me.cursor_pos[1] = -info.getRangeNow() / me.radar_range * RADAR_VIEW_VERTICAL;
-					me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -RADAR_VIEW_HORIZONTAL/2, RADAR_VIEW_HORIZONTAL/2);
-					me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -RADAR_VIEW_VERTICAL/2, RADAR_VIEW_VERTICAL/2);
+					if (is_ppi = TRUE) {
+						screen_pos = _calcTargetScreenPositionPPIScope(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R);
+					} else {
+						screen_pos = _calcTargetScreenPositionBScope(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R, max_azimuth_rad);
+					}
+					me.cursor_pos[0] = math.clamp(screen_pos[0], -RADAR_VIEW_HORIZONTAL/2, RADAR_VIEW_HORIZONTAL/2);
+					me.cursor_pos[1] = math.clamp(screen_pos[1], -RADAR_VIEW_VERTICAL/2, RADAR_VIEW_VERTICAL/2);
 				}
 				radar_system.apg68Radar.undesignate();
 			}
 			return;
 		}
 
-		if (radar_mode_name == "Disk") { # FIXME do not show if in a mode, where the cursor cannot be used
-			me.cursor_group.hide();
-			return;
-		}
-
-		# 1.5 seconds to cover the entire screen.
-		me.cursor_pos[0] += cursor_mov[0] * RADAR_VIEW_HORIZONTAL * 2/3;
-		me.cursor_pos[1] += cursor_mov[1] * RADAR_VIEW_VERTICAL * 2/3;
+		me.cursor_pos[0] += cursor_mov[0] * RADAR_VIEW_HORIZONTAL * 0.2;
+		me.cursor_pos[1] += cursor_mov[1] * RADAR_VIEW_VERTICAL * 0.2;
 		me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -RADAR_VIEW_HORIZONTAL/2, RADAR_VIEW_HORIZONTAL/2);
 		me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -RADAR_VIEW_VERTICAL/2, RADAR_VIEW_VERTICAL/2);
 
@@ -546,10 +548,7 @@ var VTM = {
 		me.cursor_group.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
 		me.cursor_stt.setVisible(TRUE);
 
-		print("%%%%%%  click: "~click);
-
 		if (click) {
-			print("%%%%%%  clicked ");
 			var new_sel = me._findCursorTrack();
 			if (new_sel != nil) {
 				radar_system.apg68Radar.designate(new_sel);
@@ -574,8 +573,7 @@ var VTM = {
 				min_dist = dist;
 			}
 		}
-
-		if (min_dist < 8) {
+		if (min_dist < TARGET_WIDTH/2) {
 			return me.radar_contacts[closest_i];
 		} else {
 			return nil;
