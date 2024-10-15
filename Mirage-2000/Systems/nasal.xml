@@ -40,15 +40,18 @@
 	<datalink>
 		<file>Aircraft/Mirage-2000/Nasal/datalink.nas</file>
 	</datalink>
+	<displays>
+		<file>Aircraft/Mirage-2000/Nasal/displays/common.nas</file>
+	</displays>
 	<hud>
 		<file>Aircraft/Mirage-2000/Nasal/HUD/hud_math.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/HUD/HUD.nas</file>
 	</hud>
 	<vtm>
-		<file>Aircraft/Mirage-2000/Nasal/vtm/vtm.nas</file>
+		<file>Aircraft/Mirage-2000/Nasal/displays/vtm.nas</file>
 	</vtm>
 	<rwr>
-		<file>Aircraft/Mirage-2000/Nasal/rwr.nas</file>
+		<file>Aircraft/Mirage-2000/Nasal/displays/rwr.nas</file>
 	</rwr>
 	<mirage2000>
 		<file>Aircraft/Mirage-2000/Nasal/exec.nas</file>

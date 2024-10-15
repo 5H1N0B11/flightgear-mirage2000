@@ -4,9 +4,8 @@
 # Basically it is a bit like the Fire Control Radar in the F-16: https://github.com/NikolaiVChr/f16/wiki/FCR
 #
 # Measurements from ac-model 2000-5:
-#	* height (y) = top: -0.075 bottom: -0.159 = 84 mm, middle = -0.117
-#	* width (z)	= left: 0.060 right: -0.060 = 120 mm, middle = 0.0
-#	* depth (x) -3.305 (bottom of front), -3.268 (top of front)
+#	* height (y) = top: 0.036 bottom: -0.036 = 72 mm, middle = 0.0
+#	* width (z)	= left: 0.0576 right: -0.0576 = 115.2 mm, middle = 0.0
 #
 # From measurements of cockpit pictures it looks like the screen width/height is ca. 75% of an MFD.
 #
@@ -19,6 +18,10 @@
 
 
 print("*** LOADING vtm.nas ... ***");
+
+var FALSE = 0;
+var TRUE = 1;
+
 
 # It is basically a black and green screen.
 var COLOR_BACKGROUND = [0,0.02,0]; # almost black with a bit of green
@@ -50,7 +53,7 @@ var FONT_MONO_REGULAR = "LiberationFonts/LiberationMono-Regular.ttf";
 var FONT_MONO_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
 var TEXT_PADDING = 6; # when a text needs to be away from something else a bit
 
-var MAX_TARGETS = 28;
+var MAX_CONTACTS = 28; # max nb of aircrafts for which radar echoes can be displayed
 var TARGET_WIDTH = 36;
 
 var VTM = {
@@ -63,6 +66,11 @@ var VTM = {
 		                     "mipmapping": 0
 		});
 
+		vtm_obj.cursor_pos = [0,-RADAR_VIEW_VERTICAL/2];
+		vtm_obj.cursor_trigger_prev = FALSE;
+		vtm_obj.n_contacts = 0;
+
+
 		vtm_obj.vtm_canvas.addPlacement({"node": "vtm_ac_object"});
 		vtm_obj.vtm_canvas.setColorBackground(COLOR_BACKGROUND);
 
@@ -73,6 +81,7 @@ var VTM = {
 		vtm_obj._createScreenModeGroup();
 		vtm_obj._createRectangularFieldOfViewGrid();
 		vtm_obj._createPPIView();
+		vtm_obj._createCursors();
 		vtm_obj._createTargets();
 		vtm_obj._createStandbyText();
 		vtm_obj._createRadarModesGroup();
@@ -262,6 +271,17 @@ var VTM = {
 		me.ppi_fov_grid_group.hide();
 	},
 
+	_createCursors: func() { # Selection cursor
+		me.cursor_group = me.root.createChild("group");
+		me.cursor_stt = me.cursor_group.createChild("path")
+		                               .moveTo(0, GRID_TICK_LENGTH/2).vert(GRID_TICK_LENGTH*2)
+		                               .moveTo(0, -GRID_TICK_LENGTH/2).vert(-GRID_TICK_LENGTH*2)
+		                               .moveTo(-GRID_TICK_LENGTH/2, 0).horiz(-GRID_TICK_LENGTH*2)
+		                               .moveTo(GRID_TICK_LENGTH/2, 0).horiz(GRID_TICK_LENGTH*2)
+		                               .setStrokeLineWidth(LINE_WIDTH)
+		                               .setColor(COLOR_RADAR);
+		me.cursor_group.hide();
+	},
 
 	# 3 types of targets: selected target, friend targets, foe targets.
 	# The selected target (max 1) is a cross.
@@ -287,16 +307,16 @@ var VTM = {
 		                                                              0.5 * RADAR_VIEW_VERTICAL + TEXT_PADDING);
 		me.selected_target_callsign.enableUpdate();
 
-		me.friend_targets = setsize([],MAX_TARGETS);
-		for (var i = 0; i<MAX_TARGETS; i += 1) {
+		me.friend_targets = setsize([],MAX_CONTACTS);
+		for (var i = 0; i<MAX_CONTACTS; i += 1) {
 			me.friend_targets[i] = me.targets_group.createChild("path")
 			                                       .setColor(COLOR_RADAR)
 			                                       .circle(0.5 * TARGET_WIDTH, 0, 0)
 			                                       .setStrokeLineWidth(2*LINE_WIDTH);
 		}
 
-		me.foe_targets = setsize([],MAX_TARGETS);
-		for (var i = 0; i<MAX_TARGETS; i += 1) {
+		me.foe_targets = setsize([],MAX_CONTACTS);
+		for (var i = 0; i<MAX_CONTACTS; i += 1) {
 			me.foe_targets[i]    = me.targets_group.createChild("path")
 			                                       .setColor(COLOR_RADAR)
 			                                       .moveTo(-0.5 * TARGET_WIDTH, -0.5 * TARGET_WIDTH)
@@ -310,7 +330,7 @@ var VTM = {
 
 		# a special group for drawing a speed indicating line for targets with a minimum speed
 		me.targets_speed_group = me.root.createChild("group", "targets_speed_group");
-		me.targets_speeds = setsize([],MAX_TARGETS);
+		me.targets_speeds = setsize([],MAX_CONTACTS);
 	},
 
 	# When the radar goes into stand-by mode
@@ -369,38 +389,41 @@ var VTM = {
 		me.radar_modes_group.hide();
 	},
 
-	_updateTargets: func(heading_true, is_ppi) {
+	_updateTargets: func(max_azimuth_rad, max_distance_m, heading_true, is_ppi) {
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 		var i = 0;
-		var has_priority = 0;
+		var has_priority = FALSE;
 		var this_aircraft_position = geo.aircraft_position();
 		var target_position = nil;
 		var direct_distance_m = 0;
 		var bearing_rad = 0; # from this aircraft to the target
 		var relative_heading_rad = 0; # the heading of the target as seen by this aircraft with nose = North
 		var screen_pos = nil;
-		var max_distance_m = radar_system.apg68Radar.getRange() * NM2M;
-		var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
 		var target_speed_m_s = 0;
 
+		me.n_contacts = 0;
+		me.radar_contacts = [];
+		me.radar_contacts_pos = [];
 		me.targets_speed_group.removeAllChildren();
 		var delta = nil;
 
 		# walk through all existing targets as per available list
 		foreach(var contact; target_contacts_list) {
+			append(me.radar_contacts, contact);
 			target_position = contact.getCoord();
 			direct_distance_m = contact.getRangeDirect();
 			bearing_rad = geo.normdeg180(this_aircraft_position.course_to(target_position) - heading_true) * D2R;
 			relative_heading_rad = geo.normdeg(contact.getHeading() - heading_true) * D2R;
-			if (is_ppi = 1) {
+			if (is_ppi = TRUE) {
 				screen_pos = _calcTargetScreenPositionPPIScope(direct_distance_m, max_distance_m, bearing_rad);
 			} else {
 				screen_pos = _calcTargetScreenPositionBScope(direct_distance_m, max_distance_m, bearing_rad, max_azimuth_rad);
 			}
+			append(me.radar_contacts_pos, screen_pos);
 
 			me.friend_targets[i].hide(); # currently we do not know the friends
 			if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
-				has_priority = 1;
+				has_priority = TRUE;
 				me.selected_target.setTranslation(screen_pos[0], screen_pos[1]);
 				me.selected_target_callsign.updateText(contact.getCallsign());
 				me.foe_targets[i].hide();
@@ -425,8 +448,10 @@ var VTM = {
 
 			i += 1;
 		}
+		me.n_contacts = i;
+
 		# handle the index positions if the target list was shorter than the reserved elements
-		for (var j = i; j < MAX_TARGETS; j += 1) {
+		for (var j = i; j < MAX_CONTACTS; j += 1) {
 			me.friend_targets[j].hide();
 			me.foe_targets[j].hide();
 		}
@@ -475,38 +500,121 @@ var VTM = {
 		ppi_circle.update();
 	},
 
+	# Originally copied from JA37
+	_updateCursor: func(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_name) {
+		if (displays.common.cursor != displays.VTM) {
+			me.cursor_group.hide();
+			return;
+		}
+
+		# Retrieve cursor movement from JSBSim
+		var cursor_mov = displays.common.getCursorDelta();
+		displays.common.resetCursorDelta();
+		var click = cursor_mov[2] and !me.cursor_trigger_prev;
+		me.cursor_trigger_prev = cursor_mov[2];
+
+		var radar_priority_target = radar_system.apg68Radar.getPriorityTarget();
+		if (radar_priority_target != nil) {
+			me.cursor_group.hide();
+			# clicking unlocks
+			if (click) {
+				# cursor restarts from current target position
+				var info = radar_priority_target.getLastBlep();
+				if (info != nil) {
+					me.cursor_pos[0] = info.getAZDeviation() * HEADING_DEG_TO_MM;
+					me.cursor_pos[1] = -info.getRangeNow() / me.radar_range * RADAR_VIEW_VERTICAL;
+					me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -RADAR_VIEW_HORIZONTAL/2, RADAR_VIEW_HORIZONTAL/2);
+					me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -RADAR_VIEW_VERTICAL/2, RADAR_VIEW_VERTICAL/2);
+				}
+				radar_system.apg68Radar.undesignate();
+			}
+			return;
+		}
+
+		if (radar_mode_name == "Disk") { # FIXME do not show if in a mode, where the cursor cannot be used
+			me.cursor_group.hide();
+			return;
+		}
+
+		# 1.5 seconds to cover the entire screen.
+		me.cursor_pos[0] += cursor_mov[0] * RADAR_VIEW_HORIZONTAL * 2/3;
+		me.cursor_pos[1] += cursor_mov[1] * RADAR_VIEW_VERTICAL * 2/3;
+		me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -RADAR_VIEW_HORIZONTAL/2, RADAR_VIEW_HORIZONTAL/2);
+		me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -RADAR_VIEW_VERTICAL/2, RADAR_VIEW_VERTICAL/2);
+
+		me.cursor_group.show();
+		me.cursor_group.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
+		me.cursor_stt.setVisible(TRUE);
+
+		print("%%%%%%  click: "~click);
+
+		if (click) {
+			print("%%%%%%  clicked ");
+			var new_sel = me._findCursorTrack();
+			if (new_sel != nil) {
+				radar_system.apg68Radar.designate(new_sel);
+			}
+		}
+	},
+
+	_distCursorTrack: func(i) {
+		return math.sqrt(
+			math.pow(me.cursor_pos[0] - me.radar_contacts_pos[i][0], 2)
+			+ math.pow(me.cursor_pos[1] - me.radar_contacts_pos[i][1], 2)
+		);
+	},
+
+	_findCursorTrack: func() {
+		var closest_i = nil;
+		var min_dist = 100000;
+		for (var i=0; i < me.n_contacts; i+=1) {
+			var dist = me._distCursorTrack(i);
+			if (dist < min_dist) {
+				closest_i = i;
+				min_dist = dist;
+			}
+		}
+
+		if (min_dist < 8) {
+			return me.radar_contacts[closest_i];
+		} else {
+			return nil;
+		}
+	},
+
 	update: func() {
-		var global_visible = 0;
+		var global_visible = FALSE;
 		var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
 		var heading_true = props.globals.getNode("/orientation/heading-deg").getValue();
+		var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
+		var max_distance_m = radar_system.apg68Radar.getRange() * NM2M;
 		if (radar_voltage != nil and radar_voltage >= 23) {
-			global_visible = 1;
+			global_visible = TRUE;
 		}
 		me.corners_group.setVisible(global_visible);
 		me.screen_mode_group.setVisible(global_visible);
 		me.radar_modes_group.setVisible(global_visible);
 
-		var is_ppi = 0;
-		if (global_visible == 1) {
-			var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
+		var is_ppi = FALSE;
+		if (global_visible == TRUE) {
 			var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;
 			var radar_mode_name = radar_system.apg68Radar.getMode();
 			if (radar_mode_root_name == 'SEA' or radar_mode_root_name == 'GM' or radar_mode_root_name == 'GMT') {
-				is_ppi = 1;
-				me.ppi_fov_grid_group.setVisible(1);
+				is_ppi = TRUE;
+				me.ppi_fov_grid_group.setVisible(TRUE);
 				me._updatePPICircle(max_azimuth_rad);
-				me.rectangular_fov_grid_group.setVisible(0);
+				me.rectangular_fov_grid_group.setVisible(FALSE);
 			} else {
-				me.ppi_fov_grid_group.setVisible(0);
-				me.rectangular_fov_grid_group.setVisible(1);
+				me.ppi_fov_grid_group.setVisible(FALSE);
+				me.rectangular_fov_grid_group.setVisible(TRUE);
 			}
 			me._updateRadarTexts(radar_mode_root_name, radar_mode_name);
 		} else {
-			me.ppi_fov_grid_group.setVisible(0);
-			me.rectangular_fov_grid_group.setVisible(0);
+			me.ppi_fov_grid_group.setVisible(FALSE);
+			me.rectangular_fov_grid_group.setVisible(FALSE);
 		}
 
-		if (global_visible == 0) {
+		if (global_visible == FALSE) {
 			me.standby_group.setVisible(global_visible);
 			me.targets_group.setVisible(global_visible);
 		#} else if (props.globals.getNode("/instrumentation/radar/radar-standby").getBoolValue()) {
@@ -516,7 +624,8 @@ var VTM = {
 			me.standby_group.hide();
 			me.targets_group.show();
 			me.targets_speed_group.show();
-			me._updateTargets(heading_true, is_ppi);
+			me._updateTargets(max_azimuth_rad, max_distance_m, heading_true, is_ppi);
+			me._updateCursor(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_name); # needs to be after _updateTargets()
 		}
 	},
 };

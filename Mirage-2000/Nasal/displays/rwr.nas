@@ -86,10 +86,9 @@ RWRCanvas = {
 			                             .setText("00")
 			                             .setAlignment("center-center")
 			                             .setColor(COLOR_YELLOW)
-		                                 .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                 .setFont(FONT_MONO_REGULAR)
-		                                 .hide();
-
+			                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+			                             .setFont(FONT_MONO_REGULAR)
+			                             .hide();
 		}
 		rwr.symbol_hat = setsize([],rwr.max_icons);
 		for (var i = 0;i<rwr.max_icons;i+=1) {

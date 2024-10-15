@@ -229,4 +229,17 @@
 		<iff-power type="bool">false</iff-power>
 		<channel-select type="int">0</channel-select>
 	</iff>
+
+	<!-- Based on the JA37 -->
+	<displays>
+		<stick-controls-cursor type="bool">false</stick-controls-cursor>
+		<arrows-controls-cursor type="bool">false</arrows-controls-cursor>
+		<!-- Inputs (to be used e.g. in joystick configuration) -->
+		<cursor-slew-x type="double">0.0</cursor-slew-x>
+		<cursor-slew-y type="double">0.0</cursor-slew-y>
+		<cursor-click type="bool">false</cursor-click>
+		<!-- JSBSim computed final input. To be used in the systems reading the cursor. -->
+		<cursor-total-slew-x type="double">0.0</cursor-total-slew-x>
+		<cursor-total-slew-y type="double">0.0</cursor-total-slew-y>
+	</displays>
 </PropertyList>

@@ -50,14 +50,14 @@ var global_system_loop = func{
 
 
 var InitListener = setlistener("/sim/signals/fdm-initialized", func() {
-	main_Init_Loop();
+	_mainInitLoop();
 	removelistener(InitListener);
 });
 
 # Main init loop
 # Perhaps in the future, make an object for each subsystems, in the same way
 # of "engine"
-var main_Init_Loop = func() {
+var _mainInitLoop = func() {
 	hack.init();
 	# Loop Updated inside
 	#print("Electrical ... Check");
@@ -111,16 +111,27 @@ var main_Init_Loop = func() {
 
 	rtExec_loop(); # to make the ememsary FrameNotification work
 
+	_setupCustomStickBindings();
+
 	print("system loop ... Check");
-	UpdateMain();
+	_updateMain();
+} # END _mainInitLoop()
+
+var _setupCustomStickBindings = func {
+	call(func {
+		append(joystick.buttonBindings, joystick.NasalHoldButton.new  ("Cursor Click", 'setprop("controls/displays/cursor-click",1);', 'setprop("controls/displays/cursor-click",0);'));
+		append(joystick.axisBindings,   joystick.PropertyScaleAxis.new("Cursor Vertical", "/controls/displays/cursor-slew-y"));
+		append(joystick.axisBindings,   joystick.PropertyScaleAxis.new("Cursor Horizontal", "/controls/displays/cursor-slew-x"));
+	},nil,var err=[]);
 }
 
-var UpdateMain = func {
-	settimer(mirage2000.updatefunction, 0);
+
+var _updateMain = func {
+	settimer(mirage2000._updateFunction, 0);
 }
 
 #This update function needs to be re-done properly
-var updatefunction = func() {
+var _updateFunction = func() {
 	AbsoluteTime = getprop("/sim/time/elapsed-sec");
 	#Things to update, order by refresh rate.
 
@@ -228,8 +239,8 @@ var updatefunction = func() {
 	}
 
 	# Update at the end
-	call(mirage2000.UpdateMain,nil,nil,nil, myErr);
-}
+	call(mirage2000._updateMain,nil,nil,nil, myErr);
+} # END _updateFunction()
 
 var init_Transpondeur = func() {
 	# Init Transponder
