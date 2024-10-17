@@ -892,49 +892,47 @@ var HUD = {
 
 		m.missileFireRange = m.root.createChild("group");
 		m.MaxFireRange = m.missileFireRange.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(210,0)
-		.horiz(-30)
-		.setStrokeLineWidth(6);
+		                                   .setColor(m.myGreen)
+		                                   .moveTo(200,0)
+		                                   .horiz(-20)
+		                                   .setStrokeLineWidth(4);
 		m.MinFireRange = m.missileFireRange.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(210,0)
-		.horiz(-30)
-		.setStrokeLineWidth(6);
+		                                   .setColor(m.myGreen)
+		                                   .moveTo(200,0)
+		                                   .horiz(-20)
+		                                   .setStrokeLineWidth(4);
 		m.NEZFireRange = m.missileFireRange.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(215,0)
-		.horiz(-40)
-		.setStrokeLineWidth(4);
+		                                   .setColor(m.myGreen)
+		                                   .moveTo(200,0)
+		                                   .horiz(-40)
+		                                   .setStrokeLineWidth(4);
 		m.missileFireRange.hide();
 
 		m.distanceToTargetLineGroup = m.root.createChild("group");
 		m.distanceToTargetLineMin = -100;
 		m.distanceToTargetLineMax = 100;
 		m.distanceToTargetLine = m.distanceToTargetLineGroup.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(200,m.distanceToTargetLineMin)
-		.horiz(30)
-		.moveTo(200,m.distanceToTargetLineMin)
-		.vert(m.distanceToTargetLineMax-m.distanceToTargetLineMin)
-		.horiz(30)
-		.setStrokeLineWidth(5);
+		                                                    .setColor(m.myGreen)
+		                                                    .moveTo(200,m.distanceToTargetLineMin)
+		                                                    .horiz(30)
+		                                                    .moveTo(200,m.distanceToTargetLineMin)
+		                                                    .vert(m.distanceToTargetLineMax-m.distanceToTargetLineMin)
+		                                                    .horiz(30)
+		                                                    .setStrokeLineWidth(4);
 
 		m.distanceToTargetLineTextGroup = m.distanceToTargetLineGroup.createChild("group");
-
 		m.distanceToTargetLineChevron = m.distanceToTargetLineTextGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(200,0)
-		.setDouble("character-size", 60)
-		.setAlignment("left-center")
-		.setText("<");
-
+		                                                               .setColor(m.myGreen)
+		                                                               .setTranslation(200,0)
+		                                                               .setDouble("character-size", 60)
+		                                                               .setAlignment("left-center")
+		                                                               .setText("<");
 		m.distanceToTargetLineChevronText = m.distanceToTargetLineTextGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(230,0)
-		.setDouble("character-size", 40)
-		.setAlignment("left-center")
-		.setText("x");
+		                                                                   .setColor(m.myGreen)
+		                                                                   .setTranslation(230,0)
+		                                                                   .setDouble("character-size", 40)
+		                                                                   .setAlignment("left-center")
+		                                                                   .setText("x");
 
 		m.distanceToTargetLineGroup.hide();
 
@@ -1083,14 +1081,12 @@ var HUD = {
 			if (me.selectedWeapon.type == CANNON_30MM ) {
 				me.eegsShow = TRUE;
 			} else if (me.selectedWeapon.class == AIM_CLASS_GMP and me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
-				if (me.selectedWeapon.stage_1_duration + me.selectedWeapon.stage_2_duration == 0) {
-					if (1 > 2) { #target_contacts_list != nil and size(target_contacts_list) > 0) {
-						#if target selected : CCRP
-						#print("Should CCRP : size target list" ~ size(radar_system.apg68Radar.tgts_list));
-						me.show_CCRP = me._displayCCRPMode();
-					} else {
-						me.show_CCIP = me._displayCCIPMode();
-					}
+				if (1 > 2) { #target_contacts_list != nil and size(target_contacts_list) > 0) {
+					#if target selected : CCRP
+					#print("Should CCRP : size target list" ~ size(radar_system.apg68Radar.tgts_list));
+					me.show_CCRP = me._displayCCRPMode();
+				} else {
+					me.show_CCIP = me._displayCCIPMode();
 				}
 			}
 		}
@@ -1749,12 +1745,12 @@ var HUD = {
 	},
 
 	_displayDistanceToTargetLine : func(contact) {
-		me.MaxRadarRange = radar_system.apg68Radar.getRange() * NM2M;
+		me.MaxRadarRange = radar_system.apg68Radar.getRange();
 		var direct_distance_m = contact.getRangeDirect();
 		var myString ="";
 		#< 10 nm should be a float
 		#< 1200 m should be in meters
-		if (direct_distance_m <= me.MaxRadarRange) {
+		if (direct_distance_m <= me.MaxRadarRange * NM2M) {
 			#Text for distance to target
 			if (direct_distance_m < 1200) {
 				myString = sprintf("%dm",direct_distance_m);
@@ -1780,22 +1776,21 @@ var HUD = {
 			#Testings
 			if (me.selectedWeapon.type != CANNON_30MM) {
 				if (me.selectedWeapon.class == "A" and me.selectedWeapon.parents[0] == armament.AIM) {
-					#Taking back the DLZ
 
 					me.myDLZ = pylons.getDLZ();
 
-					if (me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*2) {
-						#Max
+					if (me.myDLZ != nil) {
+						# Max
 						me.MaxFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-						#MmiFireRange
+						# MinFireRange
 						me.MinFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-						#NEZFireRange
+						# NEZFireRange (No Escape Zone)
 						me.NEZFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-						me.missileFireRange.show();
-						return 1;
+						me.NEZFireRange.show();
+						return TRUE;
 					}
 				} elsif (me.selectedWeapon.class == "GM" or me.selectedWeapon.class == "M") {
 					me.MaxFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeapon.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
@@ -1804,14 +1799,11 @@ var HUD = {
 					me.MinFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeapon.min_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
 					me.NEZFireRange.hide();
-					me.MaxFireRange.show();
-					me.MinFireRange.show();
-
-					return 1;
+					return TRUE;
 				}
 			}
 		}
-		return 0;
+		return FALSE;
 	},
 
   displayRunway: func() {
