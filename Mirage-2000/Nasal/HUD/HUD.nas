@@ -29,7 +29,10 @@ print("*** LOADING HUD.nas ... ***");
 #Center HUD : (-0.12963,0,0.08299)
 
 #OFFSET1 panel.xml :<offsets><x-m> 0.456 </x-m> <y-m> 0.000 </y-m><z-m> 0.159 </z-m></offsets>
-#OFFSET2  interior.xml <offsets><x-m> -3.653 </x-m> <y-m>  0.000 </y-m>  <z-m> -0.297 </z-m>      <pitch-deg> -14 </pitch-deg>    </offsets>
+#OFFSET2 interior.xml <offsets><x-m> -3.653 </x-m> <y-m>  0.000 </y-m>  <z-m> -0.297 </z-m>      <pitch-deg> -14 </pitch-deg>    </offsets>
+
+var FALSE = 0;
+var TRUE = 1;
 
 var CANNON_30MM = "30mm Cannon";
 var AIM_GUIDANCE_UNGUIDED = "unguided";
@@ -564,7 +567,7 @@ var HUD = {
 		.setDouble("character-size", 35)
 		.setFont("LiberationFonts/LiberationMono-Bold.ttf")
 		.setAlignment("center-center")
-		.setText("L");
+		.setText("G");
 		m.Right_pylons = m.pylons_Group.createChild("text")
 		.setColor(m.myGreen)
 		.setTranslation(m.maxladderspan-60,100)
@@ -691,15 +694,15 @@ var HUD = {
 		m.wingspanFT = 35;# 7 to 40 meter
 		m.resetGunPos();
 
-		m.eegsRightX = m.makeVector(m.funnelParts,0);
-		m.eegsRightY = m.makeVector(m.funnelParts,0);
-		m.eegsLeftX  = m.makeVector(m.funnelParts,0);
-		m.eegsLeftY  = m.makeVector(m.funnelParts,0);
+		m.eegsRightX = m._makeVector(m.funnelParts,0);
+		m.eegsRightY = m._makeVector(m.funnelParts,0);
+		m.eegsLeftX  = m._makeVector(m.funnelParts,0);
+		m.eegsLeftY  = m._makeVector(m.funnelParts,0);
 
-		m.eegsMe = {ac: geo.Coord.new(), eegsPos: geo.Coord.new(),shellPosX: m.makeVector(m.funnelParts,0),shellPosY: m.makeVector(m.funnelParts,0),shellPosDist: m.makeVector(m.funnelParts,0)};
+		m.eegsMe = {ac: geo.Coord.new(), eegsPos: geo.Coord.new(),shellPosX: m._makeVector(m.funnelParts,0),shellPosY: m._makeVector(m.funnelParts,0),shellPosDist: m._makeVector(m.funnelParts,0)};
 
 		m.lastTime = systime();
-		m.eegsLoop = maketimer(m.averageDt, m, m.displayEEGS);
+		m.eegsLoop = maketimer(m.averageDt, m, m._displayEEGS);
 		m.eegsLoop.simulatedTime = 1;
 
 		################################### Runways #######################################
@@ -1046,8 +1049,8 @@ var HUD = {
 		}
 
 		me.aircraft_position = geo.aircraft_position();
-		me.hydra = 0; #for rocket
-		me.strf = me.input.gun_rate.getValue()==0.06?1:0; #Air to ground fire : based on the gun rate
+		me.hydra = FALSE; # for rocket
+		me.strf = me.input.gun_rate.getValue()==0.06? TRUE : FALSE; #Air to ground fire : based on the gun rate
 		HudMath.reCalc();
 
 		# loading Flightplan
@@ -1063,21 +1066,23 @@ var HUD = {
 		me.root.setTranslation(HudMath.getCenterOrigin()[0] + me.pixel_side, HudMath.getCenterOrigin()[1]);
 		me.root.update();
 
-		me.eegsShow=0;
+		me.eegsShow = FALSE;
 		me.selectedWeapon = pylons.fcs.getSelectedWeapon();
 
 		me.Fire_GBU.setText("Fire");
-		me.showFire_GBU = 0;
-		me.show_CCIP = 0;
-		me.show_CCRP = 0;
+		me.showFire_GBU = FALSE;
+		me.show_CCIP = FALSE;
+		me.show_CCRP = FALSE;
 		me.CCRP_piper_group_visibilty = 1;
 		me.CCRP_cue_visbility = 0;
 		me.CCRP_no_go_cross_visibility = 0;
 
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 
-		if (me.selectedWeapon != nil and me.input.MasterArm.getValue() and me.selectedWeapon.type != CANNON_30MM and me.input.wow_nlg.getValue() == 0) {
-			if (me.selectedWeapon.class == AIM_CLASS_GMP and me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
+		if (me.selectedWeapon != nil and me.input.MasterArm.getValue() and me.input.wow_nlg.getValue() == 0) {
+			if (me.selectedWeapon.type == CANNON_30MM ) {
+				me.eegsShow = TRUE;
+			} else if (me.selectedWeapon.class == AIM_CLASS_GMP and me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
 				if (me.selectedWeapon.stage_1_duration + me.selectedWeapon.stage_2_duration == 0) {
 					if (1 > 2) { #target_contacts_list != nil and size(target_contacts_list) > 0) {
 						#if target selected : CCRP
@@ -1087,8 +1092,6 @@ var HUD = {
 						me.show_CCIP = me._displayCCIPMode();
 					}
 				}
-			} else { # Else showing the gun
-				me.eegsShow = me.input.MasterArm.getValue();
 			}
 		}
 
@@ -1144,7 +1147,7 @@ var HUD = {
 		#1-Next waypoint
 		#2-bulleseye
 		#3-ground target
-		me.displayWaypointCrossShow = 0;
+		me.displayWaypointCrossShow = FALSE;
 		me.display_house_show = 0;
 		me.waypointGroupshow = 0;
 		me.waypointSimpleGroupShow = 0;
@@ -1152,12 +1155,12 @@ var HUD = {
 		if (me.input.gearPos.getValue() == 0) { # if masterArm is not selected
 			#if there is a route selected and Bulleye isn't selected
 			if ( me.NXTWP.is_defined() and !me.input.MasterArm.getValue()) {#if waypoint is active
-				me.displayWaypointCross(me.NXTWP);  # displaying the ground cross
+				me._displayWaypointCross(me.NXTWP);  # displaying the ground cross
 				me._displayHouse(me.NXTWP);         # displaying the little house
 				me.display_Waypoint(me.NXTWP,"DEST",me.input.NextWayNum.getValue());
 			}
 			if (me.input.bullseye_def.getValue()) {
-				me.displayWaypointCross(me.bullseyeGeo);  # displaying the ground cross
+				me._displayWaypointCross(me.bullseyeGeo);  # displaying the ground cross
 				me._displayHouse(me.bullseyeGeo);         # displaying the little house
 				me.display_Waypoint(me.bullseyeGeo,"BE ",nil);
 			}
@@ -1216,7 +1219,7 @@ var HUD = {
 		# -------------------- display_heading_bug ---------------
 		me._displayHeadingBug();
 
-		#---------------------- EEFS --------------------
+		#---------------------- EEGS --------------------
 		if (!me.eegsShow) {
 			me.eegsGroup.setVisible(me.eegsShow);
 		}
@@ -1440,7 +1443,7 @@ var HUD = {
 	#Doing that way it could be used for waypoint, bullseye and ground target
 	_displayHouse: func(coord) {
 		if (coord != nil) {
-			if (!me.isInCanvas(HudMath.getPosFromCoord(coord)[0],HudMath.getPosFromCoord(coord)[1]) or me.aircraft_position.direct_distance_to(coord)*M2NM >=10 ) {
+			if (!me._isInCanvas(HudMath.getPosFromCoord(coord)[0],HudMath.getPosFromCoord(coord)[1]) or me.aircraft_position.direct_distance_to(coord)*M2NM >=10 ) {
 				# Depends on which heading we want to display
 				if (me.input.hdgDisplay.getValue()) {
 					me.houseTranslation = -(geo.normdeg180(me.heading - me.aircraft_position.course_to(coord)))*me.headScaleTickSpacing/5;
@@ -1777,23 +1780,23 @@ var HUD = {
 			#Testings
 			if (me.selectedWeapon.type != CANNON_30MM) {
 				if (me.selectedWeapon.class == "A" and me.selectedWeapon.parents[0] == armament.AIM) {
-				#Taking back the DLZ
+					#Taking back the DLZ
 
-				me.myDLZ = pylons.getDLZ();
+					me.myDLZ = pylons.getDLZ();
 
-				if (me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*2) {
-					#Max
-					me.MaxFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+					if (me.myDLZ != nil and size(me.myDLZ) == 5 and me.myDLZ[4]<me.myDLZ[0]*2) {
+						#Max
+						me.MaxFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[0]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-					#MmiFireRange
-					me.MinFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+						#MmiFireRange
+						me.MinFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[3]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-					#NEZFireRange
-					me.NEZFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+						#NEZFireRange
+						me.NEZFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.myDLZ[2]*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
-					me.missileFireRange.show();
-					return 1;
-				}
+						me.missileFireRange.show();
+						return 1;
+					}
 				} elsif (me.selectedWeapon.class == "GM" or me.selectedWeapon.class == "M") {
 					me.MaxFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeapon.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
@@ -1880,18 +1883,15 @@ var HUD = {
 		}
 	}, # END _displayBoreCross()
 
-  displayWaypointCross: func(coord) {
-    #print("runing displayWaypointCross");
-    if (coord != nil) { #The aircraft should be flying ... This need to be done before in hud mode selection
-      #print("coord is not nil");
-      if (me.aircraft_position.direct_distance_to(coord)*M2NM<10) {
-        #print("Shoud display the waypoint");
-        me.WaypointCross.setTranslation(HudMath.getPosFromCoord(coord));
-        me.displayWaypointCrossShow = 1;
-        return;
-      }
-    }
-  },
+	_displayWaypointCross: func(coord) {
+		if (coord != nil) { #The aircraft should be flying ... This need to be done before in hud mode selection
+			if (me.aircraft_position.direct_distance_to(coord)*M2NM<10) {
+				me.WaypointCross.setTranslation(HudMath.getPosFromCoord(coord));
+				me.displayWaypointCrossShow = TRUE;
+				return;
+			}
+		}
+	},
 
   #This should be called at every iteration
   NextWaypointCoordinate: func() {
@@ -1925,341 +1925,341 @@ var HUD = {
       }
   },
 
-  makeVector: func (siz,content) {
-        var vec = setsize([],siz*4);
-        var k = 0;
-        while(k<siz*4) {
-            vec[k] = content;
-            k += 1;
-        }
-        return vec;
-  },
+	_makeVector: func (siz,content) {
+		var vec = setsize([],siz*4);
+		var k = 0;
+		while(k<siz*4) {
+			vec[k] = content;
+			k += 1;
+		}
+		return vec;
+	},
 
-  displayEEGS: func() {
-        #note: this stuff is expensive like hell to compute, but..lets do it anyway.
-        #var me.funnelParts = 40;#max 10
-        var st = systime();
-        me.eegsMe.dt = st-me.lastTime;
-        if (me.eegsMe.dt > me.averageDt*3) {
-            me.lastTime = st;
-            me.resetGunPos();
-            me.eegsGroup.removeAllChildren();
-        } else {
-            #printf("dt %05.3f",me.eegsMe.dt);
-            me.lastTime = st;
+	_displayEEGS: func() {
+		#note: this stuff is expensive like hell to compute, but..lets do it anyway.
+		#var me.funnelParts = 40;#max 10
+		var st = systime();
+		me.eegsMe.dt = st-me.lastTime;
+		if (me.eegsMe.dt > me.averageDt*3) {
+			me.lastTime = st;
+			me.resetGunPos();
+			me.eegsGroup.removeAllChildren();
+		} else {
+			#printf("dt %05.3f",me.eegsMe.dt);
+			me.lastTime = st;
 
-            me.eegsMe.hdg   = me.input.hdgReal.getValue();
-            me.eegsMe.pitch = me.input.pitch.getValue();
-            me.eegsMe.roll  = me.input.roll.getValue();
+			me.eegsMe.hdg   = me.input.hdgReal.getValue();
+			me.eegsMe.pitch = me.input.pitch.getValue();
+			me.eegsMe.roll  = me.input.roll.getValue();
 
-            var hdp = {roll:me.eegsMe.roll,current_view_z_offset_m: me.input.z_offset_m.getValue()};
+			var hdp = {roll:me.eegsMe.roll, current_view_z_offset_m: me.input.z_offset_m.getValue()};
 
 
-            me.eegsMe.ac = geo.aircraft_position();
-            me.eegsMe.allow = 1;
-            me.drawEEGSPipper = 0;
-            me.drawEEGS300 = 0;
-            me.drawEEGS600 = 0;
-            me.strfRange = 4500 * M2FT;
-            if (me.strf or me.hydra) {
-                me.groundDistanceFT = nil;
-                var l = 0;
-                for (l = 0;l < me.funnelParts*4;l+=1) {
-                    # compute display positions of funnel on hud
-                    var pos = me.gunPos[l][0];
-                    if (pos == nil) {
-                        me.eegsMe.allow = 0;
-                    } else {
-                        var ac  = me.gunPos[l][0][1];
-                        pos     = me.gunPos[l][0][0];
-                        var el = geo.elevation(pos.lat(),pos.lon());
-                        if (el == nil) {
-                            el = 0;
-                        }
+			me.eegsMe.ac = geo.aircraft_position();
+			me.eegsMe.allow = 1;
+			me.drawEEGSPipper = 0;
+			me.drawEEGS300 = 0;
+			me.drawEEGS600 = 0;
+			me.strfRange = 4500 * M2FT;
+			if (me.strf or me.hydra) {
+				me.groundDistanceFT = nil;
+				var l = 0;
+				for (l = 0;l < me.funnelParts*4;l+=1) {
+					# compute display positions of funnel on hud
+					var pos = me.gunPos[l][0];
+					if (pos == nil) {
+						me.eegsMe.allow = 0;
+					} else {
+						var ac  = me.gunPos[l][0][1];
+						pos     = me.gunPos[l][0][0];
+						var el = geo.elevation(pos.lat(),pos.lon());
+						if (el == nil) {
+							el = 0;
+						}
 
-                        if (l != 0 and el > pos.alt()) {
-                            var hitPos = geo.Coord.new(pos);
-                            hitPos.set_alt(el);
-                            me.groundDistanceFT = (el-pos.alt())*M2FT;#ac.direct_distance_to(hitPos)*M2FT;
-                            me.strfRange = hitPos.direct_distance_to(me.eegsMe.ac)*M2FT;
-                            l = l;
-                            break;
-                        }
-                    }
-                }
-                # compute display positions of pipper on hud
-                if (me.eegsMe.allow and me.groundDistanceFT != nil) {
-                    for (var ll = l-1;ll <= l;ll+=1) {
-                        var ac    = me.gunPos[ll][0][1];
-                        var pos   = me.gunPos[ll][0][0];
-                        var pitch = me.gunPos[ll][0][2];
+						if (l != 0 and el > pos.alt()) {
+							var hitPos = geo.Coord.new(pos);
+							hitPos.set_alt(el);
+							me.groundDistanceFT = (el-pos.alt())*M2FT;#ac.direct_distance_to(hitPos)*M2FT;
+							me.strfRange = hitPos.direct_distance_to(me.eegsMe.ac)*M2FT;
+							l = l;
+							break;
+						}
+					}
+				}
+				# compute display positions of pipper on hud
+				if (me.eegsMe.allow and me.groundDistanceFT != nil) {
+					for (var ll = l-1;ll <= l;ll+=1) {
+						var ac    = me.gunPos[ll][0][1];
+						var pos   = me.gunPos[ll][0][0];
+						var pitch = me.gunPos[ll][0][2];
 
-                        me.eegsMe.posTemp = HudMath.getPosFromCoord(pos,ac);
-                        me.eegsMe.shellPosDist[ll] = ac.direct_distance_to(pos)*M2FT;
-                        me.eegsMe.shellPosX[ll] = me.eegsMe.posTemp[0];#me.eegsMe.xcS;
-                        me.eegsMe.shellPosY[ll] = me.eegsMe.posTemp[1];#me.eegsMe.ycS;
+						me.eegsMe.posTemp = HudMath.getPosFromCoord(pos,ac);
+						me.eegsMe.shellPosDist[ll] = ac.direct_distance_to(pos)*M2FT;
+						me.eegsMe.shellPosX[ll] = me.eegsMe.posTemp[0];#me.eegsMe.xcS;
+						me.eegsMe.shellPosY[ll] = me.eegsMe.posTemp[1];#me.eegsMe.ycS;
 
-                        if (l == ll and me.strfRange*FT2M < 4500) {
-                            var highdist = me.eegsMe.shellPosDist[ll];
-                            var lowdist = me.eegsMe.shellPosDist[ll-1];
-                            me.groundDistanceFT = me.groundDistanceFT/math.cos(90-pitch*D2R);
-                            me.eegsPipperX = HudMath.extrapolate(highdist-me.groundDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[ll-1],me.eegsMe.shellPosX[ll]);
-                            me.eegsPipperY = HudMath.extrapolate(highdist-me.groundDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[ll-1],me.eegsMe.shellPosY[ll]);
-                            me.drawEEGSPipper = 1;
-                        }
-                    }
-                }
-            } else {
-              for (var l = 0;l < me.funnelParts;l+=1) {
-                  # compute display positions of funnel on hud
-                  var pos = me.gunPos[l][l+1];
-                  if (pos == nil) {
-                      me.eegsMe.allow = 0;
-                  } else {
-                      var ac  = me.gunPos[l][l][1];
-                      pos     = me.gunPos[l][l][0];
+						if (l == ll and me.strfRange*FT2M < 4500) {
+							var highdist = me.eegsMe.shellPosDist[ll];
+							var lowdist = me.eegsMe.shellPosDist[ll-1];
+							me.groundDistanceFT = me.groundDistanceFT/math.cos(90-pitch*D2R);
+							me.eegsPipperX = HudMath.extrapolate(highdist-me.groundDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[ll-1],me.eegsMe.shellPosX[ll]);
+							me.eegsPipperY = HudMath.extrapolate(highdist-me.groundDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[ll-1],me.eegsMe.shellPosY[ll]);
+							me.drawEEGSPipper = 1;
+						}
+					}
+				}
+			} else {
+				for (var l = 0;l < me.funnelParts;l+=1) {
+					# compute display positions of funnel on hud
+					var pos = me.gunPos[l][l+1];
+					if (pos == nil) {
+						me.eegsMe.allow = 0;
+					} else {
+						var ac  = me.gunPos[l][l][1];
+						pos     = me.gunPos[l][l][0];
 
-                      var ps = HudMath.getPosFromCoord(pos, ac);
-                      me.eegsMe.xcS = ps[0];
-                      me.eegsMe.ycS = ps[1];
-                      me.eegsMe.shellPosDist[l] = ac.direct_distance_to(pos)*M2FT;
-                      me.eegsMe.shellPosX[l] = me.eegsMe.xcS;
-                      me.eegsMe.shellPosY[l] = me.eegsMe.ycS;
-                      if (me.designatedDistanceFT != nil and !me.drawEEGSPipper) {
-                        if (l != 0 and me.eegsMe.shellPosDist[l] >= me.designatedDistanceFT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
-                          var highdist = me.eegsMe.shellPosDist[l];
-                          var lowdist = me.eegsMe.shellPosDist[l-1];
-                          var fractionX = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
-                          var fractionY = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
-                          me.eegsRightX[0] = fractionX;
-                          me.eegsRightY[0] = fractionY;
-                          me.drawEEGSPipper = 1;
-                        }
-                      }
-                      if (!me.drawEEGS300) {
-                        if (l != 0 and me.eegsMe.shellPosDist[l] >= 300*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
-                          var highdist = me.eegsMe.shellPosDist[l];
-                          var lowdist = me.eegsMe.shellPosDist[l-1];
-                          var fractionX = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
-                          var fractionY = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
-                          me.eegsRightX[1] = fractionX;
-                          me.eegsRightY[1] = fractionY;
-                          me.drawEEGS300 = 1;
-                        }
-                      }
-                      if (!me.drawEEGS600) {
-                        if (l != 0 and me.eegsMe.shellPosDist[l] >= 600*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
-                          var highdist = me.eegsMe.shellPosDist[l];
-                          var lowdist = me.eegsMe.shellPosDist[l-1];
-                          var fractionX = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
-                          var fractionY = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
-                          me.eegsRightX[2] = fractionX;
-                          me.eegsRightY[2] = fractionY;
-                          me.drawEEGS600 = 1;
-                        }
-                      }
-                  }
-              }
-            }
-            if (me.eegsMe.allow and !(me.strf or me.hydra)) {
-                # draw the funnel
-                for (var k = 0;k<me.funnelParts;k+=1) {
+						var ps = HudMath.getPosFromCoord(pos, ac);
+						me.eegsMe.xcS = ps[0];
+						me.eegsMe.ycS = ps[1];
+						me.eegsMe.shellPosDist[l] = ac.direct_distance_to(pos)*M2FT;
+						me.eegsMe.shellPosX[l] = me.eegsMe.xcS;
+						me.eegsMe.shellPosY[l] = me.eegsMe.ycS;
+						if (me.designatedDistanceFT != nil and !me.drawEEGSPipper) {
+						if (l != 0 and me.eegsMe.shellPosDist[l] >= me.designatedDistanceFT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+							var highdist = me.eegsMe.shellPosDist[l];
+							var lowdist = me.eegsMe.shellPosDist[l-1];
+							var fractionX = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+							var fractionY = HudMath.extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+							me.eegsRightX[0] = fractionX;
+							me.eegsRightY[0] = fractionY;
+							me.drawEEGSPipper = 1;
+						}
+						}
+						if (!me.drawEEGS300) {
+						if (l != 0 and me.eegsMe.shellPosDist[l] >= 300*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+							var highdist = me.eegsMe.shellPosDist[l];
+							var lowdist = me.eegsMe.shellPosDist[l-1];
+							var fractionX = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+							var fractionY = HudMath.extrapolate(300*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+							me.eegsRightX[1] = fractionX;
+							me.eegsRightY[1] = fractionY;
+							me.drawEEGS300 = 1;
+						}
+						}
+						if (!me.drawEEGS600) {
+						if (l != 0 and me.eegsMe.shellPosDist[l] >= 600*M2FT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+							var highdist = me.eegsMe.shellPosDist[l];
+							var lowdist = me.eegsMe.shellPosDist[l-1];
+							var fractionX = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+							var fractionY = HudMath.extrapolate(600*M2FT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+							me.eegsRightX[2] = fractionX;
+							me.eegsRightY[2] = fractionY;
+							me.drawEEGS600 = 1;
+						}
+						}
+					}
+				}
+			}
+			if (me.eegsMe.allow and !(me.strf or me.hydra)) {
+				# draw the funnel
+				for (var k = 0;k<me.funnelParts;k+=1) {
 
-                    me.eegsLeftX[k]  = me.eegsMe.shellPosX[k];
-                    me.eegsLeftY[k]  = me.eegsMe.shellPosY[k];
-                }
-                me.eegsGroup.removeAllChildren();
-                for (var i = 0; i < me.funnelParts-1; i+=1) {
-                    me.fnnl = me.eegsGroup.createChild("path")
-                        .setColor(me.myGreen)
-                        .moveTo(me.eegsLeftX[i], me.eegsLeftY[i])
-                        .lineTo(me.eegsLeftX[i+1], me.eegsLeftY[i+1])
-                        .setStrokeLineWidth(4);
-                    if (i==0) {
-                      me.fnnl.setStrokeDashArray([5,5]);
-                    }
-                }
-                if (me.drawEEGSPipper) {
-                    me.EEGSdeg = math.max(0,HudMath.extrapolate(me.designatedDistanceFT*FT2M,1200,300,360,0))*D2R;
-                    me.EEGSdegPos = [math.sin(me.EEGSdeg)*40,40-math.cos(me.EEGSdeg)*40];
+					me.eegsLeftX[k]  = me.eegsMe.shellPosX[k];
+					me.eegsLeftY[k]  = me.eegsMe.shellPosY[k];
+				}
+				me.eegsGroup.removeAllChildren();
+				for (var i = 0; i < me.funnelParts-1; i+=1) {
+					me.fnnl = me.eegsGroup.createChild("path")
+						.setColor(me.myGreen)
+						.moveTo(me.eegsLeftX[i], me.eegsLeftY[i])
+						.lineTo(me.eegsLeftX[i+1], me.eegsLeftY[i+1])
+						.setStrokeLineWidth(4);
+					if (i==0) {
+						me.fnnl.setStrokeDashArray([5,5]);
+					}
+				}
+				if (me.drawEEGSPipper) {
+					me.EEGSdeg = math.max(0,HudMath.extrapolate(me.designatedDistanceFT*FT2M,1200,300,360,0))*D2R;
+					me.EEGSdegPos = [math.sin(me.EEGSdeg)*40,40-math.cos(me.EEGSdeg)*40];
 
-                    #drawing mini and centra point
-                    me.eegsGroup.createChild("path")
-                          .moveTo(me.eegsRightX[0],me.eegsRightY[0])
-                          .lineTo(me.eegsRightX[0],me.eegsRightY[0])
-                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
-                          .lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
-                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]+40)
-                          .lineTo(me.eegsRightX[0], me.eegsRightY[0]+55)
-                          .moveTo(me.eegsRightX[0]-40, me.eegsRightY[0])
-                          .lineTo(me.eegsRightX[0]-55, me.eegsRightY[0])
-                          .moveTo(me.eegsRightX[0]+40, me.eegsRightY[0])
-                          .lineTo(me.eegsRightX[0]+55, me.eegsRightY[0])
-                          .setColor(me.myGreen)
-                          .setStrokeLineWidth(4);
+					#drawing mini and centra point
+					me.eegsGroup.createChild("path")
+							.moveTo(me.eegsRightX[0],me.eegsRightY[0])
+							.lineTo(me.eegsRightX[0],me.eegsRightY[0])
+							.moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
+							.lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
+							.moveTo(me.eegsRightX[0], me.eegsRightY[0]+40)
+							.lineTo(me.eegsRightX[0], me.eegsRightY[0]+55)
+							.moveTo(me.eegsRightX[0]-40, me.eegsRightY[0])
+							.lineTo(me.eegsRightX[0]-55, me.eegsRightY[0])
+							.moveTo(me.eegsRightX[0]+40, me.eegsRightY[0])
+							.lineTo(me.eegsRightX[0]+55, me.eegsRightY[0])
+							.setColor(me.myGreen)
+							.setStrokeLineWidth(4);
 
-                    #drawing mini and centra point
-                    if (me.designatedDistanceFT*FT2M <1200) {
-                    me.eegsGroup.createChild("path")
-                          .moveTo(me.eegsRightX[0],me.eegsRightY[0]-40)
-                          .lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
-                          .setCenter(me.eegsRightX[0],me.eegsRightY[0])
-                          .setColor(me.myGreen)
-                          .setStrokeLineWidth(4)
-                          .setRotation(me.EEGSdeg);
-                    }
+					#drawing mini and centra point
+					if (me.designatedDistanceFT*FT2M <1200) {
+					me.eegsGroup.createChild("path")
+							.moveTo(me.eegsRightX[0],me.eegsRightY[0]-40)
+							.lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
+							.setCenter(me.eegsRightX[0],me.eegsRightY[0])
+							.setColor(me.myGreen)
+							.setStrokeLineWidth(4)
+							.setRotation(me.EEGSdeg);
+					}
 
-                    if (me.EEGSdeg<180*D2R) {
-                      me.eegsGroup.createChild("path")
-                          .setColor(me.myGreen)
-                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
-                          .arcSmallCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
-                          .setStrokeLineWidth(4);
-                    } elsif (me.EEGSdeg>=360*D2R) {
-                      me.eegsGroup.createChild("path")
-                          .setColor(me.myGreen)
-                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
-                          .arcSmallCW(40,40,0,0,80)
-                          .arcSmallCW(40,40,0,0,-80)
-                          .setStrokeLineWidth(4);
-                    } else {
-                      me.eegsGroup.createChild("path")
-                          .setColor(me.myGreen)
-                          .moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
-                          .arcLargeCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
-                          .setStrokeLineWidth(4);
-                    }
-                }
-                if (me.drawEEGS300 and !me.drawEEGSPipper) {
-                    var halfspan = math.atan2(me.wingspanFT*0.5,300*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
-                    me.eegsGroup.createChild("path")
-                        .setColor(me.myGreen)
-                        .moveTo(me.eegsRightX[1]-halfspan, me.eegsRightY[1])
-                        .horiz(halfspan*2)
-                        .setStrokeLineWidth(4);
-                }
-                if (me.drawEEGS600 and !me.drawEEGSPipper) {
-                    var halfspan = math.atan2(me.wingspanFT*0.5,600*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
-                    me.eegsGroup.createChild("path")
-                        .setColor(me.myGreen)
-                        .moveTo(me.eegsRightX[2]-halfspan, me.eegsRightY[2])
-                        .horiz(halfspan*2)
-                        .setStrokeLineWidth(4);
-                }
-                me.eegsGroup.update();
-            }
+					if (me.EEGSdeg<180*D2R) {
+						me.eegsGroup.createChild("path")
+							.setColor(me.myGreen)
+							.moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
+							.arcSmallCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
+							.setStrokeLineWidth(4);
+					} elsif (me.EEGSdeg>=360*D2R) {
+						me.eegsGroup.createChild("path")
+							.setColor(me.myGreen)
+							.moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
+							.arcSmallCW(40,40,0,0,80)
+							.arcSmallCW(40,40,0,0,-80)
+							.setStrokeLineWidth(4);
+					} else {
+						me.eegsGroup.createChild("path")
+							.setColor(me.myGreen)
+							.moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
+							.arcLargeCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
+							.setStrokeLineWidth(4);
+					}
+				}
+				if (me.drawEEGS300 and !me.drawEEGSPipper) {
+					var halfspan = math.atan2(me.wingspanFT*0.5,300*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
+					me.eegsGroup.createChild("path")
+						.setColor(me.myGreen)
+						.moveTo(me.eegsRightX[1]-halfspan, me.eegsRightY[1])
+						.horiz(halfspan*2)
+						.setStrokeLineWidth(4);
+				}
+				if (me.drawEEGS600 and !me.drawEEGSPipper) {
+					var halfspan = math.atan2(me.wingspanFT*0.5,600*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
+					me.eegsGroup.createChild("path")
+						.setColor(me.myGreen)
+						.moveTo(me.eegsRightX[2]-halfspan, me.eegsRightY[2])
+						.horiz(halfspan*2)
+						.setStrokeLineWidth(4);
+				}
+				me.eegsGroup.update();
+			}
 
-            #Same Piper asthe A/A it should be done in a function
-            if (me.eegsMe.allow and (me.strf or me.hydra)) {
-                me.eegsGroup.removeAllChildren();
-                if (me.drawEEGSPipper and me.strfRange*FT2M <= 4000) {
-                    me.EEGSdeg = math.max(0,HudMath.extrapolate(me.strfRange*FT2M,2400,600,360,0))*D2R;
-                    me.EEGSdegPos = [math.sin(me.EEGSdeg)*40,40-math.cos(me.EEGSdeg)*40];
+			#Same Piper as the A/A it should be done in a function
+			if (me.eegsMe.allow and (me.strf or me.hydra)) {
+				me.eegsGroup.removeAllChildren();
+				if (me.drawEEGSPipper and me.strfRange*FT2M <= 4000) {
+					me.EEGSdeg = math.max(0,HudMath.extrapolate(me.strfRange*FT2M,2400,600,360,0))*D2R;
+					me.EEGSdegPos = [math.sin(me.EEGSdeg)*40,40-math.cos(me.EEGSdeg)*40];
 
-                    #drawing mini line and centra point
-                    me.eegsGroup.createChild("path")
-                          .moveTo(me.eegsPipperX,me.eegsPipperY)
-                          .lineTo(me.eegsPipperX,me.eegsPipperY)
-                          .arcSmallCW(3, 3, 0, 3*2, 0)
-                          .arcSmallCW(3, 3, 0, -3*2, 0)
-                          .moveTo(me.eegsPipperX, me.eegsPipperY-40)
-                          .lineTo(me.eegsPipperX, me.eegsPipperY-55)
-                          .moveTo(me.eegsPipperX, me.eegsPipperY+40)
-                          .lineTo(me.eegsPipperX, me.eegsPipperY+55)
-                          .moveTo(me.eegsPipperX-40, me.eegsPipperY)
-                          .lineTo(me.eegsPipperX-55, me.eegsPipperY)
-                          .moveTo(me.eegsPipperX+40, me.eegsPipperY)
-                          .lineTo(me.eegsPipperX+55, me.eegsPipperY)
-                          .setColor(me.myGreen)
-                          .setStrokeLineWidth(4);
+					#drawing mini line and centra point
+					me.eegsGroup.createChild("path")
+							.moveTo(me.eegsPipperX,me.eegsPipperY)
+							.lineTo(me.eegsPipperX,me.eegsPipperY)
+							.arcSmallCW(3, 3, 0, 3*2, 0)
+							.arcSmallCW(3, 3, 0, -3*2, 0)
+							.moveTo(me.eegsPipperX, me.eegsPipperY-40)
+							.lineTo(me.eegsPipperX, me.eegsPipperY-55)
+							.moveTo(me.eegsPipperX, me.eegsPipperY+40)
+							.lineTo(me.eegsPipperX, me.eegsPipperY+55)
+							.moveTo(me.eegsPipperX-40, me.eegsPipperY)
+							.lineTo(me.eegsPipperX-55, me.eegsPipperY)
+							.moveTo(me.eegsPipperX+40, me.eegsPipperY)
+							.lineTo(me.eegsPipperX+55, me.eegsPipperY)
+							.setColor(me.myGreen)
+							.setStrokeLineWidth(4);
 
-                          # Distance to target
-                    me.eegsGroup.createChild("text")
-                    .setColor(me.myGreen)
-                    .setTranslation(me.maxladderspan,-120)
-                    .setDouble("character-size", 35)
-                    .setAlignment("left-center")
-                    .setText(sprintf("%.1f KM", me.strfRange*FT2M/1000));
+							# Distance to target
+					me.eegsGroup.createChild("text")
+					.setColor(me.myGreen)
+					.setTranslation(me.maxladderspan,-120)
+					.setDouble("character-size", 35)
+					.setAlignment("left-center")
+					.setText(sprintf("%.1f KM", me.strfRange*FT2M/1000));
 
-                     #drawing piper
-                    if (me.strfRange*FT2M <4000) {
-                    me.eegsGroup.createChild("path")
-                          .moveTo(me.eegsPipperX,me.eegsPipperY-40)
-                          .lineTo(me.eegsPipperX, me.eegsPipperY-55)
-                          .setCenter(me.eegsPipperX,me.eegsPipperY)
-                          .setColor(me.myGreen)
-                          .setStrokeLineWidth(4)
-                          .setRotation(me.EEGSdeg);
-                    }
+						#drawing piper
+					if (me.strfRange*FT2M <4000) {
+					me.eegsGroup.createChild("path")
+							.moveTo(me.eegsPipperX,me.eegsPipperY-40)
+							.lineTo(me.eegsPipperX, me.eegsPipperY-55)
+							.setCenter(me.eegsPipperX,me.eegsPipperY)
+							.setColor(me.myGreen)
+							.setStrokeLineWidth(4)
+							.setRotation(me.EEGSdeg);
+					}
 
-                    if (me.EEGSdeg<180*D2R) {
-                      me.eegsGroup.createChild("path")
-                          .setColor(me.myGreen)
-                          .moveTo(me.eegsPipperX, me.eegsPipperY-40)
-                          .arcSmallCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
-                          .setStrokeLineWidth(4);
-                    } elsif (me.EEGSdeg>=360*D2R) {
-                      me.eegsGroup.createChild("path")
-                          .setColor(me.myGreen)
-                          .moveTo(me.eegsPipperX, me.eegsPipperY-40)
-                          .arcSmallCW(40,40,0,0,80)
-                          .arcSmallCW(40,40,0,0,-80)
-                          .setStrokeLineWidth(4);
-                    } else {
-                      me.eegsGroup.createChild("path")
-                          .setColor(me.myGreen)
-                          .moveTo(me.eegsPipperX, me.eegsPipperY-40)
-                          .arcLargeCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
-                          .setStrokeLineWidth(4);
-                    }
-                }
-                me.eegsGroup.update();
-            }
-            #calc shell positions
-            me.eegsMe.vel = me.input.uBody_fps.getValue() + 3363.0 ; #3363.0 = speed
+					if (me.EEGSdeg<180*D2R) {
+						me.eegsGroup.createChild("path")
+							.setColor(me.myGreen)
+							.moveTo(me.eegsPipperX, me.eegsPipperY-40)
+							.arcSmallCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
+							.setStrokeLineWidth(4);
+					} elsif (me.EEGSdeg>=360*D2R) {
+						me.eegsGroup.createChild("path")
+							.setColor(me.myGreen)
+							.moveTo(me.eegsPipperX, me.eegsPipperY-40)
+							.arcSmallCW(40,40,0,0,80)
+							.arcSmallCW(40,40,0,0,-80)
+							.setStrokeLineWidth(4);
+					} else {
+						me.eegsGroup.createChild("path")
+							.setColor(me.myGreen)
+							.moveTo(me.eegsPipperX, me.eegsPipperY-40)
+							.arcLargeCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
+							.setStrokeLineWidth(4);
+					}
+				}
+				me.eegsGroup.update();
+			}
+			#calc shell positions
+			me.eegsMe.vel = me.input.uBody_fps.getValue() + 3363.0 ; #3363.0 = speed
 
-            me.eegsMe.geodPos = aircraftToCart({x:-0, y:0, z: me.input.y_offset_m.getValue()});#position (meters) of gun in aircraft (x and z inverted)
-            me.eegsMe.eegsPos.set_xyz(me.eegsMe.geodPos.x, me.eegsMe.geodPos.y, me.eegsMe.geodPos.z);
-            me.eegsMe.altC = me.eegsMe.eegsPos.alt();
+			me.eegsMe.geodPos = aircraftToCart({x:-0, y:0, z: me.input.y_offset_m.getValue()});#position (meters) of gun in aircraft (x and z inverted)
+			me.eegsMe.eegsPos.set_xyz(me.eegsMe.geodPos.x, me.eegsMe.geodPos.y, me.eegsMe.geodPos.z);
+			me.eegsMe.altC = me.eegsMe.eegsPos.alt();
 
-            me.eegsMe.rs = armament.AIM.rho_sndspeed(me.eegsMe.altC*M2FT);#simplified
-            me.eegsMe.rho = me.eegsMe.rs[0];
-            me.eegsMe.mass =  0.9369635/ armament.slugs_to_lbm;#0.9369635=lbs
+			me.eegsMe.rs = armament.AIM.rho_sndspeed(me.eegsMe.altC*M2FT);#simplified
+			me.eegsMe.rho = me.eegsMe.rs[0];
+			me.eegsMe.mass =  0.9369635/ armament.slugs_to_lbm;#0.9369635=lbs
 
-            var multi = (me.strf or me.hydra) ? 4 : 1;
-            for (var j = 0;j < me.funnelParts*multi;j+=1) {
-                #calc new speed
-                me.eegsMe.Cd = _drag(me.eegsMe.vel/ me.eegsMe.rs[1],0.193); #0.193=cd
-                me.eegsMe.q = 0.5 * me.eegsMe.rho * me.eegsMe.vel * me.eegsMe.vel;
-                me.eegsMe.deacc = (me.eegsMe.Cd * me.eegsMe.q * 0.007609) / me.eegsMe.mass; #0.007609=eda
-                me.eegsMe.vel -= me.eegsMe.deacc * me.averageDt;
-                me.eegsMe.speed_down_fps       = -math.sin(me.eegsMe.pitch * D2R) * (me.eegsMe.vel);
-                me.eegsMe.speed_horizontal_fps = math.cos(me.eegsMe.pitch * D2R) * (me.eegsMe.vel);
+			var multi = (me.strf or me.hydra) ? 4 : 1;
+			for (var j = 0;j < me.funnelParts*multi;j+=1) {
+				#calc new speed
+				me.eegsMe.Cd = _drag(me.eegsMe.vel/ me.eegsMe.rs[1],0.193); #0.193=cd
+				me.eegsMe.q = 0.5 * me.eegsMe.rho * me.eegsMe.vel * me.eegsMe.vel;
+				me.eegsMe.deacc = (me.eegsMe.Cd * me.eegsMe.q * 0.007609) / me.eegsMe.mass; #0.007609=eda
+				me.eegsMe.vel -= me.eegsMe.deacc * me.averageDt;
+				me.eegsMe.speed_down_fps       = -math.sin(me.eegsMe.pitch * D2R) * (me.eegsMe.vel);
+				me.eegsMe.speed_horizontal_fps = math.cos(me.eegsMe.pitch * D2R) * (me.eegsMe.vel);
 
-                me.eegsMe.speed_down_fps += 9.81 *M2FT *me.averageDt;
+				me.eegsMe.speed_down_fps += 9.81 *M2FT *me.averageDt;
 
-                me.eegsMe.altC -= (me.eegsMe.speed_down_fps*me.averageDt)*FT2M;
+				me.eegsMe.altC -= (me.eegsMe.speed_down_fps*me.averageDt)*FT2M;
 
-                me.eegsMe.dist = (me.eegsMe.speed_horizontal_fps*me.averageDt)*FT2M;
+				me.eegsMe.dist = (me.eegsMe.speed_horizontal_fps*me.averageDt)*FT2M;
 
-                me.eegsMe.eegsPos.apply_course_distance(me.eegsMe.hdg, me.eegsMe.dist);
-                me.eegsMe.eegsPos.set_alt(me.eegsMe.altC);
+				me.eegsMe.eegsPos.apply_course_distance(me.eegsMe.hdg, me.eegsMe.dist);
+				me.eegsMe.eegsPos.set_alt(me.eegsMe.altC);
 
-                me.old = me.gunPos[j];
-                me.gunPos[j] = [[geo.Coord.new(me.eegsMe.eegsPos),me.eegsMe.ac, me.eegsMe.pitch]];
-                for (var m = 0;m<j+1;m+=1) {
-                    append(me.gunPos[j], me.old[m]);
-                }
-                me.eegsMe.vel = math.sqrt(me.eegsMe.speed_down_fps*me.eegsMe.speed_down_fps+me.eegsMe.speed_horizontal_fps*me.eegsMe.speed_horizontal_fps);
-                me.eegsMe.pitch = math.atan2(-me.eegsMe.speed_down_fps,me.eegsMe.speed_horizontal_fps)*R2D;
-            }
-        }
-        me.eegsGroup.show();
-    },
+				me.old = me.gunPos[j];
+				me.gunPos[j] = [[geo.Coord.new(me.eegsMe.eegsPos),me.eegsMe.ac, me.eegsMe.pitch]];
+				for (var m = 0;m<j+1;m+=1) {
+					append(me.gunPos[j], me.old[m]);
+				}
+				me.eegsMe.vel = math.sqrt(me.eegsMe.speed_down_fps*me.eegsMe.speed_down_fps+me.eegsMe.speed_horizontal_fps*me.eegsMe.speed_horizontal_fps);
+				me.eegsMe.pitch = math.atan2(-me.eegsMe.speed_down_fps,me.eegsMe.speed_horizontal_fps)*R2D;
+			}
+		}
+		me.eegsGroup.show();
+	},
 
-    isInCanvas: func(x,y) {
-        return abs(x)<me.MaxX and abs(y)<me.MaxY;
-    },
+	_isInCanvas: func(x,y) {
+		return abs(x)<me.MaxX and abs(y)<me.MaxY;
+	},
 
 ############## When pilot view is changed the whole scale need to be redrawn ##########################
     recalculateLadder: func() {
