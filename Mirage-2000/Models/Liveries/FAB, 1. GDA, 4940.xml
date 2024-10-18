@@ -6,9 +6,9 @@
     <model>
       <livery>
 
-        <name type="string">FAF EC 2/2 "Cote d'Or", 2-FD</name>
-        <texture>Liveries/2048x2048/2_cote_d-or_50y.png</texture>
-        <texture-tank-2000>tank2000_cote_d-or.png</texture-tank-2000>
+        <name type="string">FAB, 1. GDA, 4940</name>
+        <texture>Liveries/2048x2048/2_fab_jaguar.png</texture>
+        <texture-tank-2000>tank2000.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>
@@ -17,8 +17,8 @@
         </specular>
       </livery>
       <logos>
-        <name type="string">EC 2/2 Cote d'or (50 years)</name>
-        <texture>cote_d-or_50y.png</texture>
+        <name type="string">Brasilian Air Force (2)</name>
+        <texture>brasil2.png</texture>
         <specular>
           <red>   0.3 </red>
           <green> 0.3 </green>

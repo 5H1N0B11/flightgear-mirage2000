@@ -6,7 +6,7 @@
     <model>
       <livery>
 
-        <name type="string">FAF EC 3/3 "Ardennes", 133-XK</name>
+        <name type="string">AAE EC 3/3 "Ardennes", 133-XK</name>
         <texture>Liveries/2048x2048/1_forest_d.png</texture>
         <texture-tank-2000>tank2000_D.png</texture-tank-2000>
 

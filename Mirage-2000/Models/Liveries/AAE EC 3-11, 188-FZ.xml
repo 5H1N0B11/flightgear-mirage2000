@@ -6,9 +6,9 @@
     <model>
       <livery>
 
-        <name type="string">FAF EC 1/2 "Cigognes", 2-EQ</name>
-        <texture>Liveries/2048x2048/1_sky.png</texture>
-        <texture-tank-2000>tank2000.png</texture-tank-2000>
+        <name type="string">AAE EC 3/11 "Corse", 188-FZ</name>
+        <texture>Liveries/2048x2048/2_corse_75.png</texture>
+        <texture-tank-2000>tank2000_Corse.png</texture-tank-2000>
 
         <specular>
           <red>   0.3 </red>
@@ -17,8 +17,8 @@
         </specular>
       </livery>
       <logos>
-        <name type="string">EC 1/2 Cigognes</name>
-        <texture>cigognes.png</texture>
+        <name type="string">EC 3/11 Corse (75 years)</name>
+        <texture>corse_75y.png</texture>
         <specular>
           <red>   0.3 </red>
           <green> 0.3 </green>
