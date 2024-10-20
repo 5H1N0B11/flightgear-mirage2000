@@ -297,7 +297,6 @@ var VTM = {
 		me.compass_group.setTranslation(_getCompassTopLeftTranslation());
 
 		me.compass_ticks_group = me.compass_group.createChild("group");
-		me.compass_texts_group = me.compass_group.createChild("group");
 
 		me.compass_ticks = setsize([],MAX_COMPASS_TICKS);
 		me.compass_texts = setsize([],MAX_COMPASS_TICKS); # most of them will never be used, but what the heck
@@ -722,7 +721,19 @@ var VTM = {
 		if (is_ppi == TRUE) {
 			var scale_cover = math.min(scale_cover, PPI_MAX_AZ_DEG);
 		}
-		scale_cover = 2 * scale_cover;
+		var degs_to_pixels = RADAR_VIEW_WIDTH / (2 * scale_cover);
+		var padding_start = (heading_true - int(heading_true/10)*10) * degs_to_pixels;
+
+		me.compass_ticks_group.removeAllChildren();
+
+		for (var i = 0; i < 2 * int(scale_cover/10); i+=1) {
+			me.compass_ticks[i] = me.compass_ticks_group.createChild("path")
+			                                            .setStrokeLineWidth(LINE_WIDTH)
+			                                            .setColor(COLOR_RADAR)
+			                                            .moveTo(padding_start + i * 10 * degs_to_pixels, 0)
+			                                            .vert(GRID_TICK_LENGTH);
+			me.compass_ticks[i].update();
+		}
 	},
 
 	update: func() {
@@ -870,6 +881,6 @@ var _getRadarScreenBottomTranslation = func() {
 
 # get the translation from the center of screen (root group) to top left the of compass scale
 var _getCompassTopLeftTranslation = func() {
-	return [-0.5 * SCREEN_WIDTH, -SCREEN_HEIGHT/2 + PADDING_TOP + RADAR_VIEW_HEIGHT];
+	return [-0.5 * SCREEN_WIDTH + PADDING_HORIZONTAL, -SCREEN_HEIGHT/2 + PADDING_TOP + RADAR_VIEW_HEIGHT];
 };
 
