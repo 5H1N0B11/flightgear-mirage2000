@@ -99,7 +99,7 @@ var _mainInitLoop = func() {
 	if(getprop("/instrumentation/efis/Mode")) {
 		mirage2000.mdfselection();
 	}
-	print("Missile view Check");
+	print("Missile view ... Check");
 	viewMissile.init_missile_view();
 
 	environment.environment();
@@ -113,7 +113,7 @@ var _mainInitLoop = func() {
 
 	_setupCustomStickBindings();
 
-	print("system loop ... Check");
+	print("System loop ... Check");
 	_updateMain();
 } # END _mainInitLoop()
 
@@ -723,7 +723,6 @@ var mystarter = func(){
 		setprop("/fdm/jsbsim/propulsion/engine/n2",25);
 		setprop("engines/engine[0]/out-of-fuel",0);
 	}
-	print("You are starting the mirage, dude");
 }
 
 setprop("consumables/fuel/tank[8]/capacity-gal_us",0);

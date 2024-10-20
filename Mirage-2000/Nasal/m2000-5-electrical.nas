@@ -167,7 +167,7 @@ Electrical_init = func()
     props.globals.getNode("/controls/engines/engine[0]/master-alt", 1).setBoolValue(0);
     props.globals.getNode("/controls/engines/engine[0]/master-bat", 1).setBoolValue(0);
     settimer(update_electrical, 1);
-    print("Electrical System ... OK");
+    print("Electrical System ... Check");
 }
 
 # simulation of a virtual electrical bus

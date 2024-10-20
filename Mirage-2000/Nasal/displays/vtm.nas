@@ -38,16 +38,16 @@ var PADDING_TOP = 38;
 var PADDING_BOTTOM = 60;
 var PADDING_HORIZONTAL = 144;
 
-# The radar view is where radar stuff gets displayed - between the 4 corners
-var RADAR_VIEW_VERTICAL = SCREEN_HEIGHT - PADDING_TOP - PADDING_BOTTOM; # 768 - 38 - 60 = 670 left
-var RADAR_VIEW_HORIZONTAL = SCREEN_WIDTH - 2 * PADDING_HORIZONTAL; # 1228 - 2*144 = 940 left
+var GRID_TICK_LENGTH = 12;
 
 var CORNER_LINE_LENGTH = 75;
 var LINE_WIDTH = 4;
-var GRID_TICK_LENGTH = 12;
 
 var FONT_SIZE = 36;
+var FONT_HEIGHT = 40; # size plus line spacing to next line
 var FONT_SIZE_BIG = 48;
+var FONT_SIZE_SMALL = 24;
+var FONT_HEIGHT_SMALL = 24; # "size" and pixels are not the same, so this one is correct
 var FONT_ASPECT_RATIO = 1;
 var FONT_MONO_REGULAR = "LiberationFonts/LiberationMono-Regular.ttf";
 var FONT_MONO_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
@@ -55,6 +55,15 @@ var TEXT_PADDING = 6; # when a text needs to be away from something else a bit
 
 var MAX_CONTACTS = 28; # max nb of aircrafts for which radar echoes can be displayed
 var TARGET_WIDTH = 36;
+
+
+var COMPAS_SCALE_HEIGHT = GRID_TICK_LENGTH + FONT_HEIGHT;
+
+# The radar view is where radar stuff gets displayed - between the 4 corners
+var RADAR_VIEW_HEIGHT = SCREEN_HEIGHT - PADDING_TOP - COMPAS_SCALE_HEIGHT - PADDING_BOTTOM; # 768 - - ca. 50 - 38 - 60 = ca. 620 left
+var RADAR_VIEW_WIDTH = SCREEN_WIDTH - 2 * PADDING_HORIZONTAL; # 1228 - 2*144 = 940 left
+
+var RADAR_PITCH_DEGS_TO_PIXELS = RADAR_VIEW_HEIGHT / 150;
 
 var VTM = {
 	new: func() {
@@ -66,7 +75,7 @@ var VTM = {
 		                     "mipmapping": 0
 		});
 
-		vtm_obj.cursor_pos = [RADAR_VIEW_HORIZONTAL/8,-RADAR_VIEW_VERTICAL*3/8]; # a bit off middle towards right and the top part of the screen
+		vtm_obj.cursor_pos = [RADAR_VIEW_WIDTH/8,-RADAR_VIEW_HEIGHT*3/8]; # a bit off middle towards right and the top part of the screen
 		vtm_obj.cursor_trigger_prev = FALSE;
 		vtm_obj.n_contacts = 0;
 
@@ -81,7 +90,7 @@ var VTM = {
 		vtm_obj._createScreenModeGroup();
 		vtm_obj._createRectangularFieldOfViewGrid();
 		vtm_obj._createPPIView();
-		vtm_obj._createCursors();
+		vtm_obj._createCursor();
 		vtm_obj._createTargets();
 		vtm_obj._createStandbyText();
 		vtm_obj._createRadarModesGroup();
@@ -93,6 +102,7 @@ var VTM = {
 	_createVisibleCorners: func() {
 		me.corners_group = me.root.createChild("group", "corners_group");
 		me.corners_group.setTranslation(_getTopLeftTranslation());
+
 		me.left_upper_corner  = me.corners_group.createChild("path", "left_upper_corner")
 		                                        .setColor(COLOR_FOREGROUND)
 		                                        .moveTo(PADDING_HORIZONTAL + CORNER_LINE_LENGTH,
@@ -129,13 +139,14 @@ var VTM = {
 	_createScreenModeGroup: func() {
 		me.screen_mode_group = me.root.createChild("group", "screen_mode_group");
 		me.screen_mode_group.setTranslation(_getTopLeftTranslation());
+
 		me.screen_mode_rdr     = me.screen_mode_group.createChild("text", "screen_mode_rdr")
 		                                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
 		                                             .setFont(FONT_MONO_BOLD)
 		                                             .setColor(COLOR_FOREGROUND)
 		                                             .setAlignment("left-top")
 		                                             .setText("RDR")
-		                                             .setTranslation(PADDING_HORIZONTAL + 0.5*0.25*RADAR_VIEW_HORIZONTAL,
+		                                             .setTranslation(PADDING_HORIZONTAL + 0.5*0.25*RADAR_VIEW_WIDTH,
 		                                                             SCREEN_HEIGHT - PADDING_BOTTOM + TEXT_PADDING);
 		me.screen_mode_ldp     = me.screen_mode_group.createChild("text", "screen_mode_ldp")
 		                                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
@@ -143,19 +154,19 @@ var VTM = {
 		                                             .setColor(COLOR_FOREGROUND)
 		                                             .setAlignment("left-top")
 		                                             .setText("LDP")
-		                                             .setTranslation(PADDING_HORIZONTAL + 1.5*0.25*RADAR_VIEW_HORIZONTAL,
+		                                             .setTranslation(PADDING_HORIZONTAL + 1.5*0.25*RADAR_VIEW_WIDTH,
 		                                                             SCREEN_HEIGHT - PADDING_BOTTOM + TEXT_PADDING);
 		me.screen_mode_rdr_box = me.screen_mode_group.createChild("path", "screen_mode_rdr_box")
 		                                             .setColor(COLOR_FOREGROUND)
-		                                             .rect(PADDING_HORIZONTAL + 0.4*0.25*RADAR_VIEW_HORIZONTAL,
+		                                             .rect(PADDING_HORIZONTAL + 0.4*0.25*RADAR_VIEW_WIDTH,
 		                                                   SCREEN_HEIGHT - PADDING_BOTTOM + 1,
-		                                                   0.5*0.25*RADAR_VIEW_HORIZONTAL, 30)
+		                                                   0.5*0.25*RADAR_VIEW_WIDTH, 30)
 		                                             .setStrokeLineWidth(LINE_WIDTH);
 		me.screen_mode_ldp_box = me.screen_mode_group.createChild("path", "screen_mode_ldp_box")
 		                                             .setColor(COLOR_FOREGROUND)
-		                                             .rect(PADDING_HORIZONTAL + 1.4*0.25*RADAR_VIEW_HORIZONTAL,
+		                                             .rect(PADDING_HORIZONTAL + 1.4*0.25*RADAR_VIEW_WIDTH,
 		                                                   SCREEN_HEIGHT - PADDING_BOTTOM + 1,
-		                                                   0.5*0.25*RADAR_VIEW_HORIZONTAL, 30)
+		                                                   0.5*0.25*RADAR_VIEW_WIDTH, 30)
 		                                             .setStrokeLineWidth(LINE_WIDTH);
 		me.screen_mode_ldp_box.hide();
 		me.screen_mode_group.hide();
@@ -165,6 +176,7 @@ var VTM = {
 	_createRectangularFieldOfViewGrid: func() {
 		me.rectangular_fov_grid_group = me.root.createChild("group", "rectangular_fov_grid");
 		me.rectangular_fov_grid_group.setTranslation(_getTopLeftTranslation());
+
 		me.top_grid_line = me.rectangular_fov_grid_group.createChild("path", "top_grid_line")
 		                                                .setColor(COLOR_RADAR)
 		                                                .moveTo(PADDING_HORIZONTAL + GRID_TICK_LENGTH, PADDING_TOP - GRID_TICK_LENGTH)
@@ -172,51 +184,48 @@ var VTM = {
 		                                                .setStrokeLineWidth(LINE_WIDTH);
 		me.top_ticks     = me.rectangular_fov_grid_group.createChild("path", "top_ticks")
 		                                                .setColor(COLOR_RADAR)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL,
+		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_WIDTH,
 		                                                        PADDING_TOP - GRID_TICK_LENGTH)
 		                                                .vertTo(PADDING_TOP)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL,
+		                                                .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_WIDTH,
 		                                                        PADDING_TOP - GRID_TICK_LENGTH)
 		                                                .vertTo(PADDING_TOP)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_HORIZONTAL,
+		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_WIDTH,
 		                                                        PADDING_TOP - GRID_TICK_LENGTH)
 		                                                .vertTo(PADDING_TOP)
 		                                                .setStrokeLineWidth(LINE_WIDTH);
-		var spacing = (RADAR_VIEW_VERTICAL - 4 * 2 * GRID_TICK_LENGTH) / 4;
+		var spacing = (RADAR_VIEW_HEIGHT + COMPAS_SCALE_HEIGHT - 4 * 2 * GRID_TICK_LENGTH) / 4;
 		me.line_ticks    = me.rectangular_fov_grid_group.createChild("path", "line_ticks")
 		                                                .setColor(COLOR_FOREGROUND)
 		                                                # left
-		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL,
+		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_WIDTH,
 		                                                        PADDING_TOP + spacing)
 		                                                .vert(2*GRID_TICK_LENGTH)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL,
+		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_WIDTH,
 		                                                        PADDING_TOP + 2*spacing + 2*GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL,
+		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_WIDTH,
 		                                                        PADDING_TOP + 3*spacing + 2*2*GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_HORIZONTAL,
-		                                                        PADDING_TOP + RADAR_VIEW_VERTICAL - GRID_TICK_LENGTH)
+		                                                .moveTo(PADDING_HORIZONTAL + 0.25*RADAR_VIEW_WIDTH,
+		                                                        PADDING_TOP + 4*spacing + 2*3*GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
 		                                                # right
-		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_HORIZONTAL,
+		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_WIDTH,
 		                                                        PADDING_TOP + spacing)
 		                                                .vert(2*GRID_TICK_LENGTH)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_HORIZONTAL,
+		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_WIDTH,
 		                                                        PADDING_TOP + 2*spacing + 2*GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_HORIZONTAL,
+		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_WIDTH,
 		                                                        PADDING_TOP + 3*spacing + 2*2*GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_HORIZONTAL,
-		                                                        PADDING_TOP + RADAR_VIEW_VERTICAL - GRID_TICK_LENGTH)
+		                                                .moveTo(PADDING_HORIZONTAL + 0.75*RADAR_VIEW_WIDTH,
+		                                                        PADDING_TOP + 4*spacing + 2*3*GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
-		                                                # middle
-		                                                .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL,
-		                                                        PADDING_TOP + RADAR_VIEW_VERTICAL - CORNER_LINE_LENGTH - 2*GRID_TICK_LENGTH)
-		                                                .vert(2*GRID_TICK_LENGTH)
-		                                                .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL,
-		                                                        PADDING_TOP + RADAR_VIEW_VERTICAL - GRID_TICK_LENGTH)
+		                                                # middle has fewer ticks
+		                                                .moveTo(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_WIDTH,
+		                                                        PADDING_TOP + 4*spacing + 2*3*GRID_TICK_LENGTH)
 		                                                .vert(2*GRID_TICK_LENGTH)
 		                                                .setStrokeLineWidth(LINE_WIDTH);
 		me.rectangular_fov_grid_group.hide();
@@ -227,14 +236,14 @@ var VTM = {
 	# Because the sectors can have different angles, the circle at the top cannot be drawn fixed.
 	_createPPIView: func() {
 		me.ppi_fov_grid_group = me.root.createChild("group", "ppi_fov_grid");
-		me.ppi_fov_grid_group.setTranslation(0, 0.5 * SCREEN_HEIGHT - PADDING_BOTTOM);
+		me.ppi_fov_grid_group.setTranslation(_getRadarScreenBottomTranslation());
 
 		me.ppi_circle_group = me.ppi_fov_grid_group.createChild("group", "ppi_circle_group");
 
 		me.angle_markers = setsize([],5);
 		var angle_rad = 30 * D2R;
-		var circle_x = RADAR_VIEW_VERTICAL * math.sin(angle_rad);
-		var circle_y = RADAR_VIEW_VERTICAL * math.cos(angle_rad);
+		var circle_x = RADAR_VIEW_HEIGHT * math.sin(angle_rad);
+		var circle_y = RADAR_VIEW_HEIGHT * math.cos(angle_rad);
 		var dash_array = [1*GRID_TICK_LENGTH, 4*GRID_TICK_LENGTH];
 		me.angle_markers[0] = me.ppi_fov_grid_group.createChild("path")
 		                                           .moveTo(0, 0)
@@ -249,8 +258,8 @@ var VTM = {
 		                                           .setColor(COLOR_FOREGROUND)
 		                                           .setStrokeDashArray(dash_array);
 		angle_rad = 60 * D2R;
-		circle_x = RADAR_VIEW_VERTICAL * math.sin(angle_rad);
-		circle_y = RADAR_VIEW_VERTICAL * math.cos(angle_rad);
+		circle_x = RADAR_VIEW_HEIGHT * math.sin(angle_rad);
+		circle_y = RADAR_VIEW_HEIGHT * math.cos(angle_rad);
 		me.angle_markers[2] = me.ppi_fov_grid_group.createChild("path")
 		                                           .moveTo(0, 0)
 		                                           .lineTo(-circle_x, -circle_y)
@@ -264,15 +273,19 @@ var VTM = {
 		                                           .setColor(COLOR_FOREGROUND)
 		                                           .setStrokeDashArray(dash_array);
 		me.angle_markers[4] = me.ppi_fov_grid_group.createChild("path")
-		                                           .moveTo(0, -RADAR_VIEW_VERTICAL)
-		                                           .lineTo(0, -RADAR_VIEW_VERTICAL + 2*GRID_TICK_LENGTH)
+		                                           .moveTo(0, -RADAR_VIEW_HEIGHT)
+		                                           .lineTo(0, -RADAR_VIEW_HEIGHT + 2*GRID_TICK_LENGTH)
 		                                           .setStrokeLineWidth(LINE_WIDTH)
 		                                           .setColor(COLOR_RADAR);
 		me.ppi_fov_grid_group.hide();
 	},
 
-	_createCursors: func() { # Selection cursor
-		me.cursor_group = me.root.createChild("group");
+	_createCursor: func() { # Selection cursor (French = alidade)
+		me.alidade_group = me.root.createChild("group");
+		me.alidade_group.setTranslation(_getRadarScreenTranslation());
+
+		# the cursor incl. texts around it
+		me.cursor_group = me.alidade_group.createChild("group");
 		me.cursor_stt = me.cursor_group.createChild("path")
 		                               .moveTo(0, GRID_TICK_LENGTH/2).vert(GRID_TICK_LENGTH*3)
 		                               .moveTo(0, -GRID_TICK_LENGTH/2).vert(-GRID_TICK_LENGTH*3)
@@ -280,7 +293,85 @@ var VTM = {
 		                               .moveTo(GRID_TICK_LENGTH/2, 0).horiz(GRID_TICK_LENGTH*3)
 		                               .setStrokeLineWidth(LINE_WIDTH)
 		                               .setColor(COLOR_RADAR);
-		me.cursor_group.hide();
+
+		me.cursor_upper_limit = me.cursor_group.createChild("text", "cursor_upper_limit")
+		                               .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                               .setFont(FONT_MONO_REGULAR)
+		                               .setColor(COLOR_RADAR)
+		                               .setAlignment("left-top")
+		                               .setText("")
+		                               .setTranslation(GRID_TICK_LENGTH*4, -GRID_TICK_LENGTH*3.5);
+		me.cursor_upper_limit.enableUpdate();
+		me.cursor_lower_limit = me.cursor_group.createChild("text", "cursor_lower_limit")
+		                               .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                               .setFont(FONT_MONO_REGULAR)
+		                               .setColor(COLOR_RADAR)
+		                               .setAlignment("left-bottom")
+		                               .setText("")
+		                               .setTranslation(GRID_TICK_LENGTH*4, GRID_TICK_LENGTH*3.5);
+		me.cursor_lower_limit.enableUpdate();
+		me.cursor_distance    = me.cursor_group.createChild("text", "cursor_distance")
+		                               .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                               .setFont(FONT_MONO_REGULAR)
+		                               .setColor(COLOR_RADAR)
+		                               .setAlignment("right-bottom")
+		                               .setText("")
+		                               .setTranslation(-GRID_TICK_LENGTH*3.5 - 2, 0);
+		me.cursor_distance.enableUpdate();
+
+		# the dynamic texts in the upper right corner (French = cartouche alidade)
+		var left_padding = RADAR_VIEW_WIDTH/2 - 80;
+		var right_padding = RADAR_VIEW_WIDTH/2 - TEXT_PADDING;
+		me.cartridge_group = me.alidade_group.createChild("group");
+		# labels
+		me.cursor_n_label    = me.cartridge_group.createChild("text", "cursor_n_label")
+		                                         .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                         .setFont(FONT_MONO_REGULAR)
+		                                         .setColor(COLOR_RADAR)
+		                                         .setAlignment("left-bottom")
+		                                         .setText("N")
+		                                         .setTranslation(left_padding, -RADAR_VIEW_HEIGHT/2 + FONT_HEIGHT_SMALL);
+		me.cursor_hdg_label  = me.cartridge_group.createChild("text", "cursor_hdg_label")
+		                                         .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                         .setFont(FONT_MONO_REGULAR)
+		                                         .setColor(COLOR_RADAR)
+		                                         .setAlignment("left-bottom")
+		                                         .setText("θ")
+		                                         .setTranslation(left_padding, -RADAR_VIEW_HEIGHT/2 + 2*FONT_HEIGHT_SMALL);
+		me.cursor_dist_label = me.cartridge_group.createChild("text", "cursor_dist_label")
+		                                         .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                         .setFont(FONT_MONO_REGULAR)
+		                                         .setColor(COLOR_RADAR)
+		                                         .setAlignment("left-bottom")
+		                                         .setText("ρ")
+		                                         .setTranslation(left_padding, -RADAR_VIEW_HEIGHT/2 + 3*FONT_HEIGHT_SMALL);
+		# dynamic text
+		me.cursor_n_text     = me.cartridge_group.createChild("text", "cursor_n_text")
+		                                         .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                         .setFont(FONT_MONO_REGULAR)
+		                                         .setColor(COLOR_RADAR)
+		                                         .setAlignment("right-bottom")
+		                                         .setText("0")
+		                                         .setTranslation(right_padding, -RADAR_VIEW_HEIGHT/2 + FONT_HEIGHT_SMALL);
+		me.cursor_hdg_text   = me.cartridge_group.createChild("text", "cursor_hdg_text")
+		                                         .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                         .setFont(FONT_MONO_REGULAR)
+		                                         .setColor(COLOR_RADAR)
+		                                         .setAlignment("right-bottom")
+		                                         .setText("")
+		                                         .setTranslation(right_padding, -RADAR_VIEW_HEIGHT/2 + 2*FONT_HEIGHT_SMALL);
+		me.cursor_dist_text  = me.cartridge_group.createChild("text", "cursor_dist_text")
+		                                         .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                         .setFont(FONT_MONO_REGULAR)
+		                                         .setColor(COLOR_RADAR)
+		                                         .setAlignment("right-bottom")
+		                                         .setText("")
+		                                         .setTranslation(right_padding, -RADAR_VIEW_HEIGHT/2 + 3*FONT_HEIGHT_SMALL);
+		me.cursor_n_text.enableUpdate();
+		me.cursor_hdg_text.enableUpdate();
+		me.cursor_dist_text.enableUpdate();
+
+		me.alidade_group.hide();
 	},
 
 	# 3 types of targets: selected target, friend targets, foe targets.
@@ -289,6 +380,8 @@ var VTM = {
 	# Foe targets are drawn as open squares - with the opening being on the back side of the target
 	_createTargets: func() {
 		me.targets_group = me.root.createChild("group", "targets_group");
+		me.targets_group.setTranslation(_getRadarScreenTranslation());
+
 		me.selected_target          = me.targets_group.createChild("path", "selected_target")
 		                                              .setColor(COLOR_RADAR)
 		                                              .moveTo(-0.5 * TARGET_WIDTH, 0)
@@ -303,8 +396,8 @@ var VTM = {
 		                                              .setColor(COLOR_RADAR)
 		                                              .setAlignment("right-top")
 		                                              .setText("")
-		                                              .setTranslation(0.5 * RADAR_VIEW_HORIZONTAL - TEXT_PADDING,
-		                                                              0.5 * RADAR_VIEW_VERTICAL + TEXT_PADDING);
+		                                              .setTranslation(0.5 * RADAR_VIEW_WIDTH - TEXT_PADDING,
+		                                                              0.5 * RADAR_VIEW_HEIGHT + COMPAS_SCALE_HEIGHT + TEXT_PADDING);
 		me.selected_target_callsign.enableUpdate();
 
 		me.friend_contacts = setsize([],MAX_CONTACTS);
@@ -356,7 +449,7 @@ var VTM = {
 		                                  .setColor(COLOR_RADAR)
 		                                  .setAlignment("center-center")
 		                                  .setText("SILENCE")
-		                                  .setTranslation(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL,
+		                                  .setTranslation(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_WIDTH,
 		                                                  PADDING_TOP + 200);
 		me.standby_group.hide();
 	},
@@ -365,7 +458,6 @@ var VTM = {
 	# The a-bars and the b-bars should be 0.25 to the left cf. the original in the book, but then there would not be space for the
 	# root mode name plus the short name of the radar mode.
 	_createRadarModesGroup: func () {
-		var y_top_pos = PADDING_TOP + 10;
 		me.radar_modes_group = me.root.createChild("group", "radar_range_group");
 		me.radar_modes_group.setTranslation(_getTopLeftTranslation());
 		me.radar_left_text  = me.radar_modes_group.createChild("text", "radar_left_text")
@@ -374,31 +466,52 @@ var VTM = {
 		                                          .setColor(COLOR_RADAR)
 		                                          .setAlignment("left-top")
 		                                          .setText("MRF")
-		                                          .setTranslation(PADDING_HORIZONTAL + 10, y_top_pos);
-		me.radar_a_bars     = me.radar_modes_group.createChild("text", "radar_a_bars")
-		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                          .setFont(FONT_MONO_BOLD)
-		                                          .setColor(COLOR_RADAR)
-		                                          .setAlignment("center-top")
-		                                          .setText("A1")
-		                                          .setTranslation(PADDING_HORIZONTAL + 0.375*RADAR_VIEW_HORIZONTAL, y_top_pos);
-		me.radar_a_bars.enableUpdate();
-		me.radar_b_bars     = me.radar_modes_group.createChild("text", "radar_b_bars")
-		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-		                                          .setFont(FONT_MONO_BOLD)
-		                                          .setColor(COLOR_RADAR)
-		                                          .setAlignment("right-top")
-		                                          .setText("HI")
-		                                          .setTranslation(PADDING_HORIZONTAL + 0.5*RADAR_VIEW_HORIZONTAL - 10, y_top_pos);
-		me.radar_b_bars.enableUpdate();
+		                                          .setTranslation(PADDING_HORIZONTAL + 10, PADDING_TOP + 10);
 		me.radar_range_text = me.radar_modes_group.createChild("text", "radar_range_text")
 		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
 		                                          .setFont(FONT_MONO_BOLD)
 		                                          .setColor(COLOR_RADAR)
-		                                          .setAlignment("right-top")
+		                                          .setAlignment("left-top")
 		                                          .setText("")
-		                                          .setTranslation(SCREEN_WIDTH - PADDING_HORIZONTAL - 10, y_top_pos);
+		                                          .setTranslation(SCREEN_WIDTH/2 + 10, PADDING_TOP + 2*GRID_TICK_LENGTH);
 		me.radar_range_text.enableUpdate();
+
+		# radar pitch. There should be place for ca. 75 degrees up and down
+		var pad_left = PADDING_HORIZONTAL + 2*GRID_TICK_LENGTH;
+		var pad_top = PADDING_TOP + RADAR_VIEW_HEIGHT/2;
+		me.radar_pitch_scale = me.radar_modes_group.createChild("path")
+		                                           .setColor(COLOR_RADAR)
+		                                           # center has 2 lines
+		                                           .moveTo(pad_left, pad_top - 4)
+		                                           .horiz(GRID_TICK_LENGTH)
+		                                           .moveTo(pad_left, pad_top + 4)
+		                                           .horiz(GRID_TICK_LENGTH)
+		                                           # at 10
+		                                           .moveTo(pad_left, pad_top - 10 * RADAR_PITCH_DEGS_TO_PIXELS)
+		                                           .horiz(GRID_TICK_LENGTH)
+		                                           .moveTo(pad_left, pad_top + 10 * RADAR_PITCH_DEGS_TO_PIXELS)
+		                                           .horiz(GRID_TICK_LENGTH)
+		                                           # at 20
+		                                           .moveTo(pad_left, pad_top - 20 * RADAR_PITCH_DEGS_TO_PIXELS)
+		                                           .horiz(GRID_TICK_LENGTH)
+		                                           .moveTo(pad_left, pad_top + 20 * RADAR_PITCH_DEGS_TO_PIXELS)
+		                                           .horiz(GRID_TICK_LENGTH)
+		                                           # at 40 - only up
+		                                           .moveTo(pad_left, pad_top - 40 * RADAR_PITCH_DEGS_TO_PIXELS)
+		                                           .horiz(GRID_TICK_LENGTH)
+		                                           # at 60 - only up
+		                                           .moveTo(pad_left, pad_top - 60 * RADAR_PITCH_DEGS_TO_PIXELS)
+		                                           .horiz(GRID_TICK_LENGTH)
+		                                           .setStrokeLineWidth(LINE_WIDTH);
+
+		me.radar_b_bars      = me.radar_modes_group.createChild("text", "radar_b_bars")
+		                                           .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+		                                           .setFont(FONT_MONO_REGULAR)
+		                                           .setColor(COLOR_RADAR)
+		                                           .setAlignment("left-center")
+		                                           .setText("")
+		                                           .setTranslation(pad_left + GRID_TICK_LENGTH, pad_top);
+		me.radar_b_bars.enableUpdate();
 		me.radar_modes_group.hide();
 	},
 
@@ -424,10 +537,10 @@ var VTM = {
 			var info = contact.getLastBlep();
 			var screen_pos = nil;
 			relative_heading_rad = geo.normdeg(contact.getHeading() - heading_true) * D2R;
-			if (is_ppi = TRUE) {
-				screen_pos = _calcTargetScreenPositionPPIScope(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R);
+			if (is_ppi == TRUE) {
+				screen_pos = _calcScreenPositionPPIScopeToXY(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R);
 			} else {
-				screen_pos = _calcTargetScreenPositionBScope(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R, max_azimuth_rad);
+				screen_pos = _calcScreenPositionBScopeToXY(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R, max_azimuth_rad);
 			}
 			append(me.radar_contacts_pos, screen_pos);
 
@@ -481,38 +594,20 @@ var VTM = {
 		# this is fictional based on radar2.nas->radar_mode_toggle(). In the real screen it reads e.g. "MRF"
 		me.radar_left_text.setText(radar_mode_root_name~"-"~radar_mode_name);
 
-		# This is fictional based on interpretation of display_system.nas in the F16
-		# The azimuth is only to one side - i.e. az=40 means plus/minus 40 -> 80 degrees
-		var max_azimuth_deg = radar_system.apg68Radar.getAzimuthRadius();
-		var az_text = "A0"; # does not exist
-		if (max_azimuth_deg < 20) {
-			az_text = "A1";
-		} elsif (max_azimuth_deg < 30) {
-			az_text = "A2";
-		} elsif (max_azimuth_deg < 40) {
-			az_text = "A3";
-		} elsif (max_azimuth_deg < 50) {
-			az_text = "A4";
-		} elsif (max_azimuth_deg < 60) {
-			az_text = "A5";
-		} elsif (max_azimuth_deg < 70) {
-			az_text = "A6";
-		}
-		me.radar_a_bars.setText(az_text);
-
-		me.radar_b_bars.setText(radar_system.apg68Radar.getBars()~"B");
+		me.radar_b_bars.setText("<"~radar_system.apg68Radar.getBars());
+		me.radar_b_bars.setTranslation(PADDING_HORIZONTAL + 3*GRID_TICK_LENGTH, PADDING_TOP + RADAR_VIEW_HEIGHT/2 - radar_system.apg68Radar.getTiltKnob() * RADAR_PITCH_DEGS_TO_PIXELS);
 
 		me.radar_range_text.setText(radar_system.apg68Radar.getRange());
 	},
 
 	_updatePPICircle: func(max_azimuth_rad) {
 		me.ppi_circle_group.removeAllChildren();
-		var circle_x = RADAR_VIEW_VERTICAL * math.sin(max_azimuth_rad);
-		var circle_y = RADAR_VIEW_VERTICAL * math.cos(max_azimuth_rad);
+		var circle_x = RADAR_VIEW_HEIGHT * math.sin(max_azimuth_rad);
+		var circle_y = RADAR_VIEW_HEIGHT * math.cos(max_azimuth_rad);
 
 		var ppi_circle = me.ppi_circle_group.createChild("path")
 		                                    .moveTo(-circle_x, -circle_y)
-		                                    .arcSmallCW(RADAR_VIEW_VERTICAL, RADAR_VIEW_VERTICAL, 0, 2*circle_x, 0)
+		                                    .arcSmallCW(RADAR_VIEW_HEIGHT, RADAR_VIEW_HEIGHT, 0, 2*circle_x, 0)
 		                                    .setStrokeLineWidth(LINE_WIDTH)
 		                                    .setColor(COLOR_RADAR);
 		ppi_circle.update();
@@ -521,11 +616,11 @@ var VTM = {
 	# Originally copied from JA37
 	_updateCursor: func(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_name) {
 		if (displays.common.cursor != displays.VTM) {
-			me.cursor_group.hide();
+			me.alidade_group.hide();
 			return;
 		}
 		if (radar_mode_name == "TWS") {
-			me.cursor_group.hide();
+			me.alidade_group.hide();
 			return;
 		}
 
@@ -535,36 +630,13 @@ var VTM = {
 		var click = cursor_mov[2] and !me.cursor_trigger_prev;
 		me.cursor_trigger_prev = cursor_mov[2];
 
-		var radar_priority_target = radar_system.apg68Radar.getPriorityTarget();
-		if (radar_priority_target != nil) {
-			me.cursor_group.hide();
-			# clicking unlocks
-			if (click) {
-				# cursor restarts from current target position
-				var info = radar_priority_target.getLastBlep();
-				var screen_pos = nil;
-				if (info != nil) {
-					if (is_ppi = TRUE) {
-						screen_pos = _calcTargetScreenPositionPPIScope(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R);
-					} else {
-						screen_pos = _calcTargetScreenPositionBScope(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R, max_azimuth_rad);
-					}
-					me.cursor_pos[0] = math.clamp(screen_pos[0], -RADAR_VIEW_HORIZONTAL/2, RADAR_VIEW_HORIZONTAL/2);
-					me.cursor_pos[1] = math.clamp(screen_pos[1], -RADAR_VIEW_VERTICAL/2, RADAR_VIEW_VERTICAL/2);
-				}
-				radar_system.apg68Radar.undesignate();
-			}
-			return;
-		}
+		me.cursor_pos[0] += cursor_mov[0] * RADAR_VIEW_WIDTH * 0.2;
+		me.cursor_pos[1] += cursor_mov[1] * RADAR_VIEW_HEIGHT * 0.2;
+		me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -RADAR_VIEW_WIDTH/2, RADAR_VIEW_WIDTH/2);
+		me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -RADAR_VIEW_HEIGHT/2, RADAR_VIEW_HEIGHT/2);
 
-		me.cursor_pos[0] += cursor_mov[0] * RADAR_VIEW_HORIZONTAL * 0.2;
-		me.cursor_pos[1] += cursor_mov[1] * RADAR_VIEW_VERTICAL * 0.2;
-		me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -RADAR_VIEW_HORIZONTAL/2, RADAR_VIEW_HORIZONTAL/2);
-		me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -RADAR_VIEW_VERTICAL/2, RADAR_VIEW_VERTICAL/2);
-
-		me.cursor_group.show();
+		me.alidade_group.show();
 		me.cursor_group.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
-		me.cursor_stt.setVisible(TRUE);
 
 		if (click) {
 			var new_sel = me._findCursorTrack();
@@ -572,6 +644,26 @@ var VTM = {
 				radar_system.apg68Radar.designate(new_sel);
 			}
 		}
+
+		# update the numbers
+		me.alimits = radar_system.apg68Radar.getCursorAltitudeLimits();
+		if (me.alimits != nil and radar_system.apg68Radar.currentMode.detectAIR) {
+			me.cursor_upper_limit.setText(sprintf("% 2d", math.round(me.alimits[0]*0.001)));
+			me.cursor_lower_limit.setText(sprintf("% 2d", math.round(me.alimits[1]*0.001)));
+		} else {
+			me.cursor_upper_limit.setText("");
+			me.cursor_lower_limit.setText("");
+		}
+
+		var screen_pos = nil;
+		if (is_ppi == TRUE) {
+			screen_pos = _calcScreenPositionPPIScopeFromXY(me.cursor_pos[0], me.cursor_pos[1], max_distance_m);
+		} else {
+			screen_pos = _calcScreenPositionBScopeFromXY(me.cursor_pos[0], me.cursor_pos[1], max_distance_m, max_azimuth_rad);
+		}
+		me.cursor_distance.setText(sprintf("% 2d", math.round(screen_pos[1] * M2NM)));
+		me.cursor_dist_text.setText(sprintf("% 2d", math.round(screen_pos[1] * M2NM)));
+		me.cursor_hdg_text.setText(sprintf("% 3d", math.round(geo.normdeg(screen_pos[0] * R2D + heading_true))));
 	},
 
 	_distCursorTrack: func(i) {
@@ -653,20 +745,40 @@ var _is_ground_mode = func(radar_mode_root_name) {
 	return FALSE;
 };
 
-# Calculates the relative screen position of a target in PPI-scope
-# Returns the x/y position on the Canvas
-var _calcTargetScreenPositionPPIScope = func(distance_m, max_distance_m, angle_rad) {
-	var x_pos = RADAR_VIEW_VERTICAL * math.sin(angle_rad) * distance_m / max_distance_m;
-	var y_pos = 0.5 * RADAR_VIEW_VERTICAL - RADAR_VIEW_VERTICAL * math.cos(angle_rad) * distance_m / max_distance_m;
+# Calculates the relative screen position of a point in PPI-scope
+# Returns the angle_rad/distance_m position on the Canvas
+var _calcScreenPositionPPIScopeToXY = func(distance_m, max_distance_m, angle_rad) {
+	var x_pos = RADAR_VIEW_HEIGHT * math.sin(angle_rad) * distance_m / max_distance_m;
+	var y_pos = 0.5 * RADAR_VIEW_HEIGHT - RADAR_VIEW_HEIGHT * math.cos(angle_rad) * distance_m / max_distance_m;
 	return [x_pos, y_pos];
 };
 
-# Calculates the relative screen position of a target in B-scope
+# Calculates the relative screen position of a point in PPI-scope
 # Returns the x/y position on the Canvas
-var _calcTargetScreenPositionBScope = func(distance_m, max_distance_m, angle_rad, max_azimuth_rad) {
-	var x_pos = angle_rad / max_azimuth_rad * (0.5 * RADAR_VIEW_HORIZONTAL);
-	var y_pos = 0.5 * RADAR_VIEW_VERTICAL - distance_m / max_distance_m * RADAR_VIEW_VERTICAL;
+var _calcScreenPositionPPIScopeFromXY = func(x_pos, y_pos, max_distance_m) {
+	var y_pos_origin = 0.5 * RADAR_VIEW_HEIGHT - y_pos; # if y was zeroed at bottom
+	var distance_m = math.sqrt(x_pos*x_pos + y_pos_origin*y_pos_origin) / RADAR_VIEW_HEIGHT * max_distance_m;
+	var angle_rad = 0;
+	if (y_pos_origin > 0) {
+		angle_rad = math.atan2(x_pos, y_pos_origin);
+	}
+	return [angle_rad, distance_m];
+};
+
+# Calculates the relative screen position of a point in B-scope
+# Returns the x/y position on the Canvas
+var _calcScreenPositionBScopeToXY = func(distance_m, max_distance_m, angle_rad, max_azimuth_rad) {
+	var x_pos = angle_rad / max_azimuth_rad * (0.5 * RADAR_VIEW_WIDTH);
+	var y_pos = (0.5 * RADAR_VIEW_HEIGHT) - distance_m / max_distance_m * RADAR_VIEW_HEIGHT;
 	return [x_pos, y_pos];
+};
+
+# Calculates the relative screen position of a point in B-scope
+# Returns the angle_rad/distance_m position on the Canvas
+var _calcScreenPositionBScopeFromXY = func(x_pos, y_pos, max_distance_m, max_azimuth_rad) {
+	var angle_rad = x_pos * max_azimuth_rad / (0.5 * RADAR_VIEW_WIDTH);
+	var distance_m = ((0.5 * RADAR_VIEW_HEIGHT) - y_pos) * max_distance_m / RADAR_VIEW_HEIGHT;
+	return [angle_rad, distance_m];
 };
 
 # Calculates an indication of the speed and direction of a target.
@@ -699,12 +811,22 @@ var _calcTargetOneMinute = func(speed_m_s, relative_heading_rad, direct_distance
 	return [new_dist, new_angle];
 };
 
-# the absolute coordinate from top left to screen middle
+# the absolute coordinate from top left to screen middle -> for root group
 var _getCenterCoord = func() {
 	return [0.5 * SCREEN_WIDTH, 0.5 * SCREEN_HEIGHT];
 };
 
-# get the translation from the center of screen coordinates to top left
+# get the translation from the center of screen (root group)) to top left
 var _getTopLeftTranslation = func() {
 	return [-0.5 * SCREEN_WIDTH, -0.5 * SCREEN_HEIGHT];
+};
+
+# get the translation from the center of screen (root group) to the middle of the radar screen
+var _getRadarScreenTranslation = func() {
+	return [0, -SCREEN_HEIGHT/2 + PADDING_TOP + RADAR_VIEW_HEIGHT/2];
+};
+
+# get the translation from the center of screen (root group) to the bottom of the radar screen
+var _getRadarScreenBottomTranslation = func() {
+	return [0, -SCREEN_HEIGHT/2 + PADDING_TOP + RADAR_VIEW_HEIGHT];
 };
