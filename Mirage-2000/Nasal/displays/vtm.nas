@@ -461,6 +461,7 @@ var VTM = {
 
 		# a special group for drawing a speed indicating line for targets with a minimum speed
 		me.targets_speed_group = me.root.createChild("group", "targets_speed_group");
+		me.targets_speed_group.setTranslation(_getRadarScreenTranslation());
 		me.targets_speeds = setsize([],MAX_CONTACTS);
 	},
 
