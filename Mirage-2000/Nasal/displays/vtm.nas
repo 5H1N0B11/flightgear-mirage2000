@@ -56,14 +56,17 @@ var TEXT_PADDING = 6; # when a text needs to be away from something else a bit
 var MAX_CONTACTS = 28; # max nb of aircrafts for which radar echoes can be displayed
 var TARGET_WIDTH = 36;
 
+var MAX_COMPASS_TICKS = 12; # 120
 
-var COMPAS_SCALE_HEIGHT = GRID_TICK_LENGTH + FONT_HEIGHT;
+var COMPASS_SCALE_HEIGHT = GRID_TICK_LENGTH + FONT_HEIGHT;
 
 # The radar view is where radar stuff gets displayed - between the 4 corners
-var RADAR_VIEW_HEIGHT = SCREEN_HEIGHT - PADDING_TOP - COMPAS_SCALE_HEIGHT - PADDING_BOTTOM; # 768 - - ca. 50 - 38 - 60 = ca. 620 left
+var RADAR_VIEW_HEIGHT = SCREEN_HEIGHT - PADDING_TOP - COMPASS_SCALE_HEIGHT - PADDING_BOTTOM; # 768 - - ca. 50 - 38 - 60 = ca. 620 left
 var RADAR_VIEW_WIDTH = SCREEN_WIDTH - 2 * PADDING_HORIZONTAL; # 1228 - 2*144 = 940 left
 
 var RADAR_PITCH_DEGS_TO_PIXELS = RADAR_VIEW_HEIGHT / 150;
+
+var PPI_MAX_AZ_DEG = math.atan2(RADAR_VIEW_HEIGHT, RADAR_VIEW_WIDTH/2) * R2D;
 
 var VTM = {
 	new: func() {
@@ -90,6 +93,7 @@ var VTM = {
 		vtm_obj._createScreenModeGroup();
 		vtm_obj._createRectangularFieldOfViewGrid();
 		vtm_obj._createPPIView();
+		vtm_obj._createCompassScale();
 		vtm_obj._createCursor();
 		vtm_obj._createTargets();
 		vtm_obj._createStandbyText();
@@ -194,7 +198,7 @@ var VTM = {
 		                                                        PADDING_TOP - GRID_TICK_LENGTH)
 		                                                .vertTo(PADDING_TOP)
 		                                                .setStrokeLineWidth(LINE_WIDTH);
-		var spacing = (RADAR_VIEW_HEIGHT + COMPAS_SCALE_HEIGHT - 4 * 2 * GRID_TICK_LENGTH) / 4;
+		var spacing = (RADAR_VIEW_HEIGHT + COMPASS_SCALE_HEIGHT - 4 * 2 * GRID_TICK_LENGTH) / 4;
 		me.line_ticks    = me.rectangular_fov_grid_group.createChild("path", "line_ticks")
 		                                                .setColor(COLOR_FOREGROUND)
 		                                                # left
@@ -241,6 +245,7 @@ var VTM = {
 		me.ppi_circle_group = me.ppi_fov_grid_group.createChild("group", "ppi_circle_group");
 
 		me.angle_markers = setsize([],5);
+		# lines 30 degs left and right
 		var angle_rad = 30 * D2R;
 		var circle_x = RADAR_VIEW_HEIGHT * math.sin(angle_rad);
 		var circle_y = RADAR_VIEW_HEIGHT * math.cos(angle_rad);
@@ -257,9 +262,15 @@ var VTM = {
 		                                           .setStrokeLineWidth(LINE_WIDTH)
 		                                           .setColor(COLOR_FOREGROUND)
 		                                           .setStrokeDashArray(dash_array);
+		# lines 60 degs left and right
 		angle_rad = 60 * D2R;
 		circle_x = RADAR_VIEW_HEIGHT * math.sin(angle_rad);
 		circle_y = RADAR_VIEW_HEIGHT * math.cos(angle_rad);
+		if (circle_x > RADAR_VIEW_WIDTH/2) { # compensate such that circle dow not go outside radar view
+			var factor = RADAR_VIEW_WIDTH/2/circle_x;
+			circle_x = circle_x * factor;
+			circle_y = circle_y * factor;
+		}
 		me.angle_markers[2] = me.ppi_fov_grid_group.createChild("path")
 		                                           .moveTo(0, 0)
 		                                           .lineTo(-circle_x, -circle_y)
@@ -272,12 +283,26 @@ var VTM = {
 		                                           .setStrokeLineWidth(LINE_WIDTH)
 		                                           .setColor(COLOR_FOREGROUND)
 		                                           .setStrokeDashArray(dash_array);
+		# middle marker at top
 		me.angle_markers[4] = me.ppi_fov_grid_group.createChild("path")
 		                                           .moveTo(0, -RADAR_VIEW_HEIGHT)
 		                                           .lineTo(0, -RADAR_VIEW_HEIGHT + 2*GRID_TICK_LENGTH)
 		                                           .setStrokeLineWidth(LINE_WIDTH)
 		                                           .setColor(COLOR_RADAR);
 		me.ppi_fov_grid_group.hide();
+	},
+
+	_createCompassScale: func() {
+		me.compass_group = me.root.createChild("group");
+		me.compass_group.setTranslation(_getCompassTopLeftTranslation());
+
+		me.compass_ticks_group = me.compass_group.createChild("group");
+		me.compass_texts_group = me.compass_group.createChild("group");
+
+		me.compass_ticks = setsize([],MAX_COMPASS_TICKS);
+		me.compass_texts = setsize([],MAX_COMPASS_TICKS); # most of them will never be used, but what the heck
+
+		me.compass_group.hide();
 	},
 
 	_createCursor: func() { # Selection cursor (French = alidade)
@@ -295,28 +320,28 @@ var VTM = {
 		                               .setColor(COLOR_RADAR);
 
 		me.cursor_upper_limit = me.cursor_group.createChild("text", "cursor_upper_limit")
-		                               .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
-		                               .setFont(FONT_MONO_REGULAR)
-		                               .setColor(COLOR_RADAR)
-		                               .setAlignment("left-top")
-		                               .setText("")
-		                               .setTranslation(GRID_TICK_LENGTH*4, -GRID_TICK_LENGTH*3.5);
+		                                       .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                       .setFont(FONT_MONO_REGULAR)
+		                                       .setColor(COLOR_RADAR)
+		                                       .setAlignment("left-top")
+		                                       .setText("")
+		                                       .setTranslation(GRID_TICK_LENGTH*4, -GRID_TICK_LENGTH*3.5);
 		me.cursor_upper_limit.enableUpdate();
 		me.cursor_lower_limit = me.cursor_group.createChild("text", "cursor_lower_limit")
-		                               .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
-		                               .setFont(FONT_MONO_REGULAR)
-		                               .setColor(COLOR_RADAR)
-		                               .setAlignment("left-bottom")
-		                               .setText("")
-		                               .setTranslation(GRID_TICK_LENGTH*4, GRID_TICK_LENGTH*3.5);
+		                                       .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                       .setFont(FONT_MONO_REGULAR)
+		                                       .setColor(COLOR_RADAR)
+		                                       .setAlignment("left-bottom")
+		                                       .setText("")
+		                                       .setTranslation(GRID_TICK_LENGTH*4, GRID_TICK_LENGTH*3.5);
 		me.cursor_lower_limit.enableUpdate();
 		me.cursor_distance    = me.cursor_group.createChild("text", "cursor_distance")
-		                               .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
-		                               .setFont(FONT_MONO_REGULAR)
-		                               .setColor(COLOR_RADAR)
-		                               .setAlignment("right-bottom")
-		                               .setText("")
-		                               .setTranslation(-GRID_TICK_LENGTH*3.5 - 2, 0);
+		                                       .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                       .setFont(FONT_MONO_REGULAR)
+		                                       .setColor(COLOR_RADAR)
+		                                       .setAlignment("right-bottom")
+		                                       .setText("")
+		                                       .setTranslation(-GRID_TICK_LENGTH*3.5 - 2, 0);
 		me.cursor_distance.enableUpdate();
 
 		# the dynamic texts in the upper right corner (French = cartouche alidade)
@@ -397,7 +422,7 @@ var VTM = {
 		                                              .setAlignment("right-top")
 		                                              .setText("")
 		                                              .setTranslation(0.5 * RADAR_VIEW_WIDTH - TEXT_PADDING,
-		                                                              0.5 * RADAR_VIEW_HEIGHT + COMPAS_SCALE_HEIGHT + TEXT_PADDING);
+		                                                              0.5 * RADAR_VIEW_HEIGHT + COMPASS_SCALE_HEIGHT + TEXT_PADDING);
 		me.selected_target_callsign.enableUpdate();
 
 		me.friend_contacts = setsize([],MAX_CONTACTS);
@@ -602,8 +627,9 @@ var VTM = {
 
 	_updatePPICircle: func(max_azimuth_rad) {
 		me.ppi_circle_group.removeAllChildren();
-		var circle_x = RADAR_VIEW_HEIGHT * math.sin(max_azimuth_rad);
-		var circle_y = RADAR_VIEW_HEIGHT * math.cos(max_azimuth_rad);
+		var allowed_rad = math.min(max_azimuth_rad, PPI_MAX_AZ_DEG*D2R);
+		var circle_x = RADAR_VIEW_HEIGHT * math.sin(allowed_rad);
+		var circle_y = RADAR_VIEW_HEIGHT * math.cos(allowed_rad);
 
 		var ppi_circle = me.ppi_circle_group.createChild("path")
 		                                    .moveTo(-circle_x, -circle_y)
@@ -690,6 +716,14 @@ var VTM = {
 		}
 	},
 
+	_updateCompass: func(is_ppi, heading_true) {
+		var scale_cover = radar_system.apg68Radar.getAzimuthRadius();
+		if (is_ppi == TRUE) {
+			var scale_cover = math.min(scale_cover, PPI_MAX_AZ_DEG);
+		}
+		scale_cover = 2 * scale_cover;
+	},
+
 	update: func() {
 		var global_visible = FALSE;
 		var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
@@ -704,6 +738,7 @@ var VTM = {
 		me.corners_group.setVisible(global_visible);
 		me.screen_mode_group.setVisible(global_visible);
 		me.radar_modes_group.setVisible(global_visible);
+		me.compass_group.setVisible(global_visible);
 
 		var is_ppi = FALSE;
 		if (global_visible == TRUE) {
@@ -734,6 +769,7 @@ var VTM = {
 			me.targets_speed_group.show();
 			me._updateTargets(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_root_name);
 			me._updateCursor(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_name); # needs to be after _updateTargets()
+			me._updateCompass(is_ppi, heading_true);
 		}
 	},
 };
@@ -830,3 +866,9 @@ var _getRadarScreenTranslation = func() {
 var _getRadarScreenBottomTranslation = func() {
 	return [0, -SCREEN_HEIGHT/2 + PADDING_TOP + RADAR_VIEW_HEIGHT];
 };
+
+# get the translation from the center of screen (root group) to top left the of compass scale
+var _getCompassTopLeftTranslation = func() {
+	return [-0.5 * SCREEN_WIDTH, -SCREEN_HEIGHT/2 + PADDING_TOP + RADAR_VIEW_HEIGHT];
+};
+
