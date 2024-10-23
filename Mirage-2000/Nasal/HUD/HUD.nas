@@ -1404,7 +1404,7 @@ var HUD = {
 	_displayHeadingHorizonScale: func() {
 		me.headOffset = me.heading/10 - int (me.heading/10);
 		me.headScaleOffset = me.headOffset;
-		me.middleText = math.floor(me.heading/10);
+		me.middleText = _roundabout(me.heading/10);
 		me.middleText = me.middleText == 36?0:me.middleText;
 		me.leftText = me.middleText == 0?35:me.middleText-1;
 		me.rightText = me.middleText == 35?0:me.middleText+1;
@@ -2373,4 +2373,9 @@ var _drag = func (Mach, _cd) {
 		return 0.3742 * math.pow(Mach, 2) - 0.252 * Mach + 0.0021 + _cd;
 	else
 		return 0.2965 * math.pow(Mach, -1.1506) + _cd;
+};
+
+var _roundabout = func(x) {
+	var y = x - int(x);
+	return y < 0.5 ? int(x) : 1 + int(x) ;
 };
