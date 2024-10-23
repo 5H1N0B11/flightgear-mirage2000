@@ -13,6 +13,7 @@ var Common = {
 			cursor_dx:        "controls/displays/cursor-slew-x-delta",
 			cursor_dy:        "controls/displays/cursor-slew-y-delta",
 			cursor_clicked:   "controls/displays/cursor-click",
+			hdgDisplay:       "/instrumentation/efis/mfd/true-north",
 		};
 
 		foreach(var name; keys(co.input)) {

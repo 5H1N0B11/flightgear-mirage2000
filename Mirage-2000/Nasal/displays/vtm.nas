@@ -674,8 +674,8 @@ var VTM = {
 		# update the numbers
 		me.alimits = radar_system.apg68Radar.getCursorAltitudeLimits();
 		if (me.alimits != nil and radar_system.apg68Radar.currentMode.detectAIR) {
-			me.cursor_upper_limit.setText(sprintf("% 2d", math.round(me.alimits[0]*0.001)));
-			me.cursor_lower_limit.setText(sprintf("% 2d", math.round(me.alimits[1]*0.001)));
+			me.cursor_upper_limit.setText(sprintf("%d", math.round(me.alimits[0]*0.001)));
+			me.cursor_lower_limit.setText(sprintf("%d", math.round(me.alimits[1]*0.001)));
 		} else {
 			me.cursor_upper_limit.setText("");
 			me.cursor_lower_limit.setText("");
@@ -687,9 +687,9 @@ var VTM = {
 		} else {
 			screen_pos = _calcScreenPositionBScopeFromXY(me.cursor_pos[0], me.cursor_pos[1], max_distance_m, max_azimuth_rad);
 		}
-		me.cursor_distance.setText(sprintf("% 2d", math.round(screen_pos[1] * M2NM)));
-		me.cursor_dist_text.setText(sprintf("% 2d", math.round(screen_pos[1] * M2NM)));
-		me.cursor_hdg_text.setText(sprintf("% 3d", math.round(geo.normdeg(screen_pos[0] * R2D + heading_true))));
+		me.cursor_distance.setText(sprintf("%d", math.round(screen_pos[1] * M2NM)));
+		me.cursor_dist_text.setText(sprintf("%d", math.round(screen_pos[1] * M2NM)));
+		me.cursor_hdg_text.setText(sprintf("%d", math.round(geo.normdeg(screen_pos[0] * R2D + heading_true))));
 	},
 
 	_distCursorTrack: func(i) {
@@ -719,20 +719,34 @@ var VTM = {
 	_updateCompass: func(is_ppi, heading_true) {
 		var scale_cover = radar_system.apg68Radar.getAzimuthRadius();
 		if (is_ppi == TRUE) {
-			var scale_cover = math.min(scale_cover, PPI_MAX_AZ_DEG);
+			scale_cover = math.min(scale_cover, PPI_MAX_AZ_DEG);
 		}
 		var degs_to_pixels = RADAR_VIEW_WIDTH / (2 * scale_cover);
-		var padding_start = (heading_true - int(heading_true/10)*10) * degs_to_pixels;
+		var start_deg_10s = int(heading_true/10);
+		var padding = (heading_true - start_deg_10s*10) * degs_to_pixels;
+		var current_degs = 0;
+		scale_cover = int(scale_cover/10);
 
 		me.compass_ticks_group.removeAllChildren();
 
-		for (var i = 0; i < 2 * int(scale_cover/10); i+=1) {
-			me.compass_ticks[i] = me.compass_ticks_group.createChild("path")
+		for (var i = 1; i < 2*scale_cover + 1; i+=1) {
+			me.compass_ticks[i-1] = me.compass_ticks_group.createChild("path")
 			                                            .setStrokeLineWidth(LINE_WIDTH)
 			                                            .setColor(COLOR_RADAR)
-			                                            .moveTo(padding_start + i * 10 * degs_to_pixels, 0)
+			                                            .moveTo(i * 10 * degs_to_pixels - padding, 0)
 			                                            .vert(GRID_TICK_LENGTH);
-			me.compass_ticks[i].update();
+			me.compass_ticks[i-1].update();
+			current_degs = int(geo.normdeg((start_deg_10s+i-scale_cover)*10));
+			if (math.mod(current_degs, 30) == 0) {
+				me.compass_texts[i-1] = me.compass_ticks_group.createChild("text")
+		                                                   .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
+		                                                   .setFont(FONT_MONO_REGULAR)
+		                                                   .setColor(COLOR_RADAR)
+		                                                   .setAlignment("center-top")
+		                                                   .setText(sprintf("%02d", current_degs/10))
+		                                                   .setTranslation(i * 10 * degs_to_pixels -padding, GRID_TICK_LENGTH);
+				me.compass_texts[i-1].update();
+			}
 		}
 	},
 
