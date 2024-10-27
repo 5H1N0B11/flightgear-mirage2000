@@ -215,6 +215,22 @@
 			</binding>
 		</key>
 
+		<key n="23">
+			<name>ctrl-w</name>
+			<desc>Cycle Drop Mode CCRP/CCIP</desc>
+			<binding>
+				<command>nasal</command>
+				<script>
+					var mode = pylons.fcs.getDropMode();
+					if (mode == 0) {
+						pylons.fcs.setDropMode(1);
+					} else {
+						pylons.fcs.setDropMode(0);
+					}
+				</script>
+			</binding>
+		</key>
+
 		<key n="125">
 			<name>}</name>
 			<desc>Engine Autostart</desc>
@@ -586,7 +602,7 @@
 
 		<key n="108">
 			<name>l</name>
-			<desc>cursor designate</desc>
+			<desc>Cursor designate</desc>
 			<binding>
 				<command>property-assign</command>
 				<property>controls/displays/cursor-click</property>

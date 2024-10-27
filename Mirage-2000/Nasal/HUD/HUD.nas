@@ -34,6 +34,9 @@ print("*** LOADING HUD.nas ... ***");
 var FALSE = 0;
 var TRUE = 1;
 
+var DROP_MODE_CCRP = 0; # see fire-control.nas
+var DROP_MODE_CCIP = 1;
+
 var CANNON_30MM = "30mm Cannon";
 var AIM_GUIDANCE_UNGUIDED = "unguided";
 var AIM_CLASS_GMP = "GMP";
@@ -1081,12 +1084,12 @@ var HUD = {
 			if (me.selectedWeapon.type == CANNON_30MM ) {
 				me.eegsShow = TRUE;
 			} else if (me.selectedWeapon.class == AIM_CLASS_GMP and me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
-				if (1 > 2) { #target_contacts_list != nil and size(target_contacts_list) > 0) {
-					#if target selected : CCRP
-					#print("Should CCRP : size target list" ~ size(radar_system.apg68Radar.tgts_list));
-					me.show_CCRP = me._displayCCRPMode();
-				} else {
+				if (pylons.fcs.getDropMode() == DROP_MODE_CCIP) {
 					me.show_CCIP = me._displayCCIPMode();
+				} else {
+					if (target_contacts_list != nil and size(target_contacts_list) > 0 and radar_system.apg68Radar.getPriorityTarget() != nil) {
+						me.show_CCRP = me._displayCCRPMode();
+					} # else nothing to do until a traget has been chosen
 				}
 			}
 		}
@@ -1335,10 +1338,10 @@ var HUD = {
 				}
 				# No go : too dangerous to drop the bomb
 				me.CCIP_no_go_cross.setVisible(me.safe_alt_percent>0.85);
-				return 1;
+				return TRUE;
 			}
 		}
-		return 0;
+		return FALSE;
 	}, # END _displayCCIPMode()
 
 	_displayCCRPMode: func() {
@@ -1357,15 +1360,10 @@ var HUD = {
 			# CCRP piper and rotate to show deviation from the course to target. The aircraft is
 			# flying directly to the target when they are level.
 
-			#if (me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 30) {
-			#me.showFire_GBU = 1;
-			#me.Fire_GBU.setText(sprintf("TTR: %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
 			if (me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 15) {
-				#me.Fire_GBU.setText(sprintf("Fire : %d ", int(me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))));
 				me.BorePos =  HudMath.getBorePos();
 				me.hud_pos = HudMath.getPosFromCoord(me.selectedWeapon.Tgt.get_Coord());
 				if (me.hud_pos != nil) {
-				#print('CCRP_release_cue should move');
 				me.pos_x = me.hud_pos[0];
 				me.pos_y = me.hud_pos[1];
 				me.CCRP_release_percent = (me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))/30;
@@ -1374,23 +1372,32 @@ var HUD = {
 				}
 
 			}
-			#}
-			printf("me.DistanceToShoot: %.2f ; Time to shoot : %.2f",me.DistanceToShoot,me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS));
-			print("Deviation:"~me.selectedWeapon.Tgt.get_deviation(me.input.hdgReal.getValue(), geo.aircraft_position()));
 		}
 
-		# The no go CCRP is when speed < 350 kts.
-		if (me.input.airspeed.getValue()<350) {
+		# The no-go CCRP is when speed < 350 kts.
+		if (me.input.airspeed.getValue() < 350) {
 			me.CCRP_no_go_cross_visibility = 1;
 		}
 
-		#There is a target so the piper and the deviation should get displayed.
+		# There is a target so the piper and the deviation should get displayed.
+		# The rotation is with some exagerations at small deviations and less at larger deviations
 		me.CCRP_piper_group.setTranslation(HudMath.getBorePos());
 		if (me.selectedWeapon.Tgt != nil) {
-			# * 10 to see if that can improves precisions
-			me.CCRP_Deviation.setRotation(me.selectedWeapon.Tgt.get_deviation(me.input.hdgReal.getValue(), geo.aircraft_position())*D2R*2);
+			var deviation = me.selectedWeapon.Tgt.getDeviation()[0];
+			if (deviation < 5) {
+				deviation = deviation * 5;
+			} else if (deviation < 10) {
+				deviation = 25 + (deviation - 5) * 3;
+			} else if (deviation < 30) {
+				deviation = 40 + (deviation - 10) * 1.5;
+			} else if (deviation < 60) {
+				deviation = 70 + (deviation - 30) * 0.5;
+			} else {
+				deviation = 85;
+			}
+			me.CCRP_Deviation.setRotation(deviation*D2R);
 		}
-		return 1;
+		return TRUE;
 	}, # END _displayCCRPMode()
 
 	_getHeadingToDisplay: func() {
