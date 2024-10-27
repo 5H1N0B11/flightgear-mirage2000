@@ -160,7 +160,7 @@
 	<line>   -- Lat/lon</line>
 	<line>   For long range missile, you can directly enter lat/lon. Then click on acquistion.</line>
 	<line>   In case of moving target, you can make the aiming follow it via the button "Follow closest GND AI/MP"</line>
-	<line>   Once target is acquired, Select the target named "GROUND_TARGET" in the radar, then shoot</line>
+	<line>   Once target is acquired, Select the target named "SNIPED_" in the radar, then shoot</line>
 	<line>   your ground loads.</line>
 	<line>   For GBU, an indication in hud  will give you the distance to the best shooting point. Shoot when it is close to 0</line>
 	<line>   For AS37, the target will appears only when the AS37 is selected. </line>

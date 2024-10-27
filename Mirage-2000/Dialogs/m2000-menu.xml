@@ -141,10 +141,10 @@
 
 			<item n="15">
 				<label>Ground Targeting</label>
-				<name>ground_targeting</name>
+				<name>ground-targeting</name>
 				<binding>
 					<command>dialog-show</command>
-					<dialog-name>ground_targeting</dialog-name>
+					<dialog-name>ground-targeting</dialog-name>
 				</binding>
 			</item>
 

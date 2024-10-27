@@ -1016,7 +1016,7 @@ var HUD = {
 			y_offset_m:    "/sim/current-view/y-offset-m",
 			z_offset_m:    "/sim/current-view/z-offset-m",
 			MasterArm      :"/controls/armament/master-arm",
-			TimeToTarget   :"/sim/dialog/groundtTargeting/time-to-target",
+			TimeToTarget   :"/sim/dialog/groundTargeting/time-to-target",
 			IsRadarWorking : "/systems/electrical/outputs/radar",
 			gun_rate       : "/ai/submodels/submodel[1]/delay",
 			bullseye_lat   : "/instrumentation/bullseye/bulls-eye-lat",

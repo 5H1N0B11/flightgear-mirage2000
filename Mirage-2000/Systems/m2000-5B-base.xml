@@ -43,12 +43,12 @@
 		</view>
 
 		<dialog>
-			<groundtTargeting>
+			<groundTargeting>
 				<target-latitude-deg type="double">0</target-latitude-deg>
 				<target-longitude-deg type="double">0</target-longitude-deg>
 				<target-alt-feet type="double">0</target-alt-feet>
 				<time-to-target>20</time-to-target>
-			</groundtTargeting>
+			</groundTargeting>
 		</dialog>
 
 		<model>
@@ -67,12 +67,12 @@
 			</doors>
 		</model>
 		<dialog>
-			<groundtTargeting>
+			<groundTargeting>
 				<target-latitude-deg type="double">0</target-latitude-deg>
 				<target-longitude-deg type="double">0</target-longitude-deg>
 				<target-alt-feet type="double">0</target-alt-feet>
 				<time-to-target>20</time-to-target>
-			</groundtTargeting>
+			</groundTargeting>
 		</dialog>
 		<aircraft-data>
 			<!-- Here is if we want to save properties from one session to another -->

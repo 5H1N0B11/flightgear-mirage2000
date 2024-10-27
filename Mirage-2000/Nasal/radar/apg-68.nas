@@ -128,6 +128,7 @@ var AirborneRadar = {
 		me.currentMode.decreaseRange();
 	},
 	designate: func (designate_contact) {
+		print("Designate called in AirborneRadar");
 		me.currentMode.designate(designate_contact);
 	},
 	designateRandom: func {
@@ -1241,7 +1242,9 @@ var F16RWSMode = {
 		me.nextPatternNode = 0;
 	},
 	designate: func (designate_contact) {
+		print("Designate called in F16RWSMode");
 		if (designate_contact == nil) return;
+		print("... and designate_contact is not nil");
 		me.radar.setCurrentMode(me.subMode, designate_contact);
 		me.subMode.radar = me.radar;# find some smarter way of setting it.
 	},
@@ -1931,11 +1934,14 @@ var F16RWSSAMMode = {
 		me.radar.setCurrentMode(me.superMode, nil);
 	},
 	designate: func (designate_contact) {
+		print("RWSSAM designate");
 		if (designate_contact == nil) return;
 		if (designate_contact.equals(me.priorityTarget)) {
 			me.radar.setCurrentMode(me.subMode, designate_contact);
 			me.subMode.radar = me.radar;# find some smarter way of setting it.
+			print(" -- and with priority target - ");
 		} else {
+			print(" -- without priority target");
 			me.priorityTarget = designate_contact;
 		}
 	},
@@ -3575,7 +3581,7 @@ var dlnkRadar = DatalinkRadar.new(0.03, 110, 225);# 3 seconds because cannot be 
 var ecm = ECMChecker.new(0.05, 6);
 
 # start specific radar system
-var rwsMode = F16RWSMode.new(F16RWSSAMMode.new(F16MultiSTTMode.new()));
+var rwsMode = F16RWSMode.new(F16MultiSTTMode.new()); # F16RWSMode.new(F16RWSSAMMode.new(F16MultiSTTMode.new()));
 var twsMode = F16TWSMode.new(F16MultiSTTMode.new());
 var lrsMode = F16LRSMode.new(F16LRSSAMMode.new(F16MultiSTTMode.new()));
 var vsMode = F16VSMode.new(F16STTMode.new());
@@ -3608,3 +3614,4 @@ var getCompleteList = func {
 # TODO:
 #   VS switch speed at each bar instead of each frame
 #
+var rwsMode = F16RWSMode.new(F16MultiSTTMode.new());

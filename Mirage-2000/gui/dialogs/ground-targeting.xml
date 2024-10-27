@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+	<name>ground-targeting</name>
+	<modal type="bool">false</modal>
+	<layout>vbox</layout>
+	<!--  <width>800</width>
+	<height>345</height>-->
+
+	<group>
+		<layout>hbox</layout>
+		<empty>
+			<stretch>1</stretch>
+		</empty>
+		<text>
+			<label>Ground Targeting</label>
+		</text>
+
+		<empty>
+			<stretch>1</stretch>
+		</empty>
+
+		<button>
+			<pref-width>16</pref-width>
+			<pref-height>16</pref-height>
+			<legend></legend>
+
+			<default>1</default>
+			<keynum>27</keynum>
+			<border>2</border>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+		</button>
+	</group>
+
+	<hrule />
+
+	<button>
+		<legend>Snipe lon/lat from Previous Click on Ground</legend>
+		<enable>
+			<equals>
+				<property>payload/armament/station/id-6-set</property>
+				<value>PDLCT</value>
+			</equals>
+		</enable>
+		<binding>
+			<command>nasal</command>
+			<script>groundTargeting.sniping()</script>
+		</binding>
+	</button>
+
+	<text><label>Sniped or Typed Coordinates</label></text>
+
+	<input>
+		<width>75</width>
+		<height>25</height>
+		<label>Lat</label>
+		<property>/sim/dialog/groundTargeting/target-latitude-deg</property>
+	</input>
+
+	<input>
+		<width>75</width>
+		<height>25</height>
+		<label>Lon</label>
+		<property>/sim/dialog/groundTargeting/target-longitude-deg</property>
+	</input>
+
+	<hrule />
+
+	<button>
+		<legend>Create/Update Sniped Target with Acquired Coords</legend>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+		<binding>
+			<command>nasal</command>
+			<script>groundTargeting.createSnipedTarget()</script>
+		</binding>
+	</button>
+
+	<button>
+		<legend>Delete Sniped Target</legend>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+		<binding>
+			<command>nasal</command>
+			<script>groundTargeting.deleteSnipedTarget()</script>
+		</binding>
+	</button>
+
+	<hrule />
+
+	<button>
+		<legend>Focus FLIR on Sniped Target</legend>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+		<binding>
+			<command>nasal</command>
+			<script>groundTargeting.focusFLIROnSnipedTarget()</script>
+		</binding>
+	</button>
+
+	<hrule />
+
+	<group>
+		<layout>table</layout>
+		<halign>center</halign>
+		<text>
+			<row>0</row>
+			<col>0</col>
+			<label>A/G Falling time</label>
+		</text>
+		<text>
+			<row>0</row>
+			<col>1</col>
+			<live>true</live>
+			<property>/sim/dialog/groundTargeting/time-to-target</property>
+		</text>
+	</group>
+
+	<slider>
+		<name>TTT</name>
+		<property>/sim/dialog/groundTargeting/time-to-target</property>
+		<live>1</live>
+		<min>10</min>
+		<max>30</max>
+		<step>5</step>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+		<binding>
+			<command>nasal</command>
+			<script>
+			gui.popupTip(sprintf("Falling time : %d", getprop("/sim/dialog/groundTargeting/time-to-target")));
+			</script>
+		</binding>
+	</slider>
+
+</PropertyList>

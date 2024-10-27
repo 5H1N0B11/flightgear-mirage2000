@@ -88,9 +88,9 @@
 	<m2000_mp>
 		<file>Aircraft/Mirage-2000/Nasal/MP.nas</file>
 	</m2000_mp>
-	<missile>
-		<file>Aircraft/Mirage-2000/Nasal/missile_GroundTargeting.nas</file>
-	</missile>
+	<groundTargeting>
+		<file>Aircraft/Mirage-2000/Nasal/ground-targeting.nas</file>
+	</groundTargeting>
 	<ai>
 		<file>Aircraft/Mirage-2000/Nasal/AI_list.nas</file>
 	</ai>

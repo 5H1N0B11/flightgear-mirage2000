@@ -432,7 +432,9 @@ var VTM = {
 			                                       .setStrokeLineWidth(2*LINE_WIDTH);
 		}
 
-		me.air_targets = setsize([],MAX_CONTACTS); # foe's in the air - which are not on the ground or at sea
+		# Foe's in the air - which are not on the ground or at sea.
+		# Looks like a square with an open side at the back - not filled
+		me.air_targets = setsize([],MAX_CONTACTS);
 		for (var i = 0; i<MAX_CONTACTS; i += 1) {
 			me.air_targets[i]    = me.targets_group.createChild("path")
 			                                       .setColor(COLOR_RADAR)
@@ -444,7 +446,9 @@ var VTM = {
 			                                       .setStrokeLineWidth(LINE_WIDTH);
 		}
 
-		me.gnd_targets = setsize([],MAX_CONTACTS); # targets on the ground or at sea
+		# Targets on the ground or at sea.
+		# Looks like a diamond - filled
+		me.gnd_targets = setsize([],MAX_CONTACTS);
 		for (var i = 0; i<MAX_CONTACTS; i += 1) {
 			me.gnd_targets[i]    = me.targets_group.createChild("path")
 			                                       .setColor(COLOR_RADAR)
@@ -455,6 +459,18 @@ var VTM = {
 			                                       .lineTo(-0.5 * TARGET_WIDTH, 0)
 			                                       .setStrokeLineWidth(LINE_WIDTH);
 		}
+
+		# Sniped ground target
+		# Looks like a square - not filled and a bit larger than the other targets
+		me.sniped_target =       me.targets_group.createChild("path", "sniped_target")
+		                                         .setColor(COLOR_RADAR)
+			                                     .moveTo(-0.5 * TARGET_WIDTH*1.2, -0.5 * TARGET_WIDTH*1.2)
+			                                     .vert(TARGET_WIDTH*1.2)
+			                                     .horiz(TARGET_WIDTH*1.2)
+			                                     .moveTo(-0.5 * TARGET_WIDTH*1.2, -0.5 * TARGET_WIDTH*1.2)
+			                                     .horiz(TARGET_WIDTH*1.2)
+			                                     .vert(TARGET_WIDTH*1.2)
+		                                         .setStrokeLineWidth(2*LINE_WIDTH);
 
 		me.targets_group.hide();
 
@@ -544,6 +560,7 @@ var VTM = {
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 		var i = 0;
 		var has_priority = FALSE;
+		var has_sniped_target = FALSE;
 		var relative_heading_rad = 0; # the heading of the target as seen by this aircraft with nose = North
 		var screen_pos = nil;
 		var target_speed_m_s = 0;
@@ -555,12 +572,13 @@ var VTM = {
 		var delta = nil;
 
 		var is_gnd = _is_ground_mode(radar_mode_root_name);
-
+		var is_solid_gnd = _is_solid_ground_mode(radar_mode_root_name);
+		var screen_pos = nil;
+		var info = nil;
 		# walk through all existing targets as per available list
 		foreach(var contact; target_contacts_list) {
 			append(me.radar_contacts, contact);
-			var info = contact.getLastBlep();
-			var screen_pos = nil;
+			info = contact.getLastBlep();
 			relative_heading_rad = geo.normdeg(contact.getHeading() - heading_true) * D2R;
 			if (is_ppi == TRUE) {
 				screen_pos = _calcScreenPositionPPIScopeToXY(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R);
@@ -591,6 +609,10 @@ var VTM = {
 						me.air_targets[i].hide();
 					}
 				}
+				if (is_solid_gnd == TRUE and groundTargeting.mySnipedTarget != nil and contact.getCallsign() == groundTargeting.SNIPED_TARGET) {
+					has_sniped_target = TRUE;
+					me.sniped_target.setTranslation(screen_pos[0], screen_pos[1]);
+				}
 
 				# Draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
 				# Based on the pict from the book the selected target does not get a line, here we do
@@ -609,6 +631,23 @@ var VTM = {
 		}
 		me.n_contacts = i;
 
+		# maybe radar has not detected our sniped target - but we want to show it nonetheless
+		if (is_solid_gnd == TRUE and has_sniped_target == FALSE and groundTargeting.mySnipedTarget != nil) {
+			var ac_pos = geo.aircraft_position();
+			var direct_dist = ac_pos.direct_distance_to(groundTargeting.mySnipedTarget.coord);
+			var bearing_abs = ac_pos.course_to(groundTargeting.mySnipedTarget.coord);
+			if (is_ppi == TRUE) {
+				screen_pos = _calcScreenPositionPPIScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - heading_true)*D2R);
+			} else {
+				screen_pos = _calcScreenPositionBScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - heading_true)*D2R, max_azimuth_rad);
+			}
+			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
+				has_sniped_target = TRUE;
+				me.sniped_target.setTranslation(screen_pos[0], screen_pos[1]);
+				print("sniped target can be drawn - pos[0]: "~screen_pos[0]~" - pos[1]: "~screen_pos[1]);
+			}
+		}
+
 		# handle the index positions if the target list was shorter than the reserved elements
 		for (var j = i; j < MAX_CONTACTS; j += 1) {
 			me.friend_contacts[j].hide();
@@ -617,6 +656,7 @@ var VTM = {
 		}
 		me.selected_target.setVisible(has_priority);
 		me.selected_target_callsign.setVisible(has_priority);
+		me.sniped_target.setVisible(has_sniped_target);
 	},
 
 	_updateRadarTexts: func(radar_mode_root_name, radar_mode_name) {
@@ -660,8 +700,8 @@ var VTM = {
 		var click = cursor_mov[2] and !me.cursor_trigger_prev;
 		me.cursor_trigger_prev = cursor_mov[2];
 
-		me.cursor_pos[0] += cursor_mov[0] * RADAR_VIEW_WIDTH * 0.2;
-		me.cursor_pos[1] += cursor_mov[1] * RADAR_VIEW_HEIGHT * 0.2;
+		me.cursor_pos[0] += cursor_mov[0] * RADAR_VIEW_WIDTH * 0.1;
+		me.cursor_pos[1] += cursor_mov[1] * RADAR_VIEW_HEIGHT * 0.1;
 		me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -RADAR_VIEW_WIDTH/2, RADAR_VIEW_WIDTH/2);
 		me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -RADAR_VIEW_HEIGHT/2, RADAR_VIEW_HEIGHT/2);
 
@@ -669,18 +709,18 @@ var VTM = {
 		me.cursor_group.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
 
 		if (click) {
-			# print("clicked");
+			print("clicked");
 			var new_sel = me._findCursorTrack();
 			if (new_sel != nil) {
-				# print("... and designate");
+				print("... and designate");
 				radar_system.apg68Radar.designate(new_sel);
 			} else {
-				# print("... and undesignate");
+				print("... and undesignate");
 				radar_system.apg68Radar.undesignate();
 			}
 			var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;
 			var radar_mode_name = radar_system.apg68Radar.getMode();
-			# print('Root '~radar_mode_root_name~' - mode '~radar_mode_name);
+			print('Root '~radar_mode_root_name~' - mode '~radar_mode_name);
 		}
 
 		# update the numbers
@@ -814,6 +854,13 @@ var VTM = {
 
 var _is_ground_mode = func(radar_mode_root_name) {
 	if (radar_mode_root_name == 'SEA' or radar_mode_root_name == 'GM' or radar_mode_root_name == 'GMT') {
+		return TRUE;
+	}
+	return FALSE;
+};
+
+var _is_solid_ground_mode = func(radar_mode_root_name) {
+	if (radar_mode_root_name == 'GM' or radar_mode_root_name == 'GMT') {
 		return TRUE;
 	}
 	return FALSE;
