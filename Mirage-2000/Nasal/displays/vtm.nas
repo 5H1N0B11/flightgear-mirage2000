@@ -567,39 +567,43 @@ var VTM = {
 			} else {
 				screen_pos = _calcScreenPositionBScopeToXY(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R, max_azimuth_rad);
 			}
-			append(me.radar_contacts_pos, screen_pos);
+			# only take into account stuff which is really within the limits ofthe screen (plus a margin)
+			# the radar can scan a bit outside of the range/azimuth
+			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
+				append(me.radar_contacts_pos, screen_pos);
 
-			me.friend_contacts[i].hide(); # currently we do not know the friends
-			if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
-				has_priority = TRUE;
-				me.selected_target.setTranslation(screen_pos[0], screen_pos[1]);
-				me.selected_target_callsign.updateText(contact.getCallsign());
-				me.air_targets[i].hide();
-				me.gnd_targets[i].hide();
-			} else {
-				if (is_gnd == FALSE) {
-					me.air_targets[i].setRotation(relative_heading_rad);
-					me.air_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
-					me.air_targets[i].show();
+				me.friend_contacts[i].hide(); # currently we do not know the friends
+				if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
+					has_priority = TRUE;
+					me.selected_target.setTranslation(screen_pos[0], screen_pos[1]);
+					me.selected_target_callsign.updateText(contact.getCallsign());
+					me.air_targets[i].hide();
 					me.gnd_targets[i].hide();
 				} else {
-					me.gnd_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
-					me.gnd_targets[i].show();
-					me.air_targets[i].hide();
+					if (is_gnd == FALSE) {
+						me.air_targets[i].setRotation(relative_heading_rad);
+						me.air_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
+						me.air_targets[i].show();
+						me.gnd_targets[i].hide();
+					} else {
+						me.gnd_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
+						me.gnd_targets[i].show();
+						me.air_targets[i].hide();
+					}
 				}
-			}
 
-			# Draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
-			# Based on the pict from the book the selected target does not get a line, here we do
-			target_speed_m_s = contact.get_Speed() * KT2MPS;
-			if (target_speed_m_s > 25) {
-				delta = _calcTargetSpeedIndication(target_speed_m_s, relative_heading_rad);
-				me.targets_speeds[i] = me.targets_speed_group.createChild("path")
-				                                             .setColor(COLOR_RADAR)
-				                                             .moveTo(screen_pos[0] + delta[0], screen_pos[1] - delta[1])
-				                                             .lineTo(screen_pos[0] + delta[2], screen_pos[1] - delta[3])
-				                                             .setStrokeLineWidth(LINE_WIDTH);
-				me.targets_speeds[i].update(); # because targets_speed_group children get deleted in next frame
+				# Draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
+				# Based on the pict from the book the selected target does not get a line, here we do
+				target_speed_m_s = contact.get_Speed() * KT2MPS;
+				if (target_speed_m_s > 25) {
+					delta = _calcTargetSpeedIndication(target_speed_m_s, relative_heading_rad);
+					me.targets_speeds[i] = me.targets_speed_group.createChild("path")
+					                                             .setColor(COLOR_RADAR)
+					                                             .moveTo(screen_pos[0] + delta[0], screen_pos[1] - delta[1])
+					                                             .lineTo(screen_pos[0] + delta[2], screen_pos[1] - delta[3])
+					                                             .setStrokeLineWidth(LINE_WIDTH);
+					me.targets_speeds[i].update(); # because targets_speed_group children get deleted in next frame
+				}
 			}
 			i += 1;
 		}
@@ -665,15 +669,23 @@ var VTM = {
 		me.cursor_group.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
 
 		if (click) {
+			# print("clicked");
 			var new_sel = me._findCursorTrack();
 			if (new_sel != nil) {
+				# print("... and designate");
 				radar_system.apg68Radar.designate(new_sel);
+			} else {
+				# print("... and undesignate");
+				radar_system.apg68Radar.undesignate();
 			}
+			var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;
+			var radar_mode_name = radar_system.apg68Radar.getMode();
+			# print('Root '~radar_mode_root_name~' - mode '~radar_mode_name);
 		}
 
 		# update the numbers
 		me.alimits = radar_system.apg68Radar.getCursorAltitudeLimits();
-		if (me.alimits != nil and radar_system.apg68Radar.currentMode.detectAIR) {
+		if (me.alimits != nil and radar_system.apg68Radar.currentMode.detectAIR == TRUE) {
 			me.cursor_upper_limit.setText(sprintf("%d", math.round(me.alimits[0]*0.001)));
 			me.cursor_lower_limit.setText(sprintf("%d", math.round(me.alimits[1]*0.001)));
 		} else {
