@@ -5,20 +5,29 @@ print("*** LOADING ground-targeting.nas ... ***");
 #
 ################################################################################
 
+var FALSE = 0;
+var TRUE = 1;
+
 var mySnipedTarget = nil;
 var Mp = props.globals.getNode("ai/models");
 var MyActualview = props.globals.getNode("/sim/current-view/view-number");
 
 var SNIPED_TARGET = "SNIPED_";
 
+var AIM_GUIDANCE_LASER = "laser";
+var AIM_GUIDANCE_GPS = "gps";
+var EXOCET = "exocet"; # must be the same as short-name in payload.xml
+
 # The function that create the sniped target object when the dialog box is pressed
 var createSnipedTarget = func() {
+	var is_new = TRUE;
 	if (mySnipedTarget == nil){
 		mySnipedTarget = SnipedTarget.new();
 		mySnipedTarget.init();
 		gui.popupTip("Sniped target created");
 	} else {
 		mySnipedTarget.update();
+		is_new = FALSE;
 		gui.popupTip("Sniped target updated");
 	}
 
@@ -30,15 +39,41 @@ var createSnipedTarget = func() {
 		timer.singleShot = 1; # timer will only be run once
 		timer.start();
 	}
+	if (is_new == TRUE) {
+		setprop("ai/models/model-added", mySnipedTarget.ai.getPath());
+	}
 }
 
-var focusFLIROnSnipedTarget = func(){
+var focusFLIROnSnipedTarget = func() {
 	if (mySnipedTarget != nil) {
 		mirage2000.flir_updater.click_coord_cam = mySnipedTarget.coord;
 	}
 }
 
-# this object create an AI object where is the last click
+var designateSnipedTarget = func() {
+	var selectedWeapon = pylons.fcs.getSelectedWeapon();
+	if (selectedWeapon != nil and selectedWeapon.typeShort != EXOCET and (selectedWeapon.guidance == AIM_GUIDANCE_LASER or selectedWeapon.guidance == AIM_GUIDANCE_GPS)) {
+		var all_contacts_list = radar_system.getCompleteList();
+		var found = FALSE;
+		print("size contacts: "~size(all_contacts_list));
+		foreach(contact; all_contacts_list) {
+			print(contact.getCallsign());
+			if (contact.getCallsign() == SNIPED_TARGET) {
+				armament.contact = contact;
+				gui.popupTip("Designated sniped target as target.");
+				found = TRUE;
+				break;
+			}
+		}
+		if (found == FALSE) {
+			gui.popupTip("No sniped target found.");
+		}
+	} else {
+		gui.popupTip("A laser or GPS guided ground targeting weapon must be selected - no sniped target designated.");
+	}
+}
+
+# This object creates an AI object at the spot of the last click
 var SnipedTarget = {
 	new: func() {
 		var m = { parents : [SnipedTarget]};

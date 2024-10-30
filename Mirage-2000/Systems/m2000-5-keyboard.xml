@@ -215,6 +215,17 @@
 			</binding>
 		</key>
 
+		<key n="87">
+			<name>W</name>
+			<desc>Designate Sniped Target as Target</desc>
+			<binding>
+				<command>nasal</command>
+				<script>
+					groundTargeting.designateSnipedTarget();
+				</script>
+			</binding>
+		</key>
+
 		<key n="23">
 			<name>ctrl-w</name>
 			<desc>Cycle Drop Mode CCRP/CCIP</desc>

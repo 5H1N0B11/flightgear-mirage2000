@@ -96,6 +96,17 @@
 	<hrule />
 
 	<button>
+		<legend>Designate Sniped Target as Target</legend>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+		<binding>
+			<command>nasal</command>
+			<script>groundTargeting.designateSnipedTarget()</script>
+		</binding>
+	</button>
+
+	<button>
 		<legend>Focus FLIR on Sniped Target</legend>
 		<binding>
 			<command>dialog-apply</command>

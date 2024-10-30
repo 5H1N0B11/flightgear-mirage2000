@@ -3614,4 +3614,3 @@ var getCompleteList = func {
 # TODO:
 #   VS switch speed at each bar instead of each frame
 #
-var rwsMode = F16RWSMode.new(F16MultiSTTMode.new());

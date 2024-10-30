@@ -577,6 +577,7 @@ var VTM = {
 		var info = nil;
 		# walk through all existing targets as per available list
 		foreach(var contact; target_contacts_list) {
+			if ()
 			append(me.radar_contacts, contact);
 			info = contact.getLastBlep();
 			relative_heading_rad = geo.normdeg(contact.getHeading() - heading_true) * D2R;
@@ -588,6 +589,9 @@ var VTM = {
 			# only take into account stuff which is really within the limits ofthe screen (plus a margin)
 			# the radar can scan a bit outside of the range/azimuth
 			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
+				if (contact.getCallsign() == groundTargeting.SNIPED_TARGET) {
+					continue;
+				}
 				append(me.radar_contacts_pos, screen_pos);
 
 				me.friend_contacts[i].hide(); # currently we do not know the friends
@@ -609,10 +613,6 @@ var VTM = {
 						me.air_targets[i].hide();
 					}
 				}
-				if (is_solid_gnd == TRUE and groundTargeting.mySnipedTarget != nil and contact.getCallsign() == groundTargeting.SNIPED_TARGET) {
-					has_sniped_target = TRUE;
-					me.sniped_target.setTranslation(screen_pos[0], screen_pos[1]);
-				}
 
 				# Draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
 				# Based on the pict from the book the selected target does not get a line, here we do
@@ -631,8 +631,9 @@ var VTM = {
 		}
 		me.n_contacts = i;
 
-		# maybe radar has not detected our sniped target - but we want to show it nonetheless
-		if (is_solid_gnd == TRUE and has_sniped_target == FALSE and groundTargeting.mySnipedTarget != nil) {
+		# we want to show the sniped target - although it is not selectable directly
+		# (it is selectable indirectly if it is directly on top of a selectable radar target)
+		if (is_solid_gnd == TRUE and groundTargeting.mySnipedTarget != nil) {
 			var ac_pos = geo.aircraft_position();
 			var direct_dist = ac_pos.direct_distance_to(groundTargeting.mySnipedTarget.coord);
 			var bearing_abs = ac_pos.course_to(groundTargeting.mySnipedTarget.coord);
@@ -644,7 +645,6 @@ var VTM = {
 			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
 				has_sniped_target = TRUE;
 				me.sniped_target.setTranslation(screen_pos[0], screen_pos[1]);
-				print("sniped target can be drawn - pos[0]: "~screen_pos[0]~" - pos[1]: "~screen_pos[1]);
 			}
 		}
 
