@@ -18,6 +18,23 @@ var AIM_GUIDANCE_LASER = "laser";
 var AIM_GUIDANCE_GPS = "gps";
 var EXOCET = "exocet"; # must be the same as short-name in payload.xml
 
+var TGT_DESIGNATION_MODE_RADAR = 0;
+var TGT_DESIGNATION_MODE_LASER = 1;
+var TGT_DESIGNATION_MODE_GPS = 2;
+var targetDesignationMode = TGT_DESIGNATION_MODE_RADAR;
+
+var toggleTargetDesignationMode = func {
+	targetDesignationMode += 1;
+	if (targetDesignationMode > TGT_DESIGNATION_MODE_GPS) {
+		targetDesignationMode = TGT_DESIGNATION_MODE_RADAR;
+	}
+	if (targetDesignationMode == TGT_DESIGNATION_MODE_LASER) {
+		setprop("controls/armament/laser-arm-dmd", 1);
+	} else {
+		setprop("controls/armament/laser-arm-dmd", 0);
+	}
+}
+
 # The function that create the sniped target object when the dialog box is pressed
 var createSnipedTarget = func() {
 	var is_new = TRUE;
@@ -51,22 +68,29 @@ var focusFLIROnSnipedTarget = func() {
 }
 
 var designateSnipedTarget = func() {
-	var selectedWeapon = pylons.fcs.getSelectedWeapon();
-	if (selectedWeapon != nil and selectedWeapon.typeShort != EXOCET and (selectedWeapon.guidance == AIM_GUIDANCE_LASER or selectedWeapon.guidance == AIM_GUIDANCE_GPS)) {
-		var all_contacts_list = radar_system.getCompleteList();
-		var found = FALSE;
-		print("size contacts: "~size(all_contacts_list));
-		foreach(contact; all_contacts_list) {
-			print(contact.getCallsign());
-			if (contact.getCallsign() == SNIPED_TARGET) {
-				armament.contact = contact;
-				gui.popupTip("Designated sniped target as target.");
-				found = TRUE;
-				break;
-			}
+	if (mySnipedTarget != nil) {
+		print("There is mySnipedTarget");
+		var selectedWeapon = pylons.fcs.getSelectedWeapon();
+		if (selectedWeapon == nil) {
+			gui.popupTip("A laser og GPS guided weapon must be selected.");
+			return;
 		}
-		if (found == FALSE) {
-			gui.popupTip("No sniped target found.");
+		if (selectedWeapon.target_pnt == TRUE and (selectedWeapon.guidance == AIM_GUIDANCE_LASER or selectedWeapon.guidance == AIM_GUIDANCE_GPS)) {
+			print("so long");
+			var guidance = 0;
+			if (selectedWeapon.guidance == AIM_GUIDANCE_LASER) {
+				guidance = 1;
+				if (getprop("controls/armament/laser-arm-dmd") == 0) {
+					gui.popupTip("Laser must be on to designate a laser guided weapon.");
+					return;
+				}
+			}
+			var spot = radar_system.ContactTGP.new("TGP-Spot", mySnipedTarget.coord, guidance);
+			armament.contactPoint = spot;
+			# selectedWeapon.setContacts([spot]);
+			armament.DEBUG_STATS = 1;
+			armament.DEBUG_SEARCH=1;
+			gui.popupTip("Sniped target is now the designated target.");
 		}
 	} else {
 		gui.popupTip("A laser or GPS guided ground targeting weapon must be selected - no sniped target designated.");
@@ -303,6 +327,7 @@ var viewSnipedTarget = func(target) {
 var deleteSnipedTarget = func() {
 	if (mySnipedTarget != nil) {
 		mySnipedTarget.del();
+		armament.contactPoint = nil;
 		mySnipedTarget = nil;
 		gui.popupTip("Sniped target deleted");
 	}

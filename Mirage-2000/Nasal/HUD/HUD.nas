@@ -40,6 +40,8 @@ var DROP_MODE_CCIP = 1;
 var CANNON_30MM = "30mm Cannon";
 var AIM_GUIDANCE_UNGUIDED = "unguided";
 var AIM_CLASS_GMP = "GMP";
+var GBU12 = "GBU12"; # must correspond to short-name in payload.xml
+var GBU24 = "GBU24"; # must correspond to short-name in payload.xml
 
 var x_view = props.globals.getNode("sim/current-view/x-offset-m");
 var y_view = props.globals.getNode("sim/current-view/y-offset-m");
@@ -537,11 +539,11 @@ var HUD = {
 		m.alphaGloadGroup.hide();
 
 		m.loads_Type_text = m.root.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(- m.maxladderspan-90,-150)
-		.setDouble("character-size", 35)
-		.setAlignment("right-center")
-		.setText("0.0");
+		                          .setColor(m.myGreen)
+		                          .setTranslation(- m.maxladderspan-90,-150)
+		                          .setDouble("character-size", 35)
+		                          .setAlignment("right-center")
+		                          .setText("0.0");
 		m.loads_Type_text.hide();
 
 		# Bullet count when CAN is selected
@@ -747,10 +749,10 @@ var HUD = {
 		# Distance to impact
 		m.CCIP_impact_dist = m.CCIP.createChild("text")
 		                        .setColor(m.myGreen)
-		                        .setTranslation(m.maxladderspan,-120)
+		                        .setTranslation(m.maxladderspan + 90,-150)
 		                        .setDouble("character-size", 35)
 		                        .setAlignment("left-center")
-		                        .setText("0.0");
+		                        .setText("n/a KM");
 
 		m.CCIP_no_go_cross = m.CCIP.createChild("path")
 		                           .setColor(m.myGreen)
@@ -800,10 +802,10 @@ var HUD = {
 		# Distance to target
 		m.CCRP_impact_dist = m.CCRP.createChild("text")
 		.setColor(m.myGreen)
-		.setTranslation(m.maxladderspan,-120)
+		.setTranslation(m.maxladderspan + 90,-150)
 		.setDouble("character-size", 35)
 		.setAlignment("left-center")
-		.setText("0.0");
+		.setText("n/a KM");
 
 		m.CCRP_no_go_cross = m.CCRP.createChild("path")
 		.setColor(m.myGreen)
@@ -1074,23 +1076,27 @@ var HUD = {
 		me.showFire_GBU = FALSE;
 		me.show_CCIP = FALSE;
 		me.show_CCRP = FALSE;
-		me.CCRP_piper_group_visibilty = 1;
-		me.CCRP_cue_visbility = 0;
-		me.CCRP_no_go_cross_visibility = 0;
+		me.CCRP_piper_group_visibilty = TRUE;
+		me.CCRP_cue_visbility = FALSE;
+		me.CCRP_no_go_cross_visibility = FALSE;
 
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 
 		if (me.selectedWeapon != nil and me.input.MasterArm.getValue() and me.input.wow_nlg.getValue() == 0) {
 			if (me.selectedWeapon.type == CANNON_30MM ) {
 				me.eegsShow = TRUE;
-			} else if (me.selectedWeapon.class == AIM_CLASS_GMP and me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
-				if (pylons.fcs.getDropMode() == DROP_MODE_CCIP) {
-					me.show_CCIP = me._displayCCIPMode();
-				} else {
-					if (target_contacts_list != nil and size(target_contacts_list) > 0 and radar_system.apg68Radar.getPriorityTarget() != nil) {
-						me.show_CCRP = me._displayCCRPMode();
-					} # else nothing to do until a traget has been chosen
-				}
+			} else if (me.selectedWeapon.class == AIM_CLASS_GMP) {
+				if (me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
+					if (pylons.fcs.getDropMode() == DROP_MODE_CCIP) {
+						me.show_CCIP = me._displayCCIPMode();
+					} else {
+						if (target_contacts_list != nil and size(target_contacts_list) > 0 and radar_system.apg68Radar.getPriorityTarget() != nil) {
+							me.show_CCRP = me._displayCCRPMode();
+						} # else nothing to do until a target has been chosen
+					}
+				} # else if (me.selectedWeapon.typeShort == GBU12 or me.selectedWeapon.typeShort == GBU24) {
+				#	me.show_CCRP = me._displayCCRPMode();
+				#}
 			}
 		}
 
@@ -1200,7 +1206,7 @@ var HUD = {
 		me.display_gload();
 
 		#Diplay Load type
-		me.display_loadsType();
+		me._displayLoadsType();
 
 		#Display bullet Count
 		me.display_BulletCount();
@@ -1332,7 +1338,7 @@ var HUD = {
 
 				# Distance to ground impact : only working if radar is on
 				if (me.input.IsRadarWorking.getValue()>24) {
-					me.CCIP_impact_dist.setText(sprintf("%.1f KM", me.ccipPos[0].direct_distance_to(geo.aircraft_position())/1000));
+					me.CCIP_impact_dist.setText("n/a KM");
 				} else {
 					me.CCIP_impact_dist.setText(sprintf("%.1f KM", 0));
 				}
@@ -1345,15 +1351,13 @@ var HUD = {
 	}, # END _displayCCIPMode()
 
 	_displayCCRPMode: func() {
-		#print("Class of Load:" ~ me.selectedWeapon.class);
-		me.DistanceToShoot = nil;
+		me.DistanceToShoot = nil; # the distance the aircraft travels before bombs are released - not the distance to the target
 		me.DistanceToShoot = me.selectedWeapon.getCCRP(me.input.TimeToTarget.getValue(), 0.05);
 
 		if (me.DistanceToShoot != nil ) {
 			# This should be the CCRP function
-			# The no go CCRP is when speed < 350 kts.
 			# We need the house and the nav point display to display the target.
-			# the CCRP piper is a fixed pointand replace the FPV
+			# The CCRP piper is a fixed point and replaces the FPV
 
 			# CCRP steering cues:
 			# They appear only after a target point has been selected. They are centered on the
@@ -1364,23 +1368,28 @@ var HUD = {
 				me.BorePos =  HudMath.getBorePos();
 				me.hud_pos = HudMath.getPosFromCoord(me.selectedWeapon.Tgt.get_Coord());
 				if (me.hud_pos != nil) {
-				me.pos_x = me.hud_pos[0];
-				me.pos_y = me.hud_pos[1];
-				me.CCRP_release_percent = (me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))/30;
-				me.CCRP_release_cue.setTranslation(me.BorePos[0],me.BorePos[1]-(me.BorePos[1]-me.pos_y)*(math.clamp(me.CCRP_release_percent,0,1)));
-				me.CCRP_cue_visbility = 1;
+					me.pos_x = me.hud_pos[0];
+					me.pos_y = me.hud_pos[1];
+					me.CCRP_release_percent = (me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))/30;
+					me.CCRP_release_cue.setTranslation(me.BorePos[0],me.BorePos[1]-(me.BorePos[1]-me.pos_y)*(math.clamp(me.CCRP_release_percent,0,1)));
+					me.CCRP_cue_visbility = TRUE;
 				}
-
+			}
+			# Distance to ground impact : only working if radar is on
+			if (me.input.IsRadarWorking.getValue()>24) {
+				me.CCRP_impact_dist.setText("n/a KM");
+			} else {
+				me.CCRP_impact_dist.setText(sprintf("%.1f KM", 0));
 			}
 		}
 
 		# The no-go CCRP is when speed < 350 kts.
 		if (me.input.airspeed.getValue() < 350) {
-			me.CCRP_no_go_cross_visibility = 1;
+			me.CCRP_no_go_cross_visibility = TRUE;
 		}
 
 		# There is a target so the piper and the deviation should get displayed.
-		# The rotation is with some exagerations at small deviations and less at larger deviations
+		# The rotation is dispalyed with some exagerations at small deviations and less at larger deviations
 		me.CCRP_piper_group.setTranslation(HudMath.getBorePos());
 		if (me.selectedWeapon.Tgt != nil) {
 			var deviation = me.selectedWeapon.Tgt.getDeviation()[0];
@@ -1553,14 +1562,14 @@ var HUD = {
     }
   },
 
-  display_loadsType:func{
-    if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
-      me.loads_Type_text.setText(me.loads_hash[me.selectedWeapon.type]);
-      me.loads_Type_text.show();
-    } else {
-      me.loads_Type_text.hide();
-    }
-  },
+	_displayLoadsType: func() {
+		if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
+			me.loads_Type_text.setText(me.loads_hash[me.selectedWeapon.type]);
+			me.loads_Type_text.show();
+		} else {
+			me.loads_Type_text.hide();
+		}
+	},
 
   display_BulletCount:func{
     if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {

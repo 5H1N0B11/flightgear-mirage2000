@@ -324,6 +324,17 @@
 			</binding>
 		</key>
 
+		<key n="77">
+			<name>M</name>
+			<desc>Toggle Target Designation Mode (Radar, Laser, GPS)</desc>
+			<binding>
+				<command>nasal</command>
+				<script>
+					groundTargeting.toggleTargetDesignationMode();
+				</script>
+			</binding>
+		</key>
+
 		<key n="2">
 			<name>Ctrl-B</name>
 			<desc>Apply AirBrake</desc>

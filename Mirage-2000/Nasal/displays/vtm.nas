@@ -138,41 +138,56 @@ var VTM = {
 		me.corners_group.hide();
 	},
 
-	# The text for the screen main modes: RDR (radar) and LDP (laser designation point)
+	# The text for the screen/designation main modes: RDR (radar) and LDP (laser designation point)
 	# appears at the bottom of the screen
 	_createScreenModeGroup: func() {
 		me.screen_mode_group = me.root.createChild("group", "screen_mode_group");
 		me.screen_mode_group.setTranslation(_getTopLeftTranslation());
+		var box_size = 80;
+		var gap_size = 20;
 
 		me.screen_mode_rdr     = me.screen_mode_group.createChild("text", "screen_mode_rdr")
 		                                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
 		                                             .setFont(FONT_MONO_BOLD)
 		                                             .setColor(COLOR_FOREGROUND)
-		                                             .setAlignment("left-top")
+		                                             .setAlignment("center-top")
 		                                             .setText("RDR")
-		                                             .setTranslation(PADDING_HORIZONTAL + 0.5*0.25*RADAR_VIEW_WIDTH,
+		                                             .setTranslation(PADDING_HORIZONTAL + CORNER_LINE_LENGTH + 1*gap_size + 0.5*box_size,
 		                                                             SCREEN_HEIGHT - PADDING_BOTTOM + TEXT_PADDING);
 		me.screen_mode_ldp     = me.screen_mode_group.createChild("text", "screen_mode_ldp")
 		                                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
 		                                             .setFont(FONT_MONO_BOLD)
 		                                             .setColor(COLOR_FOREGROUND)
-		                                             .setAlignment("left-top")
+		                                             .setAlignment("center-top")
 		                                             .setText("LDP")
-		                                             .setTranslation(PADDING_HORIZONTAL + 1.5*0.25*RADAR_VIEW_WIDTH,
+		                                             .setTranslation(PADDING_HORIZONTAL + CORNER_LINE_LENGTH + 2*gap_size + 1.5*box_size,
+		                                                             SCREEN_HEIGHT - PADDING_BOTTOM + TEXT_PADDING);
+		me.screen_mode_gps     = me.screen_mode_group.createChild("text", "screen_mode_gps")
+		                                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+		                                             .setFont(FONT_MONO_BOLD)
+		                                             .setColor(COLOR_FOREGROUND)
+		                                             .setAlignment("center-top")
+		                                             .setText("GPS")
+		                                             .setTranslation(PADDING_HORIZONTAL + CORNER_LINE_LENGTH + 3*gap_size + 2.5*box_size,
 		                                                             SCREEN_HEIGHT - PADDING_BOTTOM + TEXT_PADDING);
 		me.screen_mode_rdr_box = me.screen_mode_group.createChild("path", "screen_mode_rdr_box")
 		                                             .setColor(COLOR_FOREGROUND)
-		                                             .rect(PADDING_HORIZONTAL + 0.4*0.25*RADAR_VIEW_WIDTH,
+		                                             .rect(PADDING_HORIZONTAL + CORNER_LINE_LENGTH + 1*gap_size + 0*box_size,
 		                                                   SCREEN_HEIGHT - PADDING_BOTTOM + 1,
-		                                                   0.5*0.25*RADAR_VIEW_WIDTH, 30)
+		                                                   box_size, 30)
 		                                             .setStrokeLineWidth(LINE_WIDTH);
 		me.screen_mode_ldp_box = me.screen_mode_group.createChild("path", "screen_mode_ldp_box")
 		                                             .setColor(COLOR_FOREGROUND)
-		                                             .rect(PADDING_HORIZONTAL + 1.4*0.25*RADAR_VIEW_WIDTH,
+		                                             .rect(PADDING_HORIZONTAL + CORNER_LINE_LENGTH + 2*gap_size + 1*box_size,
 		                                                   SCREEN_HEIGHT - PADDING_BOTTOM + 1,
-		                                                   0.5*0.25*RADAR_VIEW_WIDTH, 30)
+		                                                   box_size, 30)
 		                                             .setStrokeLineWidth(LINE_WIDTH);
-		me.screen_mode_ldp_box.hide();
+		me.screen_mode_gps_box = me.screen_mode_group.createChild("path", "screen_mode_gps_box")
+		                                             .setColor(COLOR_FOREGROUND)
+		                                             .rect(PADDING_HORIZONTAL + CORNER_LINE_LENGTH + 3*gap_size + 2*box_size,
+		                                                   SCREEN_HEIGHT - PADDING_BOTTOM + 1,
+		                                                   box_size, 30)
+		                                             .setStrokeLineWidth(LINE_WIDTH);
 		me.screen_mode_group.hide();
 	},
 
@@ -462,15 +477,27 @@ var VTM = {
 
 		# Sniped ground target
 		# Looks like a square - not filled and a bit larger than the other targets
+		var length = TARGET_WIDTH*1.2;
 		me.sniped_target =       me.targets_group.createChild("path", "sniped_target")
 		                                         .setColor(COLOR_RADAR)
-			                                     .moveTo(-0.5 * TARGET_WIDTH*1.2, -0.5 * TARGET_WIDTH*1.2)
-			                                     .vert(TARGET_WIDTH*1.2)
-			                                     .horiz(TARGET_WIDTH*1.2)
-			                                     .moveTo(-0.5 * TARGET_WIDTH*1.2, -0.5 * TARGET_WIDTH*1.2)
-			                                     .horiz(TARGET_WIDTH*1.2)
-			                                     .vert(TARGET_WIDTH*1.2)
+		                                         .moveTo(-0.5 * length, -0.5 * length)
+		                                         .vert(length)
+		                                         .horiz(length)
+		                                         .moveTo(-0.5 * length, -0.5 * length)
+		                                         .horiz(length)
+		                                         .vert(length)
 		                                         .setStrokeLineWidth(2*LINE_WIDTH);
+		# if this is also designated / priority target
+		length = TARGET_WIDTH*0.8;
+		me.sniped_target_prio =  me.targets_group.createChild("path", "sniped_target_prio")
+		                                         .setColor(COLOR_RADAR)
+		                                         .moveTo(-0.5 * length, -0.5 * length)
+		                                         .vert(length)
+		                                         .horiz(length)
+		                                         .moveTo(-0.5 * length, -0.5 * length)
+		                                         .horiz(length)
+		                                         .vert(length)
+		                                         .setStrokeLineWidth(LINE_WIDTH);
 
 		me.targets_group.hide();
 
@@ -561,6 +588,7 @@ var VTM = {
 		var i = 0;
 		var has_priority = FALSE;
 		var has_sniped_target = FALSE;
+		var sniped_target_is_priority = FALSE;
 		var relative_heading_rad = 0; # the heading of the target as seen by this aircraft with nose = North
 		var screen_pos = nil;
 		var target_speed_m_s = 0;
@@ -577,8 +605,6 @@ var VTM = {
 		var info = nil;
 		# walk through all existing targets as per available list
 		foreach(var contact; target_contacts_list) {
-			if ()
-			append(me.radar_contacts, contact);
 			info = contact.getLastBlep();
 			relative_heading_rad = geo.normdeg(contact.getHeading() - heading_true) * D2R;
 			if (is_ppi == TRUE) {
@@ -590,10 +616,13 @@ var VTM = {
 			# the radar can scan a bit outside of the range/azimuth
 			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
 				if (contact.getCallsign() == groundTargeting.SNIPED_TARGET) {
+					if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
+						sniped_target_is_priority = TRUE;
+					}
 					continue;
 				}
 				append(me.radar_contacts_pos, screen_pos);
-
+				append(me.radar_contacts, contact);
 				me.friend_contacts[i].hide(); # currently we do not know the friends
 				if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
 					has_priority = TRUE;
@@ -632,7 +661,6 @@ var VTM = {
 		me.n_contacts = i;
 
 		# we want to show the sniped target - although it is not selectable directly
-		# (it is selectable indirectly if it is directly on top of a selectable radar target)
 		if (is_solid_gnd == TRUE and groundTargeting.mySnipedTarget != nil) {
 			var ac_pos = geo.aircraft_position();
 			var direct_dist = ac_pos.direct_distance_to(groundTargeting.mySnipedTarget.coord);
@@ -645,6 +673,7 @@ var VTM = {
 			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
 				has_sniped_target = TRUE;
 				me.sniped_target.setTranslation(screen_pos[0], screen_pos[1]);
+				me.sniped_target_prio.setTranslation(screen_pos[0], screen_pos[1]);
 			}
 		}
 
@@ -657,6 +686,7 @@ var VTM = {
 		me.selected_target.setVisible(has_priority);
 		me.selected_target_callsign.setVisible(has_priority);
 		me.sniped_target.setVisible(has_sniped_target);
+		me.sniped_target_prio.setVisible(sniped_target_is_priority);
 	},
 
 	_updateRadarTexts: func(radar_mode_root_name, radar_mode_name) {
@@ -802,6 +832,13 @@ var VTM = {
 		}
 	},
 
+	_updateScreenMode: func() {
+		var tgt_designation_mode = groundTargeting.targetDesignationMode;
+		me.screen_mode_rdr_box.setVisible(tgt_designation_mode == groundTargeting.TGT_DESIGNATION_MODE_RADAR ? TRUE : FALSE);
+		me.screen_mode_ldp_box.setVisible(tgt_designation_mode == groundTargeting.TGT_DESIGNATION_MODE_LASER ? TRUE : FALSE);
+		me.screen_mode_gps_box.setVisible(tgt_designation_mode == groundTargeting.TGT_DESIGNATION_MODE_GPS ? TRUE : FALSE);
+	},
+
 	update: func() {
 		var global_visible = FALSE;
 		var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
@@ -848,6 +885,7 @@ var VTM = {
 			me._updateTargets(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_root_name);
 			me._updateCursor(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_name); # needs to be after _updateTargets()
 			me._updateCompass(is_ppi, heading_true);
+			me._updateScreenMode();
 		}
 	},
 };

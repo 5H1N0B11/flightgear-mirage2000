@@ -309,7 +309,7 @@
 
 		<gbu-24>
 			<type-id type="int">19</type-id>
-			<short-name type="string">GB24</short-name>
+			<short-name type="string">GBU24</short-name>
 			<long-name type="string">GBU-24 Paveway III</long-name>
 			<fire-msg type="string">Bombs away</fire-msg>
 			<class type="string">GMP</class>
@@ -365,7 +365,7 @@
 			<long-name type="string">SCALP EG</long-name>
 			<all-aspect type="bool">true</all-aspect>
 			<arming-time-sec type="double"> 2.0 </arming-time-sec>
-			<class type="string">GM</class>
+			<class type="string">GMP</class>
 			<cross-section-sqft type="double"> 7.0 </cross-section-sqft>
 			<deploy-time>0.25</deploy-time>
 			<drag-coeff type="double"> 0.3 </drag-coeff>
@@ -415,7 +415,7 @@
 			<long-name type="string">APACHE KRISS</long-name>
 			<all-aspect type="bool">true</all-aspect>
 			<arming-time-sec type="double"> 2.0 </arming-time-sec>
-			<class type="string">GM</class>
+			<class type="string">GMP</class>
 			<cross-section-sqft type="double"> 7.0 </cross-section-sqft>
 			<deploy-time>0.25</deploy-time>
 			<drag-coeff type="double"> 0.3 </drag-coeff>
@@ -558,7 +558,7 @@
 			<all-aspect type="bool">true</all-aspect>
 			<arming-time-sec type="double"> 3 </arming-time-sec>
 			<auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
-			<class type="string">GM</class>
+			<class type="string">GMP</class>
 			<cross-section-sqft type="double"> 0.63 </cross-section-sqft>
 			<deploy-time type="double">0</deploy-time>
 			<drag-coeff type="double"> 0.012 </drag-coeff>

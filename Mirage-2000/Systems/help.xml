@@ -71,6 +71,11 @@
 	</key>
 
 	<key>
+		<name>M</name>
+		<desc>Toggle Target Designation Mode (Radar, Laser, GPS)</desc>
+	</key>
+
+	<key>
 		<name>e</name>
 		<desc>Trigger for guns/missiles</desc>
 	</key>

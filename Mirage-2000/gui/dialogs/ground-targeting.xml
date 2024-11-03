@@ -49,7 +49,7 @@
 		</enable>
 		<binding>
 			<command>nasal</command>
-			<script>groundTargeting.sniping()</script>
+			<script>groundTargeting.sniping();</script>
 		</binding>
 	</button>
 
@@ -72,7 +72,7 @@
 	<hrule />
 
 	<button>
-		<legend>Create/Update Sniped Target with Acquired Coords</legend>
+		<legend>Create/Update Sniped Target for Chosen Coords</legend>
 		<binding>
 			<command>dialog-apply</command>
 		</binding>
