@@ -112,11 +112,6 @@ var HUD = {
 
 		m.text = m.root.createChild("group");
 
-		m.Fire_GBU = m.text.createChild("text")
-		                   .setAlignment("center-center")
-		                   .setTranslation(0, 70)
-		                   .setColor(m.myGreen)
-		                   .setDouble("character-size", 42);
 		#fpv
 		m.fpv = m.root.createChild("path")
 		              .setColor(m.myGreen)
@@ -1072,8 +1067,6 @@ var HUD = {
 		me.eegsShow = FALSE;
 		me.selectedWeapon = pylons.fcs.getSelectedWeapon();
 
-		me.Fire_GBU.setText("Fire");
-		me.showFire_GBU = FALSE;
 		me.show_CCIP = FALSE;
 		me.show_CCRP = FALSE;
 		me.CCRP_piper_group_visibilty = TRUE;
@@ -1094,9 +1087,9 @@ var HUD = {
 							me.show_CCRP = me._displayCCRPMode();
 						} # else nothing to do until a target has been chosen
 					}
-				} # else if (me.selectedWeapon.typeShort == GBU12 or me.selectedWeapon.typeShort == GBU24) {
-				#	me.show_CCRP = me._displayCCRPMode();
-				#}
+				} else if (me.selectedWeapon.typeShort == GBU12 or me.selectedWeapon.typeShort == GBU24) {
+					me.show_CCRP = me._displayCCRPMode();
+				}
 			}
 		}
 
@@ -1109,8 +1102,6 @@ var HUD = {
 		me.CCRP_piper_group.setVisible(me.CCRP_piper_group_visibilty);
 		me.CCRP_release_cue.setVisible(me.CCRP_cue_visbility);
 		me.CCRP_no_go_cross.setVisible(me.CCRP_no_go_cross_visibility);
-
-		me.Fire_GBU.setVisible(me.showFire_GBU);
 
 		me.CCIP.setVisible(me.show_CCIP);
 
@@ -1338,9 +1329,9 @@ var HUD = {
 
 				# Distance to ground impact : only working if radar is on
 				if (me.input.IsRadarWorking.getValue()>24) {
-					me.CCIP_impact_dist.setText("n/a KM");
+					me.CCIP_impact_dist.setText(sprintf("%.1f KM", me.ccipPos[0].direct_distance_to(geo.aircraft_position())/1000));
 				} else {
-					me.CCIP_impact_dist.setText(sprintf("%.1f KM", 0));
+					me.CCIP_impact_dist.setText("n/a KM");
 				}
 				# No go : too dangerous to drop the bomb
 				me.CCIP_no_go_cross.setVisible(me.safe_alt_percent>0.85);
@@ -1352,7 +1343,13 @@ var HUD = {
 
 	_displayCCRPMode: func() {
 		me.DistanceToShoot = nil; # the distance the aircraft travels before bombs are released - not the distance to the target
-		me.DistanceToShoot = me.selectedWeapon.getCCRP(me.input.TimeToTarget.getValue(), 0.05);
+
+		var maxFallTime = 45;
+		if (me.selectedWeapon.Tgt != nil and me.selectedWeapon.Tgt.isVirtual() == FALSE) {
+			var maxFallTime = me.input.TimeToTarget.getValue();
+		}
+
+		me.DistanceToShoot = me.selectedWeapon.getCCRP(maxFallTime, 0.1);
 
 		if (me.DistanceToShoot != nil ) {
 			# This should be the CCRP function
@@ -1377,9 +1374,9 @@ var HUD = {
 			}
 			# Distance to ground impact : only working if radar is on
 			if (me.input.IsRadarWorking.getValue()>24) {
-				me.CCRP_impact_dist.setText("n/a KM");
+				me.CCRP_impact_dist.setText(sprintf("%.1f KM", me.DistanceToShoot/1000));
 			} else {
-				me.CCRP_impact_dist.setText(sprintf("%.1f KM", 0));
+				me.CCRP_impact_dist.setText("n/a KM");
 			}
 		}
 
@@ -1392,7 +1389,12 @@ var HUD = {
 		# The rotation is dispalyed with some exagerations at small deviations and less at larger deviations
 		me.CCRP_piper_group.setTranslation(HudMath.getBorePos());
 		if (me.selectedWeapon.Tgt != nil) {
-			var deviation = me.selectedWeapon.Tgt.getDeviation()[0];
+			var deviation = 0.;
+			if (me.selectedWeapon.Tgt.isVirtual() == TRUE) {
+				deviation = geo.normdeg180(geo.aircraft_position().course_to(me.selectedWeapon.Tgt.get_Coord()) - me.input.hdgReal.getValue());
+			} else {
+				deviation = me.selectedWeapon.Tgt.getDeviation()[0];
+			}
 			if (deviation < 5) {
 				deviation = deviation * 5;
 			} else if (deviation < 10) {
