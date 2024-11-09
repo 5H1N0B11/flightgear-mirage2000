@@ -85,7 +85,7 @@
 * -> blue inner circle from DCS Mirage, outer white circles and white cross from SEM
 
 ## TODO ##
-* Use French symbology from DCS or elsewhere (maybe look back at how Shinobi did it)
+* Use French symbology from DCS or elsewhere
 * Check whether datalink works
 
 <!-- ========================================================================================= -->
@@ -116,9 +116,9 @@ https://github.com/NikolaiVChr/OpRedFlag/tree/master
 
 | Area                  | Commit               | Files not yet converted | Deviations |
 | ----------------------| -------------------- | ------------------------| ---------- |
-| emesary-damage-system | 200cd50 (2024-10-16) | n/a | /payload.xml/armament/models points to Aircraft/Mirage-2000/Missiles/ instead of ./Models/emesary/ |
-| libraries             | 200cd50 (2024-10-16) | n/a | There is an additional custom file for m2000: iff_m2000.nas. The last ca. 10 lines of fire-control.nas is adapted for M2000 |
-| radar                 | 200cd50 (2024-10-16) | n/a | rcs.nas is missing in the OPRF library -> copied from F-16 |
+| emesary-damage-system | 108ff45 (2024-10-28) | n/a | /payload.xml/armament/models points to Aircraft/Mirage-2000/Missiles/ instead of ./Models/emesary/ |
+| libraries             | 108ff45 (2024-10-28) | n/a | There is an additional custom file for m2000: iff_m2000.nas. The last ca. 10 lines of fire-control.nas is adapted for M2000 |
+| radar                 | 108ff45 (2024-10-28) | n/a | rcs.nas is missing in the OPRF library -> copied from F-16 |
 
 
 ## F16 files ##
@@ -139,7 +139,8 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
 * Alidade cartouche in top right corner: what is "N"?
 
 
-## Tidy up ##
+<!-- ========================================================================================= -->
+# Tidy up #
 * Add Rick to contributers
 * Ask to get m2000 promoted to maintained again in OPRF fleet Discord
 * remove gui/dialogs/options.xml:
@@ -156,7 +157,12 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
   * Merge exec.nas with M_frame_notification.nas
   * Move HUD/*nas and MFD/*nas into displays folder
 * Update key bindings in help and announce changes
-* Use the display poweron/off logic in JA37 displays/common.nas
+* Use the display power on/off logic in JA37 displays/common.nas
+* Exocet and Mica-EM deviate visually from what really happens (hits vs. miss)
+* Why is there the follwoing instead of fall time from weapon props? TimeToTarget   :"/sim/dialog/groundTargeting/time-to-target",
+* Ground targeting: change AI model implementation with apg-68.ContactTGP
+* In VTM show type of targeting guidance: radar vs. laser vs. gps vs. ...
+* In HUD.nas check use of input.IsRadarWorking.getValue()>24 and similar
 
 <!-- ========================================================================================= -->
 # Reference stuff #
