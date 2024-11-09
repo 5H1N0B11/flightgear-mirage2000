@@ -593,7 +593,6 @@ var VTM = {
 		var screen_pos = nil;
 		var target_speed_m_s = 0;
 
-		me.n_contacts = 0;
 		me.radar_contacts = [];
 		me.radar_contacts_pos = [];
 		me.targets_speed_group.removeAllChildren();
@@ -658,7 +657,6 @@ var VTM = {
 			}
 			i += 1;
 		}
-		me.n_contacts = i;
 
 		# we want to show the sniped target - although it is not selectable directly
 		if (is_solid_gnd == TRUE and groundTargeting.mySnipedTarget != nil) {
@@ -784,7 +782,7 @@ var VTM = {
 	_findCursorTrack: func() {
 		var closest_i = nil;
 		var min_dist = 100000;
-		for (var i=0; i < me.n_contacts; i+=1) {
+		for (var i=0; i < size(me.radar_contacts); i+=1) {
 			var dist = me._distCursorTrack(i);
 			if (dist < min_dist) {
 				closest_i = i;
