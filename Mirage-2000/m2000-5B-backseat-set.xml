@@ -1,164 +1,166 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
 
-  <sim>
-    <description>Mirage 2000 backseat</description>
-    <author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe</author>
-    <!-- 
-        Elijah (first 3D model / first FDM yasim)
-        5H1N0B1 (Weapons, systems)
-        F-Sig
-        hardball (improve 3D, systems, dual seat version, new cockpit)
-        Josh Davidson (FCS/FBW/Autopilot)
-        Leto
-        Richard Harrison (Flight Model)
-        onox
-        legoboyvdlp
-        Domokos "Rudolf" Juttner
-        ravenclaw_007
-        J Maverick 16
-        Niall "Salmon" Roe
-    -->
-    <long-description>The Dassault Mirage 2000-5 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
-    <aircraft-version>2022-09-25</aircraft-version>
-    <status>production</status>
-    <variant-of>m2000-5</variant-of>
+	<sim>
+		<description>Mirage 2000 backseat</description>
+		<author>Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe</author>
+		<!--
+			Elijah (first 3D model / first FDM yasim)
+			5H1N0B1 (Weapons, systems)
+			F-Sig
+			hardball (improve 3D, systems, dual seat version, new cockpit)
+			Josh Davidson (FCS/FBW/Autopilot)
+			Leto
+			Richard Harrison (Flight Model)
+			onox
+			legoboyvdlp
+			Domokos "Rudolf" Juttner
+			ravenclaw_007
+			J Maverick 16
+			Niall "Salmon" Roe
+		-->
+		<long-description>The Dassault Mirage 2000-5 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
+		<aircraft-version>2022-09-25</aircraft-version>
+		<status>production</status>
+		<variant-of>m2000-5</variant-of>
+		<variant-id type="int">2</variant-id>
 
-    <flight-model>null</flight-model>
+		<flight-model>null</flight-model>
 
-    <rating>
-      <FDM     type="int"> 4 </FDM>
-      <systems type="int"> 4 </systems>
-      <cockpit type="int"> 3 </cockpit>
-      <model   type="int"> 4 </model>
-    </rating>
+		<rating>
+			<FDM     type="int"> 4 </FDM>
+			<systems type="int"> 4 </systems>
+			<cockpit type="int"> 3 </cockpit>
+			<model   type="int"> 4 </model>
+		</rating>
 
-    <model>
-      <name>m2000B backseat</name>
-      <path>Aircraft/Mirage-2000/Models/m2000-5B-backseat.xml</path>
-    </model>
+		<model>
+			<name>m2000B backseat</name>
+			<path>Aircraft/Mirage-2000/Models/m2000-5B-backseat.xml</path>
+		</model>
 
-    <previews>
-      <preview>
-        <type>exterior</type>
-        <splash type="bool">true</splash>
-        <path>Splashes/splashB-s01.png</path>
-      </preview>
-    </previews>
+		<previews>
+			<preview>
+			<type>exterior</type>
+			<splash type="bool">true</splash>
+			<path>Splashes/splashB-s01.png</path>
+			</preview>
+		</previews>
 
-    <!-- ~~~~~~~~~~~~~~~~~~ sound -->
-    <sound>
-      <audible>false</audible>
-      <path />
-    </sound>
+		<!-- ~~~~~~~~~~~~~~~~~~ sound -->
+		<sound>
+			<audible>false</audible>
+			<path />
+		</sound>
 
-    <!-- ~~~~~~~~~~~~~~~~~~ menu -->
-    <menubar>
-      <default>
-        <menu n="50">
-          <label>Mirage 2000</label>
-          <item>
-            <label>Select MP pilot</label>
-            <binding>
-              <command>nasal</command>
-              <script>
-                dual_control_tools.copilot_dialog.show(aircraft_dual_control.pilot_type);
-              </script>
-            </binding>
-          </item>
-        </menu>
-      </default>
-    </menubar>
+		<!-- ~~~~~~~~~~~~~~~~~~ menu -->
+		<menubar>
+			<default>
+				<menu n="50">
+					<label>Mirage 2000</label>
+					<item>
+						<label>Select MP pilot</label>
+						<binding>
+							<command>nasal</command>
+							<script>
+								dual_control_tools.copilot_dialog.show(aircraft_dual_control.pilot_type);
+							</script>
+						</binding>
+					</item>
+				</menu>
+			</default>
+		</menubar>
 
-    <view n="0">
-      <name>Navigator View</name>
-      <type>lookfrom</type>
-      <internal archive="y">true</internal>
-      <config>
-        <from-model type="bool">true</from-model>
-        <from-model-idx type="int">0</from-model-idx>
-        <x-offset-m archive="y" type="double">  0.00 </x-offset-m>
-        <y-offset-m archive="y" type="double">  0.21 </y-offset-m>
-        <z-offset-m archive="y" type="double"> -1.06 </z-offset-m>
-        <pitch-offset-deg type="double"> -10 </pitch-offset-deg>
-        <heading-offset-deg type="double"> 0 </heading-offset-deg>
-        <default-field-of-view-deg type="double">82</default-field-of-view-deg>
-      </config>
-    </view>
-    
-    <rendering>
-      <redout>
-        <!--5H1N0B1 => Standart OPRF value when mp damage is off-->
-        <enabled type="bool" archive="n">true</enabled>
-        <parameters>
-          <blackout-onset-g type="double">5</blackout-onset-g>
-          <blackout-complete-g type="double">8</blackout-complete-g>
-          <onset-blackout-sec type="double">300</onset-blackout-sec>
-          <fast-blackout-sec type="double">30</fast-blackout-sec>
-          <redout-onset-g type="double">-2</redout-onset-g>
-          <redout-complete-g type="double">-4</redout-complete-g>
-          <onset-redout-sec type="double">45</onset-redout-sec>
-          <fast-redout-sec type="double">3.5</fast-redout-sec>
-          <recover-fast-sec type="double">7</recover-fast-sec>
-          <recover-slow-sec type="double">15</recover-slow-sec>
-        </parameters>
-      </redout>
-    </rendering>
-    
-    <multiplay>
-      <chat_display>1</chat_display>
-      <generic>
-        <!-- immat -->
-        <int type="int"       n="0"> 0 </int>
-        <int type="int"       n="1"> 0 </int>
-        <int type="int"       n="2"> 0 </int>
-        <int type="int"       n="3"> 0 </int>
-        <int type="int"       n="4"> 0 </int>
-        <int type="int"       n="5"> 0 </int>
-        <int type="int"       n="8" /> <!--This is bool encode/decode manager-->
-        <!-- 10 : reserved for bombable mode -->
-        <int                  n="10" alias="/controls/armament/Gun_trigger" />
-        <float                n="0"  alias="/sim/model/door-positions/crew/position-norm" />
-        <float                n="1"  alias="/sim/model/door-positions/passenger/position-norm" />
-        <!-- altitude for MP shadow -->
-        <float                n="2"  alias="/position/gear-agl-m"> 0 </float>
-        <float                n="3"  alias="/position/altitude-agl-ft"> 0 </float>
-        <float                n="4"  alias="/engines/engine[0]/n1" />
-        <float                n="5"  alias="/engines/engine[0]/n2" />
-        <float                n="7"  alias="/controls/engines/engine[0]/throttle" />
-        <float                n="11" alias="/gear/gear[0]/rollspeed-ms" />
-        <float                n="12" alias="/gear/gear[1]/rollspeed-ms" />
-        <float                n="13" alias="/gear/gear[2]/rollspeed-ms" />
-        <float                n="14" alias="/engines/engine[0]/afterburner" />
-        <string type="string" n="0" />
-        <!-- for loads -->
-        <string type="string" n="1" />
-        <!-- reserved for bombable mode -->
-        <string type="string" n="9" />
-        <string n="13" type="string"></string>
-        <string n="15" type="string"></string>
-      </generic>
-    </multiplay>
+		<view n="0">
+			<name>Navigator View</name>
+			<type>lookfrom</type>
+			<internal archive="y">true</internal>
+			<config>
+				<from-model type="bool">true</from-model>
+				<from-model-idx type="int">0</from-model-idx>
+				<x-offset-m archive="y" type="double">  0.00 </x-offset-m>
+				<y-offset-m archive="y" type="double">  0.21 </y-offset-m>
+				<z-offset-m archive="y" type="double"> -1.06 </z-offset-m>
+				<pitch-offset-deg type="double"> -10 </pitch-offset-deg>
+				<heading-offset-deg type="double"> 0 </heading-offset-deg>
+				<default-field-of-view-deg type="double">82</default-field-of-view-deg>
+			</config>
+		</view>
 
-    <gui n="0" include="gui/it-gui.xml"/>
+		<rendering>
+			<redout>
+				<!--5H1N0B1 => Standart OPRF value when mp damage is off-->
+				<enabled type="bool" archive="n">true</enabled>
+				<parameters>
+					<blackout-onset-g type="double">5</blackout-onset-g>
+					<blackout-complete-g type="double">8</blackout-complete-g>
+					<onset-blackout-sec type="double">300</onset-blackout-sec>
+					<fast-blackout-sec type="double">30</fast-blackout-sec>
+					<redout-onset-g type="double">-2</redout-onset-g>
+					<redout-complete-g type="double">-4</redout-complete-g>
+					<onset-redout-sec type="double">45</onset-redout-sec>
+					<fast-redout-sec type="double">3.5</fast-redout-sec>
+					<recover-fast-sec type="double">7</recover-fast-sec>
+					<recover-slow-sec type="double">15</recover-slow-sec>
+				</parameters>
+			</redout>
+		</rendering>
 
-  </sim>
+		<multiplay>
+			<chat_display>1</chat_display>
+			<generic>
+				<!-- immat -->
+				<int type="int"       n="0"> 0 </int>
+				<int type="int"       n="1"> 0 </int>
+				<int type="int"       n="2"> 0 </int><!-- radar-standby -->
+				<int type="int"       n="3"> 0 </int>
+				<int type="int"       n="4"> 0 </int>
+				<int type="int"       n="5"> 0 </int>
+				<int type="int"       n="8" /> <!--This is bool encode/decode manager-->
+				<int n="9" type="int" alias="/sim/variant-id"/><!-- Needed for compatibility with tacview-->
+				<!-- 10 : reserved for bombable mode -->
+				<int                  n="10" alias="/controls/armament/Gun_trigger" />
+				<float                n="0"  alias="/sim/model/door-positions/crew/position-norm" />
+				<float                n="1"  alias="/sim/model/door-positions/passenger/position-norm" />
+				<!-- altitude for MP shadow -->
+				<float                n="2"  alias="/position/gear-agl-m"> 0 </float>
+				<float                n="3"  alias="/position/altitude-agl-ft"> 0 </float>
+				<float                n="4"  alias="/engines/engine[0]/n1" />
+				<float                n="5"  alias="/engines/engine[0]/n2" />
+				<float                n="7"  alias="/controls/engines/engine[0]/throttle" />
+				<float                n="11" alias="/gear/gear[0]/rollspeed-ms" />
+				<float                n="12" alias="/gear/gear[1]/rollspeed-ms" />
+				<float                n="13" alias="/gear/gear[2]/rollspeed-ms" />
+				<float                n="14" alias="/engines/engine[0]/afterburner" />
+				<string type="string" n="0" />
+				<!-- for loads -->
+				<string type="string" n="1" />
+				<!-- reserved for bombable mode -->
+				<string type="string" n="9" />
+				<string n="13" type="string"></string>
+				<string n="15" type="string"></string>
+			</generic>
+		</multiplay>
 
-  <!--
-________________________________________________________________________________
-                                                                           NASAL
-  -->
-  <nasal>
-    <dual_control_tools>
-      <file>Aircraft/Generic/DualControl/dual-control-tools.nas</file>
-    </dual_control_tools>
-    <aircraft_dual_control>
-      <file>DualControl/dual-control.nas</file>
-    </aircraft_dual_control>
-    <dual_control>
-      <file>Aircraft/Generic/DualControl/copilot-dual-control.nas</file>
-    </dual_control>
-  </nasal>
+		<gui n="0" include="gui/it-gui.xml"/>
+
+	</sim>
+
+	<!--
+	________________________________________________________________________________
+	NASAL
+	-->
+	<nasal>
+		<dual_control_tools>
+			<file>Aircraft/Generic/DualControl/dual-control-tools.nas</file>
+		</dual_control_tools>
+		<aircraft_dual_control>
+			<file>DualControl/dual-control.nas</file>
+		</aircraft_dual_control>
+		<dual_control>
+			<file>Aircraft/Generic/DualControl/copilot-dual-control.nas</file>
+		</dual_control>
+	</nasal>
 
 </PropertyList>

@@ -17,13 +17,12 @@ var AirSpeed         = props.globals.getNode("velocities/airspeed-kt");
 # When we call this fonction, it switch the menu on/off
 var enableGuiLoad = func()
 {
-    print("check");
     var searchname = ["fuel-and-payload", "iff"];
     var state = 1;
     if (getprop("payload/armament/msg")) {
 	state = 0;
     }
-	    
+
     foreach(var menu ; props.globals.getNode("/sim/menubar/default").getChildren("menu"))
     {
         foreach(var item ; menu.getChildren("item"))
@@ -46,7 +45,7 @@ setlistener("/payload/armament/msg", enableGuiLoad);
 var bingo = {
     new : func
     {
-      var me  = { parents : [bingo]};     
+      var me  = { parents : [bingo]};
       me.input = {
         blinking_bingo_low:           "/instrumentation/consumables/bingo_low",  #--"Blinking variable"
         bingo:                        "/instrumentation/consumables/bingo_fuel",
@@ -81,7 +80,7 @@ var bingo = {
           # I don't know how to do that. maybe cutting the route in 5 or 10 nm coords point and check this for closest airport.
           #this function will takes time
       }
-      
+
     },
     update : func {
       # We do not need a high refresh rate. 4 refresh per scond should be enough
@@ -94,28 +93,28 @@ var bingo = {
         me.input.blinking_bingo_low.setValue(0);
       }
       #settimer(me.update,0.25);
-      
+
     },
-    
+
 
 };
 
- 
-      
+
+
 
 
 # var bingo = func(moy)
 # {
 #     var lastWPtime = getprop("/instrumentation/gps/wp/wp[1]/TTW-sec");
 #     print("/autopilot/route-manager/ete : " ~ getprop("/autopilot/route-manager/ete") ~ " instrumentation/gps/wp/wp[1]/TTW-sec : " ~ getprop("/instrumentation/gps/wp/wp[1]/TTW-sec"));
-#     
+#
 #     Consommations moyennes: 4kg / Nm en HA. 7kg / Nm en BA (LA) or Average Consumption 36 kg/min
 #     first -> Calculation of the last airport (route manager)
 #     var remaining = getprop("/autopilot/route-manager/distance-remaining-nm");
-#     
+#
 #     That means at Low Alt :
 #     var bingo = remaining * 7;
-#     
+#
 #     Add 30 min to the process
 #     bingo = bingo + 36 * 30;
 #     setprop("/instrumentation/consumables/bingo_fuel", bingo);
@@ -123,7 +122,7 @@ var bingo = {
 #     {
 #         clignote();
 #     }
-#     
+#
 #     This is a simplified calculation of bingo fuel : We have to add a an
 #     alternate airport in the calculation, but here it seeems to be a bit
 #     complicated
@@ -184,7 +183,7 @@ var gearBox = func() {
     {
         setprop("/instrumentation/gearBox/rightgear", 0);
     }
-    
+
     if(getprop("/gear/gear[1]/position-norm") == 1 and energy)
     {
         setprop("/instrumentation/gearBox/leftgear", 1);
@@ -193,7 +192,7 @@ var gearBox = func() {
     {
         setprop("/instrumentation/gearBox/leftgear", 0);
     }
-    
+
     if(getprop("/gear/gear[0]/position-norm") == 1 and energy)
     {
         setprop("/instrumentation/gearBox/nozegear", 1);
@@ -202,7 +201,7 @@ var gearBox = func() {
     {
         setprop("/instrumentation/gearBox/nozegear", 0);
     }
-    
+
     # Gear Red Light
     if(energy and getprop("/gear/gear[0]/position-norm") != 1 and getprop("/gear/gear[0]/position-norm") != 0)
     {
@@ -212,7 +211,7 @@ var gearBox = func() {
     {
         setprop("/instrumentation/gearBox/gearRed", 0);
     }
-    
+
     # AirBrakes
     if(energy and getprop("/fdm/jsbsim/fcs/airbrake-norm-sum") != 0)
     {
@@ -222,7 +221,7 @@ var gearBox = func() {
     {
         setprop("/instrumentation/gearBox/AirBrakes", 0);
     }
-    
+
     # Brakes
     if(energy and getprop("/controls/gear/brake-left") != 0)
     {
@@ -251,7 +250,7 @@ var display_heading = func(){
     var magneticNorth = getprop("orientation/heading-magnetic-deg");
     var trueNorth = getprop("orientation/heading-deg");
     var bugbug = getprop("autopilot/internal/fdm-heading-bug-error-deg");
-    
+
     if(getprop("instrumentation/efis/mfd/true-north")){
       setprop("instrumentation/mfd/heading-displayed",trueNorth);
       if(bugbug != nil){setprop("instrumentation/mfd/bug-heading-displayed",math.mod(bugbug + magneticNorth-trueNorth, 360));}
@@ -261,7 +260,7 @@ var display_heading = func(){
       setprop("instrumentation/mfd/heading-displayed",magneticNorth);
       if(bugbug != nil){setprop("instrumentation/mfd/bug-heading-displayed",bugbug);}
     }
-    
+
     settimer(display_heading, 0.2);
 }
 
