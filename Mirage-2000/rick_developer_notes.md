@@ -37,28 +37,12 @@
 
 * payload/armament/msg: 0 = no damage, 1 = damage
 
-## HUD ##
-* /Models/Instruments/hud:
-  * hud.ac
-  * hud.png
-  * hud.xml
-* /Models/Instruments/revi
-  * revi.ac
-  * revi.png
-  * revi.xml
-* /Nasal/HUD/HUD.nas
-  * var hud_pilot = hud.HUD.new("node": "revi.canvasHUD") -> revi.canvasHUD in revi.ac
-  * _mainInitLoop = func() -> hud_pilot.update();
-  * _updateFunction = func() -> hud_pilot.update();
-
 
 <!-- ========================================================================================= -->
 # Radar #
 
 ## Knowledge: Radar core system which is used in displays ##
 * Systems/cnf-instrumentation.xml -> <radar> properties inkl. e.g. <radar-standby> ->/instrumentation/radar/radar-standby
-* /Nasal/Radar/radar2.nas
-  * radar_mode_toggle: between rws (az=120) and tws-auto (az=60)
 
 
 ## Radar stuff todo ##
@@ -94,14 +78,9 @@
 ## Todo VTM better ##
 * Radar scanning/disc movement indication
 * Weapons available
-* Scale on the right side (maybe radar forced elevation - tilt)
-* Scale at bottom (maybe radar forced sideways - or degrees)
 * Make sure DLINK stuff is understood and IFF is implemented.
-* Remove not original stuff:
-  * Radar range
 * Work with settimer, setlistener for stuff which does not change often - e.g. radar-standby
 * toggle screen on/off depending on /instrumentation/radar/radar-standby (1 means radar is working, 0 it is off - the property should be renamed of true/false switched). Maybe show a text on the HUD and the VTM that it is stand-by
-* Test whether 2000-D still works
 * Add a shader to simulate a bit of glass reflections
 
 ## Reference ##
@@ -130,12 +109,8 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
 <!-- ========================================================================================= -->
 # Smaller features / issues #
 * Reload Guns etc. button from config menu should either be included in Payload stuff or make sure that guns are only loaded if there is a cannon in e.g. the 2000-D
-* Cockpit lights (/controls/lighting/cockpit-lights-side/-top) do not work / illuminate
-* Fly-by-wire configuration /fdm/jsbsim/fbw/mode should trigger warning light, if heavy armament loaded but not in CHARGES mode
 * ALS rocket like the Viggen guide on stick: in JA37 look for <pure_gain name="names/cursor/rb05-control-yaw">
-* Should the VTM display different cursors like the Viggen MI: if (radar.ps46.getMode() == "TWS") {me.cursor_mode = CURSOR_TWS;} else {me.cursor_mode = CURSOR_STT;}
 * In VTM._updateTargets: can we use blep info instead of calulation like in viggen: var info = contact.getLastBlep(); var pos = ..(info.getAZDeviation(), info.getRangeNow(),..);
-* Make sure headings true vs. magnetic are handled correct in HUD and VTM
 * Alidade cartouche in top right corner: what is "N"?
 
 
@@ -146,22 +121,18 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
 * remove gui/dialogs/options.xml:
   * move the performance thing to another place, rest goes away
   * /controls/assistance and assistance.nas go away
-* remove hud.xml etc. once we are sure that it revi has replaced it
+* remove Aircraft/Mirage-2000/Models/Interior/Instruments/hud/hud.xml etc. once we are sure that it revi has replaced it
 * remove radar.xml once we have a canvas VTM
-* lots of warnings in the log when the Mirage starts up in FGFS
 * Remove references to myRadar3 - even if commented out
 * Remove MP.nas and dynamic links from e.g. m2000-5.xml
 * Nasal:
   * why do we need math_ext and logger namespaces (from C172)?
   * remove commented out namespaces and delete related files
   * Merge exec.nas with M_frame_notification.nas
-  * Move HUD/*nas and MFD/*nas into displays folder
-* Update key bindings in help and announce changes
+  * Move MFD/*nas into displays folder
 * Use the display power on/off logic in JA37 displays/common.nas
 * Exocet and Mica-EM deviate visually from what really happens (hits vs. miss)
 * Why is there the follwoing instead of fall time from weapon props? TimeToTarget   :"/sim/dialog/groundTargeting/time-to-target",
-* Ground targeting: change AI model implementation with apg-68.ContactTGP
-* In VTM show type of targeting guidance: radar vs. laser vs. gps vs. ...
 * In HUD.nas check use of input.IsRadarWorking.getValue()>24 and similar
 
 <!-- ========================================================================================= -->
