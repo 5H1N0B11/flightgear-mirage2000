@@ -61,7 +61,7 @@
 
 		<key n="68">
 			<name>D</name>
-			<desc>Backseat canopy</desc>
+			<desc>Backseat Canopy</desc>
 			<binding>
 				<command>nasal</command>
 				<script>doors.passenger.toggle();</script>
@@ -70,7 +70,7 @@
 
 		<key n="100">
 			<name>d</name>
-			<desc>Pilot canopy</desc>
+			<desc>Pilot Canopy</desc>
 			<binding>
 				<command>nasal</command>
 				<script>doors.move_canopy();</script>
@@ -79,7 +79,7 @@
 
 		<key n="111">
 			<name>o</name>
-			<desc>Deploy Chute</desc>
+			<desc>Deploy or Release the Break Parachute</desc>
 			<binding>
 				<condition>
 					<property>/gear/gear[1]/wow</property>
