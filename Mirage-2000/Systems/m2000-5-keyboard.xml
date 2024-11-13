@@ -86,7 +86,9 @@
 					<property>/gear/gear[2]/wow</property>
 				</condition>
 				<command>nasal</command>
-				<script>doors.parachute.toggle();</script>
+				<script>
+					controls.deployChute(1);
+				</script>
 			</binding>
 		</key>
 

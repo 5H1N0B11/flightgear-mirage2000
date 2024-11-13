@@ -255,11 +255,18 @@ var init_Transpondeur = func() {
 }
 
 controls.deployChute = func(v) {
+	doors.parachute.toggle();
 	# Deploy
 	if(v > 0) {
-		setprop("controls/flight/chute_deployed", 1);
-		setprop("controls/flight/chute_open", 1);
-		chuteAngle();
+		if(getprop("controls/flight/chute_deployed") != 1)
+		{
+			setprop("controls/flight/chute_deployed", 1);
+			setprop("controls/flight/chute_open", 1);
+		}else{
+			setprop("controls/flight/chute_deployed", 0);
+			setprop("controls/flight/chute_open", 0);
+		}
+		chuteLoop.start();
 	}
 	# Jettison
 	if(v < 0) {
@@ -267,14 +274,18 @@ controls.deployChute = func(v) {
 		if(voltage > 20) {
 			setprop("controls/flight/chute_jettisoned", 1);
 			setprop("controls/flight/chute_open", 0);
+			chuteLoop.stop();
 		}
 	}
 }
 
 var chuteAngle = func {
+	#screen.log.write("TEst", 1.0, 0.5, 0.0);
+	
 	var chute_open = getprop('controls/flight/chute_open');
-
 	if(chute_open != '1') {
+		setprop("fdm/jsbsim/external_reactions/chute/magnitude", 0);
+		chuteLoop.stop();
 		return();
 	}
 	var speed = getprop('/velocities/airspeed-kt');
@@ -283,11 +294,12 @@ var chuteAngle = func {
 	var chuteyaw = getprop("orientation/chute_yaw");
 	var aircraftroll = getprop('/orientation/roll-deg');
 
-	if(speed > 210) {
+	if(speed > 250) {
 		setprop("controls/flight/chute_jettisoned", 1); # Model Shear Pin
+		setprop("fdm/jsbsim/external_reactions/chute/magnitude", 0);
+		chuteLoop.stop();
 		return();
 	}
-
 	# Chute Pitch
 	var chutepitch = aircraftpitch * -1;
 	setprop("orientation/chute_pitch", chutepitch);
@@ -306,8 +318,18 @@ var chuteAngle = func {
 	# Chute Roll - no twisting for now
 	var chuteroll = aircraftroll;
 	setprop("orientation/chute_roll", chuteroll * rand() * -1);
+	 	
+	var pressure = getprop("fdm/jsbsim/aero/qbar-psf"); # dynamic pressure
+        var chuteArea = 200; # squarefeet of chute canopy
+        var dragCoeff = 0.50;
+        var force     = pressure * chuteArea * dragCoeff;
+        setprop("fdm/jsbsim/external_reactions/chute/magnitude", force);
+        # setprop("f16/chute/force", 0, force * 0.000154);
+        
+	
+	
 
-	return registerTimerControlsNil(chuteAngle);  # Keep watching
+	#return registerTimerControlsNil(chuteAngle);  # Keep watching
 }
 
 var chuteRepack = func {
@@ -315,6 +337,8 @@ var chuteRepack = func {
 	setprop('controls/flight/chute_deployed',   0);
 	setprop('controls/flight/chute_jettisoned', 0);
 }
+
+var chuteLoop = maketimer(0.05, chuteAngle);
 
 var fuel_managment = func() {
 	var Externaltank = getprop("/consumables/fuel/tank[2]/empty");

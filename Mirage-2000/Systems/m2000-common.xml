@@ -156,6 +156,11 @@
 					<number2-system-pump-failed>0</number2-system-pump-failed>
 				</hydraulics>
 			</systems>
+			<external_reactions>
+				<chute>
+					<magnitude type="double"> 0.0 </magnitude>
+				</chute>
+			</external_reactions>
 			<inertia>
 				<pointmass-dragarea-sqft type="double" n="0">0</pointmass-dragarea-sqft>
 				<pointmass-dragarea-sqft type="double" n="1">0</pointmass-dragarea-sqft>
