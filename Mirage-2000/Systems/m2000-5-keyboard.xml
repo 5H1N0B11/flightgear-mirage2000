@@ -42,26 +42,18 @@
 
 	<keyboard>
 
-		<key n="101">
-			<name>e</name>
-			<desc>Gun Trigger</desc>
+		<key n="125">
+			<name>}</name>
+			<desc>Engine Autostart</desc>
 			<binding>
-				<command>property-assign</command>
-				<property>controls/armament/trigger</property>
-				<value>1</value>
+				<command>nasal</command>
+				<script>mirage2000.autostart();</script>
 			</binding>
-			<mod-up>
-				<binding>
-					<command>property-assign</command>
-					<property>controls/armament/trigger</property>
-					<value>0</value>
-				</binding>
-			</mod-up>
 		</key>
 
 		<key n="68">
 			<name>D</name>
-			<desc>Backseat Canopy</desc>
+			<desc>Backseat canopy</desc>
 			<binding>
 				<command>nasal</command>
 				<script>doors.passenger.toggle();</script>
@@ -70,16 +62,36 @@
 
 		<key n="100">
 			<name>d</name>
-			<desc>Pilot Canopy</desc>
+			<desc>Pilot canopy</desc>
 			<binding>
 				<command>nasal</command>
 				<script>doors.move_canopy();</script>
 			</binding>
 		</key>
 
+		<key n="106">
+			<name>j</name>
+			<desc>Retract airbrakes</desc>
+			<binding>
+				<command>property-assign</command>
+				<property>/controls/flight/speedbrake</property>
+				<value>0</value>
+			</binding>
+		</key>
+
+		<key n="107">
+			<name>k</name>
+			<desc>Extend airbrakes</desc>
+			<binding>
+				<command>property-assign</command>
+				<property>/controls/flight/speedbrake</property>
+				<value>1</value>
+			</binding>
+		</key>
+
 		<key n="111">
 			<name>o</name>
-			<desc>Deploy or Release the Break Parachute</desc>
+			<desc>Deploy or release the brake parachute</desc>
 			<binding>
 				<condition>
 					<property>/gear/gear[1]/wow</property>
@@ -93,8 +105,8 @@
 		</key>
 
 		<key n="5">
-			<name>Ctrl-E</name>
-			<desc>Pilot Ejection</desc>
+			<name>Ctrl-e</name>
+			<desc>Pilot ejection</desc>
 			<repeatable type="bool">false</repeatable>
 			<binding>
 				<command>nasal</command>
@@ -104,22 +116,85 @@
 			</binding>
 		</key>
 
-
-		<key n="74">
-			<name>J</name>
-			<desc>Drop Tanks</desc>
+		<key n="89">
+			<name>Y</name>
+			<desc>Radar antenna level</desc>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/radar/antennae-knob</property>
+				<value>0</value>
+			</binding>
 			<binding>
 				<command>nasal</command>
-				<script>pylons.fcs.jettisonFuel()</script>
+				<script>screen.log.write(sprintf("Antennae knob at %+d degrees",getprop("controls/radar/antennae-knob")*60));</script>
+			</binding>
+		</key>
+		<key n="105">
+			<name>i</name>
+			<desc>Radar antenna up</desc>
+			<binding>
+				<command>property-adjust</command>
+				<property>controls/radar/antennae-knob</property>
+				<step>0.025</step>
+				<min>-1</min>
+				<max>1</max>
+				<wrap>false</wrap>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>screen.log.write(sprintf("Antennae knob at %+.1f degrees",getprop("controls/radar/antennae-knob")*60));</script>
+			</binding>
+		</key>
+		<key n="73">
+			<name>I</name>
+			<desc>Radar antenna down</desc>
+			<binding>
+				<command>property-adjust</command>
+				<property>controls/radar/antennae-knob</property>
+				<step>-0.025</step>
+				<min>-1</min>
+				<max>1</max>
+				<wrap>false</wrap>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>screen.log.write(sprintf("Antennae knob at %+.1f degrees",getprop("controls/radar/antennae-knob")*60));</script>
 			</binding>
 		</key>
 
-		<key n="72">
-			<name>H</name>
-			<desc>Active Target Seeking</desc>
+		<key n="82">
+			<name>R</name>
+			<desc>Increase radar range</desc>
 			<binding>
 				<command>nasal</command>
-				<script>hud.activate_borsight()</script>
+				<script>radar_system.apg68Radar.increaseRange();</script>
+			</binding>
+		</key>
+
+		<key n="69">
+			<name>E</name>
+			<desc>Decrease radar range</desc>
+			<binding>
+				<command>nasal</command>
+				<script>radar_system.apg68Radar.decreaseRange();</script>
+			</binding>
+		</key>
+
+		<key n="81">
+			<name>Q</name>
+			<desc>Cycle radar root modes</desc>
+			<binding>
+				<command>nasal</command>
+				<script>radar_system.apg68Radar.cycleRootMode();</script>
+			</binding>
+		</key>
+
+		<key n="17">
+			<name>Ctrl-q</name>
+			<desc>Cycle radar mode within root mode</desc>
+			<binding>
+				<command>nasal</command>
+				<script>radar_system.apg68Radar.cycleMode();</script>
 			</binding>
 		</key>
 
@@ -141,73 +216,18 @@
 			</binding>
 		</key>
 
-		<key n="89">
-			<name>Y</name>
-			<desc>Antennae level</desc>
-			<binding>
-				<command>property-assign</command>
-				<property>controls/radar/antennae-knob</property>
-				<value>0</value>
-			</binding>
+		<key n="72">
+			<name>H</name>
+			<desc>Active target seeking</desc>
 			<binding>
 				<command>nasal</command>
-				<script>screen.log.write(sprintf("Antennae knob at %+d degrees",getprop("controls/radar/antennae-knob")*60));</script>
-			</binding>
-		</key>
-		<key n="105">
-			<name>i</name>
-			<desc>Antennae up</desc>
-			<binding>
-				<command>property-adjust</command>
-				<property>controls/radar/antennae-knob</property>
-				<step>0.025</step>
-				<min>-1</min>
-				<max>1</max>
-				<wrap>false</wrap>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>screen.log.write(sprintf("Antennae knob at %+.1f degrees",getprop("controls/radar/antennae-knob")*60));</script>
-			</binding>
-		</key>
-		<key n="73">
-			<name>I</name>
-			<desc>Antennae down</desc>
-			<binding>
-				<command>property-adjust</command>
-				<property>controls/radar/antennae-knob</property>
-				<step>-0.025</step>
-				<min>-1</min>
-				<max>1</max>
-				<wrap>false</wrap>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>screen.log.write(sprintf("Antennae knob at %+.1f degrees",getprop("controls/radar/antennae-knob")*60));</script>
-			</binding>
-		</key>
-
-		<key n="82">
-			<name>R</name>
-			<desc>Increase Radar Range</desc>
-			<binding>
-				<command>nasal</command>
-				<script>radar_system.apg68Radar.increaseRange();</script>
-			</binding>
-		</key>
-
-		<key n="69">
-			<name>E</name>
-			<desc>Decrease Radar Range</desc>
-			<binding>
-				<command>nasal</command>
-				<script>radar_system.apg68Radar.decreaseRange();</script>
+				<script>hud.activate_borsight()</script>
 			</binding>
 		</key>
 
 		<key n="119">
 			<name>w</name>
-			<desc>Cycle Stick Weapon Mode Selector</desc>
+			<desc>Cycle stick weapon mode selector</desc>
 			<binding>
 				<command>nasal</command>
 				<script>
@@ -219,7 +239,7 @@
 
 		<key n="87">
 			<name>W</name>
-			<desc>Designate Sniped Target as Target</desc>
+			<desc>Designate sniped target as target</desc>
 			<binding>
 				<command>nasal</command>
 				<script>
@@ -244,18 +264,53 @@
 			</binding>
 		</key>
 
-		<key n="125">
-			<name>}</name>
-			<desc>Engine Autostart</desc>
+		<key n="109">
+			<name>m</name>
+			<desc>Toggle master arm switch</desc>
+			<binding>
+				<command>property-toggle</command>
+				<property>controls/armament/master-arm</property>
+			</binding>
 			<binding>
 				<command>nasal</command>
-				<script>mirage2000.autostart();</script>
+				<script>
+					screen.log.write("Master-arm "~(getprop("controls/armament/master-arm")==0?"OFF":"ON"), 0.5, 0.5, 1);
+					mirage2000.call_flightmode("m");
+				</script>
 			</binding>
+		</key>
+
+		<key n="77">
+			<name>M</name>
+			<desc>Toggle target designation mode (Radar, Laser, GPS)</desc>
+			<binding>
+				<command>nasal</command>
+				<script>
+					groundTargeting.toggleTargetDesignationMode();
+				</script>
+			</binding>
+		</key>
+
+		<key n="101">
+			<name>e</name>
+			<desc>Trigger for guns/missiles</desc>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/armament/trigger</property>
+				<value>1</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/armament/trigger</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
 		</key>
 
 		<key n="113">
 			<name>q</name>
-			<desc>Flare out</desc>
+			<desc>Flares out</desc>
 			<binding>
 				<command>property-toggle</command>
 				<property>controls/switches/flares</property>
@@ -265,7 +320,7 @@
 		<!-- Landing light switch -->
 		<key n="76">
 			<name>L</name>
-			<desc>Landing light</desc>
+			<desc>Toggle landing lights</desc>
 			<binding>
 				<command>property-toggle</command>
 				<property>/controls/lighting/landing-lights</property>
@@ -289,90 +344,6 @@
 					}
 				</script>
 			</binding>
-		</key>
-
-		<!--This should be used to compute ECM-->
-		<key n="81">
-			<name>Q</name>
-			<desc>Cycle radar root modes</desc>
-			<binding>
-				<command>nasal</command>
-				<script>radar_system.apg68Radar.cycleRootMode();</script>
-			</binding>
-		</key>
-
-		<key n="17">
-			<name>Ctrl-q</name>
-			<desc>Cycle radar mode within root mode</desc>
-			<binding>
-				<command>nasal</command>
-				<script>radar_system.apg68Radar.cycleMode();</script>
-			</binding>
-		</key>
-
-		<key n="109">
-			<name>m</name>
-			<desc>Masterarm</desc>
-			<binding>
-				<command>property-toggle</command>
-				<property>controls/armament/master-arm</property>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>
-					screen.log.write("Master-arm "~(getprop("controls/armament/master-arm")==0?"OFF":"ON"), 0.5, 0.5, 1);
-					mirage2000.call_flightmode("m");
-				</script>
-			</binding>
-		</key>
-
-		<key n="77">
-			<name>M</name>
-			<desc>Toggle Target Designation Mode (Radar, Laser, GPS)</desc>
-			<binding>
-				<command>nasal</command>
-				<script>
-					groundTargeting.toggleTargetDesignationMode();
-				</script>
-			</binding>
-		</key>
-
-		<key n="2">
-			<name>Ctrl-B</name>
-			<desc>Apply AirBrake</desc>
-			<binding>
-				<command>property-assign</command>
-				<property>/controls/flight/speedbrake</property>
-				<value>1</value>
-			</binding>
-			<mod-up>
-				<binding>
-					<command>property-assign</command>
-					<property>/controls/flight/speedbrake</property>
-					<value>0</value>
-				</binding>
-			</mod-up>
-		</key>
-
-		<!-- This allow us to use a little tricks for gui load -->
-		<key n="66">
-			<name>B</name>
-			<desc>Toggle parking brake on or off</desc>
-			<binding>
-				<command>nasal</command>
-				<script>
-					controls.applyParkingBrake(1);
-					instrumentation.enableGuiLoad();
-				</script>
-			</binding>
-			<mod-up>
-				<binding>
-					<command>nasal</command>
-					<script>
-					controls.applyParkingBrake(0);
-					</script>
-				</binding>
-			</mod-up>
 		</key>
 
 		<!-- This allow us to use a little tricks to send back slats in initial position -->
@@ -548,6 +519,15 @@
 				<command>property-assign</command>
 				<property>/instrumentation/gci/cutoff</property>
 				<value>1</value>
+			</binding>
+		</key>
+
+		<key n="74">
+			<name>J</name>
+			<desc>Jettison fuel tanks</desc>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.fcs.jettisonFuel()</script>
 			</binding>
 		</key>
 

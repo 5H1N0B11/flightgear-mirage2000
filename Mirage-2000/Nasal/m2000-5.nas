@@ -280,8 +280,6 @@ controls.deployChute = func(v) {
 }
 
 var chuteAngle = func {
-	#screen.log.write("TEst", 1.0, 0.5, 0.0);
-	
 	var chute_open = getprop('controls/flight/chute_open');
 	if(chute_open != '1') {
 		setprop("fdm/jsbsim/external_reactions/chute/magnitude", 0);
@@ -318,23 +316,17 @@ var chuteAngle = func {
 	# Chute Roll - no twisting for now
 	var chuteroll = aircraftroll;
 	setprop("orientation/chute_roll", chuteroll * rand() * -1);
-	 	
+
 	var pressure = getprop("fdm/jsbsim/aero/qbar-psf"); # dynamic pressure
         var chuteArea = 200; # squarefeet of chute canopy
         var dragCoeff = 0.50;
         var force     = pressure * chuteArea * dragCoeff;
         setprop("fdm/jsbsim/external_reactions/chute/magnitude", force);
-        # setprop("f16/chute/force", 0, force * 0.000154);
-        
-	
-	
-
-	#return registerTimerControlsNil(chuteAngle);  # Keep watching
 }
 
 var chuteRepack = func {
-	setprop('controls/flight/chute_open',		 0);
-	setprop('controls/flight/chute_deployed',   0);
+	setprop('controls/flight/chute_open', 0);
+	setprop('controls/flight/chute_deployed', 0);
 	setprop('controls/flight/chute_jettisoned', 0);
 }
 

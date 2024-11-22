@@ -5,6 +5,11 @@
 	<title>Mirage 2000</title>
 
 	<key>
+		<name>}</name>
+		<desc>Engine Autostart</desc>
+	</key>
+
+	<key>
 		<name>d</name>
 		<desc>Open/Close pilot canopy</desc>
 	</key>
@@ -15,24 +20,58 @@
 	</key>
 
 	<key>
-		<name>}</name>
-		<desc>Engine Autostart</desc>
+		<name>b</name> <!-- not in m2000-5-keyboard.xml -->
+		<desc>On ground : brakes. In flight : airbrakes (while holding)</desc>
 	</key>
 
+	<key>
+		<name>B</name>
+		<desc>Toggle parking brake on or off</desc>
+	</key>
+
+	<key n="106">
+		<name>j</name>
+		<desc>Retract airbrakes</desc>
+	</key>
+
+	<key n="107">
+		<name>k</name>
+		<desc>Extend airbrakes</desc>
+	</key>
 
 	<key>
-		<name>b</name>
-		<desc>On ground : brakes. On fly : Airbrakes</desc>
+		<name>o</name>
+		<desc>Only on ground: Deploy or release the brake parachute</desc>
+	</key>
+
+	<key>
+		<name>ctrl-e</name>
+		<desc>3 times in a second: Pilot ejection</desc>
+	</key>
+
+	<key>
+		<name>Y</name>
+		<desc>Radar antenna level</desc>
+	</key>
+
+	<key>
+		<name>i</name>
+		<desc>Radar antenna up</desc>
+	</key>
+
+	<key>
+		<name>I</name>
+		<desc>Radar antenna down</desc>
 	</key>
 
 	<key>
 		<name>R</name>
-		<desc>Increase Radar Distances (10, 20, 40, 60, 160)</desc>
+		<desc>Increase radar range</desc>
 	</key>
 
 	<key>
 		<name>E</name>
-		<desc>Decrease Radar Distances (10, 20, 40, 60, 160)</desc>
+		<desc>Decrease radar range</desc>
 	</key>
 
 	<key>
@@ -57,17 +96,22 @@
 
 	<key>
 		<name>w</name>
-		<desc>Cycle Stick Weapon Mode Selector</desc>
+		<desc>Cycle stick weapon mode selector</desc>
+	</key>
+
+	<key>
+		<name>W</name>
+		<desc>Designate sniped target as target</desc>
 	</key>
 
 	<key>
 		<name>ctrl-w</name>
-		<desc>Cycle Drop Mode CCRP/CCIP</desc>
+		<desc>Cycle drop mode CCRP/CCIP</desc>
 	</key>
 
 	<key>
 		<name>m</name>
-		<desc>Master Arm switch</desc>
+		<desc>Toggle master arm switch</desc>
 	</key>
 
 	<key>
@@ -81,38 +125,33 @@
 	</key>
 
 	<key>
-		<name>arrows</name>
-		<desc>Move cursor on VTM</desc>
-	</key>
-
-	<key>
-		<name>l</name>
-		<desc>Cursor designate</desc>
-	</key>
-
-	<key>
-		<name>ctrl-e</name>
-		<desc>3 times in a second: Ejection</desc>
-	</key>
-
-	<key>
-		<name>J</name>
-		<desc>Release 2,3,4 (Jettison Tank)</desc>
-	</key>
-
-	<key>
 		<name>q</name>
-		<desc>Flare out</desc>
+		<desc>Flares out</desc>
 	</key>
 
 	<key>
-		<name>o</name>
-		<desc>Only on ground : Deploy or release the brake parachute</desc>
+		<name>L</name>
+		<desc>Toggle landing lights</desc>
 	</key>
 
 	<key>
 		<name>F6</name>
 		<desc>Enable automatic tracking by FLIR camera</desc>
+	</key>
+
+	<key>
+		<name>J</name>
+		<desc>Jettison fuel tanks</desc>
+	</key>
+
+	<key>
+		<name>Arrow keys</name>
+		<desc>Move cursor on VTM (radar)</desc>
+	</key>
+
+	<key>
+		<name>l</name>
+		<desc>Cursor designate</desc>
 	</key>
 
 	<text>The manual can be found at: https://github.com/5H1N0B11/flightgear-mirage2000/wiki</text>
