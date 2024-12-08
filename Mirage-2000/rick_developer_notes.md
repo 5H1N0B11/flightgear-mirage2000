@@ -1,8 +1,5 @@
 
 <!-- ========================================================================================= -->
-# Cursor #
-
-
 
 ## Notes ##
 * Based on the JA37. The readme.ja37.txt has a good explanation for the pilot.
@@ -117,7 +114,6 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
 <!-- ========================================================================================= -->
 # Tidy up #
 * Add Rick to contributers
-* Ask to get m2000 promoted to maintained again in OPRF fleet Discord
 * remove gui/dialogs/options.xml:
   * move the performance thing to another place, rest goes away
   * /controls/assistance and assistance.nas go away
@@ -132,7 +128,7 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
   * Move MFD/*nas into displays folder
 * Use the display power on/off logic in JA37 displays/common.nas
 * Exocet and Mica-EM deviate visually from what really happens (hits vs. miss)
-* Why is there the follwoing instead of fall time from weapon props? TimeToTarget   :"/sim/dialog/groundTargeting/time-to-target",
+* Why is there the following instead of fall time from weapon props? TimeToTarget   :"/sim/dialog/groundTargeting/time-to-target",
 * In HUD.nas check use of input.IsRadarWorking.getValue()>24 and similar
 
 <!-- ========================================================================================= -->

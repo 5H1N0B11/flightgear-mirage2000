@@ -583,7 +583,7 @@ var VTM = {
 		me.radar_modes_group.hide();
 	},
 
-	_updateTargets: func(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_root_name) {
+	_updateTargets: func(max_azimuth_rad, max_distance_m, radar_mode_root_name) {
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 		var i = 0;
 		var has_priority = FALSE;
@@ -605,8 +605,8 @@ var VTM = {
 		# walk through all existing targets as per available list
 		foreach(var contact; target_contacts_list) {
 			info = contact.getLastBlep();
-			relative_heading_rad = geo.normdeg(contact.getHeading() - heading_true) * D2R;
-			if (is_ppi == TRUE) {
+			relative_heading_rad = geo.normdeg(contact.getHeading() - me.heading_true) * D2R;
+			if (me.is_ppi == TRUE) {
 				screen_pos = _calcScreenPositionPPIScopeToXY(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R);
 			} else {
 				screen_pos = _calcScreenPositionBScopeToXY(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R, max_azimuth_rad);
@@ -663,10 +663,10 @@ var VTM = {
 			var ac_pos = geo.aircraft_position();
 			var direct_dist = ac_pos.direct_distance_to(groundTargeting.mySnipedTarget.coord);
 			var bearing_abs = ac_pos.course_to(groundTargeting.mySnipedTarget.coord);
-			if (is_ppi == TRUE) {
-				screen_pos = _calcScreenPositionPPIScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - heading_true)*D2R);
+			if (me.is_ppi == TRUE) {
+				screen_pos = _calcScreenPositionPPIScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - me.heading_true)*D2R);
 			} else {
-				screen_pos = _calcScreenPositionBScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - heading_true)*D2R, max_azimuth_rad);
+				screen_pos = _calcScreenPositionBScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - me.heading_true)*D2R, max_azimuth_rad);
 			}
 			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
 				has_sniped_target = TRUE;
@@ -712,7 +712,7 @@ var VTM = {
 	},
 
 	# Originally copied from JA37
-	_updateCursor: func(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_name) {
+	_updateCursor: func(max_azimuth_rad, max_distance_m, radar_mode_name) {
 		if (displays.common.cursor != displays.VTM) {
 			me.alidade_group.hide();
 			return;
@@ -762,14 +762,14 @@ var VTM = {
 		}
 
 		var screen_pos = nil;
-		if (is_ppi == TRUE) {
+		if (me.is_ppi == TRUE) {
 			screen_pos = _calcScreenPositionPPIScopeFromXY(me.cursor_pos[0], me.cursor_pos[1], max_distance_m);
 		} else {
 			screen_pos = _calcScreenPositionBScopeFromXY(me.cursor_pos[0], me.cursor_pos[1], max_distance_m, max_azimuth_rad);
 		}
 		me.cursor_distance.setText(sprintf("%d", math.round(screen_pos[1] * M2NM)));
 		me.cursor_dist_text.setText(sprintf("%d", math.round(screen_pos[1] * M2NM)));
-		me.cursor_hdg_text.setText(sprintf("%d", math.round(geo.normdeg(screen_pos[0] * R2D + heading_true))));
+		me.cursor_hdg_text.setText(sprintf("%d", math.round(geo.normdeg(screen_pos[0] * R2D + me.heading_displayed))));
 	},
 
 	_distCursorTrack: func(i) {
@@ -796,14 +796,14 @@ var VTM = {
 		}
 	},
 
-	_updateCompass: func(is_ppi, heading_true) {
+	_updateCompass: func() {
 		var scale_cover = radar_system.apg68Radar.getAzimuthRadius();
-		if (is_ppi == TRUE) {
+		if (me.is_ppi == TRUE) {
 			scale_cover = math.min(scale_cover, PPI_MAX_AZ_DEG);
 		}
 		var degs_to_pixels = RADAR_VIEW_WIDTH / (2 * scale_cover);
-		var start_deg_10s = int(heading_true/10);
-		var padding = (heading_true - start_deg_10s*10) * degs_to_pixels;
+		var start_deg_10s = int(me.heading_displayed/10);
+		var padding = (me.heading_displayed - start_deg_10s*10) * degs_to_pixels;
 		var current_degs = 0;
 		scale_cover = int(scale_cover/10);
 
@@ -840,7 +840,13 @@ var VTM = {
 	update: func() {
 		var global_visible = FALSE;
 		var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
-		var heading_true = props.globals.getNode("/orientation/heading-deg").getValue();
+		me.heading_true = props.globals.getNode("/orientation/heading-deg").getValue();
+		me.show_true_north = props.globals.getNode("/instrumentation/efis/mfd/true-north").getValue();
+		if (me.show_true_north) {
+			me.heading_displayed = me.heading_true;
+		} else {
+			me.heading_displayed = props.globals.getNode("/orientation/heading-magnetic-deg").getValue();;
+		}
 		var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
 		var max_distance_m = radar_system.apg68Radar.getRange() * NM2M;
 		var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;
@@ -853,10 +859,10 @@ var VTM = {
 		me.radar_modes_group.setVisible(global_visible);
 		me.compass_group.setVisible(global_visible);
 
-		var is_ppi = FALSE;
+		me.is_ppi = FALSE;
 		if (global_visible == TRUE) {
 			if (_is_ground_mode(radar_mode_root_name)) {
-				is_ppi = TRUE;
+				me.is_ppi = TRUE;
 				me.ppi_fov_grid_group.setVisible(TRUE);
 				me._updatePPICircle(max_azimuth_rad);
 				me.rectangular_fov_grid_group.setVisible(FALSE);
@@ -880,9 +886,9 @@ var VTM = {
 			me.standby_group.hide();
 			me.targets_group.show();
 			me.targets_speed_group.show();
-			me._updateTargets(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_root_name);
-			me._updateCursor(max_azimuth_rad, max_distance_m, heading_true, is_ppi, radar_mode_name); # needs to be after _updateTargets()
-			me._updateCompass(is_ppi, heading_true);
+			me._updateTargets(max_azimuth_rad, max_distance_m, radar_mode_root_name);
+			me._updateCursor(max_azimuth_rad, max_distance_m, radar_mode_name); # needs to be after _updateTargets()
+			me._updateCompass();
 			me._updateScreenMode();
 		}
 	},

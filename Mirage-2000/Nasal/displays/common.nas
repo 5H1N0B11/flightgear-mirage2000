@@ -13,6 +13,8 @@ var Common = {
 			cursor_dx:        "controls/displays/cursor-slew-x-delta",
 			cursor_dy:        "controls/displays/cursor-slew-y-delta",
 			cursor_clicked:   "controls/displays/cursor-click",
+			hdg:              "/orientation/heading-magnetic-deg",
+			hdgReal:          "/orientation/heading-deg",
 			hdgDisplay:       "/instrumentation/efis/mfd/true-north",
 		};
 
