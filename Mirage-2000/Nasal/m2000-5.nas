@@ -540,6 +540,17 @@ var flightmode = func () {
 	gui.dialog_update("flightmode");
 }
 
+var masterarm = func {
+	var now = getprop("controls/armament/master-arm-switch");
+	now += 1;
+	if (now > 1) {
+		now = 0;
+	}
+	setprop("controls/armament/master-arm-switch", now);
+	call_flightmode("m");
+	screen.log.write("Master-arm "~(getprop("controls/armament/master-arm-switch")==0?"OFF":(getprop("controls/armament/master-arm-switch")==1?"ON":"SIM")), 0.5, 0.5, 1);
+}
+
 var call_flightmode = func(calling){
 	#This function is made to auto switch flight mode when masterarm is switched or gear is switched
 	var app=0;
@@ -547,7 +558,7 @@ var call_flightmode = func(calling){
 	var nav=0;
 	var arm=0;
 	if(calling == "m") {
-		if(getprop("controls/armament/master-arm")==1){
+		if(getprop("controls/armament/master-arm-switch")==1){
 			arm = 1;
 		} else{
 			nav = 1;

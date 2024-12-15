@@ -157,7 +157,7 @@
 		<trigger type="bool">false</trigger>
 		<gunQuality type="bool">true</gunQuality>
 		<master-arm type="bool">false</master-arm>
-		<master-arm-switch type="bool">true</master-arm-switch> <!--done in the f16 for simulated combat should be set able in the mirage as well, but for now it's at true -->
+		<master-arm-switch type="bool">false</master-arm-switch>
 
 		<dual type="int">1</dual> <!-- Double release or 1 by 1    -->
 		<!-- ' 0=OFF, 1=GUN, 2=A/A, 3=A/G -->

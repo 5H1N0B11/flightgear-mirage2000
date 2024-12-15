@@ -268,14 +268,9 @@
 			<name>m</name>
 			<desc>Toggle master arm switch</desc>
 			<binding>
-				<command>property-toggle</command>
-				<property>controls/armament/master-arm</property>
-			</binding>
-			<binding>
 				<command>nasal</command>
 				<script>
-					screen.log.write("Master-arm "~(getprop("controls/armament/master-arm")==0?"OFF":"ON"), 0.5, 0.5, 1);
-					mirage2000.call_flightmode("m");
+					mirage2000.masterarm();
 				</script>
 			</binding>
 		</key>
