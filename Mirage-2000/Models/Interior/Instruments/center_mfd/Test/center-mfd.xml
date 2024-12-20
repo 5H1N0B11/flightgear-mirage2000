@@ -336,7 +336,7 @@
       </binding>
       <binding>
         <command>nasal</command>
-        <script>mirage2000.mdfselection();</script>
+        <script>mirage2000.mfdSelection();</script>
       </binding>
     </action>
   </animation>
@@ -357,7 +357,7 @@
       </binding>
       <binding>
         <command>nasal</command>
-        <script>mirage2000.mdfselection();</script>
+        <script>mirage2000.mfdSelection();</script>
       </binding>
     </action>
   </animation>

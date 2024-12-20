@@ -106,7 +106,22 @@
 
 	<key>
 		<name>ctrl-w</name>
-		<desc>Cycle drop mode CCRP/CCIP</desc>
+		<desc>Toggle drop mode CCRP/CCIP</desc>
+	</key>
+
+	<key>
+		<name>:</name>
+		<desc>Toggle Single / Pair Release Mode</desc>
+	</key>
+
+	<key>
+		<name>;</name>
+		<desc>Increase Ripple Number</desc>
+	</key>
+
+	<key>
+		<name>_</name>
+		<desc>Increase Ripple Distance</desc>
 	</key>
 
 	<key>

@@ -231,8 +231,7 @@
 			<binding>
 				<command>nasal</command>
 				<script>
-					pylons.fcs.cycleLoadedWeapon();
-					setprop("/controls/armament/name", pylons.fcs.getSelectedType());
+					mirage2000.cycleLoadedWeapon();
 				</script>
 			</binding>
 		</key>
@@ -250,16 +249,44 @@
 
 		<key n="23">
 			<name>ctrl-w</name>
-			<desc>Cycle Drop Mode CCRP/CCIP</desc>
+			<desc>Toggle Drop Mode CCRP/CCIP</desc>
 			<binding>
 				<command>nasal</command>
 				<script>
-					var mode = pylons.fcs.getDropMode();
-					if (mode == 0) {
-						pylons.fcs.setDropMode(1);
-					} else {
-						pylons.fcs.setDropMode(0);
-					}
+					mirage2000.toggleDropModeCCxP();
+				</script>
+			</binding>
+		</key>
+
+		<key n="58">
+			<name>:</name>
+			<desc>Toggle Single / Pair Release Mode</desc>
+			<binding>
+				<command>nasal</command>
+				<script>
+					mirage2000.toggleReleaseMode();
+				</script>
+			</binding>
+		</key>
+
+		<key n="59">
+			<name>;</name>
+			<desc>Increase Ripple Number</desc>
+			<binding>
+				<command>nasal</command>
+				<script>
+					mirage2000.increaseRippleNumber();
+				</script>
+			</binding>
+		</key>
+
+		<key n="95">
+			<name>_</name>
+			<desc>Increase Ripple Distance</desc>
+			<binding>
+				<command>nasal</command>
+				<script>
+					mirage2000.increaseRippleDistance();
 				</script>
 			</binding>
 		</key>

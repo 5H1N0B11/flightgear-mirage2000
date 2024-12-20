@@ -96,15 +96,15 @@ var _mainInitLoop = func() {
 
 	print("MFD ... Check");
 	mirage2000.setCentralMFD();
-	if(getprop("/instrumentation/efis/Mode")) {
-		mirage2000.mdfselection();
+	if (getprop("/instrumentation/efis/Mode")) {
+		mirage2000.mfdSelection();
 	}
 	print("Missile view ... Check");
 	viewMissile.init_missile_view();
 
 	environment.environment();
 	#Should be replaced by an object creation
-	#settimer(func(){mirage2000.createMap();},10);
+	#settimer(func() {mirage2000.createMap();},10);
 
 	MirageBingo = instrumentation.bingo.new();
 	MirageBingo.update();
@@ -147,9 +147,9 @@ var _updateFunction = func() {
 	#	 }
 
 	# Flight Director (autopilot)
-	if(getprop("/autopilot/locks/AP-status") == "AP1") {
+	if (getprop("/autopilot/locks/AP-status") == "AP1") {
 		call(mirage2000.update_fd,nil,nil,nil, myErr= []);
-		if(size(myErr)>0) {
+		if (size(myErr)>0) {
 			foreach(var i;myErr) {
 				print(i);
 			}
@@ -158,7 +158,7 @@ var _updateFunction = func() {
 	instrumentation.stallwarning();
 
 	################## Rate 0.1 ##################
-	if(AbsoluteTime - myFramerate.a > 0.05){
+	if (AbsoluteTime - myFramerate.a > 0.05) {
 		#call(hud_pilot.update,nil,nil,nil, myErr);
 		hud_pilot.update();
 		vtm.update();
@@ -171,15 +171,15 @@ var _updateFunction = func() {
 
 	################## rate 0.5 ###############################
 
-	if(AbsoluteTime - myFramerate.c > 0.5) {
+	if (AbsoluteTime - myFramerate.c > 0.5) {
 		#call(m2000_load.Encode_Load,nil,nil,nil, myErr);
 		call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
 		myFramerate.c = AbsoluteTime;
-		#if(getprop("autopilot/settings/tf-mode")){ <- need to find what is enabling it
+		#if (getprop("autopilot/settings/tf-mode")) { <- need to find what is enabling it
 		#8 second prevision do not need to be updated each fps
-		if(AP_Alt =="TF") {
+		if (AP_Alt =="TF") {
 			call(mirage2000.tfs_radar,nil,nil,nil, myErr= []);
-			if(size(myErr)) {
+			if (size(myErr)) {
 				foreach(var i;myErr) {
 					print(i);
 				}
@@ -191,18 +191,18 @@ var _updateFunction = func() {
 		#mirage2000.weather_effects_loop();
 		#environment.environment();
 		#call(environment.low_loop,nil,nil,nil, myErr);
-		#if(size(myErr)>0){
+		#if (size(myErr)>0) {
 		#	#debug.printerror(myErr);
 		#}
 	}
 
 
 	###################### rate 1 ###########################
-	if(AbsoluteTime - myFramerate.d > 1) {
+	if (AbsoluteTime - myFramerate.d > 1) {
 		#call(mirage2000.fuel_managment,nil,nil,nil, myErr);
-		if(getprop("/autopilot/locks/AP-status") != "AP1") {
+		if (getprop("/autopilot/locks/AP-status") != "AP1") {
 			call(mirage2000.update_fd,nil,nil,nil, myErr= []);
-			if(size(myErr)>0) {
+			if (size(myErr)>0) {
 				foreach(var i;myErr) {
 					print(i);
 				}
@@ -212,13 +212,13 @@ var _updateFunction = func() {
 	}
 
 	###################### rate 1.5 ###########################
-	if(AbsoluteTime - myFramerate.e > 1.5) {
+	if (AbsoluteTime - myFramerate.e > 1.5) {
 		call(environment.environment,nil,nil,nil, myErr);
-		if(size(myErr)>0) {
+		if (size(myErr)>0) {
 			#debug.printerror(myErr);
 		}
 		call(environment.max_cloud_layer,nil,nil,nil, myErr);
-		if(size(myErr)>0) {
+		if (size(myErr)>0) {
 		 #debug.printerror(myErr);
 		}
 
@@ -226,10 +226,10 @@ var _updateFunction = func() {
 	}
 
 	###################### rate 2 ###########################
-	if(AbsoluteTime - myFramerate.f > 2) {
-		if(AP_Alt =="TF"){
+	if (AbsoluteTime - myFramerate.f > 2) {
+		if (AP_Alt =="TF") {
 			call(mirage2000.long_view_avoiding,nil,nil,nil, myErr);
-			if(size(myErr)>0){
+			if (size(myErr)>0) {
 				foreach(var i;myErr) {
 					print(i);
 				}
@@ -247,7 +247,7 @@ var init_Transpondeur = func() {
 	var poweroften = [1, 10, 100, 1000];
 	var idcode = getprop('/instrumentation/transponder/id-code');
 
-	if(idcode != nil) {
+	if (idcode != nil) {
 		for(var i = 0 ; i < 4 ; i += 1) {
 			setprop("/instrumentation/transponder/inputs/digit[" ~ i ~ "]", int(math.mod(idcode / poweroften[i], 10)));
 		}
@@ -257,8 +257,8 @@ var init_Transpondeur = func() {
 controls.deployChute = func(v) {
 	doors.parachute.toggle();
 	# Deploy
-	if(v > 0) {
-		if(getprop("controls/flight/chute_deployed") != 1)
+	if (v > 0) {
+		if (getprop("controls/flight/chute_deployed") != 1)
 		{
 			setprop("controls/flight/chute_deployed", 1);
 			setprop("controls/flight/chute_open", 1);
@@ -269,9 +269,9 @@ controls.deployChute = func(v) {
 		chuteLoop.start();
 	}
 	# Jettison
-	if(v < 0) {
+	if (v < 0) {
 		var voltage = getprop("systems/electrical/outputs/chute_jett");
-		if(voltage > 20) {
+		if (voltage > 20) {
 			setprop("controls/flight/chute_jettisoned", 1);
 			setprop("controls/flight/chute_open", 0);
 			chuteLoop.stop();
@@ -281,7 +281,7 @@ controls.deployChute = func(v) {
 
 var chuteAngle = func {
 	var chute_open = getprop('controls/flight/chute_open');
-	if(chute_open != '1') {
+	if (chute_open != '1') {
 		setprop("fdm/jsbsim/external_reactions/chute/magnitude", 0);
 		chuteLoop.stop();
 		return();
@@ -292,7 +292,7 @@ var chuteAngle = func {
 	var chuteyaw = getprop("orientation/chute_yaw");
 	var aircraftroll = getprop('/orientation/roll-deg');
 
-	if(speed > 250) {
+	if (speed > 250) {
 		setprop("controls/flight/chute_jettisoned", 1); # Model Shear Pin
 		setprop("fdm/jsbsim/external_reactions/chute/magnitude", 0);
 		chuteLoop.stop();
@@ -304,10 +304,10 @@ var chuteAngle = func {
 
 	# Damped yaw from Vivian's A4 work
 	var n = 0.01;
-	if(aircraftyaw == nil) {
+	if (aircraftyaw == nil) {
 		aircraftyaw = 0;
 	}
-	if(chuteyaw == nil) {
+	if (chuteyaw == nil) {
 		chuteyaw = 0;
 	}
 	var chuteyaw = (aircraftyaw * n) + (chuteyaw * (1 - n));
@@ -338,34 +338,34 @@ var fuel_managment = func() {
 	Externaltank *= getprop("/consumables/fuel/tank[4]/empty");
 	# If only one external Tank is still not empty, then...
 	# systems/refuel/contact = false si pas refuel en cours
-	if(getprop("/systems/refuel/contact")) {
+	if (getprop("/systems/refuel/contact")) {
 		setprop("/consumables/fuel/tank[0]/selected", 1);
 		setprop("/consumables/fuel/tank[1]/selected", 1);
 
-		if(getprop("/consumables/fuel/tank[2]/capacity-m3") != 0) {
+		if (getprop("/consumables/fuel/tank[2]/capacity-m3") != 0) {
 			setprop("/consumables/fuel/tank[2]/selected", 1);
 		}
-		if(getprop("/consumables/fuel/tank[3]/capacity-m3") != 0) {
+		if (getprop("/consumables/fuel/tank[3]/capacity-m3") != 0) {
 			setprop("/consumables/fuel/tank[3]/selected", 1);
 		}
-		if(getprop("/consumables/fuel/tank[4]/capacity-m3") != 0) {
+		if (getprop("/consumables/fuel/tank[4]/capacity-m3") != 0) {
 			setprop("/consumables/fuel/tank[4]/selected", 1);
 		}
 	}
-	elsif(Externaltank) {
+	elsif (Externaltank) {
 		setprop("/consumables/fuel/tank[0]/selected", 1);
 		setprop("/consumables/fuel/tank[1]/selected", 1);
 	}
 	else {
 		setprop("/consumables/fuel/tank[0]/selected", 0);
 		setprop("/consumables/fuel/tank[1]/selected", 0);
-		if(getprop("/consumables/fuel/tank[2]/level-kg") > 0) {
+		if (getprop("/consumables/fuel/tank[2]/level-kg") > 0) {
 			setprop("/consumables/fuel/tank[2]/selected", 1);
 		}
-		if(getprop("/consumables/fuel/tank[3]/level-kg") > 0) {
+		if (getprop("/consumables/fuel/tank[3]/level-kg") > 0) {
 			setprop("/consumables/fuel/tank[3]/selected", 1);
 		}
-		if(getprop("/consumables/fuel/tank[4]/level-kg") > 0) {
+		if (getprop("/consumables/fuel/tank[4]/level-kg") > 0) {
 			setprop("/consumables/fuel/tank[4]/selected", 1);
 		}
 	}
@@ -395,7 +395,7 @@ var theShakeEffect = func() {
 	#sf = ((rSpeed / 500000 + G / 25000 + alpha / 20000 ) / 3) ;
 	# I want to find a way to improve vibration amplitude with sf, but to tired actually to make it.
 
-	if(shakeEffect2000.getBoolValue() and (((G > 9 or alpha > 25) and rSpeed > 30) or (mach > 0.99 and mach < 1.01) or (wow and rSpeed > 100) or gun)) {
+	if (shakeEffect2000.getBoolValue() and (((G > 9 or alpha > 25) and rSpeed > 30) or (mach > 0.99 and mach < 1.01) or (wow and rSpeed > 100) or gun)) {
 		setprop("controls/cabin/shaking", math.sin(48 * myTime) / 333.333);
 	}
 	else {
@@ -405,8 +405,8 @@ var theShakeEffect = func() {
 
 var setCentralMFD = func() {
 	setprop("/instrumentation/efis/Mode", 1);
-	if(getprop("/instrumentation/efis/Mode")) {
-		mirage2000.mdfselection();
+	if (getprop("/instrumentation/efis/Mode")) {
+		mirage2000.mfdSelection();
 	}
 }
 
@@ -415,13 +415,13 @@ dynamic_view.register(func {me.default_plane();});
 
 
 
-var test = func(){
-	if(! contains(globals, "m2000_mp")) {
+var test = func() {
+	if (! contains(globals, "m2000_mp")) {
 		var err = [];
 		var myTree = props.globals.getNode("/sim");
 		var raw_list = myTree.getChildren();
 		foreach(var c ; raw_list) {
-			if(c.getName() == "fg-aircraft") {
+			if (c.getName() == "fg-aircraft") {
 				myAircraftTree = "/sim/" ~ c.getName()~"["~c.getIndex()~"]";
 				print(myAircraftTree);
 				var err = [];
@@ -429,7 +429,7 @@ var test = func(){
 				print(file);
 				var code = call(func compile(io.readfile(file), file), nil, err);
 				print("Path 0. Error : " ~size(err));
-				if(size(err) == 0) {
+				if (size(err) == 0) {
 					call(func {io.load_nasal(file, "m2000_mp");},nil, err);
 					if (size(err)) {
 						print("Path 0a. Error : ");
@@ -447,8 +447,8 @@ var test = func(){
 }
 
 
-var mp_messaging = func(){
-	if(getprop("/payload/armament/msg")) {
+var mp_messaging = func() {
+	if (getprop("/payload/armament/msg")) {
 		#call(func{fgcommand('dialog-close', multiplayer.dialog.dialog.prop())},nil,var err= []);# props.Node.new({"dialog-name": "location-in-air"}));
 		call(func{multiplayer.dialog.del();},nil,var err= []);
 		if (!getprop("/gear/gear[0]/wow")) {
@@ -471,7 +471,7 @@ var mp_messaging = func(){
 }
 
 
-var ejection = func(){
+var ejection = func() {
 	print("Ejection");
 	if (getprop("instrumentation/ejection/done")==1) {
 		return;
@@ -479,7 +479,7 @@ var ejection = func(){
 	EjectionKey = EjectionKey +1;
 	print("EjectionKey:"~EjectionKey);
 
-	if(EjectionKey<3){
+	if (EjectionKey<3) {
 		settimer(mirage2000.init_EjectionKey, 2.0);
 		return;
 	}
@@ -500,15 +500,15 @@ var init_EjectionKey = func() {
 
 
 var flightmode = func () {
-	if(getprop("/sim/current-view/view-number-raw") == 0) {
-		if(getprop("/instrumentation/flightmode/app")){
+	if (getprop("/sim/current-view/view-number-raw") == 0) {
+		if (getprop("/instrumentation/flightmode/app")) {
 			setprop("/instrumentation/flightmode/selected","APP");
 			setprop("/sim/current-view/x-offset-m",0);
 			setprop("/sim/current-view/y-offset-m",0.1019);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",83);
 
-		} elsif(getprop("/instrumentation/flightmode/to")){
+		} elsif (getprop("/instrumentation/flightmode/to")) {
 			setprop("/instrumentation/flightmode/selected","DEC");
 			setprop("/sim/current-view/x-offset-m",0);
 			setprop("/sim/current-view/y-offset-m",0.1019);
@@ -516,14 +516,14 @@ var flightmode = func () {
 			setprop("/sim/current-view/field-of-view",83);
 
 
-		} elsif(getprop("/instrumentation/flightmode/nav")){
+		} elsif (getprop("/instrumentation/flightmode/nav")) {
 			setprop("/instrumentation/flightmode/selected","NAV");
 			setprop("/sim/current-view/x-offset-m",0);
 			setprop("/sim/current-view/y-offset-m",0.025);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",83);
 
-		} elsif(getprop("/instrumentation/flightmode/arm")){
+		} elsif (getprop("/instrumentation/flightmode/arm")) {
 			setprop("/instrumentation/flightmode/selected","ARM");
 			setprop("/sim/current-view/x-offset-m",0);
 			setprop("/sim/current-view/y-offset-m",0.099);
@@ -551,21 +551,71 @@ var masterarm = func {
 	screen.log.write("Master-arm "~(getprop("controls/armament/master-arm-switch")==0?"OFF":(getprop("controls/armament/master-arm-switch")==1?"ON":"SIM")), 0.5, 0.5, 1);
 }
 
-var call_flightmode = func(calling){
+var toggleDropModeCCxP = func {
+	var mode = pylons.fcs.getDropMode();
+	if (mode == 0) {
+		pylons.fcs.setDropMode(1);
+		screen.log.write("Drop Mode set to CCIP");
+	} else {
+		pylons.fcs.setDropMode(0);
+		screen.log.write("Drop Mode set to CCRP");
+	}
+}
+
+var toggleReleaseMode = func {
+	if (getprop("controls/armament/dual") == 1) {
+		setprop("controls/armament/dual",2);
+		screen.log.write("Set to PAIR release mode");
+	} else {
+		setprop("controls/armament/dual",1);
+		screen.log.write("Set to SINGLE release mode");
+	}
+}
+
+var increaseRippleNumber = func {
+	var rp = pylons.fcs.getRippleMode();
+	if (rp < 8) {
+		rp += 1;
+	} elsif (rp == 8) {
+		rp = 1;
+	}
+	pylons.fcs.setRippleMode(rp);
+	screen.log.write("The number of ripples is: "~rp);
+}
+
+var increaseRippleDistance = func {
+	var rpd = pylons.fcs.getRippleDist();
+	if (math.mod(rpd, 5) != 0) { # in the beginning it can be to an odd value based on feet
+		rpd = 5;
+	} elsif (rpd < 100) {
+		rpd += 5;
+	} else {
+		rpd = 5;
+	}
+	pylons.fcs.setRippleDist(rpd);
+	screen.log.write("The ripple distance (m) is: "~rpd);
+}
+
+var cycleLoadedWeapon = func {
+	pylons.fcs.cycleLoadedWeapon();
+	setprop("/controls/armament/name", pylons.fcs.getSelectedType());
+}
+
+var call_flightmode = func(calling) {
 	#This function is made to auto switch flight mode when masterarm is switched or gear is switched
 	var app=0;
 	var to=0;
 	var nav=0;
 	var arm=0;
-	if(calling == "m") {
-		if(getprop("controls/armament/master-arm-switch")==1){
+	if (calling == "m") {
+		if (getprop("controls/armament/master-arm-switch")==1) {
 			arm = 1;
 		} else{
 			nav = 1;
 		}
-	} elsif(calling == "g") {
+	} elsif (calling == "g") {
 	nav = 1;
-	} elsif(calling == "G") {
+	} elsif (calling == "G") {
 		to = 1;
 	}
 	setprop("/instrumentation/flightmode/app",app);
@@ -590,13 +640,13 @@ var quickstart = func() {
 }
 
 var autostart = func{
-	if(getprop("sim/time/elapsed-sec") < 10) {
+	if (getprop("sim/time/elapsed-sec") < 10) {
 		return;
 	}
 	long_starting();
 	return; # this is a dirty and lazy way of doing it
 
-	if(!getprop("/controls/engines/engine[0]/cutoff")) {
+	if (!getprop("/controls/engines/engine[0]/cutoff")) {
 		me.autostart_status = 0;
 		# Cut Off
 		setprop("/controls/switches/hide-cutoff", 1);
@@ -635,7 +685,7 @@ var long_starting = func() {
 	call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "config"}))},nil,var err2 = []);
 
 	#Placing the view on take off view
-	if(getprop("/sim/current-view/view-number-raw") == 0) {
+	if (getprop("/sim/current-view/view-number-raw") == 0) {
 		setprop("/sim/current-view/x-offset-m",0);
 		setprop("/sim/current-view/y-offset-m",0.1019);
 		setprop("/sim/current-view/z-offset-m",-2.9);
@@ -662,7 +712,7 @@ var long_starting = func() {
 
 	#Zooming on starting panel
 	settimer(func {
-		if(getprop("/sim/current-view/view-number-raw") == 0) {
+		if (getprop("/sim/current-view/view-number-raw") == 0) {
 			setprop("/sim/current-view/pitch-offset-deg",-62);
 			setprop("/sim/current-view/heading-offset-deg",312);
 			setprop("/sim/current-view/field-of-view",21.6);
@@ -708,7 +758,7 @@ var long_starting = func() {
 
 	#zooming on fuel, electrics and alerts
 	settimer(func {
-		if(getprop("/sim/current-view/view-number-raw") == 0) {
+		if (getprop("/sim/current-view/view-number-raw") == 0) {
 			setprop("/sim/current-view/pitch-offset-deg",-38);
 			setprop("/sim/current-view/heading-offset-deg",338);
 			setprop("/sim/current-view/field-of-view",36);
@@ -722,7 +772,7 @@ var long_starting = func() {
 
 	#puting back the view on take off view
 	settimer(func {
-		if(getprop("/sim/current-view/view-number-raw") == 0) {
+		if (getprop("/sim/current-view/view-number-raw") == 0) {
 			setprop("/sim/current-view/pitch-offset-deg",-14);
 			setprop("/sim/current-view/heading-offset-deg",0);
 			setprop("/sim/current-view/field-of-view",83);
@@ -743,8 +793,8 @@ setprop("/sim/multiplay/visibility-range-nm", 200);
 #  #This is the starup listener. It will put a value into n1 and n2 in order start jsbsim engine without playing with cutoff
 #var starterlistener = setlistener("/controls/engines/engine/starter", func() {
 # var starterlistener = setlistener("/fdm/jsbsim/propulsion/starter_cmd", func() {
-var mystarter = func(){
-	if(getprop("/fdm/jsbsim/propulsion/engine/n1")<0.5 and  getprop("/fdm/jsbsim/propulsion/engine/n2")<0.5
+var mystarter = func() {
+	if (getprop("/fdm/jsbsim/propulsion/engine/n1")<0.5 and  getprop("/fdm/jsbsim/propulsion/engine/n2")<0.5
 	   and getprop("/controls/switches/pump-BP") and getprop("/controls/switches/vent-allumage")) {
 		setprop("/fdm/jsbsim/propulsion/engine/n1",1);
 		setprop("/fdm/jsbsim/propulsion/engine/n2",25);

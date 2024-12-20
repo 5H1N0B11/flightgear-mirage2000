@@ -77,7 +77,7 @@ var showNd = func(pilot='cpt') {
 	dlg.setCanvas( nd_display[pilot] );
 }
 
-var mdfselection = func() {
+var mfdSelection = func() {
 	if(getprop("/instrumentation/efis/Mode") and IsIntialised != 1) {
 		mirage2000.CANVAS_init();
 	} else {
