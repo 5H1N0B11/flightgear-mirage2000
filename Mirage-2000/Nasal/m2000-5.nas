@@ -35,7 +35,8 @@ var vtm = vtm.VTM.new();
 var prop = "payload/armament/fire-control";
 var actuator_fc = compat_failure_modes.set_unserviceable(prop);
 FailureMgr.add_failure_mode(prop, "Fire control", actuator_fc);
-var MirageBingo = nil;
+
+var bingo_calculator = nil;
 
 
 ############################################################
@@ -106,8 +107,8 @@ var _mainInitLoop = func() {
 	#Should be replaced by an object creation
 	#settimer(func() {mirage2000.createMap();},10);
 
-	MirageBingo = instrumentation.bingo.new();
-	MirageBingo.update();
+	bingo_calculator = instrumentation.BingoCalculator.new();
+	bingo_calculator.update();
 
 	rtExec_loop(); # to make the ememsary FrameNotification work
 
@@ -155,7 +156,6 @@ var _updateFunction = func() {
 			}
 		}
 	}
-	instrumentation.stallwarning();
 
 	################## Rate 0.1 ##################
 	if (AbsoluteTime - myFramerate.a > 0.05) {
@@ -166,6 +166,7 @@ var _updateFunction = func() {
 		mirage2000.mfd_update_main();
 		myFramerate.a = AbsoluteTime;
 		mirage2000.Intake_pelles();
+		instrumentation.checkStallWarning();
 	}
 
 
@@ -186,7 +187,7 @@ var _updateFunction = func() {
 			}
 		}
 		mp_messaging();
-		MirageBingo.update();
+		bingo_calculator.update(); # needs high frequency due to blinking
 
 		#mirage2000.weather_effects_loop();
 		#environment.environment();
@@ -235,6 +236,8 @@ var _updateFunction = func() {
 				}
 			}
 		}
+		instrumentation.checkConfigurationCategory();
+
 		myFramerate.f = AbsoluteTime;
 	}
 

@@ -29,7 +29,7 @@ var enableGuiLoad = func()
         {
             foreach(var name ; item.getChildren("name"))
             {
-                if(vecindex(searchname, name.getValue()) != nil)
+                if (vecindex(searchname, name.getValue()) != nil)
                 {
                     # state = item.getNode("enabled").getBoolValue();
                     item.getNode("enabled").setBoolValue(state);
@@ -42,140 +42,41 @@ var enableGuiLoad = func()
 setlistener("/gear/gear/WOW", enableGuiLoad);
 setlistener("/payload/armament/msg", enableGuiLoad);
 
-var bingo = {
-    new : func
-    {
-      var me  = { parents : [bingo]};
-      me.input = {
-        blinking_bingo_low:           "/instrumentation/consumables/bingo_low",  #--"Blinking variable"
-        bingo:                        "/instrumentation/consumables/bingo_fuel",
-        remaining_Distance_in_Route:   "/autopilot/route-manager/distance-remaining-nm",
-        remaining_fuel:               "/consumables/fuel/total-fuel-kg",
-      };
-      foreach(var name; keys(me.input))
-        me.input[name] = props.globals.getNode(me.input[name], 1);
-      #We put that for now.
-      me.input.bingo.setValue(480);
-      return me;
-    },
-    make_it_blink : func{
-      me.input.blinking_bingo_low.setValue(!me.input.blinking_bingo_low.getValue());
-    },
-    auto_calculate_bingo : func(simple = 1){
-      # Consommations moyennes: 4kg / Nm en High Altitude. 7kg / Nm en BA (Low Alt) or Average Consumption 36 kg/min these consumption have to be checked
-      # first -> Calculation of the last airport (route manager)
-      # So this is trying to calculate the fuel for the remaining distance.
-      # distance  * Consumption inlow alt in kg + 15 mins * average fuel consuption/min * 36 kg of margins?
-      # We could have calculate in order to have 15 minutes of margin to the closest airport all along the route
-      if(simple){
-        if(me.input.remaining_Distance_in_Route.getValue() == nil){
-          me.input.bingo.setValue(0);
-        }else{
-          me.input.bingo.setValue(me.input.remaining_Distance_in_Route.getValue()* 7 + 15 *36);
-        }
-      }else{
-          # We could do here the complicated method
-          # For that : route should exist.
-          # All along the route, we should have enough fuel + 15 minutes to reach the nearest airport
-          # I don't know how to do that. maybe cutting the route in 5 or 10 nm coords point and check this for closest airport.
-          #this function will takes time
-      }
+var BingoCalculator = {
+	new : func {
+		var me  = {
+			parents : [BingoCalculator]
+		};
+		me.input = {
+			blinking_bingo_low:           "/instrumentation/consumables/bingo_low", # Blinking variable
+			bingo:                        "/instrumentation/consumables/bingo_fuel",
+			remaining_fuel:               "/consumables/fuel/total-fuel-kg",
+		};
+		foreach(var name; keys(me.input)) {
+			me.input[name] = props.globals.getNode(me.input[name], 1);
+		}
+		me.input.bingo.setValue(480); # default value
+		return me;
+	},
 
-    },
-    update : func {
-      # We do not need a high refresh rate. 4 refresh per scond should be enough
-      #print("me.input.remaining_fuel.getValue():"~ me.input.remaining_fuel.getValue());
-      #print("me.input.bingo.getValue():"~ me.input.bingo.getValue());
-      if(me.input.remaining_fuel.getValue()<me.input.bingo.getValue()){ #bingo fuel
-        #We could add a sound here : "bingo fuel" for the first time we are here
-        me.make_it_blink();
-      }else{
-        me.input.blinking_bingo_low.setValue(0);
-      }
-      #settimer(me.update,0.25);
+	_makeItBlink : func {
+		me.input.blinking_bingo_low.setValue(!me.input.blinking_bingo_low.getValue());
+	},
 
-    },
-
-
+	update : func { # called in loop in m2000-5.nas
+		if (me.input.remaining_fuel.getValue()<me.input.bingo.getValue()) { #bingo fuel
+			me._makeItBlink();
+		} else {
+			me.input.blinking_bingo_low.setValue(0);
+		}
+	},
 };
 
-
-
-
-
-# var bingo = func(moy)
-# {
-#     var lastWPtime = getprop("/instrumentation/gps/wp/wp[1]/TTW-sec");
-#     print("/autopilot/route-manager/ete : " ~ getprop("/autopilot/route-manager/ete") ~ " instrumentation/gps/wp/wp[1]/TTW-sec : " ~ getprop("/instrumentation/gps/wp/wp[1]/TTW-sec"));
-#
-#     Consommations moyennes: 4kg / Nm en HA. 7kg / Nm en BA (LA) or Average Consumption 36 kg/min
-#     first -> Calculation of the last airport (route manager)
-#     var remaining = getprop("/autopilot/route-manager/distance-remaining-nm");
-#
-#     That means at Low Alt :
-#     var bingo = remaining * 7;
-#
-#     Add 30 min to the process
-#     bingo = bingo + 36 * 30;
-#     setprop("/instrumentation/consumables/bingo_fuel", bingo);
-#     if(blinking == 0)
-#     {
-#         clignote();
-#     }
-#
-#     This is a simplified calculation of bingo fuel : We have to add a an
-#     alternate airport in the calculation, but here it seeems to be a bit
-#     complicated
-#     Bingo :
-#     Today Federal Aviation Regulations determine the amount of fuel an
-#     aircraft must carry. Using Instrument Flight Rules (IFR), an aircraft
-#     must carry enough fuel to:
-#     - Complete the flight to the landing destination.
-#     - Fly from that airport to an alternate airport.
-#     - Fly after that for 45 minutes at normal cruising speed for that aircraft.
-#     if(lastWPtime != nil and lastWPtime != "NaN")
-#     {
-#        lastWPtime = lastWPtime/60;
-#        var bingo = moy * (lastWPtime + 45);
-#        setprop("/instrumentation/consumables/bingo_fuel", bingo);
-#        if(blinking == 0)
-#        {
-#            clignote();
-#        }
-#     }
-# }
-
-# This is for bingo fuel blinking light
-# var clignote = func()
-# {
-#     # checking if bingo is reached :
-#     if(getprop("/consumables/fuel/total-fuel-kg") < getprop("/instrumentation/consumables/bingo_fuel"))
-#     {
-#         if(getprop("/instrumentation/consumables/bingo_low") == 1)
-#         {
-#             # if light on then light off
-#             setprop("/instrumentation/consumables/bingo_low", 0);
-#         }
-#         else
-#         {
-#             # if light off then light on
-#             setprop("/instrumentation/consumables/bingo_low", 1);
-#         }
-#         blinking = 1;
-#         settimer(clignote, 0.25);
-#     }
-#     else
-#     {
-#         # light off
-#         setprop("/instrumentation/consumables/bingo_low", 0);
-#         blinking = 0;
-#     }
-# }
 
 var gearBox = func() {
     # Gear green Light management
     var energy = getprop("/systems/electrical/outputs/instrument-lights");
-    if(getprop("/gear/gear[2]/position-norm") == 1 and energy)
+    if (getprop("/gear/gear[2]/position-norm") == 1 and energy)
     {
         setprop("/instrumentation/gearBox/rightgear", 1);
     }
@@ -184,7 +85,7 @@ var gearBox = func() {
         setprop("/instrumentation/gearBox/rightgear", 0);
     }
 
-    if(getprop("/gear/gear[1]/position-norm") == 1 and energy)
+    if (getprop("/gear/gear[1]/position-norm") == 1 and energy)
     {
         setprop("/instrumentation/gearBox/leftgear", 1);
     }
@@ -193,7 +94,7 @@ var gearBox = func() {
         setprop("/instrumentation/gearBox/leftgear", 0);
     }
 
-    if(getprop("/gear/gear[0]/position-norm") == 1 and energy)
+    if (getprop("/gear/gear[0]/position-norm") == 1 and energy)
     {
         setprop("/instrumentation/gearBox/nozegear", 1);
     }
@@ -203,7 +104,7 @@ var gearBox = func() {
     }
 
     # Gear Red Light
-    if(energy and getprop("/gear/gear[0]/position-norm") != 1 and getprop("/gear/gear[0]/position-norm") != 0)
+    if (energy and getprop("/gear/gear[0]/position-norm") != 1 and getprop("/gear/gear[0]/position-norm") != 0)
     {
         setprop("/instrumentation/gearBox/gearRed", 1);
     }
@@ -213,7 +114,7 @@ var gearBox = func() {
     }
 
     # AirBrakes
-    if(energy and getprop("/fdm/jsbsim/fcs/airbrake-norm-sum") != 0)
+    if (energy and getprop("/fdm/jsbsim/fcs/airbrake-norm-sum") != 0)
     {
         setprop("/instrumentation/gearBox/AirBrakes", 1);
     }
@@ -223,7 +124,7 @@ var gearBox = func() {
     }
 
     # Brakes
-    if(energy and getprop("/controls/gear/brake-left") != 0)
+    if (energy and getprop("/controls/gear/brake-left") != 0)
     {
         setprop("/instrumentation/gearBox/brakes", 1);
     }
@@ -234,7 +135,7 @@ var gearBox = func() {
 }
 
 var Tacan = func() {
-    if(getprop("instrumentation/tacan/frequencies/selected-channel[4]") == "X")
+    if (getprop("instrumentation/tacan/frequencies/selected-channel[4]") == "X")
     {
         setprop("instrumentation/tacan/frequencies/XPos", 1);
     }
@@ -245,20 +146,20 @@ var Tacan = func() {
 }
 
 
-var display_heading = func(){
+var display_heading = func() {
     var trackingNorth = getprop("instrumentation/efis/mfd/true-north");
     var magneticNorth = getprop("orientation/heading-magnetic-deg");
     var trueNorth = getprop("orientation/heading-deg");
     var bugbug = getprop("autopilot/internal/fdm-heading-bug-error-deg");
 
-    if(getprop("instrumentation/efis/mfd/true-north")){
+    if (getprop("instrumentation/efis/mfd/true-north")) {
       setprop("instrumentation/mfd/heading-displayed",trueNorth);
-      if(bugbug != nil){setprop("instrumentation/mfd/bug-heading-displayed",math.mod(bugbug + magneticNorth-trueNorth, 360));}
-    }else{
+      if (bugbug != nil) {setprop("instrumentation/mfd/bug-heading-displayed",math.mod(bugbug + magneticNorth-trueNorth, 360));}
+    } else {
       #To prevent bug detected by Chris
       magneticNorth = magneticNorth==nil?0:magneticNorth;
       setprop("instrumentation/mfd/heading-displayed",magneticNorth);
-      if(bugbug != nil){setprop("instrumentation/mfd/bug-heading-displayed",bugbug);}
+      if (bugbug != nil) {setprop("instrumentation/mfd/bug-heading-displayed",bugbug);}
     }
 
     settimer(display_heading, 0.2);
@@ -301,15 +202,15 @@ aircraft.light.new(props.globals.getNode("/sim/model/lights/landing"), [0], land
 
 var ap_blink = aircraft.light.new("/sim/model/lights/pa-blink", [0.4, 0.4], "/autopilot/locks/FD-status");
 
-var encodeLight = func(){
+var encodeLight = func() {
     var mycomp = strobe_switch.getValue() ~ strobe2_switch.getValue() ~ tailLight_switch.getValue() ~ position_switch.getValue() ~ formation_switch.getValue() ~ landing1_switch.getValue();
     var myIntBool = bits.value(mycomp);
     setprop("sim/multiplay/generic/int[8]", myIntBool);
 }
 #----------------------------------------------------------------------------------------------------------------#----------------------------------------------------------------------------------------------------------------#----------------------------------------------------------------------------------------------------------------
 #Was before in the file named : MiscRwr.nas
-var activate_ECM = func(){
-    if(getprop("instrumentation/ecm/on-off") != "true" )
+var activate_ECM = func() {
+    if (getprop("instrumentation/ecm/on-off") != "true" )
     {
         setprop("instrumentation/ecm/on-off", "true");
     }
@@ -319,21 +220,30 @@ var activate_ECM = func(){
     }
 }
 
-var stallwarning = func(){
-    # @TODO : Stall warning ! should be in instruments
-    var stallwarning = "0";
-    if(wow.getValue() == 0)
-    {
-        # STALL ALERT !
-        if(AngleOfAttack.getValue() >= 29 or AirSpeed.getValue() < 100)
-        {
-            stallwarning = "2";
-        }
-        # STALL WARNING
-        elsif(AngleOfAttack.getValue() >= 20 or AirSpeed.getValue() < 130)
-        {
-            stallwarning = "1";
-        }
-    }
-    setprop("/sim/alarms/stall-warning", stallwarning);
+var checkStallWarning = func() {
+	var stallwarning = "0";
+	if (wow.getValue() == 0) {
+		# STALL ALERT !
+		if (AngleOfAttack.getValue() >= 29 or AirSpeed.getValue() < 100) {
+			stallwarning = "2";
+		}
+		# STALL WARNING
+		elsif (AngleOfAttack.getValue() >= 20 or AirSpeed.getValue() < 130) {
+			stallwarning = "1";
+		}
+	}
+	setprop("/sim/alarms/stall-warning", stallwarning);
+}
+
+var checkConfigurationCategory = func() {
+	var mismatch = 0;
+	if (pylons.fcs != nil) {
+		var config = getprop("fdm/jsbsim/fbw/mode");
+		if (pylons.fcs.getCategory() > 1 and config == 0) {
+			mismatch = 1;
+		} elsif (pylons.fcs.getCategory() == 1 and config > 0) {
+			mismatch = 1;
+		}
+	}
+	setprop("instrumentation/failures-panel/conf-cat-mismatch", mismatch);
 }
