@@ -216,15 +216,6 @@
 			</binding>
 		</key>
 
-		<key n="72">
-			<name>H</name>
-			<desc>Active target seeking</desc>
-			<binding>
-				<command>nasal</command>
-				<script>hud.activate_borsight()</script>
-			</binding>
-		</key>
-
 		<key n="119">
 			<name>w</name>
 			<desc>Cycle stick weapon mode selector</desc>
