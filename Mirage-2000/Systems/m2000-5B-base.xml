@@ -42,15 +42,6 @@
 			</config>
 		</view>
 
-		<dialog>
-			<groundTargeting>
-				<target-latitude-deg type="double">0</target-latitude-deg>
-				<target-longitude-deg type="double">0</target-longitude-deg>
-				<target-alt-feet type="double">0</target-alt-feet>
-				<time-to-target>20</time-to-target>
-			</groundTargeting>
-		</dialog>
-
 		<model>
 			<path>Aircraft/Mirage-2000/Models/m2000-5B.xml</path>
 			<livery>
@@ -66,14 +57,6 @@
 				</crew>
 			</doors>
 		</model>
-		<dialog>
-			<groundTargeting>
-				<target-latitude-deg type="double">0</target-latitude-deg>
-				<target-longitude-deg type="double">0</target-longitude-deg>
-				<target-alt-feet type="double">0</target-alt-feet>
-				<time-to-target>20</time-to-target>
-			</groundTargeting>
-		</dialog>
 		<aircraft-data>
 			<!-- Here is if we want to save properties from one session to another -->
 			<path>/link16/wingman-1</path>

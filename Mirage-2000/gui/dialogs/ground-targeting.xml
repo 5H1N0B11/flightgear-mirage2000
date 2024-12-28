@@ -53,26 +53,55 @@
 		</binding>
 	</button>
 
-	<text><label>Sniped or Typed Coordinates</label></text>
-
-	<input>
-		<width>75</width>
-		<height>25</height>
-		<label>Lat</label>
-		<property>/sim/dialog/groundTargeting/target-latitude-deg</property>
-	</input>
+	<text><label>Sniped or Typed Primary Coordinates</label></text>
 
 	<input>
 		<width>75</width>
 		<height>25</height>
 		<label>Lon</label>
-		<property>/sim/dialog/groundTargeting/target-longitude-deg</property>
+		<property>/sim/dialog/groundTargeting/primary-longitude-deg</property>
+	</input>
+
+	<input>
+		<width>75</width>
+		<height>25</height>
+		<label>Lat</label>
+		<property>/sim/dialog/groundTargeting/primary-latitude-deg</property>
 	</input>
 
 	<hrule />
 
+	<text><label>Secondary Coordinates</label></text>
+
+	<input>
+		<width>75</width>
+		<height>25</height>
+		<label>Lon</label>
+		<property>/sim/dialog/groundTargeting/secondary-longitude-deg</property>
+	</input>
+
+	<input>
+		<width>75</width>
+		<height>25</height>
+		<label>Lat</label>
+		<property>/sim/dialog/groundTargeting/secondary-latitude-deg</property>
+	</input>
+
 	<button>
-		<legend>Create/Update Sniped Target for Chosen Coords</legend>
+		<legend>Swap coordinates</legend>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+		<binding>
+			<command>nasal</command>
+			<script>groundTargeting.swapCoordinates();</script>
+		</binding>
+	</button>
+
+	<hrule />
+
+	<button>
+		<legend>Create/Update Sniped Target from Primary Coords</legend>
 		<binding>
 			<command>dialog-apply</command>
 		</binding>

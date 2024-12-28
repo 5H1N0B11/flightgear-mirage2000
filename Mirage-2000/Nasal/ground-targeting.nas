@@ -39,13 +39,13 @@ var toggleTargetDesignationMode = func {
 var createSnipedTarget = func() {
 	var is_new = TRUE;
 	if (mySnipedTarget == nil){
+		screen.log.write("Creating sniped target can take time and temp. switch view ...");
 		mySnipedTarget = SnipedTarget.new();
 		mySnipedTarget.init();
-		gui.popupTip("Sniped target created");
 	} else {
+		screen.log.write("Updating sniped target can take time and temp. switch view ...");
 		mySnipedTarget.update();
 		is_new = FALSE;
-		gui.popupTip("Sniped target updated");
 	}
 
 	if (geo.elevation(mySnipedTarget.lat.getValue(), mySnipedTarget.long.getValue(),10000) == nil) {
@@ -59,6 +59,7 @@ var createSnipedTarget = func() {
 	if (is_new == TRUE) {
 		setprop("ai/models/model-added", mySnipedTarget.ai.getPath());
 	}
+	screen.log.write("... done");
 }
 
 var focusFLIROnSnipedTarget = func() {
@@ -69,31 +70,28 @@ var focusFLIROnSnipedTarget = func() {
 
 var designateSnipedTarget = func() {
 	if (mySnipedTarget != nil) {
-		print("There is mySnipedTarget");
 		var selectedWeapon = pylons.fcs.getSelectedWeapon();
 		if (selectedWeapon == nil) {
-			gui.popupTip("A laser og GPS guided weapon must be selected.");
+			screen.log.write("A laser og GPS guided weapon must be selected.");
 			return;
 		}
 		if (selectedWeapon.target_pnt == TRUE and (selectedWeapon.guidance == AIM_GUIDANCE_LASER or selectedWeapon.guidance == AIM_GUIDANCE_GPS)) {
-			print("so long");
 			var guidance = 0;
 			if (selectedWeapon.guidance == AIM_GUIDANCE_LASER) {
 				guidance = 1;
 				if (getprop("controls/armament/laser-arm-dmd") == 0) {
-					gui.popupTip("Laser must be on to designate a laser guided weapon.");
+					screen.log.write("Laser must be on to designate a laser guided weapon.");
 					return;
 				}
 			}
 			var spot = radar_system.ContactTGP.new("TGP-Spot", mySnipedTarget.coord, guidance);
 			armament.contactPoint = spot;
-			# selectedWeapon.setContacts([spot]);
 			armament.DEBUG_STATS = 1;
 			armament.DEBUG_SEARCH=1;
-			gui.popupTip("Sniped target is now the designated target.");
+			screen.log.write("Sniped target is now the designated target.");
 		}
 	} else {
-		gui.popupTip("A laser or GPS guided ground targeting weapon must be selected - no sniped target designated.");
+		screen.log.write("A laser or GPS guided ground targeting weapon must be selected - no sniped target designated.");
 	}
 }
 
@@ -153,8 +151,8 @@ var SnipedTarget = {
 		m.vertN = m.ai.getNode("velocities/vertical-speed-fps", 1);
 
 		#Data comming from the dialog box
-		m.dialog_lat = props.globals.getNode("/sim/dialog/groundTargeting/target-latitude-deg");
-		m.dialog_lon = props.globals.getNode("/sim/dialog/groundTargeting/target-longitude-deg");
+		m.dialog_lat = props.globals.getNode("/sim/dialog/groundTargeting/primary-latitude-deg");
+		m.dialog_lon = props.globals.getNode("/sim/dialog/groundTargeting/primary-longitude-deg");
 
 		m.coord.set_latlon(m.dialog_lat.getValue(),m.dialog_lon.getValue());
 		var tempAlt = geo.elevation(m.dialog_lat.getValue(), m.dialog_lon.getValue(),10000);
@@ -241,8 +239,6 @@ var SnipedTarget = {
 			me.coord.set_alt(tempGeo);
 		}
 
-		var test = geo.elevation(me.coord.lat(),me.coord.lon());
-
 		# update Position of the Object
 		var tempLat = me.coord.lat();
 		var tempLon = me.coord.lon();
@@ -250,8 +246,6 @@ var SnipedTarget = {
 		me.lat.setValue(tempLat);
 		me.long.setValue(tempLon);
 		me.alt.setValue(tempAlt*M2FT);
-
-		var test = geo.elevation(me.lat.getValue(), me.long.getValue(),10000);
 
 		# update Distance to aircaft
 		me.ac = geo.aircraft_position();
@@ -275,7 +269,7 @@ var SnipedTarget = {
 		me.vOffsetN.setDoubleValue(view.normdeg(elev - ac_pitch));
 
 		if (MyActualview.getValue() == 10) {
-			gui.popupTip(sprintf("Distance to target (nm): %.1f", me.radarRangeNM.getValue()));
+			screen.log.write(sprintf("Distance to target (nm): %.1f", me.radarRangeNM.getValue()));
 		}
 
 		settimer(func(){ me.update(); }, 0);
@@ -296,10 +290,11 @@ var sniping = func(){
 	var coord = geo.click_position();
 
 	if (coord != nil) {
-		setprop("/sim/dialog/groundTargeting/target-latitude-deg",coord.lat());
-		setprop("/sim/dialog/groundTargeting/target-longitude-deg",coord.lon());
-		gui.dialog_update("ground-targeting");
+		setprop("/sim/dialog/groundTargeting/primary-longitude-deg", coord.lon());
+		setprop("/sim/dialog/groundTargeting/primary-latitude-deg", coord.lat());
 	}
+	screen.log.write("Sniped");
+	gui.dialog_update("ground-targeting");
 }
 
 # In order to have the right terrain elevation, we have to load the tile.
@@ -329,6 +324,21 @@ var deleteSnipedTarget = func() {
 		mySnipedTarget.del();
 		armament.contactPoint = nil;
 		mySnipedTarget = nil;
-		gui.popupTip("Sniped target deleted");
+		screen.log.write("Sniped target deleted");
 	}
+}
+
+var swapCoordinates = func() {
+	deleteSnipedTarget();
+	var prev_secondary_lon = getprop("/sim/dialog/groundTargeting/secondary-longitude-deg");
+	var prev_secondary_lat = getprop("/sim/dialog/groundTargeting/secondary-latitude-deg");
+
+	setprop("/sim/dialog/groundTargeting/secondary-longitude-deg", getprop("/sim/dialog/groundTargeting/primary-longitude-deg"));
+	setprop("/sim/dialog/groundTargeting/secondary-latitude-deg", getprop("/sim/dialog/groundTargeting/primary-latitude-deg"));
+
+	setprop("/sim/dialog/groundTargeting/primary-longitude-deg", prev_secondary_lon);
+	setprop("/sim/dialog/groundTargeting/primary-latitude-deg", prev_secondary_lat);
+
+	screen.log.write('Coordinates swapped - create target and then designate again');
+	gui.dialog_update("ground-targeting");
 }

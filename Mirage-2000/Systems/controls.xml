@@ -158,6 +158,8 @@
 		<gunQuality type="bool">true</gunQuality>
 		<master-arm type="bool">false</master-arm>
 		<master-arm-switch type="bool">false</master-arm-switch>
+		<laser-arm-dmd type="bool">false</laser-arm-dmd>
+
 
 		<dual type="int">1</dual> <!-- Double release or 1 by 1    -->
 		<!-- ' 0=OFF, 1=GUN, 2=A/A, 3=A/G -->
