@@ -728,8 +728,8 @@ var VTM = {
 		var click = cursor_mov[2] and !me.cursor_trigger_prev;
 		me.cursor_trigger_prev = cursor_mov[2];
 
-		me.cursor_pos[0] += cursor_mov[0] * RADAR_VIEW_WIDTH * 0.1;
-		me.cursor_pos[1] += cursor_mov[1] * RADAR_VIEW_HEIGHT * 0.1;
+		me.cursor_pos[0] += cursor_mov[0] * RADAR_VIEW_WIDTH * 0.15;
+		me.cursor_pos[1] += cursor_mov[1] * RADAR_VIEW_HEIGHT * 0.15;
 		me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -RADAR_VIEW_WIDTH/2, RADAR_VIEW_WIDTH/2);
 		me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -RADAR_VIEW_HEIGHT/2, RADAR_VIEW_HEIGHT/2);
 

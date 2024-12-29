@@ -45,7 +45,7 @@
 	</key>
 
 	<key>
-		<name>ctrl-e</name>
+		<name>Ctrl-E</name>
 		<desc>3 times in a second: Pilot ejection</desc>
 	</key>
 
@@ -80,7 +80,7 @@
 	</key>
 
 	<key>
-		<name>ctrl-q</name>
+		<name>Ctrl-Q</name>
 		<desc>Cycle radar mode within root mode</desc>
 	</key>
 
@@ -90,7 +90,7 @@
 	</key>
 
 	<key>
-		<name>Ctrl-y</name>
+		<name>Ctrl-Y</name>
 		<desc>Target deselect</desc>
 	</key>
 
@@ -105,7 +105,7 @@
 	</key>
 
 	<key>
-		<name>ctrl-w</name>
+		<name>Ctrl-W</name>
 		<desc>Toggle drop mode CCRP/CCIP</desc>
 	</key>
 
@@ -167,6 +167,11 @@
 	<key>
 		<name>l</name>
 		<desc>Cursor designate</desc>
+	</key>
+
+	<key>
+		<name>Ctrl-L</name>
+		<desc>Fast snipe and designate clicked target for laser</desc>
 	</key>
 
 	<text>The manual can be found at: https://github.com/5H1N0B11/flightgear-mirage2000/wiki</text>

@@ -105,7 +105,7 @@
 		</key>
 
 		<key n="5">
-			<name>Ctrl-e</name>
+			<name>Ctrl-E</name>
 			<desc>Pilot ejection</desc>
 			<repeatable type="bool">false</repeatable>
 			<binding>
@@ -190,7 +190,7 @@
 		</key>
 
 		<key n="17">
-			<name>Ctrl-q</name>
+			<name>Ctrl-Q</name>
 			<desc>Cycle radar mode within root mode</desc>
 			<binding>
 				<command>nasal</command>
@@ -208,7 +208,7 @@
 		</key>
 
 		<key n="25">
-			<name>ctrl-y</name>
+			<name>Ctrl-Y</name>
 			<desc>Target deselect</desc>
 			<binding>
 				<command>nasal</command>
@@ -239,7 +239,7 @@
 		</key>
 
 		<key n="23">
-			<name>ctrl-w</name>
+			<name>Ctrl-W</name>
 			<desc>Toggle Drop Mode CCRP/CCIP</desc>
 			<binding>
 				<command>nasal</command>
@@ -420,7 +420,7 @@
 		</key>
 
 		<key n="24">
-			<name>Ctrl-x</name>
+			<name>Ctrl-X</name>
 			<desc>Reset zoom to default</desc>
 			<binding>
 				<command>nasal</command>
@@ -632,6 +632,15 @@
 					<value type="bool">false</value>
 				</binding>
 			</mod-up>
+		</key>
+
+		<key n="12">
+			<name>Ctrl-L</name>
+			<desc>Fast snipe and designate clicked target for laser</desc>
+			<binding>
+				<command>nasal</command>
+				<script>groundTargeting.fastSnipeAndDesignateLaserTarget();</script>
+			</binding>
 		</key>
 
 	</keyboard>

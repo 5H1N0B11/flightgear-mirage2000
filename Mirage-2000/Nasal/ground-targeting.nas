@@ -72,7 +72,7 @@ var designateSnipedTarget = func() {
 	if (mySnipedTarget != nil) {
 		var selectedWeapon = pylons.fcs.getSelectedWeapon();
 		if (selectedWeapon == nil) {
-			screen.log.write("A laser og GPS guided weapon must be selected.");
+			screen.log.write("Master arm must be on and a suitable weapon must be selected.");
 			return;
 		}
 		if (selectedWeapon.target_pnt == TRUE and (selectedWeapon.guidance == AIM_GUIDANCE_LASER or selectedWeapon.guidance == AIM_GUIDANCE_GPS)) {
@@ -89,10 +89,20 @@ var designateSnipedTarget = func() {
 			armament.DEBUG_STATS = 1;
 			armament.DEBUG_SEARCH=1;
 			screen.log.write("Sniped target is now the designated target.");
+		} else {
+			screen.log.write("A laser or GPS guided ground targeting weapon must be selected - no sniped target designated.");
 		}
 	} else {
-		screen.log.write("A laser or GPS guided ground targeting weapon must be selected - no sniped target designated.");
+		screen.log.write("A sniped target must exist");
 	}
+}
+
+var fastSnipeAndDesignateLaserTarget = func() {
+	var success = sniping();
+	if (success == TRUE) {
+		createSnipedTarget();
+		designateSnipedTarget();
+	} # else is not needed because method createSnipedTarget will work always - and last method tells result already
 }
 
 # This object creates an AI object at the spot of the last click
@@ -288,13 +298,18 @@ var SnipedTarget = {
 
 var sniping = func(){
 	var coord = geo.click_position();
+	var success = FALSE;
 
 	if (coord != nil) {
 		setprop("/sim/dialog/groundTargeting/primary-longitude-deg", coord.lon());
 		setprop("/sim/dialog/groundTargeting/primary-latitude-deg", coord.lat());
+		screen.log.write("Sniped");
+		gui.dialog_update("ground-targeting");
+		success = TRUE;
+	} else {
+		screen.log.write("Nothing was there to be sniped");
 	}
-	screen.log.write("Sniped");
-	gui.dialog_update("ground-targeting");
+	return success;
 }
 
 # In order to have the right terrain elevation, we have to load the tile.
