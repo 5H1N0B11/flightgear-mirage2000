@@ -1,7 +1,7 @@
 print("*** LOADING rwr.nas ... ***");
 
 
-var COLOR_BLUE = [0.2, 0.6, 1];
+var RWR_COLOR_BLUE = [0.2, 0.6, 1];
 var COLOR_WHITE = [1, 1, 1];
 var COLOR_YELLOW = [1, 1, 0.4]; # a bit to the white side - for text and symbols
 
@@ -15,124 +15,39 @@ var FONT_ASPECT_RATIO = 1;
 var FONT_MONO_REGULAR = "LiberationFonts/LiberationMono-Regular.ttf";
 var FONT_DIST = 24; # a relative value for the size of symbology around the threat text
 
+var SCREEN_WIDTH = 768;
+var SCREEN_HEIGHT = 576;
+
+var DISPENSER_BOX_WIDTH = 60;
+var DISPENSER_BOX_SEPARATION = 16;
+
+var COLOR_LL_BACKGROUND_LIT = [0.2, 0.6, 1]; # same as for RWR_COLOR_BLUE
+var COLOR_EM_BACKGROUND_LIT = [1, 0.6, 0.2]; #orange
+var COLOR_INDICATORS_UNLIT = [0, 0, 0]; # black
+
+var FONT_SIZE_INDICATORS = 32;
+var LINE_WIDTH_INDICATORS = 1;
+
 
 RWRCanvas = {
-	new: func (_ident, root, center, diameter) {
+	new: func (_ident, root) {
 		var rwr = {parents: [RWRCanvas]};
 		rwr.max_icons = 12;
-		var radius = 0.8 * diameter/2; # we want a bit of space around the circle
-		rwr.inner_radius = radius*0.30; # where to put the high threat symbols
-		rwr.outer_radius = radius*0.75; # where to put the lower threat symbols
-		rwr.circle_radius_middle = radius*0.5;
+		rwr.radius = 0.8 * SCREEN_HEIGHT/2; # we want a bit of space around the circle
+		rwr.inner_radius = rwr.radius*0.30; # where to put the high threat symbols
+		rwr.outer_radius = rwr.radius*0.75; # where to put the lower threat symbols
+		rwr.circle_radius_middle = rwr.radius*0.5;
 		rwr.fadeTime = 7; #seconds
-		rwr.rootCenter = root.createChild("group")
-		                     .setTranslation(center[0],center[1]); # in the middle of the screen
-
-		rwr.rootCenter.createChild("path") # cross in the middle
-		              .moveTo(-TICK_LENGTH_SHORT, 0)
-		              .lineTo(TICK_LENGTH_SHORT, 0)
-		              .moveTo(0, -TICK_LENGTH_SHORT)
-		              .lineTo(0, TICK_LENGTH_SHORT)
-		              .setStrokeLineWidth(LINE_WIDTH)
-		              .setColor(COLOR_WHITE);
-		rwr.rootCenter.createChild("path") # middle circle
-		              .moveTo(-rwr.circle_radius_middle, 0)
-		              .arcSmallCW(rwr.circle_radius_middle, rwr.circle_radius_middle, 0, rwr.circle_radius_middle*2, 0)
-		              .arcSmallCW(rwr.circle_radius_middle, rwr.circle_radius_middle, 0, -rwr.circle_radius_middle*2, 0)
-		              .setStrokeLineWidth(LINE_WIDTH)
-		              .setColor(COLOR_BLUE);
-		rwr.rootCenter.createChild("path") # outer circle
-		              .moveTo(-radius, 0)
-		              .arcSmallCW(radius, radius, 0, radius*2, 0)
-		              .arcSmallCW(radius, radius, 0, -radius*2, 0)
-		              .setStrokeLineWidth(LINE_WIDTH)
-		              .setColor(COLOR_WHITE);
-		rwr.rootCenter.createChild("path") # large ticks around the circle
-		              .moveTo(radius, 0)
-		              .horiz(TICK_LENGTH_LONG) # 90
-		              .moveTo(-radius, 0)
-		              .horiz(-TICK_LENGTH_LONG) # 270
-		              .moveTo(0, radius)
-		              .vert(TICK_LENGTH_LONG) # 180
-		              .moveTo(0, -radius)
-		              .vert(-TICK_LENGTH_LONG) # 0 / 360
-		              .setStrokeLineWidth(LINE_WIDTH * 2)
-		              .setColor(COLOR_WHITE);
-		var rad_30 = 30 * D2R;
-		var rad_60 = 60 * D2R;
-		rwr.rootCenter.createChild("path") # ticks like clock at outer ring
-			.moveTo(radius*math.cos(rad_30),radius*math.sin(-rad_30))
-			.lineTo((radius+TICK_LENGTH_SHORT)*math.cos(rad_30),(radius+TICK_LENGTH_SHORT)*math.sin(-rad_30))
-			.moveTo(radius*math.cos(rad_60),radius*math.sin(-rad_60))
-			.lineTo((radius+TICK_LENGTH_SHORT)*math.cos(rad_60),(radius+TICK_LENGTH_SHORT)*math.sin(-rad_60))
-			.moveTo(radius*math.cos(rad_30),radius*math.sin(rad_30))
-			.lineTo((radius+TICK_LENGTH_SHORT)*math.cos(rad_30),(radius+TICK_LENGTH_SHORT)*math.sin(rad_30))
-			.moveTo(radius*math.cos(rad_60),radius*math.sin(rad_60))
-			.lineTo((radius+TICK_LENGTH_SHORT)*math.cos(rad_60),(radius+TICK_LENGTH_SHORT)*math.sin(rad_60))
-
-			.moveTo(-radius*math.cos(rad_30),radius*math.sin(-rad_30))
-			.lineTo(-(radius+TICK_LENGTH_SHORT)*math.cos(rad_30),(radius+TICK_LENGTH_SHORT)*math.sin(-rad_30))
-			.moveTo(-radius*math.cos(rad_60),radius*math.sin(-rad_60))
-			.lineTo(-(radius+TICK_LENGTH_SHORT)*math.cos(rad_60),(radius+TICK_LENGTH_SHORT)*math.sin(-rad_60))
-			.moveTo(-radius*math.cos(rad_30),radius*math.sin(rad_30))
-			.lineTo(-(radius+TICK_LENGTH_SHORT)*math.cos(rad_30),(radius+TICK_LENGTH_SHORT)*math.sin(rad_30))
-			.moveTo(-radius*math.cos(rad_60),radius*math.sin(rad_60))
-			.lineTo(-(radius+TICK_LENGTH_SHORT)*math.cos(rad_60),(radius+TICK_LENGTH_SHORT)*math.sin(rad_60))
-			.setStrokeLineWidth(LINE_WIDTH)
-			.setColor(COLOR_WHITE);
-		rwr.texts = setsize([],rwr.max_icons);
-		for (var i = 0;i<rwr.max_icons;i+=1) {
-			rwr.texts[i] = rwr.rootCenter.createChild("text")
-			                             .setText("00")
-			                             .setAlignment("center-center")
-			                             .setColor(COLOR_YELLOW)
-			                             .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
-			                             .setFont(FONT_MONO_REGULAR)
-			                             .hide();
-		}
-		rwr.symbol_hat = setsize([],rwr.max_icons);
-		for (var i = 0;i<rwr.max_icons;i+=1) {
-			rwr.symbol_hat[i] = rwr.rootCenter.createChild("path")
-					.moveTo(0,-FONT_DIST)
-					.lineTo(FONT_DIST*0.7,-FONT_DIST*0.5)
-					.moveTo(0,-FONT_DIST)
-					.lineTo(-FONT_DIST*0.7,-FONT_DIST*0.5)
-					.setStrokeLineWidth(LINE_WIDTH)
-					.setColor(COLOR_YELLOW)
-					.hide();
-		}
-		rwr.symbol_launch = setsize([],rwr.max_icons);
-		for (var i = 0;i<rwr.max_icons;i+=1) {
-			rwr.symbol_launch[i] = rwr.rootCenter.createChild("path")
-					.moveTo(FONT_DIST*1.2, 0)
-					.arcSmallCW(FONT_DIST*1.2, FONT_DIST*1.2, 0, -FONT_DIST*2.4, 0)
-					.arcSmallCW(FONT_DIST*1.2, FONT_DIST*1.2, 0, FONT_DIST*2.4, 0)
-					.setStrokeLineWidth(LINE_WIDTH)
-					.setColor(COLOR_YELLOW)
-					.hide();
-		}
-		rwr.symbol_new = setsize([],rwr.max_icons);
-		for (var i = 0;i<rwr.max_icons;i+=1) {
-			rwr.symbol_new[i] = rwr.rootCenter.createChild("path")
-					.moveTo(FONT_DIST*1.2, 0)
-					.arcSmallCCW(FONT_DIST*1.2, FONT_DIST*1.2, 0, -FONT_DIST*2.4, 0)
-					.setStrokeLineWidth(LINE_WIDTH)
-					.setColor(COLOR_YELLOW)
-					.hide();
-		}
-		rwr.symbol_priority = rwr.rootCenter.createChild("path")
-					.moveTo(0, FONT_DIST*1.2)
-					.lineTo(FONT_DIST*1.2, 0)
-					.lineTo(0,-FONT_DIST*1.2)
-					.lineTo(-FONT_DIST*1.2,0)
-					.lineTo(0, FONT_DIST*1.2)
-					.setStrokeLineWidth(LINE_WIDTH)
-					.setColor(COLOR_YELLOW)
-					.hide();
-
 		rwr.AIRCRAFT_UNKNOWN  = "U";
 		rwr.ASSET_AI          = "AI";
 		rwr.AIRCRAFT_SEARCH   = "S";
+
+		rwr.rwr_circles_group = root.createChild("group", "rwr_circles_group")
+		                            .setTranslation(SCREEN_WIDTH/2, SCREEN_HEIGHT/2); # in the middle of the screen
+		rwr._createRWRCircles();
+		rwr.dispenser_group = root.createChild("group", "dispenser_group")
+		                          .setTranslation(SCREEN_WIDTH-DISPENSER_BOX_WIDTH-DISPENSER_BOX_SEPARATION, 6*DISPENSER_BOX_SEPARATION);
+		# rwr._createDispenserIndicators();
 
 		rwr.shownList = [];
 
@@ -145,7 +60,7 @@ RWRCanvas = {
 		{
 			if (notification.NotificationType == "FrameNotification" and notification.FrameCount == 2)
 			{
-				me.parent_obj._update(radar_system.f16_rwr.vector_aicontacts_threats, "normal");
+				me.parent_obj._update(radar_system.f16_rwr.vector_aicontacts_threats);
 				return emesary.Transmitter.ReceiptStatus_OK;
 			}
 			return emesary.Transmitter.ReceiptStatus_NotProcessed;
@@ -154,6 +69,178 @@ RWRCanvas = {
 
 		return rwr;
 	},
+
+	_createRWRCircles: func() {
+		me.rwr_circles_group.createChild("path") # cross in the middle
+		                    .moveTo(-TICK_LENGTH_SHORT, 0)
+		                    .lineTo(TICK_LENGTH_SHORT, 0)
+		                    .moveTo(0, -TICK_LENGTH_SHORT)
+		                    .lineTo(0, TICK_LENGTH_SHORT)
+		                    .setStrokeLineWidth(LINE_WIDTH)
+		                    .setColor(COLOR_WHITE);
+		me.rwr_circles_group.createChild("path") # middle circle
+		                    .moveTo(-me.circle_radius_middle, 0)
+		                    .arcSmallCW(me.circle_radius_middle, me.circle_radius_middle, 0, me.circle_radius_middle*2, 0)
+		                    .arcSmallCW(me.circle_radius_middle, me.circle_radius_middle, 0, -me.circle_radius_middle*2, 0)
+		                    .setStrokeLineWidth(LINE_WIDTH)
+		                    .setColor(RWR_COLOR_BLUE);
+		me.rwr_circles_group.createChild("path") # outer circle
+		                    .moveTo(-me.radius, 0)
+		                    .arcSmallCW(me.radius, me.radius, 0, me.radius*2, 0)
+		                    .arcSmallCW(me.radius, me.radius, 0, -me.radius*2, 0)
+		                    .setStrokeLineWidth(LINE_WIDTH)
+		                    .setColor(COLOR_WHITE);
+		me.rwr_circles_group.createChild("path") # large ticks around the circle
+		                    .moveTo(me.radius, 0)
+		                    .horiz(TICK_LENGTH_LONG) # 90
+		                    .moveTo(-me.radius, 0)
+		                    .horiz(-TICK_LENGTH_LONG) # 270
+		                    .moveTo(0, me.radius)
+		                    .vert(TICK_LENGTH_LONG) # 180
+		                    .moveTo(0, -me.radius)
+		                    .vert(-TICK_LENGTH_LONG) # 0 / 360
+		                    .setStrokeLineWidth(LINE_WIDTH * 2)
+		                    .setColor(COLOR_WHITE);
+		var rad_30 = 30 * D2R;
+		var rad_60 = 60 * D2R;
+		me.rwr_circles_group.createChild("path") # ticks like clock at outer ring
+			.moveTo(me.radius*math.cos(rad_30),me.radius*math.sin(-rad_30))
+			.lineTo((me.radius+TICK_LENGTH_SHORT)*math.cos(rad_30),(me.radius+TICK_LENGTH_SHORT)*math.sin(-rad_30))
+			.moveTo(me.radius*math.cos(rad_60),me.radius*math.sin(-rad_60))
+			.lineTo((me.radius+TICK_LENGTH_SHORT)*math.cos(rad_60),(me.radius+TICK_LENGTH_SHORT)*math.sin(-rad_60))
+			.moveTo(me.radius*math.cos(rad_30),me.radius*math.sin(rad_30))
+			.lineTo((me.radius+TICK_LENGTH_SHORT)*math.cos(rad_30),(me.radius+TICK_LENGTH_SHORT)*math.sin(rad_30))
+			.moveTo(me.radius*math.cos(rad_60),me.radius*math.sin(rad_60))
+			.lineTo((me.radius+TICK_LENGTH_SHORT)*math.cos(rad_60),(me.radius+TICK_LENGTH_SHORT)*math.sin(rad_60))
+
+			.moveTo(-me.radius*math.cos(rad_30),me.radius*math.sin(-rad_30))
+			.lineTo(-(me.radius+TICK_LENGTH_SHORT)*math.cos(rad_30),(me.radius+TICK_LENGTH_SHORT)*math.sin(-rad_30))
+			.moveTo(-me.radius*math.cos(rad_60),me.radius*math.sin(-rad_60))
+			.lineTo(-(me.radius+TICK_LENGTH_SHORT)*math.cos(rad_60),(me.radius+TICK_LENGTH_SHORT)*math.sin(-rad_60))
+			.moveTo(-me.radius*math.cos(rad_30),me.radius*math.sin(rad_30))
+			.lineTo(-(me.radius+TICK_LENGTH_SHORT)*math.cos(rad_30),(me.radius+TICK_LENGTH_SHORT)*math.sin(rad_30))
+			.moveTo(-me.radius*math.cos(rad_60),me.radius*math.sin(rad_60))
+			.lineTo(-(me.radius+TICK_LENGTH_SHORT)*math.cos(rad_60),(me.radius+TICK_LENGTH_SHORT)*math.sin(rad_60))
+			.setStrokeLineWidth(LINE_WIDTH)
+			.setColor(COLOR_WHITE);
+		me.texts = setsize([], me.max_icons);
+		for (var i = 0; i < me.max_icons; i+=1) {
+			me.texts[i] = me.rwr_circles_group.createChild("text")
+			                           .setText("00")
+			                           .setAlignment("center-center")
+			                           .setColor(COLOR_YELLOW)
+			                           .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
+			                           .setFont(FONT_MONO_REGULAR)
+			                           .hide();
+		}
+		me.symbol_hat = setsize([], me.max_icons);
+		for (var i = 0; i < me.max_icons; i+=1) {
+			me.symbol_hat[i] = me.rwr_circles_group.createChild("path")
+					.moveTo(0,-FONT_DIST)
+					.lineTo(FONT_DIST*0.7,-FONT_DIST*0.5)
+					.moveTo(0,-FONT_DIST)
+					.lineTo(-FONT_DIST*0.7,-FONT_DIST*0.5)
+					.setStrokeLineWidth(LINE_WIDTH)
+					.setColor(COLOR_YELLOW)
+					.hide();
+		}
+		me.symbol_launch = setsize([], me.max_icons);
+		for (var i = 0; i < me.max_icons; i+=1) {
+			me.symbol_launch[i] = me.rwr_circles_group.createChild("path")
+					.moveTo(FONT_DIST*1.2, 0)
+					.arcSmallCW(FONT_DIST*1.2, FONT_DIST*1.2, 0, -FONT_DIST*2.4, 0)
+					.arcSmallCW(FONT_DIST*1.2, FONT_DIST*1.2, 0, FONT_DIST*2.4, 0)
+					.setStrokeLineWidth(LINE_WIDTH)
+					.setColor(COLOR_YELLOW)
+					.hide();
+		}
+		me.symbol_new = setsize([], me.max_icons);
+		for (var i = 0; i < me.max_icons; i+=1) {
+			me.symbol_new[i] = me.rwr_circles_group.createChild("path")
+					.moveTo(FONT_DIST*1.2, 0)
+					.arcSmallCCW(FONT_DIST*1.2, FONT_DIST*1.2, 0, -FONT_DIST*2.4, 0)
+					.setStrokeLineWidth(LINE_WIDTH)
+					.setColor(COLOR_YELLOW)
+					.hide();
+		}
+		me.symbol_priority = me.rwr_circles_group.createChild("path")
+					.moveTo(0, FONT_DIST*1.2)
+					.lineTo(FONT_DIST*1.2, 0)
+					.lineTo(0,-FONT_DIST*1.2)
+					.lineTo(-FONT_DIST*1.2,0)
+					.lineTo(0, FONT_DIST*1.2)
+					.setStrokeLineWidth(LINE_WIDTH)
+					.setColor(COLOR_YELLOW)
+					.hide();
+	},
+
+	_createDispenserIndicators: func {
+		# Lance-Leurres (Decoy Dispenser)
+		me.ll_box  = me.dispenser_group.createChild("path", "ll_box")
+		                               .setColor(COLOR_LL_BACKGROUND_LIT)
+		                               .setColorFill(COLOR_INDICATORS_UNLIT)
+		                               .rect(0, 0,
+		                                     DISPENSER_BOX_WIDTH, DISPENSER_BOX_WIDTH)
+		                               .setStrokeLineWidth(LINE_WIDTH_INDICATORS);
+		me.ll_text = me.dispenser_group.createChild("text", "ll_text")
+		                               .setFontSize(FONT_SIZE_INDICATORS, FONT_ASPECT_RATIO)
+		                               .setFont(FONT_MONO_REGULAR)
+		                               .setColor(COLOR_LL_BACKGROUND_LIT)
+		                               .setAlignment("center-center")
+		                               .setText("LL")
+		                               .setTranslation(DISPENSER_BOX_WIDTH/2,
+		                                               DISPENSER_BOX_WIDTH/2);
+
+		# Contremesures Électromagnétiques/Chaff
+		var add_down = DISPENSER_BOX_WIDTH + DISPENSER_BOX_SEPARATION;
+		me.em_box  = me.dispenser_group.createChild("path", "em_box")
+		                               .setColor(COLOR_EM_BACKGROUND_LIT)
+		                               .setColorFill(COLOR_INDICATORS_UNLIT)
+		                               .rect(0, add_down,
+		                                     DISPENSER_BOX_WIDTH, DISPENSER_BOX_WIDTH)
+		                               .setStrokeLineWidth(LINE_WIDTH_INDICATORS);
+		me.em_text = me.dispenser_group.createChild("text", "em_text")
+		                               .setFontSize(FONT_SIZE_INDICATORS, FONT_ASPECT_RATIO)
+		                               .setFont(FONT_MONO_REGULAR)
+		                               .setColor(COLOR_EM_BACKGROUND_LIT)
+		                               .setAlignment("center-center")
+		                               .setText("EM")
+		                               .setTranslation(DISPENSER_BOX_WIDTH/2,
+		                                               add_down + DISPENSER_BOX_WIDTH/2);
+		# IR (Contremesures Infrarouges/Flares)
+		var add_down = 2*(DISPENSER_BOX_WIDTH + DISPENSER_BOX_SEPARATION);
+		me.ir_box  = me.dispenser_group.createChild("path", "ir_box")
+		                               .setColor(COLOR_EM_BACKGROUND_LIT)
+		                               .setColorFill(COLOR_INDICATORS_UNLIT)
+		                               .rect(0, add_down,
+		                                     DISPENSER_BOX_WIDTH, DISPENSER_BOX_WIDTH)
+		                               .setStrokeLineWidth(LINE_WIDTH_INDICATORS);
+		me.ir_text = me.dispenser_group.createChild("text", "ir_text")
+		                               .setFontSize(FONT_SIZE_INDICATORS, FONT_ASPECT_RATIO)
+		                               .setFont(FONT_MONO_REGULAR)
+		                               .setColor(COLOR_EM_BACKGROUND_LIT)
+		                               .setAlignment("center-center")
+		                               .setText("IR")
+		                               .setTranslation(DISPENSER_BOX_WIDTH/2,
+		                                               add_down + DISPENSER_BOX_WIDTH/2);
+		# EO (Contremesures Électro-optiques/Electro-Optical
+		var add_down = 3*(DISPENSER_BOX_WIDTH + DISPENSER_BOX_SEPARATION);
+		me.eo_box  = me.dispenser_group.createChild("path", "eo_box")
+		                               .setColor(COLOR_EM_BACKGROUND_LIT)
+		                               .setColorFill(COLOR_INDICATORS_UNLIT)
+		                               .rect(0, add_down,
+		                                     DISPENSER_BOX_WIDTH, DISPENSER_BOX_WIDTH)
+		                               .setStrokeLineWidth(LINE_WIDTH_INDICATORS);
+		me.eo_text = me.dispenser_group.createChild("text", "eo_text")
+		                               .setFontSize(FONT_SIZE_INDICATORS, FONT_ASPECT_RATIO)
+		                               .setFont(FONT_MONO_REGULAR)
+		                               .setColor(COLOR_EM_BACKGROUND_LIT)
+		                               .setAlignment("center-center")
+		                               .setText("EO")
+		                               .setTranslation(DISPENSER_BOX_WIDTH/2,
+		                                               add_down + DISPENSER_BOX_WIDTH/2);
+	},
+
 	_assignSepSpot: func {
 		# me.dev        angle_deg
 		# me.sep_spots  0 to 2  45, 20, 15
@@ -192,11 +279,13 @@ RWRCanvas = {
 			me.threat = me.sep3_radius;
 		}
 	},
+
 	_assignIdealSepSpot: func {
 		me.spot = math.round(geo.normdeg(me.newdev)/me.sep_angles[me.threat]);
 		if (me.spot >= size(me.sep_spots[me.threat])) me.spot = 0;
 	},
-	_update: func (list, type) {
+	
+	_update: func (list) {
 		me.sep = 0; # not yet implemented - in F16 getprop("f16/ews/rwr-separate");
 		me.showUnknowns = 1;
 		me.elapsed = getprop("sim/time/elapsed-sec");
@@ -212,9 +301,9 @@ RWRCanvas = {
 		}
 		me.sortedlist = sort(list, sorter);
 
-		me.sep_spots = [[0,0,0,0,0,0,0,0],#45 degs  8
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],# 20 degs  18
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];# 15 degs  24
+		me.sep_spots = [[0,0,0,0,0,0,0,0], #45 degs  8
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], # 20 degs  18
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]; # 15 degs  24
 		me.sep_angles = [45,20,15];
 
 		me.newList = [];
@@ -247,7 +336,7 @@ RWRCanvas = {
 				continue;
 			}
 
-			me.threat = me.contact[1];#print(me.threat);
+			me.threat = me.contact[1];
 
 			if (me.threat <= 0) {
 				continue;
@@ -344,6 +433,6 @@ var rwr = nil;
 var cv = nil;
 
 var setGroup = func (root) {
-	root.createChild("path").horiz(768).vert(576).horiz(-768).vert(-576).setColorFill(0,0,0).setColor(0,0,0);
-	rwr = RWRCanvas.new("RWRCanvas",root, [768/2,576/2],576);
+	root.createChild("path").horiz(SCREEN_WIDTH).vert(SCREEN_HEIGHT).horiz(-SCREEN_WIDTH).vert(-SCREEN_HEIGHT).setColorFill(0,0,0).setColor(0,0,0);
+	rwr = RWRCanvas.new("RWRCanvas",root);
 };

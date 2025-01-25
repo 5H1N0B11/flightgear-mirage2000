@@ -323,7 +323,7 @@
 
 		<key n="113">
 			<name>q</name>
-			<desc>Flares out</desc>
+			<desc>Dispense counter-measures</desc>
 			<binding>
 				<command>property-toggle</command>
 				<property>controls/switches/flares</property>
