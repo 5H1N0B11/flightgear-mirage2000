@@ -113,7 +113,6 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
 
 <!-- ========================================================================================= -->
 # Tidy up #
-* Add Rick to contributers
 * remove gui/dialogs/options.xml:
   * move the performance thing to another place, rest goes away
   * /controls/assistance and assistance.nas go away
@@ -144,4 +143,40 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
 * https://www.estrepublicain.fr/defense-guerre-conflit/2023/04/10/vols-de-nuit-a-luxeuil-delicates-missions-pour-les-pilotes-de-mirage-de-la-ba-116 - picture 13 is 2000-5F cockpit
 * https://www.modellingnews.gr/el/%CE%BD%CE%AD%CE%B1-%CE%BC%CE%BF%CE%BD%CF%84%CE%B5%CE%BB%CE%B9%CF%83%CE%BC%CE%BF%CF%8D/mirage-2000-under-skin-ioannis-lekkas-ilias-gkonis-eagle-aviation
 
+<!-- ========================================================================================= -->
+# Performance Stuff #
+See also https://wiki.flightgear.org/Nasal_optimisation for general instructions
 
+## FrameNotifications ##
+
+* See Aircraft/Mirage-2000/Nasal/exec.nas (part of module mirage2000): defines a loop for sending out FrameNotificationAddProperty including e.g. /sim/time/elapsed-sec with a rate depending on current frame rate (the better the fps the more notifications). The rtExec_loop is called to start from m2000-5.nas._mainInitLoop() 
+* See Aircraft/Mirage-2000/Nasal/M_frame_notification.nas (part of module mirage2000) is the implementation of the FrameNotification and FrameNotificationAddProperty classes.
+
+For explanation see the headers of the two Nasal files plus https://github.com/5H1N0B11/flightgear-mirage2000/issues/141.
+
+notification.FrameCount (0, 1, 2, 3) can be used to limit the times a function is called - instead of each time the FrameNotificaiton is sent.
+
+notification.frameNotification is a singleton added at then end of M_frame_notification.nas.
+
+
+## m2000-5.nas - myFramerate ##
+* The method _updateFunction() in m2000-5.nas checks time elapsed on only calls referenced methods after e.g. 0.05, 0.1, 0.5, 1, ... seconds. The variable myFramerate holds the last called time, so it can be compared with now. Based on time diff functions are called and last called time is reset.
+
+## Use prop references ##
+Stuart on the FG mailing list:
+Ff you are just going to set a property once, then setprop() is faster than globals.props.getNode("/property/path").setValue("something");
+However, if you already have the node stored: var n= globals.getNode("/property/path"); .... then n.setValue("something") is faster than setprop().
+I don't know how many writes you need to do to make the overhead of globals.props.getNode("/property/path") to be worthwhile, but my recommendation for any performance-oriented Nasal would be to call them all at the start of the day.
+
+		m.input = {
+			pitch:      "/orientation/pitch-deg",
+			roll:       "/orientation/roll-deg",
+			hdg:        "/orientation/heading-magnetic-deg",
+			hdgReal:    "/orientation/heading-deg",
+      ...
+      flightmode     : "/instrumentation/flightmode/selected"
+		};
+
+		foreach(var name; keys(m.input)) {
+			m.input[name] = props.globals.getNode(m.input[name], 1);
+		}

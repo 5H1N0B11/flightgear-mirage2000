@@ -1,5 +1,7 @@
 print("*** LOADING rwr.nas ... ***");
 
+var FALSE = 0;
+var TRUE = 1;
 
 var RWR_COLOR_BLUE = [0.2, 0.6, 1];
 var COLOR_WHITE = [1, 1, 1];
@@ -22,16 +24,29 @@ var DISPENSER_BOX_WIDTH = 60;
 var DISPENSER_BOX_SEPARATION = 16;
 
 var COLOR_LL_BACKGROUND_LIT = [0.2, 0.6, 1]; # same as for RWR_COLOR_BLUE
-var COLOR_EM_BACKGROUND_LIT = [1, 0.6, 0.2]; #orange
+var COLOR_EM_BACKGROUND_LIT = [1, 0.6, 0.2]; # orange
 var COLOR_INDICATORS_UNLIT = [0, 0, 0]; # black
 
 var FONT_SIZE_INDICATORS = 32;
 var LINE_WIDTH_INDICATORS = 1;
 
+var COUNTER_MEASURES_INC = 0.5; # flare/chaff values can change every 0.5 seconds -> cf. weapons.nas
+
 
 RWRCanvas = {
 	new: func (_ident, root) {
 		var rwr = {parents: [RWRCanvas]};
+
+		rwr.input = {
+			flares                    : "rotors/main/blade[3]/flap-deg", # see weapons.nas
+			chaff                     : "rotors/main/blade[3]/position-deg",
+			cm_remaining              : "/ai/submodels/submodel[7]/count"
+		};
+
+		foreach(var name; keys(rwr.input)) {
+			rwr.input[name] = props.globals.getNode(rwr.input[name], 1);
+		}
+
 		rwr.max_icons = 12;
 		rwr.radius = 0.8 * SCREEN_HEIGHT/2; # we want a bit of space around the circle
 		rwr.inner_radius = rwr.radius*0.30; # where to put the high threat symbols
@@ -47,9 +62,12 @@ RWRCanvas = {
 		rwr._createRWRCircles();
 		rwr.dispenser_group = root.createChild("group", "dispenser_group")
 		                          .setTranslation(SCREEN_WIDTH-DISPENSER_BOX_WIDTH-DISPENSER_BOX_SEPARATION, 6*DISPENSER_BOX_SEPARATION);
-		# rwr._createDispenserIndicators();
+		rwr._createDispenserIndicators();
 
 		rwr.shownList = [];
+
+		rwr.last_counter_measures_inc = 0;
+		rwr.cm_alternated = FALSE; # toggles every ca. COUNTER_MEASURES_INC seconds between TRUE and FALSE
 
 		# recipient that will be registered on the global transmitter and connect this
 		# subsystem to allow subsystem notifications to be received
@@ -61,6 +79,11 @@ RWRCanvas = {
 			if (notification.NotificationType == "FrameNotification" and notification.FrameCount == 2)
 			{
 				me.parent_obj._update(radar_system.f16_rwr.vector_aicontacts_threats);
+				if (notification.getproper("elapsed_seconds") - me.parent_obj.last_counter_measures_inc >= COUNTER_MEASURES_INC) {
+					me.parent_obj._updateCounterMeasures();
+					me.parent_obj.last_counter_measures_inc = notification.getproper("elapsed_seconds");
+					me.parent_obj.cm_alternated = me.parent_obj.cm_alternated ? FALSE : TRUE;
+				}
 				return emesary.Transmitter.ReceiptStatus_OK;
 			}
 			return emesary.Transmitter.ReceiptStatus_NotProcessed;
@@ -428,7 +451,23 @@ RWRCanvas = {
 		setprop("sound/rwr-pri", me.prio);
 		setprop("sound/rwr-unk", me.unkFlash);
 	},
+
+	_updateCounterMeasures: func {
+		print("last_counter_measures_inc"~me.parent_obj.last_counter_measure_inc);
+		print("remaining"~me.input.cm_remaining.getValue());
+
+		# dispensing counter measures
+		if (me.input.flares.getValue() != 0 or me.input.flares.getValue() != 0) {
+			me.ll_box.setColor(COLOR_LL_BACKGROUND_LIT);
+			me.ll_box.setColorFill(COLOR_INDICATORS_UNLIT);
+		} else {
+			me.ll_box.setColor(COLOR_INDICATORS_UNLIT);
+			me.ll_box.setColorFill(COLOR_LL_BACKGROUND_LIT);
+		}
+
+	},
 };
+
 var rwr = nil;
 var cv = nil;
 

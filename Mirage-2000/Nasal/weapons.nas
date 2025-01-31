@@ -5,6 +5,16 @@ print("*** LOADING weapons.nas ... ***");
 #
 ################################################################################
 
+
+var input = {
+	flares          : "rotors/main/blade[3]/flap-deg",
+	chaff           : "rotors/main/blade[3]/position-deg"
+};
+
+foreach(var name; keys(input)) {
+	input[name] = props.globals.getNode(input[name], 1);
+}
+
 var dt = 0;
 var isFiring = 0;
 var splashdt = 0;
@@ -200,21 +210,21 @@ setlistener("/ai/models/model-impact", impact_listener, 0, 0);
 var flare = func(){
 	if (tokenFlare==0) {
 		if (tokenMessageFlare==0) {
-			tokenMessageFlare=1;
-			settimer(message_Flare,1);
+			tokenMessageFlare = 1;
+			settimer(message_Flare, 1);
 		}
 		tokenFlare= 1;
-		setprop("rotors/main/blade[3]/flap-deg", rand());    #flare
-		setprop("rotors/main/blade[3]/position-deg", rand());#chaff
+		input.flares.setValue(rand());
+		input.chaff.setValue(rand());
 		damage.flare_released();
-		settimer(initFlare,0.5);
-		settimer(initToken,1);
+		settimer(initFlare, 0.5);
+		settimer(initToken, 1);
 	}
 }
 
 var initFlare = func(){
-	setprop("rotors/main/blade[3]/flap-deg", 0);   #flare
-	setprop("rotors/main/blade[3]/position-deg", 0);#chaff
+	input.flares.setValue(0);
+	input.chaff.setValue(0);
 }
 var initToken = func(){
 	tokenFlare= 0;
