@@ -78,6 +78,17 @@ var VTM = {
 		                     "mipmapping": 0
 		});
 
+		vtm_obj.input = {
+			radar_voltage          : "/systems/electrical/outputs/radar",
+			heading_true           : "/orientation/heading-deg",
+			heading_mag            : "/orientation/heading-magnetic-deg",
+			show_true_north        : "/instrumentation/efis/mfd/true-north"
+		};
+
+		foreach(var name; keys(vtm_obj.input)) {
+			vtm_obj.input[name] = props.globals.getNode(vtm_obj.input[name], 1);
+		}
+
 		vtm_obj.cursor_pos = [RADAR_VIEW_WIDTH/8,-RADAR_VIEW_HEIGHT*3/8]; # a bit off middle towards right and the top part of the screen
 		vtm_obj.cursor_trigger_prev = FALSE;
 		vtm_obj.n_contacts = 0;
@@ -850,29 +861,29 @@ var VTM = {
 	},
 
 	_update: func(notification) {
-		var global_visible = FALSE;
-		var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
-		me.heading_true = props.globals.getNode("/orientation/heading-deg").getValue();
-		me.show_true_north = props.globals.getNode("/instrumentation/efis/mfd/true-north").getValue();
+		me.global_visible = FALSE;
+		me.radar_voltage = me.input.radar_voltage.getValue();
+		me.heading_true = me.input.heading_true.getValue();
+		me.show_true_north = me.input.show_true_north.getValue();
 		if (me.show_true_north) {
 			me.heading_displayed = me.heading_true;
 		} else {
-			me.heading_displayed = props.globals.getNode("/orientation/heading-magnetic-deg").getValue();;
+			me.heading_displayed = me.input.heading_mag.getValue();
 		}
 		var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
 		var max_distance_m = radar_system.apg68Radar.getRange() * NM2M;
 		var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;
 		var radar_mode_name = radar_system.apg68Radar.getMode();
-		if (radar_voltage != nil and radar_voltage >= 23) {
-			global_visible = TRUE;
+		if (me.radar_voltage != nil and me.radar_voltage >= 23) {
+			me.global_visible = TRUE;
 		}
-		me.corners_group.setVisible(global_visible);
-		me.screen_mode_group.setVisible(global_visible);
-		me.radar_modes_group.setVisible(global_visible);
-		me.compass_group.setVisible(global_visible);
+		me.corners_group.setVisible(me.global_visible);
+		me.screen_mode_group.setVisible(me.global_visible);
+		me.radar_modes_group.setVisible(me.global_visible);
+		me.compass_group.setVisible(me.global_visible);
 
 		me.is_ppi = FALSE;
-		if (global_visible == TRUE) {
+		if (me.global_visible == TRUE) {
 			if (_is_ground_mode(radar_mode_root_name)) {
 				me.is_ppi = TRUE;
 				me.ppi_fov_grid_group.setVisible(TRUE);
@@ -888,9 +899,9 @@ var VTM = {
 			me.rectangular_fov_grid_group.setVisible(FALSE);
 		}
 
-		if (global_visible == FALSE) {
-			me.standby_group.setVisible(global_visible);
-			me.targets_group.setVisible(global_visible);
+		if (me.global_visible == FALSE) {
+			me.standby_group.setVisible(me.global_visible);
+			me.targets_group.setVisible(me.global_visible);
 		#} else if (props.globals.getNode("/instrumentation/radar/radar-standby").getBoolValue()) {
 		#	me.standby_group.show();
 		#	me.targets_group.hide();

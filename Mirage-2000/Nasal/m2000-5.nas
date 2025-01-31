@@ -157,19 +157,22 @@ var _updateFunction = func() {
 		#call(hud_pilot.update,nil,nil,nil, myErr);
 		hud_pilot.update();
 		call(mirage2000.theShakeEffect,nil,nil,nil, myErr);
-		mirage2000.mfd_update_main();
 		myFramerate.a = AbsoluteTime;
+	}
+
+	################## Rate 0.25 ##################
+	if (AbsoluteTime - myFramerate.b > 0.25) {
+		mirage2000.mfd_update_main();
 		mirage2000.Intake_pelles();
 		instrumentation.checkStallWarning();
+		myFramerate.b = AbsoluteTime;
 	}
 
 
 	################## rate 0.5 ###############################
-
 	if (AbsoluteTime - myFramerate.c > 0.5) {
 		#call(m2000_load.Encode_Load,nil,nil,nil, myErr);
 		call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
-		myFramerate.c = AbsoluteTime;
 		#if (getprop("autopilot/settings/tf-mode")) { <- need to find what is enabling it
 		#8 second prevision do not need to be updated each fps
 		if (AP_Alt =="TF") {
@@ -189,6 +192,7 @@ var _updateFunction = func() {
 		#if (size(myErr)>0) {
 		#	#debug.printerror(myErr);
 		#}
+		myFramerate.c = AbsoluteTime;
 	}
 
 
