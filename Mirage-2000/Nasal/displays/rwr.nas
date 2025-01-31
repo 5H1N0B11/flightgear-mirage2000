@@ -39,7 +39,7 @@ RWRCanvas = {
 
 		rwr.input = {
 			flares                    : "rotors/main/blade[3]/flap-deg", # see weapons.nas
-			chaff                     : "rotors/main/blade[3]/position-deg",
+			# chaff                     : "rotors/main/blade[3]/position-deg", # not needed because same as flares
 			cm_remaining              : "/ai/submodels/submodel[7]/count"
 		};
 
@@ -74,16 +74,9 @@ RWRCanvas = {
 		rwr.recipient = emesary.Recipient.new(_ident);
 		rwr.recipient.parent_obj = rwr;
 
-		rwr.recipient.Receive = func(notification)
-		{
-			if (notification.NotificationType == "FrameNotification" and notification.FrameCount == 2)
-			{
-				me.parent_obj._update(radar_system.f16_rwr.vector_aicontacts_threats);
-				if (notification.getproper("elapsed_seconds") - me.parent_obj.last_counter_measures_inc >= COUNTER_MEASURES_INC) {
-					me.parent_obj._updateCounterMeasures();
-					me.parent_obj.last_counter_measures_inc = notification.getproper("elapsed_seconds");
-					me.parent_obj.cm_alternated = me.parent_obj.cm_alternated ? FALSE : TRUE;
-				}
+		rwr.recipient.Receive = func(notification) {
+			if (notification.NotificationType == "FrameNotification") {
+				me.parent_obj._update(notification);
 				return emesary.Transmitter.ReceiptStatus_OK;
 			}
 			return emesary.Transmitter.ReceiptStatus_NotProcessed;
@@ -307,8 +300,21 @@ RWRCanvas = {
 		me.spot = math.round(geo.normdeg(me.newdev)/me.sep_angles[me.threat]);
 		if (me.spot >= size(me.sep_spots[me.threat])) me.spot = 0;
 	},
-	
-	_update: func (list) {
+
+	_update: func (notification) {
+		if (notification.getproper("elapsed_seconds") - me.last_counter_measures_inc >= COUNTER_MEASURES_INC) {
+			me._updateCounterMeasures();
+			me.last_counter_measures_inc = notification.getproper("elapsed_seconds");
+			if (me.cm_alternated == TRUE) {
+				me.cm_alternated = FALSE;
+			} else {
+				me.cm_alternated = TRUE;
+			}
+		}
+		if (notification.FrameCount != 0) {
+			return;
+		}
+
 		me.sep = 0; # not yet implemented - in F16 getprop("f16/ews/rwr-separate");
 		me.showUnknowns = 1;
 		me.elapsed = getprop("sim/time/elapsed-sec");
@@ -322,7 +328,7 @@ RWRCanvas = {
 				return 1; # A should after b in the returned vector
 			}
 		}
-		me.sortedlist = sort(list, sorter);
+		me.sortedlist = sort(radar_system.f16_rwr.vector_aicontacts_threats, sorter);
 
 		me.sep_spots = [[0,0,0,0,0,0,0,0], #45 degs  8
 						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], # 20 degs  18
@@ -452,19 +458,36 @@ RWRCanvas = {
 		setprop("sound/rwr-unk", me.unkFlash);
 	},
 
-	_updateCounterMeasures: func {
-		print("last_counter_measures_inc"~me.parent_obj.last_counter_measure_inc);
-		print("remaining"~me.input.cm_remaining.getValue());
-
+	_updateCounterMeasures: func() {
 		# dispensing counter measures
-		if (me.input.flares.getValue() != 0 or me.input.flares.getValue() != 0) {
+		if (me.input.flares.getValue() == 0) {
 			me.ll_box.setColor(COLOR_LL_BACKGROUND_LIT);
 			me.ll_box.setColorFill(COLOR_INDICATORS_UNLIT);
+			me.ll_text.setColor(COLOR_LL_BACKGROUND_LIT);
 		} else {
 			me.ll_box.setColor(COLOR_INDICATORS_UNLIT);
 			me.ll_box.setColorFill(COLOR_LL_BACKGROUND_LIT);
+			me.ll_text.setColor(COLOR_INDICATORS_UNLIT);
 		}
-
+		# remaining counter measures
+		me.cm_background_line = COLOR_EM_BACKGROUND_LIT;
+		me.cm_background_fill = COLOR_INDICATORS_UNLIT;
+		if (me.input.cm_remaining.getValue() == 0) {
+			me.cm_background_line = COLOR_INDICATORS_UNLIT;
+			me.cm_background_fill = COLOR_EM_BACKGROUND_LIT;
+		} else if (me.input.cm_remaining.getValue() <= 20) {
+			if (me.cm_alternated == TRUE) {
+				me.cm_background_line = COLOR_INDICATORS_UNLIT;
+				me.cm_background_fill = COLOR_EM_BACKGROUND_LIT;
+			}
+		}
+		me.em_box.setColor(me.cm_background_line);
+		me.em_box.setColorFill(me.cm_background_fill);
+		me.em_text.setColor(me.cm_background_line);
+		me.ir_box.setColor(me.cm_background_line);
+		me.ir_box.setColorFill(me.cm_background_fill);
+		me.ir_text.setColor(me.cm_background_line);
+		# eo_box stays the same (not implemented)
 	},
 };
 

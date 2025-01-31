@@ -209,10 +209,6 @@ setlistener("/ai/models/model-impact", impact_listener, 0, 0);
 
 var flare = func(){
 	if (tokenFlare==0) {
-		if (tokenMessageFlare==0) {
-			tokenMessageFlare = 1;
-			settimer(message_Flare, 1);
-		}
 		tokenFlare= 1;
 		input.flares.setValue(rand());
 		input.chaff.setValue(rand());
@@ -228,11 +224,4 @@ var initFlare = func(){
 }
 var initToken = func(){
 	tokenFlare= 0;
-}
-
-var message_Flare = func() {
-	var flares_remaining = getprop("/ai/submodels/submodel[7]/count");
-	flares_remaining = flares_remaining == nil ? 0 : flares_remaining;
-	screen.log.write("Flares : " ~ flares_remaining);
-	tokenMessageFlare =0;
 }
