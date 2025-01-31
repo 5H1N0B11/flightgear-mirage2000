@@ -69,7 +69,7 @@ var RADAR_PITCH_DEGS_TO_PIXELS = RADAR_VIEW_HEIGHT / 150;
 var PPI_MAX_AZ_DEG = math.atan2(RADAR_VIEW_HEIGHT, RADAR_VIEW_WIDTH/2) * R2D;
 
 var VTM = {
-	new: func() {
+	new: func(_ident) {
 		var vtm_obj = {parents: [VTM]};
 		vtm_obj.vtm_canvas = canvas.new({
 		                     "name": "vtm_canvas",
@@ -98,6 +98,18 @@ var VTM = {
 		vtm_obj._createTargets();
 		vtm_obj._createStandbyText();
 		vtm_obj._createRadarModesGroup();
+
+		vtm_obj.recipient = emesary.Recipient.new(_ident);
+		vtm_obj.recipient.parent_obj = vtm_obj;
+
+		vtm_obj.recipient.Receive = func(notification) {
+			if (notification.NotificationType == "FrameNotification") {
+				me.parent_obj._update(notification);
+				return emesary.Transmitter.ReceiptStatus_OK;
+			}
+			return emesary.Transmitter.ReceiptStatus_NotProcessed;
+		};
+		emesary.GlobalTransmitter.Register(vtm_obj.recipient);
 
 		return vtm_obj;
 	},
@@ -837,7 +849,7 @@ var VTM = {
 		me.screen_mode_gps_box.setVisible(tgt_designation_mode == groundTargeting.TGT_DESIGNATION_MODE_GPS ? TRUE : FALSE);
 	},
 
-	update: func() {
+	_update: func(notification) {
 		var global_visible = FALSE;
 		var radar_voltage = props.globals.getNode("/systems/electrical/outputs/radar").getValue();
 		me.heading_true = props.globals.getNode("/orientation/heading-deg").getValue();
@@ -999,3 +1011,6 @@ var _getCompassTopLeftTranslation = func() {
 	return [-0.5 * SCREEN_WIDTH + PADDING_HORIZONTAL, -SCREEN_HEIGHT/2 + PADDING_TOP + RADAR_VIEW_HEIGHT];
 };
 
+var vtm = nil;
+
+var vtm = VTM.new("VTM");

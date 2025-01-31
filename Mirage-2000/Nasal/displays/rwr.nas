@@ -69,8 +69,6 @@ RWRCanvas = {
 		rwr.last_counter_measures_inc = 0;
 		rwr.cm_alternated = FALSE; # toggles every ca. COUNTER_MEASURES_INC seconds between TRUE and FALSE
 
-		# recipient that will be registered on the global transmitter and connect this
-		# subsystem to allow subsystem notifications to be received
 		rwr.recipient = emesary.Recipient.new(_ident);
 		rwr.recipient.parent_obj = rwr;
 
