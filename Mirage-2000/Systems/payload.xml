@@ -35,8 +35,8 @@
 		<MLW-launcher type="string"></MLW-launcher>
 		<MAW-bearing type="double">0</MAW-bearing>
 		<MAW-active type="bool">false</MAW-active>
-		<MAW-semiactive type="bool">false</MAW-semiactive> <!-- Copy of value in F16 (as per 2024-10-02)-->
-		<MAW-semiactive-callsign type="string"></MAW-semiactive-callsign>
+		<MAW-semiactive type="bool">false</MAW-semiactive> <!-- Needed for damage.nas-->
+		<MAW-semiactive-callsign type="string"></MAW-semiactive-callsign> <!-- Needed for damage.nas-->
 		<spike type="bool">false</spike>
 		<releasedCCRP type="bool">false</releasedCCRP> <!-- Copy of value in F16 (as per 2024-10-02)-->
 		<distCCRP type="int">-1</distCCRP> <!-- Copy of value in F16 (as per 2024-10-02)-->

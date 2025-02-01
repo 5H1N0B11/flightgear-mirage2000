@@ -110,6 +110,17 @@
 
 	<ai include="ai.xml" />
 
+	<sound>
+		<!-- Needed for damage.nas to indicate that at least one missile is in the air -->
+		<rwr-launch type="string"></rwr-launch>
+		<rwr-launch-sam type="bool">false</rwr-launch-sam>
+		<!-- RWR -->
+		<rwr-threat-new type="int">0</rwr-threat-new>
+		<rwr-threat-stt type="int">0</rwr-threat-stt> <!-- aka. spike -->
+		<rwr-maw-semi-active type="int">0</rwr-maw-semi-active> <!-- maw = missile approach warning -->
+		<rwr-maw-active type="int">0</rwr-maw-active>
+	</sound>
+
 	<f16>
 		<sound><acm-lock type="bool">false</acm-lock></sound><!-- referenced in apg-68.nas -->
 	</f16>

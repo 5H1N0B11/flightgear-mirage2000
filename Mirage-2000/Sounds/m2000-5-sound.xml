@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- 08/2012 Updated by 5H1N0B1
-	12/2012 Updated by Helijah
-	07/2013 Updated by 5H1N0B1
-	07/2015 Updated by Hardball : external sounds if canopy opened
-	01/2016 Updated by Helijah
-	04/2017 Updated by Hardball : rain
--->
 <PropertyList>
 
 	<fx>
-		<!--
-		________________________________________________________________________________
-																		ENGINE EXTERNAL
-		-->
-
+		<!-- ============================================= ENGINE EXTERNAL ======================================= -->
 		<!-- ~~~~~~~~~~~~~~~~~~ engine - start -->
 		<engine>
 			<name>engine-start</name>
@@ -244,11 +233,7 @@
 			</volume>
 		</engine-whine-external>
 
-		<!--
-		________________________________________________________________________________
-																		ENGINE INTERNAL
-		-->
-
+		<!-- ============================================= ENGINE INTERNAL ======================================= -->
 		<!-- ~~~~~~~~~~~~~~~~~~ jet internal -->
 		<engine-jet-internal>
 			<name>internal-jet</name>
@@ -367,7 +352,7 @@
 			<max-dist>1000</max-dist>
 		</rain-->
 
-		<!-- ~~~~~~~~~~~~~~~~~~ windshield rain -->
+		<!-- ============================================= WINDSHIELD ======================================= -->
 		<rain_ext>
 			<name>rain_ext</name>
 			<mode>looped</mode>
@@ -506,10 +491,7 @@
 			<max-dist>1000</max-dist>
 		</squeal>
 
-		<!--
-		________________________________________________________________________________
-																			AVIONICS
-		-->
+		<!-- ============================================= AVIONICS ======================================= -->
 		<pre-stall>
 			<name>pre-stall</name>
 			<mode>looped</mode>
@@ -566,9 +548,7 @@
 			</volume>
 		</click>
 
-		<!--
-				AICRAFT CRAKING
-		-->
+		<!-- ============================================= AIRCRAFT STRUCTURE ======================================= -->
 
 		<aircraft-crack>
 			<name>aircraft-crack</name>
@@ -616,16 +596,7 @@
 			</volume>
 		</aircraft-creaking>
 
-
-		<!--
-		________________________________________________________________________________
-																			EQUIPMENT
-		-->
-
-		<!-- @TODO:
-				- add airbreakes : animation + wind
-				- add slats : animation
-		-->
+		<!-- ============================================= EQUIPMENT ======================================= -->
 		<gear>
 			<name>gear</name>
 			<mode>in-transit</mode>
@@ -723,10 +694,8 @@
 			<max-dist>1000</max-dist>
 		</flap>
 
-		<!--
-		________________________________________________________________________________
-																		WEAPONS SYSTEMS
-		-->
+		<!-- ============================================= GUNS ======================================= -->
+
 		<guns>
 			<name>gunfire</name>
 			<mode>looped</mode>
@@ -740,6 +709,9 @@
 			</volume>
 		</guns>
 
+		<!-- ============================================= DAMAGE.NAS ======================================= -->
+
+		<!-- All incoming needed for damage.nas - but probably also in damage.nas legacy and never called -->
 		<incoming>
 			<name>incoming</name>
 			<mode>single</mode>
@@ -922,7 +894,7 @@
 			</volume>
 		</incoming>
 
-		<nearby-explode>
+		<nearby-explode> <!-- Needed for damage.nas -->
 			<name>nearby-explode</name>
 			<path>Aircraft/Mirage-2000/Sounds/aircraft-explode.wav</path>
 			<mode>once</mode>
@@ -946,7 +918,7 @@
 			</volume>
 		</nearby-explode>
 
-		<!--=============================================Lock Tone=======================================-->
+		<!-- ============================================= LOCK TONE OWN WEAPONS ======================================= -->
 		<lock-tone>
 			<name>ACM-lock</name><!-- to satisfy dependency from apg-68.nas-->
 			<mode>once</mode>
@@ -1090,7 +1062,7 @@
 			</volume>
 		</lock-tone>
 
-		<!--================================= Fire load sound =============================-->
+		<!-- ================================= RELEASE SOUND OWN WEAPONS ============================= -->
 
 		<missile1>
 			<name>magic-2</name>
@@ -1221,14 +1193,59 @@
 			</volume>
 		</gbu-release>
 
+
+		<!-- ================================= Fire load sound ============================= -->
 		<rwr>
-			<name>rwr-spike</name>
-			<path>Aircraft/Mirage-2000/Sounds/rwr-lock-01.wav</path>
+			<name>rwr-threat-new</name>
+			<path>Aircraft/Mirage-2000/Sounds/threat_1khz_no_chop_500ms.wav</path>
+			<mode>once</mode>
+			<type>avionics</type>
+			<condition>
+				<property>sim/current-view/internal</property>
+				<equals>
+					<property>sound/rwr-threat-new</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</rwr>
+
+		<rwr>
+			<name>rwr-threat-stt</name>
+			<path>Aircraft/Mirage-2000/Sounds/threat_1khz_chop25hz_500ms.wav</path>
+			<mode>once</mode>
+			<type>avionics</type>
+			<condition>
+				<property>sim/current-view/internal</property>
+				<equals>
+					<property>sound/rwr-threat-stt</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</rwr>
+
+		<rwr>
+			<name>rwr-maw-semi-active</name>
+			<path>Aircraft/Mirage-2000/Sounds/threat_1khz_chop25hz_500ms_500ms_10s.wav</path>
 			<mode>looped</mode>
 			<type>avionics</type>
 			<condition>
+				<property>sim/current-view/internal</property>
 				<equals>
-					<property>sound/rwr-lck</property>
+					<property>sound/rwr-maw-semi-active</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</rwr>
+
+		<rwr>
+			<name>rwr-maw-active</name>
+			<path>Aircraft/Mirage-2000/Sounds/threat_1khz_chop25hz_10s.wav</path>
+			<mode>looped</mode>
+			<type>avionics</type>
+			<condition>
+				<property>sim/current-view/internal</property>
+				<equals>
+					<property>sound/rwr-maw-active</property>
 					<value>1</value>
 				</equals>
 			</condition>

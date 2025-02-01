@@ -30,7 +30,10 @@ var COLOR_INDICATORS_UNLIT = [0, 0, 0]; # black
 var FONT_SIZE_INDICATORS = 32;
 var LINE_WIDTH_INDICATORS = 1;
 
-var COUNTER_MEASURES_INC = 0.5; # flare/chaff values can change every 0.5 seconds -> cf. weapons.nas
+# flare/chaff values can change every 0.5 seconds -> cf. weapons.nas
+# and sounds etc. for M2000 also have a length of 0.5 or multiples thereof
+# => let the updates be done in increments of ca. every 0.5 seconds
+var UPDATE_INC = 0.5;
 
 
 RWRCanvas = {
@@ -40,7 +43,13 @@ RWRCanvas = {
 		rwr.input = {
 			flares                    : "rotors/main/blade[3]/flap-deg", # see weapons.nas
 			# chaff                     : "rotors/main/blade[3]/position-deg", # not needed because same as flares
-			cm_remaining              : "/ai/submodels/submodel[7]/count"
+			cm_remaining              : "/ai/submodels/submodel[7]/count",
+			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
+			launch_callsign           : "sound/rwr-launch",
+			sound_rwr_threat_new      : "sound/rwr-threat-new",
+			sound_rwr_threat_stt      : "sound/rwr-threat-stt",
+			sound_rwr_maw_semi_active : "sound/rwr-maw-semi-active",
+			sound_rwr_maw_active      : "sound/rwr-maw-active"
 		};
 
 		foreach(var name; keys(rwr.input)) {
@@ -60,14 +69,17 @@ RWRCanvas = {
 		rwr.rwr_circles_group = root.createChild("group", "rwr_circles_group")
 		                            .setTranslation(SCREEN_WIDTH/2, SCREEN_HEIGHT/2); # in the middle of the screen
 		rwr._createRWRCircles();
+		rwr._createRWRSymbols();
+
 		rwr.dispenser_group = root.createChild("group", "dispenser_group")
 		                          .setTranslation(SCREEN_WIDTH-DISPENSER_BOX_WIDTH-DISPENSER_BOX_SEPARATION, 6*DISPENSER_BOX_SEPARATION);
 		rwr._createDispenserIndicators();
 
-		rwr.shownList = [];
+		rwr.prev_contacts = [];
+		rwr.prev_stt = [];
 
-		rwr.last_counter_measures_inc = 0;
-		rwr.cm_alternated = FALSE; # toggles every ca. COUNTER_MEASURES_INC seconds between TRUE and FALSE
+		rwr.last_update_inc = 0;
+		rwr.alternated = FALSE; # toggles every ca. UPDATE_INC seconds between TRUE and FALSE
 
 		rwr.recipient = emesary.Recipient.new(_ident);
 		rwr.recipient.parent_obj = rwr;
@@ -137,55 +149,43 @@ RWRCanvas = {
 			.lineTo(-(me.radius+TICK_LENGTH_SHORT)*math.cos(rad_60),(me.radius+TICK_LENGTH_SHORT)*math.sin(rad_60))
 			.setStrokeLineWidth(LINE_WIDTH)
 			.setColor(COLOR_WHITE);
+	},
+	_createRWRSymbols: func() {
 		me.texts = setsize([], me.max_icons);
 		for (var i = 0; i < me.max_icons; i+=1) {
 			me.texts[i] = me.rwr_circles_group.createChild("text")
-			                           .setText("00")
 			                           .setAlignment("center-center")
 			                           .setColor(COLOR_YELLOW)
 			                           .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
 			                           .setFont(FONT_MONO_REGULAR)
 			                           .hide();
+			me.texts[i].enableUpdate();
+			me.texts[i].updateText("00");
 		}
-		me.symbol_hat = setsize([], me.max_icons);
+
+		me.symbol_hat = setsize([], me.max_icons); # missile
 		for (var i = 0; i < me.max_icons; i+=1) {
 			me.symbol_hat[i] = me.rwr_circles_group.createChild("path")
-					.moveTo(0,-FONT_DIST)
-					.lineTo(FONT_DIST*0.7,-FONT_DIST*0.5)
-					.moveTo(0,-FONT_DIST)
-					.lineTo(-FONT_DIST*0.7,-FONT_DIST*0.5)
+					.moveTo(0, -FONT_DIST)
+					.lineTo(FONT_DIST*0.7, -FONT_DIST*0.5)
+					.moveTo(0, -FONT_DIST)
+					.lineTo(-FONT_DIST*0.7, -FONT_DIST*0.5)
 					.setStrokeLineWidth(LINE_WIDTH)
 					.setColor(COLOR_YELLOW)
 					.hide();
 		}
-		me.symbol_launch = setsize([], me.max_icons);
+
+		me.symbol_chevron = setsize([], me.max_icons); # STT / spike
 		for (var i = 0; i < me.max_icons; i+=1) {
-			me.symbol_launch[i] = me.rwr_circles_group.createChild("path")
-					.moveTo(FONT_DIST*1.2, 0)
-					.arcSmallCW(FONT_DIST*1.2, FONT_DIST*1.2, 0, -FONT_DIST*2.4, 0)
-					.arcSmallCW(FONT_DIST*1.2, FONT_DIST*1.2, 0, FONT_DIST*2.4, 0)
+			me.symbol_chevron[i] = me.rwr_circles_group.createChild("path")
+					.moveTo(0, FONT_DIST)
+					.lineTo(FONT_DIST*0.7, FONT_DIST*0.5)
+					.moveTo(0, FONT_DIST)
+					.lineTo(-FONT_DIST*0.7, FONT_DIST*0.5)
 					.setStrokeLineWidth(LINE_WIDTH)
 					.setColor(COLOR_YELLOW)
 					.hide();
 		}
-		me.symbol_new = setsize([], me.max_icons);
-		for (var i = 0; i < me.max_icons; i+=1) {
-			me.symbol_new[i] = me.rwr_circles_group.createChild("path")
-					.moveTo(FONT_DIST*1.2, 0)
-					.arcSmallCCW(FONT_DIST*1.2, FONT_DIST*1.2, 0, -FONT_DIST*2.4, 0)
-					.setStrokeLineWidth(LINE_WIDTH)
-					.setColor(COLOR_YELLOW)
-					.hide();
-		}
-		me.symbol_priority = me.rwr_circles_group.createChild("path")
-					.moveTo(0, FONT_DIST*1.2)
-					.lineTo(FONT_DIST*1.2, 0)
-					.lineTo(0,-FONT_DIST*1.2)
-					.lineTo(-FONT_DIST*1.2,0)
-					.lineTo(0, FONT_DIST*1.2)
-					.setStrokeLineWidth(LINE_WIDTH)
-					.setColor(COLOR_YELLOW)
-					.hide();
 	},
 
 	_createDispenserIndicators: func {
@@ -255,205 +255,153 @@ RWRCanvas = {
 		                                               add_down + DISPENSER_BOX_WIDTH/2);
 	},
 
-	_assignSepSpot: func {
-		# me.dev        angle_deg
-		# me.sep_spots  0 to 2  45, 20, 15
-		# me.threat     0 to 2
-		# me.sep_angles
-		# return   me.dev,  me.threat
-		me.newdev = me.dev;
-		me._assignIdealSepSpot();
-		me.plus = me.sep_angles[me.threat];
-		me.dir  = 0;
-		me.count = 1;
-		while(me.sep_spots[me.threat][me.spot] and me.count < size(me.sep_spots[me.threat])) {
-
-			if (me.dir == 0) me.dir = 1;
-			elsif (me.dir > 0) me.dir = -me.dir;
-			elsif (me.dir < 0) me.dir = -me.dir+1;
-
-			#printf("%2s: Spot %d taken. Trying %d direction.",me.typ, me.spot, me.dir);
-
-			me.newdev = me.dev + me.plus * me.dir;
-
-			me._assignIdealSepSpot();
-			me.count += 1;
-		}
-
-		me.sep_spots[me.threat][me.spot] += 1;
-
-		# finished assigning spot
-		#printf("%2s: Spot %d assigned. Ring=%d",me.typ, me.spot, me.threat);
-		me.dev = me.spot * me.plus;
-		if (me.threat == 0) {
-			me.threat = me.sep1_radius;
-		} elsif (me.threat == 1) {
-			me.threat = me.sep2_radius;
-		} elsif (me.threat == 2) {
-			me.threat = me.sep3_radius;
-		}
-	},
-
-	_assignIdealSepSpot: func {
-		me.spot = math.round(geo.normdeg(me.newdev)/me.sep_angles[me.threat]);
-		if (me.spot >= size(me.sep_spots[me.threat])) me.spot = 0;
-	},
-
 	_update: func (notification) {
-		if (notification.getproper("elapsed_seconds") - me.last_counter_measures_inc >= COUNTER_MEASURES_INC) {
-			me._updateCounterMeasures();
-			me.last_counter_measures_inc = notification.getproper("elapsed_seconds");
-			if (me.cm_alternated == TRUE) {
-				me.cm_alternated = FALSE;
+		me.elapsed = notification.getproper("elapsed_seconds");
+		if (me.elapsed - me.last_update_inc >= UPDATE_INC) {
+			me.last_update_inc = me.elapsed;
+			if (me.alternated == TRUE) {
+				me.alternated = FALSE;
 			} else {
-				me.cm_alternated = TRUE;
+				me.alternated = TRUE;
 			}
-		}
-		if (notification.FrameCount != 0) {
+		} else {
 			return;
 		}
+		me._updateCounterMeasures();
 
-		me.sep = 0; # not yet implemented - in F16 getprop("f16/ews/rwr-separate");
-		me.showUnknowns = 1;
-		me.elapsed = getprop("sim/time/elapsed-sec");
-		me.pri5 = 0;  #only used to align with F16
+		me.show_unknowns = 1; # does not change cf. https://github.com/5H1N0B11/flightgear-mirage2000/issues/244
+
+		me.semi_callsign = me.input.semiactive_callsign.getValue();
+		me.launch_callsign = me.input.launch_callsign.getValue();
+		me.has_maw_active = FALSE;
+		me.has_maw_semi_active = FALSE;
+		if (me.launch_callsign != nil and me.launch_callsign != '') {
+			me.has_maw_active = TRUE;
+		}
+		if (me.semi_callsign != nil and me.semi_callsign != '') {
+			me.has_maw_semi_active = TRUE;
+		}
+
 		var sorter = func(a, b) {
-			if(a[1] > b[1]){
+			if (a[1] > b[1]) {
 				return -1; # A should before b in the returned vector
-			}elsif(a[1] == b[1]){
+			} elsif (a[1] == b[1]) {
 				return 0; # A is equivalent to b
-			}else{
+			} else {
 				return 1; # A should after b in the returned vector
 			}
 		}
-		me.sortedlist = sort(radar_system.f16_rwr.vector_aicontacts_threats, sorter);
+		me.sorted_list = sort(radar_system.f16_rwr.vector_aicontacts_threats, sorter);
 
-		me.sep_spots = [[0,0,0,0,0,0,0,0], #45 degs  8
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], # 20 degs  18
-						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]; # 15 degs  24
-		me.sep_angles = [45,20,15];
-
-		me.newList = [];
+		me.new_contacts = [];
+		me.new_stt = [];
 		me.i = 0;
-		me.prio = 0;
-		me.newsound = 0;
-		me.priCount = 0; # only added to align with F16 - not used
-		me.priFlash = 0; # only added to align with F16 - not used
-		me.unkFlash = 0; # aligned with F16 - although in the M2000 it is a sound not a flash
-		foreach(me.contact; me.sortedlist) {
+		me.has_new_threat = FALSE;
+		me.has_new_stt = FALSE;
+		foreach(me.contact; me.sorted_list) {
 			me.dbEntry = radar_system.getDBEntry(me.contact[0].getModel());
 			me.typ = me.dbEntry.rwrCode;
+			# first exclude what does not need to be shown
 			if (me.i > me.max_icons-1) {
 				break;
 			}
 			if (me.typ == nil) {
 				me.typ = me.AIRCRAFT_UNKNOWN;
-				if (!me.showUnknowns) {
-					me.unkFlash = 1;
+				if (!me.show_unknowns) {
 					continue;
 				}
 			}
 			if (me.typ == me.ASSET_AI) {
-				if (!me.showUnknowns) {
-					#me.unkFlash = 1; # We don't flash for AI, that would just be distracting
+				if (!me.show_unknowns) {
 					continue;
 				}
 			}
 			if (me.contact[0].get_range() > 170) { # deviates from F16, which has 150
 				continue;
 			}
-
 			me.threat = me.contact[1];
-
 			if (me.threat <= 0) {
 				continue;
 			}
 
-			if (me.pri5 and me.priCount >= 5) {
-				me.priFlash = 1;
-				continue;
+			# now we know it should be shown
+			me.is_blinking = FALSE;
+			if (me.has_maw_active and me.launch_callsign == me.contact[0].get_Callsign()) {
+				me.is_blinking = TRUE;
+			} else if (me.has_maw_semi_active and me.semi_callsign == me.contact[0].get_Callsign()) {
+				me.is_blinking = TRUE;
 			}
-			me.priCount += 1;
-
-			if (!me.sep) {
-
-				if (me.threat > 0.5 and me.typ != me.AIRCRAFT_UNKNOWN and me.typ != me.AIRCRAFT_SEARCH) {
-					me.threat = me.inner_radius;# inner circle
-				} else {
-					me.threat = me.outer_radius;# outer circle
-				}
-
-				me.dev = -me.contact[2]+90;
+			if (me.threat > 0.5 and me.typ != me.AIRCRAFT_UNKNOWN and me.typ != me.AIRCRAFT_SEARCH) {
+				me.threat = me.inner_radius; # inner circle
 			} else {
-				me.dev = -me.contact[2]+90;
-
-				if (me.threat > 0.5 and me.typ != me.AIRCRAFT_UNKNOWN and me.typ != me.AIRCRAFT_SEARCH) {
-					me.threat = 0;
-				} elsif (me.threat > 0.25) {
-					me.threat = 1;
-				} else {
-					me.threat = 2;
-				}
-				me._assignSepSpot();
+				me.threat = me.outer_radius; # outer circle
 			}
+			me.dev = -me.contact[2]+90;
 
 			me.x = math.cos(me.dev*D2R)*me.threat;
 			me.y = -math.sin(me.dev*D2R)*me.threat;
 			me.texts[me.i].setTranslation(me.x,me.y);
-			me.texts[me.i].setText(me.typ);
-			me.texts[me.i].show();
-			if (me.prio == 0 and me.typ != me.ASSET_AI and me.typ != me.AIRCRAFT_UNKNOWN) {#
-				me.symbol_priority.setTranslation(me.x,me.y);
-				me.symbol_priority.show();
-				me.prio = 1;
-			}
-			if (me.contact[0].getType() == armament.AIR) {
-				#air-borne
-				me.symbol_hat[me.i].setTranslation(me.x,me.y);
+			me.texts[me.i].updateText(me.typ);
+			me.symbol_chevron[me.i].setTranslation(me.x,me.y);
+			me.symbol_hat[me.i].setTranslation(me.x,me.y);
+
+			if (me.is_blinking == TRUE and me.alternated == TRUE) {
+				me.texts[me.i].show();
+				me.symbol_chevron[me.i].show();
 				me.symbol_hat[me.i].show();
-			} else {
+			} else if (me.is_blinking == TRUE and me.alternated == FALSE) {
+				me.texts[me.i].hide();
+				me.symbol_chevron[me.i].hide();
 				me.symbol_hat[me.i].hide();
-			}
-			if (me.contact[0].get_Callsign()==getprop("sound/rwr-launch") and 10*(me.elapsed-int(me.elapsed))>5) {#blink 2Hz
-				me.symbol_launch[me.i].setTranslation(me.x,me.y);
-				me.symbol_launch[me.i].show();
 			} else {
-				me.symbol_launch[me.i].hide();
-			}
-			me.popupNew = me.elapsed;
-			foreach(me.old; me.shownList) {
-				if(me.old[0].getUnique()==me.contact[0].getUnique()) {
-					me.popupNew = me.old[1];
-					break;
+				me.texts[me.i].show();
+				me.symbol_hat[me.i].hide();
+				if (me.contact[0].isSpikingMe()) {
+					me.symbol_chevron[me.i].show();
+					append(me.new_stt, me.contact[0]);
+					if (me.has_new_stt == FALSE) {
+						foreach (me.old; me.prev_stt) {
+							if (me.old.getUnique()==me.contact[0].getUnique()) {
+								me.has_new_stt = TRUE;
+								break;
+							}
+						}
+					}
+				} else {
+					me.symbol_chevron[me.i].hide();
 				}
 			}
-			if (me.popupNew == me.elapsed) {
-				me.newsound = 1;
+			# check whether new threat
+			if (me.has_new_threat == FALSE) {
+				foreach (me.old; me.prev_contacts) {
+					if (me.old.getUnique()==me.contact[0].getUnique()) {
+						me.has_new_threat = TRUE;
+						break;
+					}
+				}
 			}
-			if (me.popupNew > me.elapsed-me.fadeTime) {
-				me.symbol_new[me.i].setTranslation(me.x,me.y);
-				me.symbol_new[me.i].show();
-				me.symbol_new[me.i].update();
-			} else {
-				me.symbol_new[me.i].hide();
-			}
-			#printf("display %s %d",contact[0].get_Callsign(), me.threat);
-			append(me.newList, [me.contact[0],me.popupNew]);
+			append(me.new_contacts, me.contact[0]);
 			me.i += 1;
 		}
-		me.shownList = me.newList;
+		# hide every symbol, which is not needed
 		for (;me.i<me.max_icons;me.i+=1) {
 			me.texts[me.i].hide();
 			me.symbol_hat[me.i].hide();
-			me.symbol_new[me.i].hide();
-			me.symbol_launch[me.i].hide();
+			me.symbol_chevron[me.i].hide();
 		}
-		if (me.prio == 0) {
-			me.symbol_priority.hide();
+
+		me.prev_contacts = me.new_contacts; # the prev_contacts will be the "old" one in next call to _update
+		me.prev_stt = me.new_stt;
+
+		me.input.sound_rwr_threat_new.setValue(me.has_new_threat);
+		me.input.sound_rwr_threat_stt.setValue(me.has_new_stt);
+
+		me.input.sound_rwr_maw_active.setValue(me.has_maw_active);
+		if (me.has_maw_active == FALSE and me.has_maw_semi_active == TRUE) {
+			me.input.sound_rwr_maw_semi_active.setValue(TRUE);
+		} else {
+			me.input.sound_rwr_maw_semi_active.setValue(FALSE);
 		}
-		if (me.newsound == 1) setprop("sound/rwr-new", !getprop("sound/rwr-new"));
-		setprop("sound/rwr-pri", me.prio);
-		setprop("sound/rwr-unk", me.unkFlash);
 	},
 
 	_updateCounterMeasures: func() {
@@ -474,7 +422,7 @@ RWRCanvas = {
 			me.cm_background_line = COLOR_INDICATORS_UNLIT;
 			me.cm_background_fill = COLOR_EM_BACKGROUND_LIT;
 		} else if (me.input.cm_remaining.getValue() <= 20) {
-			if (me.cm_alternated == TRUE) {
+			if (me.alternated == TRUE) {
 				me.cm_background_line = COLOR_INDICATORS_UNLIT;
 				me.cm_background_fill = COLOR_EM_BACKGROUND_LIT;
 			}
@@ -485,7 +433,7 @@ RWRCanvas = {
 		me.ir_box.setColor(me.cm_background_line);
 		me.ir_box.setColorFill(me.cm_background_fill);
 		me.ir_text.setColor(me.cm_background_line);
-		# eo_box stays the same (not implemented)
+		# eo_box and eo_text stays the same (not implemented)
 	},
 };
 

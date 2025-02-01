@@ -361,25 +361,25 @@ var VTM = {
 		                                       .setFont(FONT_MONO_REGULAR)
 		                                       .setColor(COLOR_RADAR)
 		                                       .setAlignment("left-top")
-		                                       .setText("")
 		                                       .setTranslation(GRID_TICK_LENGTH*4, -GRID_TICK_LENGTH*3.5);
 		me.cursor_upper_limit.enableUpdate();
+		me.cursor_upper_limit.updateText("");
 		me.cursor_lower_limit = me.cursor_group.createChild("text", "cursor_lower_limit")
 		                                       .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
 		                                       .setFont(FONT_MONO_REGULAR)
 		                                       .setColor(COLOR_RADAR)
 		                                       .setAlignment("left-bottom")
-		                                       .setText("")
 		                                       .setTranslation(GRID_TICK_LENGTH*4, GRID_TICK_LENGTH*3.5);
 		me.cursor_lower_limit.enableUpdate();
+		me.cursor_lower_limit.updateText("");
 		me.cursor_distance    = me.cursor_group.createChild("text", "cursor_distance")
 		                                       .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
 		                                       .setFont(FONT_MONO_REGULAR)
 		                                       .setColor(COLOR_RADAR)
 		                                       .setAlignment("right-bottom")
-		                                       .setText("")
 		                                       .setTranslation(-GRID_TICK_LENGTH*3.5 - 2, 0);
 		me.cursor_distance.enableUpdate();
+		me.cursor_distance.updateText("");
 
 		# the dynamic texts in the upper right corner (French = cartouche alidade)
 		var left_padding = RADAR_VIEW_WIDTH/2 - 80;
@@ -413,25 +413,25 @@ var VTM = {
 		                                         .setFont(FONT_MONO_REGULAR)
 		                                         .setColor(COLOR_RADAR)
 		                                         .setAlignment("right-bottom")
-		                                         .setText("0")
 		                                         .setTranslation(right_padding, -RADAR_VIEW_HEIGHT/2 + FONT_HEIGHT_SMALL);
 		me.cursor_hdg_text   = me.cartridge_group.createChild("text", "cursor_hdg_text")
 		                                         .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
 		                                         .setFont(FONT_MONO_REGULAR)
 		                                         .setColor(COLOR_RADAR)
 		                                         .setAlignment("right-bottom")
-		                                         .setText("")
 		                                         .setTranslation(right_padding, -RADAR_VIEW_HEIGHT/2 + 2*FONT_HEIGHT_SMALL);
 		me.cursor_dist_text  = me.cartridge_group.createChild("text", "cursor_dist_text")
 		                                         .setFontSize(FONT_SIZE_SMALL, FONT_ASPECT_RATIO)
 		                                         .setFont(FONT_MONO_REGULAR)
 		                                         .setColor(COLOR_RADAR)
 		                                         .setAlignment("right-bottom")
-		                                         .setText("")
 		                                         .setTranslation(right_padding, -RADAR_VIEW_HEIGHT/2 + 3*FONT_HEIGHT_SMALL);
 		me.cursor_n_text.enableUpdate();
+		me.cursor_n_text.updateText("0");
 		me.cursor_hdg_text.enableUpdate();
+		me.cursor_hdg_text.updateText("");
 		me.cursor_dist_text.enableUpdate();
+		me.cursor_dist_text.updateText("");
 
 		me.alidade_group.hide();
 	},
@@ -457,10 +457,10 @@ var VTM = {
 		                                              .setFont(FONT_MONO_BOLD)
 		                                              .setColor(COLOR_RADAR)
 		                                              .setAlignment("right-top")
-		                                              .setText("")
 		                                              .setTranslation(0.5 * RADAR_VIEW_WIDTH - TEXT_PADDING,
 		                                                              0.5 * RADAR_VIEW_HEIGHT + COMPASS_SCALE_HEIGHT + TEXT_PADDING);
 		me.selected_target_callsign.enableUpdate();
+		me.selected_target_callsign.updateText("");
 
 		me.friend_contacts = setsize([],MAX_CONTACTS);
 		for (var i = 0; i<MAX_CONTACTS; i += 1) {
@@ -563,9 +563,9 @@ var VTM = {
 		                                          .setFont(FONT_MONO_BOLD)
 		                                          .setColor(COLOR_RADAR)
 		                                          .setAlignment("left-top")
-		                                          .setText("")
 		                                          .setTranslation(SCREEN_WIDTH/2 + 10, PADDING_TOP + 2*GRID_TICK_LENGTH);
 		me.radar_range_text.enableUpdate();
+		me.radar_range_text.updateText("");
 
 		# radar pitch. There should be place for ca. 75 degrees up and down
 		var pad_left = PADDING_HORIZONTAL + 2*GRID_TICK_LENGTH;
@@ -600,9 +600,9 @@ var VTM = {
 		                                           .setFont(FONT_MONO_REGULAR)
 		                                           .setColor(COLOR_RADAR)
 		                                           .setAlignment("left-center")
-		                                           .setText("")
 		                                           .setTranslation(pad_left + GRID_TICK_LENGTH, pad_top);
 		me.radar_b_bars.enableUpdate();
+		me.radar_b_bars.updateText("");
 		me.radar_modes_group.hide();
 	},
 
