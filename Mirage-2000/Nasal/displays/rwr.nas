@@ -45,22 +45,27 @@ RWRCanvas = {
 			# chaff                     : "rotors/main/blade[3]/position-deg", # not needed because same as flares
 			cm_remaining              : "/ai/submodels/submodel[7]/count",
 			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
+			maw_active                : "payload/armament/MAW-active",
+			maw_bearing               : "payload/armament/MAW-bearing",
 			launch_callsign           : "sound/rwr-launch",
 			sound_rwr_threat_new      : "sound/rwr-threat-new",
 			sound_rwr_threat_stt      : "sound/rwr-threat-stt",
 			sound_rwr_maw_semi_active : "sound/rwr-maw-semi-active",
-			sound_rwr_maw_active      : "sound/rwr-maw-active"
+			sound_rwr_maw_active      : "sound/rwr-maw-active",
+			heading_true              : "orientation/heading-deg"
 		};
 
 		foreach(var name; keys(rwr.input)) {
 			rwr.input[name] = props.globals.getNode(rwr.input[name], 1);
 		}
 
-		rwr.max_icons = 12;
+		rwr.max_icons = 12; # what is displayed as threats. +1 for 1 tracked missile (i.e. 12+1 = 13)
 		rwr.radius = 0.8 * SCREEN_HEIGHT/2; # we want a bit of space around the circle
-		rwr.inner_radius = rwr.radius*0.30; # where to put the high threat symbols
-		rwr.outer_radius = rwr.radius*0.75; # where to put the lower threat symbols
-		rwr.circle_radius_middle = rwr.radius*0.5;
+		rwr.high_threat_radius = rwr.radius*0.45; # where to put the high threat symbols
+		rwr.missile_radius = rwr.radius*0.2; # where to put the missile(s)
+		rwr.lower_threat_radius = rwr.radius*0.8; # where to put the lower threat symbols
+		rwr.unknown_threat_radius = rwr.radius*0.9; # where to put threats that are unknown or searching
+		rwr.circle_radius_middle = rwr.radius*0.55;
 		rwr.fadeTime = 7; #seconds
 		rwr.AIRCRAFT_UNKNOWN  = "U";
 		rwr.ASSET_AI          = "AI";
@@ -151,8 +156,8 @@ RWRCanvas = {
 			.setColor(COLOR_WHITE);
 	},
 	_createRWRSymbols: func() {
-		me.texts = setsize([], me.max_icons);
-		for (var i = 0; i < me.max_icons; i+=1) {
+		me.texts = setsize([], me.max_icons+1);
+		for (var i = 0; i < me.max_icons+1; i+=1) {
 			me.texts[i] = me.rwr_circles_group.createChild("text")
 			                           .setAlignment("center-center")
 			                           .setColor(COLOR_YELLOW)
@@ -160,28 +165,32 @@ RWRCanvas = {
 			                           .setFont(FONT_MONO_REGULAR)
 			                           .hide();
 			me.texts[i].enableUpdate();
-			me.texts[i].updateText("00");
+			if (i == me.max_icons) {
+				me.texts[i].updateText("W"); # will not change -> missile
+			} else {
+				me.texts[i].updateText("00");
+			}
 		}
 
-		me.symbol_hat = setsize([], me.max_icons); # missile
-		for (var i = 0; i < me.max_icons; i+=1) {
+		me.symbol_hat = setsize([], me.max_icons+1); # supporting active missile
+		for (var i = 0; i < me.max_icons+1; i+=1) {
 			me.symbol_hat[i] = me.rwr_circles_group.createChild("path")
 					.moveTo(0, -FONT_DIST)
-					.lineTo(FONT_DIST*0.7, -FONT_DIST*0.5)
+					.lineTo(FONT_DIST*0.9, -FONT_DIST*0.6)
 					.moveTo(0, -FONT_DIST)
-					.lineTo(-FONT_DIST*0.7, -FONT_DIST*0.5)
+					.lineTo(-FONT_DIST*0.9, -FONT_DIST*0.6)
 					.setStrokeLineWidth(LINE_WIDTH)
 					.setColor(COLOR_YELLOW)
 					.hide();
 		}
 
-		me.symbol_chevron = setsize([], me.max_icons); # STT / spike
-		for (var i = 0; i < me.max_icons; i+=1) {
+		me.symbol_chevron = setsize([], me.max_icons+1); # STT / spike
+		for (var i = 0; i < me.max_icons+1; i+=1) {
 			me.symbol_chevron[i] = me.rwr_circles_group.createChild("path")
 					.moveTo(0, FONT_DIST)
-					.lineTo(FONT_DIST*0.7, FONT_DIST*0.5)
+					.lineTo(FONT_DIST*0.9, FONT_DIST*0.6)
 					.moveTo(0, FONT_DIST)
-					.lineTo(-FONT_DIST*0.7, FONT_DIST*0.5)
+					.lineTo(-FONT_DIST*0.9, FONT_DIST*0.6)
 					.setStrokeLineWidth(LINE_WIDTH)
 					.setColor(COLOR_YELLOW)
 					.hide();
@@ -331,19 +340,21 @@ RWRCanvas = {
 			} else if (me.has_maw_semi_active and me.semi_callsign == me.contact[0].get_Callsign()) {
 				me.is_blinking = TRUE;
 			}
-			if (me.threat > 0.5 and me.typ != me.AIRCRAFT_UNKNOWN and me.typ != me.AIRCRAFT_SEARCH) {
-				me.threat = me.inner_radius; # inner circle
+			if (me.typ == me.AIRCRAFT_UNKNOWN or me.typ == me.AIRCRAFT_SEARCH) {
+				me.threat = me.unknown_threat_radius;
+			} else if (me.threat > 0.5) {
+				me.threat = me.high_threat_radius;
 			} else {
-				me.threat = me.outer_radius; # outer circle
+				me.threat = me.lower_threat_radius;
 			}
 			me.dev = -me.contact[2]+90;
 
 			me.x = math.cos(me.dev*D2R)*me.threat;
 			me.y = -math.sin(me.dev*D2R)*me.threat;
-			me.texts[me.i].setTranslation(me.x,me.y);
+			me.texts[me.i].setTranslation(me.x, me.y);
 			me.texts[me.i].updateText(me.typ);
-			me.symbol_chevron[me.i].setTranslation(me.x,me.y);
-			me.symbol_hat[me.i].setTranslation(me.x,me.y);
+			me.symbol_chevron[me.i].setTranslation(me.x, me.y);
+			me.symbol_hat[me.i].setTranslation(me.x, me.y);
 
 			if (me.is_blinking == TRUE and me.alternated == TRUE) {
 				me.texts[me.i].show();
@@ -393,6 +404,25 @@ RWRCanvas = {
 		me.prev_contacts = me.new_contacts; # the prev_contacts will be the "old" one in next call to _update
 		me.prev_stt = me.new_stt;
 
+		# show the active missile (only one can be shown in OPRF)
+		if (me.input.maw_active.getValue() and me.alternated == TRUE) { # we show blinking when FALSE to make it more visible
+			me.dev = -geo.normdeg180(me.input.maw_bearing.getValue() - me.input.heading_true.getValue()) + 90;
+			me.x = math.cos(me.dev*D2R)*me.missile_radius;
+			me.y = -math.sin(me.dev*D2R)*me.missile_radius;
+			me.texts[me.max_icons].setTranslation(me.x, me.y);
+			me.symbol_chevron[me.max_icons].setTranslation(me.x, me.y);
+			me.symbol_hat[me.max_icons].setTranslation(me.x, me.y);
+
+			me.texts[me.max_icons].show();
+			me.symbol_hat[me.max_icons].show();
+			me.symbol_chevron[me.max_icons].show();
+		} else {
+			me.texts[me.max_icons].hide();
+			me.symbol_hat[me.max_icons].hide();
+			me.symbol_chevron[me.max_icons].hide();
+		}
+
+		# set the sounds
 		me.input.sound_rwr_threat_new.setValue(me.has_new_threat);
 		me.input.sound_rwr_threat_stt.setValue(me.has_new_stt);
 
