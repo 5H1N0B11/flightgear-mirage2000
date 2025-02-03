@@ -30,6 +30,9 @@ var COLOR_INDICATORS_UNLIT = [0, 0, 0]; # black
 var FONT_SIZE_INDICATORS = 32;
 var LINE_WIDTH_INDICATORS = 1;
 
+var COLOR_SERVICEABLE = [1, 0, 0]; # red
+var LINE_WIDTH_SERVICEABLE = 6;
+
 # flare/chaff values can change every 0.5 seconds -> cf. weapons.nas
 # and sounds etc. for M2000 also have a length of 0.5 or multiples thereof
 # => let the updates be done in increments of ca. every 0.5 seconds
@@ -52,7 +55,8 @@ RWRCanvas = {
 			sound_rwr_threat_stt      : "sound/rwr-threat-stt",
 			sound_rwr_maw_semi_active : "sound/rwr-maw-semi-active",
 			sound_rwr_maw_active      : "sound/rwr-maw-active",
-			heading_true              : "orientation/heading-deg"
+			heading_true              : "orientation/heading-deg",
+			wow                       : "fdm/jsbsim/gear/wow"
 		};
 
 		foreach(var name; keys(rwr.input)) {
@@ -79,6 +83,10 @@ RWRCanvas = {
 		rwr.dispenser_group = root.createChild("group", "dispenser_group")
 		                          .setTranslation(SCREEN_WIDTH-DISPENSER_BOX_WIDTH-DISPENSER_BOX_SEPARATION, 6*DISPENSER_BOX_SEPARATION);
 		rwr._createDispenserIndicators();
+
+		rwr.serviceable_group = root.createChild("group", "serviceable_group")
+		                        .setTranslation(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+		rwr._createServiceableMarkers();
 
 		rwr.prev_contacts = [];
 		rwr.prev_stt = [];
@@ -264,6 +272,21 @@ RWRCanvas = {
 		                                               add_down + DISPENSER_BOX_WIDTH/2);
 	},
 
+	_createServiceableMarkers: func {
+		me.serviceable_markers = me.serviceable_group.createChild("path")
+				.moveTo(-50, 50)
+				.lineTo(-25, -50)
+				.moveTo(-25, 50)
+				.lineTo(0, -50)
+				.moveTo(0, 50)
+				.lineTo(25, -50)
+				.moveTo(25, 50)
+				.lineTo(50, -50)
+				.setStrokeLineWidth(LINE_WIDTH_SERVICEABLE)
+				.setColor(COLOR_SERVICEABLE)
+				.hide();
+	},
+
 	_update: func (notification) {
 		me.elapsed = notification.getproper("elapsed_seconds");
 		if (me.elapsed - me.last_update_inc >= UPDATE_INC) {
@@ -276,6 +299,13 @@ RWRCanvas = {
 		} else {
 			return;
 		}
+		# let us see whether we are ready at all first
+		if (me.input.wow.getValue()) {
+			me.serviceable_markers.show();
+			return;
+		}
+		me.serviceable_markers.hide();
+
 		me._updateCounterMeasures();
 
 		me.show_unknowns = 1; # does not change cf. https://github.com/5H1N0B11/flightgear-mirage2000/issues/244
