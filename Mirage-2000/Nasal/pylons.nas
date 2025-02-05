@@ -1,17 +1,18 @@
 print("*** LOADING pylons.nas ... ***");
-# Note :
-#Note : when we add weapons, the names should be the same : same short name and same long name in pylons.nas and payload.xml
-#also in loads.xml, we need to use -set and the long name
-#also be sure not to mess with upper/lower case in the folder/files of the new weapons itself
+# Note : when we add weapons, the names should be the same : same short name and same long name in pylons.nas and payload.xml
+# Also in loads.xml, we need to use -set and the long name
+# Also be sure not to mess with upper/lower case in the folder/files of the new weapons itself
 
 
-var TRUE=1;
-var FALSE=0;
+var TRUE = 1;
+var FALSE = 0;
+
 var ARM_SIM = -1;
 var ARM_OFF = 0;# these 3 are needed by fire-control.
 var ARM_ARM = 1;
 
-var fcs = nil;
+var fcs = nil; # is set below in script when pylon objects etc. are ready
+
 var pylon1 = nil;
 var pylon2 = nil;
 var pylon3 = nil;
@@ -24,21 +25,24 @@ var pylon9 = nil;
 var pylonI = nil;
 
 var AIRCRAFT = getprop("/sim/aircraft");
-var cannon = stations.SubModelWeapon.new("30mm Cannon", 0.9369635, 125, [0,1], [2,3], props.globals.getNode("controls/armament/Gun_trigger",1), 0, func{return 1;});
+
+### Operation conditions for stations.
+# Does not decide if the station is armed etc. (this is in fire_control.nas),
+# just if its not broken/has power.
+var serviceable = func {
+	return TRUE; # cf. https://github.com/5H1N0B11/flightgear-mirage2000/issues/246
+}
+
+
+# cannons
+var bullet_munition_mass = 0.9369635;
+var cannon = stations.SubModelWeapon.new("30mm Cannon", bullet_munition_mass, 125, [0,1], [2,3], props.globals.getNode("controls/armament/Gun_trigger",1), FALSE, serviceable);
+var cc422 = stations.SubModelWeapon.new("CC422", bullet_munition_mass, 250, [0], [2], props.globals.getNode("controls/armament/Gun_trigger",1), FALSE, serviceable);
 cannon.brevity = "Guns guns";
-
-#5H1NB1's notes : To check : It seems that the weight of the tank itself isn't taking in account
-#Not because of the fc code, but because I didn't find where to put it
-
-# var RP522 = stations.FuelTank.new("1300 l Droptank", "RP522", 3, 343, props.globals.getNode("controls/armament/station[3]/RP522",1), 0, func{return 1;});
-# var RP542 = stations.FuelTank.new("2000 l Droptank", "RP542", 2, 528, props.globals.getNode("controls/armament/station[2]/RP542",1), 0, func{return 1;});
-# var RP541 = stations.FuelTank.new("2000 l Droptank", "RP541", 4, 528, props.globals.getNode("controls/armament/station[4]/RP541",1), 0, func{return 1;});
-# var RP502 = stations.FuelTank.new("1700 l Droptank", "RP502", 2, 448, props.globals.getNode("controls/armament/station[2]/RP502",1), 0, func{return 1;});
-# var RP501 = stations.FuelTank.new("1700 l Droptank", "RP501", 4, 448, props.globals.getNode("controls/armament/station[4]/RP501",1), 0, func{return 1;});
+cc422.brevity = "Guns guns";
 
 
 var RP522 = stations.FuelTank.new("1300 l Droptank", "RP522", 8, 343, "/consumables/fuel/tank[8]");
-
 
 var RP541 = stations.FuelTank.new("2000 l Droptank", "RP541", 9, 528, "/consumables/fuel/tank[9]");
 var RP542 = stations.FuelTank.new("2000 l Droptank", "RP542", 10, 528, "/consumables/fuel/tank[10]");
@@ -58,60 +62,61 @@ var smokepod = stations.Dummy.new("smoke-pod", "smoke-pod");
 #Normal: folder, content, firecontrol, damage
 
 var pylonSets = {
-    empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
-    e: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-    t: {name: "1300 l Droptank", content: [RP522], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-    t2: {name: "2000 l Droptank", content: [RP542], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-    tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-    t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-    tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
+	e: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	t: {name: "1300 l Droptank", content: [RP522], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	t2: {name: "2000 l Droptank", content: [RP542], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 
-    smo: {name: "Smoke Pod", content: [smokepod], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	smo: {name: "Smoke Pod", content: [smokepod], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 
-    g: {name: "Matra R550 Magic 2", content: ["Magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-    g2: {name: "MICA IR", content: ["MICA-IR"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	g: {name: "Matra R550 Magic 2", content: ["Magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	g2: {name: "MICA IR", content: ["MICA-IR"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 
-    h: {name: "Matra Super 530D", content: ["S530D"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
+	h: {name: "Matra Super 530D", content: ["S530D"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
 
-    i: {name: "MICA EM", content: ["MICA-EM"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	i: {name: "MICA EM", content: ["MICA-EM"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 
-    s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-    b2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    gbu12: {name: "GBU-12", content: ["GBU-12"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    gbu24: {name: "GBU-24", content: ["GBU-24"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0,
-      category: 2},
-    b5_2: {name: "AS-37-Armat", content: ["AS-37-Armat"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    b7: {name: "APACHE", content: ["APACHE"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
-    mk82: {name: "SAMP Mk-82", content: ["Mk-82"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-    dmk82: {name: "2 x SAMP Mk-82", content: ["Mk-82", "Mk-82"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-    mk82se: {name: "SAMP Mk-82 Snake-eye", content: ["Mk-82SE"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-    dmk82se: {name: "2 x SAMP Mk-82 Snake-eye", content: ["Mk-82SE", "Mk-82SE"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	c: {name: "CC422", content: [cc422], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
+	b2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	gbu12: {name: "GBU-12", content: ["GBU-12"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	gbu24: {name: "GBU-24", content: ["GBU-24"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0,
+		category: 2},
+	b5_2: {name: "AS-37-Armat", content: ["AS-37-Armat"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	b7: {name: "APACHE", content: ["APACHE"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
+	mk82: {name: "SAMP Mk-82", content: ["Mk-82"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	dmk82: {name: "2 x SAMP Mk-82", content: ["Mk-82", "Mk-82"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	mk82se: {name: "SAMP Mk-82 Snake-eye", content: ["Mk-82SE"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	dmk82se: {name: "2 x SAMP Mk-82 Snake-eye", content: ["Mk-82SE", "Mk-82SE"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 };
 
-#if the total actual sweight is > (total fuel weight + total empty weight) then
-#if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10){
-#if (getprop("sim/model/f16/wingmounts") != 0) {
-if(AIRCRAFT != 'm2000D'){
-    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
-    var ExteriorWingSet  = [pylonSets.empty, pylonSets.g, pylonSets.g2, pylonSets.smo];
-    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.b3,pylonSets.b7];
-    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
-    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
-    var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
+# if the total actual weight is > (total fuel weight + total empty weight) then
+# if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10) {
+# if (getprop("sim/model/f16/wingmounts") != 0) {
+if (AIRCRAFT != 'm2000D') {
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
+	var ExteriorWingSet = [pylonSets.empty, pylonSets.g, pylonSets.g2, pylonSets.smo];
+	var CenterSet = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.b3,pylonSets.b7];
+	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
+	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
+	var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
 } else {
-    var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5,pylonSets.b5_2, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-    var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5,pylonSets.b5_2, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-    var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
-    var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se,pylonSets.b7];
-    var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
-    var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
-    var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5,pylonSets.b5_2, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5,pylonSets.b5_2, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
+	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se,pylonSets.b7];
+	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.c, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+	var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
 }
 #### note :
 # pylon options
@@ -163,56 +168,53 @@ if(AIRCRAFT != 'm2000D'){
 #pylonB.L (3.360; 0.920;-1.380)
 
 
-#Exterior wing Load
+# Exterior wing Load
 pylon2 = stations.Pylon.new("pylon2.L", 1, [2.373,-3.278,-1.494], ExteriorWingSet, 1, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[1]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[1]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 pylon6 = stations.Pylon.new("pylon2.R", 5, [2.373,3.278,-1.494], ExteriorWingSet,5, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[5]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[5]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-#Interior Wing load
+# Interior Wing load
 pylon3 = stations.Pylon.new("pylon3.L", 2, [1.047,-2.359,-1.556], InteriorWingSetR, 2, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[2]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[2]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 pylon5 = stations.Pylon.new("pylon3.R", 4, [1.047,2.359,-1.556], InteriorWingSetL, 4, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[4]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[4]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-#Center Fuselage pylon
+# Center Fuselage pylon
 pylon4 = stations.Pylon.new("pylon.C", 3, [1.082,0,-1.656], CenterSet,3, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[3]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[3]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-
-#Forward fuselage pylons
+# Forward fuselage pylons
 pylon1 = stations.Pylon.new("pylon1.L", 0, [-1.265,-0.824,-1.370], ForwardfuselagepylonsL, 0, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[0]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[0]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 pylon7 = stations.Pylon.new("pylon1.R", 6, [-1.265,0.824,-1.370], ForwardfuselagepylonsR, 6, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[6]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[6]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-#Rear fuselage pylons
+# Rear fuselage pylons
 pylon8 = stations.Pylon.new("pylonB.L", 7, [3.360,-0.920,-1.380], Rearfuselagepylons, 7, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[7]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[7]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepylons, 8, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
-
+# Internal
 pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[9]",1));
 
-#print("AIRCRAFT"~AIRCRAFT);
-
-var pylons = [pylon1,pylon2,pylon3,pylon4,pylon5,pylon6,pylon7,pylon8,pylon9];
+var pylons = [pylon1, pylon2, pylon3, pylon4, pylon5, pylon6, pylon7, pylon8, pylon9];
 var pylon_order =[];
 var wp_order = [];
 
 if (AIRCRAFT == 'm2000-5') {
-  append(pylons,pylonI);
-  pylon_order = [9,0,8,1,7,2,6,3,5,4];
-  wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR","Mk-82","Mk-82SE", "GBU-12", "GBU-24", "MICA-EM", "SCALP","APACHE", "AM39-Exocet"];
-}elsif(AIRCRAFT == 'm2000-5B') {
-  pylon_order = [0,8,1,7,2,6,3,5,4];
-  wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "GBU-24", "SCALP", "APACHE", "AM39-Exocet"];
-}elsif(AIRCRAFT == 'm2000D') {
-  pylon_order = [0,8,1,7,2,6,3,5,4];
-  wp_order = ["Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Martel","AS-37-Armat", "AS30L"];
+	append(pylons,pylonI);
+	pylon_order = [9,0,8,1,7,2,6,3,5,4];
+	wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR","Mk-82","Mk-82SE", "GBU-12", "GBU-24", "MICA-EM", "SCALP","APACHE", "AM39-Exocet"];
+} elsif (AIRCRAFT == 'm2000-5B') {
+	pylon_order = [0,8,1,7,2,6,3,5,4];
+	wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "GBU-24", "SCALP", "APACHE", "AM39-Exocet"];
+} elsif (AIRCRAFT == 'm2000D') {
+	pylon_order = [0,8,1,7,2,6,3,5,4];
+	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Martel","AS-37-Armat", "AS30L"];
 }
 
 fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
 
 var aimListener = func (obj) {
-    #If auto focus on missile is activated the we call the function
-    if(getprop("/controls/armament/automissileview"))# and !getprop("payload/armament/msg")
-    {
-	viewMissile.view_firing_missile(obj);
-    }
+	# If auto focus on missile is activated, then we call the function
+	if (getprop("/controls/armament/automissileview")) { # and !getprop("payload/armament/msg")
+		viewMissile.view_firing_missile(obj);
+	}
 };
+
 pylon1.setAIMListener(aimListener);
 pylon2.setAIMListener(aimListener);
 pylon3.setAIMListener(aimListener);
@@ -223,22 +225,19 @@ pylon7.setAIMListener(aimListener);
 pylon8.setAIMListener(aimListener);
 pylon9.setAIMListener(aimListener);
 
-#print("** Pylon & fire control system started. **");
 var getDLZ = func {
-    if (fcs != nil and getprop("controls/armament/master-arm") == 1) {
-        var w = fcs.getSelectedWeapon();
-        if (w!=nil and w.parents[0] == armament.AIM) {
-            var result = w.getDLZ(1);
-            if (result != nil and size(result) == 5 and result[4]<result[0]*1.5 and armament.contact != nil and armament.contact.isVisible()) {
-                #target is within 150% of max weapon fire range.
-        	    return result;
-            }
-        }
-    }
-    return nil;
+	if (fcs != nil and getprop("controls/armament/master-arm") == 1) {
+		var w = fcs.getSelectedWeapon();
+		if (w!=nil and w.parents[0] == armament.AIM) {
+			var result = w.getDLZ(1);
+			if (result != nil and size(result) == 5 and result[4]<result[0]*1.5 and armament.contact != nil and armament.contact.isVisible()) {
+				#target is within 150% of max weapon fire range.
+				return result;
+			}
+		}
+	}
+	return nil;
 }
-
-
 
 var droptanks = func(n) {
 # 	if (wow) { setprop("sim/model/f-14b/controls/armament/tanks-ground-sound", 1) }
@@ -258,10 +257,7 @@ var droptanks = func(n) {
 setlistener( "sim/ai/aircraft/impact/droptank", droptanks );
 
 
-
-
-
-# Lisse : means literrally "slick" or "bald"  : no load at all : "empty"
+# Lisse : means literally "slick" or "bald"  : no load at all : "empty"
 var lisse = func {
   if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
         #External wings
@@ -286,8 +282,6 @@ var lisse = func {
       screen.log.write(mirage2000.msgB);
     }
   }
-
-
 
 
 # PO : permanence opérationnelle : Scramble
@@ -368,7 +362,6 @@ var a2a_fox_mix = func {
       screen.log.write(mirage2000.msgB);
     }
   }
-
 
 
 # Fox configuration : 1 center tank. Most recent configuration
@@ -711,50 +704,50 @@ var a2a_kilo_mica = func {
   }
 
 
-  #Variable declaration
-  var pylonSetListener = [];
-  var pylonCountListener = [];
-  var maxPylons = 9;
-  var AllPossibleLoads = std.Vector.new();
+# Variable declaration
+var pylonSetListener = [];
+var pylonCountListener = [];
+var MAX_PYLONS = 9;
+var AllPossibleLoads = std.Vector.new();
 
-  #Loading a vector with the Set names
-  foreach(key;keys(pylonSets)) {
-    #print(pylonSets[key].name);   #<--- Uncomment this line to have the list displayed in the console
-    AllPossibleLoads.append(pylonSets[key].name);
-  }
+#Loading a vector with the Set names
+foreach(key;keys(pylonSets)) {
+	#print(pylonSets[key].name);   #<--- Uncomment this line to have the list displayed in the console
+	AllPossibleLoads.append(pylonSets[key].name);
+}
 
-  #This is the array that allow us to decode it it has to be the same as  "AllPossibleLoads"
-  #To know what in it uncomment : "print(pylonSets[key].name);"
-  #ACtually, here this list is useless : but it need to be the exact same in MP.nas
-  loadList = [
-    "2000 l Droptank,"
-    "SCALP",
-    "1700 l Droptank",
-    "2 x SAMP Mk-82 Snake-eye",
-    "AM39-Exocet",
-    "2 x GBU-12",
-    "1700 l Droptank",
-    "GBU-24",
-    "AS-37-Martel",
-    "PDLCT",
-    "Matra Super 530D",
-    "AS30L",
-    "2 x SAMP Mk-82",
-    "30mm Cannon",
-    "none",
-    "MICA IR",
-    "1300 l Droptank",
-    "Matra R550 Magic 2",
-    "APACHE",
-    "2000 l Droptank",
-    "SAMP Mk-82",
-    "MICA EM",
-    "ASMP",
-    "SAMP Mk-82 Snake-eye"
-  ];
+#This is the array that allows us to decode. It has to be the same as  "AllPossibleLoads"
+# To know what is in it uncomment : "print(pylonSets[key].name);"
+# Actually, here this list is useless : but it need to be the exact same in MP.nas
+loadList = [
+	"2000 l Droptank,"
+	"SCALP",
+	"1700 l Droptank",
+	"2 x SAMP Mk-82 Snake-eye",
+	"AM39-Exocet",
+	"2 x GBU-12",
+	"1700 l Droptank",
+	"GBU-24",
+	"AS-37-Martel",
+	"PDLCT",
+	"Matra Super 530D",
+	"AS30L",
+	"2 x SAMP Mk-82",
+	"30mm Cannon",
+	"none",
+	"MICA IR",
+	"1300 l Droptank",
+	"Matra R550 Magic 2",
+	"APACHE",
+	"2000 l Droptank",
+	"SAMP Mk-82",
+	"MICA EM",
+	"ASMP",
+	"SAMP Mk-82 Snake-eye"
+];
 
 
-  #Decoding String => Not needed anymore. Just for information
+# Decoding String => Not needed anymore. Just for information
   var decodeStations = func(){
 
     String = getprop("sim/multiplay/generic/string[1]");
@@ -789,20 +782,20 @@ var a2a_kilo_mica = func {
   }
 
 
-  #Encoding string String
-  var codeStations = func(){
-    var compiled = "";
-    for(var i = 0 ; i <= maxPylons ; i += 1){
-        # Load name
-        var myTempoSet = getprop("/payload/armament/station/id-" ~ i ~ "-set");
-        var myTempoCount = getprop("/payload/armament/station/id-" ~ i ~ "-count");
+# Encoding string String
+var codeStations = func() {
+	var compiled = "";
+	for (var i = 0 ; i <= MAX_PYLONS ; i += 1) {
+		# Load name
+		var myTempoSet = getprop("/payload/armament/station/id-" ~ i ~ "-set");
+		var myTempoCount = getprop("/payload/armament/station/id-" ~ i ~ "-count");
 
-        compiled = compiled  ~ "#" ~ AllPossibleLoads.index(myTempoSet) ~ "C" ~ myTempoCount;
-        #print("myTempoSet" ~ myTempoSet ~ " and Vector index :" ~ AllPossibleLoads.index(myTempoSet) ~ ":"~ AllPossibleLoads.vector[AllPossibleLoads.index(myTempoSet)]);
-    }
-    #print(compiled);
-    setprop("sim/multiplay/generic/string[1]", compiled);
-  }
+		compiled = compiled  ~ "#" ~ AllPossibleLoads.index(myTempoSet) ~ "C" ~ myTempoCount;
+		#print("myTempoSet" ~ myTempoSet ~ " and Vector index :" ~ AllPossibleLoads.index(myTempoSet) ~ ":"~ AllPossibleLoads.vector[AllPossibleLoads.index(myTempoSet)]);
+	}
+	#print(compiled);
+	setprop("sim/multiplay/generic/string[1]", compiled);
+}
 
 
   #Set up Listener for pylons properties
@@ -820,9 +813,7 @@ var a2a_kilo_mica = func {
     append( pylonCountListener, tempCount);
   }
 
-  #loop for all listener (20 => because I'm lazy)
-  for(var i = 0 ; i <= maxPylons ; i += 1){
-    setEncodeMPListener(i);
-  }
-
-
+#loop for all listener (20 => because I'm lazy)
+for(var i = 0 ; i <= MAX_PYLONS ; i += 1){
+	setEncodeMPListener(i);
+}

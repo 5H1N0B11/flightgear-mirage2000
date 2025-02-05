@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+	<path>cc422.ac</path>
+
+	<nopreview/>
+
+	<effect>
+	  <inherits-from>Aircraft/Mirage-2000/Models/Effects/metal</inherits-from>
+	  <object-name>cc422</object-name>
+	</effect>
+
+</PropertyList>

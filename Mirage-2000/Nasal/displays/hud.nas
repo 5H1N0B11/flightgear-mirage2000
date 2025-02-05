@@ -38,6 +38,7 @@ var DROP_MODE_CCRP = 0; # see fire-control.nas
 var DROP_MODE_CCIP = 1;
 
 var CANNON_30MM = "30mm Cannon";
+var CC422 = "CC422"; # gun pod
 var AIM_GUIDANCE_UNGUIDED = "unguided";
 var AIM_CLASS_GMP = "GMP";
 var GBU12 = "GBU12"; # must correspond to short-name in payload.xml
@@ -939,7 +940,8 @@ var HUD = {
 		m.root.setColor(m.red,m.green,m.blue,1);
 
 		m.loads_hash =  {
-			CANNON_30MM:"CAN",
+			CANNON_30MM: "CAN",
+			CC422: "CAN",
 			"Magic-2": "MAG",
 			"S530D":"530",
 			"MICA-IR":"MIC-I",
@@ -1076,7 +1078,7 @@ var HUD = {
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 
 		if (me.selectedWeapon != nil and me.input.MasterArm.getValue() and me.input.wow_nlg.getValue() == 0) {
-			if (me.selectedWeapon.type == CANNON_30MM ) {
+			if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) {
 				me.eegsShow = TRUE;
 			} else if (me.selectedWeapon.class == AIM_CLASS_GMP) {
 				if (me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
@@ -1200,10 +1202,10 @@ var HUD = {
 		me._displayLoadsType();
 
 		#Display bullet Count
-		me.display_BulletCount();
+		me._display_bullet_count();
 
 		#Display selected
-		me.displaySelectedPylons();
+		me._display_selected_pylons();
 
 		#Displaying the circles, the squares or even the triangles (triangles will be for a IR lock without radar)
 		me._displayTarget();
@@ -1573,58 +1575,62 @@ var HUD = {
 		}
 	},
 
-  display_BulletCount:func{
-    if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
-      if (me.selectedWeapon.type == CANNON_30MM) {
-        me.Left_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
-        me.Right_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
-        me.bullet_CountGroup.show();
-      } else {
-        me.bullet_CountGroup.hide();
-      }
-    } else {
-      me.bullet_CountGroup.hide();
-    }
-  },
+	_display_bullet_count: func{
+		if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
+			if (me.selectedWeapon.type == CANNON_30MM) {
+				me.Left_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
+				me.Right_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
+				me.bullet_CountGroup.show();
+			} else if (me.selectedWeapon.type == CC422) {
+				me.Left_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()));
+				me.Right_bullet_Count.setText("");
+				me.bullet_CountGroup.show();
+			} else {
+				me.bullet_CountGroup.hide();
+			}
+		} else {
+			me.bullet_CountGroup.hide();
+		}
+	},
 
-  displaySelectedPylons:func{
-    #Init the vector
-    me.pylonRemainAmmo_hash = {
-      "L":0,
-      "C":0,
-      "R":0,
-    };
+	_display_selected_pylons: func {
+		#Init the vector
+		me.pylonRemainAmmo_hash = {
+			"L": 0,
+			"C": 0,
+			"R": 0,
+		};
 
-    #Showing the circle around the L or R if the weapons is under the wings.
-    #A circle around a C is also done for center loads, but I couldn't find any docs on that, so it is conjecture
-    if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
-      if (me.selectedWeapon.type != CANNON_30MM) {
-        me.pylons_Group.show();
-        me.pylons_Circle_Group.show();
-         #create the remainingAmmo vector and starting to count L and R
-         me.RemainingAmmoVector = pylons.fcs.getAllAmmo(pylons.fcs.getSelectedType());
-         for (i = 0 ; i < size(me.RemainingAmmoVector)-1 ; i += 1) {
-              me.pylonRemainAmmo_hash[me.pylonsSide_hash[i]] += me.RemainingAmmoVector[i];
-         }
-        #Showing the pylon
-        if (me.pylonRemainAmmo_hash["L"]>0) {me.Left_pylons.show();} else {me.Left_pylons.hide();}
-        if (me.pylonRemainAmmo_hash["C"]>0) {me.Center_pylons.show();} else {me.Center_pylons.hide();}
-        if (me.pylonRemainAmmo_hash["R"]>0) {me.Right_pylons.show();} else {me.Right_pylons.hide();}
+		#Showing the circle around the L or R if the weapons is under the wings.
+		#A circle around a C is also done for center loads, but I couldn't find any docs on that, so it is conjecture
+		if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
+			if (me.selectedWeapon.type != CANNON_30MM and me.selectedWeapon.type != CC422) {
+			me.pylons_Group.show();
+			me.pylons_Circle_Group.show();
+				#create the remainingAmmo vector and starting to count L and R
+				me.RemainingAmmoVector = pylons.fcs.getAllAmmo(pylons.fcs.getSelectedType());
+				for (i = 0 ; i < size(me.RemainingAmmoVector)-1 ; i += 1) {
+					me.pylonRemainAmmo_hash[me.pylonsSide_hash[i]] += me.RemainingAmmoVector[i];
+				}
+			#Showing the pylon
+			if (me.pylonRemainAmmo_hash["L"]>0) {me.Left_pylons.show();} else {me.Left_pylons.hide();}
+			if (me.pylonRemainAmmo_hash["C"]>0) {me.Center_pylons.show();} else {me.Center_pylons.hide();}
+			if (me.pylonRemainAmmo_hash["R"]>0) {me.Right_pylons.show();} else {me.Right_pylons.hide();}
 
-        #Showing the Circle for the selected pylon
-        if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L") {me.LeftCircle.show();} else {me.LeftCircle.hide();}
-        if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "C") {me.CenterCircle.show();} else {me.CenterCircle.hide();}
-        if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "R") {me.RightCircle.show();} else {me.RightCircle.hide();}
+			#Showing the Circle for the selected pylon
+			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L") {me.LeftCircle.show();} else {me.LeftCircle.hide();}
+			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "C") {me.CenterCircle.show();} else {me.CenterCircle.hide();}
+			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "R") {me.RightCircle.show();} else {me.RightCircle.hide();}
 
-      } else {
-        me.pylons_Group.hide();
-        me.pylons_Circle_Group.hide();
-      }
-    } else {
-      me.pylons_Group.hide();
-      me.pylons_Circle_Group.hide();
-    }
-  },
+			} else {
+			me.pylons_Group.hide();
+			me.pylons_Circle_Group.hide();
+			}
+		} else {
+			me.pylons_Group.hide();
+			me.pylons_Circle_Group.hide();
+		}
+	},
 
   display_Waypoint: func(coord,TEXT,NextNUM) {
     #coord is a geo object of the current destination
@@ -1658,8 +1664,9 @@ var HUD = {
 			me.TriangleGroupe.hide();
 			return;
 		}
-		if (me.selectedWeapon.type == CANNON_30MM) {
-			me.TriangleGroupe.hide();return;
+		if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) {
+			me.TriangleGroupe.hide();
+			return;
 		}
 		if (me.selectedWeapon.guidance != "heat") {
 			me.TriangleGroupe.hide();
@@ -1792,7 +1799,7 @@ var HUD = {
 		if (me.selectedWeapon != nil and me.input.MasterArm.getValue()) {
 
 			#Testings
-			if (me.selectedWeapon.type != CANNON_30MM) {
+			if (me.selectedWeapon.type != CANNON_30MM and me.selectedWeapon.type != CC422) {
 				if (me.selectedWeapon.class == "A" and me.selectedWeapon.parents[0] == armament.AIM) {
 
 					me.myDLZ = pylons.getDLZ();
@@ -1882,7 +1889,7 @@ var HUD = {
 
 	_displayBoreCross: func() {
 		if (me.input.MasterArm.getValue() and pylons.fcs.getSelectedWeapon() !=nil) {
-			if (me.selectedWeapon.type == CANNON_30MM) { # if weapons selected
+			if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type != CC422) { # if weapons selected
 			me.boreCross.setTranslation(HudMath.getBorePos());
 			me.boreCross.show();
 			} else {

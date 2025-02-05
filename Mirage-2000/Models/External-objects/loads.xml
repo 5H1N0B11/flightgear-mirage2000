@@ -1,168 +1,178 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList include="loads_models.xml">
-  <!--
-'''' note :
-' pylon options
-'
-' BOTTOM VIEW
-'  _________________|___|_________________
-'  \                |   |                /
-'   \               |   |               /
-'    \2.L        4.L|   |4.R        2.R/
-'     (1)        (7)|   |(8)        (5)
-'      \   3.L      |   |      3.R   /
-'       \  (2)      |   |      (4)  /
-'        \          |   |          /
-'         \         |   |         /
-'          \        |   |        /
-'           \       |.C |       /
-'            \      |(3)|      /
-'             \     |   |     /
-'              \ 1.L|   |1.R /
-'               \(0)|   |(6)/
-'                \  |   |  /
-'                 \ |   | /
-'                  \|___|/
-'
-  -->
+	<!--
+	'''' note :
+	' pylon options
+	'
+	' BOTTOM VIEW
+	'  _________________|___|_________________
+	'  \                |   |                /
+	'   \               |   |               /
+	'    \2.L        4.L|   |4.R        2.R/
+	'     (1)        (7)|   |(8)        (5)
+	'      \   3.L      |   |      3.R   /
+	'       \  (2)      |   |      (4)  /
+	'        \          |   |          /
+	'         \         |   |         /
+	'          \        |   |        /
+	'           \       |.C |       /
+	'            \      |(3)|      /
+	'             \     |   |     /
+	'              \ 1.L|   |1.R /
+	'               \(0)|   |(6)/
+	'                \  |   |  /
+	'                 \ |   | /
+	'                  \|___|/
+	'
+	-->
 
-  <!-- station left 1 (Index 0) -->
+	<!-- station left 1 (Index 0) -->
 
-  <animation>
-    <type>select</type>
-    <object-name>left-pos-1-MICA</object-name>
-    <condition>
-      <equals>
-        <property>payload/armament/station/id-0-set</property>
-        <value>MICA EM</value>
-      </equals>
-      <greater-than>
-        <property>payload/armament/station/id-0-count</property>
-        <value>0</value>
-      </greater-than>
-    </condition>
-  </animation>
+	<animation>
+		<type>select</type>
+		<object-name>left-pos-1-MICA</object-name>
+		<condition>
+			<equals>
+				<property>payload/armament/station/id-0-set</property>
+				<value>MICA EM</value>
+			</equals>
+			<greater-than>
+				<property>payload/armament/station/id-0-count</property>
+				<value>0</value>
+			</greater-than>
+		</condition>
+	</animation>
 
-  <animation>
-    <type>select</type>
-    <object-name>left-pos-1-MICA_IR</object-name>
-    <condition>
-      <equals>
-        <property>payload/armament/station/id-0-set</property>
-        <value>MICA IR</value>
-      </equals>
-      <greater-than>
-        <property>payload/armament/station/id-0-count</property>
-        <value>0</value>
-      </greater-than>
-    </condition>
-  </animation>
+	<animation>
+		<type>select</type>
+		<object-name>left-pos-1-MICA_IR</object-name>
+		<condition>
+			<equals>
+				<property>payload/armament/station/id-0-set</property>
+				<value>MICA IR</value>
+			</equals>
+			<greater-than>
+				<property>payload/armament/station/id-0-count</property>
+				<value>0</value>
+			</greater-than>
+		</condition>
+	</animation>
 
-  <!-- left GBU16 -->
-<!--  <animation>
-    <type>select</type>
-    <object-name>left-GBU16</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>sim/weight[0]/selected</property>
-          <value>GBU16</value>
-        </equals>
-        <equals>
-          <property>controls/armament/station[0]/release</property>
-          <value>false</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>-->
+	<!-- left GBU16 -->
+	<!--  <animation>
+	<type>select</type>
+	<object-name>left-GBU16</object-name>
+	<condition>
+		<and>
+		<equals>
+			<property>sim/weight[0]/selected</property>
+			<value>GBU16</value>
+		</equals>
+		<equals>
+			<property>controls/armament/station[0]/release</property>
+			<value>false</value>
+		</equals>
+		</and>
+	</condition>
+	</animation>-->
 
-  <!-- left GBU12 -->
-  <animation>
-    <type>select</type>
-    <object-name>left-GBU12</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>payload/armament/station/id-0-set</property>
-          <value>GBU-12</value>
-        </equals>
-	<greater-than>
-          <property>payload/armament/station/id-0-set</property>
-          <value>0</value>
-	</greater-than>
-      </and>
-    </condition>
-  </animation>
+	<animation>
+		<type>select</type>
+		<object-name>left-GBU12</object-name>
+		<condition>
+			<and>
+				<equals>
+					<property>payload/armament/station/id-0-set</property>
+					<value>GBU-12</value>
+				</equals>
+				<greater-than>
+					<property>payload/armament/station/id-0-count</property>
+					<value>0</value>
+				</greater-than>
+			</and>
+		</condition>
+	</animation>
 
-    <!-- left Mk-82 -->
-  <animation>
-    <type>select</type>
-    <object-name>left-MK82</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>payload/armament/station/id-0-set</property>
-          <value>SAMP Mk-82</value>
-        </equals>
-        <equals>
-          <property>payload/armament/station/id-0-count</property>
-          <value>1</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
+	<animation>
+		<type>select</type>
+		<object-name>left-MK82</object-name>
+		<condition>
+			<and>
+				<equals>
+					<property>payload/armament/station/id-0-set</property>
+					<value>SAMP Mk-82</value>
+				</equals>
+				<equals>
+					<property>payload/armament/station/id-0-count</property>
+					<value>1</value>
+				</equals>
+			</and>
+		</condition>
+	</animation>
 
-  <!-- left Mk-82SE -->
-  <animation>
-    <type>select</type>
-    <object-name>left-MK82SE</object-name>
-    <condition>
-      <and>
-        <equals>
-          <property>payload/armament/station/id-0-set</property>
-          <value>SAMP Mk-82 Snake-eye</value>
-        </equals>
-        <equals>
-          <property>payload/armament/station/id-0-count</property>
-          <value>1</value>
-        </equals>
-      </and>
-    </condition>
-  </animation>
-  
-  <!-- station left 2 (Index 1) -->
-  <animation>
-    <type>select</type>
-    <object-name>left-pos-2</object-name>
-    <condition>
-        <equals>
-          <property>payload/armament/station/id-1-set</property>
-          <value>Matra R550 Magic 2</value>
-        </equals>
-        <greater-than>
-          <property>payload/armament/station/id-1-count</property>
-           <value>0</value>
-        </greater-than>
-    </condition>
-  </animation>
-  
-  <animation>
-    <type>select</type>
-    <object-name>left-pos-2-MICA_IR</object-name>
-    <condition>
-      <equals>
-        <property>payload/armament/station/id-1-set</property>
-        <value>MICA IR</value>
-      </equals>
-      <greater-than>
-        <property>payload/armament/station/id-1-count</property>
-          <value>0</value>
-      </greater-than>
-    </condition>
-  </animation>
+	<animation>
+		<type>select</type>
+		<object-name>left-MK82SE</object-name>
+		<condition>
+			<and>
+				<equals>
+					<property>payload/armament/station/id-0-set</property>
+					<value>SAMP Mk-82 Snake-eye</value>
+				</equals>
+				<equals>
+					<property>payload/armament/station/id-0-count</property>
+					<value>1</value>
+				</equals>
+			</and>
+		</condition>
+	</animation>
 
-  
+
+	<animation>
+		<type>select</type>
+		<object-name>CC422</object-name>
+		<condition>
+			<equals>
+				<property>payload/armament/station/id-0-set</property>
+				<value>CC422</value>
+			</equals>
+		</condition>
+	</animation>
+
+
+	<!-- station left 2 (Index 1) -->
+	<animation>
+	<type>select</type>
+	<object-name>left-pos-2</object-name>
+	<condition>
+		<equals>
+			<property>payload/armament/station/id-1-set</property>
+			<value>Matra R550 Magic 2</value>
+		</equals>
+		<greater-than>
+			<property>payload/armament/station/id-1-count</property>
+			<value>0</value>
+		</greater-than>
+	</condition>
+	</animation>
+
+	<animation>
+	<type>select</type>
+	<object-name>left-pos-2-MICA_IR</object-name>
+	<condition>
+		<equals>
+		<property>payload/armament/station/id-1-set</property>
+		<value>MICA IR</value>
+		</equals>
+		<greater-than>
+		<property>payload/armament/station/id-1-count</property>
+			<value>0</value>
+		</greater-than>
+	</condition>
+	</animation>
+
+
   <!-- station left 2 (Index 1) -->
   <animation>
     <type>select</type>
@@ -205,7 +215,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>left-exocet</object-name>
@@ -220,7 +230,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>left-martel</object-name>
@@ -235,7 +245,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>left-armat</object-name>
@@ -250,7 +260,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>left-as30l</object-name>
@@ -265,7 +275,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>S530D_Left</object-name>
@@ -280,7 +290,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>left-left-MK82</object-name>
@@ -295,7 +305,7 @@
       </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>left-right-MK82</object-name>
@@ -326,7 +336,7 @@
       </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>left-right-MK82SE</object-name>
@@ -342,8 +352,8 @@
     </condition>
   </animation>
 
-  
-  <!-- center station (Index 3) -->  
+
+  <!-- center station (Index 3) -->
   <animation>
     <type>select</type>
     <object-name>center-tank</object-name>
@@ -358,7 +368,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <!-- Center GBU24 -->
   <animation>
     <type>select</type>
@@ -390,7 +400,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>Center-Left-GBU12</object-name>
@@ -421,7 +431,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>Center-Left-MK82</object-name>
@@ -452,7 +462,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>Center-Left-MK82SE</object-name>
@@ -483,7 +493,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
     <!-- Center APACHE -->
   <animation>
     <type>select</type>
@@ -517,7 +527,7 @@
       </and>
     </condition>
   </animation>
-  
+
     <!-- ASMP -->
   <animation>
     <type>select</type>
@@ -560,7 +570,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>right-exocet</object-name>
@@ -575,7 +585,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>right-martel</object-name>
@@ -590,7 +600,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>right-armat</object-name>
@@ -605,7 +615,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>right-as30l</object-name>
@@ -620,7 +630,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>S530D_Right</object-name>
@@ -635,7 +645,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>right-left-MK82</object-name>
@@ -650,7 +660,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>right-right-MK82</object-name>
@@ -681,7 +691,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>right-right-MK82SE</object-name>
@@ -696,9 +706,9 @@
         </greater-than>
     </condition>
   </animation>
-  
-  
-  
+
+
+
 
   <!-- station right 2 (Index 5) -->
   <animation>
@@ -715,7 +725,7 @@
         </greater-than>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>right-pos-2-MICA_IR</object-name>
@@ -730,7 +740,7 @@
       </greater-than>
     </condition>
   </animation>
-  
+
     <animation>
     <type>select</type>
     <object-name>right-pos-2-SmokePod</object-name>
@@ -772,7 +782,7 @@
       </greater-than>
     </condition>
   </animation>
-  
+
   <!-- right GBU12 -->
   <animation>
     <type>select</type>
@@ -824,7 +834,7 @@
       </and>
     </condition>
   </animation>
-  
+
     <!-- POD -->
   <animation>
     <type>select</type>
@@ -918,7 +928,7 @@
       </greater-than>
     </condition>
   </animation>
-  
+
   <!-- station back right (Index 8) -->
   <animation>
     <type>select</type>
@@ -985,7 +995,7 @@
       </and>
     </condition>
   </animation>
-  
+
   <animation>
     <type>select</type>
     <object-name>right-rear-GBU12</object-name>
