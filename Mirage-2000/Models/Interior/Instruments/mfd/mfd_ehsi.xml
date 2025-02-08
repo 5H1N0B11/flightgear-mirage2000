@@ -16,8 +16,8 @@
     </offsets>
     <condition>
       <equals>
-        <property>/instrumentation/mfd/modeR</property>
-        <value>0</value>
+        <property>/instrumentation/mfd/modeL</property>
+        <value>1</value>
       </equals>
     </condition>
   </model>
@@ -64,19 +64,19 @@
       <blue>  0.5 </blue>
     </emission>
     <ambient>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
     </ambient>
     <diffuse>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
     </diffuse>
     <specular>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
@@ -112,7 +112,7 @@
     </axis>
 
   </animation>
-  
+
  <!-- /instrumentation/efis/mfd/true-north-->
 
   <!--EHSI CRS -->
@@ -240,7 +240,7 @@
     </axis>
   </animation>
 
-  
+
   <animation>
     <type>rotate</type>
     <object-name>EHSI-w-arrow</object-name>

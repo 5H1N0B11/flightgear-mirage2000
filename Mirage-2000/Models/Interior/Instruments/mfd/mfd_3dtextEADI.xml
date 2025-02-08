@@ -13,7 +13,7 @@
     <axis-alignment>yz-plane</axis-alignment>
 
     <type>literal</type>
-    <text>EADI</text>
+    <text>EHSI</text>
 
     <font>Helvetica.txf</font>
     <character-size>0.006</character-size>

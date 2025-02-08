@@ -373,7 +373,7 @@ var rightMFDcanvas = {
           }else{
             me.updateRadar()
           }
-          if (getprop("instrumentation/mfd/modeR")==2) {
+          if (getprop("instrumentation/mfd/modeR")==0) {
             me.rwr.show();
           } else {
             me.rwr.hide();
@@ -387,6 +387,3 @@ var rightMFDcanvas = {
 
 var myRightMfd = mirage2000.rightMFDcanvas.new({"node": "right_mfd.canvasCadre", "texture": "canvasTex.png"});
 myRightMfd.update();
-
-
-

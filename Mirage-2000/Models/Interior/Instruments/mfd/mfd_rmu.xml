@@ -16,8 +16,8 @@
     </offsets>
     <condition>
       <equals>
-        <property>/instrumentation/mfd/modeR</property>
-        <value>1</value>
+        <property>/instrumentation/mfd/modeL</property>
+        <value>3</value>
       </equals>
     </condition>
   </model>
@@ -39,25 +39,25 @@
     <object-name>RMU-ecran</object-name>
     <object-name>RMU-rep-bt</object-name>
     <emission>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
     </emission>
     <ambient>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
     </ambient>
     <diffuse>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
     </diffuse>
     <specular>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>

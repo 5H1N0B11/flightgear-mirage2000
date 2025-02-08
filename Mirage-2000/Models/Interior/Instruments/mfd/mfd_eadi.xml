@@ -64,19 +64,19 @@
       <blue>  0.5 </blue>
     </emission>
     <ambient>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
     </ambient>
     <diffuse>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
     </diffuse>
     <specular>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
