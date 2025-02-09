@@ -39,7 +39,6 @@
     <!-- lights : illuminations -->
     <type>material</type>
     <object-name>right_mfd.light</object-name>
-    <object-name>right_mfd.canvasCadre</object-name>
     <emission>
       <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
       <red>   0.1 </red>
