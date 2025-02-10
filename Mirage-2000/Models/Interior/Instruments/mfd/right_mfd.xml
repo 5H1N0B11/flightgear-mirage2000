@@ -111,6 +111,138 @@
     </condition>
   </animation>
 
+	<!-- ======================== BUTTONS H ======================== -->
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.bt-h1</object-name>
+		<visible>true</visible>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>1</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.bt-h2</object-name>
+		<visible>true</visible>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>2</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.bt-h3</object-name>
+		<visible>true</visible>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>3</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.bt-h4</object-name>
+		<visible>true</visible>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>4</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.bt-h5</object-name>
+		<visible>true</visible>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>5</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
 
 	<!-- ======================== BUTTONS B ======================== -->
 	<animation>
@@ -125,15 +257,99 @@
 				<property>sim/model/click</property>
 			</binding>
 			<binding>
-				<command>property-adjust</command>
-				<property>/instrumentation/mfd/modeR</property>
-				<step>1</step>
-				<min>0</min>
-				<max>2</max>
-				<wrap>true</wrap>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>6</value>
 			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
 		</action>
 	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.bt-b2</object-name>
+		<visible>true</visible>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>7</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.bt-b3</object-name>
+		<visible>true</visible>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>8</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.bt-b4</object-name>
+		<visible>true</visible>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>9</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
 
 	<!-- ======================== BUTTONS RIGHT ======================== -->
 	<animation> <!-- DIMM -->

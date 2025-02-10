@@ -3,9 +3,33 @@
 #    https://github.com/NikolaiVChr/f16/blob/master/Nasal/MFD/display-system.nas as per 0d480e0
 #
 # As of Feb 2025 the display system is only used for the right MFD and therefore functionality has been cut down.
+#
+# ---------
+# Page:
+# * Each page has the following functions:
+#    * new:
+#    * setup: called once and creates the canvas elements
+#    * enter: what happens when the page is called and displayed
+#             Typically resetting controls (me.device.resetControls();) and then
+#             assign (me.device.controls["OSB3"].setControlText("TEST");)
+#    * controlAction: what should happen if a contol is pressed
+#    * update: redraw upon notification
+#    * exit: clean-up
+#    * links: {} -> dictionary of key=OSB-button and value = name of page to navigate to
+#                          (this works because of line "me.device.controlAction = func (...) ", which is then
+#                           overridden in Pages - but the first method is still called)
+#    * layers: [] -> list
+
 
 var TRUE = 1;
 var FALSE = 0;
+
+var DISPLAY_WIDTH = 768;
+var DISPLAY_HEIGHT = 576;
+
+var PAGE_TEST = "PageTest";
+var PAGE_SMS = "PageSMS";
+
 
 var margin = {
 	device: {
@@ -80,7 +104,7 @@ var DisplayDevice = {
 		device.listeners = [];
 		device.uvMap = uvMap;
 		device.name = name;
-		device.displaySystem = nil;
+		device.system = nil;
 		device.new = func {return nil;};
 		#device.timer = maketimer(0.25, device, device.loop);
 		return device;
@@ -183,13 +207,13 @@ var DisplayDevice = {
 	},
 
 	update: func (noti) {
-		me.displaySystem.update(noti);
+		me.system.update(noti);
 	},
 
 	controlAction: func {},
 
 	setDisplaySystem: func (displaySystem) {
-		me.displaySystem = displaySystem;
+		me.system = displaySystem;
 		displaySystem.setDevice(me);
 	},
 
@@ -305,19 +329,13 @@ var DisplaySystem = {
 	},
 
 	initDevice: func (propertyNum, controlPositions, fontSize) {
-		me.device.addControls(PUSHBUTTON,  "OSB", 1, 20, "controls/MFD["~propertyNum~"]/button-pressed", controlPositions);
+		me.device.addControls(PUSHBUTTON, "OSB", 1, 9, "controls/MFD["~propertyNum~"]/button-pressed", controlPositions);
 		me.device.fontSize = fontSize;
 
-		for (var i = 1; i <= 5; i+= 1) {
-			me.device.addControlText("OSB", "OSB"~i, [margin.device.buttonText, 0], i-1,-1);
-		}
-		for (var i = 6; i <= 10; i+= 1) {
-			me.device.addControlText("OSB", "OSB"~i, [-margin.device.buttonText, 0], i-1,1);
-		}
-		for (var i = 11; i <= 15; i+= 1) {
+		for (var i = 1; i <= 5; i+= 1) { # top row
 			me.device.addControlText("OSB", "OSB"~i, [0, margin.device.buttonText], i-1,0,-1);
 		}
-		for (var i = 16; i <= 20; i+= 1) {
+		for (var i = 6; i <= 9; i+= 1) { # bottom row
 			me.device.addControlText("OSB", "OSB"~i, [0, -margin.device.buttonText], i-1,0,1);
 		}
 	},
@@ -339,12 +357,13 @@ var DisplaySystem = {
 		me.pages = {};
 		me.layers = {};
 
-		me.initPage("PageTest");
+		me.initPage(PAGE_TEST);
+		me.initPage(PAGE_SMS);
 
 #		me.device.doubleTimerRunning = nil;
 		me.device.controlAction = func (type, controlName, propvalue) {
-			me.tempLink = me.displaySystem.currPage.links[controlName];
-			me.displaySystem.currPage.controlAction(controlName);
+			me.tempLink = me.system.currPage.links[controlName];
+			me.system.currPage.controlAction(controlName);
 			if (me.tempLink != nil) {
 #				if (me.doubleTimerRunning == nil) {
 #					settimer(func me.controlActionDouble(), 0.25);
@@ -352,12 +371,12 @@ var DisplaySystem = {
 #					printDebug("Timer starting: ",me.doubleTimerRunning);
 #				} elsif (me.doubleTimerRunning == me.tempLink) {
 #					me.doubleTimerRunning = nil;
-#					me.displaySystem.osbSelect = [me.tempLink, me.displaySystem.currPage];
-#					me.displaySystem.selectPage("PageOSB");
+#					me.system.osbSelect = [me.tempLink, me.system.currPage];
+#					me.system.selectPage("PageOSB");
 #					printDebug("Doubleclick special");
 #				} else {
 #					me.doubleTimerRunning = nil;
-					me.displaySystem.selectPage(me.tempLink);
+					me.system.selectPage(me.tempLink);
 #					printDebug("Timer interupted. Going to ",me.tempLink);
 #				}
 			}
@@ -366,7 +385,7 @@ var DisplaySystem = {
 #		me.device.controlActionDouble = func {
 #			printDebug("Timer ran: ",me.doubleTimerRunning);
 #			if (me.doubleTimerRunning != nil) {
-#				me.displaySystem.selectPage(me.doubleTimerRunning);
+#				me.system.selectPage(me.doubleTimerRunning);
 #				me.doubleTimerRunning = nil;
 #			}
 #		};
@@ -423,7 +442,7 @@ var DisplaySystem = {
 #
 
 	PageTest: {
-		name: "PageTest",
+		name: PAGE_TEST,
 		isNew: 1,
 		needGroup: 1,
 		new: func {
@@ -437,15 +456,15 @@ var DisplaySystem = {
 				.set("z-index", zIndex.test.foreground)
 				.setColor(colorText1)
 				.setAlignment("left-center")
-				.setTranslation(displayWidth*0.6, displayHeight*0.8)
+				.setTranslation(DISPLAY_WIDTH*0.6, DISPLAY_HEIGHT*0.8)
 				.setFontSize(me.device.fontSize)
 				.setText("BBRAM OFPID\nSUROM OFPID");
 			me.mfdsGreyTest = me.group.createChild("path")
 				.set("z-index", zIndex.test.background)
 				.setColor(colorDot2[0]*0.5,colorDot2[1]*0.5,colorDot2[2]*0.5)
-				.moveTo(- displayWidth, - displayHeight)
-				.lineTo(displayWidth*2, displayHeight*2)
-				.setStrokeLineWidth(displayHeight*2)
+				.moveTo(- DISPLAY_WIDTH, - DISPLAY_HEIGHT)
+				.lineTo(DISPLAY_WIDTH*2, DISPLAY_HEIGHT*2)
+				.setStrokeLineWidth(DISPLAY_HEIGHT*2)
 				.hide();
 			me.testMFDS = TRUE;
 		},
@@ -456,14 +475,13 @@ var DisplaySystem = {
 				me.isNew = 0;
 			}
 			me.device.resetControls();
-			#me.device.controls["OSB16"].setControlText("SWAP");
-			#me.device.controls["OSB9"].setControlText("TEST",0);
+			me.device.controls["OSB7"].setControlText("SMS");
 		},
 		controlAction: func (controlName) {
 			printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == "OSB6") {
-				me.testMFDS = !me.testMFDS;
-            }
+			#if (controlName == "OSB7") {
+			#	me.device.system.selectPage(PAGE_SMS);
+			#}
 		},
 		update: func (noti = nil) {
 			#me.device.controls["OSB6"].setControlText("MFDS",1,me.testMFDS);
@@ -474,10 +492,67 @@ var DisplaySystem = {
 			printDebug("Exit ",me.name~" on ",me.device.name);
 		},
 		links: {
-			"OSB9": "PageMenu",
+			"OSB7": PAGE_SMS,
 		},
 		layers: [],
 	},
+
+	PageSMS: {
+		name: PAGE_SMS,
+		isNew: 1,
+		needGroup: 1,
+		new: func {
+			me.instance = {parents:[DisplaySystem.PageSMS]};
+			me.instance.group = nil;
+			return me.instance;
+		},
+		setup: func {
+			printDebug(me.name," on ",me.device.name," is being setup");
+			me.pageText = me.group.createChild("text")
+				.set("z-index", zIndex.test.foreground)
+				.setColor(colorText1)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH*0.6, DISPLAY_HEIGHT*0.8)
+				.setFontSize(me.device.fontSize)
+				.setText("SMS =\nSTORES MANAGEMENT SYSTEM");
+			me.mfdsGreyTest = me.group.createChild("path")
+				.set("z-index", zIndex.test.background)
+				.setColor(colorDot2[0]*0.5,colorDot2[1]*0.5,colorDot2[2]*0.5)
+				.moveTo(- DISPLAY_WIDTH, - DISPLAY_HEIGHT)
+				.lineTo(DISPLAY_WIDTH*2, DISPLAY_HEIGHT*2)
+				.setStrokeLineWidth(DISPLAY_HEIGHT*2)
+				.hide();
+			me.testMFDS = TRUE;
+		},
+		enter: func {
+			printDebug("Enter ",me.name~" on ",me.device.name);
+			if (me.isNew) {
+				me.setup();
+				me.isNew = 0;
+			}
+			me.device.resetControls();
+			me.device.controls["OSB7"].setControlText("TEST");
+		},
+		controlAction: func (controlName) {
+			printDebug(me.name,": ",controlName," activated on ",me.device.name);
+			#if (controlName == "OSB7") {
+			#	me.device.system.selectPage(PAGE_TEST);
+			#}
+		},
+		update: func (noti = nil) {
+			#me.device.controls["OSB6"].setControlText("MFDS",1,me.testMFDS);
+			me.mfdsGreyTest.setVisible(me.testMFDS);
+			me.pageText.setVisible(me.testMFDS);
+		},
+		exit: func {
+			printDebug("Exit ",me.name~" on ",me.device.name);
+		},
+		links: {
+			"OSB7": PAGE_TEST,
+		},
+		layers: [],
+	},
+
 
 #  ███████ ███    ██ ██████       ██████  ███████     ██████   █████   ██████  ███████ ███████
 #  ██      ████   ██ ██   ██     ██    ██ ██          ██   ██ ██   ██ ██       ██      ██
@@ -522,61 +597,51 @@ var M2000MFDRecipient =
 var m2000_mfd = nil;
 
 
-var displayWidth     = 512;#552 * 0.795;
-var displayHeight    = 512;#482 * 1;
-var displayWidthHalf = displayWidth  *  0.5;
-var displayHeightHalf= displayHeight  *  0.5;
-
-
 var main = func (module) {
 	if (module != nil) print("Display-system init as module");
-	# TEST CODE:
-	var height = 576;#482;
-	var width  = 768;#552;
 
-	rightMFDDisplayDevice = DisplayDevice.new("RightMFDDisplayDevice", [width,height], [1, 1], "right_mfd.canvasCadre", "canvasTex.png");
+	rightMFDDisplayDevice = DisplayDevice.new("RightMFDDisplayDevice", [DISPLAY_WIDTH, DISPLAY_HEIGHT], [1, 1], "right_mfd.canvasCadre", "canvasTex.png");
 	rightMFDDisplayDevice.setColorBackground(colorBackground);
 
 	rightMFDDisplayDevice.setControlTextColors(colorText1, colorBackground);
 
-	width *= 1;#0.795;
-
 	var osbPositions = [
-		[0, 1.5*height/7],
-		[0, 2.5*height/7],
-		[0, 3.5*height/7],
-		[0, 4.5*height/7],
-		[0, 5.5*height/7],
+		# top row = bt-h1 ... bt-h5 in xml
+		[(0.075+0*0.2125)*DISPLAY_WIDTH, 0], # OSB1
+		[(0.075+1*0.2125)*DISPLAY_WIDTH, 0], # OSB2
+		[(0.075+2*0.2125)*DISPLAY_WIDTH, 0], # OSB3
+		[(0.075+3*0.2125)*DISPLAY_WIDTH, 0], # OSB4
+		[(0.075+4*0.2125)*DISPLAY_WIDTH, 0], # OSB5
 
-		[width, 1.5*height/7],
-		[width, 2.5*height/7],
-		[width, 3.5*height/7],
-		[width, 4.5*height/7],
-		[width, 5.5*height/7],
+		# bottom row = bt-b1 ... bt-b4 in xml
+		[(0.2375+0*0.175)*DISPLAY_WIDTH, DISPLAY_HEIGHT], # OSB6
+		[(0.2375+1*0.175)*DISPLAY_WIDTH, DISPLAY_HEIGHT], # OSB7
+		[(0.2375+2*0.175)*DISPLAY_WIDTH, DISPLAY_HEIGHT], # OSB8
+		[(0.2375+3*0.175)*DISPLAY_WIDTH, DISPLAY_HEIGHT], # OSB9
 
-		[1.35*width/7, 0],
-		[2.4*width/7, 0],
-		[3.5*width/7, 0],
-		[4.6*width/7, 0],
-		[5.65*width/7, 0],
+		# These are not buttons, but rocker-switches - left row = pot-l1 ... pot-l4
+		# [0, 1.5/6.4*DISPLAY_HEIGHT],
+		# [0, 3.0/6.4*DISPLAY_HEIGHT],
+		# [0, 4.5/6.4*DISPLAY_HEIGHT],
+		# [0, 6.0/6.4*DISPLAY_HEIGHT],
 
-		[1.35*width/7, height],
-		[2.4*width/7, height],
-		[3.5*width/7, height],
-		[4.6*width/7, height],
-		[5.65*width/7, height],
+		# right row = pot-r1 ... pot-r4
+		# [DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT],
+		# [DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT],
+		# [DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT],
+		# [DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT],
 	];
 
 	var rightMFDDisplaySystem = DisplaySystem.new();
 
 	rightMFDDisplayDevice.setDisplaySystem(rightMFDDisplaySystem);
 
-	rightMFDDisplaySystem.initDevice(0, osbPositions, font.device.main); # if we get more devices, then we might change 0 to something else
+	rightMFDDisplaySystem.initDevice(0, osbPositions, font.device.main);
 
 	rightMFDDisplayDevice.addControlFeedback();
 
 	rightMFDDisplaySystem.initPages();
-	rightMFDDisplaySystem.selectPage("PageTest");
+	rightMFDDisplaySystem.selectPage(PAGE_TEST);
 
 	m2000_mfd = M2000MFDRecipient.new("M2000");
 	emesary.GlobalTransmitter.Register(m2000_mfd);
@@ -606,7 +671,7 @@ var print2 = func {
 	}
 	print(out);
 };
-var debugDisplays = 0;
+var debugDisplays = TRUE;
 var printDebug = func {
 	if (debugDisplays) {
 		var err = [];
