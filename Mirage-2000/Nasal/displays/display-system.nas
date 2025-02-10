@@ -19,6 +19,10 @@
 #                          (this works because of line "me.device.controlAction = func (...) ", which is then
 #                           overridden in Pages - but the first method is still called)
 #    * layers: [] -> list
+#
+# ---------
+#
+# OSB = On Screen Button
 
 
 var TRUE = 1;
@@ -27,9 +31,12 @@ var FALSE = 0;
 var DISPLAY_WIDTH = 768;
 var DISPLAY_HEIGHT = 576;
 
+var LAYER_SERVICEABLE = "LayerServiceable";
+
 var PAGE_TEST = "PageTest";
 var PAGE_SMS = "PageSMS";
 
+var Z_INDEX = "z-index";
 
 var margin = {
 	device: {
@@ -42,6 +49,12 @@ var margin = {
 var lineWidth = {
 	device: {
 		outline: 2,
+	},
+	layer_serviceable: {
+		lines: 6,
+	},
+	page_sms: {
+		aircraft_outline: 2,
 	},
 };
 
@@ -66,6 +79,11 @@ var zIndex = {
 	test: {
 		foreground: 10,
 		background: 5,
+	},
+	page_sms: {
+		aircraft_outline: 15,
+		menu_foreground: 10,
+		menu_background: 5,
 	}
 };
 
@@ -77,16 +95,20 @@ var colorDot2 = [1, 1, 1];
 
 var colorBackground = [0,0,0];
 
+var COLOR_WHITE = [1, 1, 1];
+
+var COLOR_RED = [1, 0, 0]; # red
+
 
 var PUSHBUTTON   = 0;
 
-#  ██████  ███████ ██    ██ ██  ██████ ███████
-#  ██   ██ ██      ██    ██ ██ ██      ██
-#  ██   ██ █████   ██    ██ ██ ██      █████
-#  ██   ██ ██       ██  ██  ██ ██      ██
-#  ██████  ███████   ████   ██  ██████ ███████
-#
-#
+
+#  ██████  ██ ███████ ██████  ██       █████  ██    ██     ██████  ███████ ██    ██ ██  ██████ ███████
+#  ██   ██ ██ ██      ██   ██ ██      ██   ██  ██  ██      ██   ██ ██      ██    ██ ██ ██      ██
+#  ██   ██ ██ ███████ ██████  ██      ███████   ████       ██   ██ █████   ██    ██ ██ ██      █████
+#  ██   ██ ██      ██ ██      ██      ██   ██    ██        ██   ██ ██       ██  ██  ██ ██      ██
+#  ██████  ██ ███████ ██      ███████ ██   ██    ██        ██████  ███████   ████   ██  ██████ ███████
+
 
 var DisplayDevice = {
 	new: func (name, resolution, uvMap, node, texture) {
@@ -106,7 +128,6 @@ var DisplayDevice = {
 		device.name = name;
 		device.system = nil;
 		device.new = func {return nil;};
-		#device.timer = maketimer(0.25, device, device.loop);
 		return device;
 	},
 
@@ -116,14 +137,10 @@ var DisplayDevice = {
 			call(func removelistener(l),[],nil,nil,var err = []);
 		}
 		me.listeners = [];
-		#call(func me.timer.stop(),[],nil,nil,err = []);
-		#me.timer = nil;
 		me.del = func {};
 	},
 
 	start: func {
-		#me.timer.start();#timers dont really work in modules
-		#me.start=func{};
 	},
 
 	loop: func {
@@ -305,13 +322,12 @@ var DisplayDevice = {
 };
 
 
-#  ███████ ██    ██ ███████ ████████ ███████ ███    ███
-#  ██       ██  ██  ██         ██    ██      ████  ████
-#  ███████   ████   ███████    ██    █████   ██ ████ ██
-#       ██    ██         ██    ██    ██      ██  ██  ██
-#  ███████    ██    ███████    ██    ███████ ██      ██
-#
-#
+#  ██████  ██ ███████ ██████  ██       █████  ██    ██     ███████ ██    ██ ███████ ████████ ███████ ███    ███
+#  ██   ██ ██ ██      ██   ██ ██      ██   ██  ██  ██      ██       ██  ██  ██         ██    ██      ████  ████
+#  ██   ██ ██ ███████ ██████  ██      ███████   ████       ███████   ████   ███████    ██    █████   ██ ████ ██
+#  ██   ██ ██      ██ ██      ██      ██   ██    ██             ██    ██         ██    ██    ██      ██  ██  ██
+#  ██████  ██ ███████ ██      ███████ ██   ██    ██        ███████    ██    ███████    ██    ███████ ██      ██
+
 
 var DisplaySystem = {
 	new: func () {
@@ -360,36 +376,15 @@ var DisplaySystem = {
 		me.initPage(PAGE_TEST);
 		me.initPage(PAGE_SMS);
 
-#		me.device.doubleTimerRunning = nil;
+		me.initLayer(LAYER_SERVICEABLE);
+
 		me.device.controlAction = func (type, controlName, propvalue) {
 			me.tempLink = me.system.currPage.links[controlName];
 			me.system.currPage.controlAction(controlName);
 			if (me.tempLink != nil) {
-#				if (me.doubleTimerRunning == nil) {
-#					settimer(func me.controlActionDouble(), 0.25);
-#					me.doubleTimerRunning = me.tempLink;
-#					printDebug("Timer starting: ",me.doubleTimerRunning);
-#				} elsif (me.doubleTimerRunning == me.tempLink) {
-#					me.doubleTimerRunning = nil;
-#					me.system.osbSelect = [me.tempLink, me.system.currPage];
-#					me.system.selectPage("PageOSB");
-#					printDebug("Doubleclick special");
-#				} else {
-#					me.doubleTimerRunning = nil;
-					me.system.selectPage(me.tempLink);
-#					printDebug("Timer interupted. Going to ",me.tempLink);
-#				}
+				me.system.selectPage(me.tempLink);
 			}
 		};
-
-#		me.device.controlActionDouble = func {
-#			printDebug("Timer ran: ",me.doubleTimerRunning);
-#			if (me.doubleTimerRunning != nil) {
-#				me.system.selectPage(me.doubleTimerRunning);
-#				me.doubleTimerRunning = nil;
-#			}
-#		};
-
 	},
 
 	fetchLayer: func (layerName) {
@@ -433,18 +428,54 @@ var DisplaySystem = {
 		}
 	},
 
-#  ████████ ███████ ███████ ████████
-#     ██    ██      ██         ██
-#     ██    █████   ███████    ██
-#     ██    ██           ██    ██
-#     ██    ███████ ███████    ██
-#
-#
+
+#  ██       █████  ██    ██ ███████ ██████      ███████ ███████ ██████  ██    ██ ██  ██████ ███████  █████  ██████  ██      ███████
+#  ██      ██   ██  ██  ██  ██      ██   ██     ██      ██      ██   ██ ██    ██ ██ ██      ██      ██   ██ ██   ██ ██      ██
+#  ██      ███████   ████   █████   ██████      ███████ █████   ██████  ██    ██ ██ ██      █████   ███████ ██████  ██      █████
+#  ██      ██   ██    ██    ██      ██   ██          ██ ██      ██   ██  ██  ██  ██ ██      ██      ██   ██ ██   ██ ██      ██
+#  ███████ ██   ██    ██    ███████ ██   ██     ███████ ███████ ██   ██   ████   ██  ██████ ███████ ██   ██ ██████  ███████ ███████
+
+
+	LayerServiceable: {
+		name: LAYER_SERVICEABLE,
+		new: func {
+			var layer = {parents:[DisplaySystem.LayerServiceable]};
+			layer.offset = 0;
+			return layer;
+		},
+
+		setup: func {
+			me.group.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2);
+
+			me.serviceable_markers = me.group.createChild("path")
+				.moveTo(-50, 50)
+				.lineTo(-25, -50)
+				.moveTo(-25, 50)
+				.lineTo(0, -50)
+				.moveTo(0, 50)
+				.lineTo(25, -50)
+				.moveTo(25, 50)
+				.lineTo(50, -50)
+				.setStrokeLineWidth(lineWidth.layer_serviceable.lines)
+				.setColor(COLOR_RED);
+		},
+
+		update: func (noti = nil) {
+		},
+	},
+
+
+#  ██████   █████   ██████  ███████     ████████ ███████ ███████ ████████
+#  ██   ██ ██   ██ ██       ██             ██    ██      ██         ██
+#  ██████  ███████ ██   ███ █████          ██    █████   ███████    ██
+#  ██      ██   ██ ██    ██ ██             ██    ██           ██    ██
+#  ██      ██   ██  ██████  ███████        ██    ███████ ███████    ██
+
 
 	PageTest: {
 		name: PAGE_TEST,
-		isNew: 1,
-		needGroup: 1,
+		isNew: TRUE,
+		needGroup: TRUE,
 		new: func {
 			me.instance = {parents:[DisplaySystem.PageTest]};
 			me.instance.group = nil;
@@ -497,72 +528,98 @@ var DisplaySystem = {
 		layers: [],
 	},
 
+
+#  ██████   █████   ██████  ███████     ███████ ███    ███ ███████
+#  ██   ██ ██   ██ ██       ██          ██      ████  ████ ██
+#  ██████  ███████ ██   ███ █████       ███████ ██ ████ ██ ███████
+#  ██      ██   ██ ██    ██ ██               ██ ██  ██  ██      ██
+#  ██      ██   ██  ██████  ███████     ███████ ██      ██ ███████
+
+
 	PageSMS: {
 		name: PAGE_SMS,
-		isNew: 1,
-		needGroup: 1,
+		isNew: TRUE,
+		needGroup: TRUE,
+
 		new: func {
 			me.instance = {parents:[DisplaySystem.PageSMS]};
 			me.instance.group = nil;
 			return me.instance;
 		},
+
 		setup: func {
 			printDebug(me.name," on ",me.device.name," is being setup");
-			me.pageText = me.group.createChild("text")
-				.set("z-index", zIndex.test.foreground)
-				.setColor(colorText1)
-				.setAlignment("left-center")
-				.setTranslation(DISPLAY_WIDTH*0.6, DISPLAY_HEIGHT*0.8)
-				.setFontSize(me.device.fontSize)
-				.setText("SMS =\nSTORES MANAGEMENT SYSTEM");
-			me.mfdsGreyTest = me.group.createChild("path")
-				.set("z-index", zIndex.test.background)
-				.setColor(colorDot2[0]*0.5,colorDot2[1]*0.5,colorDot2[2]*0.5)
-				.moveTo(- DISPLAY_WIDTH, - DISPLAY_HEIGHT)
-				.lineTo(DISPLAY_WIDTH*2, DISPLAY_HEIGHT*2)
-				.setStrokeLineWidth(DISPLAY_HEIGHT*2)
-				.hide();
-			me.testMFDS = TRUE;
+			me._setup_aircraft_outline();
 		},
+
+		_setup_aircraft_outline: func {
+			me.aircraft_outline_left = me.group.createChild("path")
+				.set(Z_INDEX, zIndex.page_sms.aircraft_outline)
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(lineWidth.page_sms.aircraft_outline)
+				.moveTo(DISPLAY_WIDTH/2 - 60, 96)
+				.lineTo(DISPLAY_WIDTH/2 - 51.6, 192)
+				.moveTo(DISPLAY_WIDTH/2 - 48, 228)
+				.lineTo(DISPLAY_WIDTH/2 - 31.2, 396)
+				.moveTo(DISPLAY_WIDTH/2 - 28.8, 432)
+				.lineTo(DISPLAY_WIDTH/2 - 24, 480)
+				.moveTo(DISPLAY_WIDTH/2 - 55, 144)
+				.lineTo(DISPLAY_WIDTH/2 - 192, 396)
+				.lineTo(DISPLAY_WIDTH/2 - 192, 432)
+				.lineTo(DISPLAY_WIDTH/2 - 26.4, 444);
+
+			me.aircraft_outline_right = me.group.createChild("path")
+				.set(Z_INDEX, zIndex.page_sms.aircraft_outline)
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(lineWidth.page_sms.aircraft_outline)
+				.moveTo(DISPLAY_WIDTH/2 + 60, 96)
+				.lineTo(DISPLAY_WIDTH/2 + 51.6, 192)
+				.moveTo(DISPLAY_WIDTH/2 + 48, 228)
+				.lineTo(DISPLAY_WIDTH/2 + 31.2, 396)
+				.moveTo(DISPLAY_WIDTH/2 + 28.8, 432)
+				.lineTo(DISPLAY_WIDTH/2 + 24, 480)
+				.moveTo(DISPLAY_WIDTH/2 + 55, 144)
+				.lineTo(DISPLAY_WIDTH/2 + 192, 396)
+				.lineTo(DISPLAY_WIDTH/2 + 192, 432)
+				.lineTo(DISPLAY_WIDTH/2 + 26.4, 444);
+		},
+
 		enter: func {
 			printDebug("Enter ",me.name~" on ",me.device.name);
 			if (me.isNew) {
 				me.setup();
-				me.isNew = 0;
+				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls["OSB7"].setControlText("TEST");
+			me.device.controls["OSB3"].setControlText("TEST");
 		},
+
 		controlAction: func (controlName) {
 			printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			#if (controlName == "OSB7") {
-			#	me.device.system.selectPage(PAGE_TEST);
-			#}
 		},
+
 		update: func (noti = nil) {
-			#me.device.controls["OSB6"].setControlText("MFDS",1,me.testMFDS);
-			me.mfdsGreyTest.setVisible(me.testMFDS);
-			me.pageText.setVisible(me.testMFDS);
 		},
+
 		exit: func {
 			printDebug("Exit ",me.name~" on ",me.device.name);
 		},
+
 		links: {
-			"OSB7": PAGE_TEST,
+			"OSB3": PAGE_TEST,
 		},
-		layers: [],
+
+		layers: [LAYER_SERVICEABLE],
 	},
-
-
-#  ███████ ███    ██ ██████       ██████  ███████     ██████   █████   ██████  ███████ ███████
-#  ██      ████   ██ ██   ██     ██    ██ ██          ██   ██ ██   ██ ██       ██      ██
-#  █████   ██ ██  ██ ██   ██     ██    ██ █████       ██████  ███████ ██   ███ █████   ███████
-#  ██      ██  ██ ██ ██   ██     ██    ██ ██          ██      ██   ██ ██    ██ ██           ██
-#  ███████ ██   ████ ██████       ██████  ██          ██      ██   ██  ██████  ███████ ███████
-#
-#
-
 };
+
+
+#   ██████  ██    ██ ███████ ██████   █████  ██      ██          ███████ ███████ ████████ ██    ██ ██████
+#  ██    ██ ██    ██ ██      ██   ██ ██   ██ ██      ██          ██      ██         ██    ██    ██ ██   ██
+#  ██    ██ ██    ██ █████   ██████  ███████ ██      ██          ███████ █████      ██    ██    ██ ██████
+#  ██    ██  ██  ██  ██      ██   ██ ██   ██ ██      ██               ██ ██         ██    ██    ██ ██
+#   ██████    ████   ███████ ██   ██ ██   ██ ███████ ███████     ███████ ███████    ██     ██████  ██
+
 
 var rightMFDDisplayDevice = nil;
 
