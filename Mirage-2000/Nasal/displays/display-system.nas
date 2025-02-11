@@ -55,6 +55,7 @@ var lineWidth = {
 	},
 	page_sms: {
 		aircraft_outline: 2,
+		pylons_box: 2,
 	},
 };
 
@@ -62,6 +63,9 @@ var font = {
 	device: {
 		main: 20,
 	},
+	page_sms: {
+		pylons_text: 16,
+	}
 };
 
 var zIndex = {
@@ -82,6 +86,8 @@ var zIndex = {
 	},
 	page_sms: {
 		aircraft_outline: 15,
+		pylons_box: 30,
+		pylons_text: 20,
 		menu_foreground: 10,
 		menu_background: 5,
 	}
@@ -96,8 +102,9 @@ var colorDot2 = [1, 1, 1];
 var colorBackground = [0,0,0];
 
 var COLOR_WHITE = [1, 1, 1];
-
-var COLOR_RED = [1, 0, 0]; # red
+var COLOR_YELLOW = [1, 1, 0];
+var COLOR_RED = [1, 0, 0];
+var COLOR_BLACK = [0, 0, 0];
 
 
 var PUSHBUTTON   = 0;
@@ -550,6 +557,7 @@ var DisplaySystem = {
 		setup: func {
 			printDebug(me.name," on ",me.device.name," is being setup");
 			me._setup_aircraft_outline();
+			me._setup_pylon_boxes_and_text();
 		},
 
 		_setup_aircraft_outline: func {
@@ -560,8 +568,8 @@ var DisplaySystem = {
 				.moveTo(DISPLAY_WIDTH/2 - 60, 96)
 				.lineTo(DISPLAY_WIDTH/2 - 51.6, 192)
 				.moveTo(DISPLAY_WIDTH/2 - 48, 228)
-				.lineTo(DISPLAY_WIDTH/2 - 31.2, 396)
-				.moveTo(DISPLAY_WIDTH/2 - 28.8, 432)
+				.lineTo(DISPLAY_WIDTH/2 - 33.6, 384)
+				.moveTo(DISPLAY_WIDTH/2 - 30, 420)
 				.lineTo(DISPLAY_WIDTH/2 - 24, 480)
 				.moveTo(DISPLAY_WIDTH/2 - 55, 144)
 				.lineTo(DISPLAY_WIDTH/2 - 192, 396)
@@ -575,13 +583,141 @@ var DisplaySystem = {
 				.moveTo(DISPLAY_WIDTH/2 + 60, 96)
 				.lineTo(DISPLAY_WIDTH/2 + 51.6, 192)
 				.moveTo(DISPLAY_WIDTH/2 + 48, 228)
-				.lineTo(DISPLAY_WIDTH/2 + 31.2, 396)
-				.moveTo(DISPLAY_WIDTH/2 + 28.8, 432)
+				.lineTo(DISPLAY_WIDTH/2 + 33.6, 384)
+				.moveTo(DISPLAY_WIDTH/2 + 30, 420)
 				.lineTo(DISPLAY_WIDTH/2 + 24, 480)
 				.moveTo(DISPLAY_WIDTH/2 + 55, 144)
 				.lineTo(DISPLAY_WIDTH/2 + 192, 396)
 				.lineTo(DISPLAY_WIDTH/2 + 192, 432)
 				.lineTo(DISPLAY_WIDTH/2 + 26.4, 444);
+		},
+
+		_setup_pylon_boxes_and_text: func {
+			# Pylon 1L (position 0)
+			me.p1L_box = me.group.createChild("path", "p1L_box")
+				.setColor(COLOR_YELLOW)
+				.setColorFill(COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 - (34+48), 196, 48, 24)
+				.setStrokeLineWidth(lineWidth.page_sms.pylons_box);
+			me.p1L_text = me.group.createChild("text", "p1L_text")
+				.setFontSize(font.page_sms.pylons_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("left-center")
+				.setText("1 P1L")
+				.setTranslation(DISPLAY_WIDTH/2 - (34+48), 196 + 24/2);
+			me.p1L_text.enableUpdate();
+
+			# Pylon 1R (position 6)
+			me.p1R_box = me.group.createChild("path", "p1R_box")
+				.setColor(COLOR_YELLOW)
+				.setColorFill(COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 + 34, 196, 48, 24)
+				.setStrokeLineWidth(lineWidth.page_sms.pylons_box);
+			me.p1R_text = me.group.createChild("text", "p1R_text")
+				.setFontSize(font.page_sms.pylons_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("right-center")
+				.setText("1 P1R")
+				.setTranslation(DISPLAY_WIDTH/2 + (34+48), 196 + 24/2);
+			me.p1R_text.enableUpdate();
+
+			# Pylon 3C (position 3)
+			me.p3C_box = me.group.createChild("path", "p3C_box")
+				.setColor(COLOR_YELLOW)
+				.setColorFill(COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 -24, 264, 48, 24)
+				.setStrokeLineWidth(lineWidth.page_sms.pylons_box);
+			me.p3C_text = me.group.createChild("text", "p3C_text")
+				.setFontSize(font.page_sms.pylons_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("center-center")
+				.setText("1 PC3")
+				.setTranslation(DISPLAY_WIDTH/2, 264 + 24/2);
+			me.p3C_text.enableUpdate();
+
+			# Pylon 3L (position 4)
+			me.p3L_box = me.group.createChild("path", "p3L_box")
+				.setColor(COLOR_YELLOW)
+				.setColorFill(COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 - (84+48), 324, 48, 24)
+				.setStrokeLineWidth(lineWidth.page_sms.pylons_box);
+			me.p3L_text = me.group.createChild("text", "p3L_text")
+				.setFontSize(font.page_sms.pylons_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("left-center")
+				.setText("1 P3L")
+				.setTranslation(DISPLAY_WIDTH/2 - (84+48), 324 + 24/2);
+			me.p3L_text.enableUpdate();
+
+			# Pylon 3R (position 2)
+			me.p3R_box = me.group.createChild("path", "p3R_box")
+				.setColor(COLOR_YELLOW)
+				.setColorFill(COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 + 84, 324, 48, 24)
+				.setStrokeLineWidth(lineWidth.page_sms.pylons_box);
+			me.p3R_text = me.group.createChild("text", "p3R_text")
+				.setFontSize(font.page_sms.pylons_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("right-center")
+				.setText("1 P3R")
+				.setTranslation(DISPLAY_WIDTH/2 + (84+48), 324 + 24/2);
+			me.p3R_text.enableUpdate();
+
+			# Pylon 2L (position 1)
+			me.p2L_box = me.group.createChild("path", "p2L_box")
+				.setColor(COLOR_YELLOW)
+				.setColorFill(COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 - (138+48), 400, 48, 24)
+				.setStrokeLineWidth(lineWidth.page_sms.pylons_box);
+			me.p2L_text = me.group.createChild("text", "p2L_text")
+				.setFontSize(font.page_sms.pylons_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("left-center")
+				.setText("1 P2L")
+				.setTranslation(DISPLAY_WIDTH/2 - (138+48), 400 + 24/2);
+			me.p2L_text.enableUpdate();
+
+			# Pylon 2R (position 5)
+			me.p2R_box = me.group.createChild("path", "p2R_box")
+				.setColor(COLOR_YELLOW)
+				.setColorFill(COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 + 138, 400, 48, 24)
+				.setStrokeLineWidth(lineWidth.page_sms.pylons_box);
+			me.p2R_text = me.group.createChild("text", "p2R_text")
+				.setFontSize(font.page_sms.pylons_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("right-center")
+				.setText("1 P2R")
+				.setTranslation(DISPLAY_WIDTH/2 + (138+48), 400 + 24/2);
+			me.p2R_text.enableUpdate();
+
+			# Pylon 4L (position 7)
+			me.p4L_box = me.group.createChild("path", "p4L_box")
+				.setColor(COLOR_YELLOW)
+				.setColorFill(COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 - (24+48), 390, 48, 24)
+				.setStrokeLineWidth(lineWidth.page_sms.pylons_box);
+			me.p4L_text = me.group.createChild("text", "p4L_text")
+				.setFontSize(font.page_sms.pylons_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("left-center")
+				.setText("1 P4L")
+				.setTranslation(DISPLAY_WIDTH/2 - (24+48), 390 + 24/2);
+			me.p4L_text.enableUpdate();
+
+			# Pylon 4R (position 8)
+			me.p4R_box = me.group.createChild("path", "p4R_box")
+				.setColor(COLOR_YELLOW)
+				.setColorFill(COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 + 24, 390, 48, 24)
+				.setStrokeLineWidth(lineWidth.page_sms.pylons_box);
+			me.p4R_text = me.group.createChild("text", "p4R_text")
+				.setFontSize(font.page_sms.pylons_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("right-center")
+				.setText("1 P4R")
+				.setTranslation(DISPLAY_WIDTH/2 + (24+48), 390 + 24/2);
+			me.p4R_text.enableUpdate();
 		},
 
 		enter: func {
