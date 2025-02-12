@@ -24,7 +24,8 @@ var pylon8 = nil;
 var pylon9 = nil;
 var pylonI = nil;
 
-var AIRCRAFT = getprop("/sim/aircraft");
+var variantID = getprop("sim/variant-id"); # -5 = 1; -5B/-5B-backseat = 2; D = 3
+
 
 ### Operation conditions for stations.
 # Does not decide if the station is armed etc. (this is in fire_control.nas),
@@ -64,11 +65,11 @@ var smokepod = stations.Dummy.new("smoke-pod", "smoke-pod");
 var pylonSets = {
 	empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
 	e: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-	t: {name: "1300 l Droptank", content: [RP522], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	t2: {name: "2000 l Droptank", content: [RP542], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	t: {name: "1300 l Droptank (RP522)", content: [RP522], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	t2: {name: "2000 l Droptank (RP542)", content: [RP542], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	tb2: {name: "1700 l Droptank (RP502)", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	t4: {name: "2000 l Droptank (RP541)", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	tb4: {name: "1700 l Droptank (RP501)", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 
 	smo: {name: "Smoke Pod", content: [smokepod], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 
@@ -98,10 +99,41 @@ var pylonSets = {
 	dmk82se: {name: "2 x SAMP Mk-82 Snake-eye", content: ["Mk-82SE", "Mk-82SE"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 };
 
-# if the total actual weight is > (total fuel weight + total empty weight) then
-# if (num(getprop("/yasim/gross-weight-lbs")) - num(getprop("/consumables/fuel/total-fuel-lbs")) - 16350 > 10) {
-# if (getprop("sim/model/f16/wingmounts") != 0) {
-if (AIRCRAFT != 'm2000D') {
+# Helper for displaying stuff in the SMS page
+# Must be totally in sync with above!
+# name: [display name in SMS (very short), show count in SMS TRUE|FALSE]
+var pylonSetsSMSHelper = {
+	"none": ["", FALSE],
+	"30mm Cannon": ["CAN", FALSE],
+	"1300 l Droptank (RP522)": ["RP522", FALSE],
+	"2000 l Droptank (RP542)": ["RP542", FALSE],
+	"1700 l Droptank (RP502)": ["RP502", FALSE],
+	"2000 l Droptank (RP541)": ["RP541", FALSE],
+	"1700 l Droptank (RP501)": ["RP501", FALSE],
+	"Smoke Pod": ["SMOKE", FALSE],
+	"Matra R550 Magic 2": ["MAG", TRUE],
+	"MICA IR": ["IR", TRUE],
+	"Matra Super 530D": ["SUP", TRUE],
+	"MICA EM": ["EM", TRUE],
+	"PDLCT": ["PDLCT", FALSE],
+	"CC422": ["GUN", FALSE],
+	"2 x GBU-12": ["G12", TRUE],
+	"GBU-12": ["G12", TRUE],
+	"GBU-24": ["G24", TRUE],
+	"SCALP": ["SCALP", FALSE],
+	"AM39-Exocet": ["AM39", FALSE],
+	"AS-37-Martel": ["AS37M", FALSE],
+	"AS-37-Armat": ["AS27A", FALSE],
+	"AS30L": ["AS30L", FALSE],
+	"APACHE": ["APACH", FALSE],
+	"ASMP": ["ASMP", FALSE],
+	"SAMP Mk-82": ["82", TRUE],
+	"2 x SAMP Mk-82": ["82", TRUE],
+	"SAMP Mk-82 Snake-eye": ["82S", TRUE],
+	"2 x SAMP Mk-82 Snake-eye": ["82S", TRUE],
+};
+
+if (variantID != 3) { # 2000D
 	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
 	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
 	var ExteriorWingSet = [pylonSets.empty, pylonSets.g, pylonSets.g2, pylonSets.smo];
@@ -194,14 +226,14 @@ var pylons = [pylon1, pylon2, pylon3, pylon4, pylon5, pylon6, pylon7, pylon8, py
 var pylon_order =[];
 var wp_order = [];
 
-if (AIRCRAFT == 'm2000-5') {
+if (variantID == 1) {
 	append(pylons,pylonI);
 	pylon_order = [9,0,8,1,7,2,6,3,5,4];
 	wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR","Mk-82","Mk-82SE", "GBU-12", "GBU-24", "MICA-EM", "SCALP","APACHE", "AM39-Exocet"];
-} elsif (AIRCRAFT == 'm2000-5B') {
+} elsif (variantID == 2) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
 	wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "GBU-24", "SCALP", "APACHE", "AM39-Exocet"];
-} elsif (AIRCRAFT == 'm2000D') {
+} elsif (variantID == 3) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
 	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Martel","AS-37-Armat", "AS30L"];
 }
