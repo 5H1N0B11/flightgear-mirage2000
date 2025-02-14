@@ -24,7 +24,7 @@
 # included in the update.
 #emesary.GlobalTransmitter.NotifyAll(new FrameNotificationAddProperty("MODULE", "wow","gear/gear[0]/wow"));
 #emesary.GlobalTransmitter.NotifyAll(new FrameNotificationAddProperty("MODULE", "engine_n2", "engines/engine[0]/n2"));
-#    
+#
 
 
 #
@@ -33,14 +33,14 @@ var frame_inc = 0;
 var cur_frame_inc = 0.05;
 var rtExec_loop = func
 {
-    #    
+    #
     #notifications.frameNotification.fetchvars();
     notifications.frameNotification.clearvars();
     if (notifications.frameNotification.FrameCount >= 4) {
         notifications.frameNotification.FrameCount = 0;
     }
     emesary.GlobalTransmitter.NotifyAll(notifications.frameNotification);
-    #    
+    #
 
     notifications.frameNotification.FrameCount = notifications.frameNotification.FrameCount + 1;
     #
@@ -49,7 +49,7 @@ var rtExec_loop = func
     # 1: HUD targets, RDR, VSD
     # 2: HUD targets, HUD trig, HUD text
     # 3: HUD targets, VSD, RDR
-    # 
+    #
     if (notifications.frameNotification.getproper("frame_rate_worst") < 5) {
         frame_inc = 0.25;#3.3
     } elsif (notifications.frameNotification.getproper("frame_rate_worst") < 10) {
@@ -73,10 +73,11 @@ var rtExec_loop = func
 
 # setup the properties to monitor for this system
 var input_exec = {
-FrameRate                 : "/sim/frame-rate",
-frame_rate                : "/sim/frame-rate",
-frame_rate_worst          : "/sim/frame-rate-worst",
-elapsed_seconds           : "/sim/time/elapsed-sec",
+	FrameRate                 : "/sim/frame-rate",
+	frame_rate                : "/sim/frame-rate",
+	frame_rate_worst          : "/sim/frame-rate-worst",
+	elapsed_seconds           : "/sim/time/elapsed-sec",
+	wow                       : "fdm/jsbsim/gear/wow"
 };
 
 foreach (var name; keys(input_exec)) {
