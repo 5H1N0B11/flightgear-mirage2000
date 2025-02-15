@@ -75,7 +75,7 @@ var font = {
 	},
 	page_sms: {
 		pylons_text: 20,
-		cat_text: 24,
+		fbw_mode_text: 20,
 	},
 	page_rwr: {
 		threat_text: 36,
@@ -531,16 +531,26 @@ var DisplaySystem = {
 
 		setup: func {
 			printDebug(me.name," on ",me.device.name," is being setup");
+
+			me.input = {
+				fbw_mode                  : "fdm/jsbsim/fbw/mode",
+			};
+
+			foreach(var name; keys(me.input)) {
+				me.input[name] = props.globals.getNode(me.input[name], 1);
+			}
+
 			me._setup_aircraft_outline();
 			me._setup_pylon_boxes_and_text();
 
-			me.cat_text = me.group.createChild("text", "cat_text")
-				.setFontSize(font.page_sms.cat_text)
+			me.fbw_mode_text = me.group.createChild("text", "fbw_mode_text")
+				.setFontSize(font.page_sms.fbw_mode_text)
 				.setColor(COLOR_LIGHT_BLUE)
-				.setAlignment("left-center")
-				.setText("CAT")
-				.setTranslation(DISPLAY_WIDTH/2 - 250, 250);
-			me.cat_text.enableUpdate();
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2 - 150, 250);
+			me.fbw_mode_text.enableUpdate();
+			me.FBW_AA_MENU_ITEM = "A/A";
+			me.FBW_CHARGES_MENU_ITEM = "CHARGES";
 		},
 
 		_setup_aircraft_outline: func {
@@ -750,10 +760,27 @@ var DisplaySystem = {
 			}
 			me.device.resetControls();
 			me.device.controls["OSB3"].setControlText(PAGE_RWR_MENU_ITEM);
+			me._toggle_fbw_mode(me.input.fbw_mode.getValue());
 		},
 
 		controlAction: func (controlName) {
 			printDebug(me.name,": ",controlName," activated on ",me.device.name);
+			if (controlName == "OSB24") {
+				me._toggle_fbw_mode(0);
+			} elsif (controlName == "OSB25") {
+				me._toggle_fbw_mode(1);
+			}
+		},
+
+		_toggle_fbw_mode: func (mode) {
+			me.input.fbw_mode.setValue(mode);
+			if (mode == 0) {
+				me.device.controls["OSB24"].setControlText(me.FBW_AA_MENU_ITEM, TRUE, TRUE);
+				me.device.controls["OSB25"].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, FALSE);
+			} else {
+				me.device.controls["OSB24"].setControlText(me.FBW_AA_MENU_ITEM, TRUE, FALSE);
+				me.device.controls["OSB25"].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, TRUE);
+			}
 		},
 
 		update: func (noti = nil) {
@@ -761,8 +788,13 @@ var DisplaySystem = {
 				return;
 			}
 
-			me.catNumber = pylons.fcs.getCategory();
-			me.cat_text.setText(sprintf("CAT %s", me.catNumber==1?"I":(me.catNumber==2?"II":"III")));
+			me.catNumber = pylons.fcs.getCategory(); # catNumber is 1 or 2 - mode is 0 or 1
+			me.fbw_mode_text.setText(sprintf("Load type:\n%s", me.catNumber==1?"A/A":"Charges"));
+			if (me.catNumber != me.input.fbw_mode.getValue() + 1) {
+				me.fbw_mode_text.setColor(COLOR_RED);
+			} else {
+				me.fbw_mode_text.setColor(COLOR_LIGHT_BLUE);
+			}
 
 			var sel = pylons.fcs.getSelectedPylonNumber();
 			me.p1L_box.setVisible(sel==0);
