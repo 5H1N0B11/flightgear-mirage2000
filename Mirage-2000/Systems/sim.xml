@@ -138,6 +138,7 @@
 		<opt><name>Matra MICA</name>        <lbs type="double">  246.91 </lbs></opt>
 		<opt><name>GBU16</name>             <lbs type="double"> 1000.00 </lbs></opt>
 		<opt><name>GBU12</name>             <lbs type="double">  800.00 </lbs></opt>
+		<opt><name>CC422</name>             <lbs type="double">  480.00 </lbs></opt>
 	</weight>
 
 	<weight n="1">

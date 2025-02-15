@@ -65,11 +65,11 @@ var smokepod = stations.Dummy.new("smoke-pod", "smoke-pod");
 var pylonSets = {
 	empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
 	e: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-	t: {name: "1300 l Droptank (RP522)", content: [RP522], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	t2: {name: "2000 l Droptank (RP542)", content: [RP542], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	tb2: {name: "1700 l Droptank (RP502)", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	t4: {name: "2000 l Droptank (RP541)", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	tb4: {name: "1700 l Droptank (RP501)", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	t: {name: "1300 l Droptank", content: [RP522], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	t2: {name: "2000 l Droptank", content: [RP542], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 
 	smo: {name: "Smoke Pod", content: [smokepod], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 
@@ -81,7 +81,7 @@ var pylonSets = {
 	i: {name: "MICA EM", content: ["MICA-EM"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 
 	s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	c: {name: "CC422", content: [cc422], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
+	c: {name: "CC422", content: [cc422], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 480, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1}, # launcher mass is pure guess
 	b2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	gbu12: {name: "GBU-12", content: ["GBU-12"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	gbu24: {name: "GBU-24", content: ["GBU-24"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
@@ -105,11 +105,9 @@ var pylonSets = {
 var pylonSetsSMSHelper = {
 	"none": ["", FALSE],
 	"30mm Cannon": ["CAN", FALSE],
-	"1300 l Droptank (RP522)": ["RP522", FALSE],
-	"2000 l Droptank (RP542)": ["RP542", FALSE],
-	"1700 l Droptank (RP502)": ["RP502", FALSE],
-	"2000 l Droptank (RP541)": ["RP541", FALSE],
-	"1700 l Droptank (RP501)": ["RP501", FALSE],
+	"1300 l Droptank": ["RP520", FALSE],
+	"2000 l Droptank": ["RP540", FALSE],
+	"1700 l Droptank": ["RP500", FALSE],
 	"Smoke Pod": ["SMOKE", FALSE],
 	"Matra R550 Magic 2": ["MAG", TRUE],
 	"MICA IR": ["IR", TRUE],
