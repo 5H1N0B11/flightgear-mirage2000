@@ -356,20 +356,24 @@
 		<type>pick</type>
 		<object-name>right_mfd.pot-r4</object-name>
 		<action>
-			<button>4</button> <!--  scroll up -->
+			<button>3</button> <!--  scroll up -->
 			<repeatable>false</repeatable>
 			<binding>
 				<command>property-toggle</command>
 				<property>sim/model/click</property>
-				</binding>
-			<binding>
-				<command>property-adjust</command>
-				<property>instrumentation/mfd/dimm-r</property>
-				<step>0.05</step>
-				<min>0</min>
-				<max>1</max>
-				<wrap>false</wrap>
 			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>24</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
 		</action>
 	</animation>
 
@@ -377,20 +381,24 @@
 	<type>pick</type>
 	<object-name>right_mfd.pot-r4</object-name>
 	<action>
-		<button>3</button> <!--  scroll down -->
+		<button>4</button> <!--  scroll down -->
 		<repeatable>false</repeatable>
 		<binding>
 			<command>property-toggle</command>
 			<property>sim/model/click</property>
 		</binding>
 		<binding>
-			<command>property-adjust</command>
-			<property>instrumentation/mfd/dimm-r</property>
-			<step>-0.05</step>
-			<min>0</min>
-			<max>1</max>
-			<wrap>false</wrap>
+			<command>property-assign</command>
+			<property>controls/MFD[0]/button-pressed</property>
+			<value>25</value>
 		</binding>
+		<mod-up>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>0</value>
+			</binding>
+		</mod-up>
 	</action>
 	</animation>
 
@@ -406,14 +414,12 @@
 				<property>sim/model/click</property>
 			</binding>
 			<binding>
-				<command>nasal</command>
-				<script>mirage2000.myRightMfd.changeZoomMap(1)</script>
-				<condition>
-					<equals>
-						<property>/instrumentation/mfd/modeR</property>
-						<value>1</value>
-					</equals>
-				</condition>
+				<command>property-adjust</command>
+				<property>instrumentation/mfd/dimm-r</property>
+				<step>0.05</step>
+				<min>0</min>
+				<max>1</max>
+				<wrap>false</wrap>
 			</binding>
 		</action>
 	</animation>
@@ -429,14 +435,12 @@
 				<property>sim/model/click</property>
 			</binding>
 			<binding>
-				<command>nasal</command>
-				<script>mirage2000.myRightMfd.changeZoomMap(-1)</script>
-				<condition>
-					<equals>
-						<property>/instrumentation/mfd/modeR</property>
-						<value>1</value>
-					</equals>
-				</condition>
+				<command>property-adjust</command>
+				<property>instrumentation/mfd/dimm-r</property>
+				<step>-0.05</step>
+				<min>0</min>
+				<max>1</max>
+				<wrap>false</wrap>
 			</binding>
 		</action>
 	</animation>

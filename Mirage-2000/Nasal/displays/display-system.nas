@@ -37,6 +37,8 @@ var PAGE_SMS = "PageSMS";
 var PAGE_SMS_MENU_ITEM = "SMS";
 var PAGE_RWR = "PageRWR";
 var PAGE_RWR_MENU_ITEM = "RWR";
+var PAGE_MAP = "PageMap";
+var PAGE_MAP_MENU_ITEM = "Map";
 
 var Z_INDEX = "z-index";
 
@@ -86,7 +88,7 @@ var zIndex = {
 		page: 5,
 		layer: 200,
 	},
-	deviceObs: {
+	deviceOSB: {
 		text: 10,
 		outline: 11,
 		fill: 9,
@@ -98,16 +100,16 @@ var zIndex = {
 		pylons_text: 20,
 		menu_foreground: 10,
 		menu_background: 5,
-	}
+	},
+	page_map: {
+		map: 10,
+		svg: 15,
+	},
 };
 
-# OSB text
-var colorText1 = [1, 1, 1];
 
 # also used in apg-68.nas
 var colorDot2 = [1, 1, 1];
-
-var colorBackground = [0,0,0];
 
 var COLOR_WHITE = [1, 1, 1];
 var COLOR_YELLOW = [1, 1, 0];
@@ -182,16 +184,13 @@ var DisplayDevice = {
 			me.tempActionValue = node.getValue();
 
 			if (me.tempActionValue > 0) {
-				#printDebug(me.name,": ",prefix, " action :", me.tempActionValue);
 				me.cntlFeedback.setTranslation(me.controlPositions[prefix][me.tempActionValue-1]);
 				me.cntlFeedback.setVisible(1 == 1);
 				me.cntlFeedback.update();
-				#print("fb ON  ",me.controlPositions[prefix][me.tempActionValue-1][0],",",me.controlPositions[prefix][me.tempActionValue-1][1]);
 				me.controlAction(type, prefix~(me.tempActionValue), me.tempActionValue);
 			} else {
 				me.cntlFeedback.hide();
 				me.cntlFeedback.update();
-				#print("fb OFF  ");
 			}
 		};
 		me.controlPositions[prefix] = positions;
@@ -203,7 +202,7 @@ var DisplayDevice = {
 		}
 		if (me["controlGrp"] == nil) {
 			me.controlGrp = me.canvas.createGroup()
-								.set("z-index", zIndex.device.osb)
+								.set(Z_INDEX, zIndex.device.osb)
 								.set("font","LiberationFonts/LiberationMono-Regular.ttf");
 		}
 		me.controls.master.setControlText = func (text, positive = 1, outline = 0, rear = 0, blink = 0) {
@@ -269,14 +268,14 @@ var DisplayDevice = {
 		me.letterHeight = 0.8 * me.fontSize;
 		me.myCenter = [me.tempX, me.tempY];
 		me.controls[controlName].letters = me.controlGrp.createChild("text")
-				.set("z-index", zIndex.deviceObs.text)
+				.set(Z_INDEX, zIndex.deviceOSB.text)
 				.setAlignment(me.alignment)
 				.setTranslation(me.tempX, me.tempY)
 				.setFontSize(me.fontSize, 1)
 				.setText("right(controlName,4)")
 				.setColor(me.colorFront);
 		me.controls[controlName].outline = me.controlGrp.createChild("path")
-				.set("z-index", zIndex.deviceObs.outline)
+				.set(Z_INDEX, zIndex.deviceOSB.outline)
 				.setStrokeLineJoin("round") # "miter", "round" or "bevel"
 				.moveTo(me.tempX-me.letterWidth*2*alignmentH-me.letterWidth*2-me.myCenter[0]-margin.device.outline, me.tempY-me.letterHeight*alignmentV*0.5-me.letterHeight*0.5-margin.device.outline-me.myCenter[1])
 				.horiz(me.letterWidth*4+margin.device.outline*2)
@@ -289,7 +288,7 @@ var DisplayDevice = {
 				.setStrokeLineWidth(lineWidth.device.outline)
 				.setTranslation(me.myCenter);
 		me.controls[controlName].fill = me.controlGrp.createChild("path")
-				.set("z-index", zIndex.deviceObs.fill)
+				.set(Z_INDEX, zIndex.deviceOSB.fill)
 				.setStrokeLineJoin("round") # "miter", "round" or "bevel"
 				.moveTo(me.tempX-me.letterWidth*2*alignmentH-me.letterWidth*2-me.myCenter[0], me.tempY-me.letterHeight*alignmentV*0.5-me.letterHeight*0.5-margin.device.fillHeight-me.myCenter[1])
 				.horiz(me.letterWidth*4)
@@ -311,7 +310,7 @@ var DisplayDevice = {
 	            .arcSmallCW(me.feedbackRadius,me.feedbackRadius, 0, -me.feedbackRadius*2, 0)
 	            .close()
 	            .setStrokeLineWidth(2)
-	            .set("z-index",zIndex.deviceObs.feedback)
+	            .set(Z_INDEX, zIndex.deviceOSB.feedback)
 	            .setColor(colorDot2[0],colorDot2[1],colorDot2[2],0.15)
 	            .setColorFill(colorDot2[0],colorDot2[1],colorDot2[2],0.3)
 	            .hide();
@@ -326,7 +325,7 @@ var DisplayDevice = {
 		printDebug(me.name," init page ",page.name);
 		if (page.needGroup) {
 			me.tempGrp = me.canvas.createGroup()
-							.set("z-index", zIndex.device.page)
+							.set(Z_INDEX, zIndex.device.page)
 							.set("font","LiberationFonts/LiberationMono-Regular.ttf")
 							.hide();
 			page.group = me.tempGrp;
@@ -337,7 +336,7 @@ var DisplayDevice = {
 	initLayer: func (layer) {
 		printDebug(me.name," init layer ",layer.name);
 		me.tempGrp = me.canvas.createGroup()
-						.set("z-index", zIndex.device.layer)
+						.set(Z_INDEX, zIndex.device.layer)
 						.set("font","LiberationFonts/LiberationMono-Regular.ttf")
 						.hide();
 		layer.group = me.tempGrp;
@@ -370,7 +369,7 @@ var DisplaySystem = {
 	},
 
 	initDevice: func (propertyNum, controlPositions, fontSize) {
-		me.device.addControls(PUSHBUTTON, "OSB", 1, 9, "controls/MFD["~propertyNum~"]/button-pressed", controlPositions);
+		me.device.addControls(PUSHBUTTON, "OSB", 1, 25, "controls/MFD["~propertyNum~"]/button-pressed", controlPositions);
 		me.device.fontSize = fontSize;
 
 		for (var i = 1; i <= 5; i+= 1) { # top row
@@ -378,6 +377,12 @@ var DisplaySystem = {
 		}
 		for (var i = 6; i <= 9; i+= 1) { # bottom row
 			me.device.addControlText("OSB", "OSB"~i, [0, -margin.device.buttonText], i-1,0,1);
+		}
+		for (var i = 10; i <= 17; i+= 1) { # left column
+			me.device.addControlText("OSB", "OSB"~i, [margin.device.buttonText, 0], i-1,-1);
+		}
+		for (var i = 18; i <= 25; i+= 1) { # right column
+			me.device.addControlText("OSB", "OSB"~i, [-margin.device.buttonText, 0], i-1,1);
 		}
 	},
 
@@ -400,6 +405,7 @@ var DisplaySystem = {
 
 		me.initPage(PAGE_SMS);
 		me.initPage(PAGE_RWR);
+		me.initPage(PAGE_MAP);
 
 		me.initLayer(LAYER_SERVICEABLE);
 
@@ -1045,7 +1051,7 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls["OSB3"].setControlText(PAGE_SMS_MENU_ITEM);
+			me.device.controls["OSB3"].setControlText(PAGE_MAP_MENU_ITEM);
 		},
 
 		controlAction: func (controlName) {
@@ -1264,11 +1270,221 @@ var DisplaySystem = {
 		},
 
 		links: {
-			"OSB3": PAGE_SMS,
+			"OSB3": PAGE_MAP,
 		},
 
 		layers: [LAYER_SERVICEABLE],
 	},
+
+
+#  ██████   █████   ██████  ███████     ███    ███  █████  ██████
+#  ██   ██ ██   ██ ██       ██          ████  ████ ██   ██ ██   ██
+#  ██████  ███████ ██   ███ █████       ██ ████ ██ ███████ ██████
+#  ██      ██   ██ ██    ██ ██          ██  ██  ██ ██   ██ ██
+#  ██      ██   ██  ██████  ███████     ██      ██ ██   ██ ██
+
+
+	PageMap: {
+		name: PAGE_MAP,
+		isNew: TRUE,
+		needGroup: TRUE,
+
+		new: func {
+			me.instance = {parents:[DisplaySystem.PageMap]};
+			me.instance.group = nil;
+			return me.instance;
+		},
+
+		setup: func {
+			printDebug(me.name," on ",me.device.name," is being setup");
+
+			me.mapStuff = me.group.createChild("group").set(Z_INDEX, zIndex.page_map.map);
+			me.g_front = me.mapStuff.createChild("group");
+			me.g_back = me.mapStuff.createChild("group");
+
+			me.myHeadingProp = props.globals.getNode("orientation/heading-deg");
+
+			me.group.setCenter(DISPLAY_WIDTH/2,DISPLAY_HEIGHT/2);
+
+			##MAP stuff : Set up of the tiles
+			me.tile_size = 256;
+			me.num_tiles = [4, 3];
+
+			me.type = "map";
+			me.home =  props.globals.getNode("/sim/fg-home");
+			me.maps_base = me.home.getValue() ~ '/cache/maps';
+
+			#----------------  Make the url where to take the tiles ------------
+			# https://wiki.openstreetmap.org/wiki/Raster_tile_providers
+
+			me.makeUrl  = string.compileTemplate('http://{server}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png');
+			me.servers = ["a", "b", "c"];
+			me.makePath = string.compileTemplate(me.maps_base ~ '/osm-{type}/{z}/{x}/{y}.png');
+
+			#Setting up red little aircraft
+			me.center_tile_offset = [
+				(me.num_tiles[0] - 1) / 2,
+				(me.num_tiles[1] - 1) / 2
+			];
+			# simple aircraft icon at current position/center of the map
+			me.filename = "Aircraft/Mirage-2000/Models/Interior/Instruments/mfd/littleaircraftRed.svg";
+			me.svg_symbol = me.group.createChild("group").set(Z_INDEX, zIndex.page_map.svg);
+			canvas.parsesvg(me.svg_symbol, me.filename);
+			me.svg_symbol.setScale(0.05);
+
+			me.svg_symbol.setTranslation((DISPLAY_WIDTH/2)-20,DISPLAY_HEIGHT/2-45);
+
+			me.myVector = me.svg_symbol.getBoundingBox();
+			me.svg_symbol.updateCenter();
+
+			var make_tiles = func (canvas_group) {
+				var tiles = setsize([], me.num_tiles[0]);
+				for (var x = 0; x < me.num_tiles[0]; x += 1) {
+					tiles[x] = setsize([], me.num_tiles[1]);
+					for (var y = 0; y < me.num_tiles[1]; y += 1) {
+						tiles[x][y] = canvas_group.createChild("image", "map-tile");
+					}
+				}
+				return tiles;
+			}
+
+			me.tiles_front = make_tiles(me.g_front);
+			me.tiles_back  = make_tiles(me.g_back);
+
+			me.use_front = 1;
+
+			me.last_tile = [-1,-1];
+			me.last_type = me.type;
+
+			me.MIN_ZOOM = 5;
+			me.MAX_ZOOM = 15;
+			me.zoom = 10;
+		},
+
+		_changeZoomMap: func(d) {
+			new_zoom = math.max(me.MIN_ZOOM, math.min(me.MAX_ZOOM, me.zoom + d));
+			if (new_zoom != me.zoom) {
+				me.zoom = new_zoom;
+				printDebug("zoom: "~me.zoom);
+				if (me.zoom == me.MIN_ZOOM) {
+					me.device.controls["OSB25"].setControlText("");
+				} elsif (me.zoom == me.MAX_ZOOM) {
+					me.device.controls["OSB24"].setControlText("");
+				} else {
+					me.device.controls["OSB24"].setControlText("Zoom In");
+					me.device.controls["OSB25"].setControlText("Zoom Out");
+				}
+			}
+		},
+
+		enter: func {
+			printDebug("Enter ",me.name~" on ",me.device.name);
+			if (me.isNew) {
+				me.setup();
+				me.isNew = FALSE;
+			}
+			me.device.resetControls();
+			me.device.controls["OSB3"].setControlText(PAGE_SMS_MENU_ITEM);
+			me.device.controls["OSB24"].setControlText("Zoom In");
+			me.device.controls["OSB25"].setControlText("Zoom Out");
+		},
+
+		controlAction: func (controlName) {
+			printDebug(me.name,": ",controlName," activated on ",me.device.name);
+			if (controlName == "OSB24") {
+				me._changeZoomMap(1);
+			} elsif (controlName == "OSB25") {
+				me._changeZoomMap(-1);
+			}
+		},
+
+		update: func(noti = nil) {
+			if (noti.FrameCount != 3) {
+				return;
+			}
+
+			me.svg_symbol.setRotation(me.myHeadingProp.getValue()*D2R);
+			me.myCoord = geo.aircraft_position();
+
+			me.n = math.pow(2, me.zoom);
+			me.offset = [
+				me.n * ((me.myCoord.lon() + 180) / 360) - me.center_tile_offset[0],
+				(1 - math.ln(math.tan(me.myCoord.lat() * math.pi/180) + 1 / math.cos(me.myCoord.lat() * math.pi/180)) / math.pi) / 2 * me.n - me.center_tile_offset[1]
+			];
+			me.tile_index = [int(me.offset[0]), int(me.offset[1])];
+
+			me.ox = me.tile_index[0] - me.offset[0];
+			me.oy = me.tile_index[1] - me.offset[1];
+			me.g_front.setVisible(me.use_front);
+			me.g_back.setVisible(!me.use_front);
+
+			me.use_front = math.mod(me.use_front + 1, 2);
+
+			for (var x = 0; x < me.num_tiles[0]; x += 1) {
+				for (var y = 0; y < me.num_tiles[1]; y += 1) {
+					if (me.use_front) {
+						me.tiles_back[x][y].setTranslation(int((me.ox + x) * me.tile_size + 0.5), int((me.oy + y) * me.tile_size + 0.5));
+					}
+					else {
+						me.tiles_front[x][y].setTranslation(int((me.ox + x) * me.tile_size + 0.5), int((me.oy + y) * me.tile_size + 0.5));
+					}
+				}
+			}
+
+			if (me.tile_index[0] != me.last_tile[0] or me.tile_index[1] != me.last_tile[1] or me.type != me.last_type) {
+				for (var x = 0; x < me.num_tiles[0]; x += 1) {
+					for (var y = 0; y < me.num_tiles[1]; y += 1) {
+						me.server_index = math.round(rand() * (size(me.servers) - 1));
+						me.server_name = me.servers[me.server_index];
+						me.pos = {
+							z: me.zoom,
+							x: int(me.offset[0] + x),
+							y: int(me.offset[1] + y),
+							type: me.type,
+							server: me.server_name
+						};
+
+						(func {
+							var img_path = me.makePath(me.pos);
+
+							if (io.stat(img_path) == nil) {
+								var img_url = me.makeUrl(me.pos);
+								# var message = "Requesting %s...";
+								http.save(img_url, img_path)
+									.done(func {
+										# var message = "Received image %s";
+									})
+									.fail(func (r) {
+										# var message = "Failed to get image %s %s: %s";
+										me.tiles_back[x-1][y-1].setFile("");
+										me.tiles_front[x-1][y-1].setFile("");
+									});
+							}
+							else {
+								if (me.pos.z == me.zoom) {
+									me.tiles_back[x][y].setFile(img_path);
+									me.tiles_front[x][y].setFile(img_path);
+								}
+							}
+						})();
+					}
+				}
+
+				me.last_tile = me.tile_index;
+				me.last_type = me.type;
+			}
+		},
+
+		exit: func {
+			printDebug("Exit ",me.name~" on ",me.device.name);
+		},
+
+		links: {
+			"OSB3": PAGE_SMS,
+		},
+
+		layers: [LAYER_SERVICEABLE],
+	}
 };
 
 
@@ -1316,9 +1532,9 @@ var main = func (module) {
 	if (module != nil) print("Display-system init as module");
 
 	rightMFDDisplayDevice = DisplayDevice.new("RightMFDDisplayDevice", [DISPLAY_WIDTH, DISPLAY_HEIGHT], [1, 1], "right_mfd.canvasCadre", "canvasTex.png");
-	rightMFDDisplayDevice.setColorBackground(colorBackground);
+	rightMFDDisplayDevice.setColorBackground(COLOR_BLACK);
 
-	rightMFDDisplayDevice.setControlTextColors(colorText1, colorBackground);
+	rightMFDDisplayDevice.setControlTextColors(COLOR_WHITE, COLOR_BLACK);
 
 	var osbPositions = [
 		# top row = bt-h1 ... bt-h5 in xml
@@ -1335,16 +1551,24 @@ var main = func (module) {
 		[(0.2375+3*0.175)*DISPLAY_WIDTH, DISPLAY_HEIGHT], # OSB9
 
 		# These are not buttons, but rocker-switches - left row = pot-l1 ... pot-l4
-		# [0, 1.5/6.4*DISPLAY_HEIGHT],
-		# [0, 3.0/6.4*DISPLAY_HEIGHT],
-		# [0, 4.5/6.4*DISPLAY_HEIGHT],
-		# [0, 6.0/6.4*DISPLAY_HEIGHT],
+		[0, 1.5/6.4*DISPLAY_HEIGHT], # OSB10
+		[0, 1.5/6.4*DISPLAY_HEIGHT +24],
+		[0, 3.0/6.4*DISPLAY_HEIGHT], # OSB12
+		[0, 3.0/6.4*DISPLAY_HEIGHT +24],
+		[0, 4.5/6.4*DISPLAY_HEIGHT], # OSB14
+		[0, 4.5/6.4*DISPLAY_HEIGHT +24],
+		[0, 6.0/6.4*DISPLAY_HEIGHT], # OSB16
+		[0, 6.0/6.4*DISPLAY_HEIGHT +24],
 
 		# right row = pot-r1 ... pot-r4
-		# [DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT],
-		# [DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT],
-		# [DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT],
-		# [DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT],
+		[DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT], # OSB18
+		[DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT +24],
+		[DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT], # OSB20
+		[DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT +24],
+		[DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT], # OSB22
+		[DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT +24],
+		[DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT], # OSB24
+		[DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT +24],
 	];
 
 	var rightMFDDisplaySystem = DisplaySystem.new();
@@ -1399,4 +1623,4 @@ var printfDebug = func {if (debugDisplays) {var str = call(sprintf,arg,nil,nil,v
 # Note calling printf directly with call() will sometimes crash the sim, so we call sprintf instead.
 
 
-#main(nil);# disable this line if running as module
+main(nil);# disable this line if running as module

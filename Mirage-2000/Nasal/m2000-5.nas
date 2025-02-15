@@ -682,9 +682,6 @@ var autostart = func{
 }
 
 var long_starting = func() {
-	#Closing the diloag
-	call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "config"}))},nil,var err2 = []);
-
 	#Placing the view on take off view
 	if (getprop("/sim/current-view/view-number-raw") == 0) {
 		setprop("/sim/current-view/x-offset-m",0);
