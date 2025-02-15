@@ -79,6 +79,9 @@ var font = {
 		threat_text: 36,
 		symbols_dist: 24, # a relative value for the size of symbology around the threat text
 		indicators_text: 32,
+	},
+	page_map: {
+		load_message: 64,
 	}
 };
 
@@ -104,9 +107,12 @@ var zIndex = {
 	page_map: {
 		map: 10,
 		svg: 15,
+		load_message: 16,
 	},
 };
 
+var FONT_MONO_REGULAR = "LiberationFonts/LiberationMono-Regular.ttf";
+var FONT_MONO_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
 
 # also used in apg-68.nas
 var colorDot2 = [1, 1, 1];
@@ -203,7 +209,7 @@ var DisplayDevice = {
 		if (me["controlGrp"] == nil) {
 			me.controlGrp = me.canvas.createGroup()
 								.set(Z_INDEX, zIndex.device.osb)
-								.set("font","LiberationFonts/LiberationMono-Regular.ttf");
+								.set("font", FONT_MONO_REGULAR);
 		}
 		me.controls.master.setControlText = func (text, positive = 1, outline = 0, rear = 0, blink = 0) {
 			# rear is adjustment of the fill in x axis
@@ -326,7 +332,7 @@ var DisplayDevice = {
 		if (page.needGroup) {
 			me.tempGrp = me.canvas.createGroup()
 							.set(Z_INDEX, zIndex.device.page)
-							.set("font","LiberationFonts/LiberationMono-Regular.ttf")
+							.set("font", FONT_MONO_REGULAR)
 							.hide();
 			page.group = me.tempGrp;
 		}
@@ -337,7 +343,7 @@ var DisplayDevice = {
 		printDebug(me.name," init layer ",layer.name);
 		me.tempGrp = me.canvas.createGroup()
 						.set(Z_INDEX, zIndex.device.layer)
-						.set("font","LiberationFonts/LiberationMono-Regular.ttf")
+						.set("font", FONT_MONO_REGULAR)
 						.hide();
 		layer.group = me.tempGrp;
 		layer.device = me;
@@ -1298,15 +1304,13 @@ var DisplaySystem = {
 		setup: func {
 			printDebug(me.name," on ",me.device.name," is being setup");
 
-			me.mapStuff = me.group.createChild("group").set(Z_INDEX, zIndex.page_map.map);
-			me.g_front = me.mapStuff.createChild("group");
-			me.g_back = me.mapStuff.createChild("group");
+			me.map_stuff = me.group.createChild("group").set(Z_INDEX, zIndex.page_map.map);
 
 			me.myHeadingProp = props.globals.getNode("orientation/heading-deg");
 
 			me.group.setCenter(DISPLAY_WIDTH/2,DISPLAY_HEIGHT/2);
 
-			##MAP stuff : Set up of the tiles
+			# MAP stuff : Set up of the tiles
 			me.tile_size = 256;
 			me.num_tiles = [4, 3];
 
@@ -1326,14 +1330,11 @@ var DisplaySystem = {
 				(me.num_tiles[0] - 1) / 2,
 				(me.num_tiles[1] - 1) / 2
 			];
-			# simple aircraft icon at current position/center of the map
 			me.filename = "Aircraft/Mirage-2000/Models/Interior/Instruments/mfd/littleaircraftRed.svg";
 			me.svg_symbol = me.group.createChild("group").set(Z_INDEX, zIndex.page_map.svg);
 			canvas.parsesvg(me.svg_symbol, me.filename);
 			me.svg_symbol.setScale(0.05);
-
 			me.svg_symbol.setTranslation((DISPLAY_WIDTH/2)-20,DISPLAY_HEIGHT/2-45);
-
 			me.myVector = me.svg_symbol.getBoundingBox();
 			me.svg_symbol.updateCenter();
 
@@ -1348,17 +1349,26 @@ var DisplaySystem = {
 				return tiles;
 			}
 
-			me.tiles_front = make_tiles(me.g_front);
-			me.tiles_back  = make_tiles(me.g_back);
+			me.map_tiles = make_tiles(me.map_stuff);
 
-			me.use_front = 1;
-
-			me.last_tile = [-1,-1];
+			me.last_tile = nil;
 			me.last_type = me.type;
 
 			me.MIN_ZOOM = 5;
 			me.MAX_ZOOM = 15;
 			me.zoom = 10;
+			me.last_zoom = me.zoom;
+
+			# text to display when there are problems loading map tiles
+			me.load_message_text = "";
+			me.load_message = me.group.createChild("text", "load_message")
+				.set(Z_INDEX, zIndex.page_map.load_message)
+				.setColor(COLOR_AMBER)
+				.setFont(FONT_MONO_BOLD)
+				.setFontSize(font.page_map.load_message)
+				.setAlignment("center-center")
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT - 150);
+			me.load_message.enableUpdate();
 		},
 
 		_changeZoomMap: func(d) {
@@ -1415,23 +1425,15 @@ var DisplaySystem = {
 
 			me.ox = me.tile_index[0] - me.offset[0];
 			me.oy = me.tile_index[1] - me.offset[1];
-			me.g_front.setVisible(me.use_front);
-			me.g_back.setVisible(!me.use_front);
-
-			me.use_front = math.mod(me.use_front + 1, 2);
 
 			for (var x = 0; x < me.num_tiles[0]; x += 1) {
 				for (var y = 0; y < me.num_tiles[1]; y += 1) {
-					if (me.use_front) {
-						me.tiles_back[x][y].setTranslation(int((me.ox + x) * me.tile_size + 0.5), int((me.oy + y) * me.tile_size + 0.5));
-					}
-					else {
-						me.tiles_front[x][y].setTranslation(int((me.ox + x) * me.tile_size + 0.5), int((me.oy + y) * me.tile_size + 0.5));
-					}
+					me.map_tiles[x][y].setTranslation(int((me.ox + x) * me.tile_size + 0.5), int((me.oy + y) * me.tile_size + 0.5));
 				}
 			}
-
-			if (me.tile_index[0] != me.last_tile[0] or me.tile_index[1] != me.last_tile[1] or me.type != me.last_type) {
+			if (me.last_tile == nil or me.load_message_text != "" or me.tile_index[0] != me.last_tile[0] or me.tile_index[1] != me.last_tile[1] or me.type != me.last_type or me.zoom != me.last_zoom) {
+				var map_load_issues = FALSE;
+				me.load_message_text = ""; # reset - will only be updated if there is an error
 				for (var x = 0; x < me.num_tiles[0]; x += 1) {
 					for (var y = 0; y < me.num_tiles[1]; y += 1) {
 						me.server_index = math.round(rand() * (size(me.servers) - 1));
@@ -1446,32 +1448,26 @@ var DisplaySystem = {
 
 						(func {
 							var img_path = me.makePath(me.pos);
-
 							if (io.stat(img_path) == nil) {
 								var img_url = me.makeUrl(me.pos);
-								# var message = "Requesting %s...";
 								http.save(img_url, img_path)
 									.done(func {
-										# var message = "Received image %s";
+										# nothing to do
 									})
 									.fail(func (r) {
-										# var message = "Failed to get image %s %s: %s";
-										me.tiles_back[x-1][y-1].setFile("");
-										me.tiles_front[x-1][y-1].setFile("");
+										me.load_message_text = "Map loading ...";
 									});
 							}
 							else {
-								if (me.pos.z == me.zoom) {
-									me.tiles_back[x][y].setFile(img_path);
-									me.tiles_front[x][y].setFile(img_path);
-								}
+								me.map_tiles[x][y].setFile(img_path);
 							}
 						})();
 					}
 				}
-
+				me.load_message.updateText(me.load_message_text);
 				me.last_tile = me.tile_index;
 				me.last_type = me.type;
+				me.last_zoom = me.zoom;
 			}
 		},
 
