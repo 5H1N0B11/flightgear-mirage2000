@@ -44,9 +44,11 @@ var Z_INDEX = "z-index";
 
 var margin = {
 	device: {
-		buttonText: 10,
-		fillHeight: 1,
-		outline: 1,
+		button_text: 10,
+		button_text_top: 10, # extra margin
+		fillHeight: 2,
+		outline: 2,
+		between_menu_item: 32, # for left and right hand buttons
 	},
 };
 
@@ -282,21 +284,23 @@ var DisplayDevice = {
 				.setColor(me.colorFront);
 		me.controls[controlName].outline = me.controlGrp.createChild("path")
 				.set(Z_INDEX, zIndex.deviceOSB.outline)
-				.setStrokeLineJoin("round") # "miter", "round" or "bevel"
-				.moveTo(me.tempX-me.letterWidth*2*alignmentH-me.letterWidth*2-me.myCenter[0]-margin.device.outline, me.tempY-me.letterHeight*alignmentV*0.5-me.letterHeight*0.5-margin.device.outline-me.myCenter[1])
+				.setStrokeLineJoin("miter") # "miter", "round" or "bevel"
+				.moveTo(me.tempX-me.letterWidth*2*alignmentH-me.letterWidth*2-me.myCenter[0]-margin.device.outline,
+					me.tempY-me.letterHeight*alignmentV*0.5-me.letterHeight*0.5-margin.device.outline-me.myCenter[1])
 				.horiz(me.letterWidth*4+margin.device.outline*2)
 				.vert(me.letterHeight*1.0+margin.device.outline*2)
 				.horiz(-me.letterWidth*4-margin.device.outline*2)
 				.vert(-me.letterHeight*1.0-margin.device.outline*2)
 				.close()
-				.setColor(me.colorFront)
+				.setColor(COLOR_GREEN)
 				.hide()
 				.setStrokeLineWidth(lineWidth.device.outline)
 				.setTranslation(me.myCenter);
 		me.controls[controlName].fill = me.controlGrp.createChild("path")
 				.set(Z_INDEX, zIndex.deviceOSB.fill)
-				.setStrokeLineJoin("round") # "miter", "round" or "bevel"
-				.moveTo(me.tempX-me.letterWidth*2*alignmentH-me.letterWidth*2-me.myCenter[0], me.tempY-me.letterHeight*alignmentV*0.5-me.letterHeight*0.5-margin.device.fillHeight-me.myCenter[1])
+				.setStrokeLineJoin("miter") # "miter", "round" or "bevel"
+				.moveTo(me.tempX-me.letterWidth*2*alignmentH-me.letterWidth*2-me.myCenter[0],
+					me.tempY-me.letterHeight*alignmentV*0.5-me.letterHeight*0.5-margin.device.fillHeight-me.myCenter[1])
 				.horiz(me.letterWidth*4)
 				.vert(me.letterHeight*1.0+margin.device.fillHeight)
 				.horiz(-me.letterWidth*4)
@@ -379,16 +383,16 @@ var DisplaySystem = {
 		me.device.fontSize = fontSize;
 
 		for (var i = 1; i <= 5; i+= 1) { # top row
-			me.device.addControlText("OSB", "OSB"~i, [0, margin.device.buttonText], i-1,0,-1);
+			me.device.addControlText("OSB", "OSB"~i, [0, margin.device.button_text], i-1, 0, -1);
 		}
 		for (var i = 6; i <= 9; i+= 1) { # bottom row
-			me.device.addControlText("OSB", "OSB"~i, [0, -margin.device.buttonText], i-1,0,1);
+			me.device.addControlText("OSB", "OSB"~i, [0, -margin.device.button_text], i-1, 0, 1);
 		}
 		for (var i = 10; i <= 17; i+= 1) { # left column
-			me.device.addControlText("OSB", "OSB"~i, [margin.device.buttonText, 0], i-1,-1);
+			me.device.addControlText("OSB", "OSB"~i, [margin.device.button_text, 0], i-1, -1, 0);
 		}
 		for (var i = 18; i <= 25; i+= 1) { # right column
-			me.device.addControlText("OSB", "OSB"~i, [-margin.device.buttonText, 0], i-1,1);
+			me.device.addControlText("OSB", "OSB"~i, [-margin.device.button_text, 0], i-1, 1, 0);
 		}
 	},
 
@@ -532,7 +536,7 @@ var DisplaySystem = {
 
 			me.cat_text = me.group.createChild("text", "cat_text")
 				.setFontSize(font.page_sms.cat_text)
-				.setColor(COLOR_GREEN)
+				.setColor(COLOR_LIGHT_BLUE)
 				.setAlignment("left-center")
 				.setText("CAT")
 				.setTranslation(DISPLAY_WIDTH/2 - 250, 250);
@@ -871,7 +875,11 @@ var DisplaySystem = {
 			me.lower_threat_radius = me.radius*0.8; # where to put the lower threat symbols
 			me.unknown_threat_radius = me.radius*0.9; # where to put threats that are unknown or searching
 			me.circle_radius_middle = me.radius*0.55;
-			me.fadeTime = 7; #seconds
+
+			# for active separation
+			me.sep1_radius = me.radius*0.400;
+			me.sep2_radius = me.radius*0.525;
+			me.sep3_radius = me.radius*0.775;
 
 			me.AIRCRAFT_UNKNOWN  = "U";
 			me.ASSET_AI          = "AI";
@@ -898,6 +906,16 @@ var DisplaySystem = {
 
 			me.last_update_inc = 0;
 			me.alternated = FALSE; # toggles every ca. UPDATE_INC seconds between TRUE and FALSE
+
+			# whether or not to show unknowns
+			me.show_unknowns = TRUE;
+			me.SHOW_UNKNOWNS_MENU_ITEM = "? Show";
+			me.HIDE_UNKNOWNS_MENU_ITEM = "? Hide";
+
+			# whether to reduce overlapping (at the expense of angle accuracy)
+			me.separate = FALSE;
+			me.SEPARATE_ACTIVE_MENU_ITEM = "Separation";
+			me.SEPARATE_NONE_MENU_ITEM = "None";
 		},
 
 		_createRWRCircles: func() {
@@ -1058,10 +1076,90 @@ var DisplaySystem = {
 			}
 			me.device.resetControls();
 			me.device.controls["OSB3"].setControlText(PAGE_MAP_MENU_ITEM);
+
+			me._toggle_show_unknowns(me.show_unknowns);
+			me._toggle_separate(me.separate);
 		},
 
 		controlAction: func (controlName) {
 			printDebug(me.name,": ",controlName," activated on ",me.device.name);
+			if (controlName == "OSB10") {
+				me._toggle_separate(TRUE);
+			} elsif (controlName == "OSB11") {
+				me._toggle_separate(FALSE);
+			}
+			if (controlName == "OSB16") {
+				me._toggle_show_unknowns(TRUE);
+			} elsif (controlName == "OSB17") {
+				me._toggle_show_unknowns(FALSE);
+			}
+		},
+
+		_toggle_show_unknowns: func (show) {
+			me.show_unknowns = show;
+			if (me.show_unknowns) {
+				me.device.controls["OSB16"].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
+				me.device.controls["OSB17"].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
+			} else {
+				me.device.controls["OSB16"].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
+				me.device.controls["OSB17"].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
+			}
+		},
+
+		_toggle_separate: func (do_separate) {
+			me.separate = do_separate;
+			if (me.separate) {
+				me.device.controls["OSB10"].setControlText(me.SEPARATE_ACTIVE_MENU_ITEM, TRUE, TRUE);
+				me.device.controls["OSB11"].setControlText(me.SEPARATE_NONE_MENU_ITEM, TRUE, FALSE);
+			} else {
+				me.device.controls["OSB10"].setControlText(me.SEPARATE_ACTIVE_MENU_ITEM, TRUE, FALSE);
+				me.device.controls["OSB11"].setControlText(me.SEPARATE_NONE_MENU_ITEM, TRUE, TRUE);
+			}
+		},
+
+		_assign_sep_spot: func {
+			# Copy from F16
+			# me.dev        angle_deg
+			# me.sep_spots  0 to 2  45, 20, 15
+			# me.threat     0 to 2
+			# me.sep_angles
+			# return   me.dev,  me.threat
+			me.newdev = me.dev;
+			me._assign_ideal_sep_spot();
+			me.plus = me.sep_angles[me.threat];
+			me.dir  = 0;
+			me.count = 1;
+			while(me.sep_spots[me.threat][me.spot] and me.count < size(me.sep_spots[me.threat])) {
+
+				if (me.dir == 0) me.dir = 1;
+				elsif (me.dir > 0) me.dir = -me.dir;
+				elsif (me.dir < 0) me.dir = -me.dir+1;
+
+				me.newdev = me.dev + me.plus * me.dir;
+
+				me._assign_ideal_sep_spot();
+				me.count += 1;
+			}
+
+			me.sep_spots[me.threat][me.spot] += 1;
+
+			# finished assigning spot
+			#printf("%2s: Spot %d assigned. Ring=%d",me.typ, me.spot, me.threat);
+			me.dev = me.spot * me.plus;
+			if (me.threat == 0) {
+				me.threat = me.sep1_radius;
+			} elsif (me.threat == 1) {
+				me.threat = me.sep2_radius;
+			} elsif (me.threat == 2) {
+				me.threat = me.sep3_radius;
+			}
+		},
+
+		_assign_ideal_sep_spot: func {
+			me.spot = math.round(geo.normdeg(me.newdev)/me.sep_angles[me.threat]);
+			if (me.spot >= size(me.sep_spots[me.threat])) {
+				me.spot = 0;
+			}
 		},
 
 		update: func (noti = nil ) {
@@ -1082,8 +1180,6 @@ var DisplaySystem = {
 			}
 
 			me._updateCounterMeasures();
-
-			me.show_unknowns = 1; # does not change cf. https://github.com/5H1N0B11/flightgear-mirage2000/issues/244
 
 			me.semi_callsign = me.input.semiactive_callsign.getValue();
 			me.launch_callsign = me.input.launch_callsign.getValue();
@@ -1106,6 +1202,11 @@ var DisplaySystem = {
 				}
 			}
 			me.sorted_list = sort(radar_system.f16_rwr.vector_aicontacts_threats, sorter);
+
+			me.sep_spots = [[0,0,0,0,0,0,0,0],#45 degs  8
+							[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],# 20 degs  18
+							[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];# 15 degs  24
+			me.sep_angles = [45,20,15];
 
 			me.new_contacts = [];
 			me.new_stt = [];
@@ -1145,14 +1246,27 @@ var DisplaySystem = {
 				} else if (me.has_maw_semi_active and me.semi_callsign == me.contact[0].get_Callsign()) {
 					me.is_blinking = TRUE;
 				}
-				if (me.typ == me.AIRCRAFT_UNKNOWN or me.typ == me.AIRCRAFT_SEARCH) {
-					me.threat = me.unknown_threat_radius;
-				} else if (me.threat > 0.5) {
-					me.threat = me.high_threat_radius;
-				} else {
-					me.threat = me.lower_threat_radius;
-				}
 				me.dev = -me.contact[2]+90;
+				if (me.separate == TRUE) {
+					if (me.typ == me.AIRCRAFT_UNKNOWN or me.typ == me.AIRCRAFT_SEARCH) {
+						me.threat = 2.;
+					} else if (me.threat > 0.5) {
+						me.threat = 0.;
+					} else if (me.threat > 0.25) {
+						me.threat = 1.;
+					} else {
+						me.threat = 2.;
+					}
+					me._assign_sep_spot();
+				} else {
+					if (me.typ == me.AIRCRAFT_UNKNOWN or me.typ == me.AIRCRAFT_SEARCH) {
+						me.threat = me.unknown_threat_radius;
+					} else if (me.threat > 0.5) {
+						me.threat = me.high_threat_radius;
+					} else {
+						me.threat = me.lower_threat_radius;
+					}
+				}
 
 				me.x = math.cos(me.dev*D2R)*me.threat;
 				me.y = -math.sin(me.dev*D2R)*me.threat;
@@ -1534,11 +1648,11 @@ var main = func (module) {
 
 	var osbPositions = [
 		# top row = bt-h1 ... bt-h5 in xml
-		[(0.075+0*0.2125)*DISPLAY_WIDTH, 0], # OSB1
-		[(0.075+1*0.2125)*DISPLAY_WIDTH, 0], # OSB2
-		[(0.075+2*0.2125)*DISPLAY_WIDTH, 0], # OSB3
-		[(0.075+3*0.2125)*DISPLAY_WIDTH, 0], # OSB4
-		[(0.075+4*0.2125)*DISPLAY_WIDTH, 0], # OSB5
+		[(0.075+0*0.2125)*DISPLAY_WIDTH, margin.device.button_text_top], # OSB1
+		[(0.075+1*0.2125)*DISPLAY_WIDTH, margin.device.button_text_top], # OSB2
+		[(0.075+2*0.2125)*DISPLAY_WIDTH, margin.device.button_text_top], # OSB3
+		[(0.075+3*0.2125)*DISPLAY_WIDTH, margin.device.button_text_top], # OSB4
+		[(0.075+4*0.2125)*DISPLAY_WIDTH, margin.device.button_text_top], # OSB5
 
 		# bottom row = bt-b1 ... bt-b4 in xml
 		[(0.2375+0*0.175)*DISPLAY_WIDTH, DISPLAY_HEIGHT], # OSB6
@@ -1547,24 +1661,24 @@ var main = func (module) {
 		[(0.2375+3*0.175)*DISPLAY_WIDTH, DISPLAY_HEIGHT], # OSB9
 
 		# These are not buttons, but rocker-switches - left row = pot-l1 ... pot-l4
-		[0, 1.5/6.4*DISPLAY_HEIGHT], # OSB10
-		[0, 1.5/6.4*DISPLAY_HEIGHT +24],
-		[0, 3.0/6.4*DISPLAY_HEIGHT], # OSB12
-		[0, 3.0/6.4*DISPLAY_HEIGHT +24],
-		[0, 4.5/6.4*DISPLAY_HEIGHT], # OSB14
-		[0, 4.5/6.4*DISPLAY_HEIGHT +24],
-		[0, 6.0/6.4*DISPLAY_HEIGHT], # OSB16
-		[0, 6.0/6.4*DISPLAY_HEIGHT +24],
+		[0, 1.5/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB10
+		[0, 1.5/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
+		[0, 3.0/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB12
+		[0, 3.0/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
+		[0, 4.5/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB14
+		[0, 4.5/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
+		[0, 6.0/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB16
+		[0, 6.0/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
 
 		# right row = pot-r1 ... pot-r4
-		[DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT], # OSB18
-		[DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT +24],
-		[DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT], # OSB20
-		[DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT +24],
-		[DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT], # OSB22
-		[DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT +24],
-		[DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT], # OSB24
-		[DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT +24],
+		[DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB18
+		[DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
+		[DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB20
+		[DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
+		[DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB22
+		[DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
+		[DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB24
+		[DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
 	];
 
 	var rightMFDDisplaySystem = DisplaySystem.new();

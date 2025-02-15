@@ -74,25 +74,25 @@
     <object-name>RMU-rep-nav2</object-name>
     <object-name>RMU-rep-tacan</object-name>
     <emission>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
       <red>   0.7 </red>
       <green> 0.7 </green>
       <blue>  0.7 </blue>
     </emission>
     <ambient>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   0.7 </red>
       <green> 0.7 </green>
       <blue>  0.7 </blue>
     </ambient>
     <diffuse>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
     </diffuse>
     <specular>
-      <factor-prop>instrumentation/mfd/dimm-r</factor-prop>
+      <factor-prop>instrumentation/mfd/dimm-l</factor-prop>
       <red>   1 </red>
       <green> 1 </green>
       <blue>  1 </blue>
