@@ -28,9 +28,6 @@ var msgB = "Please land before changing payload.";
 
 setprop("/instrumentation/radar/az-fieldCenter", 0);
 
-var hud_pilot = hud.HUD.new({"node": "revi.canvasHUD", "texture": "hud.png"});
-
-
 var prop = "payload/armament/fire-control";
 var actuator_fc = compat_failure_modes.set_unserviceable(prop);
 FailureMgr.add_failure_mode(prop, "Fire control", actuator_fc);
@@ -84,9 +81,6 @@ var _mainInitLoop = func() {
 
 	print("blackout ... Check");
 	blackout.blackout_init();
-
-	print("HUD canvas ... Check");
-	hud_pilot.update();
 
 	print("VTM canvas ... Check");
 
@@ -154,8 +148,6 @@ var _updateFunction = func() {
 
 	################## Rate 0.1 ##################
 	if (AbsoluteTime - myFramerate.a > 0.05) {
-		#call(hud_pilot.update,nil,nil,nil, myErr);
-		hud_pilot.update();
 		call(mirage2000.theShakeEffect,nil,nil,nil, myErr);
 		myFramerate.a = AbsoluteTime;
 	}
@@ -615,7 +607,7 @@ var call_flightmode = func(calling) {
 			nav = 1;
 		}
 	} elsif (calling == "g") {
-	nav = 1;
+		nav = 1;
 	} elsif (calling == "G") {
 		to = 1;
 	}
@@ -625,7 +617,6 @@ var call_flightmode = func(calling) {
 	setprop("/instrumentation/flightmode/arm",arm);
 
 	flightmode();
-	hud_pilot.recalculateLadder();
 }
 
 var quickstart = func() {

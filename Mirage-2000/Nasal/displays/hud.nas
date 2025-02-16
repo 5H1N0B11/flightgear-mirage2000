@@ -56,6 +56,11 @@ var mydeviation = 0;
 var myelevation = 0;
 var displayIt = 0;
 
+# mostly for stuff that is changed manually by the pilot and therefore does not need to be updated so often
+# e.g. the flightmode
+var UPDATE_INC = 0.8;
+
+
 
 # ==============================================================================
 # Head up display
@@ -76,7 +81,7 @@ var HUD = {
 		"mipmapping": 0
 	},
 
-	new: func(placement) {
+	new: func(_ident, placement) {
 		var m = {
 			parents: [HUD],
 			canvas: canvas.new(HUD.canvas_settings)
@@ -1035,15 +1040,45 @@ var HUD = {
 		m.RunwaysCoordEndCornerRight = geo.Coord.new();
 		m.bullseyeGeo = geo.Coord.new();
 		m.NXTWP = geo.Coord.new();
+
+		me.last_update_inc = 0;
+
+		me.flightmode_cached = nil;
+		me.last_flightmode = nil;
+
+		# Emesary notification stuff
+		m.recipient = emesary.Recipient.new(_ident);
+		m.recipient.parent_obj = m;
+
+		m.recipient.Receive = func(notification) {
+			if (notification.NotificationType == "FrameNotification") {
+				me.parent_obj._update(notification);
+				return emesary.Transmitter.ReceiptStatus_OK;
+			}
+			return emesary.Transmitter.ReceiptStatus_NotProcessed;
+		};
+		emesary.GlobalTransmitter.Register(m.recipient);
+
 		return m;
 	}, # END new
 
-	# The update method gets called from m2000-5.nas: hud_pilot.update()
-	update: func() {
+	_update: func(noti = nil) {
 		if (me.input.HUD_POWER_VOLT.getValue()<23) {
 			me.root.setVisible(0);
 		} else {
 			me.root.setVisible(1);
+		}
+
+		me.elapsed = noti.getproper("elapsed_seconds");
+		if (me.elapsed - me.last_update_inc >= UPDATE_INC) {
+			me.last_update_inc = me.elapsed;
+			if (me.input.flightmode.getValue() != nil) {
+				me.last_flightmode = me.flightmode_cached;
+				me.flightmode_cached = me.input.flightmode.getValue();
+				if (me.last_flightmode == nil or me.flightmode_cached != me.last_flightmode) {
+					me._recalculate_ladder();
+				}
+			}
 		}
 
 		me.aircraft_position = geo.aircraft_position();
@@ -2275,8 +2310,8 @@ var HUD = {
 		return abs(x)<me.MaxX and abs(y)<me.MaxY;
 	},
 
-############## When pilot view is changed the whole scale need to be redrawn ##########################
-    recalculateLadder: func() {
+	############## When pilot view is changed the whole scale needs to be redrawn ##########################
+    _recalculate_ladder: func() {
         me.LadderGroup.removeAllChildren();
         for (var myladder = 5;myladder <= 90;myladder+=5)
         {
@@ -2401,3 +2436,6 @@ var _roundabout = func(x) {
 	var y = x - int(x);
 	return y < 0.5 ? int(x) : 1 + int(x) ;
 };
+
+var hud_pilot = nil;
+var hud_pilot = hud.HUD.new("hud_pilot", {"node": "revi.canvasHUD", "texture": "hud.png"});
