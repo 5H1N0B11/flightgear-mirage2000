@@ -332,7 +332,7 @@ var DisplayDevice = {
 	},
 
 	initPage: func (page) {
-		printDebug(me.name," init page ",page.name);
+		# printDebug(me.name," init page ",page.name);
 		if (page.needGroup) {
 			me.tempGrp = me.canvas.createGroup()
 							.set(Z_INDEX, zIndex.device.page)
@@ -344,7 +344,7 @@ var DisplayDevice = {
 	},
 
 	initLayer: func (layer) {
-		printDebug(me.name," init layer ",layer.name);
+		# printDebug(me.name," init layer ",layer.name);
 		me.tempGrp = me.canvas.createGroup()
 						.set(Z_INDEX, zIndex.device.layer)
 						.set("font", FONT_MONO_REGULAR)
@@ -530,7 +530,7 @@ var DisplaySystem = {
 		},
 
 		setup: func {
-			printDebug(me.name," on ",me.device.name," is being setup");
+			# printDebug(me.name," on ",me.device.name," is being setup");
 
 			me.input = {
 				fbw_mode                  : "fdm/jsbsim/fbw/mode",
@@ -597,7 +597,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("left-center")
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 - (10+72), 196 + 24/2);
 			me.p1L_text.enableUpdate();
 
@@ -612,7 +611,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("right-center")
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 + (10+72), 196 + 24/2);
 			me.p1R_text.enableUpdate();
 
@@ -627,7 +625,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("center-center")
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2, 264 + 24/2);
 			me.p3C_text.enableUpdate();
 
@@ -642,7 +639,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("left-center")
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 - (60+72), 324 + 24/2);
 			me.p3L_text.enableUpdate();
 
@@ -657,7 +653,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("right-center")
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 + (60+72), 324 + 24/2);
 			me.p3R_text.enableUpdate();
 
@@ -672,7 +667,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("left-center")
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 - (114+72), 400 + 24/2);
 			me.p2L_text.enableUpdate();
 
@@ -687,7 +681,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("right-center")
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 + (114+72), 400 + 24/2);
 			me.p2R_text.enableUpdate();
 
@@ -702,7 +695,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("left-center")
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 - (10+72), 390 + 24/2);
 			me.p4L_text.enableUpdate();
 
@@ -717,7 +709,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("right-center")
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 + (10+72), 390 + 24/2);
 			me.p4R_text.enableUpdate();
 
@@ -732,7 +723,6 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("right-center") # yes it is a deviation from what we do otherwise
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 - 132, 108 + 24/2);
 			me.caL_text.enableUpdate();
 
@@ -747,13 +737,12 @@ var DisplaySystem = {
 				.setFontSize(font.page_sms.pylons_text)
 				.setColor(COLOR_YELLOW)
 				.setAlignment("right-center") # yes it is a deviation from what we do otherwise
-				.setText("")
 				.setTranslation(DISPLAY_WIDTH/2 + (132+48), 108 + 24/2);
 			me.caR_text.enableUpdate();
 		},
 
 		enter: func {
-			printDebug("Enter ",me.name~" on ",me.device.name);
+			# printDebug("Enter ",me.name~" on ",me.device.name);
 			if (me.isNew) {
 				me.setup();
 				me.isNew = FALSE;
@@ -764,7 +753,7 @@ var DisplaySystem = {
 		},
 
 		controlAction: func (controlName) {
-			printDebug(me.name,": ",controlName," activated on ",me.device.name);
+			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
 			if (controlName == "OSB24") {
 				me._toggle_fbw_mode(0);
 			} elsif (controlName == "OSB25") {
@@ -789,7 +778,7 @@ var DisplaySystem = {
 			}
 
 			me.catNumber = pylons.fcs.getCategory(); # catNumber is 1 or 2 - mode is 0 or 1
-			me.fbw_mode_text.setText(sprintf("Load type:\n%s", me.catNumber==1?"A/A":"Charges"));
+			me.fbw_mode_text.updateText(sprintf("Load type:\n%s", me.catNumber==1?"A/A":"Charges"));
 			if (me.catNumber != me.input.fbw_mode.getValue() + 1) {
 				me.fbw_mode_text.setColor(COLOR_RED);
 			} else {
@@ -810,20 +799,20 @@ var DisplaySystem = {
 			me.caR_box.setVisible(sel==9);
 
 			if (variantID == 1) {
-				me.caL_text.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
-				me.caR_text.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
+				me.caL_text.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
+				me.caR_text.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
 			} elsif (variantID == 3) {
 				if (pylons.pylon1 != nil and pylons.pylon1.currentSet != nil) {
 					if (pylons.pylon1.currentSet.name == "CC422") {
-						me.caL_text.setText(sprintf("%3d", pylons.fcs.getAmmo()));
+						me.caL_text.updateText(sprintf("%3d", pylons.fcs.getAmmo()));
 					} else {
-						me.caL_text.setText("");
+						me.caL_text.updateText("");
 					}
 				}
-				me.caR_text.setText("");
+				me.caR_text.updateText("");
 			} else {
-				me.caL_text.setText("");
-				me.caR_text.setText("");
+				me.caL_text.updateText("");
+				me.caR_text.updateText("");
 			}
 
 			me._setTextOnStation(me.p1L_text, pylons.pylon1);
@@ -839,20 +828,20 @@ var DisplaySystem = {
 
 		_setTextOnStation: func (text_obj, pylon) {
 			if (pylon == nil or pylon.currentSet == nil or size(pylon.currentSet.content) == 0) {
-				text_obj.setText("");
+				text_obj.updateText("");
 			} else {
 				me.size_content = size(pylon.currentSet.content);
 				me.sms_helper = pylons.pylonSetsSMSHelper[pylon.currentSet.name];
 				if (me.sms_helper[1] == TRUE) {
-					text_obj.setText(me.size_content~" "~me.sms_helper[0]);
+					text_obj.updateText(me.size_content~" "~me.sms_helper[0]);
 				} else {
-					text_obj.setText(me.sms_helper[0]);
+					text_obj.updateText(me.sms_helper[0]);
 				}
 			}
 		},
 
 		exit: func {
-			printDebug("Exit ",me.name~" on ",me.device.name);
+			# printDebug("Exit ",me.name~" on ",me.device.name);
 		},
 
 		links: {
@@ -1101,7 +1090,7 @@ var DisplaySystem = {
 		},
 
 		enter: func {
-			printDebug("Enter ",me.name~" on ",me.device.name);
+			# printDebug("Enter ",me.name~" on ",me.device.name);
 			if (me.isNew) {
 				me.setup();
 				me.isNew = FALSE;
@@ -1114,7 +1103,7 @@ var DisplaySystem = {
 		},
 
 		controlAction: func (controlName) {
-			printDebug(me.name,": ",controlName," activated on ",me.device.name);
+			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
 			if (controlName == "OSB10") {
 				me._toggle_separate(TRUE);
 			} elsif (controlName == "OSB11") {
@@ -1418,7 +1407,7 @@ var DisplaySystem = {
 		},
 
 		exit: func {
-			printDebug("Exit ",me.name~" on ",me.device.name);
+			# printDebug("Exit ",me.name~" on ",me.device.name);
 		},
 
 		links: {
@@ -1448,7 +1437,7 @@ var DisplaySystem = {
 		},
 
 		setup: func {
-			printDebug(me.name," on ",me.device.name," is being setup");
+			# printDebug(me.name," on ",me.device.name," is being setup");
 
 			me.map_stuff = me.group.createChild("group").set(Z_INDEX, zIndex.page_map.map);
 
@@ -1521,7 +1510,6 @@ var DisplaySystem = {
 			new_zoom = math.max(me.MIN_ZOOM, math.min(me.MAX_ZOOM, me.zoom + d));
 			if (new_zoom != me.zoom) {
 				me.zoom = new_zoom;
-				printDebug("zoom: "~me.zoom);
 				if (me.zoom == me.MIN_ZOOM) {
 					me.device.controls["OSB25"].setControlText("");
 				} elsif (me.zoom == me.MAX_ZOOM) {
@@ -1534,7 +1522,7 @@ var DisplaySystem = {
 		},
 
 		enter: func {
-			printDebug("Enter ",me.name~" on ",me.device.name);
+			# printDebug("Enter ",me.name~" on ",me.device.name);
 			if (me.isNew) {
 				me.setup();
 				me.isNew = FALSE;
@@ -1546,7 +1534,7 @@ var DisplaySystem = {
 		},
 
 		controlAction: func (controlName) {
-			printDebug(me.name,": ",controlName," activated on ",me.device.name);
+			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
 			if (controlName == "OSB24") {
 				me._changeZoomMap(1);
 			} elsif (controlName == "OSB25") {
@@ -1618,7 +1606,7 @@ var DisplaySystem = {
 		},
 
 		exit: func {
-			printDebug("Exit ",me.name~" on ",me.device.name);
+			# printDebug("Exit ",me.name~" on ",me.device.name);
 		},
 
 		links: {

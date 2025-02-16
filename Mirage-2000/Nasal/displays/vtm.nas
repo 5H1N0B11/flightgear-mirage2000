@@ -556,8 +556,8 @@ var VTM = {
 		                                          .setFont(FONT_MONO_BOLD)
 		                                          .setColor(COLOR_RADAR)
 		                                          .setAlignment("left-top")
-		                                          .setText("MRF")
 		                                          .setTranslation(PADDING_HORIZONTAL + 10, PADDING_TOP + 10);
+		me.radar_left_text.enableUpdate();
 		me.radar_range_text = me.radar_modes_group.createChild("text", "radar_range_text")
 		                                          .setFontSize(FONT_SIZE, FONT_ASPECT_RATIO)
 		                                          .setFont(FONT_MONO_BOLD)
@@ -712,12 +712,12 @@ var VTM = {
 
 	_updateRadarTexts: func(radar_mode_root_name, radar_mode_name) {
 		# this is fictional based on radar2.nas->radar_mode_toggle(). In the real screen it reads e.g. "MRF"
-		me.radar_left_text.setText(radar_mode_root_name~"-"~radar_mode_name);
+		me.radar_left_text.updateText(radar_mode_root_name~"-"~radar_mode_name);
 
-		me.radar_b_bars.setText("<"~radar_system.apg68Radar.getBars());
+		me.radar_b_bars.updateText("<"~radar_system.apg68Radar.getBars());
 		me.radar_b_bars.setTranslation(PADDING_HORIZONTAL + 3*GRID_TICK_LENGTH, PADDING_TOP + RADAR_VIEW_HEIGHT/2 - radar_system.apg68Radar.getTiltKnob() * RADAR_PITCH_DEGS_TO_PIXELS);
 
-		me.radar_range_text.setText(radar_system.apg68Radar.getRange());
+		me.radar_range_text.updateText(radar_system.apg68Radar.getRange());
 	},
 
 	_updatePPICircle: func(max_azimuth_rad) {
@@ -777,11 +777,11 @@ var VTM = {
 		# update the numbers
 		me.alimits = radar_system.apg68Radar.getCursorAltitudeLimits();
 		if (me.alimits != nil and radar_system.apg68Radar.currentMode.detectAIR == TRUE) {
-			me.cursor_upper_limit.setText(sprintf("%d", math.round(me.alimits[0]*0.001)));
-			me.cursor_lower_limit.setText(sprintf("%d", math.round(me.alimits[1]*0.001)));
+			me.cursor_upper_limit.updateText(sprintf("%d", math.round(me.alimits[0]*0.001)));
+			me.cursor_lower_limit.updateText(sprintf("%d", math.round(me.alimits[1]*0.001)));
 		} else {
-			me.cursor_upper_limit.setText("");
-			me.cursor_lower_limit.setText("");
+			me.cursor_upper_limit.updateText("");
+			me.cursor_lower_limit.updateText("");
 		}
 
 		var screen_pos = nil;
@@ -790,9 +790,9 @@ var VTM = {
 		} else {
 			screen_pos = _calcScreenPositionBScopeFromXY(me.cursor_pos[0], me.cursor_pos[1], max_distance_m, max_azimuth_rad);
 		}
-		me.cursor_distance.setText(sprintf("%d", math.round(screen_pos[1] * M2NM)));
-		me.cursor_dist_text.setText(sprintf("%d", math.round(screen_pos[1] * M2NM)));
-		me.cursor_hdg_text.setText(sprintf("%d", math.round(geo.normdeg(screen_pos[0] * R2D + me.heading_displayed))));
+		me.cursor_distance.updateText(sprintf("%d", math.round(screen_pos[1] * M2NM)));
+		me.cursor_dist_text.updateText(sprintf("%d", math.round(screen_pos[1] * M2NM)));
+		me.cursor_hdg_text.updateText(sprintf("%d", math.round(geo.normdeg(screen_pos[0] * R2D + me.heading_displayed))));
 	},
 
 	_distCursorTrack: func(i) {
