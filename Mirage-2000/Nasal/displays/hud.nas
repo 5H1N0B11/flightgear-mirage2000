@@ -405,226 +405,224 @@ var HUD = {
 
 		#Heading middle number on horizon line
 		me.hdgMH = m.headingScaleGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(0,m.headScaleVerticalPlace -15)
-		.setDouble("character-size", 30)
-		.setAlignment("center-bottom")
-		.setText("0");
+			.setColor(m.myGreen)
+			.setTranslation(0,m.headScaleVerticalPlace -15)
+			.setDouble("character-size", 30)
+			.setAlignment("center-bottom");
+		me.hdgMH.enableUpdate();
 
 		# Heading left number on horizon line
 		me.hdgLH = m.headingScaleGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(-m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
-		.setDouble("character-size", 30)
-		.setAlignment("center-bottom")
-		.setText("350");
+			.setColor(m.myGreen)
+			.setTranslation(-m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
+			.setDouble("character-size", 30)
+			.setAlignment("center-bottom");
+		me.hdgLH.enableUpdate();
 
 		# Heading right number on horizon line
 		me.hdgRH = m.headingScaleGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
-		.setDouble("character-size", 30)
-		.setAlignment("center-bottom")
-		.setText("10");
+			.setColor(m.myGreen)
+			.setTranslation(m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
+			.setDouble("character-size", 30)
+			.setAlignment("center-bottom");
+		me.hdgRH.enableUpdate();
 
 		# Heading right right number on horizon line
 		me.hdgRRH = m.headingScaleGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(m.headScaleTickSpacing*4,m.headScaleVerticalPlace -15)
-		.setDouble("character-size", 30)
-		.setAlignment("center-bottom")
-		.setText("20");
+			.setColor(m.myGreen)
+			.setTranslation(m.headScaleTickSpacing*4,m.headScaleVerticalPlace -15)
+			.setDouble("character-size", 30)
+			.setAlignment("center-bottom");
+		me.hdgRRH.enableUpdate();
 
 		#Point the The Selected Route. it's at the middle of the HUD
 		m.TriangleSize = 4;
 		m.head_scale_route_pointer = m.headingStuff.createChild("path")
-		.setColor(m.myGreen)
-		.setStrokeLineWidth(3)
-		.moveTo(0, m.headScaleVerticalPlace)
-		.lineTo(m.TriangleSize*-5/2, (m.headScaleVerticalPlace)+(m.TriangleSize*5))
-		.lineTo(m.TriangleSize*5/2,(m.headScaleVerticalPlace)+(m.TriangleSize*5))
-		.lineTo(0, m.headScaleVerticalPlace);
+			.setColor(m.myGreen)
+			.setStrokeLineWidth(3)
+			.moveTo(0, m.headScaleVerticalPlace)
+			.lineTo(m.TriangleSize*-5/2, (m.headScaleVerticalPlace)+(m.TriangleSize*5))
+			.lineTo(m.TriangleSize*5/2,(m.headScaleVerticalPlace)+(m.TriangleSize*5))
+			.lineTo(0, m.headScaleVerticalPlace);
 
 		#a line represent the middle and the actual heading
 		m.heading_pointer_line = m.headingStuff.createChild("path")
-		.setColor(m.myGreen)
-		.setStrokeLineWidth(4)
-		.moveTo(0, m.headScaleVerticalPlace + 2)
-		.vert(20);
+			.setColor(m.myGreen)
+			.setStrokeLineWidth(4)
+			.moveTo(0, m.headScaleVerticalPlace + 2)
+			.vert(20);
 
 		m.speedAltGroup = m.root.createChild("group");
-		# Heading right right number on horizon line
-		me.Speed = m.speedAltGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(- m.maxladderspan,m.headScaleVerticalPlace)
-		.setDouble("character-size", 50)
-		.setAlignment("right-bottom")
-		.setText("0");
 
-		me.Speed_Mach = m.speedAltGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(- m.maxladderspan,m.headScaleVerticalPlace+25)
-		.setDouble("character-size", 30)
-		.setAlignment("right-bottom")
-		.setText("0");
+		me.speed = m.speedAltGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(- m.maxladderspan,m.headScaleVerticalPlace)
+			.setDouble("character-size", 50)
+			.setAlignment("right-bottom");
+		me.speed.enableUpdate();
 
-		# Heading right right number on horizon line
-		me.hundred_feet_Alt = m.speedAltGroup.createChild("text")
+		me.speed_mach = m.speedAltGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(- m.maxladderspan,m.headScaleVerticalPlace+25)
+			.setDouble("character-size", 30)
+			.setAlignment("right-bottom");
+		me.speed_mach.enableUpdate();
+
+		me.hundred_feet_alt = m.speedAltGroup.createChild("text")
 			.setTranslation(m.maxladderspan + 60 ,m.headScaleVerticalPlace)
 			.setDouble("character-size", 50)
-			.setAlignment("right-bottom")
-			.setText("0");
+			.setAlignment("right-bottom");
+		me.hundred_feet_alt.enableUpdate();
 
-		# Heading right right number on horizon line
-		me.feet_Alt = m.speedAltGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(m.maxladderspan + 60,m.headScaleVerticalPlace)
-		.setDouble("character-size", 30)
-		.setAlignment("left-bottom")
-		.setText("00");
+		me.feet_alt = m.speedAltGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(m.maxladderspan + 60,m.headScaleVerticalPlace)
+			.setDouble("character-size", 30)
+			.setAlignment("left-bottom");
+		me.feet_alt.enableUpdate();
 
-		# Heading right right number on horizon line
-		me.groundAlt = m.speedAltGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(m.maxladderspan + 95,m.headScaleVerticalPlace+25)
-		.setDouble("character-size", 30)
-		.setAlignment("right-bottom")
-		.setText("*****");
+		me.ground_alt = m.speedAltGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(m.maxladderspan + 95,m.headScaleVerticalPlace+25)
+			.setDouble("character-size", 30)
+			.setAlignment("right-bottom");
+		me.ground_alt.enableUpdate();
 
 			# Heading right right number on horizon line
-		me.theH = m.speedAltGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(m.maxladderspan + 100,m.headScaleVerticalPlace+25)
-		.setDouble("character-size", 30)
-		.setAlignment("left-bottom")
-		.setText("H");
+		me.the_H = m.speedAltGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(m.maxladderspan + 100,m.headScaleVerticalPlace+25)
+			.setDouble("character-size", 30)
+			.setAlignment("left-bottom")
+			.setText("H");
 
 		m.alphaGroup = m.root.createChild("group");
 
 		#alpha
 		m.alpha = m.alphaGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(- m.maxladderspan-70,m.headScaleVerticalPlace+50)
-		.setDouble("character-size", 40)
-		.setAlignment("right-center")
-		.setText("α");
+			.setColor(m.myGreen)
+			.setTranslation(- m.maxladderspan-70,m.headScaleVerticalPlace+50)
+			.setDouble("character-size", 40)
+			.setAlignment("right-center")
+			.setText("α");
 
 		#aoa
 		m.aoa = m.alphaGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(- m.maxladderspan-50,m.headScaleVerticalPlace+50)
-		.setDouble("character-size", 30)
-		.setAlignment("left-center")
-		.setText("0.0");
+			.setColor(m.myGreen)
+			.setTranslation(- m.maxladderspan-50,m.headScaleVerticalPlace+50)
+			.setDouble("character-size", 30)
+			.setAlignment("left-center");
+		m.aoa.enableUpdate();
 
 		m.alphaGloadGroup = m.root.createChild("group");
-		m.gload_Text = m.alphaGloadGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(- m.maxladderspan-50,-120)
-		.setDouble("character-size", 35)
-		.setAlignment("right-center")
-		.setText("0.0");
+		m.gload_text = m.alphaGloadGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(- m.maxladderspan-50,-120)
+			.setDouble("character-size", 35)
+			.setAlignment("right-center");
+		m.gload_text.enableUpdate();
 
-		m.alpha_Text = m.alphaGloadGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(- m.maxladderspan-50,-90)
-		.setDouble("character-size", 35)
-		.setAlignment("right-center")
-		.setText("0.0");
+		m.alpha_text = m.alphaGloadGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(- m.maxladderspan-50,-90)
+			.setDouble("character-size", 35)
+			.setAlignment("right-center");
+		m.alpha_text.enableUpdate();
 
 		m.alphaGloadGroup.hide();
 
-		m.loads_Type_text = m.root.createChild("text")
+		m.loads_type_text = m.root.createChild("text")
 		                          .setColor(m.myGreen)
 		                          .setTranslation(- m.maxladderspan-90,-150)
 		                          .setDouble("character-size", 35)
-		                          .setAlignment("right-center")
-		                          .setText("0.0");
-		m.loads_Type_text.hide();
+		                          .setAlignment("right-center");
+		m.loads_type_text.enableUpdate();
+		m.loads_type_text.hide();
 
 		# Bullet count when CAN is selected
 		m.bullet_CountGroup = m.root.createChild("group");
-		m.Left_bullet_Count = m.bullet_CountGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(-m.maxladderspan+60,100)
-		.setDouble("character-size", 35)
-		.setFont("LiberationFonts/LiberationMono-Bold.ttf")
-		.setAlignment("center-center")
-		.setText("0.0");
-		m.Right_bullet_Count = m.bullet_CountGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(m.maxladderspan-60,100)
-		.setDouble("character-size", 35)
-		.setFont("LiberationFonts/LiberationMono-Bold.ttf")
-		.setAlignment("center-center")
-		.setText("0.0");
+		m.left_bullet_count = m.bullet_CountGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(-m.maxladderspan+60,100)
+			.setDouble("character-size", 35)
+			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setAlignment("center-center");
+		m.left_bullet_count.enableUpdate();
+
+		m.right_bullet_count = m.bullet_CountGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(m.maxladderspan-60,100)
+			.setDouble("character-size", 35)
+			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setAlignment("center-center");
+		m.right_bullet_count.enableUpdate();
 		m.bullet_CountGroup.hide();
 
 		# Pylon selection letters
 		m.pylons_Group = m.root.createChild("group");
-		m.Left_pylons = m.pylons_Group.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(-m.maxladderspan+60,100)
-		.setDouble("character-size", 35)
-		.setFont("LiberationFonts/LiberationMono-Bold.ttf")
-		.setAlignment("center-center")
-		.setText("G");
-		m.Right_pylons = m.pylons_Group.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(m.maxladderspan-60,100)
-		.setDouble("character-size", 35)
-		.setFont("LiberationFonts/LiberationMono-Bold.ttf")
-		.setAlignment("center-center")
-		.setText("D");
-		m.Center_pylons = m.pylons_Group.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(0,100)
-		.setDouble("character-size", 35)
-		.setFont("LiberationFonts/LiberationMono-Bold.ttf")
-		.setAlignment("center-center")
-		.setText("C");
+		m.left_pylons = m.pylons_Group.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(-m.maxladderspan+60,100)
+			.setDouble("character-size", 35)
+			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setAlignment("center-center")
+			.setText("G");
+		m.right_pylons = m.pylons_Group.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(m.maxladderspan-60,100)
+			.setDouble("character-size", 35)
+			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setAlignment("center-center")
+			.setText("D");
+		m.center_pylons = m.pylons_Group.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(0,100)
+			.setDouble("character-size", 35)
+			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setAlignment("center-center")
+			.setText("C");
 		m.pylons_Group.hide();
 
 		# Pylon selection letters
 		m.pylons_Circle_Group = m.root.createChild("group");
-		m.LeftCircle = m.pylons_Circle_Group.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(-m.maxladderspan+60+25, 100)
-		.arcSmallCW(25,25, 0, -50, 0)
-		.arcSmallCW(25,25, 0, 50, 0)
-		.setStrokeLineWidth(5);
-		m.RightCircle = m.pylons_Circle_Group.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(m.maxladderspan-60+25, 100)
-		.arcSmallCW(25,25, 0, -50, 0)
-		.arcSmallCW(25,25, 0, 50, 0)
-		.setStrokeLineWidth(5);
-		m.CenterCircle = m.pylons_Circle_Group.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(25, 100)
-		.arcSmallCW(25,25, 0, -50, 0)
-		.arcSmallCW(25,25, 0, 50, 0)
-		.setStrokeLineWidth(5);
+		m.left_circle = m.pylons_Circle_Group.createChild("path")
+			.setColor(m.myGreen)
+			.moveTo(-m.maxladderspan+60+25, 100)
+			.arcSmallCW(25,25, 0, -50, 0)
+			.arcSmallCW(25,25, 0, 50, 0)
+			.setStrokeLineWidth(5);
+		m.right_circle = m.pylons_Circle_Group.createChild("path")
+			.setColor(m.myGreen)
+			.moveTo(m.maxladderspan-60+25, 100)
+			.arcSmallCW(25,25, 0, -50, 0)
+			.arcSmallCW(25,25, 0, 50, 0)
+			.setStrokeLineWidth(5);
+		m.center_circle = m.pylons_Circle_Group.createChild("path")
+			.setColor(m.myGreen)
+			.moveTo(25, 100)
+			.arcSmallCW(25,25, 0, -50, 0)
+			.arcSmallCW(25,25, 0, 50, 0)
+			.setStrokeLineWidth(5);
 		m.pylons_Circle_Group.hide();
 
 		#Take off Acceleration
 		m.accBoxGroup = m.root.createChild("group");
 
-		m.acceleration_Box = m.accBoxGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(0,0)
-		.setDouble("character-size", 35)
-		.setAlignment("center-center")
-		.setText("0.00");
+		m.acceleration_box = m.accBoxGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(0,0)
+			.setDouble("character-size", 35)
+			.setAlignment("center-center");
+		m.acceleration_box.enableUpdate();
 
 		m.accBoxLine = m.accBoxGroup.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(-70, -25)
-		.horiz(140)
-		.vert(50)
-		.horiz(-140)
-		.vert(-50)
-		.setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(-70, -25)
+			.horiz(140)
+			.vert(50)
+			.horiz(-140)
+			.vert(-50)
+			.setStrokeLineWidth(4);
 		m.accBoxGroup.setTranslation(0,m.headScaleVerticalPlace*2/5);
 
 		#Waypoint Group
@@ -632,51 +630,51 @@ var HUD = {
 
 		m.waypointSimpleGroup = m.root.createChild("group");
 		#Distance to next Waypoint
-		m.waypointDistSimple = m.waypointSimpleGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation( m.maxladderspan + 45 ,m.headScaleVerticalPlace*2/5)
-		.setDouble("character-size", 30)
-		.setAlignment("right-center")
-		.setText("0");
+		m.waypoint_dist_simple = m.waypointSimpleGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation( m.maxladderspan + 45 ,m.headScaleVerticalPlace*2/5)
+			.setDouble("character-size", 30)
+			.setAlignment("right-center");
+		m.waypoint_dist_simple.enableUpdate();
 
 		#next Waypoint NUMBER
-		m.waypointNumberSimple = m.waypointSimpleGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation( m.maxladderspan + 85 ,m.headScaleVerticalPlace*2/5)
-		.setDouble("character-size", 30)
-		.setAlignment("left-center")
-		.setText("00");
+		m.waypoint_number_simple = m.waypointSimpleGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation( m.maxladderspan + 85 ,m.headScaleVerticalPlace*2/5)
+			.setDouble("character-size", 30)
+			.setAlignment("left-center");
+		m.waypoint_number_simple.enableUpdate();
 
 		#Distance to next Waypoint
-		m.waypointDist = m.waypointGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation( m.maxladderspan + 80 ,m.headScaleVerticalPlace*2/5)
-		.setDouble("character-size", 30)
-		.setAlignment("left-center")
-		.setText("0");
+		m.waypoint_dist = m.waypointGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation( m.maxladderspan + 80 ,m.headScaleVerticalPlace*2/5)
+			.setDouble("character-size", 30)
+			.setAlignment("left-center");
+		m.waypoint_dist.enableUpdate();
 
 		#next Waypoint NUMBER
-		m.waypointNumber = m.waypointGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation( m.maxladderspan + 80 ,m.headScaleVerticalPlace*2/5-25)
-		.setDouble("character-size", 30)
-		.setAlignment("left-center")
-		.setText("00");
+		m.waypoint_number = m.waypointGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation( m.maxladderspan + 80 ,m.headScaleVerticalPlace*2/5-25)
+			.setDouble("character-size", 30)
+			.setAlignment("left-center");
+		m.waypoint_number.enableUpdate();
 
-		m.DEST = m.waypointGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation( m.maxladderspan + 55 ,m.headScaleVerticalPlace*2/5-25)
-		.setDouble("character-size", 30)
-		.setAlignment("right-center")
-		.setText("DEST");
+		m.dest = m.waypointGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation( m.maxladderspan + 55 ,m.headScaleVerticalPlace*2/5-25)
+			.setDouble("character-size", 30)
+			.setAlignment("right-center");
+		m.dest.enableUpdate();
 
 		#heading to the next Waypoint
-		m.waypointHeading = m.waypointGroup.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation( m.maxladderspan + 65 ,m.headScaleVerticalPlace*2/5)
-		.setDouble("character-size", 30)
-		.setAlignment("right-center")
-		.setText("000/");
+		m.waypoint_heading = m.waypointGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation( m.maxladderspan + 65 ,m.headScaleVerticalPlace*2/5)
+			.setDouble("character-size", 30)
+			.setAlignment("right-center");
+		m.waypoint_heading.enableUpdate();
 
 		m.radarStuffGroup = m.root.createChild("group");
 
@@ -718,45 +716,45 @@ var HUD = {
 
 		#Bomb impact - a hexagon with wings on each side - each side in the hexagon is 24
 		m.CCIP_piper = m.CCIP.createChild("path")
-		                     .setColor(m.myGreen)
-		                     .moveTo(24, 0)
-		                     .horiz(40) # right wing
-		                     .moveTo(24, 0)
-		                     .lineTo(12,20)
-		                     .lineTo(-12,20)
-		                     .lineTo(-24,0)
-		                     .lineTo(-12,-20)
-		                     .lineTo(12,-20)
-		                     .lineTo(24,0)
-		                     .moveTo(-24, 0)
-		                     .horiz(-40) # left wing
-		                     .setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(24, 0)
+			.horiz(40) # right wing
+			.moveTo(24, 0)
+			.lineTo(12,20)
+			.lineTo(-12,20)
+			.lineTo(-24,0)
+			.lineTo(-12,-20)
+			.lineTo(12,-20)
+			.lineTo(24,0)
+			.moveTo(-24, 0)
+			.horiz(-40) # left wing
+			.setStrokeLineWidth(4);
 
 		m.CCIP_safe_alt = m.CCIP.createChild("path") # pull up cue
-		                        .setColor(m.myGreen)
-		                        .moveTo(15, 0)
-		                        .horiz(40)
-		                        .vert(-15)
-		                        .moveTo(-15, 0)
-		                        .horiz(-40)
-		                        .vert(-15)
-		                        .setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(15, 0)
+			.horiz(40)
+			.vert(-15)
+			.moveTo(-15, 0)
+			.horiz(-40)
+			.vert(-15)
+			.setStrokeLineWidth(4);
 
 		# Distance to impact
 		m.CCIP_impact_dist = m.CCIP.createChild("text")
-		                        .setColor(m.myGreen)
-		                        .setTranslation(m.maxladderspan + 90,-150)
-		                        .setDouble("character-size", 35)
-		                        .setAlignment("left-center")
-		                        .setText("n/a KM");
+			.setColor(m.myGreen)
+			.setTranslation(m.maxladderspan + 90,-150)
+			.setDouble("character-size", 35)
+			.setAlignment("left-center");
+		m.CCIP_impact_dist.enableUpdate();
 
 		m.CCIP_no_go_cross = m.CCIP.createChild("path")
-		                           .setColor(m.myGreen)
-		                           .moveTo(80, 80)
-		                           .lineTo(-80,-80)
-		                           .moveTo(-80, 80)
-		                           .lineTo(80,-80)
-		                           .setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(80, 80)
+			.lineTo(-80,-80)
+			.moveTo(-80, 80)
+			.lineTo(80,-80)
+			.setStrokeLineWidth(4);
 
 		#################################### CCRP #########################################
 
@@ -765,65 +763,65 @@ var HUD = {
 		m.CCRP_piper_group = m.CCRP.createChild("group");
 
 		m.CCRP_piper = m.CCRP_piper_group.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(24, 0)
-		.lineTo(0,32)
-		.lineTo(-24,0)
-		.lineTo(0,-32)
-		.lineTo(24,0)
-		.moveTo(1,1)
-		.lineTo(1,-1)
-		.lineTo(-1,-1)
-		.lineTo(-1,1)
-		.moveTo(24, 0)
-		.lineTo(44,0)
-		.moveTo(-24, 0)
-		.lineTo(-44,0)
-		.setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(24, 0)
+			.lineTo(0,32)
+			.lineTo(-24,0)
+			.lineTo(0,-32)
+			.lineTo(24,0)
+			.moveTo(1,1)
+			.lineTo(1,-1)
+			.lineTo(-1,-1)
+			.lineTo(-1,1)
+			.moveTo(24, 0)
+			.lineTo(44,0)
+			.moveTo(-24, 0)
+			.lineTo(-44,0)
+			.setStrokeLineWidth(4);
 
-		m.CCRP_Deviation = m.CCRP_piper_group.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(34, 0)
-		.lineTo(80,0)
-		.moveTo(-34, 0)
-		.lineTo(-80,0)
-		.setStrokeLineWidth(4);
+		m.CCRP_deviation = m.CCRP_piper_group.createChild("path")
+			.setColor(m.myGreen)
+			.moveTo(34, 0)
+			.lineTo(80,0)
+			.moveTo(-34, 0)
+			.lineTo(-80,0)
+			.setStrokeLineWidth(4);
 
 		m.CCRP_release_cue = m.CCRP.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(55, 0)
-		.horiz(-110)
-		.setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(55, 0)
+			.horiz(-110)
+			.setStrokeLineWidth(4);
 
 		# Distance to target
 		m.CCRP_impact_dist = m.CCRP.createChild("text")
-		.setColor(m.myGreen)
-		.setTranslation(m.maxladderspan + 90,-150)
-		.setDouble("character-size", 35)
-		.setAlignment("left-center")
-		.setText("n/a KM");
+			.setColor(m.myGreen)
+			.setTranslation(m.maxladderspan + 90,-150)
+			.setDouble("character-size", 35)
+			.setAlignment("left-center");
+		m.CCRP_impact_dist.enableUpdate();
 
 		m.CCRP_no_go_cross = m.CCRP.createChild("path")
-		.setColor(m.myGreen)
-		.moveTo(80, 80)
-		.lineTo(-80,-80)
-		.moveTo(-80, 80)
-		.lineTo(80,-80)
-		.setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(80, 80)
+			.lineTo(-80,-80)
+			.moveTo(-80, 80)
+			.lineTo(80,-80)
+			.setStrokeLineWidth(4);
 
 		##################################### Target Circle ####################################
 		m.targetArray = [];
 		m.circle_group2 = m.radarStuffGroup.createChild("group");
 		for (var i = 1; i <= m.MaxTarget; i += 1) {
 			myCircle = m.circle_group2.createChild("path")
-			                          .setColor(m.myGreen)
-			                          .moveTo(25, 0)
-			                          .arcSmallCW(25,25, 0, -50, 0)
-			                          .arcSmallCW(25,25, 0, 50, 0)
-			                          .setStrokeLineWidth(5);
+				.setColor(m.myGreen)
+				.moveTo(25, 0)
+				.arcSmallCW(25,25, 0, -50, 0)
+				.arcSmallCW(25,25, 0, 50, 0)
+				.setStrokeLineWidth(5);
 			append(m.targetArray, myCircle);
 		}
-		m.targetrot   = m.circle_group2.createTransform();
+		m.targetrot = m.circle_group2.createTransform();
 
 		####################### Info Text ########################################
 		m.TextInfoArray = [];
@@ -871,69 +869,69 @@ var HUD = {
 
 		m.Square_Group = m.radarStuffGroup.createChild("group");
 
-		m.Locked_Square  = m.Square_Group.createChild("path")
-		.setColor(m.myGreen)
-		.move(-25,-25)
-		.vert(50)
-		.horiz(50)
-		.vert(-50)
-		.horiz(-50)
-		.setStrokeLineWidth(6);
+		m.locked_square  = m.Square_Group.createChild("path")
+			.setColor(m.myGreen)
+			.move(-25,-25)
+			.vert(50)
+			.horiz(50)
+			.vert(-50)
+			.horiz(-50)
+			.setStrokeLineWidth(6);
 
-		m.Locked_Square_Dash  = m.Square_Group.createChild("path")
-		.setColor(m.myGreen)
-		.move(-25,-25)
-		.vert(50)
-		.horiz(50)
-		.vert(-50)
-		.horiz(-50)
-		.setStrokeDashArray([10,10])
-		.setStrokeLineWidth(5);
+		m.locked_square_dash  = m.Square_Group.createChild("path")
+			.setColor(m.myGreen)
+			.move(-25,-25)
+			.vert(50)
+			.horiz(50)
+			.vert(-50)
+			.horiz(-50)
+			.setStrokeDashArray([10,10])
+			.setStrokeLineWidth(5);
 		m.Square_Group.hide();
 
 		m.missileFireRange = m.root.createChild("group");
 		m.MaxFireRange = m.missileFireRange.createChild("path")
-		                                   .setColor(m.myGreen)
-		                                   .moveTo(200,0)
-		                                   .horiz(-20)
-		                                   .setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(200,0)
+			.horiz(-20)
+			.setStrokeLineWidth(4);
 		m.MinFireRange = m.missileFireRange.createChild("path")
-		                                   .setColor(m.myGreen)
-		                                   .moveTo(200,0)
-		                                   .horiz(-20)
-		                                   .setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(200,0)
+			.horiz(-20)
+			.setStrokeLineWidth(4);
 		m.NEZFireRange = m.missileFireRange.createChild("path")
-		                                   .setColor(m.myGreen)
-		                                   .moveTo(200,0)
-		                                   .horiz(-40)
-		                                   .setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(200,0)
+			.horiz(-40)
+			.setStrokeLineWidth(4);
 		m.missileFireRange.hide();
 
 		m.distanceToTargetLineGroup = m.root.createChild("group");
 		m.distanceToTargetLineMin = -100;
 		m.distanceToTargetLineMax = 100;
 		m.distanceToTargetLine = m.distanceToTargetLineGroup.createChild("path")
-		                                                    .setColor(m.myGreen)
-		                                                    .moveTo(200,m.distanceToTargetLineMin)
-		                                                    .horiz(30)
-		                                                    .moveTo(200,m.distanceToTargetLineMin)
-		                                                    .vert(m.distanceToTargetLineMax-m.distanceToTargetLineMin)
-		                                                    .horiz(30)
-		                                                    .setStrokeLineWidth(4);
+			.setColor(m.myGreen)
+			.moveTo(200,m.distanceToTargetLineMin)
+			.horiz(30)
+			.moveTo(200,m.distanceToTargetLineMin)
+			.vert(m.distanceToTargetLineMax-m.distanceToTargetLineMin)
+			.horiz(30)
+			.setStrokeLineWidth(4);
 
 		m.distanceToTargetLineTextGroup = m.distanceToTargetLineGroup.createChild("group");
 		m.distanceToTargetLineChevron = m.distanceToTargetLineTextGroup.createChild("text")
-		                                                               .setColor(m.myGreen)
-		                                                               .setTranslation(200,0)
-		                                                               .setDouble("character-size", 60)
-		                                                               .setAlignment("left-center")
-		                                                               .setText("<");
-		m.distanceToTargetLineChevronText = m.distanceToTargetLineTextGroup.createChild("text")
-		                                                                   .setColor(m.myGreen)
-		                                                                   .setTranslation(230,0)
-		                                                                   .setDouble("character-size", 40)
-		                                                                   .setAlignment("left-center")
-		                                                                   .setText("x");
+			.setColor(m.myGreen)
+			.setTranslation(200,0)
+			.setDouble("character-size", 60)
+			.setAlignment("left-center")
+			.setText("<");
+		m.distance_to_target_line_chevron_text = m.distanceToTargetLineTextGroup.createChild("text")
+			.setColor(m.myGreen)
+			.setTranslation(230,0)
+			.setDouble("character-size", 40)
+			.setAlignment("left-center");
+		 m.distance_to_target_line_chevron_text.enableUpdate();
 
 		m.distanceToTargetLineGroup.hide();
 
@@ -1155,12 +1153,12 @@ var HUD = {
 			if ( me.NXTWP.is_defined() and !me.input.MasterArm.getValue()) {#if waypoint is active
 				me._displayWaypointCross(me.NXTWP);  # displaying the ground cross
 				me._displayHouse(me.NXTWP);         # displaying the little house
-				me.display_Waypoint(me.NXTWP,"DEST",me.input.NextWayNum.getValue());
+				me._display_waypoint(me.NXTWP,"DEST",me.input.NextWayNum.getValue());
 			}
 			if (me.input.bullseye_def.getValue()) {
 				me._displayWaypointCross(me.bullseyeGeo);  # displaying the ground cross
 				me._displayHouse(me.bullseyeGeo);         # displaying the little house
-				me.display_Waypoint(me.bullseyeGeo,"BE ",nil);
+				me._display_waypoint(me.bullseyeGeo,"BE ",nil);
 			}
 		}
 
@@ -1183,20 +1181,19 @@ var HUD = {
 		#Acc accBoxGroup in G(so I guess /9,8)
 		me._displayAccelerationBox();
 
-		#display_radarAltimeter
-		me.display_radarAltimeter();
+		me._display_radar_altimeter();
 
 		#Display speedAltGroup
-		me.display_speedAltGroup();
+		me._display_speed_alt_group();
 
 		#Display diplay_inverted_T
 		me.display_inverted_T();
 
 		#Display aoa
-		me.display_alpha();
+		me._display_alpha();
 
 		#Display gload
-		me.display_gload();
+		me._display_gload();
 
 		#Diplay Load type
 		me._displayLoadsType();
@@ -1331,9 +1328,9 @@ var HUD = {
 
 				# Distance to ground impact : only working if radar is on
 				if (me.input.IsRadarWorking.getValue()>24) {
-					me.CCIP_impact_dist.setText(sprintf("%.1f KM", me.ccipPos[0].direct_distance_to(geo.aircraft_position())/1000));
+					me.CCIP_impact_dist.updateText(sprintf("%.1f KM", me.ccipPos[0].direct_distance_to(geo.aircraft_position())/1000));
 				} else {
-					me.CCIP_impact_dist.setText("n/a KM");
+					me.CCIP_impact_dist.updateText("n/a KM");
 				}
 				# No go : too dangerous to drop the bomb
 				me.CCIP_no_go_cross.setVisible(me.safe_alt_percent>0.85);
@@ -1376,9 +1373,9 @@ var HUD = {
 			}
 			# Distance to ground impact : only working if radar is on
 			if (me.input.IsRadarWorking.getValue()>24) {
-				me.CCRP_impact_dist.setText(sprintf("%.1f KM", me.DistanceToShoot/1000));
+				me.CCRP_impact_dist.updateText(sprintf("%.1f KM", me.DistanceToShoot/1000));
 			} else {
-				me.CCRP_impact_dist.setText("n/a KM");
+				me.CCRP_impact_dist.updateText("n/a KM");
 			}
 		}
 
@@ -1408,7 +1405,7 @@ var HUD = {
 			} else {
 				deviation = 85;
 			}
-			me.CCRP_Deviation.setRotation(deviation*D2R);
+			me.CCRP_deviation.setRotation(deviation*D2R);
 		}
 		return TRUE;
 	}, # END _displayCCRPMode()
@@ -1436,10 +1433,10 @@ var HUD = {
 			me.middleOffset = -me.headScaleOffset*me.headScaleTickSpacing*2;
 		}
 		me.headingScaleGroup.setTranslation(me.middleOffset , 0);
-		me.hdgRH.setText(sprintf("%02d", me.rightText));
-		me.hdgMH.setText(sprintf("%02d", me.middleText));
-		me.hdgLH.setText(sprintf("%02d", me.leftText));
-		me.hdgRRH.setText(sprintf("%02d", me.rightRightText));
+		me.hdgRH.updateText(sprintf("%02d", me.rightText));
+		me.hdgMH.updateText(sprintf("%02d", me.middleText));
+		me.hdgLH.updateText(sprintf("%02d", me.leftText));
+		me.hdgRRH.updateText(sprintf("%02d", me.rightRightText));
 		me.headingScaleGroup.update();
 	}, # END _displayHeadingHorizonScale()
 
@@ -1498,7 +1495,7 @@ var HUD = {
 	_displayAccelerationBox: func() {
 		#Acc accBoxGroup in G(so I guess /9,8)
 		if (me.input.wow_nlg.getValue()) {
-			me.acceleration_Box.setText(sprintf("%.2f", int(me.input.acc.getValue()*FT2M/9.8*1000+1)/1000));
+			me.acceleration_box.updateText(sprintf("%.2f", int(me.input.acc.getValue()*FT2M/9.8*1000+1)/1000));
 			me.accBoxGroup.show();
 		} else {
 			me.accBoxGroup.hide();
@@ -1506,37 +1503,37 @@ var HUD = {
 		me.accBoxGroup.update();
 	}, # END _displayAccelerationBox()
 
-  display_speedAltGroup: func() {
-      me.Speed.setText(sprintf("%d",int(me.input.ias.getValue())));
-      if (me.input.mach.getValue()>= 0.6) {
-        me.Speed_Mach.setText(sprintf("%0.2f",me.input.mach.getValue()));
-        me.Speed_Mach.show();
-      } else {
-        me.Speed_Mach.hide();
-      }
-    me.feet_Alt.setText(sprintf("%02d",abs(int(((me.input.alt_instru.getValue()/100) - int(me.input.alt_instru.getValue()/100))*100))));
-    if (me.input.alt_instru.getValue()>0) {
-      me.hundred_feet_Alt.setText(sprintf("%d",abs(int((me.input.alt_instru.getValue()/100)))));
-    } else {
-      me.hundred_feet_Alt.setText(sprintf("-%d",abs(int((me.input.alt_instru.getValue()/100)))));
-    }
-    me.speedAltGroup.update();
-  },
+	_display_speed_alt_group: func() {
+		me.speed.updateText(sprintf("%d",int(me.input.ias.getValue())));
+		if (me.input.mach.getValue()>= 0.6) {
+			me.speed_mach.updateText(sprintf("%0.2f",me.input.mach.getValue()));
+			me.speed_mach.show();
+		} else {
+			me.speed_mach.hide();
+		}
+		me.feet_alt.updateText(sprintf("%02d",abs(int(((me.input.alt_instru.getValue()/100) - int(me.input.alt_instru.getValue()/100))*100))));
+		if (me.input.alt_instru.getValue()>0) {
+			me.hundred_feet_alt.updateText(sprintf("%d",abs(int((me.input.alt_instru.getValue()/100)))));
+		} else {
+			me.hundred_feet_alt.updateText(sprintf("-%d",abs(int((me.input.alt_instru.getValue()/100)))));
+		}
+		me.speedAltGroup.update();
+	},
 
-  display_radarAltimeter: func() {
-    if ( me.input.rad_alt.getValue() < 5000) { #Or be selected be a special swith not yet done # Only show below 5000AGL
-      if (abs(me.input.pitch.getValue())<20 and abs(me.input.roll.getValue())<20) { #if the angle is above 20° the radar do not work
-        me.groundAlt.setText(sprintf("%4d", me.input.rad_alt.getValue()-8));#The radar should show 0 when on Ground
-      } else {
-        me.groundAlt.setText("*****");
-      }
-      me.groundAlt.show();
-      me.theH.show();
-    } else {
-      me.groundAlt.hide();
-      me.theH.hide();
-    }
-  },
+	_display_radar_altimeter: func() {
+		if ( me.input.rad_alt.getValue() < 5000) { #Or be selected be a special swith not yet done # Only show below 5000AGL
+			if (abs(me.input.pitch.getValue())<20 and abs(me.input.roll.getValue())<20) { #if the angle is above 20° the radar do not work
+				me.ground_alt.updateText(sprintf("%4d", me.input.rad_alt.getValue()-8));#The radar should show 0 when on Ground
+			} else {
+				me.ground_alt.updateText("*****");
+			}
+			me.ground_alt.show();
+			me.the_H.show();
+		} else {
+			me.ground_alt.hide();
+			me.the_H.hide();
+		}
+	},
 
   display_inverted_T: func() {
     if (me.input.gearPos.getValue()) {
@@ -1547,43 +1544,43 @@ var HUD = {
     }
   },
 
-  display_alpha: func() {
-    if (me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2 and me.input.MasterArm.getValue() == 0) {
-      me.aoa.setText(sprintf("%0.1f",me.input.alpha.getValue()));
-      me.alphaGroup.show();
-    } else {
-      me.alphaGroup.hide();
-    }
-  },
+	_display_alpha: func() {
+		if (me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2 and me.input.MasterArm.getValue() == 0) {
+			me.aoa.updateText(sprintf("%0.1f",me.input.alpha.getValue()));
+			me.alphaGroup.show();
+		} else {
+			me.alphaGroup.hide();
+		}
+	},
 
-  display_gload: func() {
-    if (me.input.MasterArm.getValue()) {
-      me.gload_Text.setText(sprintf("%0.1fG",me.input.gload.getValue()));
-      me.alpha_Text.setText(sprintf("%0.1fα",me.input.alpha.getValue()));
-      me.alphaGloadGroup.show();
-    } else {
-      me.alphaGloadGroup.hide();
-    }
-  },
+	_display_gload: func() {
+		if (me.input.MasterArm.getValue()) {
+			me.gload_Text.updateText(sprintf("%0.1fG",me.input.gload.getValue()));
+			me.alpha_text.updateText(sprintf("%0.1fα",me.input.alpha.getValue()));
+			me.alphaGloadGroup.show();
+		} else {
+			me.alphaGloadGroup.hide();
+		}
+	},
 
 	_displayLoadsType: func() {
 		if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
-			me.loads_Type_text.setText(me.loads_hash[me.selectedWeapon.type]);
-			me.loads_Type_text.show();
+			me.loads_type_text.updateText(me.loads_hash[me.selectedWeapon.type]);
+			me.loads_type_text.show();
 		} else {
-			me.loads_Type_text.hide();
+			me.loads_type_text.hide();
 		}
 	},
 
 	_display_bullet_count: func{
 		if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
 			if (me.selectedWeapon.type == CANNON_30MM) {
-				me.Left_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
-				me.Right_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()/2));
+				me.left_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
+				me.right_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
 				me.bullet_CountGroup.show();
 			} else if (me.selectedWeapon.type == CC422) {
-				me.Left_bullet_Count.setText(sprintf("%3d", pylons.fcs.getAmmo()));
-				me.Right_bullet_Count.setText("");
+				me.left_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()));
+				me.right_bullet_count.updateText("");
 				me.bullet_CountGroup.show();
 			} else {
 				me.bullet_CountGroup.hide();
@@ -1613,14 +1610,14 @@ var HUD = {
 					me.pylonRemainAmmo_hash[me.pylonsSide_hash[i]] += me.RemainingAmmoVector[i];
 				}
 			#Showing the pylon
-			if (me.pylonRemainAmmo_hash["L"]>0) {me.Left_pylons.show();} else {me.Left_pylons.hide();}
-			if (me.pylonRemainAmmo_hash["C"]>0) {me.Center_pylons.show();} else {me.Center_pylons.hide();}
-			if (me.pylonRemainAmmo_hash["R"]>0) {me.Right_pylons.show();} else {me.Right_pylons.hide();}
+			if (me.pylonRemainAmmo_hash["L"]>0) {me.left_pylons.show();} else {me.left_pylons.hide();}
+			if (me.pylonRemainAmmo_hash["C"]>0) {me.center_pylons.show();} else {me.center_pylons.hide();}
+			if (me.pylonRemainAmmo_hash["R"]>0) {me.right_pylons.show();} else {me.right_pylons.hide();}
 
 			#Showing the Circle for the selected pylon
-			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L") {me.LeftCircle.show();} else {me.LeftCircle.hide();}
-			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "C") {me.CenterCircle.show();} else {me.CenterCircle.hide();}
-			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "R") {me.RightCircle.show();} else {me.RightCircle.hide();}
+			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L") {me.left_circle.show();} else {me.left_circle.hide();}
+			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "C") {me.center_circle.show();} else {me.center_circle.hide();}
+			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "R") {me.right_circle.show();} else {me.right_circle.hide();}
 
 			} else {
 			me.pylons_Group.hide();
@@ -1632,32 +1629,32 @@ var HUD = {
 		}
 	},
 
-  display_Waypoint: func(coord,TEXT,NextNUM) {
-    #coord is a geo object of the current destination
-    #TEXT is what will be written to describe our target : BE (Bullseye) ou DEST (route)
-    #NextNUM is the next waypoint/bullseye number (most of the time it's the waypoint number)
-    if (coord != nil) {
-      if (me.aircraft_position.direct_distance_to(coord)*M2NM>10) {
-        me.waypointDist.setText(sprintf("%d N",int(me.aircraft_position.direct_distance_to(coord)*M2NM)));
-        me.waypointDistSimple.setText(sprintf("%d N",int(me.aircraft_position.direct_distance_to(coord)*M2NM)));
-      } else {
-        me.waypointDist.setText(sprintf("%0.1f N",me.aircraft_position.direct_distance_to(coord)*M2NM));
-        me.waypointDistSimple.setText(sprintf("%0.1f N",me.aircraft_position.direct_distance_to(coord)*M2NM));
-      }
-      if (NextNUM != nil) {
-        me.waypointNumber.setText(sprintf("%02d",NextNUM));
-        me.waypointNumberSimple.setText(sprintf("%02d",NextNUM));
-      }
-      me.DEST.setText(TEXT);
+	_display_waypoint: func(coord, TEXT, NextNUM) {
+		#coord is a geo object of the current destination
+		#TEXT is what will be written to describe our target : BE (Bullseye) ou DEST (route)
+		#NextNUM is the next waypoint/bullseye number (most of the time it's the waypoint number)
+		if (coord != nil) {
+			if (me.aircraft_position.direct_distance_to(coord)*M2NM>10) {
+				me.waypoint_dist.updateText(sprintf("%d N",int(me.aircraft_position.direct_distance_to(coord)*M2NM)));
+				me.waypoint_dist_simple.updateText(sprintf("%d N",int(me.aircraft_position.direct_distance_to(coord)*M2NM)));
+			} else {
+				me.waypoint_dist.updateText(sprintf("%0.1f N",me.aircraft_position.direct_distance_to(coord)*M2NM));
+				me.waypoint_dist_simple.updateText(sprintf("%0.1f N",me.aircraft_position.direct_distance_to(coord)*M2NM));
+			}
+			if (NextNUM != nil) {
+				me.waypoint_number.updateText(sprintf("%02d",NextNUM));
+				me.waypoint_number_simple.updateText(sprintf("%02d",NextNUM));
+			}
+			me.dest.updateText(TEXT);
 
-      if (me.input.hdgDisplay.getValue()) {
-        me.waypointHeading.setText(sprintf("%03d/",me.aircraft_position.course_to(coord)));
-      } else {
-        me.waypointHeading.setText(sprintf("%03d/",me.aircraft_position.course_to(coord)));
-      }
-      me.waypointGroupshow = 1;
-    }
-  },
+			if (me.input.hdgDisplay.getValue()) {
+				me.waypoint_heading.updateText(sprintf("%03d/",me.aircraft_position.course_to(coord)));
+			} else {
+				me.waypoint_heading.updateText(sprintf("%03d/",me.aircraft_position.course_to(coord)));
+			}
+			me.waypointGroupshow = 1;
+		}
+	},
 
 	_displayHeatTarget: func() {
 		if (me.selectedWeapon == nil or !me.input.MasterArm.getValue()) {
@@ -1720,8 +1717,8 @@ var HUD = {
 				me.showDistanceToken = 1;
 				#Show square group
 				me.Square_Group.show();
-				me.Locked_Square.setTranslation(triPos);
-				me.Locked_Square_Dash.setTranslation(math.clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), math.clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
+				me.locked_square.setTranslation(triPos);
+				me.locked_square_dash.setTranslation(math.clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), math.clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
 				#hide triangle and circle
 				#me.TriangleGroupe.hide();
 				me.targetArray[i].hide();
@@ -1790,7 +1787,7 @@ var HUD = {
 			} else {
 				me.missileFireRange.hide();
 			}
-			me.distanceToTargetLineChevronText.setText(myString);
+			me.distance_to_target_line_chevron_text.updateText(myString);
 			me.distanceToTargetLineTextGroup.setTranslation(0,(me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(direct_distance_m * M2NM *(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100);
 		}
 	},
