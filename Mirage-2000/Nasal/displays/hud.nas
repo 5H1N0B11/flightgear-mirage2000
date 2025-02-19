@@ -1017,7 +1017,6 @@ var HUD = {
 			x_offset_m:    "/sim/current-view/x-offset-m",
 			y_offset_m:    "/sim/current-view/y-offset-m",
 			z_offset_m:    "/sim/current-view/z-offset-m",
-			MasterArm      :"/controls/armament/master-arm",
 			TimeToTarget   :"/sim/dialog/groundTargeting/time-to-target",
 			IsRadarWorking : "/systems/electrical/outputs/radar",
 			gun_rate       : "/ai/submodels/submodel[1]/delay",
@@ -1080,6 +1079,7 @@ var HUD = {
 				}
 			}
 		}
+		me.master_arm = noti.getproper("master_arm");
 
 		me.aircraft_position = geo.aircraft_position();
 		me.hydra = FALSE; # for rocket
@@ -1110,7 +1110,7 @@ var HUD = {
 
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 
-		if (me.selectedWeapon != nil and me.input.MasterArm.getValue() and me.input.wow_nlg.getValue() == 0) {
+		if (me.selectedWeapon != nil and me.master_arm and me.input.wow_nlg.getValue() == 0) {
 			if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) {
 				me.eegsShow = TRUE;
 			} else if (me.selectedWeapon.class == AIM_CLASS_GMP) {
@@ -1185,7 +1185,7 @@ var HUD = {
 
 		if (me.input.gearPos.getValue() == 0) { # if masterArm is not selected
 			#if there is a route selected and Bulleye isn't selected
-			if ( me.NXTWP.is_defined() and !me.input.MasterArm.getValue()) {#if waypoint is active
+			if ( me.NXTWP.is_defined() and !me.master_arm) {#if waypoint is active
 				me._displayWaypointCross(me.NXTWP);  # displaying the ground cross
 				me._displayHouse(me.NXTWP);         # displaying the little house
 				me._display_waypoint(me.NXTWP,"DEST",me.input.NextWayNum.getValue());
@@ -1222,7 +1222,7 @@ var HUD = {
 		me._display_speed_alt_group();
 
 		#Display diplay_inverted_T
-		me.display_inverted_T();
+		me._display_inverted_T();
 
 		#Display aoa
 		me._display_alpha();
@@ -1287,7 +1287,7 @@ var HUD = {
 			}
 		}
 		#Then, trying with route manager
-		if (me.selectedRunway == "0" and !me.input.MasterArm.getValue()) {
+		if (me.selectedRunway == "0" and !me.master_arm) {
 			if (me.input.destRunway.getValue() != "") {
 				if (me.fp.getPlanSize() == me.fp.indexOfWP(me.fp.currentWP())+1) {
 					me.info = airportinfo(me.input.destAirport.getValue());
@@ -1296,7 +1296,7 @@ var HUD = {
 			}
 		}
 		#print("Test : ",me.selectedRunway != "0");
-		if (me.selectedRunway != "0" and !me.input.MasterArm.getValue()) {
+		if (me.selectedRunway != "0" and !me.master_arm) {
 			var (courseToAiport, distToAirport) = courseAndDistance(me.info);
 			if (distToAirport < 10 and me.input.wow_nlg.getValue() == 0) {
 				me.displayRunway();
@@ -1309,7 +1309,7 @@ var HUD = {
 	}, # END _callDisplayRunway()
 
 	_displayILSStuff: func() {
-		if (me.input.ILS_valid.getValue() and !me.input.MasterArm.getValue()) {
+		if (me.input.ILS_valid.getValue() and !me.master_arm) {
 			me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading - me.input.NavHeadingRunwayILS.getValue() ));
 
 			me.ILS_Scale_dependant.setTranslation(me.runwayPosHrizonOnHUD,0);
@@ -1322,7 +1322,7 @@ var HUD = {
 	}, # END _displayILSStuff()
 
 	_displayILSSquare: func() {
-		if (me.input.ILS_gs_in_range.getValue()and !me.input.MasterArm.getValue()) {
+		if (me.input.ILS_gs_in_range.getValue()and !me.master_arm) {
 			me.ILS_Square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
 			me.brackets.setTranslation(0,HudMath.getCenterPosFromDegs(0,me.input.pitch.getValue()-14)[1]);
 			me.ILS_Scale_Independant.update();
@@ -1570,17 +1570,17 @@ var HUD = {
 		}
 	},
 
-  display_inverted_T: func() {
-    if (me.input.gearPos.getValue()) {
-      me.InvertedT.setTranslation(0, HudMath.getCenterPosFromDegs(0,-13)[1]);
-      me.InvertedT.show();
-    } else {
-      me.InvertedT.hide();
-    }
-  },
+	_display_inverted_T: func() {
+		if (me.input.gearPos.getValue()) {
+			me.InvertedT.setTranslation(0, HudMath.getCenterPosFromDegs(0,-13)[1]);
+			me.InvertedT.show();
+		} else {
+			me.InvertedT.hide();
+		}
+	},
 
 	_display_alpha: func() {
-		if (me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2 and me.input.MasterArm.getValue() == 0) {
+		if (me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2 and me.master_arm == FALSE) {
 			me.aoa.updateText(sprintf("%0.1f",me.input.alpha.getValue()));
 			me.alphaGroup.show();
 		} else {
@@ -1589,8 +1589,8 @@ var HUD = {
 	},
 
 	_display_gload: func() {
-		if (me.input.MasterArm.getValue()) {
-			me.gload_Text.updateText(sprintf("%0.1fG",me.input.gload.getValue()));
+		if (me.master_arm) {
+			me.gload_text.updateText(sprintf("%0.1fG",me.input.gload.getValue()));
 			me.alpha_text.updateText(sprintf("%0.1fα",me.input.alpha.getValue()));
 			me.alphaGloadGroup.show();
 		} else {
@@ -1599,7 +1599,7 @@ var HUD = {
 	},
 
 	_displayLoadsType: func() {
-		if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
+		if (me.master_arm and me.selectedWeapon != nil) {
 			me.loads_type_text.updateText(me.loads_hash[me.selectedWeapon.type]);
 			me.loads_type_text.show();
 		} else {
@@ -1608,7 +1608,7 @@ var HUD = {
 	},
 
 	_display_bullet_count: func{
-		if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
+		if (me.master_arm and me.selectedWeapon != nil) {
 			if (me.selectedWeapon.type == CANNON_30MM) {
 				me.left_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
 				me.right_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
@@ -1635,7 +1635,7 @@ var HUD = {
 
 		#Showing the circle around the L or R if the weapons is under the wings.
 		#A circle around a C is also done for center loads, but I couldn't find any docs on that, so it is conjecture
-		if (me.input.MasterArm.getValue() and me.selectedWeapon != nil) {
+		if (me.master_arm and me.selectedWeapon != nil) {
 			if (me.selectedWeapon.type != CANNON_30MM and me.selectedWeapon.type != CC422) {
 			me.pylons_Group.show();
 			me.pylons_Circle_Group.show();
@@ -1692,7 +1692,7 @@ var HUD = {
 	},
 
 	_displayHeatTarget: func() {
-		if (me.selectedWeapon == nil or !me.input.MasterArm.getValue()) {
+		if (me.selectedWeapon == nil or !me.master_arm) {
 			me.TriangleGroupe.hide();
 			return;
 		}
@@ -1828,8 +1828,7 @@ var HUD = {
 	},
 
 	_displayDLZ: func() {
-		if (me.selectedWeapon != nil and me.input.MasterArm.getValue()) {
-
+		if (me.selectedWeapon != nil and me.master_arm) {
 			#Testings
 			if (me.selectedWeapon.type != CANNON_30MM and me.selectedWeapon.type != CC422) {
 				if (me.selectedWeapon.class == "A" and me.selectedWeapon.parents[0] == armament.AIM) {
@@ -1920,7 +1919,7 @@ var HUD = {
   },
 
 	_displayBoreCross: func() {
-		if (me.input.MasterArm.getValue() and pylons.fcs.getSelectedWeapon() !=nil) {
+		if (me.master_arm and pylons.fcs.getSelectedWeapon() !=nil) {
 			if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type != CC422) { # if weapons selected
 			me.boreCross.setTranslation(HudMath.getBorePos());
 			me.boreCross.show();

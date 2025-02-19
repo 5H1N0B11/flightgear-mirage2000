@@ -74,10 +74,10 @@ var rtExec_loop = func
 # setup the properties to monitor for this system
 var input_exec = {
 	FrameRate                 : "/sim/frame-rate",
-	frame_rate                : "/sim/frame-rate",
 	frame_rate_worst          : "/sim/frame-rate-worst",
 	elapsed_seconds           : "/sim/time/elapsed-sec",
-	wow                       : "fdm/jsbsim/gear/wow"
+	wow                       : "fdm/jsbsim/gear/wow",
+	master_arm                : "/controls/armament/master-arm",
 };
 
 foreach (var name; keys(input_exec)) {
