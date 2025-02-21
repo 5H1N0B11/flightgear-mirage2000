@@ -82,6 +82,7 @@ var font = {
 	page_ppa: {
 		wpn_text: 20,
 		ammo_text: 20,
+		damage_text: 20,
 	},
 	page_rwr: {
 		threat_text: 36,
@@ -887,6 +888,7 @@ var DisplaySystem = {
 		setup: func {
 			me.input = {
 				cannon_rate_0              : "/ai/submodels/submodel/delay",
+				damage                     : "payload/armament/msg",
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -905,6 +907,18 @@ var DisplaySystem = {
 				.setAlignment("center-center")
 				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 120);
 			me.ammo_text.enableUpdate();
+			me.damage_label = me.group.createChild("text", "damage_label")
+				.setFontSize(font.page_ppa.damage_text)
+				.setColor(COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT - 40)
+				.setText("MP damage:");
+			me.damage_text = me.group.createChild("text", "damage_text")
+				.setFontSize(font.page_ppa.damage_text)
+				.setColor(COLOR_AMBER)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 10, DISPLAY_HEIGHT - 40);
+			me.damage_text.enableUpdate();
 		},
 
 		enter: func {
@@ -922,11 +936,15 @@ var DisplaySystem = {
 			if (controlName == "OSB18") {
 				if (me.wpn_kind == "cannon") {
 					_change_cannon_rate(TRUE);
+				} else if (me.wpn_kind == "fall") {
+					pylons.fcs.setDropMode(1);
 				}
 			}
 			if (controlName == "OSB19") {
 				if (me.wpn_kind == "cannon") {
 					_change_cannon_rate(FALSE);
+				} else if (me.wpn_kind == "fall") {
+					pylons.fcs.setDropMode(0);
 				}
 			}
 		},
@@ -962,15 +980,33 @@ var DisplaySystem = {
 					me.wpn_kind = "cannon";
 					me.cannon_rate = me.input.cannon_rate_0.getValue();
 					if (me.wpn.type == "30mm Cannon") {
-						me.osb18 = "A/A rate";
-						me.osb19 = "A/G rate";
+						me.osb18 = "High rate";
+						me.osb19 = "Slow rate";
 						if (me.cannon_rate > 0.04) {
 							me.osb19_selected = TRUE;
 						} else {
 							me.osb18_selected = TRUE;
 						}
 					}
+				} else if (me.wpn.type == "Mk-82" or me.wpn.type == "Mk-82SE" or me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24") {
+					me.wpn_kind = "fall";
+					me.drop_mode = pylons.fcs.getDropMode();
+					me.osb18 = "CCIP";
+					me.osb19 = "CCRP";
+					if (me.drop_mode == 1) { # 0=ccrp, 1 = ccip
+						me.osb18_selected = TRUE;
+					} else {
+						me.osb19_selected = TRUE;
+					}
 				}
+			}
+
+			if (me.input.damage.getValue()) {
+				me.damage_text.updateText("On");
+				me.damage_text.setColor(COLOR_GREEN);
+			} else {
+				me.damage_text.updateText("Off");
+				me.damage_text.setColor(COLOR_AMBER);
 			}
 
 			me.device.controls["OSB18"].setControlText(me.osb18, TRUE, me.osb18_selected);

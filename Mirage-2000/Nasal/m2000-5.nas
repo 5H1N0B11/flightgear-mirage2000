@@ -546,12 +546,10 @@ var masterarm = func {
 
 var toggleDropModeCCxP = func {
 	var mode = pylons.fcs.getDropMode();
-	if (mode == 0) {
+	if (mode == 0) { # CCRP = 0, CCIP =
 		pylons.fcs.setDropMode(1);
-		screen.log.write("Drop Mode set to CCIP");
 	} else {
 		pylons.fcs.setDropMode(0);
-		screen.log.write("Drop Mode set to CCRP");
 	}
 }
 
