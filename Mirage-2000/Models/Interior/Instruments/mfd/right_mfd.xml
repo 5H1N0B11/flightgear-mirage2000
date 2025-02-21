@@ -455,6 +455,155 @@
 	<!-- ======================== BUTTONS RIGHT ======================== -->
 	<animation>
 		<type>pick</type>
+		<object-name>right_mfd.pot-r1</object-name>
+		<action>
+			<button>3</button> <!--  scroll up -->
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>18</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.pot-r1</object-name>
+		<action>
+			<button>4</button> <!--  scroll down -->
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>19</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.pot-r2</object-name>
+		<action>
+			<button>3</button> <!--  scroll up -->
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>20</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.pot-r2</object-name>
+		<action>
+			<button>4</button> <!--  scroll down -->
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>21</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.pot-r3</object-name>
+		<action>
+			<button>3</button> <!--  scroll up -->
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>22</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>right_mfd.pot-r3</object-name>
+		<action>
+			<button>4</button> <!--  scroll down -->
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>controls/MFD[0]/button-pressed</property>
+				<value>23</value>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>controls/MFD[0]/button-pressed</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
 		<object-name>right_mfd.pot-r4</object-name>
 		<action>
 			<button>3</button> <!--  scroll up -->

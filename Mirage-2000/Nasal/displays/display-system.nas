@@ -39,6 +39,8 @@ var PAGE_RWR = "PageRWR";
 var PAGE_RWR_MENU_ITEM = "RWR";
 var PAGE_MAP = "PageMap";
 var PAGE_MAP_MENU_ITEM = "Map";
+var PAGE_PPA = "PagePPA";
+var PAGE_PPA_MENU_ITEM = "PPA";
 
 var Z_INDEX = "z-index";
 
@@ -76,6 +78,10 @@ var font = {
 	page_sms: {
 		pylons_text: 20,
 		fbw_mode_text: 20,
+	},
+	page_ppa: {
+		wpn_text: 20,
+		ammo_text: 20,
 	},
 	page_rwr: {
 		threat_text: 36,
@@ -414,6 +420,7 @@ var DisplaySystem = {
 		me.layers = {};
 
 		me.initPage(PAGE_SMS);
+		me.initPage(PAGE_PPA);
 		me.initPage(PAGE_RWR);
 		me.initPage(PAGE_MAP);
 
@@ -448,20 +455,27 @@ var DisplaySystem = {
 	},
 
 	selectPage: func (pageName) {
-		if (me.pages[pageName] == nil) {print(me.device.name," page not found: ",pageName);return;}
+		if (me.pages[pageName] == nil) {
+			print(me.device.name," page not found: ",pageName);
+			return;
+		}
 		if (me["currPage"] != nil) {
 			if (me.pages[pageName] == me.currPage) {
 				#print(me.device.name," page wont switch to itself: ",pageName);
 				return;
 			}
-			if(me.currPage.needGroup) me.currPage.group.hide();
+			if (me.currPage.needGroup) {
+				me.currPage.group.hide();
+			}
 			me.currPage.exit();
-			foreach(var layer; me.currPage.layers) {
+			foreach (var layer; me.currPage.layers) {
 				me.fetchLayer(layer).group.hide();
 			}
 		}
 		me.currPage = me.pages[pageName];
-		if(me.currPage.needGroup) me.currPage.group.show();
+		if (me.currPage.needGroup) {
+			me.currPage.group.show();
+		}
 		me.currPage.enter();
 		#me.currPage.update(nil);
 		foreach(var layer; me.currPage.layers) {
@@ -748,7 +762,7 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls["OSB3"].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls["OSB3"].setControlText(PAGE_PPA_MENU_ITEM);
 			me._toggle_fbw_mode(me.input.fbw_mode.getValue());
 		},
 
@@ -838,6 +852,135 @@ var DisplaySystem = {
 					text_obj.updateText(me.sms_helper[0]);
 				}
 			}
+		},
+
+		exit: func {
+			# printDebug("Exit ",me.name~" on ",me.device.name);
+		},
+
+		links: {
+			"OSB3": PAGE_PPA,
+		},
+
+		layers: [LAYER_SERVICEABLE],
+	},
+
+
+#  ██████   █████   ██████  ███████     ██████  ██████   █████
+#  ██   ██ ██   ██ ██       ██          ██   ██ ██   ██ ██   ██
+#  ██████  ███████ ██   ███ █████       ██████  ██████  ███████
+#  ██      ██   ██ ██    ██ ██          ██      ██      ██   ██
+#  ██      ██   ██  ██████  ███████     ██      ██      ██   ██
+
+
+	PagePPA: {
+		name: PAGE_PPA,
+		isNew: TRUE,
+		needGroup: TRUE,
+
+		new: func {
+			me.instance = {parents:[DisplaySystem.PagePPA]};
+			me.instance.group = nil;
+			return me.instance;
+		},
+
+		setup: func {
+			me.input = {
+				cannon_rate_0              : "/ai/submodels/submodel/delay",
+			};
+
+			foreach(var name; keys(me.input)) {
+				me.input[name] = props.globals.getNode(me.input[name], 1);
+			}
+
+			me.wpn_text = me.group.createChild("text", "wpn_text")
+				.setFontSize(font.page_ppa.wpn_text)
+				.setColor(COLOR_LIGHT_BLUE)
+				.setAlignment("center-center")
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2);
+			me.wpn_text.enableUpdate();
+			me.ammo_text = me.group.createChild("text", "ammo_text")
+				.setFontSize(font.page_ppa.ammo_text)
+				.setColor(COLOR_YELLOW)
+				.setAlignment("center-center")
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 120);
+			me.ammo_text.enableUpdate();
+		},
+
+		enter: func {
+			# printDebug("Enter ",me.name~" on ",me.device.name);
+			if (me.isNew) {
+				me.setup();
+				me.isNew = FALSE;
+			}
+			me.device.resetControls();
+			me.device.controls["OSB3"].setControlText(PAGE_RWR_MENU_ITEM);
+		},
+
+		controlAction: func (controlName) {
+			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
+			if (controlName == "OSB18") {
+				if (me.wpn_kind == "cannon") {
+					_change_cannon_rate(TRUE);
+				}
+			}
+			if (controlName == "OSB19") {
+				if (me.wpn_kind == "cannon") {
+					_change_cannon_rate(FALSE);
+				}
+			}
+		},
+
+		update: func (noti = nil) {
+			if (noti.FrameCount != 3) {
+				return;
+			}
+			me.wpn = pylons.fcs.getSelectedWeapon();
+			me.pylon = pylons.fcs.getSelectedPylon();
+
+			me.wpn_kind = "";  # class of weapons for use just here
+
+			me.osb18 = "";
+			me.osb18_selected = FALSE;
+			me.osb19 = "";
+			me.osb19_selected = FALSE;
+			me.osb20 = "";
+			me.osb21 = "";
+			me.osb22 = "";
+			me.osb23 = "";
+			me.osb24 = "";
+			me.osb25 = "";
+
+			if (me.wpn == nil) {
+				me.wpn_text.updateText("No weapon selected");
+				me.ammo_text.updateText("");
+			} else {
+				me.wpn_text.updateText("Selected weapon: "~me.wpn.type);
+				me.ammo_text.updateText("Ammunition left: "~pylons.fcs.getAmmo());
+
+				if (me.wpn.type == "CC422" or me.wpn.type == "30mm Cannon") {
+					me.wpn_kind = "cannon";
+					me.cannon_rate = me.input.cannon_rate_0.getValue();
+					if (me.wpn.type == "30mm Cannon") {
+						me.osb18 = "A/A rate";
+						me.osb19 = "A/G rate";
+						if (me.cannon_rate > 0.04) {
+							me.osb19_selected = TRUE;
+						} else {
+							me.osb18_selected = TRUE;
+						}
+					}
+				}
+			}
+
+			me.device.controls["OSB18"].setControlText(me.osb18, TRUE, me.osb18_selected);
+			me.device.controls["OSB19"].setControlText(me.osb19, TRUE, me.osb19_selected);
+			me.device.controls["OSB20"].setControlText(me.osb20);
+			me.device.controls["OSB21"].setControlText(me.osb21);
+			me.device.controls["OSB22"].setControlText(me.osb22);
+			me.device.controls["OSB23"].setControlText(me.osb23);
+			me.device.controls["OSB24"].setControlText(me.osb24);
+			me.device.controls["OSB25"].setControlText(me.osb25);
 		},
 
 		exit: func {
@@ -1714,6 +1857,28 @@ var main = func (module) {
 
 	m2000_mfd = M2000MFDRecipient.new("M2000");
 	emesary.GlobalTransmitter.Register(m2000_mfd);
+
+	# to be sure we have consistent rates for cannon fire
+	_change_cannon_rate(TRUE);
+}
+
+var _change_cannon_rate = func (air_to_air) { # 1 or 0
+	# https://en.wikipedia.org/wiki/Dassault_Mirage_2000 states 1800/min (0.033) or 1200/min (0.05).
+	# https://en.wikipedia.org/wiki/DEFA_cannon states:
+	#     * DEFA 554 for the single-seat Mirage 2000 and DEFA 553 for 2000D RMV
+	#     * DEFA 554 1,100 rpm (low) or 1,800 rpm (high)
+	#     * 553: 1,300 rpm
+	# => going with DEFA 554 and 0.033 - 0.055 for the -5 and fixed 0.046 for the D (CC442 gun pod)
+	var rate = 0.0;
+	if (variantID == 3) {
+		rate = 0.46; # no difference between A/A and A/G
+	} else if (air_to_air == TRUE) {
+		rate = 0.033;
+	} else {
+		rate = 0.055;
+	}
+	setprop("/ai/submodels/submodel/delay", rate);
+	setprop("/ai/submodels/submodel[1]/delay", rate);
 }
 
 var unload = func {
