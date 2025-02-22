@@ -34,7 +34,7 @@ var DISPLAY_HEIGHT = 576;
 var DISPLAY_ROW_HEIGHT_1 = 1.5/6.4 * DISPLAY_HEIGHT;
 var DISPLAY_ROW_HEIGHT_2 = 3.0/6.4 * DISPLAY_HEIGHT;
 var DISPLAY_ROW_HEIGHT_3 = 4.6/6.4 * DISPLAY_HEIGHT;
-var DISPLAY_ROW_HEIGHT_4 = 6.1/6.4 * DISPLAY_HEIGHT;
+var DISPLAY_ROW_HEIGHT_4 = 6.0/6.4 * DISPLAY_HEIGHT;
 
 var LAYER_SERVICEABLE = "LayerServiceable";
 
@@ -56,6 +56,7 @@ var margin = {
 		fillHeight: 2,
 		outline: 2,
 		between_menu_item: 32, # for left and right hand buttons
+		row_text: 60,
 	},
 };
 
@@ -78,15 +79,16 @@ var lineWidth = {
 
 var font = {
 	device: {
-		main: 20,
+		main: 24,
+		row_text: 24,
 	},
 	page_sms: {
 		pylons_text: 20,
 		fbw_mode_text: 20,
 	},
 	page_ppa: {
-		wpn_text: 20,
-		ammo_text: 20,
+		wpn_text: 32,
+		ammo_text: 32,
 		damage_text: 20,
 	},
 	page_rwr: {
@@ -122,6 +124,7 @@ var zIndex = {
 		map: 10,
 		svg: 15,
 		load_message: 16,
+		row_text: 12,
 	},
 };
 
@@ -132,14 +135,18 @@ var FONT_MONO_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
 var colorDot2 = [1, 1, 1];
 
 var COLOR_WHITE = [1, 1, 1];
+var COLOR_BLACK = [0, 0, 0];
 var COLOR_YELLOW = [1, 1, 0];
-var COLOR_AMBER = [1, 0.6, 0.2];
+var COLOR_MAGENTA = [1, 0, 1];
+var COLOR_CYAN = [0, 1, 1];
 var COLOR_RED = [1, 0, 0];
 var COLOR_GREEN = [0, 1, 0];
-var COLOR_LIGHT_BLUE = [0.2, 0.6, 1];
-var COLOR_BLACK = [0, 0, 0];
+var COLOR_BLUE = [0, 0, 1];
 
-var PUSHBUTTON   = 0;
+var COLOR_AMBER = [1, 0.6, 0.2];
+var COLOR_LIGHT_BLUE = [0.2, 0.6, 1];
+
+var PUSHBUTTON = 0;
 
 var variantID = getprop("sim/variant-id"); # -5 = 1; -5B/-5B-backseat = 2; D = 3
 
@@ -174,8 +181,8 @@ var OSB23 = "OSB23";
 var OSB24 = "OSB24";
 var OSB25 = "OSB25";
 
-var OSB_PLUS = "+";
-var OSB_MINUS = "-";
+var OSB_PLUS = " + "; # extra whitespace on purpose to get away from border
+var OSB_MINUS = " - ";
 
 
 #  ██████  ██ ███████ ██████  ██       █████  ██    ██     ██████  ███████ ██    ██ ██  ██████ ███████
@@ -593,7 +600,7 @@ var DisplaySystem = {
 
 			me.fbw_mode_text = me.group.createChild("text", "fbw_mode_text")
 				.setFontSize(font.page_sms.fbw_mode_text)
-				.setColor(COLOR_LIGHT_BLUE)
+				.setColor(COLOR_CYAN)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2 - 150, 250);
 			me.fbw_mode_text.enableUpdate();
@@ -830,7 +837,7 @@ var DisplaySystem = {
 			if (me.catNumber != me.input.fbw_mode.getValue() + 1) {
 				me.fbw_mode_text.setColor(COLOR_RED);
 			} else {
-				me.fbw_mode_text.setColor(COLOR_LIGHT_BLUE);
+				me.fbw_mode_text.setColor(COLOR_CYAN);
 			}
 
 			var sel = pylons.fcs.getSelectedPylonNumber();
@@ -928,39 +935,47 @@ var DisplaySystem = {
 				me.input[name] = props.globals.getNode(me.input[name], 1);
 			}
 
+			me.fuze = 0; # there are no real fuze settings in OPRF, so just faking
+
 			me.wpn_text = me.group.createChild("text", "wpn_text")
 				.setFontSize(font.page_ppa.wpn_text)
-				.setColor(COLOR_LIGHT_BLUE)
+				.setColor(COLOR_CYAN)
 				.setAlignment("center-center")
-				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2);
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 80);
 			me.wpn_text.enableUpdate();
 			me.ammo_text = me.group.createChild("text", "ammo_text")
 				.setFontSize(font.page_ppa.ammo_text)
-				.setColor(COLOR_LIGHT_BLUE)
+				.setColor(COLOR_CYAN)
 				.setAlignment("center-center")
 				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 120);
 			me.ammo_text.enableUpdate();
-			me.ripple_num_text = me.group.createChild("text", "ripple_num_text")
-				.setFontSize(font.page_ppa.ammo_text)
+			me.row_1_right_text = me.group.createChild("text", "row_1_right_text")
+				.setFontSize(font.device.row_text)
 				.setColor(COLOR_GREEN)
 				.setAlignment("right-center")
-				.setTranslation(DISPLAY_WIDTH - 40, DISPLAY_ROW_HEIGHT_3);
-			me.ripple_num_text.enableUpdate();
-			me.ripple_dist_text = me.group.createChild("text", "ripple_dist_text")
-				.setFontSize(font.page_ppa.ammo_text)
+				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_1);
+			me.row_1_right_text.enableUpdate();
+			me.row_3_right_text = me.group.createChild("text", "row_3_right_text")
+				.setFontSize(font.device.row_text)
 				.setColor(COLOR_GREEN)
 				.setAlignment("right-center")
-				.setTranslation(DISPLAY_WIDTH - 40, DISPLAY_ROW_HEIGHT_4);
-			me.ripple_dist_text.enableUpdate();
+				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_3);
+			me.row_3_right_text.enableUpdate();
+			me.row_4_right_text = me.group.createChild("text", "row_4_right_text")
+				.setFontSize(font.device.row_text)
+				.setColor(COLOR_GREEN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_4);
+			me.row_4_right_text.enableUpdate();
 			me.damage_label = me.group.createChild("text", "damage_label")
 				.setFontSize(font.page_ppa.damage_text)
 				.setColor(COLOR_WHITE)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2, 100)
-				.setText("MP damage:");
+				.setText("Damage:");
 			me.damage_text = me.group.createChild("text", "damage_text")
 				.setFontSize(font.page_ppa.damage_text)
-				.setColor(COLOR_AMBER)
+				.setColor(COLOR_CYAN)
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 + 10, 100);
 			me.damage_text.enableUpdate();
@@ -978,7 +993,12 @@ var DisplaySystem = {
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB18) {
+			if (controlName == OSB8) {
+				me.fuze += 1;
+				if (me.fuze > 2) {
+					me.fuze = 0;
+				}
+			} elsif (controlName == OSB18) {
 				if (me.wpn_kind == "cannon") {
 					_change_cannon_rate(TRUE);
 				} else if (me.wpn_kind == "fall") {
@@ -1030,6 +1050,8 @@ var DisplaySystem = {
 
 			me.wpn_kind = "";  # class of weapons for use just here
 
+			me.osb6 = "";
+			me.osb6_selected = FALSE;
 			me.osb18 = "";
 			me.osb18_selected = FALSE;
 			me.osb19 = "";
@@ -1041,27 +1063,30 @@ var DisplaySystem = {
 			me.osb24 = "";
 			me.osb25 = "";
 
-			me.ripple_num_text.hide();
-			me.ripple_dist_text.hide();
+			me.row_1_right_text.hide();
+			me.row_3_right_text.hide();
+			me.row_4_right_text.hide();
 
 			if (me.wpn == nil) {
 				me.wpn_text.updateText("No weapon selected");
 				me.ammo_text.updateText("");
 			} else {
-				me.wpn_text.updateText("Selected weapon: "~me.wpn.type);
-				me.ammo_text.updateText("Ammunition left: "~pylons.fcs.getAmmo());
+				me.wpn_text.updateText(me.wpn.type);
+				me.ammo_text.updateText("Ammo: "~pylons.fcs.getAmmo());
 
 				if (me.wpn.type == "CC422" or me.wpn.type == "30mm Cannon") {
 					me.wpn_kind = "cannon";
 					me.cannon_rate = me.input.cannon_rate_0.getValue();
 					if (me.wpn.type == "30mm Cannon") {
-						me.osb18 = "High rate";
-						me.osb19 = "Slow rate";
+						me.osb18 = "High";
+						me.osb19 = "Low";
 						if (me.cannon_rate > 0.04) {
 							me.osb19_selected = TRUE;
 						} else {
 							me.osb18_selected = TRUE;
 						}
+						me.row_1_right_text.updateText("Fire rate:");
+						me.row_1_right_text.show();
 					}
 				} else if (me.wpn.type == "Mk-82" or me.wpn.type == "Mk-82SE" or me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24") {
 					me.wpn_kind = "fall";
@@ -1074,9 +1099,9 @@ var DisplaySystem = {
 						me.osb19_selected = TRUE;
 					}
 
-					me.ripple_num_text.show();
+					me.row_3_right_text.show();
 					me.rp = pylons.fcs.getRippleMode();
-					me.ripple_num_text.updateText("Ripple: "~me.rp);
+					me.row_3_right_text.updateText("Ripple: "~me.rp);
 					if (me.rp < 18) { # according to RAZBAM manual page 506
 						me.osb22 = OSB_PLUS;
 					}
@@ -1086,8 +1111,8 @@ var DisplaySystem = {
 
 					if (me.rp > 1) {
 						me.rpd = pylons.fcs.getRippleDist();
-						me.ripple_dist_text.show();
-						me.ripple_dist_text.updateText("Dist m: "~me.rpd);
+						me.row_4_right_text.show();
+						me.row_4_right_text.updateText("Dist m: "~me.rpd);
 						if (me.rpd < 200) { # according to RAZBAM manual page 508 200m is max
 							me.osb24 = OSB_PLUS;
 						}
@@ -1095,6 +1120,16 @@ var DisplaySystem = {
 							me.osb25 = OSB_MINUS;
 						}
 					}
+
+					# fuze is just for display - has no meaning in OPRF (not the same as arming time)
+					if (me.fuze == 0) {
+						me.osb6 = "INST.";
+					} elsif (me.fuze == 1) {
+						me.osb6 = "RET.";
+					} else {
+						me.osb6 = "INERT.";
+					}
+					me.osb6_selected = TRUE;
 				}
 			}
 
@@ -1103,9 +1138,10 @@ var DisplaySystem = {
 				me.damage_text.setColor(COLOR_GREEN);
 			} else {
 				me.damage_text.updateText("Off");
-				me.damage_text.setColor(COLOR_AMBER);
+				me.damage_text.setColor(COLOR_CYAN);
 			}
 
+			me.device.controls[OSB6].setControlText(me.osb6, TRUE, me.osb6_selected);
 			me.device.controls[OSB18].setControlText(me.osb18, TRUE, me.osb18_selected);
 			me.device.controls[OSB19].setControlText(me.osb19, TRUE, me.osb19_selected);
 			me.device.controls[OSB20].setControlText(me.osb20);
@@ -1206,13 +1242,27 @@ var DisplaySystem = {
 
 			# whether or not to show unknowns
 			me.show_unknowns = TRUE;
-			me.SHOW_UNKNOWNS_MENU_ITEM = "? Show";
-			me.HIDE_UNKNOWNS_MENU_ITEM = "? Hide";
+			me.SHOW_UNKNOWNS_MENU_ITEM = "Y";
+			me.HIDE_UNKNOWNS_MENU_ITEM = "N";
+
+			me.row_4_left_text = me.group.createChild("text", "row_4_right_text")
+				.setFontSize(font.device.row_text)
+				.setColor(COLOR_GREEN)
+				.setAlignment("left-center")
+				.setTranslation(margin.device.row_text, DISPLAY_ROW_HEIGHT_4)
+				.setText("Show unk.");
 
 			# whether to reduce overlapping (at the expense of angle accuracy)
 			me.separate = FALSE;
-			me.SEPARATE_ACTIVE_MENU_ITEM = "Separation";
-			me.SEPARATE_NONE_MENU_ITEM = "None";
+			me.SEPARATE_ACTIVE_MENU_ITEM = "Y";
+			me.SEPARATE_NONE_MENU_ITEM = "N";
+
+			me.row_1_left_text = me.group.createChild("text", "row_4_right_text")
+				.setFontSize(font.device.row_text)
+				.setColor(COLOR_GREEN)
+				.setAlignment("left-center")
+				.setTranslation(margin.device.row_text, DISPLAY_ROW_HEIGHT_1)
+				.setText("Sep.");
 		},
 
 		_createRWRCircles: func() {
@@ -1228,7 +1278,7 @@ var DisplaySystem = {
 				.arcSmallCW(me.circle_radius_middle, me.circle_radius_middle, 0, me.circle_radius_middle*2, 0)
 				.arcSmallCW(me.circle_radius_middle, me.circle_radius_middle, 0, -me.circle_radius_middle*2, 0)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_rwr)
-				.setColor(COLOR_LIGHT_BLUE);
+				.setColor(COLOR_CYAN);
 			me.rwr_circles_group.createChild("path") # outer circle
 				.moveTo(-me.radius, 0)
 				.arcSmallCW(me.radius, me.radius, 0, me.radius*2, 0)
@@ -1313,13 +1363,13 @@ var DisplaySystem = {
 		_createDispenserIndicators: func {
 			# Lance-Leurres (Decoy Dispenser)
 			me.ll_box  = me.dispenser_group.createChild("path", "ll_box")
-				.setColor(COLOR_LIGHT_BLUE)
+				.setColor(COLOR_CYAN)
 				.setColorFill(COLOR_BLACK)
 				.rect(0, 0, me.DISPENSER_BOX_WIDTH, me.DISPENSER_BOX_WIDTH)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_indicators);
 			me.ll_text = me.dispenser_group.createChild("text", "ll_text")
 				.setFontSize(font.page_rwr.indicators_text)
-				.setColor(COLOR_LIGHT_BLUE)
+				.setColor(COLOR_CYAN)
 				.setAlignment("center-center")
 				.setText("LL")
 				.setTranslation(me.DISPENSER_BOX_WIDTH/2, me.DISPENSER_BOX_WIDTH/2);
@@ -1327,39 +1377,39 @@ var DisplaySystem = {
 			# Contremesures Électromagnétiques/Chaff
 			var add_down = me.DISPENSER_BOX_WIDTH + me.DISPENSER_BOX_SEPARATION;
 			me.em_box  = me.dispenser_group.createChild("path", "em_box")
-				.setColor(COLOR_AMBER)
+				.setColor(COLOR_MAGENTA)
 				.setColorFill(COLOR_BLACK)
 				.rect(0, add_down, me.DISPENSER_BOX_WIDTH, me.DISPENSER_BOX_WIDTH)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_indicators);
 			me.em_text = me.dispenser_group.createChild("text", "em_text")
 				.setFontSize(font.page_rwr.indicators_text)
-				.setColor(COLOR_AMBER)
+				.setColor(COLOR_MAGENTA)
 				.setAlignment("center-center")
 				.setText("EM")
 				.setTranslation(me.DISPENSER_BOX_WIDTH/2, add_down + me.DISPENSER_BOX_WIDTH/2);
 			# IR (Contremesures Infrarouges/Flares)
 			var add_down = 2*(me.DISPENSER_BOX_WIDTH + me.DISPENSER_BOX_SEPARATION);
 			me.ir_box  = me.dispenser_group.createChild("path", "ir_box")
-				.setColor(COLOR_AMBER)
+				.setColor(COLOR_MAGENTA)
 				.setColorFill(COLOR_BLACK)
 				.rect(0, add_down, me.DISPENSER_BOX_WIDTH, me.DISPENSER_BOX_WIDTH)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_indicators);
 			me.ir_text = me.dispenser_group.createChild("text", "ir_text")
 				.setFontSize(font.page_rwr.indicators_text)
-				.setColor(COLOR_AMBER)
+				.setColor(COLOR_MAGENTA)
 				.setAlignment("center-center")
 				.setText("IR")
 				.setTranslation(me.DISPENSER_BOX_WIDTH/2, add_down + me.DISPENSER_BOX_WIDTH/2);
 			# EO (Contremesures Électro-optiques/Electro-Optical
 			var add_down = 3*(me.DISPENSER_BOX_WIDTH + me.DISPENSER_BOX_SEPARATION);
 			me.eo_box  = me.dispenser_group.createChild("path", "eo_box")
-				.setColor(COLOR_AMBER)
+				.setColor(COLOR_MAGENTA)
 				.setColorFill(COLOR_BLACK)
 				.rect(0, add_down, me.DISPENSER_BOX_WIDTH, me.DISPENSER_BOX_WIDTH)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_indicators);
 			me.eo_text = me.dispenser_group.createChild("text", "eo_text")
 				.setFontSize(font.page_rwr.indicators_text)
-				.setColor(COLOR_AMBER)
+				.setColor(COLOR_MAGENTA)
 				.setAlignment("center-center")
 				.setText("EO")
 				.setTranslation(me.DISPENSER_BOX_WIDTH/2, add_down + me.DISPENSER_BOX_WIDTH/2);
@@ -1653,24 +1703,24 @@ var DisplaySystem = {
 		_updateCounterMeasures: func() {
 			# dispensing counter measures
 			if (me.input.flares.getValue() == 0) {
-				me.ll_box.setColor(COLOR_LIGHT_BLUE);
+				me.ll_box.setColor(COLOR_CYAN);
 				me.ll_box.setColorFill(COLOR_BLACK);
-				me.ll_text.setColor(COLOR_LIGHT_BLUE);
+				me.ll_text.setColor(COLOR_CYAN);
 			} else {
 				me.ll_box.setColor(COLOR_BLACK);
-				me.ll_box.setColorFill(COLOR_LIGHT_BLUE);
+				me.ll_box.setColorFill(COLOR_CYAN);
 				me.ll_text.setColor(COLOR_BLACK);
 			}
 			# remaining counter measures
-			me.cm_background_line = COLOR_AMBER;
+			me.cm_background_line = COLOR_MAGENTA;
 			me.cm_background_fill = COLOR_BLACK;
 			if (me.input.cm_remaining.getValue() == 0) {
 				me.cm_background_line = COLOR_BLACK;
-				me.cm_background_fill = COLOR_AMBER;
+				me.cm_background_fill = COLOR_MAGENTA;
 			} else if (me.input.cm_remaining.getValue() <= 20) {
 				if (me.alternated == TRUE) {
 					me.cm_background_line = COLOR_BLACK;
-					me.cm_background_fill = COLOR_AMBER;
+					me.cm_background_fill = COLOR_MAGENTA;
 				}
 			}
 			me.em_box.setColor(me.cm_background_line);
@@ -1770,11 +1820,20 @@ var DisplaySystem = {
 			me.zoom = 10;
 			me.last_zoom = me.zoom;
 
+			me.row_4_right_text = me.group.createChild("text", "row_4_right_text")
+				.set(Z_INDEX, zIndex.page_map.row_text)
+				.setFontSize(font.device.row_text)
+				.setColor(COLOR_GREEN)
+				.setColorFill(COLOR_BLACK)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_4)
+				.setText("Zoom");
+
 			# text to display when there are problems loading map tiles
 			me.load_message_text = "";
 			me.load_message = me.group.createChild("text", "load_message")
 				.set(Z_INDEX, zIndex.page_map.load_message)
-				.setColor(COLOR_AMBER)
+				.setColor(COLOR_MAGENTA)
 				.setFont(FONT_MONO_BOLD)
 				.setFontSize(font.page_map.load_message)
 				.setAlignment("center-center")
@@ -1791,8 +1850,8 @@ var DisplaySystem = {
 				} elsif (me.zoom == me.MAX_ZOOM) {
 					me.device.controls[OSB24].setControlText("");
 				} else {
-					me.device.controls[OSB24].setControlText("Zoom In");
-					me.device.controls[OSB25].setControlText("Zoom Out");
+					me.device.controls[OSB24].setControlText("In");
+					me.device.controls[OSB25].setControlText("Out");
 				}
 			}
 		},
@@ -1805,8 +1864,8 @@ var DisplaySystem = {
 			}
 			me.device.resetControls();
 			me.device.controls[OSB3].setControlText(PAGE_SMS_MENU_ITEM);
-			me.device.controls[OSB24].setControlText("Zoom In");
-			me.device.controls[OSB25].setControlText("Zoom Out");
+			me.device.controls[OSB24].setControlText("In");
+			me.device.controls[OSB25].setControlText("Out");
 		},
 
 		controlAction: func (controlName) {

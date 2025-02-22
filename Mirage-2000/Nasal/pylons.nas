@@ -125,10 +125,10 @@ var pylonSetsSMSHelper = {
 	"AS30L": ["AS30L", FALSE],
 	"APACHE": ["APACH", FALSE],
 	"ASMP": ["ASMP", FALSE],
-	"SAMP Mk-82": ["82", TRUE],
-	"2 x SAMP Mk-82": ["82", TRUE],
-	"SAMP Mk-82 Snake-eye": ["82S", TRUE],
-	"2 x SAMP Mk-82 Snake-eye": ["82S", TRUE],
+	"SAMP Mk-82": ["BL", TRUE], # BL = bombe lisse
+	"2 x SAMP Mk-82": ["BL", TRUE],
+	"SAMP Mk-82 Snake-eye": ["BF", TRUE], # BF = bombe freinée
+	"2 x SAMP Mk-82 Snake-eye": ["BF", TRUE],
 };
 
 if (variantID != 3) { # 2000D
