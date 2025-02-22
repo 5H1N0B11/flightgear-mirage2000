@@ -553,40 +553,6 @@ var toggleDropModeCCxP = func {
 	}
 }
 
-var toggleReleaseMode = func {
-	if (getprop("controls/armament/dual") == 1) {
-		setprop("controls/armament/dual",2);
-		screen.log.write("Set to PAIR release mode");
-	} else {
-		setprop("controls/armament/dual",1);
-		screen.log.write("Set to SINGLE release mode");
-	}
-}
-
-var increaseRippleNumber = func {
-	var rp = pylons.fcs.getRippleMode();
-	if (rp < 8) {
-		rp += 1;
-	} elsif (rp == 8) {
-		rp = 1;
-	}
-	pylons.fcs.setRippleMode(rp);
-	screen.log.write("The number of ripples is: "~rp);
-}
-
-var increaseRippleDistance = func {
-	var rpd = pylons.fcs.getRippleDist();
-	if (math.mod(rpd, 5) != 0) { # in the beginning it can be to an odd value based on feet
-		rpd = 5;
-	} elsif (rpd < 100) {
-		rpd += 5;
-	} else {
-		rpd = 5;
-	}
-	pylons.fcs.setRippleDist(rpd);
-	screen.log.write("The ripple distance (m) is: "~rpd);
-}
-
 var cycleLoadedWeapon = func {
 	pylons.fcs.cycleLoadedWeapon();
 	setprop("/controls/armament/name", pylons.fcs.getSelectedType());

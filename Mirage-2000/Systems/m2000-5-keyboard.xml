@@ -249,39 +249,6 @@
 			</binding>
 		</key>
 
-		<key n="58">
-			<name>:</name>
-			<desc>Toggle Single / Pair Release Mode</desc>
-			<binding>
-				<command>nasal</command>
-				<script>
-					mirage2000.toggleReleaseMode();
-				</script>
-			</binding>
-		</key>
-
-		<key n="59">
-			<name>;</name>
-			<desc>Increase Ripple Number</desc>
-			<binding>
-				<command>nasal</command>
-				<script>
-					mirage2000.increaseRippleNumber();
-				</script>
-			</binding>
-		</key>
-
-		<key n="95">
-			<name>_</name>
-			<desc>Increase Ripple Distance</desc>
-			<binding>
-				<command>nasal</command>
-				<script>
-					mirage2000.increaseRippleDistance();
-				</script>
-			</binding>
-		</key>
-
 		<key n="109">
 			<name>m</name>
 			<desc>Toggle master arm switch</desc>

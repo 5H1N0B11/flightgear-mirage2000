@@ -238,6 +238,10 @@ if (variantID == 1) {
 
 fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
 
+# sensible defaults
+fcs.setRippleMode(1);
+fcs.setRippleDist(10);
+
 var aimListener = func (obj) {
 	# If auto focus on missile is activated, then we call the function
 	if (getprop("/controls/armament/automissileview")) { # and !getprop("payload/armament/msg")

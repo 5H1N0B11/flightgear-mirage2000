@@ -31,6 +31,11 @@ var FALSE = 0;
 var DISPLAY_WIDTH = 768;
 var DISPLAY_HEIGHT = 576;
 
+var DISPLAY_ROW_HEIGHT_1 = 1.5/6.4 * DISPLAY_HEIGHT;
+var DISPLAY_ROW_HEIGHT_2 = 3.0/6.4 * DISPLAY_HEIGHT;
+var DISPLAY_ROW_HEIGHT_3 = 4.6/6.4 * DISPLAY_HEIGHT;
+var DISPLAY_ROW_HEIGHT_4 = 6.1/6.4 * DISPLAY_HEIGHT;
+
 var LAYER_SERVICEABLE = "LayerServiceable";
 
 var PAGE_SMS = "PageSMS";
@@ -143,6 +148,34 @@ var variantID = getprop("sim/variant-id"); # -5 = 1; -5B/-5B-backseat = 2; D = 3
 # => let the updates be done in increments of ca. every 0.5 seconds
 var UPDATE_INC = 0.5;
 
+var OSB1 = "OSB1";
+var OSB2 = "OSB2";
+var OSB3 = "OSB3";
+var OSB4 = "OSB4";
+var OSB5 = "OSB5";
+var OSB6 = "OSB6";
+var OSB7 = "OSB7";
+var OSB8 = "OSB8";
+var OSB9 = "OSB9";
+var OSB10 = "OSB10";
+var OSB11 = "OSB11";
+var OSB12 = "OSB12";
+var OSB13 = "OSB13";
+var OSB14 = "OSB14";
+var OSB15 = "OSB15";
+var OSB16 = "OSB16";
+var OSB17 = "OSB17";
+var OSB18 = "OSB18";
+var OSB19 = "OSB19";
+var OSB20 = "OSB20";
+var OSB21 = "OSB21";
+var OSB22 = "OSB22";
+var OSB23 = "OSB23";
+var OSB24 = "OSB24";
+var OSB25 = "OSB25";
+
+var OSB_PLUS = "+";
+var OSB_MINUS = "-";
 
 
 #  ██████  ██ ███████ ██████  ██       █████  ██    ██     ██████  ███████ ██    ██ ██  ██████ ███████
@@ -763,15 +796,15 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls["OSB3"].setControlText(PAGE_PPA_MENU_ITEM);
+			me.device.controls[OSB3].setControlText(PAGE_PPA_MENU_ITEM);
 			me._toggle_fbw_mode(me.input.fbw_mode.getValue());
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == "OSB24") {
+			if (controlName == OSB24) {
 				me._toggle_fbw_mode(0);
-			} elsif (controlName == "OSB25") {
+			} elsif (controlName == OSB25) {
 				me._toggle_fbw_mode(1);
 			}
 		},
@@ -779,11 +812,11 @@ var DisplaySystem = {
 		_toggle_fbw_mode: func (mode) {
 			me.input.fbw_mode.setValue(mode);
 			if (mode == 0) {
-				me.device.controls["OSB24"].setControlText(me.FBW_AA_MENU_ITEM, TRUE, TRUE);
-				me.device.controls["OSB25"].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB24].setControlText(me.FBW_AA_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB25].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, FALSE);
 			} else {
-				me.device.controls["OSB24"].setControlText(me.FBW_AA_MENU_ITEM, TRUE, FALSE);
-				me.device.controls["OSB25"].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB24].setControlText(me.FBW_AA_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB25].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, TRUE);
 			}
 		},
 
@@ -860,7 +893,7 @@ var DisplaySystem = {
 		},
 
 		links: {
-			"OSB3": PAGE_PPA,
+			OSB3: PAGE_PPA,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -903,21 +936,33 @@ var DisplaySystem = {
 			me.wpn_text.enableUpdate();
 			me.ammo_text = me.group.createChild("text", "ammo_text")
 				.setFontSize(font.page_ppa.ammo_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(COLOR_LIGHT_BLUE)
 				.setAlignment("center-center")
 				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 120);
 			me.ammo_text.enableUpdate();
+			me.ripple_num_text = me.group.createChild("text", "ripple_num_text")
+				.setFontSize(font.page_ppa.ammo_text)
+				.setColor(COLOR_GREEN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - 40, DISPLAY_ROW_HEIGHT_3);
+			me.ripple_num_text.enableUpdate();
+			me.ripple_dist_text = me.group.createChild("text", "ripple_dist_text")
+				.setFontSize(font.page_ppa.ammo_text)
+				.setColor(COLOR_GREEN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - 40, DISPLAY_ROW_HEIGHT_4);
+			me.ripple_dist_text.enableUpdate();
 			me.damage_label = me.group.createChild("text", "damage_label")
 				.setFontSize(font.page_ppa.damage_text)
 				.setColor(COLOR_WHITE)
 				.setAlignment("right-center")
-				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT - 40)
+				.setTranslation(DISPLAY_WIDTH/2, 100)
 				.setText("MP damage:");
 			me.damage_text = me.group.createChild("text", "damage_text")
 				.setFontSize(font.page_ppa.damage_text)
 				.setColor(COLOR_AMBER)
 				.setAlignment("left-center")
-				.setTranslation(DISPLAY_WIDTH/2 + 10, DISPLAY_HEIGHT - 40);
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 100);
 			me.damage_text.enableUpdate();
 		},
 
@@ -928,23 +973,50 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls["OSB3"].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB3].setControlText(PAGE_RWR_MENU_ITEM);
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == "OSB18") {
+			if (controlName == OSB18) {
 				if (me.wpn_kind == "cannon") {
 					_change_cannon_rate(TRUE);
 				} else if (me.wpn_kind == "fall") {
 					pylons.fcs.setDropMode(1);
 				}
-			}
-			if (controlName == "OSB19") {
+			} elsif (controlName == OSB19) {
 				if (me.wpn_kind == "cannon") {
 					_change_cannon_rate(FALSE);
 				} else if (me.wpn_kind == "fall") {
 					pylons.fcs.setDropMode(0);
+				}
+			} elsif (controlName == OSB22) {
+				if (me.wpn_kind == "fall") {
+					if (me.rp < 18) {
+						pylons.fcs.setRippleMode(me.rp + 1);
+					}
+				}
+			} elsif (controlName == OSB23) {
+				if (me.wpn_kind == "fall") {
+					if (me.rp > 1) {
+						pylons.fcs.setRippleMode(me.rp - 1);
+					}
+				}
+			} elsif (controlName == OSB24) {
+				if (me.wpn_kind == "fall") {
+					if (me.rpd == 5) {
+						pylons.fcs.setRippleDist(10);
+					} elsif (me.rpd < 200) {
+						pylons.fcs.setRippleDist(me.rpd + 10);
+					}
+				}
+			} elsif (controlName == OSB25) {
+				if (me.wpn_kind == "fall") {
+					if (me.rpd == 10) {
+						pylons.fcs.setRippleDist(5);
+					} elsif (me.rpd > 10) {
+						pylons.fcs.setRippleDist(me.rpd - 10);
+					}
 				}
 			}
 		},
@@ -968,6 +1040,9 @@ var DisplaySystem = {
 			me.osb23 = "";
 			me.osb24 = "";
 			me.osb25 = "";
+
+			me.ripple_num_text.hide();
+			me.ripple_dist_text.hide();
 
 			if (me.wpn == nil) {
 				me.wpn_text.updateText("No weapon selected");
@@ -998,6 +1073,28 @@ var DisplaySystem = {
 					} else {
 						me.osb19_selected = TRUE;
 					}
+
+					me.ripple_num_text.show();
+					me.rp = pylons.fcs.getRippleMode();
+					me.ripple_num_text.updateText("Ripple: "~me.rp);
+					if (me.rp < 18) { # according to RAZBAM manual page 506
+						me.osb22 = OSB_PLUS;
+					}
+					if (me.rp > 1) { # the Mirage can set it to 0, but setRippleMode in fire-control.nas will keep a min of 1
+						me.osb23 = OSB_MINUS;
+					}
+
+					if (me.rp > 1) {
+						me.rpd = pylons.fcs.getRippleDist();
+						me.ripple_dist_text.show();
+						me.ripple_dist_text.updateText("Dist m: "~me.rpd);
+						if (me.rpd < 200) { # according to RAZBAM manual page 508 200m is max
+							me.osb24 = OSB_PLUS;
+						}
+						if (me.rpd > 5) { # according to RAZBAM manual page 508 it could be set to 0, but we cannot model that easily. Therefore 5
+							me.osb25 = OSB_MINUS;
+						}
+					}
 				}
 			}
 
@@ -1009,14 +1106,14 @@ var DisplaySystem = {
 				me.damage_text.setColor(COLOR_AMBER);
 			}
 
-			me.device.controls["OSB18"].setControlText(me.osb18, TRUE, me.osb18_selected);
-			me.device.controls["OSB19"].setControlText(me.osb19, TRUE, me.osb19_selected);
-			me.device.controls["OSB20"].setControlText(me.osb20);
-			me.device.controls["OSB21"].setControlText(me.osb21);
-			me.device.controls["OSB22"].setControlText(me.osb22);
-			me.device.controls["OSB23"].setControlText(me.osb23);
-			me.device.controls["OSB24"].setControlText(me.osb24);
-			me.device.controls["OSB25"].setControlText(me.osb25);
+			me.device.controls[OSB18].setControlText(me.osb18, TRUE, me.osb18_selected);
+			me.device.controls[OSB19].setControlText(me.osb19, TRUE, me.osb19_selected);
+			me.device.controls[OSB20].setControlText(me.osb20);
+			me.device.controls[OSB21].setControlText(me.osb21);
+			me.device.controls[OSB22].setControlText(me.osb22);
+			me.device.controls[OSB23].setControlText(me.osb23);
+			me.device.controls[OSB24].setControlText(me.osb24);
+			me.device.controls[OSB25].setControlText(me.osb25);
 		},
 
 		exit: func {
@@ -1024,7 +1121,7 @@ var DisplaySystem = {
 		},
 
 		links: {
-			"OSB3": PAGE_RWR,
+			OSB3: PAGE_RWR,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -1275,7 +1372,7 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls["OSB3"].setControlText(PAGE_MAP_MENU_ITEM);
+			me.device.controls[OSB3].setControlText(PAGE_MAP_MENU_ITEM);
 
 			me._toggle_show_unknowns(me.show_unknowns);
 			me._toggle_separate(me.separate);
@@ -1283,14 +1380,14 @@ var DisplaySystem = {
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == "OSB10") {
+			if (controlName == OSB10) {
 				me._toggle_separate(TRUE);
-			} elsif (controlName == "OSB11") {
+			} elsif (controlName == OSB11) {
 				me._toggle_separate(FALSE);
 			}
-			if (controlName == "OSB16") {
+			if (controlName == OSB16) {
 				me._toggle_show_unknowns(TRUE);
-			} elsif (controlName == "OSB17") {
+			} elsif (controlName == OSB17) {
 				me._toggle_show_unknowns(FALSE);
 			}
 		},
@@ -1298,22 +1395,22 @@ var DisplaySystem = {
 		_toggle_show_unknowns: func (show) {
 			me.show_unknowns = show;
 			if (me.show_unknowns) {
-				me.device.controls["OSB16"].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
-				me.device.controls["OSB17"].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB16].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB17].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
 			} else {
-				me.device.controls["OSB16"].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
-				me.device.controls["OSB17"].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB16].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB17].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
 			}
 		},
 
 		_toggle_separate: func (do_separate) {
 			me.separate = do_separate;
 			if (me.separate) {
-				me.device.controls["OSB10"].setControlText(me.SEPARATE_ACTIVE_MENU_ITEM, TRUE, TRUE);
-				me.device.controls["OSB11"].setControlText(me.SEPARATE_NONE_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB10].setControlText(me.SEPARATE_ACTIVE_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB11].setControlText(me.SEPARATE_NONE_MENU_ITEM, TRUE, FALSE);
 			} else {
-				me.device.controls["OSB10"].setControlText(me.SEPARATE_ACTIVE_MENU_ITEM, TRUE, FALSE);
-				me.device.controls["OSB11"].setControlText(me.SEPARATE_NONE_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB10].setControlText(me.SEPARATE_ACTIVE_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB11].setControlText(me.SEPARATE_NONE_MENU_ITEM, TRUE, TRUE);
 			}
 		},
 
@@ -1590,7 +1687,7 @@ var DisplaySystem = {
 		},
 
 		links: {
-			"OSB3": PAGE_MAP,
+			OSB3: PAGE_MAP,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -1690,12 +1787,12 @@ var DisplaySystem = {
 			if (new_zoom != me.zoom) {
 				me.zoom = new_zoom;
 				if (me.zoom == me.MIN_ZOOM) {
-					me.device.controls["OSB25"].setControlText("");
+					me.device.controls[OSB25].setControlText("");
 				} elsif (me.zoom == me.MAX_ZOOM) {
-					me.device.controls["OSB24"].setControlText("");
+					me.device.controls[OSB24].setControlText("");
 				} else {
-					me.device.controls["OSB24"].setControlText("Zoom In");
-					me.device.controls["OSB25"].setControlText("Zoom Out");
+					me.device.controls[OSB24].setControlText("Zoom In");
+					me.device.controls[OSB25].setControlText("Zoom Out");
 				}
 			}
 		},
@@ -1707,16 +1804,16 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls["OSB3"].setControlText(PAGE_SMS_MENU_ITEM);
-			me.device.controls["OSB24"].setControlText("Zoom In");
-			me.device.controls["OSB25"].setControlText("Zoom Out");
+			me.device.controls[OSB3].setControlText(PAGE_SMS_MENU_ITEM);
+			me.device.controls[OSB24].setControlText("Zoom In");
+			me.device.controls[OSB25].setControlText("Zoom Out");
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == "OSB24") {
+			if (controlName == OSB24) {
 				me._changeZoomMap(1);
-			} elsif (controlName == "OSB25") {
+			} elsif (controlName == OSB25) {
 				me._changeZoomMap(-1);
 			}
 		},
@@ -1789,7 +1886,7 @@ var DisplaySystem = {
 		},
 
 		links: {
-			"OSB3": PAGE_SMS,
+			OSB3: PAGE_SMS,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -1860,24 +1957,24 @@ var main = func (module) {
 		[(0.2375+3*0.175)*DISPLAY_WIDTH, DISPLAY_HEIGHT], # OSB9
 
 		# These are not buttons, but rocker-switches - left row = pot-l1 ... pot-l4
-		[0, 1.5/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB10
-		[0, 1.5/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
-		[0, 3.0/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB12
-		[0, 3.0/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
-		[0, 4.5/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB14
-		[0, 4.5/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
-		[0, 6.0/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB16
-		[0, 6.0/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
+		[0, DISPLAY_ROW_HEIGHT_1 - margin.device.between_menu_item/2], # OSB10
+		[0, DISPLAY_ROW_HEIGHT_1 + margin.device.between_menu_item/2],
+		[0, DISPLAY_ROW_HEIGHT_2 - margin.device.between_menu_item/2], # OSB12
+		[0, DISPLAY_ROW_HEIGHT_2 + margin.device.between_menu_item/2],
+		[0, DISPLAY_ROW_HEIGHT_3 - margin.device.between_menu_item/2], # OSB14
+		[0, DISPLAY_ROW_HEIGHT_3 + margin.device.between_menu_item/2],
+		[0, DISPLAY_ROW_HEIGHT_4 - margin.device.between_menu_item/2], # OSB16
+		[0, DISPLAY_ROW_HEIGHT_4 + margin.device.between_menu_item/2],
 
 		# right row = pot-r1 ... pot-r4
-		[DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB18
-		[DISPLAY_WIDTH, 1.5/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
-		[DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB20
-		[DISPLAY_WIDTH, 3.0/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
-		[DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB22
-		[DISPLAY_WIDTH, 4.5/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
-		[DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT - margin.device.between_menu_item/2], # OSB24
-		[DISPLAY_WIDTH, 6.0/6.4*DISPLAY_HEIGHT + margin.device.between_menu_item/2],
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_1 - margin.device.between_menu_item/2], # OSB18
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_1 + margin.device.between_menu_item/2],
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_2 - margin.device.between_menu_item/2], # OSB20
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_2 + margin.device.between_menu_item/2],
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_3 - margin.device.between_menu_item/2], # OSB22
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_3 + margin.device.between_menu_item/2],
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_4 - margin.device.between_menu_item/2], # OSB24
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_4 + margin.device.between_menu_item/2],
 	];
 
 	var rightMFDDisplaySystem = DisplaySystem.new();

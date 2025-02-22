@@ -110,21 +110,6 @@
 	</key>
 
 	<key>
-		<name>:</name>
-		<desc>Toggle Single / Pair Release Mode</desc>
-	</key>
-
-	<key>
-		<name>;</name>
-		<desc>Increase Ripple Number</desc>
-	</key>
-
-	<key>
-		<name>_</name>
-		<desc>Increase Ripple Distance</desc>
-	</key>
-
-	<key>
 		<name>m</name>
 		<desc>Toggle master arm switch</desc>
 	</key>
