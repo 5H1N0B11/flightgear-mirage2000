@@ -154,7 +154,7 @@
 					<command>nasal</command>
 					<script>
 						if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")) {
-							guns.reload_Cannon();
+							guns.reload_cannon_and_flares();
 						} else {
 							screen.log.write(mirage2000.msgB);
 						}

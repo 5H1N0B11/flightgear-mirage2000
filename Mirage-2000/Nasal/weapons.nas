@@ -58,18 +58,20 @@ var MPMessaging = props.globals.getNode("/payload/armament/msg", 1);
 #     isFiring = 0;
 # }
 #
-reload_Cannon = func() {
+var reload_cannon_and_flares = func() {
 	var variantID = getprop("sim/variant-id"); # -5 = 1; -5B/-5B-backseat = 2; D = 3
+	var bullets_text = "2*125";
 	if (variantID == 3) {
 		setprop("/ai/submodels/submodel/count", 250);
+		bullets_text = "250";
 	} else {
 		setprop("/ai/submodels/submodel/count",    125);
 		setprop("/ai/submodels/submodel[1]/count", 125);
 	}
 	setprop("/ai/submodels/submodel[7]/count",120);
 	setprop("/ai/submodels/submodel[8]/count",120);
-	screen.log.write("Guns have been reloaded : 125");
-	screen.log.write("Flares have been reloaded : 120");
+	screen.log.write("Guns have been reloaded: "~bullets_text);
+	screen.log.write("Flares have been reloaded: 120");
 }
 
 
