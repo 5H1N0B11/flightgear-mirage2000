@@ -885,12 +885,21 @@ var DisplaySystem = {
 			if (pylon == nil or pylon.currentSet == nil or size(pylon.currentSet.content) == 0) {
 				text_obj.updateText("");
 			} else {
-				me.size_content = size(pylon.currentSet.content);
-				me.sms_helper = pylons.pylonSetsSMSHelper[pylon.currentSet.name];
-				if (me.sms_helper[1] == TRUE) {
-					text_obj.updateText(me.size_content~" "~me.sms_helper[0]);
+				me.size_weapons = 0;
+				foreach (me.weapon; pylon.weapons) {
+					if (me.weapon != nil) {
+						me.size_weapons += 1;
+					}
+				}
+				if (me.size_weapons == 0) {
+					text_obj.updateText("");
 				} else {
-					text_obj.updateText(me.sms_helper[0]);
+					me.sms_helper = pylons.pylonSetsSMSHelper[pylon.currentSet.name];
+					if (me.sms_helper[1] == TRUE) {
+						text_obj.updateText(me.size_weapons~" "~me.sms_helper[0]);
+					} else {
+						text_obj.updateText(me.sms_helper[0]);
+					}
 				}
 			}
 		},
