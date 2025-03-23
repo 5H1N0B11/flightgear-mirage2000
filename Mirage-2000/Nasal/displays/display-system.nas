@@ -2072,7 +2072,7 @@ var _change_cannon_rate = func (air_to_air) { # 1 or 0
 	# => going with DEFA 554 and 0.033 - 0.055 for the -5 and fixed 0.046 for the D (CC442 gun pod)
 	var rate = 0.0;
 	if (variantID == 3) {
-		rate = 0.46; # no difference between A/A and A/G
+		rate = 0.046; # no difference between A/A and A/G
 	} else if (air_to_air == TRUE) {
 		rate = 0.033;
 	} else {
