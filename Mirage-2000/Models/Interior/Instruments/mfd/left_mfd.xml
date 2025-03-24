@@ -251,6 +251,7 @@
 						<value>0</value>
 					</equals>
 				</condition>
+			</binding>
 			<binding>
 				<command>nasal</command>
 				<script>mirage2000.frequ_adjustL(-1)</script>
@@ -260,7 +261,6 @@
 						<value>3</value>
 					</equals>
 				</condition>
-			</binding>
 			</binding>
 		</action>
 	</animation>
