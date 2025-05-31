@@ -10,6 +10,9 @@ print("*** LOADING m2000-5.nas ... ***");
 # and also, almursi work
 # and 5H1N0B1
 
+var FALSE = 0;
+var TRUE = 1;
+
 var deltaT                = 1.0;
 var Elapsed_time_Seconds  = 0;
 var Elapsed_time_previous = 0;
@@ -492,45 +495,65 @@ var init_EjectionKey = func() {
 }
 
 
-var flightmode = func () {
+var FLIGHT_MODE_APPROACH = "APP";
+var FLIGHT_MODE_TAKEOFF = "TO";
+var FLIGHT_MODE_NAVIGATION = "NAV";
+var FLIGHT_MODE_ATTACK = "ATT";
+
+var setFlightmode = func (mode) {
+	setprop("/instrumentation/flightmode/selected", mode);
+	screen.log.write("Flight mode is now: "~mode);
+	viewReset();
+}
+
+var viewReset = func () {
 	if (getprop("/sim/current-view/view-number-raw") == 0) {
-		if (getprop("/instrumentation/flightmode/app")) {
-			setprop("/instrumentation/flightmode/selected","APP");
-			setprop("/sim/current-view/x-offset-m",0);
+		var mode = getprop("/instrumentation/flightmode/selected");
+		setprop("sim/current-view/heading-offset-deg", 0);
+		setprop("sim/current-view/roll-offset-deg", 0);
+		# degs must be before -m
+		setprop("/sim/current-view/x-offset-m",0);
+		if (mode == FLIGHT_MODE_APPROACH or mode == FLIGHT_MODE_TAKEOFF) {
+			setprop("sim/current-view/pitch-offset-deg", -15);
 			setprop("/sim/current-view/y-offset-m",0.1019);
 			setprop("/sim/current-view/z-offset-m",-2.9);
-			setprop("/sim/current-view/field-of-view",83);
-
-		} elsif (getprop("/instrumentation/flightmode/to")) {
-			setprop("/instrumentation/flightmode/selected","DEC");
-			setprop("/sim/current-view/x-offset-m",0);
-			setprop("/sim/current-view/y-offset-m",0.1019);
-			setprop("/sim/current-view/z-offset-m",-2.9);
-			setprop("/sim/current-view/field-of-view",83);
-
-
-		} elsif (getprop("/instrumentation/flightmode/nav")) {
-			setprop("/instrumentation/flightmode/selected","NAV");
-			setprop("/sim/current-view/x-offset-m",0);
+			setprop("/sim/current-view/field-of-view",75);
+		} elsif (mode == FLIGHT_MODE_NAVIGATION) {
+			setprop("sim/current-view/pitch-offset-deg", -12);
 			setprop("/sim/current-view/y-offset-m",0.025);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",83);
-
-		} elsif (getprop("/instrumentation/flightmode/arm")) {
-			setprop("/instrumentation/flightmode/selected","ARM");
-			setprop("/sim/current-view/x-offset-m",0);
+		} elsif (mode == FLIGHT_MODE_ATTACK) {
+			setprop("sim/current-view/pitch-offset-deg", -15);
 			setprop("/sim/current-view/y-offset-m",0.099);
-			setprop("/sim/current-view/z-offset-m",-2.67);
-			setprop("/sim/current-view/field-of-view",70);
-
-		} else{
-			setprop("/sim/current-view/x-offset-m",0);
-			setprop("/sim/current-view/y-offset-m",0.025);
-			setprop("/sim/current-view/z-offset-m",-2.9);
-			setprop("/sim/current-view/field-of-view",83);
+			setprop("/sim/current-view/z-offset-m",-2.77);
+			setprop("/sim/current-view/field-of-view",65);
 		}
 	}
-	gui.dialog_update("flightmode");
+}
+
+var viewLeftMFD = func() {
+	if (getprop("/sim/current-view/view-number-raw") == 0) {
+		setprop("sim/current-view/heading-offset-deg", 0);
+		setprop("sim/current-view/pitch-offset-deg", -12);
+		setprop("sim/current-view/roll-offset-deg", 0);
+		setprop("/sim/current-view/x-offset-m", -0.12);
+		setprop("/sim/current-view/y-offset-m",-0.22);
+		setprop("/sim/current-view/z-offset-m",-3.04);
+		setprop("/sim/current-view/field-of-view",80);
+	}
+}
+
+var viewRightMFD = func() {
+	if (getprop("/sim/current-view/view-number-raw") == 0) {
+		setprop("sim/current-view/heading-offset-deg", 0);
+		setprop("sim/current-view/pitch-offset-deg", -12);
+		setprop("sim/current-view/roll-offset-deg", 0);
+		setprop("/sim/current-view/x-offset-m", 0.12);
+		setprop("/sim/current-view/y-offset-m",-0.24);
+		setprop("/sim/current-view/z-offset-m",-3.04);
+		setprop("/sim/current-view/field-of-view",80);
+	}
 }
 
 var masterarm = func {
@@ -540,7 +563,11 @@ var masterarm = func {
 		now = 0;
 	}
 	setprop("controls/armament/master-arm-switch", now);
-	call_flightmode("m");
+	if (now == 1) {
+		setFlightmode(FLIGHT_MODE_ATTACK);
+	} else {
+		setFlightmode(FLIGHT_MODE_NAVIGATION);
+	}
 	screen.log.write("Master-arm "~(getprop("controls/armament/master-arm-switch")==0?"OFF":(getprop("controls/armament/master-arm-switch")==1?"ON":"SIM")), 0.5, 0.5, 1);
 }
 
@@ -558,29 +585,13 @@ var cycleLoadedWeapon = func {
 	setprop("/controls/armament/name", pylons.fcs.getSelectedType());
 }
 
-var call_flightmode = func(calling) {
-	#This function is made to auto switch flight mode when masterarm is switched or gear is switched
-	var app=0;
-	var to=0;
-	var nav=0;
-	var arm=0;
-	if (calling == "m") {
-		if (getprop("controls/armament/master-arm-switch")==1) {
-			arm = 1;
-		} else{
-			nav = 1;
-		}
-	} elsif (calling == "g") {
-		nav = 1;
-	} elsif (calling == "G") {
-		to = 1;
+var changeGearsPosition = func(is_up) {
+	controls.gearUp(is_up);
+	if (is_up == TRUE) {
+		setFlightmode(FLIGHT_MODE_NAVIGATION);
+	} else {
+		setFlightmode(FLIGHT_MODE_APPROACH);
 	}
-	setprop("/instrumentation/flightmode/app",app);
-	setprop("/instrumentation/flightmode/to",to);
-	setprop("/instrumentation/flightmode/nav",nav);
-	setprop("/instrumentation/flightmode/arm",arm);
-
-	flightmode();
 }
 
 var quickstart = func() {

@@ -29,20 +29,11 @@
 			</item>
 
 			<item n="3">
-				<label>Flight Mode (View Position)</label>
-				<name>flightmode</name>
-				<binding>
-					<command>dialog-show</command>
-					<dialog-name>flightmode</dialog-name>
-				</binding>
-			</item>
-
-			<item n="4">
 				<label>--- The Looks ---</label>
 				<enabled>false</enabled>
 			</item>
 
-			<item n="5">
+			<item n="4">
 				<label>Select Livery</label>
 				<binding>
 					<command>nasal</command>
@@ -50,7 +41,7 @@
 				</binding>
 			</item>
 
-			<item n="6">
+			<item n="5">
 				<label>Select Logos</label>
 				<binding>
 					<command>nasal</command>
@@ -58,7 +49,7 @@
 				</binding>
 			</item>
 
-			<item n="7">
+			<item n="6">
 				<label>Select Service-Door Art</label>
 				<binding>
 					<command>nasal</command>
@@ -66,12 +57,12 @@
 				</binding>
 			</item>
 
-			<item n="8">
+			<item n="7">
 				<label>--- Spacer ---</label>
 				<enabled>false</enabled>
 			</item>
 
-			<item n="9">
+			<item n="8">
 				<label>Mission Preplanning</label>
 				<name>iff</name>
 				<binding>
@@ -80,12 +71,12 @@
 				</binding>
 			</item>
 
-			<item n="10">
+			<item n="9">
 				<label>--- Spacer ---</label>
 				<enabled>false</enabled>
 			</item>
 
-			<item n="11">
+			<item n="10">
 				<label>Training</label>
 				<name>training</name>
 				<binding>
@@ -94,7 +85,7 @@
 				</binding>
 			</item>
 
-			<item n="12">
+			<item n="11">
 				<label>AI Wingmen</label>
 				<name>wingmen</name>
 				<binding>
@@ -103,12 +94,12 @@
 				</binding>
 			</item>
 
-			<item n="13">
+			<item n="12">
 				<label>--- Weapons ---</label>
 				<enabled>false</enabled>
 			</item>
 
-			<item n="14">
+			<item n="13">
 				<label>Payload Selection</label>
 				<name>payload-qs</name>
 				<binding>
@@ -139,7 +130,7 @@
 				</binding>
 			</item>
 
-			<item n="15">
+			<item n="14">
 				<label>Ground Targeting</label>
 				<name>ground-targeting</name>
 				<binding>
@@ -148,7 +139,7 @@
 				</binding>
 			</item>
 
-			<item n="16">
+			<item n="15">
 				<label>Reload Guns, Flares and Chaffs</label>
 				<binding>
 					<command>nasal</command>
@@ -162,12 +153,12 @@
 				</binding>
 			</item>
 
-			<item n="17">
+			<item n="16">
 				<label>--- Other Stuff ---</label>
 				<enabled>false</enabled>
 			</item>
 
-			<item n="18">
+			<item n="17">
 				<label>Combat Event Log</label>
 				<name>event-log</name>
 				<binding>
@@ -176,7 +167,7 @@
 				</binding>
 			</item>
 
-			<item n="19">
+			<item n="18">
 				<label>Tacview</label>
 				<name>tacview</name>
 				<binding>
@@ -185,7 +176,7 @@
 				</binding>
 			</item>
 
-			<item n="20">
+			<item n="19">
 				<label>Call Pushback</label>
 				<name>pushback</name>
 				<binding>
@@ -194,7 +185,7 @@
 				</binding>
 			</item>
 
-			<item n="21">
+			<item n="20">
 				<label>About the FlightGear Mirage 2000</label>
 				<name>about</name>
 				<binding>
@@ -203,12 +194,12 @@
 				</binding>
 			</item>
 
-			<item n="22">
+			<item n="21">
 				<label>--- Temporary / Obsolete ---</label>
 				<enabled>false</enabled>
 			</item>
 
-			<item n="23">
+			<item n="22">
 				<label>Development Tests</label>
 				<name>options</name>
 				<binding>

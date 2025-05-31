@@ -51,7 +51,7 @@
 
 	<key>
 		<name>Y</name>
-		<desc>Radar antenna level</desc>
+		<desc>Radar antenna set neutral</desc>
 	</key>
 
 	<key>
@@ -157,6 +157,41 @@
 	<key>
 		<name>Ctrl-L</name>
 		<desc>Fast snipe and designate clicked target for laser</desc>
+	</key>
+
+	<key>
+		<name>f</name>
+		<desc>Flight Mode Take-Off</desc>
+	</key>
+
+	<key>
+		<name>F</name>
+		<desc>Flight Mode Approach</desc>
+	</key>
+
+	<key>
+		<name>h</name>
+		<desc>Flight Mode Navigation</desc>
+	</key>
+
+	<key>
+		<name>H</name>
+		<desc>Flight Mode Attack</desc>
+	</key>
+
+	<key>
+		<name>Ctrl-N</name>
+		<desc>Reset view</desc>
+	</key>
+
+	<key>
+		<name>n</name>
+		<desc>View left MFD</desc>
+	</key>
+
+	<key>
+		<name>N</name>
+		<desc>View right MFD</desc>
 	</key>
 
 	<text>The manual can be found at: https://github.com/5H1N0B11/flightgear-mirage2000/wiki</text>

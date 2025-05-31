@@ -89,7 +89,7 @@ Mirage 2000 instrument defintions
 	</marker-beacon>
 
 	<flightmode>
-		<selected>DEC</selected>
+		<selected>TO</selected> <!-- m2000-5.nas FLIGHT_MODE_TAKEOFF -->
 	</flightmode>
 
 	<heading-indicator>

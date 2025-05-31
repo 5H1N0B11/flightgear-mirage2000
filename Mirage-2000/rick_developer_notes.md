@@ -149,7 +149,7 @@ See also https://wiki.flightgear.org/Nasal_optimisation for general instructions
 
 ## FrameNotifications ##
 
-* See Aircraft/Mirage-2000/Nasal/exec.nas (part of module mirage2000): defines a loop for sending out FrameNotificationAddProperty including e.g. /sim/time/elapsed-sec with a rate depending on current frame rate (the better the fps the more notifications). The rtExec_loop is called to start from m2000-5.nas._mainInitLoop() 
+* See Aircraft/Mirage-2000/Nasal/exec.nas (part of module mirage2000): defines a loop for sending out FrameNotificationAddProperty including e.g. /sim/time/elapsed-sec with a rate depending on current frame rate (the better the fps the more notifications). The rtExec_loop is called to start from m2000-5.nas._mainInitLoop()
 * See Aircraft/Mirage-2000/Nasal/M_frame_notification.nas (part of module mirage2000) is the implementation of the FrameNotification and FrameNotificationAddProperty classes.
 
 For explanation see the headers of the two Nasal files plus https://github.com/5H1N0B11/flightgear-mirage2000/issues/141.
@@ -164,7 +164,7 @@ notification.frameNotification is a singleton added at then end of M_frame_notif
 
 ## Use prop references ##
 Stuart on the FG mailing list:
-Ff you are just going to set a property once, then setprop() is faster than globals.props.getNode("/property/path").setValue("something");
+If you are just going to set a property once, then setprop() is faster than globals.props.getNode("/property/path").setValue("something");
 However, if you already have the node stored: var n= globals.getNode("/property/path"); .... then n.setValue("something") is faster than setprop().
 I don't know how many writes you need to do to make the overhead of globals.props.getNode("/property/path") to be worthwhile, but my recommendation for any performance-oriented Nasal would be to call them all at the start of the day.
 

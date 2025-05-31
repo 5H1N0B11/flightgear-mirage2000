@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- data/Docs/keyboard/map.pdf -->
+<!-- fgdata/Docs/keyboard/map.pdf -->
 <PropertyList>
 
 	<mice n="0">
@@ -118,7 +118,7 @@
 
 		<key n="89">
 			<name>Y</name>
-			<desc>Radar antenna level</desc>
+			<desc>Radar antenna set neutral</desc>
 			<binding>
 				<command>property-assign</command>
 				<property>controls/radar/antennae-knob</property>
@@ -326,15 +326,13 @@
 			</binding>
 		</key>
 
-		<!-- This allow us to use a little tricks to send back slats in initial position -->
 		<key n="71">
 			<name>G</name>
 			<desc>Gear down</desc>
 			<binding>
 				<command>nasal</command>
 				<script>
-					controls.gearUp(0);
-					mirage2000.call_flightmode("G");
+					mirage2000.changeGearsPosition(0);
 				</script>
 			</binding>
 		</key>
@@ -345,7 +343,7 @@
 			<binding>
 				<command>nasal</command>
 				<script>
-					controls.gearUp(1);
+					mirage2000.changeGearsPosition(1);
 				</script>
 			</binding>
 		</key>
@@ -607,6 +605,66 @@
 			<binding>
 				<command>nasal</command>
 				<script>groundTargeting.fastSnipeAndDesignateLaserTarget();</script>
+			</binding>
+		</key>
+
+		<!-- CHANGE FLIGHT MODES -->
+		<key n="102">
+			<name>f</name>
+			<desc>Flight Mode Take-Off</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.setFlightmode(mirage2000.FLIGHT_MODE_TAKEOFF);</script>
+			</binding>
+		</key>
+		<key n="70">
+			<name>F</name>
+			<desc>Flight Mode Approach</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.setFlightmode(mirage2000.FLIGHT_MODE_APPROACH);</script>
+			</binding>
+		</key>
+		<key n="104">
+			<name>h</name>
+			<desc>Flight Mode Navigation</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.setFlightmode(mirage2000.FLIGHT_MODE_NAVIGATION);</script>
+			</binding>
+		</key>
+		<key n="72">
+			<name>H</name>
+			<desc>Flight Mode Attack</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.setFlightmode(mirage2000.FLIGHT_MODE_ATTACK);</script>
+			</binding>
+		</key>
+
+		<!-- CHANGE COCKPIT VIEWS-->
+		<key n="14">
+			<name>Ctrl-N</name>
+			<desc>Reset view</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.viewReset();</script>
+			</binding>
+		</key>
+		<key n="110">
+			<name>n</name>
+			<desc>View left MFD</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.viewLeftMFD();</script>
+			</binding>
+		</key>
+		<key n="78">
+			<name>N</name>
+			<desc>View right MFD</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.viewRightMFD();</script>
 			</binding>
 		</key>
 
