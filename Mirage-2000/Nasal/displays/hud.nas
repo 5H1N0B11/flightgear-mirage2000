@@ -39,6 +39,7 @@ var DROP_MODE_CCIP = 1;
 
 var CANNON_30MM = "30mm Cannon";
 var CC422 = "CC422"; # gun pod
+var ASMP = "ASMP";
 var AIM_GUIDANCE_UNGUIDED = "unguided";
 var AIM_CLASS_GMP = "GMP";
 var GBU12 = "GBU12"; # must correspond to short-name in payload.xml
@@ -953,7 +954,6 @@ var HUD = {
 			"SCALP": "SCALP",
 			"APACHE": "APACHE",
 			"AM39-Exocet":"AM39",
-			"AS-37-Martel":"AS37",
 			"AS-37-Armat":"AS37A",
 			"AS30L" :"AS30",
 			"Mk-82" : "Mk82",
@@ -1111,7 +1111,9 @@ var HUD = {
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 
 		if (me.selectedWeapon != nil and me.master_arm and me.input.wow_nlg.getValue() == 0) {
-			if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) {
+			if (me.selectedWeapon.type == ASMP) {
+				# nothing to do
+			} else if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) {
 				me.eegsShow = TRUE;
 			} else if (me.selectedWeapon.class == AIM_CLASS_GMP) {
 				if (me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
@@ -1696,7 +1698,7 @@ var HUD = {
 			me.TriangleGroupe.hide();
 			return;
 		}
-		if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) {
+		if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422 or me.selectedWeapon.type == ASMP) {
 			me.TriangleGroupe.hide();
 			return;
 		}

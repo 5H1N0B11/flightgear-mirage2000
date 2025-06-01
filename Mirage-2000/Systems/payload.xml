@@ -459,52 +459,6 @@
 			<weight-warhead-lbs type="double"> 50 </weight-warhead-lbs>
 		</apache>
 
-		<as-37-martel>
-			<type-id type="int">9</type-id>
-			<short-name type="string">AS37</short-name>
-			<long-name type="string">AS-37 Martel</long-name>
-			<all-aspect type="bool">true</all-aspect>
-			<arming-time-sec type="double">4.0</arming-time-sec>
-			<auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
-			<class type="string">GM</class>
-			<cross-section-sqft type="double">0.53</cross-section-sqft> <!-- 9.84 inch diam -->
-			<drag-coeff type="double">0.25</drag-coeff>
-			<FCS-field-deg type="int">25</FCS-field-deg>
-			<fire-msg type="string">Sniper</fire-msg>
-			<guidance type="string">radiation</guidance>
-			<hit-everything-nearby type="bool">true</hit-everything-nearby>
-			<lock-on-after-launch type="bool">false</lock-on-after-launch>
-			<loft-altitude type="int">36000</loft-altitude>
-			<max-fire-range-nm type="double">32</max-fire-range-nm>
-			<max-g type="int">15</max-g>
-			<max-report-distance type="double">65</max-report-distance>
-			<min-fire-range-nm type="double">0.25</min-fire-range-nm>
-			<min-speed-for-guiding-mach type="double">0.2</min-speed-for-guiding-mach>
-			<navigation type="string">PN</navigation>
-			<prowl-flight type="string">gyro-pitch</prowl-flight>
-			<rail type="bool">false</rail>
-			<reaquire type="bool">true</reaquire>
-			<release-limit-altitude type="double"> 38000 </release-limit-altitude>
-			<release-limit-g type="double"> 5 </release-limit-g> <!-- no info on this -->
-			<release-limit-mach type="double"> 0.9 </release-limit-mach>
-			<release-limit-roll type="double"> 45 </release-limit-roll>
-			<require-lock-to-fire type="bool">true</require-lock-to-fire>
-			<seeker-field-deg type="int">100</seeker-field-deg>
-			<self-destruct-time-sec type="double">360</self-destruct-time-sec>
-			<!-- The large airframe accommodates a Hotchkiss-Brandt/SNPE Basile solid propellant boost stage with a 2.4 second burn. and an SNPE Cassandre solid propellant sustainer with a 22 second burn-->
-			<stage-1-duration-sec type="double">4</stage-1-duration-sec>
-			<stage-2-duration-sec type="double">22</stage-2-duration-sec>
-			<switch-time-sec type="double">5</switch-time-sec>
-			<thrust-lbf-stage-1 type="double">7000</thrust-lbf-stage-1> <!-- Boost Sustain 64.000 lbs./sec 630 mps/mach 2+ -->
-			<thrust-lbf-stage-2 type="double">1000</thrust-lbf-stage-2>
-			<vol-search type="double">0.00</vol-search>
-			<vol-track type="double">0.15</vol-track>
-			<vol-track-weak type="double">0.1</vol-track-weak>
-			<weight-fuel-lbm type="double">700</weight-fuel-lbm>
-			<weight-launch-lbs type="double">1168</weight-launch-lbs>
-			<weight-warhead-lbs type="double">330</weight-warhead-lbs>
-		</as-37-martel>
-
 		<as-37-armat>
 			<type-id type="int">14</type-id>
 			<short-name type="string">ARMAT</short-name>

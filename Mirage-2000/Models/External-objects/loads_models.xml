@@ -176,19 +176,6 @@
   </model>
 
   <model>
-    <name>left-martel</name>
-    <path>Aircraft/Mirage-2000/Missiles/AS-37-Martel/as37.xml</path>
-    <offsets>
-      <x-m> 1.2</x-m>
-      <y-m>-2.359</y-m>
-      <z-m>-1.65</z-m>
-      <heading-deg>0</heading-deg>
-      <roll-deg>0</roll-deg>
-      <pitch-deg>-2</pitch-deg>
-    </offsets>
-  </model>
-
-  <model>
     <name>left-armat</name>
     <path>Aircraft/Mirage-2000/Missiles/AS-37-Armat/as37_Armat.xml</path>
     <offsets>
@@ -411,19 +398,6 @@
   <model>
     <name>right-exocet</name>
     <path>Aircraft/Mirage-2000/Missiles/AM39-Exocet/exocet.xml</path>
-    <offsets>
-      <x-m> 1.2</x-m>
-      <y-m> 2.359</y-m>
-      <z-m>-1.65</z-m>
-      <heading-deg>0</heading-deg>
-      <roll-deg>0</roll-deg>
-      <pitch-deg>-2</pitch-deg>
-    </offsets>
-  </model>
-
-  <model>
-    <name>right-martel</name>
-    <path>Aircraft/Mirage-2000/Missiles/AS-37-Martel/as37.xml</path>
     <offsets>
       <x-m> 1.2</x-m>
       <y-m> 2.359</y-m>

@@ -87,9 +87,7 @@ var pylonSets = {
 	gbu24: {name: "GBU-24", content: ["GBU-24"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-	b5: {name: "AS-37-Martel", content: ["AS-37-Martel"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0,
-		category: 2},
-	b5_2: {name: "AS-37-Armat", content: ["AS-37-Armat"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	b5: {name: "AS-37-Armat", content: ["AS-37-Armat"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	b7: {name: "APACHE", content: ["APACHE"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
@@ -120,8 +118,7 @@ var pylonSetsSMSHelper = {
 	"GBU-24": ["G24", TRUE],
 	"SCALP": ["SCALP", FALSE],
 	"AM39-Exocet": ["AM39", FALSE],
-	"AS-37-Martel": ["AS37M", FALSE],
-	"AS-37-Armat": ["AS27A", FALSE],
+	"AS-37-Armat": ["AS37A", FALSE],
 	"AS30L": ["AS30L", FALSE],
 	"APACHE": ["APACH", FALSE],
 	"ASMP": ["ASMP", FALSE],
@@ -140,8 +137,8 @@ if (variantID != 3) { # 2000D
 	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
 	var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
 } else {
-	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5,pylonSets.b5_2, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5,pylonSets.b5_2, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
 	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
 	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se,pylonSets.b7];
 	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
@@ -227,13 +224,13 @@ var wp_order = [];
 if (variantID == 1) {
 	append(pylons,pylonI);
 	pylon_order = [9,0,8,1,7,2,6,3,5,4];
-	wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR","Mk-82","Mk-82SE", "GBU-12", "GBU-24", "MICA-EM", "SCALP","APACHE", "AM39-Exocet"];
+	wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE", "GBU-12", "GBU-24", "SCALP","APACHE", "AM39-Exocet"];
 } elsif (variantID == 2) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
 	wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "GBU-24", "SCALP", "APACHE", "AM39-Exocet"];
 } elsif (variantID == 3) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
-	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Martel","AS-37-Armat", "AS30L"];
+	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Armat", "AS30L", "ASMP"];
 }
 
 fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
@@ -293,449 +290,446 @@ setlistener( "sim/ai/aircraft/impact/droptank", droptanks );
 
 # Lisse : means literally "slick" or "bald"  : no load at all : "empty"
 var lisse = func {
-  if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-        #External wings
-        pylon2.loadSet(pylonSets.empty);
-        pylon6.loadSet(pylonSets.empty);
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.empty);
+		pylon6.loadSet(pylonSets.empty);
 
-        #Internal wing
-        pylon3.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.empty);
+		#Internal wing
+		pylon3.loadSet(pylonSets.empty);
+		pylon5.loadSet(pylonSets.empty);
 
-        #Center Fuselage
-        pylon4.loadSet(pylonSets.empty);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.empty);
 
-        #Side fuselage forward
-        pylon1.loadSet(pylonSets.empty);
-        pylon7.loadSet(pylonSets.empty);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.empty);
+		pylon7.loadSet(pylonSets.empty);
 
-        #Side fuselage backward
-        pylon8.loadSet(pylonSets.empty);
-        pylon9.loadSet(pylonSets.empty);
-    } else {
-      screen.log.write(mirage2000.msgB);
-    }
-  }
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.empty);
+		pylon9.loadSet(pylonSets.empty);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
 
 # PO : permanence opérationnelle : Scramble
 var a2a_po_old = func {
-  if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-        #External wings
-        pylon2.loadSet(pylonSets.g);
-        pylon6.loadSet(pylonSets.g);
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-        #Internal wing
-        pylon3.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.empty);
+		#Internal wing
+		pylon3.loadSet(pylonSets.empty);
+		pylon5.loadSet(pylonSets.empty);
 
-        #Center Fuselage
-        pylon4.loadSet(pylonSets.t);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-        #Side fuselage forward
-        pylon1.loadSet(pylonSets.empty);
-        pylon7.loadSet(pylonSets.empty);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.empty);
+		pylon7.loadSet(pylonSets.empty);
 
-        #Side fuselage backward
-        pylon8.loadSet(pylonSets.empty);
-        pylon9.loadSet(pylonSets.empty);
-    } else {
-      screen.log.write(mirage2000.msgB);
-    }
-  }
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.empty);
+		pylon9.loadSet(pylonSets.empty);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
 
 # Fox configuration : 1 center tank
 var a2a_fox_old = func {
-  if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-        #External wings
-        pylon2.loadSet(pylonSets.g);
-        pylon6.loadSet(pylonSets.g);
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-        #Internal wing
-        pylon3.loadSet(pylonSets.h);
-        pylon5.loadSet(pylonSets.h);
+		#Internal wing
+		pylon3.loadSet(pylonSets.h);
+		pylon5.loadSet(pylonSets.h);
 
-        #Center Fuselage
-        pylon4.loadSet(pylonSets.t);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-        #Side fuselage forward
-        pylon1.loadSet(pylonSets.empty);
-        pylon7.loadSet(pylonSets.empty);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.empty);
+		pylon7.loadSet(pylonSets.empty);
 
-        #Side fuselage backward
-        pylon8.loadSet(pylonSets.empty);
-        pylon9.loadSet(pylonSets.empty);
-    } else {
-      screen.log.write(mirage2000.msgB);
-    }
-  }
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.empty);
+		pylon9.loadSet(pylonSets.empty);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
 # Fox Mix configuration : 1 center tank
 var a2a_fox_mix = func {
-  if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-        #External wings
-        pylon2.loadSet(pylonSets.g);
-        pylon6.loadSet(pylonSets.g);
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-        #Internal wing
-        pylon3.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.empty);
+		#Internal wing
+		pylon3.loadSet(pylonSets.empty);
+		pylon5.loadSet(pylonSets.empty);
 
-        #Center Fuselage
-        pylon4.loadSet(pylonSets.t);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-        #Side fuselage forward
-        pylon1.loadSet(pylonSets.i);
-        pylon7.loadSet(pylonSets.i);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.i);
+		pylon7.loadSet(pylonSets.i);
 
-        #Side fuselage backward
-        pylon8.loadSet(pylonSets.i);
-        pylon9.loadSet(pylonSets.i);
-    } else {
-      screen.log.write(mirage2000.msgB);
-    }
-  }
-
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.i);
+		pylon9.loadSet(pylonSets.i);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
 # Fox configuration : 1 center tank. Most recent configuration
 var a2a_fox_mica = func {
-  if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-        #External wings
-        pylon2.loadSet(pylonSets.g2);
-        pylon6.loadSet(pylonSets.g2);
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g2);
+		pylon6.loadSet(pylonSets.g2);
 
-        #Internal wing
-        pylon3.loadSet(pylonSets.empty);
-        pylon5.loadSet(pylonSets.empty);
+		#Internal wing
+		pylon3.loadSet(pylonSets.empty);
+		pylon5.loadSet(pylonSets.empty);
 
-        #Center Fuselage
-        pylon4.loadSet(pylonSets.t);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-        #Side fuselage forward
-        pylon1.loadSet(pylonSets.i);
-        pylon7.loadSet(pylonSets.i);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.i);
+		pylon7.loadSet(pylonSets.i);
 
-        #Side fuselage backward
-        pylon8.loadSet(pylonSets.i);
-        pylon9.loadSet(pylonSets.i);
-    } else {
-      screen.log.write(mirage2000.msgB);
-    }
-  }
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.i);
+		pylon9.loadSet(pylonSets.i);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
-  # Bravo Mix configuration : 2 wing tanks
-  var a2a_bravo_mix = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+# Bravo Mix configuration : 2 wing tanks
+var a2a_bravo_mix = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.t2);
-          pylon5.loadSet(pylonSets.t4);
+		#Internal wing
+		pylon3.loadSet(pylonSets.t2);
+		pylon5.loadSet(pylonSets.t4);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.empty);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.empty);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.i);
-          pylon7.loadSet(pylonSets.i);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.i);
+		pylon7.loadSet(pylonSets.i);
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.i);
-          pylon9.loadSet(pylonSets.i);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-  }
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.i);
+		pylon9.loadSet(pylonSets.i);
+	} else {
+	screen.log.write(mirage2000.msgB);
+	}
+}
 
-  # Kilo configuration : 1 center tank, 2 wing tanks +  Most recent missile configuration
+# Kilo configuration : 1 center tank, 2 wing tanks +  Most recent missile configuration
 var a2a_kilo_mica = func {
-  if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-        #External wings
-        pylon2.loadSet(pylonSets.g2);
-        pylon6.loadSet(pylonSets.g2);
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g2);
+		pylon6.loadSet(pylonSets.g2);
 
-        #Internal wing
-        pylon3.loadSet(pylonSets.t2);
-        pylon5.loadSet(pylonSets.t4);
+		#Internal wing
+		pylon3.loadSet(pylonSets.t2);
+		pylon5.loadSet(pylonSets.t4);
 
-        #Center Fuselage
-        pylon4.loadSet(pylonSets.t);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-        #Side fuselage forward
-        pylon1.loadSet(pylonSets.i);
-        pylon7.loadSet(pylonSets.i);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.i);
+		pylon7.loadSet(pylonSets.i);
 
-        #Side fuselage backward
-        pylon8.loadSet(pylonSets.i);
-        pylon9.loadSet(pylonSets.i);
-    } else {
-      screen.log.write(mirage2000.msgB);
-    }
-  }
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.i);
+		pylon9.loadSet(pylonSets.i);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
+# Ground Attack configuration : 2 wing tanks, 2 x GBU-12, 2 magic2
+var a2g_bravo_mix = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-  # Ground Attack configuration : 2 wing tanks, 2 x GBU-12, 2 magic2
-  var a2g_bravo_mix = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+		#Internal wing
+		pylon3.loadSet(pylonSets.t2);
+		pylon5.loadSet(pylonSets.t4);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.t2);
-          pylon5.loadSet(pylonSets.t4);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.b2);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.b2);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.empty);
+		pylon7.loadSet(pylonSets.s);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.empty);
-          pylon7.loadSet(pylonSets.s);
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.empty);
+		pylon9.loadSet(pylonSets.empty);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.empty);
-          pylon9.loadSet(pylonSets.empty);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-  }
+# Anti radar configation : double ARMAT, center tank double magix2
+var a2ouadi_fox = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-  # Anti radar configation : double martel, center tank double magix2
-  var a2ouadi_fox = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+		#Internal wing
+		pylon3.loadSet(pylonSets.b5);
+		pylon5.loadSet(pylonSets.b5);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.b5);
-          pylon5.loadSet(pylonSets.b5);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.t);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.empty);
+		pylon7.loadSet(pylonSets.empty);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.empty);
-          pylon7.loadSet(pylonSets.empty);
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.empty);
+		pylon9.loadSet(pylonSets.empty);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.empty);
-          pylon9.loadSet(pylonSets.empty);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-    }
+# Air to Sea configuration : double exocet, center tank double magix2
+var a2s_fox = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-  # Air to Sea configuration : double exocet, center tank double magix2
-  var a2s_fox = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+		#Internal wingAllPossible
+		pylon3.loadSet(pylonSets.b4);
+		pylon5.loadSet(pylonSets.b4);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.b4);
-          pylon5.loadSet(pylonSets.b4);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.t);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.empty);
+		pylon7.loadSet(pylonSets.empty);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.empty);
-          pylon7.loadSet(pylonSets.empty);
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.empty);
+		pylon9.loadSet(pylonSets.empty);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.empty);
-          pylon9.loadSet(pylonSets.empty);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-    }
+# ASMP Air-Sol Moyenne Portée nuclear cruise missile
+var nuke = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-    # Ground Attack configuration : 2 wing tanks, 2 x GBU-12, 2 magic2
-  var nuke = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+		#Internal wing
+		pylon3.loadSet(pylonSets.t2);
+		pylon5.loadSet(pylonSets.t4);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.t2);
-          pylon5.loadSet(pylonSets.t4);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.b10);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.b10);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.empty);
+		pylon7.loadSet(pylonSets.empty);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.empty);
-          pylon7.loadSet(pylonSets.empty);
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.empty);
+		pylon9.loadSet(pylonSets.empty);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.empty);
-          pylon9.loadSet(pylonSets.empty);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-  }
+# Ground Attack configuration 2 : 2 AS30L, Centre Tank, 2 magic2
+var rifle = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-  # Ground Attack configuration 2 : 2 AS30L, Centre Tank, 2 magic2
-  var rifle = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+		#Internal wing
+		pylon3.loadSet(pylonSets.b6);
+		pylon5.loadSet(pylonSets.b6);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.b6);
-          pylon5.loadSet(pylonSets.b6);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.t);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.empty);
+		pylon7.loadSet(pylonSets.s);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.empty);
-          pylon7.loadSet(pylonSets.s);
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.empty);
+		pylon9.loadSet(pylonSets.empty);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.empty);
-          pylon9.loadSet(pylonSets.empty);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-  }
+# Scalp, 2 2000L, 2 Magic ii
+var standoff = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-    # Ground attack configuration 2 : 2 2000L, Scalp, 2 Magic ii
-  var standoff = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+		#Internal wing
+		pylon3.loadSet(pylonSets.t2);
+		pylon5.loadSet(pylonSets.t4);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.t2);
-          pylon5.loadSet(pylonSets.t4);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.b3);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.b3);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.empty);
+		pylon7.loadSet(pylonSets.empty);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.empty);
-          pylon7.loadSet(pylonSets.empty);
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.empty);
+		pylon9.loadSet(pylonSets.empty);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.empty);
-          pylon9.loadSet(pylonSets.empty);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-  }
+# mk82 configuration  : 2 2 x mk82 , 4 mk82 body pylons, Center Tank, 2 Magic ii
+var unguided = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-    # mk82 configuration  : 2 2 x mk82 , 4 mk82 body pylons, Center Tank, 2 Magic ii
-  var unguided = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+		#Internal wing
+		pylon3.loadSet(pylonSets.dmk82);
+		pylon5.loadSet(pylonSets.dmk82);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.dmk82);
-          pylon5.loadSet(pylonSets.dmk82);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.t);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.mk82);
+		pylon7.loadSet(pylonSets.mk82);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.mk82);
-          pylon7.loadSet(pylonSets.mk82);
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.mk82);
+		pylon9.loadSet(pylonSets.mk82);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.mk82);
-          pylon9.loadSet(pylonSets.mk82);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-  }
+# mk82 er configuration  :
+var unguided_er = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-   # mk82 er configuration  :
-  var unguided_er = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+		#Internal wing
+		pylon3.loadSet(pylonSets.t2);
+		pylon5.loadSet(pylonSets.t4);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.t2);
-          pylon5.loadSet(pylonSets.t4);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.dmk82);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.dmk82);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.mk82);
+		pylon7.loadSet(pylonSets.mk82);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.mk82);
-          pylon7.loadSet(pylonSets.mk82);
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.mk82);
+		pylon9.loadSet(pylonSets.mk82);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.mk82);
-          pylon9.loadSet(pylonSets.mk82);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-  }
+# mk82 se configuration  : 2 x 2 mk82se , Center Tank, 4 mk82 body pylons, 2 Magic ii
+var unguided_se = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
- # mk82 se configuration  : 2 x 2 mk82se , Center Tank, 4 mk82 body pylons, 2 Magic ii
-  var unguided_se = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+		#Internal wing
+		pylon3.loadSet(pylonSets.dmk82se);
+		pylon5.loadSet(pylonSets.dmk82se);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.dmk82se);
-          pylon5.loadSet(pylonSets.dmk82se);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.t);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.t);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.mk82se);
+		pylon7.loadSet(pylonSets.mk82se);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.mk82se);
-          pylon7.loadSet(pylonSets.mk82se);
-
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.mk82se);
-          pylon9.loadSet(pylonSets.mk82se);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-  }
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.mk82se);
+		pylon9.loadSet(pylonSets.mk82se);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
 # mk82 se er configuration  : 2 x 2000L , 2 x mk82se, 4 mk82se body pylons, 2 Magic ii
-  var unguided_se_er = func {
-    if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-          #External wings
-          pylon2.loadSet(pylonSets.g);
-          pylon6.loadSet(pylonSets.g);
+var unguided_se_er = func {
+	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
+		#External wings
+		pylon2.loadSet(pylonSets.g);
+		pylon6.loadSet(pylonSets.g);
 
-          #Internal wing
-          pylon3.loadSet(pylonSets.t2);
-          pylon5.loadSet(pylonSets.t4);
+		#Internal wing
+		pylon3.loadSet(pylonSets.t2);
+		pylon5.loadSet(pylonSets.t4);
 
-          #Center Fuselage
-          pylon4.loadSet(pylonSets.dmk82se);
+		#Center Fuselage
+		pylon4.loadSet(pylonSets.dmk82se);
 
-          #Side fuselage forward
-          pylon1.loadSet(pylonSets.mk82se);
-          pylon7.loadSet(pylonSets.mk82se);
+		#Side fuselage forward
+		pylon1.loadSet(pylonSets.mk82se);
+		pylon7.loadSet(pylonSets.mk82se);
 
-          #Side fuselage backward
-          pylon8.loadSet(pylonSets.mk82se);
-          pylon9.loadSet(pylonSets.mk82se);
-      } else {
-        screen.log.write(mirage2000.msgB);
-      }
-  }
+		#Side fuselage backward
+		pylon8.loadSet(pylonSets.mk82se);
+		pylon9.loadSet(pylonSets.mk82se);
+	} else {
+		screen.log.write(mirage2000.msgB);
+	}
+}
 
 
 # Variable declaration
@@ -762,7 +756,7 @@ loadList = [
 	"2 x GBU-12",
 	"1700 l Droptank",
 	"GBU-24",
-	"AS-37-Martel",
+	"AS-37-Armat",
 	"PDLCT",
 	"Matra Super 530D",
 	"AS30L",

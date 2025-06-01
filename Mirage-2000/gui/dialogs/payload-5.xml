@@ -1,172 +1,184 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
-  <name>payload-5</name>
-  <modal type="bool">false</modal>
-  <layout>vbox</layout>
-  
-  <group>
-    <layout>hbox</layout>
-    <text>
-      <label>Quick Payload Reload</label>
-    </text>
+	<name>payload-5</name>
+	<modal type="bool">false</modal>
+	<layout>vbox</layout>
 
-    <empty>
-      <stretch>1</stretch>
-    </empty>
-    
-    <button>
-      <pref-width>16</pref-width>
-      <pref-height>16</pref-height>
-      <legend></legend>
-      
-      <default>1</default>
-      <keynum>27</keynum>
-      <border>2</border>
-      <binding>
-        <command>dialog-close</command>
-      </binding>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-    </button>
-  </group>
+	<group>
+		<layout>hbox</layout>
+		<text>
+			<label>Quick Payload Reload</label>
+		</text>
 
-  <hrule/>
+		<empty>
+			<stretch>1</stretch>
+		</empty>
 
-  <group>
-    <layout>table</layout>
-    
-    <button><pref-width>110</pref-width>
-      <row>2</row>
-      <col>0</col>
-      <legend>PO</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.a2a_po_old()</script>
-      </binding>
-    </button>
+		<button>
+			<pref-width>16</pref-width>
+			<pref-height>16</pref-height>
+			<legend></legend>
 
-    <button><pref-width>110</pref-width>
-      <row>0</row>
-      <col>0</col>
-      <legend>Fox Old Years</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.a2a_fox_old()</script>
-      </binding>
-    </button>
+			<default>1</default>
+			<keynum>27</keynum>
+			<border>2</border>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+		</button>
+	</group>
 
-    <button><pref-width>110</pref-width>
-      <row>1</row>
-      <col>0</col>
-      <legend>Fox</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.a2a_fox_mix()</script>
-      </binding>
-    </button>
+	<hrule/>
 
-    <button><pref-width>110</pref-width>
-      <row>0</row>
-      <col>1</col>
-      <legend>Fox Full Mica</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.a2a_fox_mica()</script>
-      </binding>
-    </button>
+	<group>
+		<layout>table</layout>
 
-    <button><pref-width>110</pref-width>
-      <row>1</row>
-      <col>1</col>
-      <legend>Bravo</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.a2a_bravo_mix()</script>
-      </binding>
-    </button>
+		<button>
+			<pref-width>250</pref-width>
+			<row>0</row>
+			<col>0</col>
+			<legend>Fox Old Years - 1 Centre Tank</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.a2a_fox_old()</script>
+			</binding>
+		</button>
 
-    <button><pref-width>110</pref-width>
-      <row>2</row>
-      <col>1</col>
-      <legend>Kilo</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.a2a_kilo_mica()</script>
-      </binding>
-    </button>
+		<button>
+			<pref-width>250</pref-width>
+			<row>0</row>
+			<col>1</col>
+			<legend>Fox Full Mica - 1 Centre Tank</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.a2a_fox_mica()</script>
+			</binding>
+		</button>
 
-    <button><pref-width>110</pref-width>
-      <row>3</row>
-      <col>0</col>
-      <legend>Air to Sea</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.a2s_fox()</script>
-      </binding>
-    </button> 
+		<button>
+			<pref-width>250</pref-width>
+			<row>1</row>
+			<col>0</col>
+			<legend>Fox - 1 Centre Tank</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.a2a_fox_mix()</script>
+			</binding>
+		</button>
 
-    <button><pref-width>110</pref-width>
-      <row>3</row>
-      <col>1</col>
-      <legend>Air to Ground</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.a2g_bravo_mix()</script>
-    </binding>
-    </button>
+		<button>
+			<pref-width>250</pref-width>
+			<row>1</row>
+			<col>1</col>
+			<legend>Bravo Mix - 2 Wing Tanks</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.a2a_bravo_mix()</script>
+			</binding>
+		</button>
 
-    <button><pref-width>110</pref-width>
-      <row>4</row>
-      <col>0</col>
-      <legend>Unguided</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.unguided()</script>
-      </binding>
-    </button>
+		<button>
+			<pref-width>250</pref-width>
+			<row>2</row>
+			<col>0</col>
+			<legend>Permanence Operationnelle (Scramble)</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.a2a_po_old()</script>
+			</binding>
+		</button>
 
-    <button><pref-width>110</pref-width>
-      <row>4</row>
-      <col>1</col>
-      <legend>Unguided ER</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.unguided_er()</script>
-      </binding>
-    </button>
+		<button>
+			<pref-width>250</pref-width>
+			<row>2</row>
+			<col>1</col>
+			<legend>Kilo Full Mica - 3 Tanks</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.a2a_kilo_mica()</script>
+			</binding>
+		</button>
 
-    <button><pref-width>110</pref-width>
-      <row>5</row>
-      <col>0</col><pref-width>110</pref-width>
-      <legend>Unguided SE</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.unguided_se()</script>
-      </binding>
-    </button>
+		<button>
+			<pref-width>250</pref-width>
+			<row>3</row>
+			<col>0</col>
+			<legend>Air to Sea (2 Exocet)</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.a2s_fox()</script>
+			</binding>
+		</button>
 
-    <button><pref-width>110</pref-width>
-      <row>5</row>
-      <col>1</col>
-      <legend>Unguided SE ER</legend>
-      <binding>
-	<command>nasal</command>
-	<script>pylons.unguided_se_er()</script>
-      </binding>
-    </button>
-  </group>
-  
-  <button><pref-width>110</pref-width>
-    <legend>No load</legend>
-    <binding>
-      <command>nasal</command>
-      <script>pylons.lisse()</script>
-    </binding>
-  </button>
+		<button>
+			<pref-width>250</pref-width>
+			<row>3</row>
+			<col>1</col>
+			<legend>Air to Ground (2 GBU-12)</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.a2g_bravo_mix()</script>
+			</binding>
+		</button>
 
-  <empty>
-      <stretch>1</stretch>
-  </empty>
+		<button>
+			<pref-width>250</pref-width>
+			<row>4</row>
+			<col>0</col>
+			<legend>8 Unguided Mk-82 - 1 Centre Tank</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.unguided()</script>
+			</binding>
+		</button>
+
+		<button>
+			<pref-width>250</pref-width>
+			<row>4</row>
+			<col>1</col>
+			<legend>6 Unguided Mk-82 - 2 Tanks</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.unguided_er()</script>
+			</binding>
+		</button>
+
+		<button>
+			<pref-width>250</pref-width>
+			<row>5</row>
+			<col>0</col><pref-width>250</pref-width>
+			<legend>8 Unguided Mk-82SE - 1 Centre Tank</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.unguided_se()</script>
+			</binding>
+		</button>
+
+		<button>
+			<pref-width>250</pref-width>
+			<row>5</row>
+			<col>1</col>
+			<legend>6 Unguided Mk-82SE - 2 Tanks</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.unguided_se_er()</script>
+			</binding>
+		</button>
+	</group>
+
+	<button><pref-width>250</pref-width>
+		<legend>No Load</legend>
+		<binding>
+			<command>nasal</command>
+			<script>pylons.lisse()</script>
+		</binding>
+	</button>
+
+	<empty>
+		<stretch>1</stretch>
+	</empty>
 </PropertyList>
