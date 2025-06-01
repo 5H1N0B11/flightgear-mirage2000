@@ -722,7 +722,7 @@
 			<weight-warhead-lbs type="double"> 190 </weight-warhead-lbs>
 			<weight-fuel-lbm type="double"> 0 </weight-fuel-lbm>
 			<drag-coeff type="double"> 0.125 </drag-coeff>
-			<delta-drag-coeff-deploy type="double">3.4</delta-drag-coeff-deploy>
+			<delta-drag-coeff-deploy type="double">3.4</delta-drag-coeff-deploy> <!-- for snake-eye - F-16 etc. use the mk-82air with a value of 5.25 -->
 			<cross-section-sqft type="double"> 0.63 </cross-section-sqft>
 			<arming-time-sec type="double"> 2 </arming-time-sec>
 			<min-speed-for-guiding-mach type="double"> 0 </min-speed-for-guiding-mach>
@@ -742,7 +742,6 @@
 			<hit-everything-nearby type="bool">true</hit-everything-nearby>
 			<ejector-speed-fps type="double">20</ejector-speed-fps>
 			<ready-time type="double">0.5</ready-time>
-			<delta-drag-coeff-deploy type="double">5.25</delta-drag-coeff-deploy> <!-- copy from F-16 -->
 		</mk-82se>
 
 		<es> <!-- Ejection seat -->
