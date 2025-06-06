@@ -1,5 +1,6 @@
-Mirage 2000-5 Display Systems
-=============================
+*********************************
+The Mirage 2000-5 Display Systems
+*********************************
 
 The Mirage 2000-5 has its name from the fact that it has 5 main displays:
 
@@ -8,8 +9,9 @@ The Mirage 2000-5 has its name from the fact that it has 5 main displays:
 * Head-level display - French Visualisation tête moyenne (VTM)
 * Head-down display - French Visualisation tête basse (VTB)
 
+
 VTM
----
+===
 
 This is a specialty of the Mirage 2000-5. Being positioned just below the HUD, this screen allows the pilot to see radar related information without moving the head. Like the HUD the VTM's focal point is perceived to be at infinity.
 
@@ -28,7 +30,7 @@ At the bottom of the screen there is a heading scale (showing true of magnetic N
 The scale on the left side shows the radar antenna elevation / radar pitch. The number shows the number of bars (vertical scanning of the radar). The antenna elevation can be changed (``Key: i`` for up, ``Key: I`` (capital i) for down, ``Key: Y`` for level).
 
 Air-to-Air
-~~~~~~~~~~
+----------
 
 A flying target is shown as an open rectangle with a line showing the direction the target is flying at (the longer the line, the faster).
 
@@ -49,7 +51,7 @@ To select a target in another air-2-air or air-2-ground or air-2-see mode, the c
    :align: center
 
 Air-to-Sea
-~~~~~~~~~~
+----------
 
 Like all ground modes the radar picture is displayed as PPI.
 
@@ -66,7 +68,7 @@ When selected the target is shown as a cross. There is no information about dire
    :align: center
 
 Air-to-Ground
-~~~~~~~~~~~~~
+-------------
 
 The following picture shows a few targets in ground mode (like for sea targets they are displayed as diamonds). Notice that the antenna elevation has been lowered a few degrees (radar pitch scale at left side) and one of the targets (boxed) has been designated using the laser - and therefore the LDP guidance mode is highlighted.
 
@@ -74,8 +76,12 @@ The following picture shows a few targets in ground mode (like for sea targets t
    :alt: Air-to-Ground Targets
    :align: center
 
-RWR
----
+
+Right MFD
+=========
+
+Radar Warning Receiver (RWR)
+----------------------------
 
 On the right MFD when clicking left most button below the screen you can switch to the radar warning receiver (`RWR <https://en.wikipedia.org/wiki/Radar_warning_receiver>`_) screen.
 
@@ -103,7 +109,7 @@ In addition to the visual indications there are sounds (refreshed every 0.5 seco
 * An active radar missile is in the air: continuous 1 kHz tone chopped at 25Hz until the missile is not detected any more.
 
 Counter-Measures Dispenser Display
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------
 
 At the right side of the RWR there are 4 indicators for dispensed counter-measures (flares and chaff). It is "could-be" interpretation of the decoy dispenser lights on the right top of the M2000-C canopy.
 

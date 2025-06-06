@@ -1,5 +1,12 @@
+*******
+Weapons
+*******
+
+Ground and Sea Attack
+=====================
+
 Basic Keys
-==========
+----------
 
 * ``Key: m``: toggle master arm
 * ``Key: w``: cycle through weapons
@@ -9,9 +16,8 @@ Basic Keys
 * ``Key: _`` (underscore): cycle through the distance between rippled release (steps of 5 metres)
 * ``Key: M``: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
 
-
 CCIP
-====
+----
 
 A Constantly Computed Impact Point (CCIP) is in the Mirage shown as a line from the flight path indicator (top) to the impact point (bottom). When the impact point is just above the target, then you release the bomb(s). This shot will not have a good accuracy, because the airplane is slightly banked to the right - for a good shot the airplane should be horizontal.
 
@@ -21,7 +27,7 @@ If you use a standard [Mk82 bomb](https://en.wikipedia.org/wiki/Mark_82_bomb), t
 
 
 CCRP
-====
+----
 
 The Constantly Computed Release Point (CCRP) requires a target to have been designated - either with the cursor in ground attack radar mode or using a laser or GPS coordinates.
 
@@ -32,15 +38,17 @@ The following picture shows CCRP guidance for a laser guided GBU12 bomb a few se
 The next picture shows a similar situation, but this time the weapon is a dumb free-fall bomb and the target has been designated using the ground radar.
 
 .. image:: images/ground_attack_ccrp_hud_designated.png
+   :scale: 50%
 
 
 
 Laser or GPS Designation
-========================
+------------------------
 
 In the ``Mirage 2000`` menu there is a menu point ``Ground Targeting``, which will display the following dialogue:
 
 .. image:: images/ground_attack_targeting_dialogue.png
+   :scale: 50%
 
 It is important to do all steps sequentially!
 

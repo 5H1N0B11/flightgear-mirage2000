@@ -1,5 +1,9 @@
-Flight Operations
-=================
+******
+Flying
+******
+
+Operations
+==========
 
 Start-up
 --------
@@ -59,3 +63,24 @@ Miscellaneous
 * When heavily loaded, the `fly-by-wire system (FBW) <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure: ``Mirage2000=>Options=> Change A/A to CHARGES``.
 * Afterburners engage when throttle moves past 85%.
 * The 1700l dropable tanks are not supersonic.
+
+Flight Modes
+============
+
+There are 4 flight modes:
+
+* Take-off (``key: f``)
+* Approach (``key: F``)
+* Navigation (``key: h``)
+* Attack (``key: H``)
+
+The main difference between the flight modes for now is the view position and zoom. When you lower gear, then you get automatically into ``Approach`` mode - after gear up you end in mode ``Navigation``. Toggling the master arm switches between modes ``Attack`` and ``Navigation``.
+
+In Cockpit Views
+================
+
+In order to see the MFDs and the VTB better as well as seeing better the gauges on each side of the VTM, you can use key bindings:
+
+* ``Key: n``: view left MFD and VTB
+* ``Key: N``: view right MDF and VTB
+* ``Key: ctrl-n``: reset the view to the position of the current flight mode

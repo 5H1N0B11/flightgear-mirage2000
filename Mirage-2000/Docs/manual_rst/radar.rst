@@ -1,13 +1,14 @@
-Radar System
-============
+****************
+The Radar System
+****************
 
 The Real Radar RDY
--------------------
+==================
 
 The -5 version of the Mirage 2000 is equipped with the RDY (Radar Doppler Modèle Y - Radar Doppler Multitarget), which can be used in air-to-air and air-to-ground tasks. See descriptions in `English Wikipedia <https://en.wikipedia.org/wiki/Radar_Doppler_Multitarget>`_ and `radartutorial.eu <https://www.radartutorial.eu/19.kartei/08.airborne/karte042.en.html>`_.
 
 The Modelled Radar
-------------------
+==================
 
 The modelled radar is a copy of the `FlightGear F-16 Flight Control Radar <https://github.com/NikolaiVChr/f16/wiki/FCR>`_, because it is already nicely modelled and the F-16 radar most probably is quite similar to the RDY-versions.
 
@@ -15,7 +16,7 @@ The modelled radar is a copy of the `FlightGear F-16 Flight Control Radar <https
    In reality the different versions of the Mirage 2000 have different radars and different radar modes, but this is not modelled.
 
 Radar Range
-~~~~~~~~~~~
+-----------
 
 The radar range can be increased by using ``Key: R`` - and decreased by using ``Key: E``. Each key press is a factor 2 (e.g. from 20 nm to 40 nm)
 
@@ -24,7 +25,7 @@ For air-to-air combat the range is up to 160 nm (depending on the mode), for gro
 When the radar mode changes (either by actively changing the radar mode or as a consequence of e.g. selecting a target), the range can change automatically.
 
 Radar Modes
-~~~~~~~~~~~
+-----------
 
 The radar has a set of modes and sub-modes (see the description in `FlightGear F-16 Fire-Control Radar <https://github.com/NikolaiVChr/f16/wiki/FCR>`_ - bearing in mind that the displays are different in the M2000 and not all functionality is the same):
 
@@ -48,7 +49,7 @@ The radar has a set of modes and sub-modes (see the description in `FlightGear F
 To change between main modes use ``Key: Q`` - to change between sub-modes use ``Key: ctrl-q``.
 
 Selecting Targets
-~~~~~~~~~~~~~~~~~
+-----------------
 
 When in TWS mode the next target can be selected using ``Key: y`` (can be used several times to cycle between targets). To deselect the current target use ``Key: ctrl-y``.
 

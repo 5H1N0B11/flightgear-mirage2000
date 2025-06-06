@@ -4,7 +4,7 @@ The content of the `Docs` folder has evolved historically.
 
 ## Manuals: ##
 * Mirage 2000 manual.pdf: A quite comprehensive manual in one Document. Is out-of-date in some areas (e.g. VTM, radar and weapons) but still useful.
-* manual_rst: Contains the source files for the new manual. The new manual will over time replace the old manual. But for now the content is concentrated around weapons management, radar etc. (which are the focus of current development).
+* mirage2000-new-manual.pdf: The new manual which over time will replace the old manual. But for now the content is concentrated around weapons management, radar etc. (which are the focus of current development).
 
 ## Supporting files for pilots: ##
 * fgfs-screen-00x.png: screenshots with some annotations.
@@ -13,4 +13,4 @@ The content of the `Docs` folder has evolved historically.
 
 ## Files for developers: ##
 * mfd_display_left.odg: helps developers with understanding the naming in MFDs.
-
+* manual_rst: Contains the source files for the new manual. 

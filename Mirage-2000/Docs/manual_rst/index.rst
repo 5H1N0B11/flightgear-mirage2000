@@ -1,7 +1,3 @@
-############################################
-Welcome to the FlightGear Mirage 2000 Manual
-############################################
-
 
 .. toctree::
    :maxdepth: 3
@@ -9,11 +5,13 @@ Welcome to the FlightGear Mirage 2000 Manual
 
    home
    flying
-   flight_modes
    radar
    displays
-   ground_attack
+   weapons
    references
+
+..
+   The file development.rst is not added on purpose
 
 
 Indices and tables

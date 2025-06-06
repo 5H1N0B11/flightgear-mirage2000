@@ -194,5 +194,5 @@
 		<desc>View right MFD</desc>
 	</key>
 
-	<text>The manual can be found at: https://github.com/5H1N0B11/flightgear-mirage2000/wiki</text>
+	<text>Two PDF manuals are located in the Mirage-2000/Docs/ folder - e.g. accessible through the menu Mirage 2000 > New | Old PDF Manual.</text>
 </PropertyList>
