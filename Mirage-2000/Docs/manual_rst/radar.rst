@@ -66,3 +66,4 @@ In other modes use the arrows on your keyboard (``Key: ⇐, ⇒, ⇑, ⇓``) to 
             <power>1</power>
         </binding>
     </axis>
+

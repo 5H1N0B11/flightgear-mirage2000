@@ -1,13 +1,13 @@
 Basic Keys
 ==========
 
-* `Key: m`: toggle master arm
-* `Key: w`: cycle through weapons
-* `Key: ctrl-w`: toggle between CCIP and CCRP
-* `Key: :` (colon): toggle single or pair release of bombs (do not use with GBUs)
-* `Key: ;` (semi-colon): cycle through the ripple number (number of bombs release per release between 1 and 8)
-* `Key: _` (underscore): cycle through the distance between rippled release (steps of 5 metres)
-* `Key: M`: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
+* ``Key: m``: toggle master arm
+* ``Key: w``: cycle through weapons
+* ``Key: ctrl-w``: toggle between CCIP and CCRP
+* ``Key: :`` (colon): toggle single or pair release of bombs (do not use with GBUs)
+* ``Key: ;`` (semi-colon): cycle through the ripple number (number of bombs release per release between 1 and 8)
+* ``Key: _`` (underscore): cycle through the distance between rippled release (steps of 5 metres)
+* ``Key: M``: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
 
 
 CCIP
@@ -33,14 +33,12 @@ The next picture shows a similar situation, but this time the weapon is a dumb f
 
 .. image:: images/ground_attack_ccrp_hud_designated.png
 
-.. image:: images/ground_attack_vtm_designated.png
-
 
 
 Laser or GPS Designation
 ========================
 
-In the `Mirage 2000` menu there is a menu point `Ground Targeting`, which will display the following dialogue:
+In the ``Mirage 2000`` menu there is a menu point ``Ground Targeting``, which will display the following dialogue:
 
 .. image:: images/ground_attack_targeting_dialogue.png
 
@@ -54,4 +52,4 @@ A sniped target (simulating what would be done with a laser) can be created with
 
 The target can then be designated using another button.
 
-A FLIR view (`Key: F6`) can be activated and the button `Focus FLIR on Sniped Target` will then point the laser to the sniped coordinates. Thereby the coordinate can be improved by clicking exactly on the target through the FLIR and then updating the target.
+A FLIR view (``Key: F6``) can be activated and the button ``Focus FLIR on Sniped Target`` will then point the laser to the sniped coordinates. Thereby the coordinate can be improved by clicking exactly on the target through the FLIR and then updating the target.

@@ -111,22 +111,27 @@ Ref: Frédéric Lert; Les Matériels de l'Armée de l'Air et de l'Aéronaval; Hi
 Articles
 --------
 
-
 Jets - L'aéronautique à réaction et son histoire
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-### No 23, November 1997 ###
+No 23, November 1997
+....................
 
-#### A01: Riccardo Niccoli: En vol sur Mirage 2000-5 (4 pages) ####
+A01: Riccardo Niccoli: En vol sur Mirage 2000-5 (4 pages)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 * p. 7: cockpit view of the front panel. Shows amongst others the 4 stripes indication of not working screens and the possibility to repeat the VTM radar screen on the VTB. And good view on the lower left panel with the 3*6 button table. The buttons are blue when illuminated, but not much.
 
 
 World Air Power Journal
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-### Volume 10 Autumn/Fall 1992 ###
+Volume 10 Autumn/Fall 1992
+..........................
 
-#### A02: Paul Jackson, Dassault Mirage 2000 (46 pages) ####
+A02: Paul Jackson, Dassault Mirage 2000 (46 pages)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 * Detailed description with lots of pictures of all current at that time variants and all user countries. 
 * Quite a few pictures of weapons - some of which are not used any more.
 * p.60: instruments view of M-2000C and M-2000-5 (not very good resolution).  
@@ -135,9 +140,11 @@ World Air Power Journal
 Nouvelle Revue d'Aeronautique et d'Astronautique
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-### No. 2, 1997 ###
+No. 2, 1997
+...........
 
-#### A03: Georges Mas, Marc Pagliardini: Le Programme Radar RDY ####
+A03: Georges Mas, Marc Pagliardini: Le Programme Radar RDY
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Retrieved as "The RDY Radar Program" translation for requester NAIC/TAEA (National Air Intelligence Center), document control number: NAIC-98-0124, translation number: NAIC-ID(RD)T-0124-98 from internet.
 
@@ -145,17 +152,22 @@ Retrieved as "The RDY Radar Program" translation for requester NAIC/TAEA (Nation
 Dassault Aviation - Engage!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-### Special Issue ###
+Special Issue
+.............
 
-#### A04: Mirage 2000-9 ####
+A04: Mirage 2000-9
+^^^^^^^^^^^^^^^^^^
 
 [Download link](https://www.dassault-aviation.com/wp-content/blogs.dir/1/files/2012/08/Mirage_2000-9_special_issue1.pdf)
 
-### 2 - 2003 ###
+2 - 2003
+........
 
-#### A05: RDY2 multi role, multi function radar ####
+A05: RDY2 multi role, multi function radar
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#### A06: M53-P3 a new engine under the skin #### 
+A06: M53-P3 a new engine under the skin
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 Links
@@ -214,9 +226,9 @@ Content:
 * File 01_3:
   * 10:01 / 11:04: Backseater HUD
 
+
 YouTube Videos
 --------------
-
 
 Mirage 2000 Planète Science
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
