@@ -8,6 +8,9 @@ The Mirage 2000 modelled here is mainly the -5 version ("Dash 5"/"tiret cinque")
 
 The Mirage 2000 is a multi-role all-weather fighter aircraft from `Dassault Aviation <https://www.dassault-aviation.com/en/defense/customer-support/operational-aircraft/mirage-2000/>`_. It is one of the best `dogfighters <https://en.wikipedia.org/wiki/Dogfight>`_ and a far beyond visual range combat aircraft, as well as very capable in air-to-ground strikes.
 
+.. image:: images/logo_2000D.png
+   :scale: 20%
+
 This Manual
 ===========
 

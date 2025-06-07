@@ -2,8 +2,8 @@
 Weapons
 *******
 
-Ground and Sea Attack
-=====================
+Ground Attack
+=============
 
 Basic Keys
 ----------
@@ -11,13 +11,20 @@ Basic Keys
 * ``Key: m``: toggle master arm
 * ``Key: w``: cycle through weapons
 * ``Key: ctrl-w``: toggle between CCIP and CCRP
+* ``Key: M``: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
+* ``Key: ctrl-l`` (small L): Fast snipe and designate clicked target for laser
+
+
 * ``Key: :`` (colon): toggle single or pair release of bombs (do not use with GBUs)
 * ``Key: ;`` (semi-colon): cycle through the ripple number (number of bombs release per release between 1 and 8)
 * ``Key: _`` (underscore): cycle through the distance between rippled release (steps of 5 metres)
-* ``Key: M``: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
+
+
+Modes
+-----
 
 CCIP
-----
+^^^^
 
 A Constantly Computed Impact Point (CCIP) is in the Mirage shown as a line from the flight path indicator (top) to the impact point (bottom). When the impact point is just above the target, then you release the bomb(s). This shot will not have a good accuracy, because the airplane is slightly banked to the right - for a good shot the airplane should be horizontal.
 
@@ -27,7 +34,7 @@ If you use a standard [Mk82 bomb](https://en.wikipedia.org/wiki/Mark_82_bomb), t
 
 
 CCRP
-----
+^^^^
 
 The Constantly Computed Release Point (CCRP) requires a target to have been designated - either with the cursor in ground attack radar mode or using a laser or GPS coordinates.
 
@@ -41,9 +48,8 @@ The next picture shows a similar situation, but this time the weapon is a dumb f
    :scale: 50%
 
 
-
 Laser or GPS Designation
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 In the ``Mirage 2000`` menu there is a menu point ``Ground Targeting``, which will display the following dialogue:
 
@@ -60,4 +66,30 @@ A sniped target (simulating what would be done with a laser) can be created with
 
 The target can then be designated using another button.
 
+Alternatively, using ``Key: ctrl-l`` you can fast snipe and designate the clicked target for laser.
+
 A FLIR view (``Key: F6``) can be activated and the button ``Focus FLIR on Sniped Target`` will then point the laser to the sniped coordinates. Thereby the coordinate can be improved by clicking exactly on the target through the FLIR and then updating the target.
+
+
+Weapon Specific Stuff
+---------------------
+
+MK-82 / MK-82SE and GBU-12/GBU-24
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+On the PPA the following settings can be done:
+
+* Change between ``CCIP`` and ``CCRP``.
+* The number of bombs to ripple (min = 1, max = 18, 0 is not available). You should not ripple GBU's.
+* The distance in metres between rippled bombs (min = 5, 10, 20, 30, ..., max = 200).
+* The fuze selector can be set to either ``RET.`` (retardé/delayed fuze), or ``INST.`` (instantaneous fuze) or ``INERT.`` (inertial fuze). However, this is not implemented and will always result in an instantaneous fuze.
+
+NB: you cannot choose to release 2 bombs at once (dual mode).
+
+Cannons and Guns
+^^^^^^^^^^^^^^^^
+
+The Mirage uses `DEFA cannons <https://en.wikipedia.org/wiki/DEFA_cannon>`_. It is assumed:
+
+* DEFA 554 for the single-seat Mirage 2000-5: the rate of fire can be changed between states 1800/min (0.033) or 1200/min (0.05) using the PPA
+* DEFA 553 in the CC442 gun pod for the Mirage 2000D has a constant rate of fire of 1300/min (0.046).

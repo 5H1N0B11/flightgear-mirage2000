@@ -33,7 +33,8 @@ htmlhelp_basename = 'M2000doc'
 
 
 # -- Options for rinohtype (direct PDF) output -----------------------------------
+# https://www.mos6581.org/rinohtype/master/sphinx.html
 rinoh_documents = [
-    dict(doc='index', target='mirage2000-new-manual', title='FlightGear Mirage 2000 Manual', subtitle='',
+    dict(doc='index', target='mirage2000-new-manual', title='FlightGear Mirage 2000-5/2000D Manual', subtitle='',
          toctree_only=False, domain_indices=False, template='article')
 ]

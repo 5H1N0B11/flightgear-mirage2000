@@ -923,7 +923,7 @@ var DisplaySystem = {
 #  ██      ██   ██  ██████  ███████     ██      ██      ██   ██
 
 
-	PagePPA: {
+	PagePPA: { # Poste de Préparation Armement
 		name: PAGE_PPA,
 		isNew: TRUE,
 		needGroup: TRUE,
@@ -1002,20 +1002,20 @@ var DisplaySystem = {
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB8) {
+			if (controlName == OSB6) {
 				me.fuze += 1;
 				if (me.fuze > 2) {
 					me.fuze = 0;
 				}
 			} elsif (controlName == OSB18) {
 				if (me.wpn_kind == "cannon") {
-					_change_cannon_rate(TRUE);
+					_changeCannonRate(TRUE);
 				} else if (me.wpn_kind == "fall") {
 					pylons.fcs.setDropMode(1);
 				}
 			} elsif (controlName == OSB19) {
 				if (me.wpn_kind == "cannon") {
-					_change_cannon_rate(FALSE);
+					_changeCannonRate(FALSE);
 				} else if (me.wpn_kind == "fall") {
 					pylons.fcs.setDropMode(0);
 				}
@@ -1096,7 +1096,7 @@ var DisplaySystem = {
 						}
 						me.row_1_right_text.updateText("Fire rate:");
 						me.row_1_right_text.show();
-					}
+					} # else: the rate cannot be changed in the CC422 gun pod
 				} else if (me.wpn.type == "Mk-82" or me.wpn.type == "Mk-82SE" or me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24") {
 					me.wpn_kind = "fall";
 					me.drop_mode = pylons.fcs.getDropMode();
@@ -2060,10 +2060,10 @@ var main = func (module) {
 	emesary.GlobalTransmitter.Register(m2000_mfd);
 
 	# to be sure we have consistent rates for cannon fire
-	_change_cannon_rate(TRUE);
+	_changeCannonRate(TRUE);
 }
 
-var _change_cannon_rate = func (air_to_air) { # 1 or 0
+var _changeCannonRate = func (air_to_air) { # 1 or 0
 	# https://en.wikipedia.org/wiki/Dassault_Mirage_2000 states 1800/min (0.033) or 1200/min (0.05).
 	# https://en.wikipedia.org/wiki/DEFA_cannon states:
 	#     * DEFA 554 for the single-seat Mirage 2000 and DEFA 553 for 2000D RMV

@@ -43,3 +43,15 @@ The following style for titles/sections is used: ``Section conventions <https://
 * L4: Subsections ``----`` (below)
 * L5: Subsubsections ``^^^^`` (below)
 * L6: Paragraphs ``''''`` (below)
+
+
+Nasal Programming Conventions
+=============================
+
+Naming conventions:
+
+* Immutable variables: ALL_CAPS (uppercase and underscores - e.g. COLOUR_GREEN)
+* Other variables: snake_case (lowercase and underscores - e.g. ripple_mode)
+* Classes: PascalCase
+* Methods and functions: camelCase
+* "private" methods and functions: start with underscore (e.g. _changeRippleMode()). Like in Python this is just a convention, not enforced. "Private" means here within a class or the file.
