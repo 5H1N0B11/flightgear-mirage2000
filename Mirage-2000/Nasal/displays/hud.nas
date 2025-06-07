@@ -1387,7 +1387,7 @@ var HUD = {
 
 				# Drawing the line
 				me.CCIP_BFL_line = me.CCIP_BFL.createChild("path")
-				                              .setColor(me.myGreen)
+				                              .setColor(COLOR_GREEN)
 				                              .moveTo(me.fpvCalc)
 				                              .lineTo(me.pos_x, me.pos_y)
 				                              .setStrokeLineWidth(4);
@@ -1959,7 +1959,7 @@ var HUD = {
     me.myRunwayGroup.removeAllChildren();
     #drawing the runway
     me.RunwaysDrawing = me.myRunwayGroup.createChild("path")
-    .setColor(me.myGreen)
+    .setColor(COLOR_GREEN)
     .moveTo(me.MyRunwayCoordCornerLeftTripos[0],me.MyRunwayCoordCornerLeftTripos[1])
     .lineTo(me.MyRunwayCoordCornerRightTripos[0],me.MyRunwayCoordCornerRightTripos[1])
     .lineTo(me.MyRunwayCoordCornerEndRightTripos[0],me.MyRunwayCoordCornerEndRightTripos[1])
@@ -2171,7 +2171,7 @@ var HUD = {
 				me.eegsGroup.removeAllChildren();
 				for (var i = 0; i < me.funnelParts-1; i+=1) {
 					me.fnnl = me.eegsGroup.createChild("path")
-						.setColor(me.myGreen)
+						.setColor(COLOR_GREEN)
 						.moveTo(me.eegsLeftX[i], me.eegsLeftY[i])
 						.lineTo(me.eegsLeftX[i+1], me.eegsLeftY[i+1])
 						.setStrokeLineWidth(4);
@@ -2195,7 +2195,7 @@ var HUD = {
 							.lineTo(me.eegsRightX[0]-55, me.eegsRightY[0])
 							.moveTo(me.eegsRightX[0]+40, me.eegsRightY[0])
 							.lineTo(me.eegsRightX[0]+55, me.eegsRightY[0])
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.setStrokeLineWidth(4);
 
 					#drawing mini and centra point
@@ -2204,27 +2204,27 @@ var HUD = {
 							.moveTo(me.eegsRightX[0],me.eegsRightY[0]-40)
 							.lineTo(me.eegsRightX[0], me.eegsRightY[0]-55)
 							.setCenter(me.eegsRightX[0],me.eegsRightY[0])
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.setStrokeLineWidth(4)
 							.setRotation(me.EEGSdeg);
 					}
 
 					if (me.EEGSdeg<180*D2R) {
 						me.eegsGroup.createChild("path")
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
 							.arcSmallCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
 							.setStrokeLineWidth(4);
 					} elsif (me.EEGSdeg>=360*D2R) {
 						me.eegsGroup.createChild("path")
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
 							.arcSmallCW(40,40,0,0,80)
 							.arcSmallCW(40,40,0,0,-80)
 							.setStrokeLineWidth(4);
 					} else {
 						me.eegsGroup.createChild("path")
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.moveTo(me.eegsRightX[0], me.eegsRightY[0]-40)
 							.arcLargeCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
 							.setStrokeLineWidth(4);
@@ -2233,7 +2233,7 @@ var HUD = {
 				if (me.drawEEGS300 and !me.drawEEGSPipper) {
 					var halfspan = math.atan2(me.wingspanFT*0.5,300*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
 					me.eegsGroup.createChild("path")
-						.setColor(me.myGreen)
+						.setColor(COLOR_GREEN)
 						.moveTo(me.eegsRightX[1]-halfspan, me.eegsRightY[1])
 						.horiz(halfspan*2)
 						.setStrokeLineWidth(4);
@@ -2241,7 +2241,7 @@ var HUD = {
 				if (me.drawEEGS600 and !me.drawEEGSPipper) {
 					var halfspan = math.atan2(me.wingspanFT*0.5,600*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
 					me.eegsGroup.createChild("path")
-						.setColor(me.myGreen)
+						.setColor(COLOR_GREEN)
 						.moveTo(me.eegsRightX[2]-halfspan, me.eegsRightY[2])
 						.horiz(halfspan*2)
 						.setStrokeLineWidth(4);
@@ -2270,12 +2270,12 @@ var HUD = {
 							.lineTo(me.eegsPipperX-55, me.eegsPipperY)
 							.moveTo(me.eegsPipperX+40, me.eegsPipperY)
 							.lineTo(me.eegsPipperX+55, me.eegsPipperY)
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.setStrokeLineWidth(4);
 
 							# Distance to target
 					me.eegsGroup.createChild("text")
-					.setColor(me.myGreen)
+					.setColor(COLOR_GREEN)
 					.setTranslation(me.maxladderspan,-120)
 					.setDouble("character-size", 35)
 					.setAlignment("left-center")
@@ -2287,27 +2287,27 @@ var HUD = {
 							.moveTo(me.eegsPipperX,me.eegsPipperY-40)
 							.lineTo(me.eegsPipperX, me.eegsPipperY-55)
 							.setCenter(me.eegsPipperX,me.eegsPipperY)
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.setStrokeLineWidth(4)
 							.setRotation(me.EEGSdeg);
 					}
 
 					if (me.EEGSdeg<180*D2R) {
 						me.eegsGroup.createChild("path")
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.moveTo(me.eegsPipperX, me.eegsPipperY-40)
 							.arcSmallCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
 							.setStrokeLineWidth(4);
 					} elsif (me.EEGSdeg>=360*D2R) {
 						me.eegsGroup.createChild("path")
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.moveTo(me.eegsPipperX, me.eegsPipperY-40)
 							.arcSmallCW(40,40,0,0,80)
 							.arcSmallCW(40,40,0,0,-80)
 							.setStrokeLineWidth(4);
 					} else {
 						me.eegsGroup.createChild("path")
-							.setColor(me.myGreen)
+							.setColor(COLOR_GREEN)
 							.moveTo(me.eegsPipperX, me.eegsPipperY-40)
 							.arcLargeCW(40,40,0,me.EEGSdegPos[0],me.EEGSdegPos[1])
 							.setStrokeLineWidth(4);
@@ -2370,14 +2370,14 @@ var HUD = {
           if (myladder/10 == int(myladder/10)) {
               #Text bellow 0 left
               me.LadderGroup.createChild("text")
-                .setColor(me.myGreen)
+                .setColor(COLOR_GREEN)
                 .setAlignment("right-center")
                 .setTranslation(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
                 .setDouble("character-size", 30)
                 .setText(myladder);
               #Text bellow 0 left
               me.LadderGroup.createChild("text")
-                .setColor(me.myGreen)
+                .setColor(COLOR_GREEN)
                 .setAlignment("left-center")
                 .setTranslation(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
                 .setDouble("character-size", 30)
@@ -2385,14 +2385,14 @@ var HUD = {
 
               #Text above 0 left
               me.LadderGroup.createChild("text")
-                .setColor(me.myGreen)
+                .setColor(COLOR_GREEN)
                 .setAlignment("right-center")
                 .setTranslation(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
                 .setDouble("character-size", 30)
                 .setText(myladder);
               #Text above 0 right
               me.LadderGroup.createChild("text")
-                .setColor(me.myGreen)
+                .setColor(COLOR_GREEN)
                 .setAlignment("left-center")
                 .setTranslation(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
                 .setDouble("character-size", 30)
@@ -2402,71 +2402,71 @@ var HUD = {
         # =============  BELLOW 0 ===================
           #half line bellow 0 (left part)       ------------------
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
             .vert(-me.maxladderspan/15)
             .setStrokeLineWidth(4);
 
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
             .horiz(me.maxladderspan*2/15)
             .setStrokeLineWidth(4);
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(-abs(me.maxladderspan - me.maxladderspan*2/15*2), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
             .horiz(me.maxladderspan*2/15)
             .setStrokeLineWidth(4);
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(-abs(me.maxladderspan - me.maxladderspan*2/15*4), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
             .horiz(me.maxladderspan*2/15)
             .setStrokeLineWidth(4);
 
           #half line (rigt part)       ------------------
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
             .vert(-me.maxladderspan/15)
             .setStrokeLineWidth(4);
 
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
             .horiz(-me.maxladderspan*2/15)
             .setStrokeLineWidth(4);
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(abs(me.maxladderspan - me.maxladderspan*2/15*2), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
             .horiz(-me.maxladderspan*2/15)
             .setStrokeLineWidth(4);
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(abs(me.maxladderspan - me.maxladderspan*2/15*4), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
             .horiz(-me.maxladderspan*2/15)
             .setStrokeLineWidth(4);
 
       # =============  ABOVE 0 ===================
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
             .vert(me.maxladderspan/15)
             .setStrokeLineWidth(4);
 
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
             .horiz(me.maxladderspan/3*2)
             .setStrokeLineWidth(4);
 
           #half line (rigt part)       ------------------
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
             .horiz(-me.maxladderspan/3*2)
             .setStrokeLineWidth(4);
           me.LadderGroup.createChild("path")
-            .setColor(me.myGreen)
+            .setColor(COLOR_GREEN)
             .moveTo(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
             .vert(me.maxladderspan/15)
             .setStrokeLineWidth(4);
