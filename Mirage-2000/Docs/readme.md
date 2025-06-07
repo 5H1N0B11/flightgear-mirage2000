@@ -3,7 +3,7 @@
 The content of the `Docs` folder has evolved historically. 
 
 ## Manuals: ##
-* Mirage 2000 manual.pdf: A quite comprehensive manual in one Document. Is out-of-date in some areas (e.g. VTM, radar and weapons) but still useful.
+* mirage2000-old-manual.pdf: A quite comprehensive manual in one Document. Is out-of-date in some areas (e.g. VTM, radar and weapons) but still useful.
 * mirage2000-new-manual.pdf: The new manual which over time will replace the old manual. But for now the content is concentrated around weapons management, radar etc. (which are the focus of current development).
 
 ## Supporting files for pilots: ##

@@ -28,8 +28,8 @@ Executing the Generation Proces
 
 Follow the following for generating the manual:
 
-* Create the pdf file locally: Issue command ``sphinx-build -b rinoh . _build``
-* Copy/overwrite the generated file ``mirage2000-new-manual.pdf`` from the ``_build`` directory to the root ``Docs`` folder.
+* Create the pdf file locally: Issue command ``sphinx-build -b rinoh . build``
+* Copy/overwrite the generated file ``mirage2000-new-manual.pdf`` from the ``build`` directory to the root ``Docs`` folder.
 
 
 Convention for Section Styling

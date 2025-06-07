@@ -1,0 +1,7 @@
+# IDE specific files
+.vscode/
+.idea/
+
+# Documentation build outputs
+Docs/manual_rst/_build/
+/Mirage-2000/.vscode/
