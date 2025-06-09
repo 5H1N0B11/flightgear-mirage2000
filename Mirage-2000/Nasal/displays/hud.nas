@@ -1845,7 +1845,7 @@ var HUD = {
 	_displayAntiRadTarget: func() {
 		me.antirad_cue_core.hide();
 		me.antirad_cue_locked.hide();
-		if (me._isArmedAndHasWeapon() == TRUE and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION) {
+		if (me._isArmedAndHasWeapon() == TRUE and contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION) {
 			me.antirad_cue_core.show();
 			if (pylons.fcs.isLock()) {
 				me.antirad_cue_locked.show();
