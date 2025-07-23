@@ -54,7 +54,7 @@ Content:
 
 * HUD pictures: p. 7, 68 (simulator)
 * VTB pictures: p. 68 (simulator)
-* VTM pictures: p. 71 (plus all other instruments in high resolution - but probably simulator) 
+* VTM pictures: p. 71 (plus all other instruments in high resolution - but probably simulator)
 * Picture of leg tablet: p. 66/67
 
 
@@ -134,9 +134,9 @@ Volume 10 Autumn/Fall 1992
 A02: Paul Jackson, Dassault Mirage 2000 (46 pages)
 ''''''''''''''''''''''''''''''''''''''''''''''''''
 
-* Detailed description with lots of pictures of all current at that time variants and all user countries. 
+* Detailed description with lots of pictures of all current at that time variants and all user countries.
 * Quite a few pictures of weapons - some of which are not used any more.
-* p.60: instruments view of M-2000C and M-2000-5 (not very good resolution).  
+* p.60: instruments view of M-2000C and M-2000-5 (not very good resolution).
 
 
 Nouvelle Revue d'Aeronautique et d'Astronautique
@@ -279,3 +279,59 @@ Content:
 
 * From around 29-41 minutes (with interruptions): walk-through of the cockpit, which gives a good insight into the French terms used.
 * Some live footage of HUD here and there.
+
+
+Le Mirage 2000
+--------------
+
+URL: https://www.youtube.com/watch?v=YjI7Tg75MD8
+
+Content:
+* Presentation of the -C, -5 and N versions.
+* Around 21:26: HUD in weapons mode shooting (Mirage 2000-5)
+
+
+Mirage 2000 D : un appareil CRUCIAL avant le "tout-RAFALE"
+----------------------------------------------------------
+
+URL: https://www.youtube.com/watch?v=uVWe9SUecsw
+
+Content:
+* Rénovation mi-vie (RMV) incl. description of the different pods (ATLIS, PDL-CTS, DAMOCLES, TALIOS) and the related guided weapons
+* Around 11:03: photo of 2 loads for RM, one of them having a CC422 pod, 2 GBU and two MK82.
+* At 15:15: backseat cockpit with new big screen
+
+
+L'HISTOIRE des FANTASTIQUES MIRAGE de Dassault - doc complet (III, 5, 50, G, IV, F1, 2000)
+------------------------------------------------------------------------------------------
+
+URL: https://www.youtube.com/watch?v=GSDRy0jYgA0
+
+Content:
+* From around 48:01 until 1:07:10: M2000
+* At around 1:05:01: HUD in weapons mode from Greek/Turkish M2000 vs. F-16 fight.
+
+
+Mirage 2000 Cockpit - Documentaire avion de chasse Dassault
+-----------------------------------------------------------
+
+URL: https://www.youtube.com/watch?v=zqENHPav5P4
+
+Content:
+- Static cockpit view (displays black) of a M-2000C - close up
+
+
+Mirage 2000 pour l' Ukraine? Mieux comprendre eles RUMEURS
+----------------------------------------------------------
+
+URL: https://www.youtube.com/watch?v=GrNu8qAJ16s
+
+
+A Mirage 2000 fires its cannon! A first
+---------------------------------------
+
+URL: https://www.youtube.com/watch?v=UB4Dl1hhHUc
+
+Content:
+* 04:48: Overview of the firing range with different targets
+* 09:03: VTB image with and without LINK16
