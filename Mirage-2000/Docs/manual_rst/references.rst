@@ -16,7 +16,7 @@ Content:
 
 * p. 200: Picture of M2000-5 with all its weapons (picture by Dassault) - including amongst others the MATRA ARAMAT and rocket pods.
 * p. 205: Illustration of the (Mirage IIIE) Cyrano Ilbis radar air-to-ground sweep as well as the Cyrano Ilbis radar blind penetration mode.
-* p. 206: Illustration of Mirage IIIE level bombing and `toss bombing <https://en.wikipedia.org/wiki/Toss_bombing>`_.
+* p. 206: Illustration of Mirage IIIE level bombing and `toss bombing⇗ <https://en.wikipedia.org/wiki/Toss_bombing>`_.
 
 
 B02: Dassault Mirage 2000: Flying in Air Forces around the World
@@ -110,8 +110,8 @@ B09: AMD-BA Mirage 2000D
 Ref: Frédéric Lert; Les Matériels de l'Armée de l'Air et de l'Aéronaval; Histoire & Collections; ISBN 978-2-35250-253-1
 
 
-Articles
-========
+Articles in Journals
+====================
 
 Jets - L'aéronautique à réaction et son histoire
 ------------------------------------------------
@@ -160,7 +160,7 @@ Special Issue
 A04: Mirage 2000-9
 ''''''''''''''''''
 
-`Download link <https://www.dassault-aviation.com/wp-content/blogs.dir/1/files/2012/08/Mirage_2000-9_special_issue1.pdf>`_
+URL: https://www.dassault-aviation.com/wp-content/blogs.dir/1/files/2012/08/Mirage_2000-9_special_issue1.pdf
 
 2 - 2003
 ^^^^^^^^
@@ -172,11 +172,37 @@ A06: M53-P3 a new engine under the skin
 '''''''''''''''''''''''''''''''''''''''
 
 
+Documents
+============================
+
+D01: Fiche technique Mirage 2000D
+---------------------------------
+
+URL: https://www.defense.gouv.fr/sites/default/files/air/Fiche%20technique%20Mirage%202000D.pdf
+
+Dassault Mirage 2000D - Fiche Technique - Un Mirage Rénové
+
+
+D02: Brétigny-sur-Orge - le A-2019-01-A
+---------------------------------------
+
+URL: https://www.defense.gouv.fr/sites/default/files/bea-e/A-2019-01-A.pdf
+
+Bureau enquêtes accidents pour la sécurité de l’aéronautique d’État - Rapport d’enquête de sécurité - A-2019-01-A
+
+Content - investigation of a Mirage 2000D crash during training at very low altitude on January 9th 2019.:
+* Page 4: abbreviations
+* Page 23: explanation and picture of the VTB visualisation for terrain following.
+* Page 34, chapter 2.2.6.4: how the VTB and VTH react if flying below the set margin above terrain.
+* Page 43, chapter 2.3.2.1: more text describing the terrain visualisation (which reads from right to left!).
+
+
 Links
 =====
 
 * Armée de l'Air et de l'Éspace:
 
+  * Home page: https://www.defense.gouv.fr/air
   * Mirage 2000D: https://www.defense.gouv.fr/air/nos-aeronefs/nos-avions/mirage-2000
   * Mirage 2000-5F: https://www.defense.gouv.fr/air/nos-aeronefs/nos-avions/mirage-2000-5f
   * Air Actualités: https://www.calameo.com/accounts/14334
@@ -186,12 +212,12 @@ Links
 
 * Dassault:
 
-  * `Mirage 2000 <https://www.dassault-aviation.com/en/defense/customer-support/operational-aircraft/mirage-2000/>`_
+  * `Mirage 2000⇗ <https://www.dassault-aviation.com/en/defense/customer-support/operational-aircraft/mirage-2000/>`_
 
 * Others:
 
-  * `Forum thread: Mirage 2000 RDM/RDI/RDY Radars and other avionics <https://www.secretprojects.co.uk/threads/mirage-2000-rdm-rdi-rdy-radars-and-other-avionics.37018/>`_
-  * `Blog post <https://blog.naver.com/PostView.nhn?blogId=pwrangshion&logNo=110120276719>`_: quite a few details on systems and weapons with pictures
+  * `Forum thread: Mirage 2000 RDM/RDI/RDY Radars and other avionics⇗ <https://www.secretprojects.co.uk/threads/mirage-2000-rdm-rdi-rdy-radars-and-other-avionics.37018/>`_
+  * `Blog post⇗ <https://blog.naver.com/PostView.nhn?blogId=pwrangshion&logNo=110120276719>`_: quite a few details on systems and weapons with pictures
 
 DVDs
 ====
@@ -240,8 +266,8 @@ Content:
 YouTube Videos
 ==============
 
-Mirage 2000 Planète Science
----------------------------
+Y01: Mirage 2000 Planète Science
+--------------------------------
 
 URL: https://www.youtube.com/watch?v=MoVsmaIs_pU
 
@@ -250,8 +276,8 @@ Content:
 * At around 9 minutes for ca. 2 minutes: live images of the 5 screens
 
 
-DGA : Le Mirage 2000B qui se prenait pour un Rafale
----------------------------------------------------
+Y02: DGA : Le Mirage 2000B qui se prenait pour un Rafale
+--------------------------------------------------------
 
 URL: https://www.youtube.com/watch?v=a5ZwYXixT28
 
@@ -260,8 +286,8 @@ Content:
 * At around 6 minutes for ca. 1 minutes (and also before and after) close-up pictures of the CC422 gun-pod
 
 
-Le Mirage 2000 - Documentaire sur l'aviation
---------------------------------------------
+Y03: Le Mirage 2000 - Documentaire sur l'aviation
+-------------------------------------------------
 
 URL: https://www.youtube.com/watch?v=jDCxWEynbu4
 
@@ -270,8 +296,8 @@ Content:
 * At around 21:30 for ca. 15 seconds live pictures left MFD (in simulator)
 
 
-AB Moteurs Mirage 2000
-----------------------
+Y04: AB Moteurs Mirage 2000
+---------------------------
 
 URL: https://www.youtube.com/watch?v=bFHF9j_LvPk
 
@@ -281,8 +307,8 @@ Content:
 * Some live footage of HUD here and there.
 
 
-Le Mirage 2000
---------------
+Y05: Le Mirage 2000
+-------------------
 
 URL: https://www.youtube.com/watch?v=YjI7Tg75MD8
 
@@ -291,8 +317,8 @@ Content:
 * Around 21:26: HUD in weapons mode shooting (Mirage 2000-5)
 
 
-Mirage 2000 D : un appareil CRUCIAL avant le "tout-RAFALE"
-----------------------------------------------------------
+Y06: Mirage 2000 D : un appareil CRUCIAL avant le "tout-RAFALE"
+---------------------------------------------------------------
 
 URL: https://www.youtube.com/watch?v=uVWe9SUecsw
 
@@ -302,8 +328,8 @@ Content:
 * At 15:15: backseat cockpit with new big screen
 
 
-L'HISTOIRE des FANTASTIQUES MIRAGE de Dassault - doc complet (III, 5, 50, G, IV, F1, 2000)
-------------------------------------------------------------------------------------------
+Y07: L'HISTOIRE des FANTASTIQUES MIRAGE de Dassault - doc complet (III, 5, 50, G, IV, F1, 2000)
+-----------------------------------------------------------------------------------------------
 
 URL: https://www.youtube.com/watch?v=GSDRy0jYgA0
 
@@ -312,8 +338,8 @@ Content:
 * At around 1:05:01: HUD in weapons mode from Greek/Turkish M2000 vs. F-16 fight.
 
 
-Mirage 2000 Cockpit - Documentaire avion de chasse Dassault
------------------------------------------------------------
+Y08: Mirage 2000 Cockpit - Documentaire avion de chasse Dassault
+----------------------------------------------------------------
 
 URL: https://www.youtube.com/watch?v=zqENHPav5P4
 
@@ -321,14 +347,14 @@ Content:
 - Static cockpit view (displays black) of a M-2000C - close up
 
 
-Mirage 2000 pour l' Ukraine? Mieux comprendre eles RUMEURS
-----------------------------------------------------------
+Y09: Mirage 2000 pour l' Ukraine? Mieux comprendre les rumeurs
+--------------------------------------------------------------
 
 URL: https://www.youtube.com/watch?v=GrNu8qAJ16s
 
 
-A Mirage 2000 fires its cannon! A first
----------------------------------------
+Y10: A Mirage 2000 fires its cannon! A first
+--------------------------------------------
 
 URL: https://www.youtube.com/watch?v=UB4Dl1hhHUc
 

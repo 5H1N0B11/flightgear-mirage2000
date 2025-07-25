@@ -9,6 +9,7 @@
    displays
    weapons
    references
+   abbreviations
 
 ..
    The file development.rst is not added on purpose

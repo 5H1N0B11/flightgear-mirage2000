@@ -4,8 +4,8 @@ The Mirage 2000-5 Display Systems
 
 The Mirage 2000-5 has its name from the fact that it has 5 main displays:
 
-* `Head-up display (HUD) <https://en.wikipedia.org/wiki/Head-up_display>`_ - French `Visualisation tête haute (VTH) <https://fr.wikipedia.org/wiki/Affichage_t%C3%AAte_haute>`_
-* Left and right `Multi-function display (MFD) <https://en.wikipedia.org/wiki/Multi-function_display>`_
+* `Head-up display (HUD)⇗ <https://en.wikipedia.org/wiki/Head-up_display>`_ - French `Visualisation tête haute (VTH)⇗ <https://fr.wikipedia.org/wiki/Affichage_t%C3%AAte_haute>`_
+* Left and right `Multi-function display (MFD)⇗ <https://en.wikipedia.org/wiki/Multi-function_display>`_
 * Head-level display - French Visualisation tête moyenne (VTM)
 * Head-down display - French Visualisation tête basse (VTB)
 
@@ -19,7 +19,7 @@ This is a specialty of the Mirage 2000-5. Being positioned just below the HUD, t
    :alt: VTM Default Display
    :align: center
 
-Most radar pictures are displayed in a B-scope (see picture above), the sea and ground radar modes are displayed as Plan Position Indicator - cf. `Radar Displays <https://en.wikipedia.org/wiki/Radar_display>`_ on Wikipedia.
+Most radar pictures are displayed in a B-scope (see picture above), the sea and ground radar modes are displayed as Plan Position Indicator - cf. `Radar Displays⇗ <https://en.wikipedia.org/wiki/Radar_display>`_ on Wikipedia.
 
 The top left corner shows the radar main mode (``Key: Q`` to cycle) and the radar sub-mode (``Key: ctrl-q`` to cycle). In the top middle the radar range in nm is displayed (``Key: R`` to increase, ``Key: E`` to decrease). The box in the top right corner shows data from the cursor: Θ shows the the heading of the cursor, Ρ shows the distance of the cursor on the radar.
 
@@ -172,7 +172,7 @@ The displayed menus depend on the chosen weapon and sometimes on previously chos
 Radar Warning Receiver (RWR)
 ----------------------------
 
-The radar warning receiver (`RWR <https://en.wikipedia.org/wiki/Radar_warning_receiver>`_) screen is actually a combination of a RWR display and a counter-measures dispenser display.
+The radar warning receiver (`RWR⇗ <https://en.wikipedia.org/wiki/Radar_warning_receiver>`_) screen is actually a combination of a RWR display and a counter-measures dispenser display.
 
 .. image:: images/rwr_intro.png
    :alt: RWR Display
@@ -190,7 +190,7 @@ RWR
 
 The RWR displays a maximum of 12 threats. High level threats (e.g. with an STT lock or actively guiding a missile) are within the blue centre ring, lower level threats are closer to the outer ring. I.e. the distance from centre is an interpretation of threat and not a real distance. The position is a top-down view around your aircraft (nose towards up/North).
 
-Different types of threats are displayed with different symbols according to USA/NATO standards (i.e. not according to French symbology at the moment). ``U`` is for unknown threat, ``S`` is for surveillance aircraft (e.g. `AWACS <https://en.wikipedia.org/wiki/Airborne_early_warning_and_control>`_ - which typically cannot shoot), and ``AI`` is for aircraft which have not yet been classified in OPRF.
+Different types of threats are displayed with different symbols according to USA/NATO standards (i.e. not according to French symbology at the moment). ``U`` is for unknown threat, ``S`` is for surveillance aircraft (e.g. `AWACS⇗ <https://en.wikipedia.org/wiki/Airborne_early_warning_and_control>`_ - which typically cannot shoot), and ``AI`` is for aircraft which have not yet been classified in OPRF.
 
 .. image:: images/rwr_locked.png
    :alt: RWR Threat Symbols
@@ -227,7 +227,7 @@ Map
 
 The map page is a temporary replacement for a real implementation in the VTB. Using the lower right toggle you can zoom and and out of the map.
 
-The map is based `OpenStreetMap <https://osm.org>`_ and shows only the position of one's own aircraft in the middle.
+The map is based `OpenStreetMap⇗ <https://osm.org>`_ and shows only the position of one's own aircraft in the middle.
 
 Depending on the network connection it might take a while for parts of the map (tiles) to load. Once loaded the tiles get cached and should therefore be available further on.
 

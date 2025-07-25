@@ -30,7 +30,7 @@ A Constantly Computed Impact Point (CCIP) is in the Mirage shown as a line from 
 
 .. image:: images/ground_attack_ccip_hud.png
 
-If you use a standard [Mk82 bomb](https://en.wikipedia.org/wiki/Mark_82_bomb), then you need to start a steep dive (ca. 40 degs) from at least 10'000 ft to have enough time for aiming and for the bomb to get armed. Using the Snake-Eye retarding device (Mk82SE) you can fly pretty low without a deep dive - given enough speed.
+If you use a standard `Mk82 bomb <https://en.wikipedia.org/wiki/Mark_82_bomb>`_, then you need to start a steep dive (ca. 40 degs) from at least 10'000 ft above the target to have enough time for aiming and for the bomb to get armed. Using the Snake-Eye retarding device (Mk82SE) you can fly pretty low without a deep dive - given enough speed.
 
 
 CCRP
@@ -38,7 +38,7 @@ CCRP
 
 The Constantly Computed Release Point (CCRP) requires a target to have been designated - either with the cursor in ground attack radar mode or using a laser or GPS coordinates.
 
-The following picture shows CCRP guidance for a laser guided GBU12 bomb a few seconds before the ideal release point. The diamond at the top shows with its wings that the pilot should navigate the airplane a bit to the right. The short horizontal line below the diamond gets closer from below the closer the release point is. On the right hand side the distance to the release point (not the target) is shown.
+The following picture shows CCRP guidance for a laser guided GBU12 bomb a few seconds before the ideal release point. The diamond at the top shows with its wings that the pilot should navigate the airplane a bit to the right. The short horizontal line below the diamond moves up from below the closer the release point is. On the right hand side the distance to the release point (not to the target) is shown.
 
 .. image:: images/ground_attack_ccrp_hud_laser_guided.png
 

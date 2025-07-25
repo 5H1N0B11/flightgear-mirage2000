@@ -35,7 +35,7 @@ Follow the following for generating the manual:
 Convention for Section Styling
 ------------------------------
 
-The following style for titles/sections is used: ``Section conventions <https://documatt.com/restructuredtext-reference/element/section.html#section-conventions>``.
+The following style for titles/sections is used: ``Section conventions⇗ <https://documatt.com/restructuredtext-reference/element/section.html#section-conventions>``.
 
 * L1: Document title ``####`` (above and below - not used)
 * L2: Chapters ``****`` (above and below)
@@ -48,10 +48,16 @@ The following style for titles/sections is used: ``Section conventions <https://
 Nasal Programming Conventions
 =============================
 
-Naming conventions:
+Naming Conventions
+------------------
 
 * Immutable variables: ALL_CAPS (uppercase and underscores - e.g. COLOUR_GREEN)
 * Other variables: snake_case (lowercase and underscores - e.g. ripple_mode)
 * Classes: PascalCase
 * Methods and functions: camelCase
 * "private" methods and functions: start with underscore (e.g. _changeRippleMode()). Like in Python this is just a convention, not enforced. "Private" means here within a class or the file.
+
+Booleans
+--------
+
+In each module, where booleans are handled, create the immutable variables ``TRUE = 1`` and ``FALSE = 0`` and use them consequently in the code instead of ``1`` and ``0``.

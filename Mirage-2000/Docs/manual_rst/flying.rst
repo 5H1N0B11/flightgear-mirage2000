@@ -36,7 +36,7 @@ After having chosen the correct heading and having attained 250 knots, you can c
 Climb
 -----
 
-The Mirage can climb exceedingly fast, with a maximum climb rate of 6,000 feet per minute. With full tanks and `air-policing <https://en.wikipedia.org/wiki/Air_sovereignty>`_ loadout, it is able to climb with full military power at a rate between 4,000 feet and 6,000 feet without bleeding speed (between 250 and 300 knots). With full afterburners and in the same conditions, the climb rate can go up to 12,000 feet, still in zero/zero conditions. If going vertical with full afterburners and a base speed of 400 knots, you can reach 20,000 feet before having to push the nose back down. This is the fastest way of climbing.
+The Mirage can climb exceedingly fast, with a maximum climb rate of 6,000 feet per minute. With full tanks and `air-policing⇗ <https://en.wikipedia.org/wiki/Air_sovereignty>`_ loadout, it is able to climb with full military power at a rate between 4,000 feet and 6,000 feet without bleeding speed (between 250 and 300 knots). With full afterburners and in the same conditions, the climb rate can go up to 12,000 feet, still in zero/zero conditions. If going vertical with full afterburners and a base speed of 400 knots, you can reach 20,000 feet before having to push the nose back down. This is the fastest way of climbing.
 
 Cruise
 ------
@@ -50,7 +50,7 @@ Visual Landing
 
 Lower the gears when you are below 195 knots, then approach the runway at 175 knots (for 15% fuel left; add 5 knots every 20% additional fuel). If by night, put the landing lights on. On final approach, hold an angle of attack of between 6 and 9 degrees. When passing the runway threshold, flare and bring the aircraft to an angle of attack of 12 degrees. You should land at 145 knots (for 15% fuel left; add 5 knots every 20% additional fuel). When touching down, wait for the aircraft to slow down to 135 knots and apply pedal brakes. Use the brake parachute (key ``o`` to deploy) if necessary (heavy loadout or short runway) - and then release when not needed any more (same key ``o``).
 
-The easiest way to get approach and touchdown right is placing the inverted "T" at the bottom of the HUD on the runway threshold and regulate speed with throttle, such that the flightpath marker is on top of the inverted T. When at speeds below 200 and high `angles of attack <https://en.wikipedia.org/wiki/Angle_of_attack>`_ you have to be ready to apply quite some throttle to keep a steady decent rate!
+The easiest way to get approach and touchdown right is placing the inverted "T" at the bottom of the HUD on the runway threshold and regulate speed with throttle, such that the flightpath marker is on top of the inverted T. When at speeds below 200 and high `angles of attack⇗ <https://en.wikipedia.org/wiki/Angle_of_attack>`_ you have to be ready to apply quite some throttle to keep a steady decent rate!
 
 Navigation
 ----------
@@ -60,7 +60,7 @@ To switch between displaying heading in true North vs. magnetic North, use the s
 Miscellaneous
 -------------
 
-* When heavily loaded, the `fly-by-wire system (FBW) <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure: ``Mirage2000=>Options=> Change A/A to CHARGES``.
+* When heavily loaded, the `fly-by-wire system (FBW)⇗ <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure: ``Mirage2000=>Options=> Change A/A to CHARGES``.
 * Afterburners engage when throttle moves past 85%.
 * The 1700l dropable tanks are not supersonic.
 
