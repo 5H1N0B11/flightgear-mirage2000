@@ -766,7 +766,7 @@
 
   <animation>
     <type>knob</type>
-    <object-name>transpondeur.MoletteIFF</object-name>
+    <object-name>transpondeur.button1.2</object-name>
     <property>controls/iff/channel-select</property>
     <factor>35</factor>
     <offset-deg>-50</offset-deg>
