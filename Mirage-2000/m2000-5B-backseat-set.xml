@@ -22,6 +22,7 @@
 		-->
 		<long-description>The Dassault Mirage 2000-5 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armee de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
 		<aircraft-version>2022-09-25</aircraft-version>
+		<minimum-fg-version>2020.3</minimum-fg-version>
 		<status>production</status>
 		<variant-of>m2000-5</variant-of>
 		<variant-id type="int">2</variant-id>
