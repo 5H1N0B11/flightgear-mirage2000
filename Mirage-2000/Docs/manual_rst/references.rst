@@ -1,8 +1,10 @@
+.. _link_chapter_references:
+
 **********
 References
 **********
 
-This page contains a structured selection of references, which can or have been used for modelling this FlightGear Mirage 2000. In general it is rather hard to get good data and even pictures for modern French fighters.
+This page contains a structured selection of references, which can or have been used for modelling this FlightGear Mirage 2000.
 
 Books
 =====
@@ -14,9 +16,9 @@ Ref: Salvador Mafé Huertas, 1996; Schiffer Military History; ISBN: 0-7643-0168-
 
 Content:
 
-* p. 200: Picture of M2000-5 with all its weapons (picture by Dassault) - including amongst others the MATRA ARAMAT and rocket pods.
-* p. 205: Illustration of the (Mirage IIIE) Cyrano Ilbis radar air-to-ground sweep as well as the Cyrano Ilbis radar blind penetration mode.
-* p. 206: Illustration of Mirage IIIE level bombing and `toss bombing⇗ <https://en.wikipedia.org/wiki/Toss_bombing>`_.
+* page 200: Picture of M2000-5 with all its weapons (picture by Dassault) - including amongst others the MATRA ARAMAT and rocket pods.
+* page 205: Illustration of the (Mirage IIIE) Cyrano Ilbis radar air-to-ground sweep as well as the Cyrano Ilbis radar blind penetration mode.
+* page 206: Illustration of Mirage IIIE level bombing and `toss bombing⇗ <https://en.wikipedia.org/wiki/Toss_bombing>`_.
 
 
 B02: Dassault Mirage 2000: Flying in Air Forces around the World
@@ -40,9 +42,9 @@ Content:
 
 * In general: Tells the story (in Greek and English) of the Hellenic Air Force 331 squadron "Theseus" and their use of the Mirage 2000-5 Mk2.
 * Quite a few high resolution cockpit and weapons pictures.
-* Cockpit pictures: p. 9, 52 (not turned on)
-* Instrument pictures: p. 25/81/88/89 (turned on - by night), p. 80 (turned on - by night backseat), p.88 (high resolution VTM)
-* HUD pictures (guns against F-16): p. 1/5/43/102
+* Cockpit pictures: page 9, 52 (not turned on)
+* Instrument pictures: page 25/81/88/89 (turned on - by night), page 80 (turned on - by night backseat), page88 (high resolution VTM)
+* HUD pictures (guns against F-16): page 1/5/43/102
 
 
 B04: Mirage 2000-5: Groupe de chasse 1/2 Cigognes
@@ -52,10 +54,10 @@ Ref: Alexandre Paringaux, 2017: Zéphyr Editions; "5"; ISBN 978-2-36118-249-6; 1
 
 Content:
 
-* HUD pictures: p. 7, 68 (simulator)
-* VTB pictures: p. 68 (simulator)
-* VTM pictures: p. 71 (plus all other instruments in high resolution - but probably simulator)
-* Picture of leg tablet: p. 66/67
+* HUD pictures: page 7, 68 (simulator)
+* VTB pictures: page 68 (simulator)
+* VTM pictures: page 71 (plus all other instruments in high resolution - but probably simulator)
+* Picture of leg tablet: page 66/67
 
 
 B05: Mirage 2000D: Escadron de Chasse 3/3 Ardennes
@@ -65,7 +67,7 @@ Ref: Alexandre Paringaux, 2013: Zéphyr Editions; "1"; ISBN 978-2-36118-122-2; 8
 
 Content:
 
-* Picture of leg tablet: p. 57
+* Picture of leg tablet: page 57
 
 
 B06: Dans le Repair du Mirage 2000D: Nancy-Ochey
@@ -76,10 +78,10 @@ Ref: Alexandre Paringaux, 2013; Zéphyr Editions; ISBN 978-2-36118-116-1; 144 pa
 Content:
 
 * A number of pictures of different weapon configurations - and some close-ups
-* p. 75: some instruments on the simulator consoles
-* p. 82: front cockpit by night with instruments running (in simulator)
-* p. 84: back cockpit by night with instruments running (in simulator)
-* p. 107: front cockpit of crashed plane
+* page 75: some instruments on the simulator consoles
+* page 82: front cockpit by night with instruments running (in simulator)
+* page 84: back cockpit by night with instruments running (in simulator)
+* page 107: front cockpit of crashed plane
 
 
 B07: Mirage 2000N: Escadron de Chasse 2/4 La Fayette
@@ -89,9 +91,9 @@ Ref: Alexandre Paringaux, 2016; Zéphyr Editions; "4"; ISBN 978-2-36118-211-3
 
 Content:
 
-* Many weapon configurations - also conventional weapons (p. 94 & 96/97 4 GBU-12)
-* p. 111: night illuminated front cockpit with working VTB (in simulator)
-* p. 62: picture of leg tablet
+* Many weapon configurations - also conventional weapons (page 94 & 96/97 4 GBU-12)
+* page 111: night illuminated front cockpit with working VTB (in simulator)
+* page 62: picture of leg tablet
 
 
 B08: Les Forces Aériennes Stratégiques: 50 ans d'alerte nucléaire
@@ -101,7 +103,7 @@ Ref: Alexandre Paringaux, 2015; Zéphyr Editions; "3"; ISBN 978-2-36118-168-0
 
 Content:
 
-* p. 4: picture of front cockpit 2000N by night illuminated (simulator)
+* page 4: picture of front cockpit 2000N by night illuminated (simulator)
 
 
 B09: AMD-BA Mirage 2000D
@@ -122,7 +124,7 @@ No 23, November 1997
 A01: Riccardo Niccoli: En vol sur Mirage 2000-5 (4 pages)
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-* p. 7: cockpit view of the front panel. Shows amongst others the 4 stripes indication of not working screens and the possibility to repeat the VTM radar screen on the VTB. And good view on the lower left panel with the 3*6 button table. The buttons are blue when illuminated, but not much.
+* page 7: cockpit view of the front panel. Shows amongst others the 4 stripes indication of not working screens and the possibility to repeat the VTM radar screen on the VTB. And good view on the lower left panel with the 3*6 button table. The buttons are blue when illuminated, but not much.
 
 
 World Air Power Journal
@@ -136,7 +138,7 @@ A02: Paul Jackson, Dassault Mirage 2000 (46 pages)
 
 * Detailed description with lots of pictures of all current at that time variants and all user countries.
 * Quite a few pictures of weapons - some of which are not used any more.
-* p.60: instruments view of M-2000C and M-2000-5 (not very good resolution).
+* page 60: instruments view of M-2000C and M-2000-5 (not very good resolution).
 
 
 Nouvelle Revue d'Aeronautique et d'Astronautique
@@ -191,10 +193,17 @@ URL: https://www.defense.gouv.fr/sites/default/files/bea-e/A-2019-01-A.pdf
 Bureau enquêtes accidents pour la sécurité de l’aéronautique d’État - Rapport d’enquête de sécurité - A-2019-01-A
 
 Content - investigation of a Mirage 2000D crash during training at very low altitude on January 9th 2019.:
+
 * Page 4: abbreviations
 * Page 23: explanation and picture of the VTB visualisation for terrain following.
 * Page 34, chapter 2.2.6.4: how the VTB and VTH react if flying below the set margin above terrain.
 * Page 43, chapter 2.3.2.1: more text describing the terrain visualisation (which reads from right to left!).
+
+
+D03: Mirage 2000-C - Manuel Pilote
+----------------------------------
+
+Ca. 131 pages in French. Available as pdf-file on the internet.
 
 
 Links
@@ -313,6 +322,7 @@ Y05: Le Mirage 2000
 URL: https://www.youtube.com/watch?v=YjI7Tg75MD8
 
 Content:
+
 * Presentation of the -C, -5 and N versions.
 * Around 21:26: HUD in weapons mode shooting (Mirage 2000-5)
 
@@ -323,6 +333,7 @@ Y06: Mirage 2000 D : un appareil CRUCIAL avant le "tout-RAFALE"
 URL: https://www.youtube.com/watch?v=uVWe9SUecsw
 
 Content:
+
 * Rénovation mi-vie (RMV) incl. description of the different pods (ATLIS, PDL-CTS, DAMOCLES, TALIOS) and the related guided weapons
 * Around 11:03: photo of 2 loads for RM, one of them having a CC422 pod, 2 GBU and two MK82.
 * At 15:15: backseat cockpit with new big screen
@@ -334,6 +345,7 @@ Y07: L'HISTOIRE des FANTASTIQUES MIRAGE de Dassault - doc complet (III, 5, 50, G
 URL: https://www.youtube.com/watch?v=GSDRy0jYgA0
 
 Content:
+
 * From around 48:01 until 1:07:10: M2000
 * At around 1:05:01: HUD in weapons mode from Greek/Turkish M2000 vs. F-16 fight.
 
@@ -344,7 +356,8 @@ Y08: Mirage 2000 Cockpit - Documentaire avion de chasse Dassault
 URL: https://www.youtube.com/watch?v=zqENHPav5P4
 
 Content:
-- Static cockpit view (displays black) of a M-2000C - close up
+
+* Commented walk-through of the cockpit (displays black) of a M-2000C - close up
 
 
 Y09: Mirage 2000 pour l' Ukraine? Mieux comprendre les rumeurs
@@ -359,5 +372,6 @@ Y10: A Mirage 2000 fires its cannon! A first
 URL: https://www.youtube.com/watch?v=UB4Dl1hhHUc
 
 Content:
+
 * 04:48: Overview of the firing range with different targets
 * 09:03: VTB image with and without LINK16

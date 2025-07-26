@@ -500,7 +500,7 @@ var FLIGHT_MODE_TAKEOFF = "TO";
 var FLIGHT_MODE_NAVIGATION = "NAV";
 var FLIGHT_MODE_ATTACK = "ATT";
 
-var setFlightmode = func (mode) {
+var setFlightMode = func (mode) {
 	setprop("/instrumentation/flightmode/selected", mode);
 	screen.log.write("Flight mode is now: "~mode);
 	viewReset();
@@ -564,9 +564,9 @@ var masterarm = func {
 	}
 	setprop("controls/armament/master-arm-switch", now);
 	if (now == 1) {
-		setFlightmode(FLIGHT_MODE_ATTACK);
+		setFlightMode(FLIGHT_MODE_ATTACK);
 	} else {
-		setFlightmode(FLIGHT_MODE_NAVIGATION);
+		setFlightMode(FLIGHT_MODE_NAVIGATION);
 	}
 	screen.log.write("Master-arm "~(getprop("controls/armament/master-arm-switch")==0?"OFF":(getprop("controls/armament/master-arm-switch")==1?"ON":"SIM")), 0.5, 0.5, 1);
 }
@@ -588,9 +588,9 @@ var cycleLoadedWeapon = func {
 var changeGearsPosition = func(is_up) {
 	controls.gearUp(is_up);
 	if (is_up == TRUE) {
-		setFlightmode(FLIGHT_MODE_NAVIGATION);
+		setFlightMode(FLIGHT_MODE_NAVIGATION);
 	} else {
-		setFlightmode(FLIGHT_MODE_APPROACH);
+		setFlightMode(FLIGHT_MODE_APPROACH);
 	}
 }
 

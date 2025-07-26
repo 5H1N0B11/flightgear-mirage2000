@@ -19,14 +19,18 @@ LL           lance leurres                                                      
 M            march                                                                   on
 NOSA         navigateur officier systèmes d’armes
 OPEX         opération extérieure
+P            prêt                                                                    ready
 PA           pilote automatique
-PCA          poste commande armement
-PCN          poste commande navigation
+PC           post-combustion
+PCA          poste de commande armement
+PCN          poste de commande navigation
+PCR          poste de commande radar
 PGS          plein gaz sec
 PLA          point de largage de l’armement
 PPA          poste préparation armement
 PSM          poste sélecteur de modes
 RTBA         réseau très basse altitude
+S            selectionné                                                             selected
 SA           semi-automatique
 SCALP        système de croisière conventionnel autonome à longue portée
 SDT          suivi de terrain

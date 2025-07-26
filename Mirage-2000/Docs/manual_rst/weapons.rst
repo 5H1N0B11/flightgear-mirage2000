@@ -1,6 +1,46 @@
-*******
-Weapons
-*******
+********************
+Weapons and Armament
+********************
+
+
+MP Damage
+=========
+
+You can only damage other aircraft or MP enabled assets if (a) you have MP damage on and (b) MP damage is on in the target!
+
+To enable or disable MP damage you have to be on the ground and use the configuration through menu item ``Mirage 2000 -> Configuration``.
+
+.. image:: images/mp_damage.png
+   :scale: 50%
+
+
+Adding/Removing Weapons
+=======================
+
+There are 9 weapon stations. The numbering of weapon stations is as follows:
+
+.. image:: images/weapon_station_numbers.png
+   :scale: 50%
+
+These numbers are related to the stations represented in the standard FlightGear ``Fuel and Payload Settings Screen`` (in menu ``Equipment``). Depending on the chosen Mirage 2000 variant, different weapons can be chosen on different stations. Apart from the available weapons per station no additional restrictions are imposed w.r.t. the combination of weapons. Pictures of real aircraft show that quite some variance is in action. However, it of course makes sense to e.g. have a pod installed if you need laser guidance - or that the weights on both sides of the fuselage are in balance.
+
+.. image:: images/fuel_and_payload_settings.png
+   :scale: 75%
+
+To make loading weapons easier, a set of typical loads for a given variant is available in menu item ``Mirage 2000 -> Payload Selection``:
+
+.. image:: images/quick_payload_reload.png
+   :scale: 50%
+
+
+NB: you cannot change weapons when MP Damage is on!
+
+
+Selecting and Configuring the Active Weapon
+===========================================
+
+The active weapon is selected using ``Key: w`` to cycle through the available mounted weapons. The stores management system (see :ref:`link_subsection_sms`) shows the available and active weapons. Depending on the active weapon some configurations can be done through the weapons configuration panel (see :ref:`link_subsection_ppa`).
+
 
 Ground Attack
 =============
@@ -15,13 +55,8 @@ Basic Keys
 * ``Key: ctrl-l`` (small L): Fast snipe and designate clicked target for laser
 
 
-* ``Key: :`` (colon): toggle single or pair release of bombs (do not use with GBUs)
-* ``Key: ;`` (semi-colon): cycle through the ripple number (number of bombs release per release between 1 and 8)
-* ``Key: _`` (underscore): cycle through the distance between rippled release (steps of 5 metres)
-
-
-Modes
------
+Aiming Modes
+------------
 
 CCIP
 ^^^^
@@ -89,7 +124,7 @@ NB: you cannot choose to release 2 bombs at once (dual mode).
 Cannons and Guns
 ^^^^^^^^^^^^^^^^
 
-The Mirage uses `DEFA cannons <https://en.wikipedia.org/wiki/DEFA_cannon>`_. It is assumed:
+The Mirage uses `DEFA cannons⇗ <https://en.wikipedia.org/wiki/DEFA_cannon>`_. It is assumed:
 
 * DEFA 554 for the single-seat Mirage 2000-5: the rate of fire can be changed between states 1800/min (0.033) or 1200/min (0.05) using the PPA
 * DEFA 553 in the CC442 gun pod for the Mirage 2000D has a constant rate of fire of 1300/min (0.046).

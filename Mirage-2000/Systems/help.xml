@@ -116,7 +116,7 @@
 
 	<key>
 		<name>M</name>
-		<desc>Toggle Target Designation Mode (Radar, Laser, GPS)</desc>
+		<desc>Cycle Through Weapon Guidance Modes (Radar, Laser, GPS)</desc>
 	</key>
 
 	<key>

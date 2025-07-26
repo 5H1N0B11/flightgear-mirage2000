@@ -4,11 +4,14 @@ The Mirage 2000-5 Display Systems
 
 The Mirage 2000-5 has its name from the fact that it has 5 main displays:
 
-* `Head-up display (HUD)⇗ <https://en.wikipedia.org/wiki/Head-up_display>`_ - French `Visualisation tête haute (VTH)⇗ <https://fr.wikipedia.org/wiki/Affichage_t%C3%AAte_haute>`_
-* Left and right `Multi-function display (MFD)⇗ <https://en.wikipedia.org/wiki/Multi-function_display>`_
-* Head-level display - French Visualisation tête moyenne (VTM)
-* Head-down display - French Visualisation tête basse (VTB)
+* Pink - `Head-up display (HUD)⇗ <https://en.wikipedia.org/wiki/Head-up_display>`_ - French: `visualisation tête haute (VTH)⇗ <https://fr.wikipedia.org/wiki/Affichage_t%C3%AAte_haute>`_
+* Amber - Head-level display - French: visualisation tête moyenne (VTM)
+* Red - Head-down display - French: visualisation tête basse (VTB)
+* Blue - Left and right `Multi-function display (MFD)⇗ <https://en.wikipedia.org/wiki/Multi-function_display>`_ - French: écran multifonction
 
+.. image:: images/5_screens.png
+   :alt: 5 main screens of the M2000-5
+   :align: center
 
 VTM
 ===
@@ -84,7 +87,7 @@ The head-down display is currently basically a copy of a Navigation Display you 
 ..
    Actually it is using https://wiki.flightgear.org/Canvas_ND_framework
 
-The buttons around the screen around the screen influence settings as follows:
+The buttons around the screen influence settings as follows:
 
 .. image:: images/vtb_buttons.png
    :scale: 60%
@@ -111,7 +114,10 @@ Use the mouse wheel to push the toggles on the left and right side of the MFD up
 
 You can also change the view with ``Key: N`` to better see the right MFD (and the VTB). Use ``Key: ctrl-n`` to go back to the default view.
 
-NB: you cannot display pages from teh right MFD on the left MFD or the VTB.
+NB: you cannot display pages from the right MFD on the left MFD or the VTB.
+
+
+.. _link_subsection_sms:
 
 Store Management system (SMS)
 -----------------------------
@@ -156,6 +162,9 @@ BF     SAMP Mk-82 Snake-eye (bombe freinée)
 ====== ================================================
 
 .. image:: images/sms_page.png
+
+
+.. _link_subsection_ppa:
 
 Poste de Préparation Armement (PPA)
 -----------------------------------

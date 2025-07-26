@@ -48,6 +48,8 @@ The following style for titles/sections is used: ``Section conventions⇗ <https
 Nasal Programming Conventions
 =============================
 
+The FlightGear documentation for `Nasal⇗ <https://wiki.flightgear.org/Nasal_scripting_language>`_ does not have general conventions. Therefore, the following states the opinionated conventions used by the currently most active developer. NB: A lot of code does not yet follow these conventions, because it was written earlier.
+
 Naming Conventions
 ------------------
 
@@ -61,3 +63,15 @@ Booleans
 --------
 
 In each module, where booleans are handled, create the immutable variables ``TRUE = 1`` and ``FALSE = 0`` and use them consequently in the code instead of ``1`` and ``0``.
+
+Indentation
+-----------
+
+* Use tabs covering 4 spaces.
+* Use spaces after tabs for aligning lines when using a builder pattern (e.g. for Canvas).
+
+Spacing
+-------
+
+* Use space in front of curly braces.
+* Use space between key words and parentheses (e.g. ``if (`` ).

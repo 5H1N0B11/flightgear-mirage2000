@@ -23,7 +23,7 @@ print("*** LOADING HUD.nas ... ***");
 #X: 80 to 400
 #Y: 27.36 to 456.89
 
- #HUD Position : x,y,z
+#HUD Position : x,y,z
 #left lower corner (-0.07606, -0.07327, -0.03237)
 #right upper corner (0.05357, 0.07327, 0.11536)
 #Center HUD : (-0.12963,0,0.08299)
@@ -46,18 +46,6 @@ var AIM_CLASS_GMP = "GMP";
 var GBU12 = "GBU12"; # must correspond to short-name in payload.xml
 var GBU24 = "GBU24"; # must correspond to short-name in payload.xml
 
-var x_view = props.globals.getNode("sim/current-view/x-offset-m");
-var y_view = props.globals.getNode("sim/current-view/y-offset-m");
-var z_view = props.globals.getNode("sim/current-view/z-offset-m");
-
-var Hud_Position = [-0.0005,0.0298,-3.16320];
-var PilotCurrentView = [x_view.getValue(),y_view.getValue(),z_view.getValue()];
-
-#Nodes values variables
-var mydeviation = 0;
-var myelevation = 0;
-var displayIt = 0;
-
 # mostly for stuff that is changed manually by the pilot and therefore does not need to be updated so often
 # e.g. the flightmode
 var UPDATE_INC = 0.8;
@@ -68,13 +56,6 @@ var COLOR_GREEN = [0,1,0,1];
 # ==============================================================================
 # Head up display
 # ==============================================================================
-
-centerHUDx = -3.20962;
-centerHUDy = 0;
-centerHUDz = (-0.15438 + -0.02038)/2;
-var heightMeters = 0.067-(-0.067);
-var wideMeters = math.abs(-0.02038 - (-0.15438));
-
 
 var HUD = {
 	canvas_settings: {
@@ -140,7 +121,7 @@ var HUD = {
 		                        .setAlignment("center-center")
 		                        .setText("*");
 
-		#Little House pointing  Waypoint
+		#Little House pointing Waypoint
 		m.HouseSize = 4;
 		m.HeadingHouse = m.root.createChild("path")
 		                       .setColor(COLOR_GREEN)

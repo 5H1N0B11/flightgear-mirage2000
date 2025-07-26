@@ -250,7 +250,7 @@
 
 		<key n="77">
 			<name>M</name>
-			<desc>Toggle target designation mode (Radar, Laser, GPS)</desc>
+			<desc>Cycle Through Weapon Guidance Modes (Radar, Laser, GPS)</desc>
 			<binding>
 				<command>nasal</command>
 				<script>
@@ -602,7 +602,7 @@
 			<desc>Flight Mode Take-Off</desc>
 			<binding>
 				<command>nasal</command>
-				<script>mirage2000.setFlightmode(mirage2000.FLIGHT_MODE_TAKEOFF);</script>
+				<script>mirage2000.setFlightMode(mirage2000.FLIGHT_MODE_TAKEOFF);</script>
 			</binding>
 		</key>
 		<key n="70">
@@ -610,7 +610,7 @@
 			<desc>Flight Mode Approach</desc>
 			<binding>
 				<command>nasal</command>
-				<script>mirage2000.setFlightmode(mirage2000.FLIGHT_MODE_APPROACH);</script>
+				<script>mirage2000.setFlightMode(mirage2000.FLIGHT_MODE_APPROACH);</script>
 			</binding>
 		</key>
 		<key n="104">
@@ -618,7 +618,7 @@
 			<desc>Flight Mode Navigation</desc>
 			<binding>
 				<command>nasal</command>
-				<script>mirage2000.setFlightmode(mirage2000.FLIGHT_MODE_NAVIGATION);</script>
+				<script>mirage2000.setFlightMode(mirage2000.FLIGHT_MODE_NAVIGATION);</script>
 			</binding>
 		</key>
 		<key n="72">
@@ -626,7 +626,7 @@
 			<desc>Flight Mode Attack</desc>
 			<binding>
 				<command>nasal</command>
-				<script>mirage2000.setFlightmode(mirage2000.FLIGHT_MODE_ATTACK);</script>
+				<script>mirage2000.setFlightMode(mirage2000.FLIGHT_MODE_ATTACK);</script>
 			</binding>
 		</key>
 
