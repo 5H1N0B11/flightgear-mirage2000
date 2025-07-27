@@ -14,6 +14,20 @@ To enable or disable MP damage you have to be on the ground and use the configur
    :scale: 50%
 
 
+When damage is on, some features are enabled/disabled automatically to make aerial combat more realistic:
+
+* Backout/redout is enabled
+* Simulation rate is set to normal
+* Emergency altitude increase is disabled
+* Fuel and payload dialogue will not be available in air
+* Mission Preplanning dialogue will not be available in air
+* Map traffic is disabled
+* MP pilot list is disabled
+
+..
+   these features are defined in function code_ct in damage.nas
+
+
 Adding/Removing Weapons
 =======================
 

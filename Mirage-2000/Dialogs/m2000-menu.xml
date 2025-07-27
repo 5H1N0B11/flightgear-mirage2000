@@ -88,7 +88,7 @@
 				<name>iff</name>
 				<binding>
 					<command>dialog-show</command>
-					<dialog-name>iff</dialog-name>
+					<dialog-name>iff</dialog-name><!-- is referenced in m2000-5.nas -->
 				</binding>
 			</item>
 
@@ -137,7 +137,7 @@
 						</or>
 					</condition>
 					<command>dialog-show</command>
-					<dialog-name>payload-5</dialog-name>
+					<dialog-name>payload-5</dialog-name><!-- is referenced in m2000-5.nas -->
 				</binding>
 				<binding>
 					<condition>
@@ -147,7 +147,7 @@
 						</equals>
 					</condition>
 					<command>dialog-show</command>
-					<dialog-name>payload-d</dialog-name>
+					<dialog-name>payload-d</dialog-name><!-- is referenced in m2000-5.nas -->
 				</binding>
 			</item>
 

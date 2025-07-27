@@ -178,7 +178,6 @@ var _updateFunction = func() {
 				}
 			}
 		}
-		mp_messaging();
 		bingo_calculator.update(); # needs high frequency due to blinking
 
 		#mirage2000.weather_effects_loop();
@@ -203,6 +202,7 @@ var _updateFunction = func() {
 			}
 		}
 		myFramerate.d = AbsoluteTime;
+		mp_messaging();
 	}
 
 	###################### rate 1.5 ###########################
@@ -443,26 +443,16 @@ var test = func() {
 }
 
 
+# There is already function code_ct in damage.nas, which does most of the work across the OPRF fleet
+# with a 1 second timer.
+# Therefore, this method only needs to do M2000 specific stuff.
 var mp_messaging = func() {
 	if (getprop("/payload/armament/msg")) {
-		#call(func{fgcommand('dialog-close', multiplayer.dialog.dialog.prop())},nil,var err= []);# props.Node.new({"dialog-name": "location-in-air"}));
-		call(func{multiplayer.dialog.del();},nil,var err= []);
 		if (!getprop("/gear/gear[0]/wow")) {
-			#call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "map"}))},nil,var err2 = []);
-			#call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "map-canvas"}))},nil,var err2 = []);
-			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "WeightAndFuel"}))},nil,var err2 = []);
-			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "system-failures"}))},nil,var err2 = []);
-			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "instrument-failures"}))},nil,var err2 = []);
+			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "payload-5"}))},nil,var err2 = []);
+			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "payload-d"}))},nil,var err2 = []);
+			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "iff"}))},nil,var err2 = []);
 		}
-		setprop("sim/freeze/fuel",0);
-		setprop("/sim/freeze/master", 0);
-		setprop("/sim/freeze/clock", 0);
-		setprop("/sim/speed-up", 1);
-		setprop("/gui/map/draw-traffic", 0);
-		setprop("/sim/gui/dialogs/map-canvas/draw-TFC", 0);
-		setprop("/sim/rendering/als-filters/use-filtering", 1);
-		setprop("/controls/SAS/activated", 1);
-		setprop("/sim/view[100]/enabled", 0);
 	}
 }
 
