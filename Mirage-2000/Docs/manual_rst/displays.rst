@@ -130,36 +130,7 @@ The SMS page shows the currently loaded weapons incl. external tanks. A few thin
 * The red stripes in the middle indicate that there is weight on wheels.
 * At the top of the page below the middle button you can read "PPA" - which will be the next page displayed.
 
-The abbreviations used for the stores are as follows (a number in front of the abbreviations means the number of this weapon at the station):
-
-..
-   The table must be in sync with pylonSetsSMSHelper in pylons.nas
-
-====== ================================================
-Abbrev Weapon
-====== ================================================
-CAN    30mm Cannon (internal)
-GUN    CC422(gun pod)
-RP520  1300 l Droptank
-RP540  2000 l Droptank
-RP500  1700 l Droptank
-PDLCT  PDLCT (targeting pod)
-SMOKE  Smoke Pod
-MAG    Matra R550 Magic 2
-SUP    Matra Super 530D
-IR     MICA IR
-EM     MICA EM
-AM39   AM39-Exocet
-AS37A  AS-37-Armat
-AS30L  AS30L
-APACH  APACHE
-SCALP  SCALP
-ASMP   ASMP
-G12    GBU-12
-G24    GBU-24
-BL     SAMP Mk-82 (bombe lisse)
-BF     SAMP Mk-82 Snake-eye (bombe freinée)
-====== ================================================
+The abbreviations used for the stores are available in the weapons overview table in :ref:`link_section_overview_weapons` (a number in front of the abbreviations means the number of this weapon at the station).
 
 .. image:: images/sms_page.png
 

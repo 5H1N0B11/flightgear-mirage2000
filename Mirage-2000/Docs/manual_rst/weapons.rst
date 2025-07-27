@@ -2,6 +2,43 @@
 Weapons and Armament
 ********************
 
+.. _link_section_overview_weapons:
+
+Overview of Available Weapons
+=============================
+
+The abbreviation column refers to the abbreviations used in the SMS page (see :ref:`link_subsection_sms`).
+
+..
+   The table must be in sync with pylonSetsSMSHelper in pylons.nas
+
+====== ================================================
+Abbrev Weapon
+====== ================================================
+CAN    30mm Cannon (internal)
+GUN    CC422(gun pod)
+MAG    Matra R550 Magic 2
+SUP    Matra Super 530D
+IR     MICA IR
+EM     MICA EM
+AM39   AM39-Exocet
+AS37A  AS-37-Armat
+AS30L  AS30L
+APACH  APACHE
+SCALP  SCALP
+ASMP   ASMP
+G12    GBU-12
+G24    GBU-24
+BL     SAMP Mk-82 (bombe lisse)
+BF     SAMP Mk-82 Snake-eye (bombe freinée)
+
+RP520  1300 l Droptank
+RP540  2000 l Droptank
+RP500  1700 l Droptank
+PDLCT  PDLCT (targeting pod)
+SMOKE  Smoke Pod
+====== ================================================
+
 
 MP Damage
 =========
@@ -16,7 +53,7 @@ To enable or disable MP damage you have to be on the ground and use the configur
 
 When damage is on, some features are enabled/disabled automatically to make aerial combat more realistic:
 
-* Backout/redout is enabled
+* Black-out/red-out is enabled
 * Simulation rate is set to normal
 * Emergency altitude increase is disabled
 * Fuel and payload dialogue will not be available in air
