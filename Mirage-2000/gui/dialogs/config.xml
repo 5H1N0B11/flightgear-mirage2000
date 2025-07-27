@@ -79,7 +79,7 @@
 				<command>nasal</command>
 				<script>
 					if(getprop("/gear/gear[0]/wow") or !getprop("payload/armament/msg")){
-					setprop("payload/armament/msg", !getprop("payload/armament/msg"));
+						setprop("payload/armament/msg", !getprop("payload/armament/msg"));
 					}
 					screen.log.write("MP Weapons Damage: " ~ (getprop("/payload/armament/msg") ? "Activated" : "Deactivated")  , 0.5, 0.5, 1);
 				</script>

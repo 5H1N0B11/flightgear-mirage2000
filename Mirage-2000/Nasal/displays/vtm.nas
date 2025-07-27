@@ -881,6 +881,7 @@ var VTM = {
 		me.screen_mode_group.setVisible(me.global_visible);
 		me.radar_modes_group.setVisible(me.global_visible);
 		me.compass_group.setVisible(me.global_visible);
+		me.alidade_group.setVisible(me.global_visible);
 
 		me.is_ppi = FALSE;
 		if (me.global_visible == TRUE) {

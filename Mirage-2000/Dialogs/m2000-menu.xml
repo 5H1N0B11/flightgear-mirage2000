@@ -126,14 +126,14 @@
 				<binding>
 					<condition>
 						<or>
-						<equals>
-							<property>sim/aircraft</property>
-							<value>m2000-5</value>
-						</equals>
-						<equals>
-							<property>sim/aircraft</property>
-							<value>m2000-5B</value>
-						</equals>
+							<equals>
+								<property>sim/aircraft</property>
+								<value>m2000-5</value>
+							</equals>
+							<equals>
+								<property>sim/aircraft</property>
+								<value>m2000-5B</value>
+							</equals>
 						</or>
 					</condition>
 					<command>dialog-show</command>
@@ -142,8 +142,8 @@
 				<binding>
 					<condition>
 						<equals>
-						<property>sim/aircraft</property>
-						<value>m2000D</value>
+							<property>sim/aircraft</property>
+							<value>m2000D</value>
 						</equals>
 					</condition>
 					<command>dialog-show</command>
