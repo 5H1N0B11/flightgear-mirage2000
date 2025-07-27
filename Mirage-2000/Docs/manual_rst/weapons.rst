@@ -12,32 +12,32 @@ The abbreviation column refers to the abbreviations used in the SMS page (see :r
 ..
    The table must be in sync with pylonSetsSMSHelper in pylons.nas
 
-====== ================================================
+====== =========================================================================================================================
 Abbrev Weapon
-====== ================================================
-CAN    30mm Cannon (internal)
-GUN    CC422(gun pod)
-MAG    Matra R550 Magic 2
-SUP    Matra Super 530D
-IR     MICA IR
+====== =========================================================================================================================
+CAN    30mm Cannon (internal) with `DEFA⇗ <https://en.wikipedia.org/wiki/DEFA_cannon>`_  554
+GUN    CC422 (`gun pod⇗ <https://en.wikipedia.org/wiki/Gun_pod>`_) with DEFA 553
+MAG    `Matra R550 Magic 2⇗ <https://en.wikipedia.org/wiki/R.550_Magic>`_
+SUP    `Matra Super 530D⇗ <https://en.wikipedia.org/wiki/Super_530>`_
+IR     `MICA⇗ <https://en.wikipedia.org/wiki/MICA_(missile)>`_ IR
 EM     MICA EM
-AM39   AM39-Exocet
-AS37A  AS-37-Armat
-AS30L  AS30L
-APACH  APACHE
-SCALP  SCALP
-ASMP   ASMP
-G12    GBU-12
-G24    GBU-24
-BL     SAMP Mk-82 (bombe lisse)
-BF     SAMP Mk-82 Snake-eye (bombe freinée)
+AM39   `AM.39 Exocet⇗ <https://en.wikipedia.org/wiki/Exocet>`_
+AS37A  AS-37 Armat (`Martel⇗ <https://en.wikipedia.org/wiki/Martel_(missile)>`_)
+AS30L  `AS-30L⇗ <https://en.wikipedia.org/wiki/AS-30>`_
+APACH  `APACHE⇗ <https://en.wikipedia.org/wiki/Apache_(missile)>`_
+SCALP  `SCALP-EG⇗ <https://en.wikipedia.org/wiki/Storm_Shadow>`_
+ASMP   `ASMP-A⇗ <https://en.wikipedia.org/wiki/Air-sol_moyenne_port%C3%A9e>`_
+G12    `GBU-12⇗ <https://en.wikipedia.org/wiki/GBU-12_Paveway_II>`_
+G24    `GBU-24⇗ <https://en.wikipedia.org/wiki/GBU-24_Paveway_III>`_
+BL     SAMP `Mk-82⇗ <https://en.wikipedia.org/wiki/Mark_82_bomb>`_ (FR: bombe lisse)
+BF     SAMP Mk-82 Snake Eye (FR: bombe freinée)
 
-RP520  1300 l Droptank
-RP540  2000 l Droptank
-RP500  1700 l Droptank
-PDLCT  PDLCT (targeting pod)
+RP520  1300 l `drop tank⇗ <https://en.wikipedia.org/wiki/Drop_tank>`_
+RP540  2000 l drop tank
+RP500  1700 l drop tank
+PDLCT  `PDLCT⇗ <https://en.wikipedia.org/wiki/PDLCT>`_ targeting pod (TGP)
 SMOKE  Smoke Pod
-====== ================================================
+====== =========================================================================================================================
 
 
 MP Damage

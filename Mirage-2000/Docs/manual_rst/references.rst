@@ -227,6 +227,7 @@ Links
 
   * `Forum thread: Mirage 2000 RDM/RDI/RDY Radars and other avionics⇗ <https://www.secretprojects.co.uk/threads/mirage-2000-rdm-rdi-rdy-radars-and-other-avionics.37018/>`_
   * `Blog post⇗ <https://blog.naver.com/PostView.nhn?blogId=pwrangshion&logNo=110120276719>`_: quite a few details on systems and weapons with pictures
+  * `Scalemates Dassault Mirage 2000 Walkarounds⇗ <https://www.scalemates.com/search.php?fkSECTION%5B%5D=Walkarounds&q=Dassault+Mirage+2000>`_
 
 DVDs
 ====
