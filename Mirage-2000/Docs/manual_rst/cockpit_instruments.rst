@@ -38,6 +38,8 @@ Overview
 #. Engine control panel
 #. Canopy handle & lock
 
+Please note that this cockpit model is not complete. Only instruments that have been implemented are highlighted.
+
 1. HUD
 ======
 
@@ -151,6 +153,10 @@ Please refer to the VTM section of this guide.
 
 5. Physical flight instruments
 ==============================
+
+.. image:: images/phys_flight_instruments.png
+   :alt: Physical fligth instruments
+   :align: center
 
 These instruments serve as backup for the digital one, as well as when the left MFD is not on the ``EADI`` tab. 
 
@@ -275,6 +281,10 @@ Lowering the lever will lower the gear, and raising it will retract the gear. Us
 18. Light switches
 ==================
 
+.. image:: images/lights_panel.png
+   :alt: Light switch panel
+   :align: center
+
 #. Taxi/landing light. Off by default.
 #. Dorsal flash lights. On by default. Should be manually turned off after startup.
 #. Formation lights (stripes on the sides of the fuselage and tail). On by default.
@@ -310,9 +320,7 @@ The grey switches toggle all the alternators at once. They should be on at all t
    :alt: Alert panel
    :align: center
    
-.. centered::
-
-   *Default state of the alert panel when launching the simulation*
+[Default state of the alert panel when launching the simulation]
 
 The warning lights should all be off in a normal situation (save for the parking brake when stopped on the ground). Depending on the severity of the warning, you might have to review the cockpit's switches, carry out an emergency landing, or eject. Their following codes are as follows:
 
@@ -387,9 +395,7 @@ Controls the cockpit lights.
    :alt: Engine control panel
    :align: center
    
-.. centered::
-
-   *Default state of the engine control panel when launching the simulation*
+[Default state of the engine control panel when launching the simulation]
 
 Panel used for starting up the engine. 
 
