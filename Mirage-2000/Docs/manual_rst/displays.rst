@@ -104,6 +104,70 @@ The buttons around the screen influence settings as follows:
 #. Toggle centre ND
 #. Toggle true/magnetic heading
 
+Left MFD
+========
+
+To change the currently displayed page, use the extreme left button on the button row at the bottom of the screen. 
+
+The different pages of this MFD are the ``EADI`` (electronic attitude direction indicator), the ``EHSI`` (electronic horizontal situation indicator), the ``EICAS`` (engine indicating and crew alerting system) and the ``RMU`` (radio management unit).
+
+EADI
+----
+
+.. image:: images/eadi.png
+   :alt: EADI
+   :align: center
+
+#. Autopilot speed adjustment knob (+/- 5kts)
+#. Autopilot desired speed
+#. Autopilot status indicator (AP1/blank, PTCH/ALT/TF, ROLL/HDG/LNAV)
+#. Autopilot desired altitude (ASL or AGL for ALT/TF autopilot modes respectively)
+#. Autopilot altitude adjustment knob (+/- 50ft)
+#. Airspeed in mach and kts
+#. Ground speed in kts
+#. Attitude indicator
+#. ASL Altimeter in ft (green number) and variometer in ft/min (in red). The green arrow's extention is proportional to the vertical speed of the aircraft.
+#. Switch to ``EHSI`` page
+#. Set QNH (+/- 0.34HPa)
+
+If applicable, the name of the route's next waypoint or target airport will be shown below the attitude indicator.
+
+EHSI
+----
+
+.. image:: images/ehsi.png
+   :alt: EHSI
+   :align: center
+
+#. Red arrow status, cycles through hidden, ``NAV1``, ``TACAN``, ``ADF2``. Hidden by default.
+#. Yellow arrow status, cycles through hidden, ``NAV2``, ``ADF1``. Hidden by default.
+#. Toggle the visibility of the atmospheric conditions (wind orientation, speed in kts, outside air temperature in °C, dewpoint in °C). They are shown in bright green at the top right of the screen. The wind's direction is also shown in relation to the aircraft with the small bright green compass.
+#. Horizontal situation indicator. It displays in bright green triangles the orientation of the aircraft (0°, 45°, 90°, etc). 
+#. Heading bug adjustment knob (+/- 1°). It is displayed as a white dented rectangle on the rim of the compass.
+#. Switch to the ``EICAS`` page
+#. Cycle between autopilot navigation sources: ``NAV1``, ``NAV2``, ``TACAN`` (all three set in the ``RMU`` page of this same MFD) and ``FMS`` (route set in ``Autopilot -> Route manager``). The selected source and evental additional information will be displayed in blue text. This also controls the blue arrow's status.
+#. Navigation heading adjustment knob (+/- 1°). Only applicable if ``NAV1`` and/or ``NAV2`` do not have a valid navigation frequency set.
+
+EICAS
+-----
+
+.. image:: images/eicas.png
+   :alt: EADI
+   :align: center
+
+#. Ratio of the engine's speed to its maximum military power
+#. Numerical value of the aforementioned ratio. Note that it is in 1/10,000 and not in %.
+#. Outside air temperature in °C
+#. Internal turbine temperature
+#. Throttle (green range only)
+#. Fuel consumption in kg/min
+#. Oil temperature in °C and oil pressure
+#. Hydraulic system pressure
+
+RMU
+---
+
+[Placeholder]
 
 Right MFD
 =========

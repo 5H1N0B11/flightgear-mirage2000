@@ -22,7 +22,7 @@ The taxi lights have an angle of about 30 degrees in front of the aircraft and a
 Take-off
 --------
 
-Line up on the best runway for the current weather conditions and ask for clearance. Once the clearance is given and after releasing the parking brake, spool up while keeping the pedal brakes enabled. Then, throttle up to 99% RPM (military power) for long runways, 100%+ (with afterburners) for short runways or with heavy loadout. Rotation speed is at 120 knots when using a clean loadout, 140 knots if with payload. After this, bring the inverted "T" in the HUD under the line of horizon and you should be able to lift off at 170-190 knots, depending on your loadout. Do not exceed 14° nose angle or you will tail-strike. Even though the Mirage is airborne, you might feel that the plane with high nose angle "floats" over the runway until reaching well beyond 200 knots. Raise the gears with key ``g``.
+Line up on the best runway for the current weather conditions and ask for clearance. Once the clearance is given and after releasing the parking brake, spool up while keeping the pedal brakes enabled. Then, throttle up to 99% RPM (military power) for long runways, 100%+ (with afterburners) for short runways or with heavy loadout. Rotation speed is at 120 knots when using a clean loadout, 140 knots if with payload. After this, bring the inverted "T" in the HUD under the line of horizon and you should be able to lift off at 170-190 knots, depending on your loadout. Do not exceed 14° nose angle or you will tail-strike. Even though the Mirage is airborne, you might feel that the plane with high nose angle "floats" over the runway until reaching well beyond 200 knots. Raise the gears with key ``g`` or by clicking the red gear lever.
 
 The Mirage needs long runway distances to take off, as it hasn't got a separate horizontal tail stabilizer/elevator. Because of the elevons' position (trailing edge of the wing), they create a considerable loss of lift when they are moved up to rotate, so higher rotation speeds are needed. Also, the delta wing is often called "flying airbrake", as they generate lots of drag at high angles of attack, like at take-off. This is why high speeds and long runways are needed.
 
@@ -54,6 +54,8 @@ The easiest way to get approach and touchdown right is placing the inverted "T" 
 
 Air breaking using a high angle of attack when landed is normal procedure. However, do not tilt the aircraft at more than the inverted "T" cue in the HUD on the line of horizon. NB: it is by procedure forbidden to aerobrake below 100 kts - even though it might be possible: you have to get weight on the nose wheel. The reason for this required procedure is that depending on speed, configuration, weight distribution (e.g. fuel) etc. it might suddenly not be possible anymore to bring the nose down given loss of effectiveness of the elevons vs. drag forces vs. weight forces.
 
+Note that nose-wheel steering will engage below 40kts (in-sim). As such, make sure your rudder is more or less straightened up when arriving on ground.
+
 Navigation
 ----------
 
@@ -63,8 +65,8 @@ Miscellaneous
 -------------
 
 * When heavily loaded, the `fly-by-wire system (FBW)⇗ <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure: ``Mirage2000=>Options=> Change A/A to CHARGES``.
-* Afterburners engage when throttle moves past 85%.
-* The 1700l droppable tanks are not supersonic.
+* Afterburners engage when throttle moves past 85% in real-life, 90% in-sim.
+* The 1700l and 2200l droppable tanks are not supersonic, but the 1300l is.
 
 Flight Modes
 ============
