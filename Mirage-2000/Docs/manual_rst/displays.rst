@@ -111,8 +111,8 @@ To change the currently displayed page, use the left button on the button row at
 
 The different pages of this MFD are the ``EADI`` (electronic attitude direction indicator), the ``EHSI`` (electronic horizontal situation indicator), the ``EICAS`` (engine indicating and crew alerting system) and the ``RMU`` (radio management unit).
 
-EADI
-----
+Electronic attitude direction indicator (EADI)
+----------------------------------------------
 
 .. image:: images/eadi.png
    :alt: EADI
@@ -132,8 +132,8 @@ EADI
 
 If applicable, the name of the route's next waypoint or target airport will be shown below the attitude indicator.
 
-EHSI
-----
+Electronic horizontal situation indicator (EHSI)
+------------------------------------------------
 
 .. image:: images/ehsi.png
    :alt: EHSI
@@ -148,8 +148,8 @@ EHSI
 #. Cycle between autopilot navigation sources: ``NAV1``, ``NAV2``, ``TACAN`` (all three set in the ``RMU`` page of this same MFD) and ``FMS`` (route set in ``Autopilot -> Route manager``). The selected source and evental additional information will be displayed in blue text. This also controls the blue arrow's status.
 #. Navigation heading adjustment knob (+/- 1°). Only applicable if ``NAV1`` and/or ``NAV2`` do not have a valid navigation frequency set.
 
-EICAS
------
+Engine indicating and crew alerting system (EICAS)
+--------------------------------------------------
 
 .. image:: images/eicas.png
    :alt: EADI
@@ -163,11 +163,24 @@ EICAS
 #. Fuel consumption in kg/min
 #. Oil temperature in °C and oil pressure
 #. Hydraulic system pressure
+#. Switch to the ``RMU`` page
 
-RMU
----
+Radio management unit (RMU)
+---------------------------
 
-[Placeholder]
+.. image:: images/rmu.png
+   :alt: RMU
+   :align: center
+
+#. Cycle through and the available channels on the left-hand side of the page (None, ``COMM1``, ``COMM2``, ``NAV1``, ``NAV2``). Having one channel selected will enable the pilot to edit its parameters.
+#. Swap the active and inactive frequencies of the selected left-hand side channel
+#. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 1 MHz)
+#. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 0.05 MHz)
+#. Swap the active and inactive frequencies of the selected right-hand side channel
+#. Cycle through and the available channels on the left-hand side of the page (None, ``ADF1``, ``ADF2``, ``TACAN``).
+#. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 10 kHz) if ADF is selected, otherwise adjust the TACAN channel (+/- 1)
+#. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 1 kHz) or switch the TACAN mode (X/Y)
+#. Switch to the ``EADI`` page
 
 Right MFD
 =========
