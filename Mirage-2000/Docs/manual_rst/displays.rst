@@ -107,7 +107,7 @@ The buttons around the screen influence settings as follows:
 Left MFD
 ========
 
-To change the currently displayed page, use the extreme left button on the button row at the bottom of the screen. 
+To change the currently displayed page, use the left button on the button row at the bottom of the screen. 
 
 The different pages of this MFD are the ``EADI`` (electronic attitude direction indicator), the ``EHSI`` (electronic horizontal situation indicator), the ``EICAS`` (engine indicating and crew alerting system) and the ``RMU`` (radio management unit).
 
@@ -120,7 +120,7 @@ EADI
 
 #. Autopilot speed adjustment knob (+/- 5kts)
 #. Autopilot desired speed
-#. Autopilot status indicator (AP1/blank, PTCH/ALT/TF, ROLL/HDG/LNAV)
+#. Autopilot status indicator (AP1/blank, PTCH/VS/ALT/TF, ROLL/HDG/LNAV)
 #. Autopilot desired altitude (ASL or AGL for ALT/TF autopilot modes respectively)
 #. Autopilot altitude adjustment knob (+/- 50ft)
 #. Airspeed in mach and kts
