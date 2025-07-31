@@ -3,7 +3,7 @@
 # -- Project information -----------------------------------------------------
 project = 'FlightGear Mirage 2000'
 copyright = '2025, FlightGear Mirage 2000 Team'
-author = 'Rick Gruber-Riemer'
+author = 'Rick Gruber-Riemer, Renaud Roquefort'
 release = '0.0.1'
 
 # -- General configuration ---------------------------------------------------

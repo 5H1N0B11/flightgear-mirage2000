@@ -39,7 +39,6 @@ PDLCT  `PDLCT⇗ <https://en.wikipedia.org/wiki/PDLCT>`_ targeting pod (TGP)
 SMOKE  Smoke Pod
 ====== =========================================================================================================================
 
-
 MP Damage
 =========
 
@@ -73,18 +72,49 @@ There are 9 weapon stations. The numbering of weapon stations is as follows:
 .. image:: images/weapon_station_numbers.png
    :scale: 50%
 
-These numbers are related to the stations represented in the standard FlightGear ``Fuel and Payload Settings Screen`` (in menu ``Equipment``). Depending on the chosen Mirage 2000 variant, different weapons can be chosen on different stations. Apart from the available weapons per station no additional restrictions are imposed w.r.t. the combination of weapons. Pictures of real aircraft show that quite some variance is in action. However, it of course makes sense to e.g. have a pod installed if you need laser guidance - or that the weights on both sides of the fuselage are in balance.
+Depending on the aircraft version and the weapon station, possible weapon systems or external fuel tanks may vary. The available payload for each weapon station is as follows:
+
+=============================== === === === === === === === === ===
+Payload                         2.L 3.L B.L 1.L C   1.R B.R 3.R 2.R
+=============================== === === === === === === === === ===
+RPL-541/542 (2000L fuel tank)       5BD	                    5BD	
+RPL-501/502 (1700L fuel tank)       5BD	                    5BD	
+RPL-522 (1300L fuel tank)                       5BD				
+Matra Super 530D                        5               5		
+Matra R550 Magic II             5BD                             5BD
+MBDA MICA IR                    5B	                            5B
+MBDA MICA EM                            5B  5B      5B  5B		
+AS30 Laser                          D                       D
+AS37 Armat                          D                       D
+AM39 Exocet                         5BD                     5BD	
+SCALP / APACHE                                  5BD
+GBU-12 Paveway II                       D   D       D   D
+2x GBU-12 Paveway II                            5BD
+GBU-24                                          5BD
+SAMP Mk-82                              5BD 5BD     5BD 5BD
+SAMP Mk-82SE                            5BD 5BD     5BD 5BD
+2x SAMP Mk-82                       5BD         5BD         5BD
+2x SAMP Mk-82SE						5BD         5BD         5BD
+PDLCT (targeting pod)                               5BD
+CC422 (gun pod)                             5BD
+Smoke pod (white)               5BD                             5BD
+ASMP-A                                          N
+=============================== === === === === === === === === ===
+
+*Key: 5 refers to the 2000-5, B to the 2000-5B, D to the 2000D/N and N to the 2000N.*
+
+Apart from the available weapons per station no additional restrictions are imposed w.r.t. the combination of weapons. Pictures of real aircraft show that quite some variance is in action. However, it of course makes sense to e.g. have a pod installed if you need laser guidance - or that the weights on both sides of the fuselage are in balance.
 
 .. image:: images/fuel_and_payload_settings.png
    :scale: 75%
 
-To make loading weapons easier, a set of typical loads for a given variant is available in menu item ``Mirage 2000 -> Payload Selection``:
+To make loading weapons easier, a set of typical loads for a given variant is available in menu item ``Mirage 2000 -> Payload Selection``. Using either of them will also replenish the DEFA cannon as well as the onboard chaffs and flares.
 
 .. image:: images/quick_payload_reload.png
    :scale: 50%
 
 
-NB: you cannot change weapons when MP Damage is on!
+NB: you cannot change your payload when MP Damage is on and your aircraft is moving!
 
 
 Selecting and Configuring the Active Weapon

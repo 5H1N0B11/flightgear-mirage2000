@@ -73,13 +73,13 @@ Apart from this manual, there are other sources of documentation for the FlightG
 Credits
 =======
 
-* Renaud "Wolf" Roquefort has written the first extensive documentation. This manual is an enhanced copy of it - and the current author would have felt too overwhelming if there would not have been such a great source. The acknowledgements in Wolf's original work are as follows: "I would like to thank everyone who helped me on this project. My first words of thanks go to S. "VooDoo3" Liakos, who gave me the idea of the manual in the first place, and for being a supportive friend. I am not certain this manual would exist without him. I thank I. "Interce" Klimov, 5H1N0B1 and CUDA22 as well for their support during the creation of this manual. Thank you to all who did changes and improvements to this manual, or pointed out things to modify: Legoboyvdlp, Rudolf, CUDA22, Reaper, and 5H1N0B1 himself."
-
 * The authors of the model: Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe, Marsdolphin, R. "Wolf" Roquefort, Rick Gruber-Riemer
 
 * The authors of the common weapons and radar systems for `OpRedFlag⇗ <https://github.com/NikolaiVChr/OpRedFlag>`_, on which this model depends and which makes it possible, to use the plane in air and ground attack as part of military simulation in the `OPRF⇗ <https://opredflag.com/>`_ (Open Red Flag) community.
 
 * The authors of the `FlightGear F-16⇗ <https://github.com/NikolaiVChr/f16>`_ are a constant source of inspiration - and the level of sophistication of the model is what the M2000 is aiming for, but maybe never will get on par with.
+
+* Helping hands for the creation of the manual: 5H1N0B1, CUDA22, I. "Interce" Klimov, SammySkycrafts, VooDoo3, Legoboyvdlp, Rudolf, Reaper
 
 License
 =======
