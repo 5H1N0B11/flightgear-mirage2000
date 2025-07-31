@@ -13,6 +13,17 @@ The Mirage 2000-5 has its name from the fact that it has 5 main displays:
    :alt: 5 main screens of the M2000-5
    :align: center
 
+
+.. _link_section_hud:
+
+HUD
+===
+
+Not yet described. Some description of information displayed is included in other sections.
+
+
+.. _link_section_vtm:
+
 VTM
 ===
 
@@ -79,6 +90,9 @@ The following picture shows a few targets in ground mode (like for sea targets t
    :alt: Air-to-Ground Targets
    :align: center
 
+
+.. _link_section_vtb:
+
 VTB
 ===
 
@@ -103,6 +117,9 @@ The buttons around the screen influence settings as follows:
 #. Toggle liquid crystal display/cathode ray tube display (does not really do anything)
 #. Toggle centre ND
 #. Toggle true/magnetic heading
+
+
+.. _link_section_left_mfd:
 
 Left MFD
 ========
@@ -181,6 +198,9 @@ Radio management unit (RMU)
 #. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 10 kHz) if ADF is selected, otherwise adjust the TACAN channel (+/- 1)
 #. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 1 kHz) or switch the TACAN mode (X/Y)
 #. Switch to the ``EADI`` page
+
+
+.. _link_section_right_mfd:
 
 Right MFD
 =========

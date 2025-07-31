@@ -2,8 +2,8 @@
 Abbreviations and Jargon
 ************************
 
-French Abbreviations (Glossaire)
-================================
+French Abbreviations (Glossary)
+===============================
 
 ============ ======================================================================= ===================================
 Abbreviation Meaning                                                                 English
@@ -29,15 +29,15 @@ PGS          plein gaz sec                                                      
 PLA          point de largage de l’armement                                          weapons release point
 PPA          poste préparation armement
 PSM          poste sélecteur de modes
-RTBA         réseau très basse altitude                                              miltary low-flying areas
+RTBA         réseau très basse altitude                                              military low-flying areas
 S            selectionné                                                             selected
 SA           semi-automatique                                                        semi-automatic
 SCALP        système de croisière conventionnel autonome à longue portée             conventional cruise missile
 SDT          suivi de terrain                                                        terrain following
 TBA          très basse altitude                                                     very low altitude
-VTB          visualisation tête basse                                                HDD - heads-down display
-VTM          visualisation tête moyenne
-VTH          visualisation tête haute                                                HUD - heads-down display
+VTB          visualisation tête basse                                                HDD - head-down display
+VTM          visualisation tête moyenne                                              n/a - head level display
+VTH          visualisation tête haute                                                HUD - head-up display
 ============ ======================================================================= ===================================
 
 

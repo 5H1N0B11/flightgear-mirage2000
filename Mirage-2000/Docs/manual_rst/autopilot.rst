@@ -1,3 +1,6 @@
+
+.. _link_chapter_autopilot:
+
 ********************
 The Autopilot system
 ********************
@@ -24,7 +27,7 @@ Note that the switches might not all be visible depending on your viewpoint. You
 Autopilot Switches and Modes
 ============================
 
-AP (active autopilot)
+AP (Active Autopilot)
 ---------------------
 
 This switch acts as the main toggle for the autopilot.
@@ -35,14 +38,14 @@ When other modes are enabled, having the ``AP`` switch enabled will make them ac
 
 If switched on, a white ``AP1`` sign will appear at the top of the ``EADI`` tab of the left MFD.
 
-Stby (standby)
+Stby (Standby)
 --------------
 
 Default state. Clicking it immediately disables all enabled modes except pitch and roll stabilisation (see previous section).
 
 These modes appear as ``PTCH`` and ``ROLL`` in the ``EADI``.
 
-Vs (vertical speed)
+Vs (Vertical Speed)
 -------------------
 
 Enabling this mode registers the current vertical speed (visible in both the physical variometer and the EADI tab of the left MFD) and attempts to keep it constant at this value. This value will be remembered but not displayed.
@@ -55,7 +58,7 @@ This mode is incompatible with ``ALT``, ``TF`` and ``APP`` modes.
 
 This mode appears as ``VS`` in the ``EADI``.
 
-Alt (altitude)
+Alt (Altitude)
 --------------
 
 This switch controls two modes: altitude above sea level (ASL) and altitude above ground level (AGL), also called terrain following mode (TF). The switch will be lit in ASL mode, and blink in TF mode. Alternating between the two can be done by clicking the switch, with ASL being enabled first if the switch is off.
@@ -64,22 +67,22 @@ Double-clicking the ``Alt`` switch will register the current altitude (either AS
 
 The ASL mode will attempt to maintain the aircraft at the altitude set, or climb/descend towards it at a low vertical speed (ca. 450ft/min). It is recommended to use the ``Vs`` mode for faster changes in altitude. This mode will lock the manual pitch and yaw input of the aircraft, but will only control the pitch.
 
-The TF mode will only function below 10,000ft and if aircraft is close to horizontal and will not override the pilot's input. It will also attempt to follow the terrain based on the feed of the radar. To adjust the smoothness of the aircraft's trajectory and the range of the terrain taken into account, you can move the ``AP TF smooth`` and ``Predictions`` sliders in the ``Mirage 2000 -> Configuration`` menu respecively.
+The TF mode will only function below 10,000ft and if aircraft is close to horizontal and will not override the pilot's input. It will also attempt to follow the terrain based on the feed of the radar. To adjust the smoothness of the aircraft's trajectory and the range of the terrain taken into account, you can move the ``AP TF smooth`` and ``Predictions`` sliders in the ``Mirage 2000 -> Configuration`` menu respectively.
 
 These modes are incompatible with the ``VS`` and ``APP`` modes.
 
 The ASL and AGL modes appear as ``ALT`` and ``TF`` in the ``EADI``.
 
-Hdg (heading)
+Hdg (Heading)
 -------------
 
-This mode will override the roll axis and lock the pitch axis of the aircraft. Once enabled, the aircraft will attempt to stabilise or turn itself towards the heading bug set in the ``EHSI`` tab of the left MFD (bottom left knob). This direction will be visible both on the ``EHSI`` in pink, and in the HUD as a downards triangle on the compass.
+This mode will override the roll axis and lock the pitch axis of the aircraft. Once enabled, the aircraft will attempt to stabilise or turn itself towards the heading bug set in the ``EHSI`` tab of the left MFD (bottom left knob). This direction will be visible both on the ``EHSI`` in pink, and in the HUD as a downwards triangle on the compass.
 
 This mode is incompatible with ``LNAV`` and ``APP`` modes.
 
 This mode appears as ``HDG`` in the ``EADI``.
 
-Nav (navigation source)
+Nav (Navigation Source)
 -----------------------
 
 This mode will override the roll axis and lock the pitch axis of the aircraft. Once enabled, the aircraft will attempt to follow the navigation source (``NAV1``, ``NAV2``, ``TACAN`` or ``FMS``) set in the ``EHSI`` page of the left MFD. Depending on the NAVSRC mode, it can be configured on the ``RMU`` page or in the ``Autopilot -> Route manager`` menu). The selected direction will be shown by the blue arrow on the ``EHSI``, as well as the numerical value at the bottom right of the same page. For more details, please refer to the ``EHSI`` section of this guide.
@@ -88,7 +91,7 @@ This mode is incompatible with ``HDG`` and ``APP`` modes.
 
 This mode appears as ``LNAV`` in the ``EADI``.
 
-App (ILS approach)
+App (ILS Approach)
 ------------------
 
 Switches to instrumental landing system approach by overriding the pitch and roll axes of the aircraft. It will not, however, control its throttle. It will use the frequency set in the ``VOR.ILS`` panel or the ``RMU`` tab of the left MFD.
@@ -99,7 +102,7 @@ This mode is incompatible with the ``VS``, ``ALT``, ``TF``, ``HDG`` and ``LNAV``
 
 This mode appears as ``APP`` in the ``EADI``.
 
-Spd (speed)
+Spd (Speed)
 -----------
 
 This is an in-sim switch only, and does not exist on actual Mirage 2000s. It overrides the pilot's throttle input in order to maintain the airspeed set in the ``EADI`` tab of the left MFD. 
@@ -108,7 +111,7 @@ Note that once disabled, the pilot has to move the throttle in order to unlock i
 
 This mode is not shown as enabled or otherwise in the ``EADI``.
 
-Note: autopilot glitches
+Note: Autopilot glitches
 ------------------------
 
 Please note that when activating the ``VS``, ``ALT``, ``LNAV`` or ``APP`` modes with too much G-load or AoA, the nose might start bobbing up and down violently. This is an in-sim issue that has not been solved yet. Should this happen to you, disable the autopilot, stabilise the aircraft, then enable it again.

@@ -4,7 +4,9 @@
    :caption: Contents:
 
    home
+   cockpit_instruments
    flying
+   autopilot
    radar
    displays
    weapons

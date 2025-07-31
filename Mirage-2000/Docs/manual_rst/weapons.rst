@@ -77,16 +77,16 @@ Depending on the aircraft version and the weapon station, possible weapon system
 =============================== === === === === === === === === ===
 Payload                         2.L 3.L B.L 1.L C   1.R B.R 3.R 2.R
 =============================== === === === === === === === === ===
-RPL-541/542 (2000L fuel tank)       5BD	                    5BD	
-RPL-501/502 (1700L fuel tank)       5BD	                    5BD	
-RPL-522 (1300L fuel tank)                       5BD				
-Matra Super 530D                        5               5		
+RPL-541/542 (2000L fuel tank)       5BD	                    5BD
+RPL-501/502 (1700L fuel tank)       5BD	                    5BD
+RPL-522 (1300L fuel tank)                       5BD
+Matra Super 530D                        5               5
 Matra R550 Magic II             5BD                             5BD
-MBDA MICA IR                    5B	                            5B
-MBDA MICA EM                            5B  5B      5B  5B		
+MBDA MICA IR                    5B                              5B
+MBDA MICA EM                            5B  5B      5B  5B
 AS30 Laser                          D                       D
 AS37 Armat                          D                       D
-AM39 Exocet                         5BD                     5BD	
+AM39 Exocet                         5BD                     5BD
 SCALP / APACHE                                  5BD
 GBU-12 Paveway II                       D   D       D   D
 2x GBU-12 Paveway II                            5BD
@@ -94,7 +94,7 @@ GBU-24                                          5BD
 SAMP Mk-82                              5BD 5BD     5BD 5BD
 SAMP Mk-82SE                            5BD 5BD     5BD 5BD
 2x SAMP Mk-82                       5BD         5BD         5BD
-2x SAMP Mk-82SE						5BD         5BD         5BD
+2x SAMP Mk-82SE                     5BD         5BD         5BD
 PDLCT (targeting pod)                               5BD
 CC422 (gun pod)                             5BD
 Smoke pod (white)               5BD                             5BD

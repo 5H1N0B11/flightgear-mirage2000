@@ -40,39 +40,40 @@ Overview
 
 Please note that this cockpit model is not complete. Only instruments that have been implemented are highlighted.
 
-1. HUD
-======
+HUD [1]
+=======
 
-Please refer to the HUD section of this guide.
+Please refer to :ref:`link_section_hud`.
 
-2. Autopilot panel
-==================
 
-Please refer to the autopilot section of this guide.
+Autopilot Panel [2]
+===================
 
-3. Elevator trim
-================
+Please refer to :ref:`link_chapter_autopilot`.
+
+Elevator Trim [3]
+=================
 
 This instrument allows for the angle of the elevons to be manually offset in order to adjust the rotational angle of the aircraft along the pitch axis. It can be controlled by scrolling while hovering one's mouse over the wheel.
 
-Please note that the influence of this instrument is rather low, and high-G manoeuvres should rely on the stick input moreso than the trim.
+Please note that the influence of this instrument is rather low, and high-G manoeuvres should rely on the stick input more so than the trim.
 
-4. VTM
-======
+VTM [4]
+=======
 
-Please refer to the VTM section of this guide.
+Please refer to :ref:`link_section_vtm`.
 
-5. Physical flight instruments
-==============================
+Physical Flight Instruments [5]
+===============================
 
 .. image:: images/phys_flight_instruments.png
-   :alt: Physical fligth instruments
+   :alt: Physical flight instruments
    :align: center
 
 These instruments serve as backup for the digital one, as well as when the left MFD is not on the ``EADI`` tab. 
 
-1: Angle of attack (AoA) indicator
-----------------------------------
+Angle of Attack (AoA) Indicator [5.1]
+-------------------------------------
 
 This gauge enables the pilot to see the angle of attack of the aircraft. One dot equals to 5° up until +15°, then 6.7° approx up until 35°. Negative AoA will not be shown. 
 
@@ -80,70 +81,70 @@ While the onboard computer always attempts to keep the Mirage out of a stall (>2
 
 Note that this indicator might not be visible depending on your view position. Moving your head to the side will allow you to see it.
 
-2: Compass
-----------
+Compass [5.2]
+-------------
 
 This indicator will display the current heading in degrees. Depending on the setting of the VTB, it will use either the True North or the Magnetic North. 
 
-3: Airspeed indicator
----------------------
+Airspeed Indicator [5.3]
+------------------------
 
 This indicator will display the current airspeed in knots as well as the current mach below. 
 
-4: Attitude indicator
----------------------
+Attitude Indicator [5.4]
+---------------------------
 
-5: Variometer
--------------
+Variometer [5.5]
+----------------
 
 This indicator will show the vertical speed of the aircraft at low values. Each horizontal bar corresponds to 500ft, with a shown range between -2,000ft/min and +2,000ft/min.
 
-7: Altimeter
-------------
+Altimeter [5.6]
+---------------
 
 This indicator will show the altitude above sea level, adjusted to the pressure set in the ``EADI`` tab of the left MFD.
 
-6. Left MFD 
-===========
-
-Please refer to the left MFD section of this guide.
-
-7. VTB
-======
-
-Please refer to the VTB section of this guide.
-
-8. Right MFD
+Left MFD [6]
 ============
 
-Please refer to the right MFD section of this guide.
+Please refer to :ref:`link_section_left_mfd`.
 
-9. Clock
-========
+VTB [7]
+=======
+
+Please refer to :ref:`link_section_vtb`.
+
+Right MFD [8]
+=============
+
+Please refer to :ref:`link_section_right_mfd`.
+
+Clock [9]
+=========
 
 This clock will display the time in UTC.
 
-10. Master arm switch
-=====================
+Master Arm Switch [10]
+======================
 
 This switch sets all weapon stations as well as the onboard cannon on live fire mode, and must be toggled on to fire any type of armament. It is off by default.
 
 This switch should only be turned on in combat situations.
 
-11. Weapon command panel
-========================
+Weapon Command Panel [11]
+=========================
 
 [Not implemented]
 
-12. Transponder
-===============
+Transponder [12]
+================
 
 The top knobs are used to input the transponder code. The bottom right switch controls the different IFF modes of the aircraft. It is on ``N`` (French: neutre, corresponds to it being switched on) by default.
 
 In combat, the transponder's mode should always be on ``OFF``.
 
-13. Fuel indicator panel
-========================
+Fuel Indicator Panel [13]
+=========================
 
 .. image:: images/fuel_panel.png
    :alt: Fuel indicator panel
@@ -159,12 +160,12 @@ Displays the remaining fuel in kg (Note that the amounts in the ``Equipment -> F
 
 The white Mirage-shaped indicator on the left displays in white sections of the fuel system that are not empty, and in black if they are devoid of any fuel. The upper two rectangles account for both the forward and backward fuselage tanks of each side, and the pentagons for the wing internal tanks. When taking external tanks, they will be displayed as white disks below the aforementioned shapes.
 
-Note that the fuel system will first attempt to empty the external tanks before using the fuel contained in the internal system. If the tanks are jettissonned, the fuel flow will automatically switch to internal tank feed.
+Note that the fuel system will first attempt to empty the external tanks before using the fuel contained in the internal system. If the tanks are jettisoned, the fuel flow will automatically switch to internal tank feed.
 
-14. Engine indicator panel
-==========================
+Engine Indicator Panel [14]
+===========================
 
-This indicator will display informations about the engine's speed and fuel consumption. 
+This indicator will display information about the engine's speed and fuel consumption.
 
 The top value ("N%") displays the ratio of the engine's speed to its maximum military power (i.e. without afterburners). In the idle state, it should be stable at around 47%, and at maximum military power at around 96%. Using afterburners will push this value above 100%. 
 
@@ -172,25 +173,25 @@ The bottom left value shows the estimated fuel consumption per minute in kg. Not
 
 The bottom right value displays the number of engine rotations per minute (RPM). 
 
-15. External tank jettison button
-=================================
+External Tank Jettison Button [15]
+==================================
 
 Self-explanatory name. This does not jettison weapons attached to the pylons of the aircraft. 
 
-Jettisonning the tanks should only be done in dogfight situations or in case of emergency - they come from taxpayers' money, after all.
+Jettisoning the tanks should only be done in dogfight situations or in case of emergency - they come from taxpayers' money, after all.
 
-16. Gear indicator
-==================
+Gear Indicator [16]
+===================
 
 Will display three green downward arrows when the gear is fully lowered. These indicators will disappear once the gear is moving or retracted. 
 
-17. Gear lever
-==============
+Gear lever [17]
+===============
 
 Lowering the lever will lower the gear, and raising it will retract the gear. Using the ``g`` and ``G`` keys (retract and extend gear respectively) will do the same, but also switch to the ``NAV`` and ``APP`` modes respectively.
 
-18. Light switches
-==================
+Light Switches [18]
+===================
 
 .. image:: images/lights_panel.png
    :alt: Light switch panel
@@ -202,30 +203,30 @@ Lowering the lever will lower the gear, and raising it will retract the gear. Us
 #. Tail position lights. On by default.
 #. Wing position lights. On by default.
 
-19. Throttle lever
-==================
+Throttle Lever [19]
+===================
 
-Cannot be moved via the mouse, only with ``Key: PageUp`` and ``Key: PageDown``. Afterburners are enabled at 90% of the lever's maximum extention. 
+Cannot be moved via the mouse, only with ``Key: PageUp`` and ``Key: PageDown``. Afterburners are enabled at 90% of the lever's maximum extension.
 
-Note: this value is different in a real Mirage 2000, where it lies at 75%.
+NB: this value is different in a real Mirage 2000, where it lies at 75%.
 
-20. Elevon hydraulic pressure indicators 
-========================================
+Elevon hydraulic pressure indicators [20]
+=========================================
 
-21. Cabin altitude indicator
-============================
+Cabin Altitude Indicator [21]
+=============================
 
 Not functional.
 
-22. Power switches
-==================
+Power Switches [22]
+===================
 
 The red power switch toggles the battery on/off. The battery should be on at all times when the engine is running. Off by default.
 
 The grey switches toggle all the alternators at once. They should be on at all times when the engine is running. Off by default.
 
-23. Alert Panel
-===============
+Alert Panel [23]
+================
 
 .. image:: images/alert_panel.png
    :alt: Alert panel
@@ -278,15 +279,15 @@ PARK    Parking brake enabled
 AP      Autopilot failure
 ======= ====================================================================
 
-24. ILS / TACAN panel
-=====================
+ILS / TACAN Panel [24]
+======================
 
 The ``VOR.ILS`` value can be tuned to an airport's instrumental landing system frequency in order to help with the landing. When in ``APP`` flying mode and if the ILS is enabled, you will be able to visualise the corresponding airport's runway in the HUD. The left knob changes the frequency by 1 MHz and the right knob by 0.05 MHz.
 
 The ``TACAN`` allows the pilot to change the numerical value of the TACAN channel. The left knob changes it by 10 and the right knob by 1. In order to switch between X and Y modes, use the ``RMU`` tab of the left MFD.
 
-25. Air conditioning panel
-==========================
+Air Conditioning Panel [25]
+===========================
 
 The ``COND`` switch toggles the air conditioning inside the cabin. Off by default.
 
@@ -294,13 +295,13 @@ The knob to its right allows the pilot to set the desired air temperature of the
 
 The ``DESEMB`` switch toggles the windshield fog removal (French: désembuage). Off by default. It is highly advised to turn it on for medium-to-high-altitude flights.
 
-26. Interior lighting panel
-===========================
+Interior Lighting Panel [26]
+============================
 
 Controls the cockpit lights.
 
-27. Engine control panel
-========================
+Engine Control Panel [27]
+=========================
 
 .. image:: images/engine_control_panel.png
    :alt: Engine control panel
@@ -312,7 +313,7 @@ Panel used for starting up the engine.
 
 In order of the startup sequence:
 
-#. Engine cuttoff switch. Enabled by default.
+#. Engine cut-off switch. Enabled by default.
 #. Cover of the cutoff switch. Closing it disables the cutoff switch. Open by default.
 #. Left fuel pump switch. Off by default.
 #. Right fuel pump switch. Off by default.
@@ -321,8 +322,8 @@ In order of the startup sequence:
 #. Starter button cover. Closed by default.
 #. Starter button. Pressing it for a few seconds gives the engine the necessary rotational speed to keep turning on its own.
 
-28. Canopy handle & lock
-========================
+Canopy Handle & Lock [28]
+=========================
 
 Clicking the canopy handle will switch between almost closed and fully opened states. When the canopy is almost closed, clicking the locking lever will fully close and secure the canopy. The canopy is fully opened by default.
 
