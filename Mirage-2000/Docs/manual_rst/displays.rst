@@ -128,7 +128,7 @@ To change the currently displayed page, use the left button on the button row at
 
 The different pages of this MFD are the ``EADI`` (electronic attitude direction indicator), the ``EHSI`` (electronic horizontal situation indicator), the ``EICAS`` (engine indicating and crew alerting system) and the ``RMU`` (radio management unit).
 
-Electronic attitude direction indicator (EADI)
+Electronic Attitude Direction Indicator (EADI)
 ----------------------------------------------
 
 .. image:: images/eadi.png
@@ -149,7 +149,7 @@ Electronic attitude direction indicator (EADI)
 
 If applicable, the name of the route's next waypoint or target airport will be shown below the attitude indicator.
 
-Electronic horizontal situation indicator (EHSI)
+Electronic Horizontal Situation Indicator (EHSI)
 ------------------------------------------------
 
 .. image:: images/ehsi.png
@@ -165,7 +165,7 @@ Electronic horizontal situation indicator (EHSI)
 #. Cycle between autopilot navigation sources: ``NAV1``, ``NAV2``, ``TACAN`` (all three set in the ``RMU`` page of this same MFD) and ``FMS`` (route set in ``Autopilot -> Route manager``). The selected source and evental additional information will be displayed in blue text. This also controls the blue arrow's status.
 #. Navigation heading adjustment knob (+/- 1°). Only applicable if ``NAV1`` and/or ``NAV2`` do not have a valid navigation frequency set.
 
-Engine indicating and crew alerting system (EICAS)
+Engine Indicating and Crew Alerting System (EICAS)
 --------------------------------------------------
 
 .. image:: images/eicas.png
@@ -182,7 +182,10 @@ Engine indicating and crew alerting system (EICAS)
 #. Hydraulic system pressure
 #. Switch to the ``RMU`` page
 
-Radio management unit (RMU)
+
+.. _link_subsection_RMU:
+
+Radio Management Unit (RMU)
 ---------------------------
 
 .. image:: images/rmu.png

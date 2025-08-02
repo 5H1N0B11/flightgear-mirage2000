@@ -213,6 +213,8 @@ NB: this value is different in a real Mirage 2000, where it lies at 75%.
 Elevon hydraulic pressure indicators [20]
 =========================================
 
+Not functional.
+
 Cabin Altitude Indicator [21]
 =============================
 
@@ -282,9 +284,13 @@ AP      Autopilot failure
 ILS / TACAN Panel [24]
 ======================
 
-The ``VOR.ILS`` value can be tuned to an airport's instrumental landing system frequency in order to help with the landing. When in ``APP`` flying mode and if the ILS is enabled, you will be able to visualise the corresponding airport's runway in the HUD. The left knob changes the frequency by 1 MHz and the right knob by 0.05 MHz.
+The ``VOR.ILS`` value can be tuned to an airport's instrumental landing system frequency in order to help with the landing. When in ``APP`` flying mode and if the ILS is enabled, you will be able to visualise the corresponding airport's runway in the HUD. The left knob changes the frequency by 1 MHz and the right knob by 0.05 MHz. The left knob's real function to set the system on (``M``) or off (``A``) is not implemented. Neither are the rights knob's testing functions.
 
-The ``TACAN`` allows the pilot to change the numerical value of the TACAN channel. The left knob changes it by 10 and the right knob by 1. In order to switch between X and Y modes, use the ``RMU`` tab of the left MFD.
+Alternatively the frequency can be changed as NAV1 using the Radio Management Unit (see :ref:`link_subsection_RMU`) or menu item ``Radio Settings`` (``Key: F12``) in menu ``Equipment``.
+
+The ``TACAN`` allows the pilot to change the numerical value of the TACAN channel. The left knob (in the centre) changes it by 10 and the right knob by 1. To switch between the ``X`` and ``Y`` band the left knob's border can be used. The TACAN operational mode cannot be changed in any way.
+
+Alternatively the TACAN channel can be changed using the Radio Management Unit (see :ref:`link_subsection_RMU`) or menu item ``Radio Settings`` (``Key: F12``) in menu ``Equipment``.
 
 Air Conditioning Panel [25]
 ===========================
