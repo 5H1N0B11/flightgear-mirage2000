@@ -136,12 +136,59 @@ Weapon Command Panel [11]
 
 [Not implemented]
 
-Transponder [12]
-================
+IFF Transponder [12]
+====================
 
-The top knobs are used to input the transponder code. The bottom right switch controls the different IFF modes of the aircraft. It is on ``N`` (French: neutre, corresponds to it being switched on) by default.
+The Mirage 2000 IFF transponder panel includes both civil and military functionality. A `Transponder⇗ <https://en.wikipedia.org/wiki/Transponder_(aeronautics)>`_ assists air traffic control to identify an aircraft. An `Identification Friend or Foe⇗ <https://en.wikipedia.org/wiki/Identification_friend_or_foe>`_ system is for combat scenarios. Despite the name, IFF can only positively identify friendly aircraft, it cannot identify foes. An enemy aircraft is undistinguishable from e.g. a civilian aircraft, or an aircraft with a non-functioning IFF system.
 
-In combat, the transponder's mode should always be on ``OFF``.
+NB: the generic FlightGear civil transponder can be accessed using menu item ``Radio Settings`` (``Key: F12``) in menu ``Equipment``. It has an ``IDENT`` button. There is a description in an `FG wiki article⇗ <https://wiki.flightgear.org/Transponder>`_ and it will therefore not be described further here. However, you should use the Mirage transponder panel instead of the ``Radio Settings``, because the two are not fully compatible and the 3D panel does not consistently update by settings through the dialogue.
+
+.. image:: images/iff_transponder_panel.png
+   :alt: IFF transponder panel
+   :align: center
+   :scale: 50%
+
+Upper Part of Panel
+-------------------
+
+The top left 2 wheels ``Mode-1`` do not work. The top 4 right wheels ``Mode-3A`` are used to input the civil transponder code (which corresponds to the value in the ``Radio Settings``).
+
+The ``IDENT`` switch is spring loaded and can be used to respond to civil interrogations.
+
+The military interrogation switches ``M-1`` and ``M-2`` do not work.
+
+The ``M-3A`` switch works for civil identification interrogation and the ``M-C`` works for civil altitude reporting interrogation. Only one of them can be active, but both can be off.
+
+
+Mode-4 Subpanel
+---------------
+
+The position of the bottom left switch ``Reply`` determines whether the IFF interrogation functionality is powered ``On`` or ``Off``.
+
+For an interrogation to be answered, several things need to be in place:
+
+* The ``Reply`` switch is ``On``.
+* The knob is on either ``A`` or ``B``. The IFF channel value for A and B are set in menu item ``Mission Preplanning`` accessed through menu ``Mirage 2000``.
+* The IFF master knob is on ``N``.
+
+
+The Audio-Out-Light switch is not implemented.
+
+IFF Master Subpanel
+-------------------
+
+Changing the knob to ``N`` automatically sets ``M-3A`` if neither ``M-3A`` nor ``M-C`` is set. Changing the knob to ``EMER`` automatically sets ``M-3A`` no matter the setting for ``M-3A and ``M-C``.
+
+``N`` (neutre) means that civil interrogations for ``M-3A`` or ``M-C`` are enabled, military interrogations for mode 4 are enabled and military interrogations for modes 1 & 2 are enabled (but modes 1 & 2 are not implemented).
+
+NB: even if the knob is on ``N``: an actual interrogation still needs to be replied to using the ``IDENT`` switch for civil interrogations or the ``Reply`` switch for military interrogations in mode 4.
+
+
+IFF Interrogator Panel
+----------------------
+
+In the real Mirage aside the transponder panel there is also an IFF interrogator panel on the right console near the ILS & TACAN panel. This is not implemented - i.e. you cannot see it in 3D and you currently cannot interrogate other aircraft from the Mirage.
+
 
 Fuel Indicator Panel [13]
 =========================

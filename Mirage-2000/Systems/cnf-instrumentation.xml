@@ -204,9 +204,10 @@
 		<!-- ' 1310 : MILITARY FLIGHT > FL 115 -->
 		<id-code>1310</id-code>
 		<switch>
-			<MoletteTrans> 3 </MoletteTrans>
+			<MoletteIFFMaster> 0 </MoletteIFFMaster>
+			<MoletteIFFMode4> 0 </MoletteIFFMode4>
 			<ALTITUDE> 0 </ALTITUDE>
-			<IDENTIFICATION> 1 </IDENTIFICATION>
+			<IDENTIFICATION> 0 </IDENTIFICATION>
 		</switch>
 	</transponder>
 

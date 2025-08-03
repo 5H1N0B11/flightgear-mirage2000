@@ -508,16 +508,29 @@
     </axis>
   </animation> -->
 
-  <!--  Switch 1-->
+  <!--  Switch 1: Identification - only IDENT and OFF work, not MIC-->
   <animation>
     <type>pick</type>
     <object-name>transpondeur.switch1</object-name>
     <action>
       <button>0</button>
+      <repeatable>false</repeatable>
       <binding>
         <command>property-toggle</command>
-        <property>/instrumentation/transponder/inputs/ident-btn</property>
+        <property>sim/model/click</property>
       </binding>
+      <binding>
+        <command>property-assign</command>
+        <property>/instrumentation/transponder/inputs/ident-btn</property>
+        <value>true</value>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/transponder/inputs/ident-btn</property>
+          <value>false</value>
+        </binding>
+      </mod-up>
     </action>
   </animation>
 
@@ -598,7 +611,7 @@
     </axis>
   </animation> -->
 
-  <!-- Switch 4 -->
+  <!-- Switch 4: M-3A-->
   <animation>
     <type>pick</type>
     <object-name>transpondeur.switch4</object-name>
@@ -610,7 +623,7 @@
       </binding>
       <binding>
         <command>nasal</command>
-        <script>mirage2000.IDENT();</script>
+        <script>mirage2000.toggleIdentification();</script>
       </binding>
     </action>
   </animation>
@@ -632,7 +645,7 @@
     </axis>
   </animation>
 
-  <!-- Switch 5 -->
+  <!-- Switch 5: M-C -->
   <animation>
     <type>pick</type>
     <object-name>transpondeur.switch5</object-name>
@@ -644,7 +657,7 @@
       </binding>
       <binding>
         <command>nasal</command>
-        <script>mirage2000.ALTITUDE();</script>
+        <script>mirage2000.toggleAltitude();</script>
       </binding>
     </action>
   </animation>
@@ -758,6 +771,7 @@
     </axis>
   </animation> -->
 
+  <!-- Rotating knob lower left side: Hold, A, B, Zero -->
   <animation>
     <name>transpondeur.MoletteIFF</name>
     <object-name>transpondeur.button1.2</object-name>
@@ -769,7 +783,7 @@
     <object-name>transpondeur.button1.2</object-name>
     <property>controls/iff/channel-select</property>
     <factor>35</factor>
-    <offset-deg>-50</offset-deg>
+    <offset-deg>55</offset-deg>
     <center>
       <x-m>-3.4811</x-m>
       <y-m>-0.024328</y-m>
@@ -795,8 +809,9 @@
     
   </animation>
 
+  <!-- Rotating knob lower right side: Off, Stb, N, EMER -->
   <animation>
-    <name>transpondeur.MoletteTransponder</name>
+    <name>transpondeur.MoletteIFFMaster</name>
     <object-name>transpondeur.button2.2</object-name>
     <object-name>transpondeur.textebutton2</object-name>
   </animation>
@@ -814,23 +829,23 @@
       </binding>
       <binding>
         <command>property-adjust</command>
-        <property>/instrumentation/transponder/switch/MoletteTrans</property>
+        <property>/instrumentation/transponder/switch/MoletteIFFMaster</property>
         <step>1</step>
         <min>0</min>
-        <max>4</max>
+        <max>3</max>
         <wrap>false</wrap>
       </binding>
       <binding>
         <command>nasal</command>
-        <script>mirage2000.MOLETTE_haut();</script>
+        <script>mirage2000.toggleMoletteIFFMaster();</script>
       </binding>
     </action>
     <hovered>
       <binding>
         <command>set-tooltip</command>
         <tooltip-id>mode-transp</tooltip-id>
-        <label>Transpondeur : %s</label>
-        <property>/instrumentation/transponder/switch/MoletteTrans</property>
+        <label>IFF Master: %s</label>
+        <property>/instrumentation/transponder/switch/MoletteIFFMaster</property>
       </binding>
     </hovered>
   </animation>
@@ -848,24 +863,24 @@
       </binding>
       <binding>
         <command>property-adjust</command>
-        <property>/instrumentation/transponder/switch/MoletteTrans</property>
+        <property>/instrumentation/transponder/switch/MoletteIFFMaster</property>
         <step>-1</step>
         <min>0</min>
-        <max>4</max>
+        <max>3</max>
         <wrap>false</wrap>
       </binding>
       <binding>
         <command>nasal</command>
-        <script>mirage2000.MOLETTE_bas();</script>
+        <script>mirage2000.toggleMoletteIFFMaster();</script>
       </binding>
     </action>
   </animation>
 
   <animation>
     <type>rotate</type>
-    <object-name>transpondeur.MoletteTransponder</object-name>
-    <property>/instrumentation/transponder/switch/MoletteTrans</property>
-    <factor>20</factor>
+    <object-name>transpondeur.MoletteIFFMaster</object-name>
+    <property>/instrumentation/transponder/switch/MoletteIFFMaster</property>
+    <factor>25</factor>
     <center>
       <x-m>-3.481</x-m>
       <y-m>0.033126</y-m>
