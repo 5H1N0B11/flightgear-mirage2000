@@ -85,10 +85,10 @@
 
 			<item n="11">
 				<label>Mission Preplanning</label>
-				<name>iff</name>
+				<name>mission-preplanning</name>
 				<binding>
 					<command>dialog-show</command>
-					<dialog-name>iff</dialog-name><!-- is referenced in m2000-5.nas -->
+					<dialog-name>mission-preplanning</dialog-name><!-- is referenced in m2000-5.nas -->
 				</binding>
 			</item>
 

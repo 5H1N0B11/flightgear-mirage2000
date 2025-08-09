@@ -67,7 +67,6 @@
 
 ## TODO ##
 * Use French symbology from DCS or elsewhere
-* Check whether datalink works
 
 <!-- ========================================================================================= -->
 # VTM #

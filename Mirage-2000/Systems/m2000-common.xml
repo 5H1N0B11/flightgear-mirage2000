@@ -68,8 +68,6 @@
 			<path>/link16/wingman-8</path>
 			<path>/link16/wingman-9</path>
 			<path>/link16/wingman-10</path>
-			<path>instrumentation/iff/channel_A_hold</path>
-			<path>instrumentation/iff/channel_B_hold</path>
 			<!--
 			<path>/instrumentation/transponder/inputs/digit[0]</path>
 			<path>/instrumentation/transponder/inputs/digit[1]</path>

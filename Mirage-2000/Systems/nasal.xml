@@ -125,7 +125,6 @@
 	</gci>
 	<iff>
 		<file>Aircraft/Mirage-2000/Nasal/iff.nas</file>
-		<file>Aircraft/Mirage-2000/Nasal/iff_m2000.nas</file>
 	</iff>
 	<light>
 		<file>Aircraft/Mirage-2000/Nasal/light-manager.nas</file>

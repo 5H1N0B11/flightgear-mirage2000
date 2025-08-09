@@ -227,11 +227,6 @@
 
 	<assistance type="bool">0</assistance>
 
-	<iff>
-		<iff-power type="bool">false</iff-power>
-		<channel-select type="int">0</channel-select>
-	</iff>
-
 	<!-- Based on the JA37 -->
 	<displays>
 		<stick-controls-cursor type="bool">false</stick-controls-cursor>

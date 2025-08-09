@@ -206,6 +206,12 @@ D03: Mirage 2000-C - Manuel Pilote
 Ca. 131 pages in French. Available as pdf-file on the internet.
 
 
+D04: M2000-C User Manual DCS - RAZBAM
+-------------------------------------
+
+The user manual for the Mirage 2000-C simulated in the DCS combat simulator by RAZBAM. Available at `RAZBAM DCS Manuals <https://www.razbamsimulationsllc.com/dcs-manuals>`_.
+
+
 Links
 =====
 

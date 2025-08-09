@@ -204,21 +204,21 @@
 		<!-- ' 1310 : MILITARY FLIGHT > FL 115 -->
 		<id-code>1310</id-code>
 		<switch>
-			<MoletteIFFMaster> 0 </MoletteIFFMaster>
-			<MoletteIFFMode4> 0 </MoletteIFFMode4>
-			<ALTITUDE> 0 </ALTITUDE>
-			<IDENTIFICATION> 0 </IDENTIFICATION>
+			<transponder_master>0</transponder_master>
+			<altitude>0</altitude>
+			<identification>0</identification>
 		</switch>
 	</transponder>
 
-	<iff>
-		<power_prop type="string">controls/iff/iff-power</power_prop>
+	<iff> <!-- Cf. iff.nas and -->
+		<power_prop type="string">instrumentation/iff/power</power_prop>
 		<channel_prop type="string">instrumentation/iff/channel</channel_prop>
-		<channel type="int">0</channel>
-		<channel_A type="int">0</channel_A>
-		<channel_B type="int">0</channel_B>
-		<channel_A_hold type="int">0</channel_A_hold>
-		<channel_B_hold type="int">0</channel_B_hold>
+		<channel type="int">0</channel> <!-- set by logic in transpondeur.nas -->
+		<channel_A type="int">0</channel_A> <!-- set in gui/dialogs/mission-preplanning.xml - can be reset in transpondeur.nas -->
+		<channel_B type="int">0</channel_B> <!-- set in gui/dialogs/mission-preplanning.xml - can be reset in transpondeur.nas -->
+		<reply type="int">0</reply> <!-- set by switch 3D -->
+		<power type="int">0</power> <!-- set by logic in transpondeur.nas -->
+		<channel_select type="int">0</channel_select> <!-- set by knob 3D -->
 	</iff>
 
 	<datalink>

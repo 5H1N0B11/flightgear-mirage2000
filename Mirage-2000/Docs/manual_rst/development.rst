@@ -57,7 +57,7 @@ Naming Conventions
 * Other variables: snake_case (lowercase and underscores - e.g. ripple_mode)
 * Classes: PascalCase
 * Methods and functions: camelCase
-* "private" methods and functions: start with underscore (e.g. _changeRippleMode()). Like in Python this is just a convention, not enforced. "Private" means here within a class or the file.
+* "private" methods and functions: start with underscore (e.g. _changeRippleMode()). Like in Python this is just a convention, not enforced. "Private" means here: within a class or the file.
 
 Booleans
 --------
@@ -75,3 +75,10 @@ Spacing
 
 * Use space in front of curly braces.
 * Use space between key words and parentheses (e.g. ``if (`` ).
+
+
+XML Conventions
+===============
+
+* Encoding = ``<?xml version="1.0" encoding="utf-8"?>``
+* Use tabs covering 4 spaces.

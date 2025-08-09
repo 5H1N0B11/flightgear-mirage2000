@@ -451,7 +451,7 @@ var mp_messaging = func() {
 		if (!getprop("/gear/gear[0]/wow")) {
 			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "payload-5"}))},nil,var err2 = []);
 			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "payload-d"}))},nil,var err2 = []);
-			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "iff"}))},nil,var err2 = []);
+			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "mission-preplanning"}))},nil,var err2 = []);
 		}
 	}
 }

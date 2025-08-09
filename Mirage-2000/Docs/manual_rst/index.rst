@@ -9,6 +9,7 @@
    autopilot
    radar
    displays
+   iff_datalink
    weapons
    references
    abbreviations
