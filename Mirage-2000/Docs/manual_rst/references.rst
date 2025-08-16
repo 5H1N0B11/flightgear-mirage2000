@@ -323,15 +323,17 @@ Content:
 * Some live footage of HUD here and there.
 
 
-Y05: Le Mirage 2000
--------------------
+Y05: Les Guerriers du Ciel - Mirage 2000, Le Chasseur Polyvalent (Documentaire)
+-------------------------------------------------------------------------------
 
-URL: https://www.youtube.com/watch?v=YjI7Tg75MD8
+URL: https://www.youtube.com/watch?v=VkRisFae93Y (same as https://www.youtube.com/watch?v=YjI7Tg75MD8)
 
 Content:
 
 * Presentation of the -C, -5 and N versions.
-* Around 21:26: HUD in weapons mode shooting (Mirage 2000-5)
+* At around 11:00: Close up view of the antennas / sensors on the tail and the back of a Mirage 2000D.
+* At ca. 21:00: A few seconds of Mirage 2000-5 left side of front cockpit panel plus HUD sequence of missile launch (probably simulator)
+* At around 31:00 - 32:30: Mirage 2000N simulator cockpit views
 
 
 Y06: Mirage 2000 D : un appareil CRUCIAL avant le "tout-RAFALE"
