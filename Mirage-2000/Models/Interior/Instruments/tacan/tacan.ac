@@ -53,7 +53,7 @@ OBJECT poly
 name "tacan.knob1"
 loc 0.0001235 0.0000000 0.0000000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 115
 -0.0005000 0.0065100 0.0118600
@@ -933,7 +933,7 @@ OBJECT poly
 name "tacan.knob2"
 loc 0.0001235 0.0000000 0.0000000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 115
 0.0007100 0.0065100 -0.0071300
@@ -1813,7 +1813,7 @@ OBJECT poly
 name "tacan.knob_mode"
 loc 0.0001235 0.0000000 0.0000000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 128
 0.0005900 0.0051900 -0.0070300
@@ -2657,7 +2657,7 @@ OBJECT poly
 name "tacan.knob_x/y"
 loc 0.0001235 0.0000000 0.0000000
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 128
 0.0005900 0.0051900 0.0070300
@@ -3561,7 +3561,7 @@ OBJECT poly
 name "tacan.texte"
 loc 0.0001235 0.0001808 0.0000000
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 611
 -0.0017200 0.0025500 -0.0025500

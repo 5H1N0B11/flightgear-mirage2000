@@ -12,7 +12,7 @@ OBJECT poly
 name "lights_switchs.button1"
 loc -0.1077032 -0.0526059 0.0424516
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 -0.0008204 -0.0002091 -0.0000000
@@ -1270,7 +1270,7 @@ OBJECT poly
 name "lights_switchs.button1_light"
 loc -0.1077309 -0.0525686 0.0424516
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 64
 -0.0033529 0.0090718 0.0000000
@@ -1567,7 +1567,7 @@ OBJECT poly
 name "lights_switchs.button2"
 loc -0.0849357 -0.0607685 0.0424516
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 480
 -0.0009943 -0.0002202 -0.0000000
@@ -4436,7 +4436,7 @@ OBJECT poly
 name "lights_switchs.button2_light"
 loc -0.0849357 -0.0607685 0.0424516
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 192
 -0.0027335 0.0092321 0.0000000
@@ -5414,7 +5414,7 @@ OBJECT poly
 name "lights_switchs.button3"
 loc -0.0621679 -0.0689313 0.0424516
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 -0.0008204 -0.0002091 -0.0000000
@@ -6672,7 +6672,7 @@ OBJECT poly
 name "lights_switchs.button4"
 loc -0.0670767 -0.0828951 0.0200026
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 -0.0007550 -0.0003830 -0.0000000
@@ -7930,7 +7930,7 @@ OBJECT poly
 name "lights_switchs.button5"
 loc -0.0670767 -0.0828951 0.0042782
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 -0.0007550 -0.0003830 -0.0000000
@@ -9188,7 +9188,7 @@ OBJECT poly
 name "lights_switchs.button6"
 loc -0.0670767 -0.0828951 -0.0111148
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 -0.0007550 -0.0003830 -0.0000000

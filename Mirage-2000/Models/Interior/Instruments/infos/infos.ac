@@ -487,7 +487,7 @@ OBJECT poly
 name "infos.text"
 loc 1.4156034 0.0189850 -0.0055100
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 205
 -1.4175506 -0.0185335 -0.0662879

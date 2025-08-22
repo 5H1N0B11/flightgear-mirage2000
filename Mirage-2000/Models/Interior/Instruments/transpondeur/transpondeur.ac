@@ -1281,7 +1281,7 @@ OBJECT poly
 name "transpondeur.lignes"
 loc 0.0036809 -0.0147128 -0.0207910
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 58
 0.0017641 -0.0114418 0.0919250
@@ -38217,7 +38217,7 @@ OBJECT poly
 name "transpondeur.texte"
 loc 0.0134003 -0.0749229 0.0644570
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 3484
 -0.0012245 0.0079422 -0.0577640
@@ -58723,7 +58723,7 @@ OBJECT poly
 name "transpondeur.textebutton1"
 loc 0.0113680 -0.0478230 0.0239130
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 1014
 0.0047996 -0.0169415 0.0096870
@@ -64762,7 +64762,7 @@ OBJECT poly
 name "transpondeur.textebutton2"
 loc 0.0113680 -0.0478230 -0.0338530
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 1016
 0.0000648 0.0137677 -0.0115010

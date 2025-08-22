@@ -12,7 +12,7 @@ OBJECT poly
 name "poignee.poignee"
 loc 0.0106652 0.0185722 -0.0087282
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 833
 0.0271284 0.0069661 0.0000002

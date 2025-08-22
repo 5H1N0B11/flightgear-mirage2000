@@ -13,7 +13,7 @@ OBJECT poly
 name "vor-ils.button1"
 loc 0.0107000 0.0032940 0.0126960
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 115
 0.0048830 0.0000800 -0.0028220
@@ -893,7 +893,7 @@ OBJECT poly
 name "vor-ils.button2"
 loc 0.0106959 0.0032940 -0.0126900
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 115
 0.0048870 0.0000800 -0.0028160
@@ -1911,7 +1911,7 @@ OBJECT poly
 name "vor-ils.texte"
 loc 0.0106959 0.0038362 0.0126900
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 957
 -0.0119720 -0.0007410 -0.0267540

@@ -13,7 +13,7 @@ OBJECT poly
 name "ap.label"
 loc -3.5061088 -0.2202846 0.1408848
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 438
 0.0009125 -0.0460451 -0.0029420
@@ -4288,7 +4288,7 @@ OBJECT poly
 name "ap.pa-pitch"
 loc -3.5316768 -0.2450956 0.1357348
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 128
 0.0024732 0.0308075 -0.0010005

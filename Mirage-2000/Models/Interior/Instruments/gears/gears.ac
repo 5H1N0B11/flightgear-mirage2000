@@ -5702,7 +5702,7 @@ OBJECT poly
 name "gears.knob"
 loc 0.0006950 -0.0000028 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 177
 -0.0000465 0.0011616 -0.0015887
@@ -8864,7 +8864,7 @@ OBJECT poly
 name "gears.texte"
 loc -0.0009782 -0.0000697 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 216
 0.0018866 -0.0027040 0.0150470

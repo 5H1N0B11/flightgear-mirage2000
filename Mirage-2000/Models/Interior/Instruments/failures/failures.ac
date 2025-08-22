@@ -2164,7 +2164,7 @@ OBJECT poly
 name "failures.traits"
 loc 0.0015104 0.0044710 0.0049990
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 1568
 -0.0000141 0.0276036 -0.0331702

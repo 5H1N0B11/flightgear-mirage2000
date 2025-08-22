@@ -861,7 +861,7 @@ OBJECT poly
 name "weapons.light"
 loc 0.0000000 -0.0201950 -0.0029799
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 32
 0.0207487 0.0105289 0.0904088
@@ -1014,7 +1014,7 @@ OBJECT poly
 name "weapons.switch"
 loc 0.0000000 -0.0201950 -0.0029799
 crease 30.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 227
 -0.0039716 0.0113982 0.0907196
@@ -2501,7 +2501,7 @@ OBJECT poly
 name "weapons.switch2"
 loc 0.0000000 -0.0201950 -0.0029799
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 195
 -0.0039667 -0.0316416 0.0907196
@@ -3844,7 +3844,7 @@ OBJECT poly
 name "weapons.Text"
 loc -0.0009682 -0.0205771 -0.0026244
 crease 40.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 275
 0.0059079 0.0230176 0.0877690

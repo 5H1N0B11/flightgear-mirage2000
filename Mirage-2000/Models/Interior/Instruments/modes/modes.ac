@@ -12,7 +12,7 @@ OBJECT poly
 name "modes.knob0"
 loc -0.0015459 0.0015560 0.0247250
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 330
 0.0015540 0.0067289 -0.0033330
@@ -2597,7 +2597,7 @@ OBJECT poly
 name "modes.knob1"
 loc 0.0012882 0.0015560 -0.0309190
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 330
 0.0008150 0.0057160 0.0030430
@@ -5182,7 +5182,7 @@ OBJECT poly
 name "modes.texte"
 loc 0.0001142 -0.0003190 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 1830
 -0.0045440 0.0020022 -0.0374870

@@ -12,7 +12,7 @@ OBJECT poly
 name "starter.cachecoupefeu"
 loc 0.0070493 0.0011450 -0.0093370
 crease 60.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 80
 -0.0038690 0.0064390 -0.0070430
@@ -681,7 +681,7 @@ OBJECT poly
 name "starter.cachestart"
 loc -0.0067556 0.0021140 0.0222620
 crease 45.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 361
 0.0008070 0.0010680 0.0119020
@@ -3482,7 +3482,7 @@ OBJECT poly
 name "starter.coupefeu"
 loc 0.0070493 0.0006330 -0.0182910
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 0.0000000 -0.0003830 -0.0007550
@@ -4740,7 +4740,7 @@ OBJECT poly
 name "starter.coupefeu_light"
 loc 0.0070493 0.0008045 -0.0183653
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 64
 -0.0000000 0.0081220 -0.0052510
@@ -5037,7 +5037,7 @@ OBJECT poly
 name "starter.dm"
 loc -0.0065727 0.0008370 -0.0231590
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 0.0000000 -0.0003830 -0.0007550
@@ -6295,7 +6295,7 @@ OBJECT poly
 name "starter.pompe"
 loc -0.0065727 0.0008370 0.0151830
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 0.0000000 -0.0003830 -0.0007550
@@ -7553,7 +7553,7 @@ OBJECT poly
 name "starter.pompes"
 loc -0.0065727 0.0008370 -0.0032520
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 0.0000000 -0.0003830 -0.0007550
@@ -8811,7 +8811,7 @@ OBJECT poly
 name "starter.starter"
 loc 0.0027792 0.0008510 0.0286760
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 0.0000000 -0.0000950 -0.0064720
@@ -10069,7 +10069,7 @@ OBJECT poly
 name "starter.texte"
 loc 0.0000753 0.0012364 0.0000000
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 1079
 -0.0039810 -0.0000000 -0.0308200
@@ -16697,7 +16697,7 @@ OBJECT poly
 name "starter.textecoupefeu"
 loc 0.0070493 0.0011450 -0.0093370
 crease 180.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 440
 0.0004270 0.0076858 -0.0066870
@@ -19334,7 +19334,7 @@ OBJECT poly
 name "starter.vent"
 loc 0.0071003 0.0008370 0.0102060
 crease 20.0
-texture "cockpit.png"
+texture "../../cockpit.png"
 texrep 1 1
 numvert 161
 0.0000000 -0.0003830 -0.0007550

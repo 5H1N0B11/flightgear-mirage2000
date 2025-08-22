@@ -10,7 +10,7 @@ kids 31
 OBJECT poly
 name "carburant.knob"
 loc 0.00608134 -0.0250269 0.0253024
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 45.000000
 numvert 205
 0.00679207 0.00237471 -0.00378381
@@ -1519,7 +1519,7 @@ kids 0
 OBJECT poly
 name "carburant.lefttank"
 loc 0.00169134 0.00106713 0.0253924
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 33
 0 0 0.002841
@@ -1752,7 +1752,7 @@ kids 0
 OBJECT poly
 name "carburant.low-lamp"
 loc 0.00409126 0.00658712 -0.0376656
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 179.000000
 numvert 25
 0.00231123 0 0
@@ -1945,7 +1945,7 @@ kids 0
 OBJECT poly
 name "carburant.low-lamp-off"
 loc 0.00409126 0.00658712 -0.0376656
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 45.000000
 numvert 25
 0.00231123 0 0
@@ -2138,7 +2138,7 @@ kids 0
 OBJECT poly
 name "carburant.low-lamp-off2"
 loc 0.00409126 0.0305871 -0.0376656
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 179.000000
 numvert 25
 0.00231123 0 0
@@ -2331,7 +2331,7 @@ kids 0
 OBJECT poly
 name "carburant.low-lamp2"
 loc 0.00409126 0.0305871 -0.0376656
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 45.000000
 numvert 25
 0.00231123 0 0
@@ -2524,7 +2524,7 @@ kids 0
 OBJECT poly
 name "carburant.middletank"
 loc 0.00169134 0.00106713 0.0253924
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 33
 0 0 -0.002159
@@ -3004,7 +3004,7 @@ kids 0
 OBJECT poly
 name "carburant.righttank"
 loc 0.00169134 0.00106713 0.0253924
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 33
 0 0 -0.00715899
@@ -3237,7 +3237,7 @@ kids 0
 OBJECT poly
 name "carburant.texte"
 loc 0.00189114 0.0338961 -0.0148906
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 1722
 0.000360966 -0.018856 0.022833
@@ -14968,7 +14968,7 @@ kids 0
 OBJECT poly
 name "carburant.warningblancTR"
 loc -0.00146866 0.00644812 0.00299338
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 4
 0.00282502 0.012917 0.019158
@@ -14987,7 +14987,7 @@ kids 0
 OBJECT poly
 name "carburant.warningblancBR"
 loc 0.00136113 0.00649813 0.00297438
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 5
 0 0.012502 0.022096
@@ -15013,7 +15013,7 @@ kids 0
 OBJECT poly
 name "carburant.warningrougeBR"
 loc -0.00189877 0.00649813 0.00297438
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 5
 0.00282502 0.012502 0.022096
@@ -15039,7 +15039,7 @@ kids 0
 OBJECT poly
 name "carburant.warningrougeTR"
 loc -0.00189877 0.00644812 0.00299338
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 4
 0.00282502 0.012917 0.019158
@@ -15058,7 +15058,7 @@ kids 0
 OBJECT poly
 name "carburant.warningrougeBL"
 loc -0.00189877 0.00649813 0.00297438
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 5
 0.00282502 0.012502 0.022739
@@ -15084,7 +15084,7 @@ kids 0
 OBJECT poly
 name "carburant.warningrougeTL"
 loc -0.00189877 0.00649813 0.00298937
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 4
 0.00282502 0.012917 0.025677
@@ -15103,7 +15103,7 @@ kids 0
 OBJECT poly
 name "carburant.warningblancTL"
 loc -0.00146866 0.00649813 0.00298937
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 4
 0.00282502 0.012917 0.025677
@@ -15122,7 +15122,7 @@ kids 0
 OBJECT poly
 name "carburant.warningblancBL"
 loc -0.00146866 0.00649813 0.00297438
-texture "cockpit.png"
+texture "../../cockpit.png"
 crease 30.000000
 numvert 5
 0.00282502 0.012502 0.022739
