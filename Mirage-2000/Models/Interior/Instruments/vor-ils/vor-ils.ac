@@ -1773,7 +1773,7 @@ OBJECT poly
 name "vor-ils.dot"
 loc 0.0053651 -0.0005670 0.0009780
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 8
 -0.0087320 0.0028120 -0.0025098
@@ -1811,7 +1811,7 @@ OBJECT poly
 name "vor-ils.num-0"
 loc 0.0053651 -0.0005670 -0.0000840
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0087320 0.0028120 0.0098780
@@ -1831,7 +1831,7 @@ OBJECT poly
 name "vor-ils.num-1"
 loc 0.0053651 -0.0005670 -0.0000840
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0087320 0.0028120 0.0061920
@@ -1851,7 +1851,7 @@ OBJECT poly
 name "vor-ils.num-2"
 loc 0.0053651 -0.0005670 -0.0000840
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0151650 0.0028120 0.0025080
@@ -1871,7 +1871,7 @@ OBJECT poly
 name "vor-ils.num-3"
 loc 0.0053651 -0.0005670 0.0009780
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0087320 0.0028120 -0.0061723
@@ -1891,7 +1891,7 @@ OBJECT poly
 name "vor-ils.num-4"
 loc 0.0053651 -0.0005670 0.0010970
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0087320 0.0028120 -0.0098770

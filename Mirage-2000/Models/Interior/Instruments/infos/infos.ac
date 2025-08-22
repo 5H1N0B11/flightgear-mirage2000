@@ -74,7 +74,7 @@ OBJECT poly
 name "infos.ft0"
 loc -0.0013821 -0.0104558 -0.0722178
 crease 1.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 12
 0.0000000 0.0047650 0.0133980
@@ -129,7 +129,7 @@ OBJECT poly
 name "infos.ft1"
 loc -0.0009739 -0.0116187 -0.0837318
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0034916 -0.0021679
@@ -149,7 +149,7 @@ OBJECT poly
 name "infos.ft10"
 loc -0.0009739 -0.0116187 -0.0792960
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 0.0034923 -0.0021679
@@ -169,7 +169,7 @@ OBJECT poly
 name "infos.ft100"
 loc -0.0009739 -0.0104558 -0.0740265
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 0.0047650 -0.0029580
@@ -189,7 +189,7 @@ OBJECT poly
 name "infos.ft1000"
 loc -0.0009739 -0.0104558 -0.0680409
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 0.0047650 -0.0029580
@@ -209,7 +209,7 @@ OBJECT poly
 name "infos.ft10000"
 loc -0.0009739 -0.0104558 -0.0620569
 crease 1.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 0.0047650 -0.0029580
@@ -229,7 +229,7 @@ OBJECT poly
 name "infos.hdg0"
 loc -0.0013630 0.0338543 -0.0048282
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0030039 -0.0147890
@@ -249,7 +249,7 @@ OBJECT poly
 name "infos.hdg1"
 loc -0.0009739 0.0338543 -0.0107442
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0047650 -0.0029580
@@ -269,7 +269,7 @@ OBJECT poly
 name "infos.hdg10"
 loc -0.0009739 0.0338543 -0.0048292
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0047650 -0.0029580
@@ -289,7 +289,7 @@ OBJECT poly
 name "infos.hdg100"
 loc -0.0009739 0.0338543 0.0010868
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0047650 -0.0029580
@@ -309,7 +309,7 @@ OBJECT poly
 name "infos.kt0"
 loc -0.0012250 -0.0104558 0.0383340
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0047640 -0.0144065
@@ -329,7 +329,7 @@ OBJECT poly
 name "infos.kt1"
 loc -0.0009739 -0.0104558 0.0267315
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0047640 -0.0029580
@@ -349,7 +349,7 @@ OBJECT poly
 name "infos.kt10"
 loc -0.0009739 -0.0104558 0.0326465
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0047640 -0.0029580
@@ -369,7 +369,7 @@ OBJECT poly
 name "infos.kt100"
 loc -0.0009739 -0.0104558 0.0386298
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0047640 -0.0029580
@@ -389,7 +389,7 @@ OBJECT poly
 name "infos.mach0"
 loc -0.0010810 -0.0212124 0.0352048
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 8
 0.0000000 -0.0035255 -0.0106612
@@ -427,7 +427,7 @@ OBJECT poly
 name "infos.mach1"
 loc -0.0009739 -0.0212566 0.0267315
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0035255 -0.0021890
@@ -447,7 +447,7 @@ OBJECT poly
 name "infos.mach10"
 loc -0.0009739 -0.0212566 0.0311660
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0035255 -0.0021890
@@ -467,7 +467,7 @@ OBJECT poly
 name "infos.mach100"
 loc -0.0009739 -0.0212566 0.0364487
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0000000 -0.0035255 -0.0021890

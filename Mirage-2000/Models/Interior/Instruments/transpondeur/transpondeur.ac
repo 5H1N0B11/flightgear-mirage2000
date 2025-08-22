@@ -70719,7 +70719,7 @@ OBJECT poly
 name "transpondeur.value1"
 loc -0.0055444 0.0277372 -0.0390460
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0004582 -0.0029719 -0.0020160
@@ -70739,7 +70739,7 @@ OBJECT poly
 name "transpondeur.value2"
 loc -0.0055444 0.0277372 -0.0241220
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0004582 -0.0029719 -0.0020160
@@ -70759,7 +70759,7 @@ OBJECT poly
 name "transpondeur.value3"
 loc -0.0055444 0.0277372 -0.0095140
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0004582 -0.0029719 -0.0020160
@@ -70779,7 +70779,7 @@ OBJECT poly
 name "transpondeur.value4"
 loc -0.0055444 0.0277372 0.0051670
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0004582 -0.0029719 -0.0020160
@@ -70799,7 +70799,7 @@ OBJECT poly
 name "transpondeur.value5"
 loc -0.0055444 0.0277372 0.0253580
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0004582 -0.0029719 -0.0020160
@@ -70819,7 +70819,7 @@ OBJECT poly
 name "transpondeur.value6"
 loc -0.0055444 0.0277372 0.0400850
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 0.0004582 -0.0029719 -0.0020160

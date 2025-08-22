@@ -2757,7 +2757,7 @@ kids 0
 OBJECT poly
 name "carburant.num1-1"
 loc -0.00131869 0.00649813 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.016774 -0.009891
@@ -2776,7 +2776,7 @@ kids 0
 OBJECT poly
 name "carburant.num1-2"
 loc -0.00131869 0.00649813 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.026482 -0.014662
@@ -2795,7 +2795,7 @@ kids 0
 OBJECT poly
 name "carburant.num1-3"
 loc -0.00131869 0.00649813 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.026482 -0.019434
@@ -2814,7 +2814,7 @@ kids 0
 OBJECT poly
 name "carburant.num1-4"
 loc -0.00131869 0.00649813 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.016774 -0.028976
@@ -2833,7 +2833,7 @@ kids 0
 OBJECT poly
 name "carburant.num2-1"
 loc -0.00131869 -0.0128049 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.016774 -0.009891
@@ -2852,7 +2852,7 @@ kids 0
 OBJECT poly
 name "carburant.num2-2"
 loc -0.00131869 -0.0128049 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.026482 -0.014662
@@ -2871,7 +2871,7 @@ kids 0
 OBJECT poly
 name "carburant.num2-3"
 loc -0.00131869 -0.0128049 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.026482 -0.019434
@@ -2890,7 +2890,7 @@ kids 0
 OBJECT poly
 name "carburant.num2-4"
 loc -0.00131869 -0.0128049 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.016774 -0.028976
@@ -2909,7 +2909,7 @@ kids 0
 OBJECT poly
 name "carburant.num3-1"
 loc -0.00131869 -0.0315189 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.016774 -0.009891
@@ -2928,7 +2928,7 @@ kids 0
 OBJECT poly
 name "carburant.num3-2"
 loc -0.00131869 -0.0315189 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.026482 -0.014662
@@ -2947,7 +2947,7 @@ kids 0
 OBJECT poly
 name "carburant.num3-3"
 loc -0.00131869 -0.0315189 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.026482 -0.019434
@@ -2966,7 +2966,7 @@ kids 0
 OBJECT poly
 name "carburant.num3-4"
 loc -0.00131869 -0.0315189 0.00297438
-texture "digits.png"
+texture "../../digits.png"
 crease 30.000000
 numvert 4
 0.00282502 0.016774 -0.028976

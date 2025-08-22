@@ -13,7 +13,7 @@ OBJECT poly
 name "tacan.alphaX"
 loc 0.0001235 0.0000000 0.0000000
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0065900 0.0022400 0.0034800
@@ -33,7 +33,7 @@ OBJECT poly
 name "tacan.alphaY"
 loc 0.0001235 0.0000000 0.0000000
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0065900 0.0022400 0.0034800
@@ -3501,7 +3501,7 @@ OBJECT poly
 name "tacan.num-0"
 loc 0.0001235 0.0000000 0.0000000
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0065900 0.0022400 0.0024500
@@ -3521,7 +3521,7 @@ OBJECT poly
 name "tacan.num-1"
 loc 0.0001235 0.0000000 0.0000000
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0065900 0.0022400 -0.0003300
@@ -3541,7 +3541,7 @@ OBJECT poly
 name "tacan.num-2"
 loc 0.0001235 0.0000000 0.0000000
 crease 30.0
-texture "digits.png"
+texture "../../digits.png"
 texrep 1 1
 numvert 4
 -0.0114400 0.0022400 -0.0031100
