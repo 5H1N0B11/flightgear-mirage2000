@@ -16,12 +16,18 @@
     <object-name>panel.hud</object-name>
     <object-name>panel.sideparts</object-name>
     <object-name>panneaux</object-name>
+    <object-name>panel.hydraulic_pressure_left</object-name>
+    <object-name>panel.hydraulic_pressure_right</object-name>
+    <object-name>panel.cabinpressure_pointer</object-name>
   </animation>
 
   <animation>
     <!-- lights : illuminations -->
     <type>material</type>
     <object-name>panel.board_asymetric_light</object-name>
+    <object-name>panel.hydraulic_pressure_left</object-name>
+    <object-name>panel.hydraulic_pressure_right</object-name>
+    <object-name>panel.cabinpressure_pointer</object-name>
     <object-name>panel.board_inscriptions</object-name>
     <emission>
       <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
