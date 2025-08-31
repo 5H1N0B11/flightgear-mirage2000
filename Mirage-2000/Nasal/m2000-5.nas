@@ -546,6 +546,18 @@ var viewRightMFD = func() {
 	}
 }
 
+var viewVTM = func() {
+	if (getprop("/sim/current-view/view-number-raw") == 0) {
+		setprop("sim/current-view/heading-offset-deg", 0);
+		setprop("sim/current-view/pitch-offset-deg", -12);
+		setprop("sim/current-view/roll-offset-deg", 0);
+		setprop("/sim/current-view/x-offset-m", 0);
+		setprop("/sim/current-view/y-offset-m",-0.07);
+		setprop("/sim/current-view/z-offset-m",-3.18);
+		setprop("/sim/current-view/field-of-view",80);
+	}
+}
+
 var masterarm = func {
 	var now = getprop("controls/armament/master-arm-switch");
 	now += 1;
@@ -726,11 +738,7 @@ var long_starting = func() {
 
 	#puting back the view on take off view
 	settimer(func {
-		if (getprop("/sim/current-view/view-number-raw") == 0) {
-			setprop("/sim/current-view/pitch-offset-deg",-14);
-			setprop("/sim/current-view/heading-offset-deg",0);
-			setprop("/sim/current-view/field-of-view",83);
-		}
+		setFlightMode(FLIGHT_MODE_TAKEOFF);
 	}, 45);
 
 	#turning on the air conditioning

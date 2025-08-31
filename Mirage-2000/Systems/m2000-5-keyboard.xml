@@ -655,6 +655,14 @@
 				<script>mirage2000.viewRightMFD();</script>
 			</binding>
 		</key>
+		<key n="45">
+			<name>- (Minus)</name>
+			<desc>View VTM</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.viewVTM();</script>
+			</binding>
+		</key>
 
 	</keyboard>
 

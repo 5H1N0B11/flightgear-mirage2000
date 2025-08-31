@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-**********************************************************************
-Mirage 2000 instrument defintions
-**********************************************************************
+*************************************************************************************************************
+Mirage 2000 instrument defintions in /sim/instrumenation (i.e. != /instrumenation -> cnf-instrumentation.xml)
+*************************************************************************************************************
 -->
 
 <PropertyList>
@@ -87,10 +87,6 @@ Mirage 2000 instrument defintions
 		<name>marker-beacon</name>
 		<number>0</number>
 	</marker-beacon>
-
-	<flightmode>
-		<selected>TO</selected> <!-- m2000-5.nas FLIGHT_MODE_TAKEOFF -->
-	</flightmode>
 
 	<heading-indicator>
 		<name>heading-indicator</name>

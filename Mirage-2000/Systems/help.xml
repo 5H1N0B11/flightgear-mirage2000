@@ -116,7 +116,7 @@
 
 	<key>
 		<name>M</name>
-		<desc>Cycle Through Weapon Guidance Modes (Radar, Laser, GPS)</desc>
+		<desc>Cycle Through Weapon Guidance Modes (Radar, Laser, GPS, Radiation)</desc>
 	</key>
 
 	<key>
@@ -192,6 +192,11 @@
 	<key>
 		<name>N</name>
 		<desc>View right MFD</desc>
+	</key>
+
+	<key>
+		<name>- (Minus)</name>
+		<desc>View VTM</desc>
 	</key>
 
 	<text>Two PDF manuals are located in the Mirage-2000/Docs/ folder - e.g. accessible through the menu Mirage 2000 > New | Old PDF Manual.</text>

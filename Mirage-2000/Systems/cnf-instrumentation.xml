@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+**********************************************************************************************************
+Mirage 2000 instrument defintions in /instrumentation (i.e. != /sim/instrumenation -> instrumentation.xml)
+**********************************************************************************************************
+-->
+
+
 <PropertyList>
+
+	<flightmode>
+		<selected type="string">TO</selected> <!-- m2000-5.nas FLIGHT_MODE_TAKEOFF -->
+	</flightmode>
 
 	<efis>
 		<Mode type="bool">0</Mode>
