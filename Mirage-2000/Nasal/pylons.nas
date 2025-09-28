@@ -128,17 +128,17 @@ var pylonSetsSMSHelper = {
 	"2 x SAMP Mk-82 Snake-eye": ["BF", TRUE],
 };
 
-if (variantID != 3) { # 2000D
-	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
-	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.dmk82, pylonSets.dmk82se];
+if (variantID != 3) {
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.b5, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.b5, pylonSets.dmk82, pylonSets.dmk82se];
 	var ExteriorWingSet = [pylonSets.empty, pylonSets.g, pylonSets.g2, pylonSets.smo];
 	var CenterSet = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.b3,pylonSets.b7];
 	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
 	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
 	var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
-} else {
-	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b5, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+} else { # 2000D
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
 	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
 	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se,pylonSets.b7];
 	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
@@ -224,13 +224,13 @@ var wp_order = [];
 if (variantID == 1) {
 	append(pylons,pylonI);
 	pylon_order = [9,0,8,1,7,2,6,3,5,4];
-	wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE", "GBU-12", "GBU-24", "SCALP","APACHE", "AM39-Exocet"];
+	wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE", "GBU-12", "GBU-24", "SCALP","APACHE", "AM39-Exocet", "AS-37-Armat"];
 } elsif (variantID == 2) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
 	wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "GBU-24", "SCALP", "APACHE", "AM39-Exocet"];
 } elsif (variantID == 3) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
-	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS-37-Armat", "AS30L", "ASMP"];
+	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS30L", "ASMP"];
 }
 
 fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
@@ -498,7 +498,7 @@ var a2g_bravo_mix = func {
 	}
 }
 
-# Anti radar configation : double ARMAT, center tank double magix2
+# Anti radar configation : double ARMAT, center tank double magic2
 var a2ouadi_fox = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings

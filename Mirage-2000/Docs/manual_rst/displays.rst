@@ -124,7 +124,7 @@ The buttons around the screen influence settings as follows:
 Left MFD
 ========
 
-To change the currently displayed page, use the left button on the button row at the bottom of the screen. 
+To change the currently displayed page, use the left button on the button row at the bottom of the screen.
 
 The different pages of this MFD are the ``EADI`` (electronic attitude direction indicator), the ``EHSI`` (electronic horizontal situation indicator), the ``EICAS`` (engine indicating and crew alerting system) and the ``RMU`` (radio management unit).
 
@@ -159,7 +159,7 @@ Electronic Horizontal Situation Indicator (EHSI)
 #. Red arrow status, cycles through hidden, ``NAV1``, ``TACAN``, ``ADF2``. Hidden by default.
 #. Yellow arrow status, cycles through hidden, ``NAV2``, ``ADF1``. Hidden by default.
 #. Toggle the visibility of the atmospheric conditions (wind orientation, speed in kts, outside air temperature in °C, dewpoint in °C). They are shown in bright green at the top right of the screen. The wind's direction is also shown in relation to the aircraft with the small bright green compass.
-#. Horizontal situation indicator. It displays in bright green triangles the orientation of the aircraft (0°, 45°, 90°, etc). 
+#. Horizontal situation indicator. It displays in bright green triangles the orientation of the aircraft (0°, 45°, 90°, etc).
 #. Heading bug adjustment knob (+/- 1°). It is displayed as a white dented rectangle on the rim of the compass.
 #. Switch to the ``EICAS`` page
 #. Cycle between autopilot navigation sources: ``NAV1``, ``NAV2``, ``TACAN`` (all three set in the ``RMU`` page of this same MFD) and ``FMS`` (route set in ``Autopilot -> Route manager``). The selected source and evental additional information will be displayed in blue text. This also controls the blue arrow's status.
@@ -249,6 +249,8 @@ The displayed menus depend on the chosen weapon and sometimes on previously chos
 .. image:: images/ppa_page.png
 
 
+.. _link_subsection_rwr:
+
 Radar Warning Receiver (RWR)
 ----------------------------
 
@@ -268,7 +270,7 @@ RWR
 
 .. image:: images/rwr_symbols.png
 
-The RWR displays a maximum of 12 threats. High level threats (e.g. with an STT lock or actively guiding a missile) are within the blue centre ring, lower level threats are closer to the outer ring. I.e. the distance from centre is an interpretation of threat and not a real distance. The position is a top-down view around your aircraft (nose towards up/North).
+The RWR displays a maximum of 12 threats. High level threats (e.g. with an STT lock or actively guiding a missile) are displayed within the blue centre ring. Lower level threats are displayed closer to the outer ring. I.e. the distance from centre is an interpretation of threat and not a real distance. The position is a top-down view around your aircraft (nose towards up/North).
 
 Different types of threats are displayed with different symbols according to USA/NATO standards (i.e. not according to French symbology at the moment). ``U`` is for unknown threat, ``S`` is for surveillance aircraft (e.g. `AWACS⇗ <https://en.wikipedia.org/wiki/Airborne_early_warning_and_control>`_ - which typically cannot shoot), and ``AI`` is for aircraft which have not yet been classified in OPRF.
 
@@ -276,7 +278,9 @@ Different types of threats are displayed with different symbols according to USA
    :alt: RWR Threat Symbols
    :align: center
 
-If there is a chevron below the symbol, then the threat has a radar lock on you. If there is a hat on top of the symbol, then the threat is either source to an active missile or guiding a semi-active missile. Only one missile in the air can be displayed - even though several might be in the air at the same time. The missile is shown with the symbol ``W`` close to the centre - again the distance is not the real distance and only the bearing relative to your aircraft is shown. If a missile is in the air, then the related threats are blinking once per second.
+If there is a chevron below the symbol, then the threat has a radar lock on you. If there is a hat on top of the symbol, then the threat is either source to an active missile or guiding a semi-active missile.
+
+Only one missile in the air can be displayed - even though several might be in the air at the same time. The missile is shown with the symbol ``W`` close to the centre - again the distance is not the real distance and only the bearing relative to your aircraft is shown. If a missile is in the air, then the related threats are blinking once per second.
 
 In addition to the visual indications there are sounds (refreshed every 0.5 seconds):
 

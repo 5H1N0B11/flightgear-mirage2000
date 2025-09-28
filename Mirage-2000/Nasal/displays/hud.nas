@@ -52,6 +52,20 @@ var UPDATE_INC = 0.8;
 
 var COLOR_GREEN = [0,1,0,1];
 
+var MAX_ANTIRAD_TARGETS = 8;
+var ANTIRAD_SYMBOLS_DIST = 24;
+
+var FONT_NARROW = "LiberationFonts/LiberationSansNarrow-Bold.ttf";
+var FONT_REGULAR = "LiberationFonts/LiberationMono-Regular.ttf";
+var FONT_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
+
+var FONT_SIZE_DEFAULT = 18;
+var FONT_SIZE_CHEVRON = 60;
+var FONT_SIZE_LADDER = 30;
+var FONT_SIZE_ALPHA = 35;
+var FONT_SIZE_WAYPOINT = 30;
+var FONT_SIZE_ANTIRAD = 30;
+
 
 # ==============================================================================
 # Head up display
@@ -94,8 +108,8 @@ var HUD = {
 
 		m.root = m.canvas.createGroup()
 		                 .setTranslation(HudMath.getCenterOrigin())
-		                 .set("font", "LiberationFonts/LiberationMono-Regular.ttf")
-		                 .setDouble("character-size", 18)
+		                 .set("font", FONT_REGULAR) # cannot use setFont etc.
+		                 .setDouble("character-size", FONT_SIZE_DEFAULT)
 		                 .setDouble("character-aspect-ration", 0.9);
 
 		m.text = m.root.createChild("group");
@@ -117,7 +131,7 @@ var HUD = {
 		m.AutopilotStar = m.root.createChild("text")
 		                        .setColor(COLOR_GREEN)
 		                        .setTranslation(150,0)
-		                        .setDouble("character-size", 50)
+		                        .setFontSize(50)
 		                        .setAlignment("center-center")
 		                        .setText("*");
 
@@ -140,26 +154,26 @@ var HUD = {
 		m.LeftChevron = m.chevronGroup.createChild("text")
 		                              .setColor(COLOR_GREEN)
 		                              .setTranslation(-150,0)
-		                              .setDouble("character-size", 60)
+		                              .setFontSize(FONT_SIZE_CHEVRON)
 		                              .setAlignment("center-center")
 		                              .setText(">");
 		m.LeftChevronAB = m.chevronGroupAB.createChild("text")
 		                              .setColor(COLOR_GREEN)
 		                              .setTranslation(-180,0)
-		                              .setDouble("character-size", 60)
+		                              .setFontSize(FONT_SIZE_CHEVRON)
 		                              .setAlignment("center-center")
 		                              .setText(">");
 
 		m.RightChevron = m.chevronGroup.createChild("text")
 		                               .setColor(COLOR_GREEN)
 		                               .setTranslation(150,0)
-		                               .setDouble("character-size", 60)
+		                               .setFontSize(FONT_SIZE_CHEVRON)
 		                               .setAlignment("center-center")
 		                               .setText("<");
 		m.RightChevronAB = m.chevronGroupAB.createChild("text")
 		                               .setColor(COLOR_GREEN)
 		                               .setTranslation(180,0)
-		                               .setDouble("character-size", 60)
+		                               .setFontSize(FONT_SIZE_CHEVRON)
 		                               .setAlignment("center-center")
 		                               .setText("<");
 
@@ -231,14 +245,14 @@ var HUD = {
 		m.LeftBracket = m.brackets.createChild("text")
 		                          .setColor(COLOR_GREEN)
 		                          .setTranslation(-140,0)
-		                          .setDouble("character-size", 60)
+		                          .setFontSize(FONT_SIZE_CHEVRON)
 		                          .setAlignment("center-center")
 		                          .setText("]");
 
 		m.RightBracket = m.brackets.createChild("text")
 		                           .setColor(COLOR_GREEN)
 		                           .setTranslation(140,0)
-		                           .setDouble("character-size", 60)
+		                           .setFontSize(FONT_SIZE_CHEVRON)
 		                           .setAlignment("center-center")
 		                           .setText("[");
 
@@ -253,14 +267,14 @@ var HUD = {
 				             .setColor(COLOR_GREEN)
 				             .setAlignment("right-center")
 				             .setTranslation(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-				             .setDouble("character-size", 30)
+				             .setFontSize(FONT_SIZE_LADDER)
 				             .setText(myladder);
 				#Text bellow 0 left
 				m.LadderGroup.createChild("text")
 				             .setColor(COLOR_GREEN)
 				             .setAlignment("left-center")
 				             .setTranslation(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-				             .setDouble("character-size", 30)
+				             .setFontSize(FONT_SIZE_LADDER)
 				             .setText(myladder);
 
 				#Text above 0 left
@@ -268,14 +282,14 @@ var HUD = {
 				             .setColor(COLOR_GREEN)
 				             .setAlignment("right-center")
 				             .setTranslation(-m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
-				             .setDouble("character-size", 30)
+				             .setFontSize(FONT_SIZE_LADDER)
 				             .setText(myladder);
 				#Text above 0 right
 				m.LadderGroup.createChild("text")
 				             .setColor(COLOR_GREEN)
 				             .setAlignment("left-center")
 				             .setTranslation(m.maxladderspan, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
-				             .setDouble("character-size", 30)
+				             .setFontSize(FONT_SIZE_LADDER)
 				             .setText(myladder);
 			}
 
@@ -394,7 +408,7 @@ var HUD = {
 		me.hdgMH = m.headingScaleGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(0,m.headScaleVerticalPlace -15)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_LADDER)
 			.setAlignment("center-bottom");
 		me.hdgMH.enableUpdate();
 
@@ -402,7 +416,7 @@ var HUD = {
 		me.hdgLH = m.headingScaleGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(-m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_LADDER)
 			.setAlignment("center-bottom");
 		me.hdgLH.enableUpdate();
 
@@ -410,7 +424,7 @@ var HUD = {
 		me.hdgRH = m.headingScaleGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_LADDER)
 			.setAlignment("center-bottom");
 		me.hdgRH.enableUpdate();
 
@@ -418,7 +432,7 @@ var HUD = {
 		me.hdgRRH = m.headingScaleGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(m.headScaleTickSpacing*4,m.headScaleVerticalPlace -15)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_LADDER)
 			.setAlignment("center-bottom");
 		me.hdgRRH.enableUpdate();
 
@@ -444,42 +458,42 @@ var HUD = {
 		me.speed = m.speedAltGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(- m.maxladderspan,m.headScaleVerticalPlace)
-			.setDouble("character-size", 50)
+			.setFontSize(50)
 			.setAlignment("right-bottom");
 		me.speed.enableUpdate();
 
 		me.speed_mach = m.speedAltGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(- m.maxladderspan,m.headScaleVerticalPlace+25)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_LADDER)
 			.setAlignment("right-bottom");
 		me.speed_mach.enableUpdate();
 
 		me.hundred_feet_alt = m.speedAltGroup.createChild("text")
 			.setTranslation(m.maxladderspan + 60 ,m.headScaleVerticalPlace)
-			.setDouble("character-size", 50)
+			.setFontSize(FONT_SIZE_LADDER)
 			.setAlignment("right-bottom");
 		me.hundred_feet_alt.enableUpdate();
 
 		me.feet_alt = m.speedAltGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(m.maxladderspan + 60,m.headScaleVerticalPlace)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_LADDER)
 			.setAlignment("left-bottom");
 		me.feet_alt.enableUpdate();
 
 		me.ground_alt = m.speedAltGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(m.maxladderspan + 95,m.headScaleVerticalPlace+25)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_LADDER)
 			.setAlignment("right-bottom");
 		me.ground_alt.enableUpdate();
 
-			# Heading right right number on horizon line
+		# Heading right right number on horizon line
 		me.the_H = m.speedAltGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(m.maxladderspan + 100,m.headScaleVerticalPlace+25)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_LADDER)
 			.setAlignment("left-bottom")
 			.setText("H");
 
@@ -489,7 +503,7 @@ var HUD = {
 		m.alpha = m.alphaGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(- m.maxladderspan-70,m.headScaleVerticalPlace+50)
-			.setDouble("character-size", 40)
+			.setFontSize(FONT_SIZE_ALPHA)
 			.setAlignment("right-center")
 			.setText("α");
 
@@ -497,7 +511,7 @@ var HUD = {
 		m.aoa = m.alphaGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(- m.maxladderspan-50,m.headScaleVerticalPlace+50)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_ALPHA)
 			.setAlignment("left-center");
 		m.aoa.enableUpdate();
 
@@ -505,14 +519,14 @@ var HUD = {
 		m.gload_text = m.alphaGloadGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(- m.maxladderspan-50,-120)
-			.setDouble("character-size", 35)
+			.setFontSize(FONT_SIZE_ALPHA)
 			.setAlignment("right-center");
 		m.gload_text.enableUpdate();
 
 		m.alpha_text = m.alphaGloadGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(- m.maxladderspan-50,-90)
-			.setDouble("character-size", 35)
+			.setFontSize(FONT_SIZE_ALPHA)
 			.setAlignment("right-center");
 		m.alpha_text.enableUpdate();
 
@@ -521,7 +535,7 @@ var HUD = {
 		m.loads_type_text = m.root.createChild("text")
 		                          .setColor(COLOR_GREEN)
 		                          .setTranslation(- m.maxladderspan-90,-150)
-		                          .setDouble("character-size", 35)
+		                          .setFontSize(FONT_SIZE_ALPHA)
 		                          .setAlignment("right-center");
 		m.loads_type_text.enableUpdate();
 		m.loads_type_text.hide();
@@ -531,16 +545,16 @@ var HUD = {
 		m.left_bullet_count = m.bullet_CountGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(-m.maxladderspan+60,100)
-			.setDouble("character-size", 35)
-			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setFontSize(FONT_SIZE_ALPHA)
+			.setFont(FONT_BOLD)
 			.setAlignment("center-center");
 		m.left_bullet_count.enableUpdate();
 
 		m.right_bullet_count = m.bullet_CountGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(m.maxladderspan-60,100)
-			.setDouble("character-size", 35)
-			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setFontSize(FONT_SIZE_ALPHA)
+			.setFont(FONT_BOLD)
 			.setAlignment("center-center");
 		m.right_bullet_count.enableUpdate();
 		m.bullet_CountGroup.hide();
@@ -550,22 +564,22 @@ var HUD = {
 		m.left_pylons = m.pylons_Group.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(-m.maxladderspan+60,100)
-			.setDouble("character-size", 35)
-			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setFontSize(FONT_SIZE_ALPHA)
+			.setFont(FONT_BOLD)
 			.setAlignment("center-center")
 			.setText("G");
 		m.right_pylons = m.pylons_Group.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(m.maxladderspan-60,100)
-			.setDouble("character-size", 35)
-			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setFontSize(FONT_SIZE_ALPHA)
+			.setFont(FONT_BOLD)
 			.setAlignment("center-center")
 			.setText("D");
 		m.center_pylons = m.pylons_Group.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(0,100)
-			.setDouble("character-size", 35)
-			.setFont("LiberationFonts/LiberationMono-Bold.ttf")
+			.setFontSize(FONT_SIZE_ALPHA)
+			.setFont(FONT_BOLD)
 			.setAlignment("center-center")
 			.setText("C");
 		m.pylons_Group.hide();
@@ -598,7 +612,7 @@ var HUD = {
 		m.acceleration_box = m.accBoxGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(0,0)
-			.setDouble("character-size", 35)
+			.setFontSize(FONT_SIZE_ALPHA)
 			.setAlignment("center-center");
 		m.acceleration_box.enableUpdate();
 
@@ -620,7 +634,7 @@ var HUD = {
 		m.waypoint_dist_simple = m.waypointSimpleGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation( m.maxladderspan + 45 ,m.headScaleVerticalPlace*2/5)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("right-center");
 		m.waypoint_dist_simple.enableUpdate();
 
@@ -628,7 +642,7 @@ var HUD = {
 		m.waypoint_number_simple = m.waypointSimpleGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation( m.maxladderspan + 85 ,m.headScaleVerticalPlace*2/5)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("left-center");
 		m.waypoint_number_simple.enableUpdate();
 
@@ -636,7 +650,7 @@ var HUD = {
 		m.waypoint_dist = m.waypointGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation( m.maxladderspan + 80 ,m.headScaleVerticalPlace*2/5)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("left-center");
 		m.waypoint_dist.enableUpdate();
 
@@ -644,14 +658,14 @@ var HUD = {
 		m.waypoint_number = m.waypointGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation( m.maxladderspan + 80 ,m.headScaleVerticalPlace*2/5-25)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("left-center");
 		m.waypoint_number.enableUpdate();
 
 		m.dest = m.waypointGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation( m.maxladderspan + 55 ,m.headScaleVerticalPlace*2/5-25)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("right-center");
 		m.dest.enableUpdate();
 
@@ -659,7 +673,7 @@ var HUD = {
 		m.waypoint_heading = m.waypointGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation( m.maxladderspan + 65 ,m.headScaleVerticalPlace*2/5)
-			.setDouble("character-size", 30)
+			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("right-center");
 		m.waypoint_heading.enableUpdate();
 
@@ -731,7 +745,7 @@ var HUD = {
 		m.CCIP_impact_dist = m.CCIP.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(m.maxladderspan + 90,-150)
-			.setDouble("character-size", 35)
+			.setFontSize(FONT_SIZE_ALPHA)
 			.setAlignment("left-center");
 		m.CCIP_impact_dist.enableUpdate();
 
@@ -784,7 +798,7 @@ var HUD = {
 		m.CCRP_impact_dist = m.CCRP.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(m.maxladderspan + 90,-150)
-			.setDouble("character-size", 35)
+			.setFontSize(FONT_SIZE_ALPHA)
 			.setAlignment("left-center");
 		m.CCRP_impact_dist.enableUpdate();
 
@@ -797,9 +811,9 @@ var HUD = {
 			.setStrokeLineWidth(4);
 
 		####################################### ANTI RADAR MISSILE (ANTIRAD) #############################
-		m.antirad_cue = m.root.createChild("group");
+		m.antirad_grp = m.root.createChild("group");
 
-		m.antirad_cue_core = m.antirad_cue.createChild("group");
+		m.antirad_cue_core = m.antirad_grp.createChild("group");
 
 		var ANTIRAD_RING = 60;
 		var ANTIRAD_TICK = 20;
@@ -809,7 +823,7 @@ var HUD = {
 			.circle(ANTIRAD_RING, 0, 0)
 			.setStrokeLineWidth(4);
 
-		me.antirad_cue_core_ticks = m.antirad_cue_core.createChild("path")
+		m.antirad_cue_core_ticks = m.antirad_cue_core.createChild("path")
 			.setColor(COLOR_GREEN)
 			.moveTo(0, ANTIRAD_RING) # top
 			.lineTo(0, ANTIRAD_RING - ANTIRAD_TICK)
@@ -821,10 +835,55 @@ var HUD = {
 			.lineTo(ANTIRAD_RING - ANTIRAD_TICK, 0)
 			.setStrokeLineWidth(4);
 
-		m.antirad_cue_locked = m.antirad_cue.createChild("path")
+		m.antirad_cue_locked = m.antirad_grp.createChild("path")
 			.setColor(COLOR_GREEN)
 			.circle(ANTIRAD_RING + 10, 0, 0)
 			.setStrokeLineWidth(4);
+
+		m.antirad_texts = setsize([], MAX_ANTIRAD_TARGETS);
+		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
+			m.antirad_texts[i] = m.antirad_grp.createChild("text")
+				.setAlignment("center-center")
+				.setColor(COLOR_GREEN)
+				.setFontSize(FONT_SIZE_ANTIRAD)
+				.hide();
+			m.antirad_texts[i].enableUpdate();
+		}
+
+		me.antirad_circle = setsize([], MAX_ANTIRAD_TARGETS); # circle around
+		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
+			m.antirad_circle[i] = m.antirad_grp.createChild("path")
+				.moveTo(-30, 0)
+				.arcSmallCW(30, 30, 0, 60, 0)
+				.arcSmallCW(30, 30, 0, -60, 0)
+				.setStrokeLineWidth(2)
+				.setColor(COLOR_GREEN)
+				.hide();
+		}
+
+		me.antirad_symbol_hat = setsize([], MAX_ANTIRAD_TARGETS); # supporting active missile
+		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
+			m.antirad_symbol_hat[i] = m.antirad_grp.createChild("path")
+				.moveTo(0, -ANTIRAD_SYMBOLS_DIST)
+				.lineTo(ANTIRAD_SYMBOLS_DIST*0.9, -ANTIRAD_SYMBOLS_DIST*0.6)
+				.moveTo(0, -ANTIRAD_SYMBOLS_DIST)
+				.lineTo(-ANTIRAD_SYMBOLS_DIST*0.9, -ANTIRAD_SYMBOLS_DIST*0.6)
+				.setStrokeLineWidth(4)
+				.setColor(COLOR_GREEN)
+				.hide();
+		}
+
+		m.antirad_symbol_chevron = setsize([], MAX_ANTIRAD_TARGETS); # STT / spike
+		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
+			m.antirad_symbol_chevron[i] = m.antirad_grp.createChild("path")
+				.moveTo(0, ANTIRAD_SYMBOLS_DIST)
+				.lineTo(ANTIRAD_SYMBOLS_DIST*0.9, ANTIRAD_SYMBOLS_DIST*0.6)
+				.moveTo(0, ANTIRAD_SYMBOLS_DIST)
+				.lineTo(-ANTIRAD_SYMBOLS_DIST*0.9, ANTIRAD_SYMBOLS_DIST*0.6)
+				.setStrokeLineWidth(4)
+				.setColor(COLOR_GREEN)
+				.hide();
+		}
 
 		##################################### Target Circle ####################################
 		m.targetArray = [];
@@ -850,7 +909,7 @@ var HUD = {
 				.setColor(COLOR_GREEN)
 				.setTranslation(15, -10)
 				.setAlignment("left-center")
-				.setFont("LiberationFonts/LiberationSansNarrow-Bold.ttf")
+				.setFont(FONT_NARROW)
 				.setFontSize(26)
 				.setColor(0,180,0,0.9)
 				.setText("VOID");
@@ -940,13 +999,13 @@ var HUD = {
 		m.distanceToTargetLineChevron = m.distanceToTargetLineTextGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(200,0)
-			.setDouble("character-size", 60)
+			.setFontSize(FONT_SIZE_CHEVRON)
 			.setAlignment("left-center")
 			.setText("<");
 		m.distance_to_target_line_chevron_text = m.distanceToTargetLineTextGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(230,0)
-			.setDouble("character-size", 40)
+			.setFontSize(FONT_SIZE_CHEVRON)
 			.setAlignment("left-center");
 		 m.distance_to_target_line_chevron_text.enableUpdate();
 
@@ -1035,7 +1094,9 @@ var HUD = {
 			bullseye_lon   : "instrumentation/bullseye/bulls-eye-lon",
 			bullseye_def   : "instrumentation/bullseye/bulls-eye-defined",
 			HUD_POWER_VOLT : "/systems/electrical/outputs/HUD",
-			flightmode     : "/instrumentation/flightmode/selected"
+			flightmode     : "/instrumentation/flightmode/selected",
+			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
+			launch_callsign           : "sound/rwr-launch"
 		};
 
 		foreach(var name; keys(m.input)) {
@@ -1824,12 +1885,96 @@ var HUD = {
 	},
 
 	_displayAntiRadTarget: func() {
+		me.antirad_i = 0;
+
 		me.antirad_cue_core.hide();
 		me.antirad_cue_locked.hide();
 		if (me._isArmedAndHasWeapon() == TRUE and contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION) {
 			me.antirad_cue_core.show();
-			if (pylons.fcs.isLock()) {
-				me.antirad_cue_locked.show();
+			#if (pylons.fcs.isLock()) {
+			#	me.antirad_cue_locked.show();
+			#}
+
+			me.antirad_high_threat = FALSE;
+			me.antirad_pos = nil;
+			me.antirad_y = 0.;
+
+			me.antirad_bor_pos = HudMath.getBorePos();
+
+			me.antirad_semi_callsign = me.input.semiactive_callsign.getValue();
+			me.antirad_launch_callsign = me.input.launch_callsign.getValue();
+			me.has_hat = FALSE;
+			foreach(me.antirad_contact; radar_system.f16_rwr.vector_aicontacts_threats) {
+				me.antirad_db_entry = radar_system.getDBEntry(me.antirad_contact[0].getModel());
+				# first exclude what does not need to be shown
+				if (me.antirad_i >= MAX_ANTIRAD_TARGETS) {
+					break;
+				}
+				if (me.antirad_db_entry.rwrCode == nil) {
+					continue;
+				}
+				if (me.antirad_db_entry.isSurfaceAsset == FALSE and me.antirad_db_entry.isShip == FALSE) {
+					continue;
+				}
+				if (me.antirad_contact[0].get_range() > 65) { # own choice as documented in the M2000 manual
+					continue;
+				}
+				if (me.antirad_contact[1] <= 0) { # threat
+					continue;
+				} else if (me.antirad_contact[1] >= 0.5) {
+					me.antirad_high_threat = TRUE;
+				} else {
+					me.antirad_high_threat = FALSE;
+				}
+				me.antirad_pos = HudMath.getPosFromCoord(me.antirad_contact[0].getCoord());
+				if (!me._isInCanvas(me.antirad_pos[0], me.antirad_pos[1])) {
+					continue;
+				}
+
+				me.antirad_y = me.antirad_bor_pos[1];
+				if (me.antirad_high_threat == TRUE) {
+					me.antirad_y -= 20;
+				}
+
+				me.has_hat = FALSE;
+				if (me.antirad_launch_callsign != nil and me.antirad_launch_callsign != '' and me.antirad_launch_callsign == me.antirad_contact[0].get_Callsign()) {
+					me.has_hat = TRUE;
+				} else if (me.antirad_semi_callsign != nil and me.antirad_semi_callsign != '' and me.antirad_semi_callsign == me.antirad_contact[0].get_Callsign()) {
+					me.has_hat = TRUE;
+				}
+
+				me.antirad_texts[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_y);
+				me.antirad_texts[me.antirad_i].updateText(me.antirad_db_entry.rwrCode);
+				me.antirad_texts[me.antirad_i].show();
+				me.antirad_circle[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_y);
+				me.antirad_circle[me.antirad_i].show();
+				if (me.has_hat) {
+					me.antirad_symbol_hat[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_y);
+					me.antirad_symbol_hat[me.antirad_i].show();
+				} else {
+					me.antirad_symbol_hat[me.antirad_i].hide();
+				}
+				if (me.antirad_contact[0].isSpikingMe()) {
+					me.antirad_symbol_chevron[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_y);
+					me.antirad_symbol_chevron[me.antirad_i].show();
+				} else {
+					me.antirad_symbol_chevron[me.antirad_i].hide();
+				}
+				me.antirad_i += 1; # will only be increased if it was used - i.e. not continued
+			}
+			# hide every symbol, which is not needed
+			for (;me.antirad_i < MAX_ANTIRAD_TARGETS; me.antirad_i+=1) {
+				me.antirad_texts[me.antirad_i].hide();
+				me.antirad_circle[me.antirad_i].hide();
+				me.antirad_symbol_hat[me.antirad_i].hide();
+				me.antirad_symbol_chevron[me.antirad_i].hide();
+			}
+		} else {
+			for (; me.antirad_i < MAX_ANTIRAD_TARGETS; me.antirad_i+=1) {
+				me.antirad_texts[me.antirad_i].hide();
+				me.antirad_circle[me.antirad_i].hide();
+				me.antirad_symbol_hat[me.antirad_i].hide();
+				me.antirad_symbol_chevron[me.antirad_i].hide();
 			}
 		}
 	},
@@ -1953,11 +2098,11 @@ var HUD = {
 
 	_displayBoreCross: func() {
 		if (me.master_arm and pylons.fcs.getSelectedWeapon() !=nil) {
-			if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type != CC422) { # if weapons selected
-			me.boreCross.setTranslation(HudMath.getBorePos());
-			me.boreCross.show();
+			if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) { # if weapons selected
+				me.boreCross.setTranslation(HudMath.getBorePos());
+				me.boreCross.show();
 			} else {
-			me.boreCross.hide();
+				me.boreCross.hide();
 			}
 		} else {
 			me.boreCross.hide();
@@ -2258,7 +2403,7 @@ var HUD = {
 					me.eegsGroup.createChild("text")
 					.setColor(COLOR_GREEN)
 					.setTranslation(me.maxladderspan,-120)
-					.setDouble("character-size", 35)
+					.setFontSize(FONT_SIZE_ALPHA)
 					.setAlignment("left-center")
 					.setText(sprintf("%.1f KM", me.strfRange*FT2M/1000));
 
@@ -2354,14 +2499,14 @@ var HUD = {
                 .setColor(COLOR_GREEN)
                 .setAlignment("right-center")
                 .setTranslation(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-                .setDouble("character-size", 30)
+                .setFontSize(FONT_SIZE_LADDER)
                 .setText(myladder);
               #Text bellow 0 left
               me.LadderGroup.createChild("text")
                 .setColor(COLOR_GREEN)
                 .setAlignment("left-center")
                 .setTranslation(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-                .setDouble("character-size", 30)
+                .setFontSize(FONT_SIZE_LADDER)
                 .setText(myladder);
 
               #Text above 0 left
@@ -2369,14 +2514,14 @@ var HUD = {
                 .setColor(COLOR_GREEN)
                 .setAlignment("right-center")
                 .setTranslation(-me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
-                .setDouble("character-size", 30)
+                .setFontSize(FONT_SIZE_LADDER)
                 .setText(myladder);
               #Text above 0 right
               me.LadderGroup.createChild("text")
                 .setColor(COLOR_GREEN)
                 .setAlignment("left-center")
                 .setTranslation(me.maxladderspan, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
-                .setDouble("character-size", 30)
+                .setFontSize(FONT_SIZE_LADDER)
                 .setText(myladder);
             }
 

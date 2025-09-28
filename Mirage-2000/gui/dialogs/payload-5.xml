@@ -129,6 +129,18 @@
 			<pref-width>250</pref-width>
 			<row>4</row>
 			<col>0</col>
+			<legend>Anti Radar (2 ARMAT)</legend>
+			<binding>
+				<command>nasal</command>
+				<script>pylons.a2ouadi_fox()</script>
+			</binding>
+		</button>
+
+
+		<button>
+			<pref-width>250</pref-width>
+			<row>5</row>
+			<col>0</col>
 			<legend>8 Unguided Mk-82 - 1 Centre Tank</legend>
 			<binding>
 				<command>nasal</command>
@@ -138,7 +150,7 @@
 
 		<button>
 			<pref-width>250</pref-width>
-			<row>4</row>
+			<row>5</row>
 			<col>1</col>
 			<legend>6 Unguided Mk-82 - 2 Tanks</legend>
 			<binding>
@@ -149,7 +161,7 @@
 
 		<button>
 			<pref-width>250</pref-width>
-			<row>5</row>
+			<row>6</row>
 			<col>0</col><pref-width>250</pref-width>
 			<legend>8 Unguided Mk-82SE - 1 Centre Tank</legend>
 			<binding>
@@ -160,7 +172,7 @@
 
 		<button>
 			<pref-width>250</pref-width>
-			<row>5</row>
+			<row>6</row>
 			<col>1</col>
 			<legend>6 Unguided Mk-82SE - 2 Tanks</legend>
 			<binding>

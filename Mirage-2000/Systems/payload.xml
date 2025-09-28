@@ -459,6 +459,15 @@
 			<weight-warhead-lbs type="double"> 50 </weight-warhead-lbs>
 		</apache>
 
+		<!--
+		https://en.missilery.info/missile/martel-as37:
+		* min-range: 15 km
+		* max-range: 60 km (Armat: 120 km)
+		https://www.globalsecurity.org/military/world/europe/as37-specs.htm
+		* max-range: 120 km
+		https://en.wikipedia.org/wiki/ARMAT:
+		* Operational range 40–120 km (25–75 mi)
+		-->
 		<as-37-armat>
 			<type-id type="int">14</type-id>
 			<short-name type="string">ARMAT</short-name>
@@ -475,10 +484,10 @@
 			<hit-everything-nearby type="bool">true</hit-everything-nearby>
 			<lock-on-after-launch type="bool">false</lock-on-after-launch>
 			<loft-altitude type="int">36000</loft-altitude>
-			<max-fire-range-nm type="double">65</max-fire-range-nm>
+			<max-fire-range-nm type="double">75</max-fire-range-nm> <!-- originally set to 65 -->
 			<max-g type="int">15</max-g>
-			<max-report-distance type="double">65</max-report-distance>
-			<min-fire-range-nm type="double">0.25</min-fire-range-nm>
+			<max-report-distance type="double">75</max-report-distance>
+			<min-fire-range-nm type="double">2</min-fire-range-nm> <!-- originally set to 0.25 -->
 			<min-speed-for-guiding-mach type="double">0.2</min-speed-for-guiding-mach>
 			<navigation type="string">PN</navigation>
 			<prowl-flight type="string">gyro-pitch</prowl-flight>

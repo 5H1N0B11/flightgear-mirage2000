@@ -56,6 +56,7 @@
 				<script>pylons.nuke()</script>
 			</binding>
 		</button>
+		<!--
 		<button>
 			<pref-width>250</pref-width>
 			<row>1</row>
@@ -66,6 +67,7 @@
 				<script>pylons.a2ouadi_fox()</script>
 			</binding>
 		</button>
+		-->
 		<button>
 			<pref-width>250</pref-width>
 			<row>1</row>
