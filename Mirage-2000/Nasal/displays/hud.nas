@@ -1186,6 +1186,7 @@ var HUD = {
 		me.CCRP_piper_group_visibilty = TRUE;
 		me.CCRP_cue_visbility = FALSE;
 		me.CCRP_no_go_cross_visibility = FALSE;
+		me.bore_pos =  HudMath.getBorePos();
 
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 
@@ -1200,11 +1201,11 @@ var HUD = {
 						me.show_CCIP = me._displayCCIPMode();
 					} else {
 						if (target_contacts_list != nil and size(target_contacts_list) > 0 and radar_system.apg68Radar.getPriorityTarget() != nil) {
-							me.show_CCRP = me._displayCCRPMode();
+							me.show_CCRP = me._displayCCRPMode(me.bore_pos);
 						} # else nothing to do until a target has been chosen
 					}
 				} else if (me.selectedWeapon.typeShort == GBU12 or me.selectedWeapon.typeShort == GBU24) {
-					me.show_CCRP = me._displayCCRPMode();
+					me.show_CCRP = me._displayCCRPMode(me.bore_pos);
 				}
 			}
 		}
@@ -1286,7 +1287,7 @@ var HUD = {
 		###################################################
 
 		#Gun Cross (bore)
-		me._displayBoreCross();
+		me._displayBoreCross(me.bore_pos);
 
 		# flight path vector (FPV)
 		me._displayFPV();
@@ -1324,7 +1325,7 @@ var HUD = {
 		me._displayTarget();
 		me._displayHeatTarget();
 
-		me._displayAntiRadTarget();
+		me._displayAntiRadTarget(me.bore_pos);
 
 		# -------------------- displayHeadingHorizonScale ---------------
 		me._displayHeadingHorizonScale();
@@ -1458,7 +1459,7 @@ var HUD = {
 		return FALSE;
 	}, # END _displayCCIPMode()
 
-	_displayCCRPMode: func() {
+	_displayCCRPMode: func(bore_pos) {
 		me.DistanceToShoot = nil; # the distance the aircraft travels before bombs are released - not the distance to the target
 
 		var maxFallTime = 45;
@@ -1479,13 +1480,12 @@ var HUD = {
 			# flying directly to the target when they are level.
 
 			if (me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 15) {
-				me.BorePos =  HudMath.getBorePos();
 				me.hud_pos = HudMath.getPosFromCoord(me.selectedWeapon.Tgt.get_Coord());
 				if (me.hud_pos != nil) {
 					me.pos_x = me.hud_pos[0];
 					me.pos_y = me.hud_pos[1];
 					me.CCRP_release_percent = (me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS))/30;
-					me.CCRP_release_cue.setTranslation(me.BorePos[0],me.BorePos[1]-(me.BorePos[1]-me.pos_y)*(math.clamp(me.CCRP_release_percent,0,1)));
+					me.CCRP_release_cue.setTranslation(bore_pos[0], bore_pos[1]-(bore_pos[1]-me.pos_y)*(math.clamp(me.CCRP_release_percent,0,1)));
 					me.CCRP_cue_visbility = TRUE;
 				}
 			}
@@ -1884,7 +1884,7 @@ var HUD = {
 		}
 	},
 
-	_displayAntiRadTarget: func() {
+	_displayAntiRadTarget: func(bore_pos) {
 		me.antirad_i = 0;
 
 		me.antirad_cue_core.hide();
@@ -1898,8 +1898,6 @@ var HUD = {
 			me.antirad_high_threat = FALSE;
 			me.antirad_pos = nil;
 			me.antirad_y = 0.;
-
-			me.antirad_bor_pos = HudMath.getBorePos();
 
 			me.antirad_semi_callsign = me.input.semiactive_callsign.getValue();
 			me.antirad_launch_callsign = me.input.launch_callsign.getValue();
@@ -1931,7 +1929,7 @@ var HUD = {
 					continue;
 				}
 
-				me.antirad_y = me.antirad_bor_pos[1];
+				me.antirad_y = bor_pos[1];
 				if (me.antirad_high_threat == TRUE) {
 					me.antirad_y -= 20;
 				}
@@ -2096,10 +2094,10 @@ var HUD = {
     me.myRunwayGroup.update();
   },
 
-	_displayBoreCross: func() {
+	_displayBoreCross: func(bore_pos) {
 		if (me.master_arm and pylons.fcs.getSelectedWeapon() !=nil) {
 			if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) { # if weapons selected
-				me.boreCross.setTranslation(HudMath.getBorePos());
+				me.boreCross.setTranslation(bore_pos);
 				me.boreCross.show();
 			} else {
 				me.boreCross.hide();
