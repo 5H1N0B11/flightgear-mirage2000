@@ -1238,7 +1238,6 @@ var printDebug = func (msg) {if (debug == 1) print(msg);};
 var printfDebug = func {if (debug == 1) call(printf,arg);};
 
 
-
 # This is non-generic methods, please edit it to fit your radar setup:
 
 # List of weapons that can be CCIP/CCRP dropped:

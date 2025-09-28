@@ -87,13 +87,14 @@
 # Copied files #
 ## OPRF Files ##
 
-https://github.com/NikolaiVChr/OpRedFlag/tree/master
+Updated last time on 2025-09-28 from https://github.com/Op-RedFlag/OpRedFlag
 
 | Area                  | Commit               | Files not yet converted | Deviations |
 | ----------------------| -------------------- | ------------------------| ---------- |
 | emesary-damage-system | 108ff45 (2024-10-28) | n/a | /payload.xml/armament/models points to Aircraft/Mirage-2000/Missiles/ instead of ./Models/emesary/ |
-| libraries             | 108ff45 (2024-10-28) | n/a | There is an additional custom file for m2000: iff_m2000.nas. The last ca. 10 lines of fire-control.nas is adapted for M2000 |
-| radar                 | 108ff45 (2024-10-28) | n/a | rcs.nas is missing in the OPRF library -> copied from F-16 |
+| libraries             | 95f2ca5 (2025-02-07) | n/a | There is an additional custom file for m2000: iff_m2000.nas. The last ca. 10 lines of fire-control.nas is adapted for M2000 |
+| radar                 | 7a7d871 (2025-09-25) | n/a | rcs.nas is missing in the OPRF library -> copied from F-16 |
+| assets                | 95f2ca5 (2025-02-07) | n/a | not used - using fire-control.nas from libraries |
 
 
 ## F16 files ##
