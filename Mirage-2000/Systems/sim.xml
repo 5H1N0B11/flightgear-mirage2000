@@ -26,7 +26,9 @@
 		<serviceable type="bool">true</serviceable>
 		<path>Aircraft/Mirage-2000/Models/Effects/guns/submodels.xml</path>
 	</submodels>
-
+	<model>
+			<fallback-model-index type="int">527</fallback-model-index>
+	</model>
 	<multiplay>
 		<chat_display>1</chat_display>
 		<generic>
