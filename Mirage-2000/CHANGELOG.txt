@@ -1,6 +1,149 @@
+2025-10-10
+====================================================================
+Major release with extensive updates across all systems.
+
+Contributors: Rick Gruber-Riemer, Richard Harrison, J Maverick 16, Wolf,
+Rudolf339, Nikolai V. Chr, paccalin, Megaf, Rainbow, Niall Roe,
+Hardball and others.
+
+Radar System - Complete Overhaul:
+- Imported F-16 APG-68 radar system architecture
+- Updated RWR/RCS databases (SA-5, SA-6, Patriot, Super Bug, Tonka, etc.)
+- French-style RWR display with proper symbology (hat/chevron)
+- Threat separation and audio warnings (D2M, STT lock, new threats)
+- Radar modes including TWS (Track While Scan)
+
+VTM (Vertical Tactical Map) - Complete Rewrite:
+- Replaced property-based screen with Canvas-based 3D rendering
+- Target tracking with speed indicators and rotation
+- Compass scale with labels, moving cursor, ground/air symbology
+- Optimized performance with reduced update rates
+- Power on/off states and night lighting effects
+
+HUD (Head-Up Display):
+- Migrated to Emesary messaging system for performance
+- Caged gun sight for anti-radiation missiles
+- Bullseye display, weapon-specific symbology (CCIP/CCRP)
+- Power dependency on electrical system
+
+MFD (Multi-Function Display):
+- New display system based on F-16 architecture
+- SMS page with aircraft outline and pylon status
+- EHSI, EADI, EICAS, and RMU displays
+- Weapons page with CCIP/CCRP, fuze, ripple settings
+
+Weapons & Armament:
+- AS37A Armat anti-radiation missile (in progress)
+- APACHE and SCALP cruise missiles
+- CC422 gun pod for 2000D
+- GBU-12/16/24 with laser guidance
+- Mk-82/Mk-82SE with animations
+- Snake-eye retarded bombs with ripple mode
+- BAP-100, Smoke pod
+- Fixed gun fire rates, ASMP issues, missile cross-sections
+
+Targeting Systems:
+- CCRP (Continuously Computed Release Point) fully implemented
+- CCIP (Continuously Computed Impact Point) working
+- Laser guidance for LGBs
+- Ground target designation with snipe capability
+- Gun ground targeting improvements
+
+Flight Control & Systems:
+- FBW mode switch, operational chute brake
+- SAS and FCS improvements
+- Manual engine startup procedure
+- LP/BP probe, improved nozzle control
+
+IFF & Datalink:
+- Complete IFF interrogation logic and transponder panel
+- Datalink transmit capability (Link 16)
+- Fixed IFF panel animations
+
+Countermeasures:
+- Counter measure indication lights
+- Dispenser indicators on RWR
+- Visual flares over multiplayer
+
+Cockpit & Instruments:
+- Animated instrument pointers (issue #264)
+- Enhanced VOR/TACAN panels
+- Improved alert panel
+- Light noshadow animation (issue #232)
+
+3D Model & Liveries:
+- New liveries: Brazilian, Peruvian, Greek, Indian, ROCAF, Qatar,
+  Egyptian, Ukrainian, NATO Tiger Meet 2019
+- Fictional liveries (Have Glass, Nevada, Arctic/Forest flecktarn)
+- Service door with Pin-Up options
+- iCCP fixes and texture optimizations
+
+Navigation & Autopilot:
+- Magnetic/true heading display
+- Marine and surface detection
+- Autopilot improvements and documentation
+
+Multiplayer:
+- MP visibility range increased to 200 NM
+- Load visibility improvements
+- Visual flares in MP
+
+Payload & Configuration:
+- Cleaned up payload selection
+- Fast rearm presets
+- Loadout presets for various missions
+- Fuel tanks (1300L/1700L/2000L) with liveries
+- Stores drag and yaw calculations
+
+Performance & Optimization:
+- Lower MFD update rates with input hash
+- FrameNotification for VTM
+- Canvas performance improvements
+- Centralized texture loading
+
+GUI & Dialogs:
+- Major dialog updates (IFF/DLINK, mission planning, ground targeting)
+- Wingmen control, Tacview, event log dialogs
+- Resizable combat log window
+- Lighting and missile view dialogs
+
+Documentation:
+- Complete manual rewrite in RST format with PDF generation
+- Chapters: Abbreviations, Autopilot, Cockpit, Displays, Flying,
+  IFF/Datalink, Radar, Weapons, Development, References
+- Migration from GitHub wiki
+- YouTube video references
+
+License & Legal:
+- Clarified that the repository is licenced as GPLv2
+
+Bug Fixes:
+- #232: Light noshadow animation
+- #249: ASMP missile
+- #250: CC442 gun fire rate
+- #252: SMS page weapon display
+- #254: MFD RMU switch
+- #256: Snake-eye delta CD
+- #258: VTM cursor visibility
+- #259: Payload preset with MP damage
+- DLZ calculations, pylon naming, map loading failures
+- MissileView cleanup, radar code for ships
+- Damage system, gun bugs, electrical system
+
+Misc:
+- Added pushback capability
+- Tacview recording integration
+- Set minimum FG version requirements
+- Added .gitignore file
+- Updated OPRF common files
+- Code cleanup throughout
+
+Statistics: 600+ commits, 4 years development, 1000+ files changed
+
+
 2020-09
 ====================================================================
-- New canvas HUD 
+- New canvas HUD
 - Fixed to cockpit displays
 - Improvements to cockpit model.
 - New aerodynamic model
@@ -119,7 +262,7 @@ SAS improvments
 
 2015-02
 ================================================================================
-3D : 
+3D :
 - Several more instrument in the cockpit. The working ones are : startup instrument, light variator instruments.
   (The others, I'm still working on it)
 - New gun explosion : more realistics
@@ -163,8 +306,8 @@ Yasim
 
 Nasal
 - Correction des bugs de lenteurs, creations des systèmes electriques, fuel, huiles
-- Procédure de démarrage et nouvelle gestion du moteur, début de commande de vol electrique 
-  (pour ça que ça ne dérappe plus en fin de piste), 
+- Procédure de démarrage et nouvelle gestion du moteur, début de commande de vol electrique
+  (pour ça que ça ne dérappe plus en fin de piste),
 - Ajout de la navigation TACAN et suivi de route (renseigné par le gestionnaire de route MAJ du code de FSIG)
 - Ajout d'un fonction brake (que l'on peut implementer dans le joystick) et qui anime les aerofreins en vol
   (ça veut dire que l'on peut refuel sans quitter le manche)
@@ -187,11 +330,11 @@ Nasal
 - Improved "Mouse" -> Inlet cones for supersonic flight  ... ( they go out > Mach 1.25 ).
 - Reheat Correction (Using n value, instead of throttle value)
 
-- Electric flight control : 
+- Electric flight control :
 ---------------------------
-- Slats : they have an automated movement, during flight, and are retracted when landing (but still can be reopened 
+- Slats : they have an automated movement, during flight, and are retracted when landing (but still can be reopened
   manualy in case of engine failure)
-- SAS System Stabilizer Automatic Flight Stabilizer flight depending on the position of the joystick ( Still job to 
+- SAS System Stabilizer Automatic Flight Stabilizer flight depending on the position of the joystick ( Still job to
   do to improve that )
 Note : this make stick less sensitive for low stick value or high speed. Also work for the nosewheel : > 10kts it become more stable with speed increasing
 
