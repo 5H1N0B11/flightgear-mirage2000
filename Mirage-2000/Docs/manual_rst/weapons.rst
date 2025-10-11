@@ -213,15 +213,15 @@ The Mirage uses `DEFA cannons⇗ <https://en.wikipedia.org/wiki/DEFA_cannon>`_. 
 AS-37 Armat (Anti-Radiation)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There is very little information available for the Armat missile - especially how the aiming in the cockpit is done. Therefore, the implementation is purely fictional and takes inspiration from the DCS AV-8B Harrier AGM 122 Sidearm setup. Most probably the missile was only available in the -C version, maybe in the -D/N versions. This is why a rather primitive display system only using the HUD is used, as only the -D and -5 versions have displays, which could show a page like in the F-16 or F-18. If you have any information/hints available to make the implementation more realistic, then let the developers know.
+There is very little information available for the Armat missile - especially how the aiming in the cockpit is done. Therefore, the implementation is purely fictional and takes inspiration from the DCS AV-8B Harrier AGM 122 Sidearm setup. Most probably the missile was only available in the -C version, maybe in the -D/N versions. This is why a rather primitive display system only using the HUD is used - only the -D and -5 versions have displays, which could show a page like in the F-16 or F-18 MFDs. If you have any information/hints available to make the implementation more realistic, then let the developers know.
 
 For aiming you need to combine the RWR display (see :ref:`link_subsection_rwr`) with information in the HUD:
 
 * The HUD only displays a narrow field of view and filters on surface or naval assets which have an air radar. Unknown target types will not be displayed. A mximum of 8 threats are displayed (more severe threats are prioritised).
 * The HUD is based on the passive radar homing detection capabilities of the missile, which has been chosen to be 65 nm (the max range of the missile is 75 nm) - which is much lower than the RWR capabilities.
-* Therefore, you can use the RWR to spot potential targets and then steer the airplane into that direction until the target is displayed on the HUD (unless it is airborne or out of range).
+* Therefore, you can use the RWR to spot potential targets and then steer the airplane into that direction until the target is displayed on the HUD (unless it is airborne or out of range). Remember that the distance from the centre in the RWR is not an indication of distance!
 
-In the HUD all detected radiation emitters within the HUD field for view are displayed at the top without any range information using the same type information as in the RWR. E.g. on the following screenshot you can see two radiation targets below the compas at the top of the HUD - the same as shown in the RWR (where they overlap). The recticle is caged.
+In the HUD all detected radiation emitters within the HUD field for view are displayed without any range information using the same type information as in the RWR. E.g. on the following screenshot you can see three radiation targets in the HUD - the same as shown in the RWR (where they overlap). The recticle is always in the centre and gets a double circle, when there is a lock. As with IR-missiles you will hear low and high volume sounds to indicate whether a lock has been acquired.
 
 .. image:: images/antiradar_caged.png
    :scale: 30%
@@ -232,3 +232,5 @@ The missile needs to be fired:
 * below 5 g
 * below mach 0.9
 * below 45 degs of roll
+
+Once a lock is acquired the recticle does not have to be kept over the target. However, if the recticle is moved too far away before the missile is shot, then the lock will get broken.

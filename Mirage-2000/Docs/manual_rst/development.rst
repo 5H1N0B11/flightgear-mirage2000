@@ -28,6 +28,8 @@ Executing the Generation Proces
 
 Follow the following for generating the manual:
 
+* Make sure to activate the virtual Python environment. See above the line with ``source /.../activate``.
+* Change into the ``manual_rst`` directory.
 * Create the pdf file locally: Issue command ``sphinx-build -b rinoh . build``
 * Copy/overwrite the generated file ``mirage2000-new-manual.pdf`` from the ``build`` directory to the root ``Docs`` folder.
 
