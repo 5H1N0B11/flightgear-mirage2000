@@ -487,7 +487,7 @@
 			<max-fire-range-nm type="double">75</max-fire-range-nm> <!-- originally set to 65 -->
 			<max-g type="int">15</max-g>
 			<max-report-distance type="double">75</max-report-distance>
-			<min-fire-range-nm type="double">2</min-fire-range-nm> <!-- originally set to 0.25 -->
+			<min-fire-range-nm type="double">0.25</min-fire-range-nm> <!-- originally set to 0.25 -->
 			<min-speed-for-guiding-mach type="double">0.2</min-speed-for-guiding-mach>
 			<navigation type="string">PN</navigation>
 			<prowl-flight type="string">gyro-pitch</prowl-flight>
@@ -499,6 +499,8 @@
 			<release-limit-roll type="double"> 45 </release-limit-roll>
 			<require-lock-to-fire type="bool">true</require-lock-to-fire>
 			<seeker-field-deg type="int">100</seeker-field-deg>
+			<seeker-angular-speed-dps type="double">40</seeker-angular-speed-dps> <!-- pure guess based on other weapon's values -->
+			<!-- <sw-expanded-acquisition-mode type="bool">false</sw-expanded-acquisition-mode> -->
 			<self-destruct-time-sec type="double">600</self-destruct-time-sec>
 			<!-- The large airframe accommodates a Hotchkiss-Brandt/SNPE Basile solid propellant boost stage with a 2.4 second burn. and an SNPE Cassandre solid propellant sustainer with a 22 second burn-->
 			<stage-1-duration-sec type="double">4</stage-1-duration-sec>
@@ -506,9 +508,9 @@
 			<switch-time-sec type="double">5</switch-time-sec>
 			<thrust-lbf-stage-1 type="double">8000</thrust-lbf-stage-1> <!-- Boost Sustain 64.000 lbs./sec 630 mps/mach 2+ -->
 			<thrust-lbf-stage-2 type="double">1000</thrust-lbf-stage-2>
-			<vol-search type="double">0.00</vol-search>
-			<vol-track type="double">0.15</vol-track>
-			<vol-track-weak type="double">0.1</vol-track-weak>
+			<vol-search type="double">0.075</vol-search>
+			<vol-track type="double">0.25</vol-track>
+			<vol-track-weak type="double">0.175</vol-track-weak>
 			<weight-fuel-lbm type="double">700</weight-fuel-lbm>
 			<weight-launch-lbs type="double">1168</weight-launch-lbs>
 			<weight-warhead-lbs type="double">330</weight-warhead-lbs>

@@ -54,6 +54,8 @@ var COLOR_GREEN = [0,1,0,1];
 
 var MAX_ANTIRAD_TARGETS = 8;
 var ANTIRAD_SYMBOLS_DIST = 24;
+var ANTIRAD_RING = 80; # radius
+
 
 var FONT_NARROW = "LiberationFonts/LiberationSansNarrow-Bold.ttf";
 var FONT_REGULAR = "LiberationFonts/LiberationMono-Regular.ttf";
@@ -815,7 +817,6 @@ var HUD = {
 
 		m.antirad_cue_core = m.antirad_grp.createChild("group");
 
-		var ANTIRAD_RING = 60;
 		var ANTIRAD_TICK = 20;
 
 		m.antirad_cue_core_ring = m.antirad_cue_core.createChild("path")
@@ -1890,10 +1891,18 @@ var HUD = {
 		me.antirad_cue_core.hide();
 		me.antirad_cue_locked.hide();
 		if (me._isArmedAndHasWeapon() == TRUE and contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION) {
-			me.antirad_cue_core.show();
-			#if (pylons.fcs.isLock()) {
-			#	me.antirad_cue_locked.show();
+			#print("status "~me.selectedWeapon.getStatus());
+			#me.selectedWeapon.start();
+			#var coords = me.selectedWeapon.getSeekerInfo();
+			#if (coords != nil) {
+			#	var seekerTripos = HudMath.getCenterPosFromDegs(coords[0],coords[1]);
+			#	print(coords[0]~", "~coords[1]);
+			#	me.antirad_cue_core.setTranslation(seekerTripos);
 			#}
+			me.antirad_cue_core.show();
+			if (pylons.fcs.isLock()) {
+				me.antirad_cue_locked.show();
+			}
 
 			me.antirad_high_threat = FALSE;
 			me.antirad_pos = nil;
@@ -1902,6 +1911,7 @@ var HUD = {
 			me.antirad_semi_callsign = me.input.semiactive_callsign.getValue();
 			me.antirad_launch_callsign = me.input.launch_callsign.getValue();
 			me.has_hat = FALSE;
+			me.searchable_items = [];
 			foreach(me.antirad_contact; radar_system.f16_rwr.vector_aicontacts_threats) {
 				me.antirad_db_entry = radar_system.getDBEntry(me.antirad_contact[0].getModel());
 				# first exclude what does not need to be shown
@@ -1929,9 +1939,12 @@ var HUD = {
 					continue;
 				}
 
-				me.antirad_y = bor_pos[1];
-				if (me.antirad_high_threat == TRUE) {
-					me.antirad_y -= 20;
+				# make the seeker find the radiation if within the recticle, but only the first found
+				if (size(me.searchable_items) == 0) {
+					if (math.abs(me.antirad_pos[0]) <= ANTIRAD_RING and math.abs(me.antirad_pos[1] <= ANTIRAD_RING)) {
+						append(me.searchable_items, me.antirad_contact[0]);
+						# print("found "~me.antirad_contact[0].get_Callsign());
+					}
 				}
 
 				me.has_hat = FALSE;
@@ -1941,25 +1954,27 @@ var HUD = {
 					me.has_hat = TRUE;
 				}
 
-				me.antirad_texts[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_y);
+				me.antirad_texts[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_pos[1]);
 				me.antirad_texts[me.antirad_i].updateText(me.antirad_db_entry.rwrCode);
 				me.antirad_texts[me.antirad_i].show();
-				me.antirad_circle[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_y);
+				me.antirad_circle[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_pos[1]);
 				me.antirad_circle[me.antirad_i].show();
 				if (me.has_hat) {
-					me.antirad_symbol_hat[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_y);
+					me.antirad_symbol_hat[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_pos[1]);
 					me.antirad_symbol_hat[me.antirad_i].show();
 				} else {
 					me.antirad_symbol_hat[me.antirad_i].hide();
 				}
 				if (me.antirad_contact[0].isSpikingMe()) {
-					me.antirad_symbol_chevron[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_y);
+					me.antirad_symbol_chevron[me.antirad_i].setTranslation(me.antirad_pos[0], me.antirad_pos[1]);
 					me.antirad_symbol_chevron[me.antirad_i].show();
 				} else {
 					me.antirad_symbol_chevron[me.antirad_i].hide();
 				}
 				me.antirad_i += 1; # will only be increased if it was used - i.e. not continued
 			}
+			me.selectedWeapon.setContacts(me.searchable_items);
+
 			# hide every symbol, which is not needed
 			for (;me.antirad_i < MAX_ANTIRAD_TARGETS; me.antirad_i+=1) {
 				me.antirad_texts[me.antirad_i].hide();
