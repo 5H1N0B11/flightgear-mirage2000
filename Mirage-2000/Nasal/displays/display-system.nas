@@ -854,12 +854,12 @@ var DisplaySystem = {
 			me.caR_box.setVisible(sel==9);
 
 			if (variantID == 1) {
-				me.caL_text.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
-				me.caR_text.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
+				me.caL_text.updateText(sprintf("%3d", pylons.pylonI.getAmmo()/2));
+				me.caR_text.updateText(sprintf("%3d", pylons.pylonI.getAmmo()/2));
 			} elsif (variantID == 3) {
 				if (pylons.pylon1 != nil and pylons.pylon1.currentSet != nil) {
 					if (pylons.pylon1.currentSet.name == "CC422") {
-						me.caL_text.updateText(sprintf("%3d", pylons.fcs.getAmmo()));
+						me.caL_text.updateText(sprintf("%3d", pylons.pylon1.getAmmo()));
 					} else {
 						me.caL_text.updateText("");
 					}
