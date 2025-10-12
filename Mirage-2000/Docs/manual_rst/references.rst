@@ -112,6 +112,15 @@ B09: AMD-BA Mirage 2000D
 Ref: Frédéric Lert; Les Matériels de l'Armée de l'Air et de l'Aéronaval; Histoire & Collections; ISBN 978-2-35250-253-1
 
 
+B10: Mirage 2000: L'histoire and l'armée de l'Air de 1974 a nos jours
+---------------------------------------------------------------------
+
+Ref: Hervé Beaumont, 2024; 2e édition; Sophia Editions; ISBN: 978-2-38514-081-6.
+
+Content:
+* Each version incl. the prototypes are described in depth in concise language - not so much "stories".
+
+
 Articles in Journals
 ====================
 
@@ -235,10 +244,11 @@ Links
   * `Blog post⇗ <https://blog.naver.com/PostView.nhn?blogId=pwrangshion&logNo=110120276719>`_: quite a few details on systems and weapons with pictures
   * `Scalemates Dassault Mirage 2000 Walkarounds⇗ <https://www.scalemates.com/search.php?fkSECTION%5B%5D=Walkarounds&q=Dassault+Mirage+2000>`_
 
+
 DVDs
 ====
 
-D01: Mirage 2000 - 20 Years in Hellenic Air Force Service
+V01: Mirage 2000 - 20 Years in Hellenic Air Force Service
 ---------------------------------------------------------
 
 Ref: www.11aviation.com; 87 minutes; Greek language / no subtitles
@@ -255,7 +265,7 @@ Content:
   * 10:00: HUD landing
   * 11:00: HUD with seeker
 
-D02: Mirage 2000-5
+V02: Mirage 2000-5
 ------------------
 
 Ref: Hellenic Air Force Yearbook; Airutopia, David Maxwell; 2012 Special Projects; ca. 1 hour; mostly English with Greek subtitles.

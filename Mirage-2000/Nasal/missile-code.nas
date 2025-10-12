@@ -4722,7 +4722,7 @@ var AIM = {
 			}
 
 			me.potentialCoord = me.tagt.get_Coord();
-			if (me.tagt.getType() == SURFACE) {
+			if (me.tagt.get_type() == SURFACE) {
 				me.extra_height = 1.5;
 				me.potentialCoord.set_xyz(me.potentialCoord.x(), me.potentialCoord.y(), me.potentialCoord.z() + me.extra_height);
 			}

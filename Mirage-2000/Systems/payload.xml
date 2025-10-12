@@ -482,7 +482,7 @@
 			<arming-time-sec type="double">4.0</arming-time-sec>
 			<auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
 			<class type="string">GM</class>
-			<cross-section-sqft type="double">1.35</cross-section-sqft> <!-- 0.4 m diameter - 0.656 feet radius -->
+			<cross-section-sqft type="double">1.35</cross-section-sqft> <!-- ref[B10] 0.4 m diameter - 0.656 feet radius -->
 			<drag-coeff type="double">0.25</drag-coeff>
 			<FCS-field-deg type="int">25</FCS-field-deg>
 			<fire-msg type="string">Magnum</fire-msg> <!-- Magnum is for the call-out, Sniper is a command to shoot an anit-radiation missile -->
@@ -492,7 +492,7 @@
 			<loft-altitude type="int">36000</loft-altitude>
 			<max-fire-range-nm type="double">75</max-fire-range-nm> <!-- originally set to 65 -->
 			<max-g type="int">15</max-g>
-			<max-report-distance type="double">75</max-report-distance>
+			<max-report-distance type="double">50</max-report-distance>
 			<min-fire-range-nm type="double">0.25</min-fire-range-nm> <!-- originally set to 0.25 -->
 			<min-speed-for-guiding-mach type="double">0.2</min-speed-for-guiding-mach>
 			<navigation type="string">PN</navigation>
@@ -524,6 +524,11 @@
 			<no-common-target type="bool">true</no-common-target>
 		</as-37-armat>
 
+		<!--
+		Thrust has been calibrated with missile test in Hunter: If launched at 600 kt at 1000 m altitude
+		it can reach mach 1.75 after stage 1 and hit at around mach 1.6 and 20 secs a target 11 km away.
+		Numbers based on ref[B10]
+		-->
 		<as30l>
 			<type-id type="int">10</type-id>
 			<short-name type="string">AS30l</short-name>
@@ -532,9 +537,9 @@
 			<arming-time-sec type="double"> 3 </arming-time-sec>
 			<auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
 			<class type="string">GMP</class>
-			<cross-section-sqft type="double"> 0.63 </cross-section-sqft>
+			<cross-section-sqft type="double">0.988</cross-section-sqft> <!-- ref[B10] 0.342 m diameter - 0.561 feet radius -->
 			<deploy-time type="double">0</deploy-time>
-			<drag-coeff type="double"> 0.012 </drag-coeff>
+			<drag-coeff type="double">0.25</drag-coeff>
 			<drop-time type="double">0 </drop-time>
 			<FCS-field-deg type="int"> 200 </FCS-field-deg>
 			<fire-msg type="string">Rifle</fire-msg>
@@ -544,12 +549,12 @@
 			<lock-on-after-launch type="bool">false</lock-on-after-launch>
 			<lock-on-sun-deg type="double"> 0 </lock-on-sun-deg>
 			<loft-altitude type="int"> 0 </loft-altitude>
-			<max-fire-range-nm type="double">6.8 </max-fire-range-nm> <!-- 11 km (6.8nm)-->
+			<max-fire-range-nm type="double">9.7</max-fire-range-nm> <!-- ref[B10 18 km -->
 			<max-g type="double"> 15 </max-g>
 			<max-pitch-deg type="double">-45</max-pitch-deg>
-			<max-report-distance type="double"> 275 </max-report-distance>
+			<max-report-distance type="double">50</max-report-distance>
 			<min-fire-range-nm type="double">0.25</min-fire-range-nm> <!-- 3 km (1.8nm)-->
-			<min-speed-for-guiding-mach type="double"> 0 </min-speed-for-guiding-mach>
+			<min-speed-for-guiding-mach type="double">0.2</min-speed-for-guiding-mach>
 			<mounted-limit-g type="double"> 7.5 </mounted-limit-g>
 			<navigation type="string">PN</navigation>
 			<rail type="bool">true</rail>
@@ -557,25 +562,25 @@
 			<rail-pitch-deg type="double"> 0 </rail-pitch-deg>
 			<rail-point-forward type="bool">true</rail-point-forward>
 			<reaquire type="bool">true</reaquire>
-			<release-limit-altitude type="double"> 30000 </release-limit-altitude>
+			<release-limit-altitude type="double">32800</release-limit-altitude> <!-- ref[B10] -->
 			<release-limit-g type="double"> 5 </release-limit-g> <!-- no info on this -->
 			<release-limit-mach type="double"> 0.9 </release-limit-mach>
 			<release-limit-roll type="double"> 45 </release-limit-roll>
 			<require-lock-to-fire type="bool">true</require-lock-to-fire>
 			<seeker-angular-speed-dps type="double"> 0 </seeker-angular-speed-dps>
 			<seeker-field-deg type="int"> 32 </seeker-field-deg>
-			<self-destruct-time-sec type="double"> 10000 </self-destruct-time-sec>
-			<stage-1-duration-sec type="double"> 4 </stage-1-duration-sec>
-			<stage-2-duration-sec type="double"> 30 </stage-2-duration-sec>
+			<self-destruct-time-sec type="double"> 50 </self-destruct-time-sec>
+			<stage-1-duration-sec type="double">3.4</stage-1-duration-sec>
+			<stage-2-duration-sec type="double">25</stage-2-duration-sec>
 			<terrain-follow type="bool">false</terrain-follow>
-			<thrust-lbf-stage-1 type="double">7000 </thrust-lbf-stage-1>
-			<thrust-lbf-stage-2 type="double"> 1000 </thrust-lbf-stage-2>
+			<thrust-lbf-stage-1 type="double">11000</thrust-lbf-stage-1>
+			<thrust-lbf-stage-2 type="double">1400</thrust-lbf-stage-2>
 			<vol-search type="double"> 0.075 </vol-search>
 			<vol-track type="double"> 0.25 </vol-track>
 			<vol-track-weak type="double"> 0.175 </vol-track-weak>
-			<weight-fuel-lbm type="double"> 300 </weight-fuel-lbm>
-			<weight-launch-lbs type="double">1146 </weight-launch-lbs>
-			<weight-warhead-lbs type="double"> 529 </weight-warhead-lbs>
+			<weight-fuel-lbm type="double">400</weight-fuel-lbm>
+			<weight-launch-lbs type="double">1146 </weight-launch-lbs> <!-- ref[B10] 520 kg-->
+			<weight-warhead-lbs type="double">551</weight-warhead-lbs> <!-- ref[B10] 250 kg-->
 		</as30l>
 
 		<am39-exocet> <!-- Exocet -->
