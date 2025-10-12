@@ -467,6 +467,12 @@
 		* max-range: 120 km
 		https://en.wikipedia.org/wiki/ARMAT:
 		* Operational range 40–120 km (25–75 mi)
+
+		ref[B10]
+		* Operational range 15-100 km depending on the height at launch.
+
+		Thrust has been calibrated with missile test in Hunter: If launched at 600 kt at 1000 m altitude
+		it can reach 58 km and a max speed of mach 1.3.
 		-->
 		<as-37-armat>
 			<type-id type="int">14</type-id>
@@ -476,7 +482,7 @@
 			<arming-time-sec type="double">4.0</arming-time-sec>
 			<auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
 			<class type="string">GM</class>
-			<cross-section-sqft type="double">0.53</cross-section-sqft> <!-- 9.84 inch diam -->
+			<cross-section-sqft type="double">1.35</cross-section-sqft> <!-- 0.4 m diameter - 0.656 feet radius -->
 			<drag-coeff type="double">0.25</drag-coeff>
 			<FCS-field-deg type="int">25</FCS-field-deg>
 			<fire-msg type="string">Magnum</fire-msg> <!-- Magnum is for the call-out, Sniper is a command to shoot an anit-radiation missile -->
@@ -502,18 +508,19 @@
 			<seeker-angular-speed-dps type="double">40</seeker-angular-speed-dps> <!-- pure guess based on other weapon's values -->
 			<!-- <sw-expanded-acquisition-mode type="bool">false</sw-expanded-acquisition-mode> -->
 			<self-destruct-time-sec type="double">600</self-destruct-time-sec>
-			<!-- The large airframe accommodates a Hotchkiss-Brandt/SNPE Basile solid propellant boost stage with a 2.4 second burn. and an SNPE Cassandre solid propellant sustainer with a 22 second burn-->
-			<stage-1-duration-sec type="double">4</stage-1-duration-sec>
-			<stage-2-duration-sec type="double">22</stage-2-duration-sec>
+			<!-- The large airframe accommodates a Hotchkiss-Brandt/SNPE Basile solid propellant boost stage with a 2.4 second burn. and an SNPE Cassandre solid propellant sustainer with a 22 second burn
+			https://www.globalsecurity.org/military/world/europe/as37-specs.htm -->
+			<stage-1-duration-sec type="double">2.4</stage-1-duration-sec>
+			<stage-2-duration-sec type="double">100</stage-2-duration-sec> <!-- ref[B10] 100s (agm-88 has 50s)-->
 			<switch-time-sec type="double">5</switch-time-sec>
-			<thrust-lbf-stage-1 type="double">8000</thrust-lbf-stage-1> <!-- Boost Sustain 64.000 lbs./sec 630 mps/mach 2+ -->
+			<thrust-lbf-stage-1 type="double">10000</thrust-lbf-stage-1> <!-- Boost Sustain 64.000 lbs./sec 630 mps/mach 2+ -->
 			<thrust-lbf-stage-2 type="double">1000</thrust-lbf-stage-2>
 			<vol-search type="double">0.075</vol-search>
 			<vol-track type="double">0.25</vol-track>
 			<vol-track-weak type="double">0.175</vol-track-weak>
-			<weight-fuel-lbm type="double">700</weight-fuel-lbm>
-			<weight-launch-lbs type="double">1168</weight-launch-lbs>
-			<weight-warhead-lbs type="double">330</weight-warhead-lbs>
+			<weight-fuel-lbm type="double">700</weight-fuel-lbm> <!-- Guess given the long range -->
+			<weight-launch-lbs type="double">1212</weight-launch-lbs> <!-- ref[B10] 550kg -->
+			<weight-warhead-lbs type="double">330</weight-warhead-lbs>  <!-- ref[B10] 150kg -->
 			<no-common-target type="bool">true</no-common-target>
 		</as-37-armat>
 
