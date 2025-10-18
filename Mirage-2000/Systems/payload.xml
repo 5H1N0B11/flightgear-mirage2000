@@ -478,50 +478,46 @@
 			<type-id type="int">14</type-id>
 			<short-name type="string">ARMAT</short-name>
 			<long-name type="string">AS-37 Armat</long-name>
-			<all-aspect type="bool">true</all-aspect>
-			<arming-time-sec type="double">4.0</arming-time-sec>
-			<auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
-			<class type="string">GM</class>
-			<cross-section-sqft type="double">1.35</cross-section-sqft> <!-- ref[B10] 0.4 m diameter - 0.656 feet radius -->
-			<drag-coeff type="double">0.25</drag-coeff>
-			<FCS-field-deg type="int">25</FCS-field-deg>
-			<fire-msg type="string">Magnum</fire-msg> <!-- Magnum is for the call-out, Sniper is a command to shoot an anit-radiation missile -->
+			<vol-search type="double">0.075</vol-search>
+			<vol-track type="double">0.25</vol-track>
 			<guidance type="string">radiation</guidance>
-			<hit-everything-nearby type="bool">true</hit-everything-nearby>
-			<lock-on-after-launch type="bool">false</lock-on-after-launch>
-			<loft-altitude type="int">36000</loft-altitude>
+			<navigation type="string">PN</navigation> <!-- Because it is an older version cf. missile-code -->
+			<all-aspect type="bool">true</all-aspect>
 			<max-fire-range-nm type="double">54</max-fire-range-nm> <!-- originally set to 65 -->
+			<FCS-field-deg type="int">25</FCS-field-deg>
+			<seeker-field-deg type="int">100</seeker-field-deg>
 			<max-g type="int">15</max-g>
-			<max-report-distance type="double">54</max-report-distance>
-			<min-fire-range-nm type="double">0.25</min-fire-range-nm> <!-- originally set to 0.25 -->
+			<!-- The large airframe accommodates a Hotchkiss-Brandt/SNPE Basile solid propellant boost stage with a 2.4 second burn. and an SNPE Cassandre solid propellant sustainer with a 22 second burn
+			https://www.globalsecurity.org/military/world/europe/as37-specs.htm -->
+			<thrust-lbf-stage-1 type="double">10000</thrust-lbf-stage-1> <!-- Boost Sustain 64.000 lbs./sec 630 mps/mach 2+ -->
+			<thrust-lbf-stage-2 type="double">3900</thrust-lbf-stage-2>
+			<stage-1-duration-sec type="double">2.4</stage-1-duration-sec>
+			<stage-2-duration-sec type="double">100</stage-2-duration-sec> <!-- ref[B10] 100s (agm-88 has 50s)-->
+			<weight-launch-lbs type="double">1212</weight-launch-lbs> <!-- ref[B10] 550kg -->
+			<weight-warhead-lbs type="double">330</weight-warhead-lbs>  <!-- ref[B10] 150kg -->
+			<weight-fuel-lbm type="double">700</weight-fuel-lbm> <!-- Guess given the long range -->
+			<drag-coeff type="double">0.25</drag-coeff>
+			<cross-section-sqft type="double">1.35</cross-section-sqft> <!-- ref[B10] 0.4 m diameter - 0.656 feet radius -->
+			<arming-time-sec type="double">4.0</arming-time-sec>
 			<min-speed-for-guiding-mach type="double">0.2</min-speed-for-guiding-mach>
-			<navigation type="string">PN</navigation>
-			<prowl-flight type="string">gyro-pitch</prowl-flight>
+			<self-destruct-time-sec type="double">600</self-destruct-time-sec>
+			<loft-altitude type="int">36000</loft-altitude>
+			<min-fire-range-nm type="double">0.25</min-fire-range-nm> <!-- originally set to 0.25 -->
 			<rail type="bool">false</rail>
+			<max-report-distance type="double">65</max-report-distance>
 			<reaquire type="bool">true</reaquire>
+			<lock-on-after-launch type="bool">true</lock-on-after-launch>
+			<auto-switch-target-allowed type="bool">false</auto-switch-target-allowed>
+			<no-common-target type="bool">true</no-common-target>
+			<prowl-flight type="string">gyro-pitch</prowl-flight>
+			<switch-time-sec type="double">15</switch-time-sec>
+			<class type="string">GM</class>
+			<fire-msg type="string">Magnum</fire-msg> <!-- Magnum is for the call-out, Sniper is a command to shoot an anit-radiation missile -->
+			<hit-everything-nearby type="bool">true</hit-everything-nearby>
 			<release-limit-altitude type="double"> 38000 </release-limit-altitude>
 			<release-limit-g type="double"> 5 </release-limit-g> <!-- no info on this -->
 			<release-limit-mach type="double"> 0.9 </release-limit-mach>
 			<release-limit-roll type="double"> 45 </release-limit-roll>
-			<require-lock-to-fire type="bool">true</require-lock-to-fire>
-			<seeker-field-deg type="int">100</seeker-field-deg>
-			<seeker-angular-speed-dps type="double">40</seeker-angular-speed-dps> <!-- pure guess based on other weapon's values -->
-			<!-- <sw-expanded-acquisition-mode type="bool">false</sw-expanded-acquisition-mode> -->
-			<self-destruct-time-sec type="double">600</self-destruct-time-sec>
-			<!-- The large airframe accommodates a Hotchkiss-Brandt/SNPE Basile solid propellant boost stage with a 2.4 second burn. and an SNPE Cassandre solid propellant sustainer with a 22 second burn
-			https://www.globalsecurity.org/military/world/europe/as37-specs.htm -->
-			<stage-1-duration-sec type="double">2.4</stage-1-duration-sec>
-			<stage-2-duration-sec type="double">100</stage-2-duration-sec> <!-- ref[B10] 100s (agm-88 has 50s)-->
-			<switch-time-sec type="double">5</switch-time-sec>
-			<thrust-lbf-stage-1 type="double">10000</thrust-lbf-stage-1> <!-- Boost Sustain 64.000 lbs./sec 630 mps/mach 2+ -->
-			<thrust-lbf-stage-2 type="double">3900</thrust-lbf-stage-2>
-			<vol-search type="double">0.075</vol-search>
-			<vol-track type="double">0.25</vol-track>
-			<vol-track-weak type="double">0.175</vol-track-weak>
-			<weight-fuel-lbm type="double">700</weight-fuel-lbm> <!-- Guess given the long range -->
-			<weight-launch-lbs type="double">1212</weight-launch-lbs> <!-- ref[B10] 550kg -->
-			<weight-warhead-lbs type="double">330</weight-warhead-lbs>  <!-- ref[B10] 150kg -->
-			<no-common-target type="bool">true</no-common-target>
 		</as-37-armat>
 
 		<!--

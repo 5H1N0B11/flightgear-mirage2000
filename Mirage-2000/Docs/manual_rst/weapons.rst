@@ -87,7 +87,8 @@ MBDA MICA EM                            5B  5B      5B  5B
 AS30 Laser                          D                       D
 AS37 Armat                          5                       5
 AM39 Exocet                         5BD                     5BD
-SCALP / APACHE                                  5BD
+SCALP                                           5BD
+APACHE                                          5BD
 GBU-12 Paveway II                       D   D       D   D
 2x GBU-12 Paveway II                            5BD
 GBU-24                                          5BD
@@ -96,7 +97,7 @@ SAMP Mk-82SE                            5BD 5BD     5BD 5BD
 2x SAMP Mk-82                       5BD         5BD         5BD
 2x SAMP Mk-82SE                     5BD         5BD         5BD
 PDLCT (targeting pod)                               5BD
-CC422 (gun pod)                             5BD
+CC422 (gun pod)                              D
 Smoke pod (white)               5BD                             5BD
 ASMP-A                                          N
 =============================== === === === === === === === === ===
