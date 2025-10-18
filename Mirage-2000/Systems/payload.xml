@@ -469,10 +469,10 @@
 		* Operational range 40–120 km (25–75 mi)
 
 		ref[B10]
-		* Operational range 15-100 km depending on the height at launch.
+		* Operational range 15-100 km depending on the height at launch. (100 km = 54 nm)
 
 		Thrust has been calibrated with missile test in Hunter: If launched at 600 kt at 1000 m altitude
-		it can reach 58 km and a max speed of mach 1.3.
+		it can reach 103 km and a max speed of mach 2.4 and final speed below 0.2 mach.
 		-->
 		<as-37-armat>
 			<type-id type="int">14</type-id>
@@ -490,9 +490,9 @@
 			<hit-everything-nearby type="bool">true</hit-everything-nearby>
 			<lock-on-after-launch type="bool">false</lock-on-after-launch>
 			<loft-altitude type="int">36000</loft-altitude>
-			<max-fire-range-nm type="double">75</max-fire-range-nm> <!-- originally set to 65 -->
+			<max-fire-range-nm type="double">54</max-fire-range-nm> <!-- originally set to 65 -->
 			<max-g type="int">15</max-g>
-			<max-report-distance type="double">50</max-report-distance>
+			<max-report-distance type="double">54</max-report-distance>
 			<min-fire-range-nm type="double">0.25</min-fire-range-nm> <!-- originally set to 0.25 -->
 			<min-speed-for-guiding-mach type="double">0.2</min-speed-for-guiding-mach>
 			<navigation type="string">PN</navigation>
@@ -514,7 +514,7 @@
 			<stage-2-duration-sec type="double">100</stage-2-duration-sec> <!-- ref[B10] 100s (agm-88 has 50s)-->
 			<switch-time-sec type="double">5</switch-time-sec>
 			<thrust-lbf-stage-1 type="double">10000</thrust-lbf-stage-1> <!-- Boost Sustain 64.000 lbs./sec 630 mps/mach 2+ -->
-			<thrust-lbf-stage-2 type="double">1000</thrust-lbf-stage-2>
+			<thrust-lbf-stage-2 type="double">3900</thrust-lbf-stage-2>
 			<vol-search type="double">0.075</vol-search>
 			<vol-track type="double">0.25</vol-track>
 			<vol-track-weak type="double">0.175</vol-track-weak>
