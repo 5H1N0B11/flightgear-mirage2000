@@ -4721,7 +4721,7 @@ var AIM = {
 				me.launchCoord.set_xyz(me.geodPos.x, me.geodPos.y, me.geodPos.z);
 			}
 
-			me.potentialCoord = me.tagt.get_Coord();
+			me.potentialCoord = me.tagt.get_coord_for_view(me.guidance == "radiation");
 			if (me.tagt.get_type() == SURFACE) {
 				me.extra_height = 1.5;
 				me.potentialCoord.set_xyz(me.potentialCoord.x(), me.potentialCoord.y(), me.potentialCoord.z() + me.extra_height);
@@ -4750,7 +4750,7 @@ var AIM = {
 	checkForViewInFlight: func (tagt) {
 		if (me.guidance != "gps-laser" and me.guidance != "gps" and me.guidance != "inertial" and me.guidance != "sample") {
 			me.launchCoord = me.coord;
-			me.potentialCoord = tagt.get_Coord();
+			me.potentialCoord = tagt.get_coord_for_view(me.guidance == "radiation");
 			me.xyz          = {"x":me.launchCoord.x(),                  "y":me.launchCoord.y(),                 "z":me.launchCoord.z()};
 		    me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
 
