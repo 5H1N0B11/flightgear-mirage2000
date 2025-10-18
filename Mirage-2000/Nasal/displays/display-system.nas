@@ -184,6 +184,11 @@ var OSB25 = "OSB25";
 var OSB_PLUS = " + "; # extra whitespace on purpose to get away from border
 var OSB_MINUS = " - ";
 
+# below mostly used for logic in PPA
+var WPN_KIND_CANNON = "cannon";
+var WPN_KIND_FALL = "fall"; # free fall bombs (guided or unguided)
+var WPN_KIND_ARMAT = "armat";
+
 
 #  ██████  ██ ███████ ██████  ██       █████  ██    ██     ██████  ███████ ██    ██ ██  ██████ ███████
 #  ██   ██ ██ ██      ██   ██ ██      ██   ██  ██  ██      ██   ██ ██      ██    ██ ██ ██      ██
@@ -938,6 +943,7 @@ var DisplaySystem = {
 			me.input = {
 				cannon_rate_0              : "/ai/submodels/submodel/delay",
 				damage                     : "payload/armament/msg",
+				antiradar_target_type      : "controls/armament/antiradar-target-type"
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -1003,36 +1009,43 @@ var DisplaySystem = {
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
 			if (controlName == OSB6) {
-				me.fuze += 1;
-				if (me.fuze > 2) {
-					me.fuze = 0;
+				if (me.wpn_kind == WPN_KIND_FALL) {
+					me.fuze += 1;
+					if (me.fuze > 2) {
+						me.fuze = 0;
+					}
+				} else if (me.wpn_kind == WPN_KIND_ARMAT) {
+					me.input.antiradar_target_type.setValue(me.input.antiradar_target_type.getValue() + 1);
+					if (me.input.antiradar_target_type.getValue() >2) {
+						me.input.antiradar_target_type.setValue(0);
+					}
 				}
 			} elsif (controlName == OSB18) {
-				if (me.wpn_kind == "cannon") {
+				if (me.wpn_kind == WPN_KIND_CANNON) {
 					_changeCannonRate(TRUE);
-				} else if (me.wpn_kind == "fall") {
+				} else if (me.wpn_kind == WPN_KIND_FALL) {
 					pylons.fcs.setDropMode(1);
 				}
 			} elsif (controlName == OSB19) {
-				if (me.wpn_kind == "cannon") {
+				if (me.wpn_kind == WPN_KIND_CANNON) {
 					_changeCannonRate(FALSE);
-				} else if (me.wpn_kind == "fall") {
+				} else if (me.wpn_kind == WPN_KIND_FALL) {
 					pylons.fcs.setDropMode(0);
 				}
 			} elsif (controlName == OSB22) {
-				if (me.wpn_kind == "fall") {
+				if (me.wpn_kind == WPN_KIND_FALL) {
 					if (me.rp < 18) {
 						pylons.fcs.setRippleMode(me.rp + 1);
 					}
 				}
 			} elsif (controlName == OSB23) {
-				if (me.wpn_kind == "fall") {
+				if (me.wpn_kind == WPN_KIND_FALL) {
 					if (me.rp > 1) {
 						pylons.fcs.setRippleMode(me.rp - 1);
 					}
 				}
 			} elsif (controlName == OSB24) {
-				if (me.wpn_kind == "fall") {
+				if (me.wpn_kind == WPN_KIND_FALL) {
 					if (me.rpd == 5) {
 						pylons.fcs.setRippleDist(10);
 					} elsif (me.rpd < 200) {
@@ -1040,7 +1053,7 @@ var DisplaySystem = {
 					}
 				}
 			} elsif (controlName == OSB25) {
-				if (me.wpn_kind == "fall") {
+				if (me.wpn_kind == WPN_KIND_FALL) {
 					if (me.rpd == 10) {
 						pylons.fcs.setRippleDist(5);
 					} elsif (me.rpd > 10) {
@@ -1084,7 +1097,7 @@ var DisplaySystem = {
 				me.ammo_text.updateText("Ammo: "~pylons.fcs.getAmmo());
 
 				if (me.wpn.type == "CC422" or me.wpn.type == "30mm Cannon") {
-					me.wpn_kind = "cannon";
+					me.wpn_kind = WPN_KIND_CANNON;
 					me.cannon_rate = me.input.cannon_rate_0.getValue();
 					if (me.wpn.type == "30mm Cannon") {
 						me.osb18 = "High";
@@ -1098,7 +1111,7 @@ var DisplaySystem = {
 						me.row_1_right_text.show();
 					} # else: the rate cannot be changed in the CC422 gun pod
 				} else if (me.wpn.type == "Mk-82" or me.wpn.type == "Mk-82SE" or me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24") {
-					me.wpn_kind = "fall";
+					me.wpn_kind = WPN_KIND_FALL;
 					me.drop_mode = pylons.fcs.getDropMode();
 					me.osb18 = "CCIP";
 					me.osb19 = "CCRP";
@@ -1137,6 +1150,16 @@ var DisplaySystem = {
 						me.osb6 = "RET.";
 					} else {
 						me.osb6 = "INERT.";
+					}
+					me.osb6_selected = TRUE;
+				} else if (me.wpn.type == "AS-37-Armat") {
+					me.wpn_kind = WPN_KIND_ARMAT;
+					if (me.input.antiradar_target_type.getValue() == 0) {
+						me.osb6 = "ALL";
+					} elsif (me.input.antiradar_target_type.getValue() == 1) {
+						me.osb6 = "NAVAL";
+					} else {
+						me.osb6 = "SURFACE";
 					}
 					me.osb6_selected = TRUE;
 				}

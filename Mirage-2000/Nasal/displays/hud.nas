@@ -1097,7 +1097,8 @@ var HUD = {
 			HUD_POWER_VOLT : "/systems/electrical/outputs/HUD",
 			flightmode     : "/instrumentation/flightmode/selected",
 			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
-			launch_callsign           : "sound/rwr-launch"
+			launch_callsign           : "sound/rwr-launch",
+			antiradar_target_type     : "controls/armament/antiradar-target-type"
 		};
 
 		foreach(var name; keys(m.input)) {
@@ -1326,7 +1327,7 @@ var HUD = {
 		me._displayTarget();
 		me._displayHeatTarget();
 
-		me._displayAntiRadTarget(me.bore_pos);
+		me._displayAntiRadTargets();
 
 		# -------------------- displayHeadingHorizonScale ---------------
 		me._displayHeadingHorizonScale();
@@ -1885,7 +1886,7 @@ var HUD = {
 		}
 	},
 
-	_displayAntiRadTarget: func(bore_pos) {
+	_displayAntiRadTargets: func() {
 		me.antirad_i = 0;
 
 		me.antirad_cue_core.hide();
@@ -1923,8 +1924,15 @@ var HUD = {
 				}
 				if (me.antirad_db_entry.isSurfaceAsset == FALSE and me.antirad_db_entry.isShip == FALSE) {
 					continue;
+				} else { # one of them is ok - and we do not have to test against 0=all
+					if (me.input.antiradar_target_type.getValue() == 1 and me.antirad_db_entry.isShip == FALSE) {
+						continue;
+					}
+					if (me.input.antiradar_target_type.getValue() == 2 and me.antirad_db_entry.isSurfaceAsset == FALSE) {
+						continue;
+					}
 				}
-				if (me.antirad_contact[0].get_range() > 65) { # own choice as documented in the M2000 manual
+				if (me.antirad_contact[0].get_range() > 50) { # own choice as documented in the M2000 manual
 					continue;
 				}
 				if (me.antirad_contact[1] <= 0) { # threat

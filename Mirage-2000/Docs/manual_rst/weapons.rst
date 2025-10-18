@@ -85,7 +85,7 @@ Matra R550 Magic II             5BD                             5BD
 MBDA MICA IR                    5B                              5B
 MBDA MICA EM                            5B  5B      5B  5B
 AS30 Laser                          D                       D
-AS37 Armat                          D                       D
+AS37 Armat                          5                       5
 AM39 Exocet                         5BD                     5BD
 SCALP / APACHE                                  5BD
 GBU-12 Paveway II                       D   D       D   D
@@ -235,3 +235,5 @@ The missile needs to be fired:
 * within 50 nm of the target
 
 Once a lock is acquired the recticle does not have to be kept over the target. However, if the recticle is moved too far away before the missile is shot, then the lock will get broken.
+
+On the PPA page you can change between filtering on naval only, surface only or all (showing naval and surface stuff).

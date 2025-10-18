@@ -160,6 +160,8 @@
 		<master-arm-switch type="bool">false</master-arm-switch>
 		<laser-arm-dmd type="bool">false</laser-arm-dmd>
 
+		<antiradar-target-type type="int">0</antiradar-target-type> <!-- 0= ships and surface, 1=ships only, 2=surface only -->
+
 
 		<dual type="int">1</dual> <!-- Double release or 1 by 1    -->
 		<!-- ' 0=OFF, 1=GUN, 2=A/A, 3=A/G -->
@@ -227,8 +229,9 @@
 
 	<assistance type="bool">0</assistance>
 
-	<!-- Based on the JA37 -->
+
 	<displays>
+		<!-- Based on the JA37 -->
 		<stick-controls-cursor type="bool">false</stick-controls-cursor>
 		<arrows-controls-cursor type="bool">false</arrows-controls-cursor>
 		<!-- Inputs (to be used e.g. in joystick configuration) -->
