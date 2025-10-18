@@ -1103,6 +1103,7 @@ var DisplaySystem = {
 			me.osb25 = "";
 
 			me.row_1_right_text.hide();
+			me.row_2_right_text.hide();
 			me.row_3_right_text.hide();
 			me.row_4_right_text.hide();
 
