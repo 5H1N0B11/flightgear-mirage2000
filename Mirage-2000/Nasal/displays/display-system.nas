@@ -943,7 +943,8 @@ var DisplaySystem = {
 			me.input = {
 				cannon_rate_0              : "/ai/submodels/submodel/delay",
 				damage                     : "payload/armament/msg",
-				antiradar_target_type      : "controls/armament/antiradar-target-type"
+				antiradar_target_type      : "controls/armament/antiradar-target-type",
+				cannon_air_ground          : "controls/armament/cannon-air-ground"
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -970,6 +971,12 @@ var DisplaySystem = {
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_1);
 			me.row_1_right_text.enableUpdate();
+			me.row_2_right_text = me.group.createChild("text", "row_2_right_text")
+				.setFontSize(font.device.row_text)
+				.setColor(COLOR_GREEN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_2);
+			me.row_2_right_text.enableUpdate();
 			me.row_3_right_text = me.group.createChild("text", "row_3_right_text")
 				.setFontSize(font.device.row_text)
 				.setColor(COLOR_GREEN)
@@ -1032,6 +1039,14 @@ var DisplaySystem = {
 				} else if (me.wpn_kind == WPN_KIND_FALL) {
 					pylons.fcs.setDropMode(0);
 				}
+			} elsif (controlName == OSB20) {
+				if (me.wpn_kind == WPN_KIND_CANNON) {
+					me.input.cannon_air_ground.setValue(FALSE); # air to air
+				}
+			} elsif (controlName == OSB21) {
+				if (me.wpn_kind == WPN_KIND_CANNON) {
+					me.input.cannon_air_ground.setValue(TRUE); # air to ground
+				}
 			} elsif (controlName == OSB22) {
 				if (me.wpn_kind == WPN_KIND_FALL) {
 					if (me.rp < 18) {
@@ -1079,7 +1094,9 @@ var DisplaySystem = {
 			me.osb19 = "";
 			me.osb19_selected = FALSE;
 			me.osb20 = "";
+			me.osb20_selected = FALSE;
 			me.osb21 = "";
+			me.osb21_selected = FALSE;
 			me.osb22 = "";
 			me.osb23 = "";
 			me.osb24 = "";
@@ -1110,6 +1127,16 @@ var DisplaySystem = {
 						me.row_1_right_text.updateText("Fire rate:");
 						me.row_1_right_text.show();
 					} # else: the rate cannot be changed in the CC422 gun pod
+
+					me.osb20 = "A/A";
+					me.osb21 = "A/G";
+					if (me.input.cannon_air_ground.getValue()) {
+						me.osb21_selected = TRUE;
+					} else {
+						me.osb20_selected = TRUE;
+					}
+					me.row_2_right_text.updateText("Mode:");
+					me.row_2_right_text.show();
 				} else if (me.wpn.type == "Mk-82" or me.wpn.type == "Mk-82SE" or me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24") {
 					me.wpn_kind = WPN_KIND_FALL;
 					me.drop_mode = pylons.fcs.getDropMode();
@@ -1176,8 +1203,8 @@ var DisplaySystem = {
 			me.device.controls[OSB6].setControlText(me.osb6, TRUE, me.osb6_selected);
 			me.device.controls[OSB18].setControlText(me.osb18, TRUE, me.osb18_selected);
 			me.device.controls[OSB19].setControlText(me.osb19, TRUE, me.osb19_selected);
-			me.device.controls[OSB20].setControlText(me.osb20);
-			me.device.controls[OSB21].setControlText(me.osb21);
+			me.device.controls[OSB20].setControlText(me.osb20, TRUE, me.osb20_selected);
+			me.device.controls[OSB21].setControlText(me.osb21, TRUE, me.osb21_selected);
 			me.device.controls[OSB22].setControlText(me.osb22);
 			me.device.controls[OSB23].setControlText(me.osb23);
 			me.device.controls[OSB24].setControlText(me.osb24);

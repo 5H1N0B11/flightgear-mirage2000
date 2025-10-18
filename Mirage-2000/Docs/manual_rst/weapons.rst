@@ -208,8 +208,15 @@ Cannons and Guns
 
 The Mirage uses `DEFA cannons⇗ <https://en.wikipedia.org/wiki/DEFA_cannon>`_. It is assumed:
 
-* DEFA 554 for the single-seat Mirage 2000-5: the rate of fire can be changed between states 1800/min (0.033) or 1200/min (0.05) using the PPA
+* DEFA 554 for the single-seat Mirage 2000-5: the rate of fire can be changed to either 1800/min (0.033) or 1200/min (0.05) using the PPA.
 * DEFA 553 in the CC442 gun pod for the Mirage 2000D has a constant rate of fire of 1300/min (0.046).
+
+In the PPA the gun mode can be set to either air-to-air or air-to-ground ("cannon air-sol").
+
+
+.. image:: images/ppa_cannon.png
+   :scale: 50%
+
 
 AS-37 Armat (Anti-Radiation)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

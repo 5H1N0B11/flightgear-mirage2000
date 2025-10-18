@@ -1098,7 +1098,8 @@ var HUD = {
 			flightmode     : "/instrumentation/flightmode/selected",
 			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
 			launch_callsign           : "sound/rwr-launch",
-			antiradar_target_type     : "controls/armament/antiradar-target-type"
+			antiradar_target_type     : "controls/armament/antiradar-target-type",
+			cannon_air_ground         : "controls/armament/cannon-air-ground"
 		};
 
 		foreach(var name; keys(m.input)) {
@@ -1164,7 +1165,7 @@ var HUD = {
 
 		me.aircraft_position = geo.aircraft_position();
 		me.hydra = FALSE; # for rocket
-		me.strf = me.input.gun_rate.getValue()==0.06? TRUE : FALSE; #Air to ground fire : based on the gun rate
+		me.strf = me.input.cannon_air_ground.getValue(); # Air to ground fire : based on mode chosen in PPA
 		HudMath.reCalc();
 
 		# loading Flightplan

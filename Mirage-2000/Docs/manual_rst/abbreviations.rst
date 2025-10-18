@@ -11,6 +11,7 @@ Abbreviation Meaning                                                            
 A / AR       arrête                                                                  off
 AST          assaut en suivi de terrain                                              terrain-following assault mode
 AU           automatique                                                             automatic
+CAS          cannon air-sol                                                          cannon in air-ground mode
 D            droite                                                                  right
 G            gauche                                                                  left
 ISG          indicateur sphérique gyroscopique                                       attitude indicator

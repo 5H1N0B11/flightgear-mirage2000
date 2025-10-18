@@ -161,6 +161,7 @@
 		<laser-arm-dmd type="bool">false</laser-arm-dmd>
 
 		<antiradar-target-type type="int">0</antiradar-target-type> <!-- 0= ships and surface, 1=ships only, 2=surface only -->
+		<cannon-air-ground type="bool">false</cannon-air-ground>
 
 
 		<dual type="int">1</dual> <!-- Double release or 1 by 1    -->
