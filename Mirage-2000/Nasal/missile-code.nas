@@ -4722,10 +4722,6 @@ var AIM = {
 			}
 
 			me.potentialCoord = me.tagt.get_coord_for_view(me.guidance == "radiation");
-			if (me.tagt.get_type() == SURFACE) {
-				me.extra_height = 1.5;
-				me.potentialCoord.set_xyz(me.potentialCoord.x(), me.potentialCoord.y(), me.potentialCoord.z() + me.extra_height);
-			}
 			me.xyz          = {"x":me.launchCoord.x(),                  "y":me.launchCoord.y(),                 "z":me.launchCoord.z()};
 		    me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
 
