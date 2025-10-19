@@ -944,7 +944,8 @@ var DisplaySystem = {
 				cannon_rate_0              : "/ai/submodels/submodel/delay",
 				damage                     : "payload/armament/msg",
 				antiradar_target_type      : "controls/armament/antiradar-target-type",
-				cannon_air_ground          : "controls/armament/cannon-air-ground"
+				cannon_air_ground          : "controls/armament/cannon-air-ground",
+				cannon_air_air_incitation  : "controls/armament/cannon-air-air-incitation"
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -1025,6 +1026,12 @@ var DisplaySystem = {
 					me.input.antiradar_target_type.setValue(me.input.antiradar_target_type.getValue() + 1);
 					if (me.input.antiradar_target_type.getValue() >2) {
 						me.input.antiradar_target_type.setValue(0);
+					}
+				} elsif (me.wpn_kind == WPN_KIND_CANNON) {
+					if (me.input.cannon_air_air_incitation.getValue() == TRUE) {
+						me.input.cannon_air_air_incitation.setValue(FALSE);
+					} else {
+						me.input.cannon_air_air_incitation.setValue(TRUE);
 					}
 				}
 			} elsif (controlName == OSB18) {
@@ -1138,6 +1145,13 @@ var DisplaySystem = {
 					}
 					me.row_2_right_text.updateText("Mode:");
 					me.row_2_right_text.show();
+
+					if (me.input.cannon_air_air_incitation.getValue() == TRUE) {
+						me.osb6 = "PRED";
+					} else {
+						me.osb6 = "CCLT";
+					}
+					me.osb6_selected = TRUE;
 				} else if (me.wpn.type == "Mk-82" or me.wpn.type == "Mk-82SE" or me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24") {
 					me.wpn_kind = WPN_KIND_FALL;
 					me.drop_mode = pylons.fcs.getDropMode();

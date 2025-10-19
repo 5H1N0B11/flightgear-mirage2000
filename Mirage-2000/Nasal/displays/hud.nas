@@ -711,213 +711,6 @@ var HUD = {
 		m.myRunwayGroup = m.root.createChild("group");
 		m.selectedRunway = 0;
 
-		#################################### CCIP #########################################
-
-		m.CCIP = m.root.createChild("group");
-		# Bomb Fall Line (BFL)
-		m.CCIP_BFL = m.CCIP.createChild("group");
-
-		#Bomb impact - a hexagon with wings on each side - each side in the hexagon is 24
-		m.CCIP_piper = m.CCIP.createChild("path")
-			.setColor(COLOR_GREEN)
-			.moveTo(24, 0)
-			.horiz(40) # right wing
-			.moveTo(24, 0)
-			.lineTo(12,20)
-			.lineTo(-12,20)
-			.lineTo(-24,0)
-			.lineTo(-12,-20)
-			.lineTo(12,-20)
-			.lineTo(24,0)
-			.moveTo(-24, 0)
-			.horiz(-40) # left wing
-			.setStrokeLineWidth(4);
-
-		m.CCIP_safe_alt = m.CCIP.createChild("path") # pull up cue
-			.setColor(COLOR_GREEN)
-			.moveTo(15, 0)
-			.horiz(40)
-			.vert(-15)
-			.moveTo(-15, 0)
-			.horiz(-40)
-			.vert(-15)
-			.setStrokeLineWidth(4);
-
-		# Distance to impact
-		m.CCIP_impact_dist = m.CCIP.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(m.maxladderspan + 90,-150)
-			.setFontSize(FONT_SIZE_ALPHA)
-			.setAlignment("left-center");
-		m.CCIP_impact_dist.enableUpdate();
-
-		m.CCIP_no_go_cross = m.CCIP.createChild("path")
-			.setColor(COLOR_GREEN)
-			.moveTo(80, 80)
-			.lineTo(-80,-80)
-			.moveTo(-80, 80)
-			.lineTo(80,-80)
-			.setStrokeLineWidth(4);
-
-		#################################### CCRP #########################################
-
-		m.CCRP = m.root.createChild("group");
-
-		m.CCRP_piper_group = m.CCRP.createChild("group");
-
-		m.CCRP_piper = m.CCRP_piper_group.createChild("path")
-			.setColor(COLOR_GREEN)
-			.moveTo(24, 0)
-			.lineTo(0,32)
-			.lineTo(-24,0)
-			.lineTo(0,-32)
-			.lineTo(24,0)
-			.moveTo(1,1)
-			.lineTo(1,-1)
-			.lineTo(-1,-1)
-			.lineTo(-1,1)
-			.moveTo(24, 0)
-			.lineTo(44,0)
-			.moveTo(-24, 0)
-			.lineTo(-44,0)
-			.setStrokeLineWidth(4);
-
-		m.CCRP_deviation = m.CCRP_piper_group.createChild("path")
-			.setColor(COLOR_GREEN)
-			.moveTo(34, 0)
-			.lineTo(80,0)
-			.moveTo(-34, 0)
-			.lineTo(-80,0)
-			.setStrokeLineWidth(4);
-
-		m.CCRP_release_cue = m.CCRP.createChild("path")
-			.setColor(COLOR_GREEN)
-			.moveTo(55, 0)
-			.horiz(-110)
-			.setStrokeLineWidth(4);
-
-		# Distance to target
-		m.CCRP_impact_dist = m.CCRP.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(m.maxladderspan + 90,-150)
-			.setFontSize(FONT_SIZE_ALPHA)
-			.setAlignment("left-center");
-		m.CCRP_impact_dist.enableUpdate();
-
-		m.CCRP_no_go_cross = m.CCRP.createChild("path")
-			.setColor(COLOR_GREEN)
-			.moveTo(80, 80)
-			.lineTo(-80,-80)
-			.moveTo(-80, 80)
-			.lineTo(80,-80)
-			.setStrokeLineWidth(4);
-
-		####################################### ANTI RADAR MISSILE (ANTIRAD) #############################
-		m.antirad_grp = m.root.createChild("group");
-
-		m.antirad_cue_core = m.antirad_grp.createChild("group");
-
-		var ANTIRAD_TICK = 20;
-
-		m.antirad_cue_core_ring = m.antirad_cue_core.createChild("path")
-			.setColor(COLOR_GREEN)
-			.circle(ANTIRAD_RING, 0, 0)
-			.setStrokeLineWidth(4);
-
-		m.antirad_cue_core_ticks = m.antirad_cue_core.createChild("path")
-			.setColor(COLOR_GREEN)
-			.moveTo(0, ANTIRAD_RING) # top
-			.lineTo(0, ANTIRAD_RING - ANTIRAD_TICK)
-			.moveTo(0, -ANTIRAD_RING) # bottom
-			.lineTo(0, -ANTIRAD_RING + ANTIRAD_TICK)
-			.moveTo(-ANTIRAD_RING, 0) # left
-			.lineTo(-ANTIRAD_RING + ANTIRAD_TICK, 0)
-			.moveTo(ANTIRAD_RING, 0) # right
-			.lineTo(ANTIRAD_RING - ANTIRAD_TICK, 0)
-			.setStrokeLineWidth(4);
-
-		m.antirad_cue_locked = m.antirad_grp.createChild("path")
-			.setColor(COLOR_GREEN)
-			.circle(ANTIRAD_RING + 10, 0, 0)
-			.setStrokeLineWidth(4);
-
-		m.antirad_texts = setsize([], MAX_ANTIRAD_TARGETS);
-		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
-			m.antirad_texts[i] = m.antirad_grp.createChild("text")
-				.setAlignment("center-center")
-				.setColor(COLOR_GREEN)
-				.setFontSize(FONT_SIZE_ANTIRAD)
-				.hide();
-			m.antirad_texts[i].enableUpdate();
-		}
-
-		me.antirad_circle = setsize([], MAX_ANTIRAD_TARGETS); # circle around
-		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
-			m.antirad_circle[i] = m.antirad_grp.createChild("path")
-				.moveTo(-30, 0)
-				.arcSmallCW(30, 30, 0, 60, 0)
-				.arcSmallCW(30, 30, 0, -60, 0)
-				.setStrokeLineWidth(2)
-				.setColor(COLOR_GREEN)
-				.hide();
-		}
-
-		me.antirad_symbol_hat = setsize([], MAX_ANTIRAD_TARGETS); # supporting active missile
-		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
-			m.antirad_symbol_hat[i] = m.antirad_grp.createChild("path")
-				.moveTo(0, -ANTIRAD_SYMBOLS_DIST)
-				.lineTo(ANTIRAD_SYMBOLS_DIST*0.9, -ANTIRAD_SYMBOLS_DIST*0.6)
-				.moveTo(0, -ANTIRAD_SYMBOLS_DIST)
-				.lineTo(-ANTIRAD_SYMBOLS_DIST*0.9, -ANTIRAD_SYMBOLS_DIST*0.6)
-				.setStrokeLineWidth(4)
-				.setColor(COLOR_GREEN)
-				.hide();
-		}
-
-		m.antirad_symbol_chevron = setsize([], MAX_ANTIRAD_TARGETS); # STT / spike
-		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
-			m.antirad_symbol_chevron[i] = m.antirad_grp.createChild("path")
-				.moveTo(0, ANTIRAD_SYMBOLS_DIST)
-				.lineTo(ANTIRAD_SYMBOLS_DIST*0.9, ANTIRAD_SYMBOLS_DIST*0.6)
-				.moveTo(0, ANTIRAD_SYMBOLS_DIST)
-				.lineTo(-ANTIRAD_SYMBOLS_DIST*0.9, ANTIRAD_SYMBOLS_DIST*0.6)
-				.setStrokeLineWidth(4)
-				.setColor(COLOR_GREEN)
-				.hide();
-		}
-
-		##################################### Target Circle ####################################
-		m.targetArray = [];
-		m.circle_group2 = m.radarStuffGroup.createChild("group");
-		for (var i = 1; i <= m.MaxTarget; i += 1) {
-			myCircle = m.circle_group2.createChild("path")
-				.setColor(COLOR_GREEN)
-				.moveTo(25, 0)
-				.arcSmallCW(25,25, 0, -50, 0)
-				.arcSmallCW(25,25, 0, 50, 0)
-				.setStrokeLineWidth(5);
-			append(m.targetArray, myCircle);
-		}
-		m.targetrot = m.circle_group2.createTransform();
-
-		####################### Info Text ########################################
-		m.TextInfoArray = [];
-		m.TextInfoGroup = m.radarStuffGroup.createChild("group");
-
-		for (var i = 1; i <= m.MaxTarget; i += 1) {
-			# on affiche des infos de la cible a cote du cercle
-			text_info = m.TextInfoGroup.createChild("text", "infos")
-				.setColor(COLOR_GREEN)
-				.setTranslation(15, -10)
-				.setAlignment("left-center")
-				.setFont(FONT_NARROW)
-				.setFontSize(26)
-				.setColor(0,180,0,0.9)
-				.setText("VOID");
-			append(m.TextInfoArray, text_info);
-		}
-		m.Textrot   = m.TextInfoGroup.createTransform();
-
 		#######################  Triangles ##########################################
 
 		var TriangleSize = 30;
@@ -1115,10 +908,14 @@ var HUD = {
 		m.bullseyeGeo = geo.Coord.new();
 		m.NXTWP = geo.Coord.new();
 
-		me.last_update_inc = 0;
+		m.last_update_inc = 0;
 
-		me.flightmode_cached = nil;
-		me.last_flightmode = nil;
+		m.flightmode_cached = nil;
+		m.last_flightmode = nil;
+
+		m._createAntiRadSymbology();
+		m._createCCIPSymbology();
+		m._createCCRPSymbology();
 
 		# Emesary notification stuff
 		m.recipient = emesary.Recipient.new(_ident);
@@ -1135,6 +932,183 @@ var HUD = {
 
 		return m;
 	}, # END new
+
+	_createCCRPSymbology: func() {
+		me.CCRP = me.root.createChild("group");
+
+		me.CCRP_piper_group = me.CCRP.createChild("group");
+
+		me.CCRP_piper = me.CCRP_piper_group.createChild("path")
+			.setColor(COLOR_GREEN)
+			.moveTo(24, 0)
+			.lineTo(0,32)
+			.lineTo(-24,0)
+			.lineTo(0,-32)
+			.lineTo(24,0)
+			.moveTo(1,1)
+			.lineTo(1,-1)
+			.lineTo(-1,-1)
+			.lineTo(-1,1)
+			.moveTo(24, 0)
+			.lineTo(44,0)
+			.moveTo(-24, 0)
+			.lineTo(-44,0)
+			.setStrokeLineWidth(4);
+
+		me.CCRP_deviation = me.CCRP_piper_group.createChild("path")
+			.setColor(COLOR_GREEN)
+			.moveTo(34, 0)
+			.lineTo(80,0)
+			.moveTo(-34, 0)
+			.lineTo(-80,0)
+			.setStrokeLineWidth(4);
+
+		me.CCRP_release_cue = me.CCRP.createChild("path")
+			.setColor(COLOR_GREEN)
+			.moveTo(55, 0)
+			.horiz(-110)
+			.setStrokeLineWidth(4);
+
+		# Distance to target
+		me.CCRP_impact_dist = me.CCRP.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(me.maxladderspan + 90,-150)
+			.setFontSize(FONT_SIZE_ALPHA)
+			.setAlignment("left-center");
+		me.CCRP_impact_dist.enableUpdate();
+
+		me.CCRP_no_go_cross = me.CCRP.createChild("path")
+			.setColor(COLOR_GREEN)
+			.moveTo(80, 80)
+			.lineTo(-80,-80)
+			.moveTo(-80, 80)
+			.lineTo(80,-80)
+			.setStrokeLineWidth(4);
+	}, # END _createCCRPSymbology
+
+	_createCCIPSymbology: func() {
+		me.CCIP = me.root.createChild("group");
+		# Bomb Fall Line (BFL)
+		me.CCIP_BFL = me.CCIP.createChild("group");
+
+		#Bomb impact - a hexagon with wings on each side - each side in the hexagon is 24
+		me.CCIP_piper = me.CCIP.createChild("path")
+			.setColor(COLOR_GREEN)
+			.moveTo(24, 0)
+			.horiz(40) # right wing
+			.moveTo(24, 0)
+			.lineTo(12,20)
+			.lineTo(-12,20)
+			.lineTo(-24,0)
+			.lineTo(-12,-20)
+			.lineTo(12,-20)
+			.lineTo(24,0)
+			.moveTo(-24, 0)
+			.horiz(-40) # left wing
+			.setStrokeLineWidth(4);
+
+		me.CCIP_safe_alt = me.CCIP.createChild("path") # pull up cue
+			.setColor(COLOR_GREEN)
+			.moveTo(15, 0)
+			.horiz(40)
+			.vert(-15)
+			.moveTo(-15, 0)
+			.horiz(-40)
+			.vert(-15)
+			.setStrokeLineWidth(4);
+
+		# Distance to impact
+		me.CCIP_impact_dist = me.CCIP.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(me.maxladderspan + 90,-150)
+			.setFontSize(FONT_SIZE_ALPHA)
+			.setAlignment("left-center");
+		me.CCIP_impact_dist.enableUpdate();
+
+		me.CCIP_no_go_cross = me.CCIP.createChild("path")
+			.setColor(COLOR_GREEN)
+			.moveTo(80, 80)
+			.lineTo(-80,-80)
+			.moveTo(-80, 80)
+			.lineTo(80,-80)
+			.setStrokeLineWidth(4);
+	}, # END _createCCIPSymbology
+
+	_createAntiRadSymbology: func() { # Anti radar missile (antirad)
+		me.antirad_grp = me.root.createChild("group");
+
+		me.antirad_cue_core = me.antirad_grp.createChild("group");
+
+		var ANTIRAD_TICK = 20;
+
+		me.antirad_cue_core_ring = me.antirad_cue_core.createChild("path")
+			.setColor(COLOR_GREEN)
+			.circle(ANTIRAD_RING, 0, 0)
+			.setStrokeLineWidth(4);
+
+		me.antirad_cue_core_ticks = me.antirad_cue_core.createChild("path")
+			.setColor(COLOR_GREEN)
+			.moveTo(0, ANTIRAD_RING) # top
+			.lineTo(0, ANTIRAD_RING - ANTIRAD_TICK)
+			.moveTo(0, -ANTIRAD_RING) # bottom
+			.lineTo(0, -ANTIRAD_RING + ANTIRAD_TICK)
+			.moveTo(-ANTIRAD_RING, 0) # left
+			.lineTo(-ANTIRAD_RING + ANTIRAD_TICK, 0)
+			.moveTo(ANTIRAD_RING, 0) # right
+			.lineTo(ANTIRAD_RING - ANTIRAD_TICK, 0)
+			.setStrokeLineWidth(4);
+
+		me.antirad_cue_locked = me.antirad_grp.createChild("path")
+			.setColor(COLOR_GREEN)
+			.circle(ANTIRAD_RING + 10, 0, 0)
+			.setStrokeLineWidth(4);
+
+		me.antirad_texts = setsize([], MAX_ANTIRAD_TARGETS);
+		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
+			me.antirad_texts[i] = me.antirad_grp.createChild("text")
+				.setAlignment("center-center")
+				.setColor(COLOR_GREEN)
+				.setFontSize(FONT_SIZE_ANTIRAD)
+				.hide();
+			me.antirad_texts[i].enableUpdate();
+		}
+
+		me.antirad_circle = setsize([], MAX_ANTIRAD_TARGETS); # circle around
+		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
+			me.antirad_circle[i] = me.antirad_grp.createChild("path")
+				.moveTo(-30, 0)
+				.arcSmallCW(30, 30, 0, 60, 0)
+				.arcSmallCW(30, 30, 0, -60, 0)
+				.setStrokeLineWidth(2)
+				.setColor(COLOR_GREEN)
+				.hide();
+		}
+
+		me.antirad_symbol_hat = setsize([], MAX_ANTIRAD_TARGETS); # supporting active missile
+		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
+			me.antirad_symbol_hat[i] = me.antirad_grp.createChild("path")
+				.moveTo(0, -ANTIRAD_SYMBOLS_DIST)
+				.lineTo(ANTIRAD_SYMBOLS_DIST*0.9, -ANTIRAD_SYMBOLS_DIST*0.6)
+				.moveTo(0, -ANTIRAD_SYMBOLS_DIST)
+				.lineTo(-ANTIRAD_SYMBOLS_DIST*0.9, -ANTIRAD_SYMBOLS_DIST*0.6)
+				.setStrokeLineWidth(4)
+				.setColor(COLOR_GREEN)
+				.hide();
+		}
+
+		me.antirad_symbol_chevron = setsize([], MAX_ANTIRAD_TARGETS); # STT / spike
+		for (var i = 0; i < MAX_ANTIRAD_TARGETS; i+=1) {
+			me.antirad_symbol_chevron[i] = me.antirad_grp.createChild("path")
+				.moveTo(0, ANTIRAD_SYMBOLS_DIST)
+				.lineTo(ANTIRAD_SYMBOLS_DIST*0.9, ANTIRAD_SYMBOLS_DIST*0.6)
+				.moveTo(0, ANTIRAD_SYMBOLS_DIST)
+				.lineTo(-ANTIRAD_SYMBOLS_DIST*0.9, ANTIRAD_SYMBOLS_DIST*0.6)
+				.setStrokeLineWidth(4)
+				.setColor(COLOR_GREEN)
+				.hide();
+		}
+
+	}, # END _createAntiRadSymbology
 
 	_isArmedAndHasWeapon: func() {
 		if (me.selectedWeapon != nil and me.master_arm and me.input.wow_nlg.getValue() == 0) {
@@ -1199,7 +1173,7 @@ var HUD = {
 			} else if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) {
 				me.eegsShow = TRUE;
 			} else if (me.selectedWeapon.class == AIM_CLASS_GMP) {
-				if (me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
+				if (contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
 					if (pylons.fcs.getDropMode() == DROP_MODE_CCIP) {
 						me.show_CCIP = me._displayCCIPMode();
 					} else {
@@ -1605,7 +1579,7 @@ var HUD = {
 		}
 		me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc.getValue()*FT2M*me.chevronFactor);
 		me.chevronGroup.update();
-	}, # _displayChevron()
+	}, # END _displayChevron()
 
 	_displayHeadingBug: func() {
 		var headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
@@ -1782,49 +1756,34 @@ var HUD = {
 			me.TriangleGroupe.hide();
 			return;
 		}
-		if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422 or me.selectedWeapon.type == ASMP) {
-			me.TriangleGroupe.hide();
-			return;
-		}
-		if (me.selectedWeapon.guidance != "heat") {
+		if (!contains(me.selectedWeapon, "guidance") or (contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance != "heat")) {
 			me.TriangleGroupe.hide();
 			return;
 		}
 
 		#Starting to search (Shouldn't be there but in the controls)
 		me.selectedWeapon.start();
-		if (me.selectedWeapon != nil) {
-			var coords = me.selectedWeapon.getSeekerInfo();
-			if (coords != nil) {
-				var seekerTripos = HudMath.getCenterPosFromDegs(coords[0],coords[1]);
-				me.TriangleGroupe.show();
-				me.triangle.setTranslation(seekerTripos);
-				me.triangle2.setTranslation(seekerTripos);
-			} else {
-				me.TriangleGroupe.hide();
-			}
+		var coords = me.selectedWeapon.getSeekerInfo();
+		if (coords != nil) {
+			var seekerTripos = HudMath.getCenterPosFromDegs(coords[0],coords[1]);
+			me.TriangleGroupe.show();
+			me.triangle.setTranslation(seekerTripos);
+			me.triangle2.setTranslation(seekerTripos);
 		} else {
 			me.TriangleGroupe.hide();
 		}
-	},
+	}, # END _displayHeatTarget
 
 	_displayTarget: func() {
 		#To put a triangle on the selected target
 		#This should be changed by calling directly the radar object (in case of multi targeting)
 
-		me.showDistanceToken = 0;
+		me.showDistanceToken = FALSE;
 
 		me.raw_list = radar_system.apg68Radar.getActiveBleps();
-		var i = 0;
-
 		me.designatedDistanceFT = nil;
 
 		foreach(var contact; me.raw_list) {
-			me.target_callsign = contact.get_Callsign();
-			#Position of the "target"
-			target_altitude = contact.getAltitude();
-			target_heading_deg = contact.getHeading();
-			target_Distance = contact.getRangeDirect() * M2NM;
 			var triPos = HudMath.getPosFromCoord(contact.getCoord());
 			#1- Show Rectangle : have been painted (or selected ?)
 			#2- Show double triangle : IR missile LOCK without radar
@@ -1835,14 +1794,13 @@ var HUD = {
 			if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
 
 				#Here for displaying the square (painting)
-				me.showDistanceToken = 1;
+				me.showDistanceToken = TRUE;
 				#Show square group
 				me.Square_Group.show();
 				me.locked_square.setTranslation(triPos);
 				me.locked_square_dash.setTranslation(math.clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), math.clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
 				#hide triangle and circle
 				#me.TriangleGroupe.hide();
-				me.targetArray[i].hide();
 
 				me.distanceToTargetLineGroup.show();
 				me._displayDistanceToTargetLine(contact);
@@ -1850,42 +1808,18 @@ var HUD = {
 				if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
 					me.designatedDistanceFT = contact.getCoord().direct_distance_to(geo.aircraft_position())*M2FT;
 				}
-			#} elsif (contact.objectDisplay == 1) {
-				#show circle
-				#me.targetArray[i].show();
-				#me.targetArray[i].setTranslation(triPos);
-			} else {
-				#dont show anything
-				me.targetArray[i].hide();
+				break;
 			}
-
-			#here is the text display : Normally not in the real HUD
-			#if (contact.objectDisplay == 1) {  # FIXME RICK - from
-				#here is the text display
-			#	me.TextInfoArray[i].show();
-			#	me.TextInfoArray[i].setTranslation(triPos[0]+19,triPos[1]);
-
-			#	me.TextInfoArray[i].setText(sprintf("  %s \n   %.0f nm \n   %d ft / %d", me.target_callsign, target_Distance, target_altitude, target_heading_deg));
-			#} else {
-			me.targetArray[i].hide();
-			me.TextInfoArray[i].hide();
-			#}
-			i+=1;
 		}
 
 		#The token has 1 when we have a selected target
 		#if we don't have target :
-		if (me.showDistanceToken == 0) {
+		if (me.showDistanceToken == FALSE) {
 			me.Square_Group.hide();
 			me.distanceToTargetLineGroup.hide();
 			me.missileFireRange.hide();
 		}
-
-		for (var y=i;y<size(me.targetArray);y+=1) {
-			me.targetArray[y].hide();
-			me.TextInfoArray[y].hide();
-		}
-	},
+	}, # END _displayTarget
 
 	_displayAntiRadTargets: func() {
 		me.antirad_i = 0;
@@ -1893,14 +1827,6 @@ var HUD = {
 		me.antirad_cue_core.hide();
 		me.antirad_cue_locked.hide();
 		if (me._isArmedAndHasWeapon() == TRUE and contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION) {
-			#print("status "~me.selectedWeapon.getStatus());
-			#me.selectedWeapon.start();
-			#var coords = me.selectedWeapon.getSeekerInfo();
-			#if (coords != nil) {
-			#	var seekerTripos = HudMath.getCenterPosFromDegs(coords[0],coords[1]);
-			#	print(coords[0]~", "~coords[1]);
-			#	me.antirad_cue_core.setTranslation(seekerTripos);
-			#}
 			me.antirad_cue_core.show();
 			if (pylons.fcs.isLock()) {
 				me.antirad_cue_locked.show();
@@ -1999,7 +1925,7 @@ var HUD = {
 				me.antirad_symbol_chevron[me.antirad_i].hide();
 			}
 		}
-	},
+	}, # END _displayAntiRadTargets
 
 	_displayDistanceToTargetLine : func(contact) {
 		me.MaxRadarRange = radar_system.apg68Radar.getRange();
