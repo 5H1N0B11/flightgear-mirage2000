@@ -10,11 +10,11 @@
 #         var Properties_tree_name_MP = "sim/multiplay/model/livery";
 
 
-var OverlaySelector = {    
+var OverlaySelector = {
   new: func(title, dir, nameprop, sortprop = nil, mpprop = nil, callback = nil) {
 
-    
-    
+
+
         var m = { parents : [OverlaySelector] };
 
         # resolve the path in FG_ROOT, and --fg-aircraft dir, etc
@@ -27,14 +27,14 @@ var OverlaySelector = {
         m.callback = callback;
         m.title = title;
         m.dialog_name = title;
-        
+
         #Saving current livery
         if (m.mpprop != nil)
             aircraft.data.add(m.nameprop);
-        
-        
+
+
                 #read the property of the xml file above and put it into the props.globals
-        #io.read_properties(me.data[me.current][3], props.globals); #index is 2 
+        #io.read_properties(me.data[me.current][3], props.globals); #index is 2
 
         ###################### The example bellow is working ##############
 
@@ -47,30 +47,30 @@ var OverlaySelector = {
         m.ListScroll = nil;
         m.SampleList = [];
 
- 
-        
-        
-        
-        
+
+
+
+
+
         # need to reinit again, whenever the GUI is reloaded
         #m.reinit_listener = setlistener("/sim/signals/reinit-gui", func(n) m.reinit());
         return m;
     },
-    
+
     InitList : func() {
       me.list = ["Test List"];
-      for(var i = 1; i < (me.num_items+1); i +=1) {   
+      for(var i = 1; i < (me.num_items+1); i +=1) {
           append(me.list, [i, nil]);
-      }   
+      }
       me.SampleList = me.list;
     },
-    
+
     InitWindow : func() {
       #### Bellow : still under conversion
-#####################################################       
+#####################################################
       me.CtrlListWin = canvas.Window
           .new([me.winwidth,me.winheight],"dialog")
-          .set('title','Controller Assignments');
+          .set('title','Select Livery');
 
       me.CtrlListWin.del = func() {
           call(canvas.Window.del, [], me);
@@ -81,7 +81,7 @@ var OverlaySelector = {
       me.CtrlListWinCanvas = me.CtrlListWin.createCanvas()
           .set("background", "#A9A9A9");
       me.WinRoot = me.CtrlListWinCanvas.createGroup();
-        
+
       # Create a vbox as parent to the scroll area
       me.list_vbox = canvas.VBoxLayout.new();
       # Add vbox to the main window
@@ -103,7 +103,7 @@ var OverlaySelector = {
                       .setText(" "~me.SampleList[0]);
       me.list.addItem(me.label);
       #print(size(SampleList));
-      
+
       me._makeListener_button = func(i) {
           return func {
               #debug testing property
@@ -111,7 +111,7 @@ var OverlaySelector = {
               #setting up the last livery button
               me.SampleList[me.selected_Item(me.data_liveries)][1]._down = 0 ;
               me.SampleList[me.selected_Item(me.data_liveries)][1]._onStateChange();
-              
+
               #setting down the new livery button
               me.SampleList[i][1]._down = 1 ;
               #writing into the property tree
@@ -120,40 +120,40 @@ var OverlaySelector = {
               #print("Selected livery : n°" ~ i ~ " : " ~ data_liveries[i][0]);
           };
       }
-      
 
-      
-      me.data_liveries = me.scan(me.dir); 
-      
+
+
+      me.data_liveries = me.scan(me.dir);
+
       # Add vector items to the scroll area content item
       for(var i=1; i < size(me.SampleList) - 1; i+=1) {
-          
+
           #create a line that will contain all we need
           me.row = canvas.HBoxLayout.new();
 
-            
+
           #adding the row to the scroll List
           me.list.addItem(me.row);
-        
+
           # Add a simple label...
           me.SampleList[i][0] = canvas.gui.widgets.Label.new(me.scrollarea_content, canvas.style, {})
                       .setFixedSize(220,220)
                       .setImage("Aircraft/Mirage-2000/Models/"~me.data_liveries[i][3]);
-          
-                      
+
+
           #Adding image to the row
           me.row.addItem(me.SampleList[i][0]);
-          
+
           # Add a simple button...
           me.SampleList[i][1] = canvas.gui.widgets.Button.new(me.scrollarea_content, canvas.style, {checkable:1})
                       .setText(me.data_liveries[i][0])
                       .setFixedSize(220,220)
                       .listen("clicked", me._makeListener_button(i));
           #Making it checkable
-          me.SampleList[i][1]._checkable = 1;            
+          me.SampleList[i][1]._checkable = 1;
           me.row.addItem(me.SampleList[i][1]);
           me.row.addSpacing(5);
-          
+
           #coloration of row
           if(me.selected_Item(me.data_liveries) == i){
               me.SampleList[i][1]._down = 1 ;
@@ -162,9 +162,9 @@ var OverlaySelector = {
               me.SampleList[i][0]._onStateChange();
           #print("Selected livery : n°" ~ i ~ " : " ~ data_liveries[i][0]);
           }
-          
+
       }
-        
+
     },
     scan : func(dir){
         me.data = [];
@@ -186,11 +186,11 @@ var OverlaySelector = {
                 me.name = me.IOXML.getNode("/PropertyList/sim/model/livery/name",1).getValue();
                 me.pathPng = me.IOXML.getNode("/PropertyList/sim/model/livery/texture",1).getValue();
                 me.logoName = me.IOXML.getNode("/PropertyList/sim/model/logos/name",1).getValue();
-                
+
                 #print(name);
                 #print(pathPng);
                 #print(logoName);
-                
+
                 #props.dump(toto); # dump data
                 #var name = nameNode.getValue(); # n.getNode(nameprop, 1).getValue();
                 me.index = me.n.getNode("name", 1).getValue();
@@ -215,15 +215,7 @@ var OverlaySelector = {
           }
         }
       },
-};      
-      
-
-
-
-# canvas.showLoadDialog();
-
-
-
+};
 
 
 # Window toggling function
@@ -241,10 +233,10 @@ var showLiveryDialog = func() {
    }
 }
 
-# 
+#
 #         Livery_dir = "Aircraft/Mirage-2000/Models/Liveries"; # livery path
 #         var Properties_tree_name =  "/sim/model/livery/name";
 #         var Properties_tree_name_MP = "sim/multiplay/model/livery";
-        
-        
+
+
 var livery_dialog = OverlaySelector.new("Select Livery", "/Aircraft/Mirage-2000/Models/Liveries/", "/sim/model/livery/name", nil, "sim/multiplay/model/livery");

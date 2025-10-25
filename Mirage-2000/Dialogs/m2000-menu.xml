@@ -79,48 +79,19 @@
 			</item>
 
 			<item n="10">
-				<label>--- Spacer ---</label>
-				<enabled>false</enabled>
+				<label>Alternative Livery and Logo Selection</label>
+				<binding>
+					<command>nasal</command>
+					<script>mirage2000.showLiveryDialog()</script>
+				</binding>
 			</item>
 
 			<item n="11">
-				<label>Mission Preplanning</label>
-				<name>mission-preplanning</name>
-				<binding>
-					<command>dialog-show</command>
-					<dialog-name>mission-preplanning</dialog-name><!-- is referenced in m2000-5.nas -->
-				</binding>
+				<label>--- Weapons and Ops ---</label>
+				<enabled>false</enabled>
 			</item>
 
 			<item n="12">
-				<label>--- Spacer ---</label>
-				<enabled>false</enabled>
-			</item>
-
-			<item n="13">
-				<label>Training</label>
-				<name>training</name>
-				<binding>
-					<command>dialog-show</command>
-					<dialog-name>scenario28</dialog-name>
-				</binding>
-			</item>
-
-			<item n="14">
-				<label>AI Wingmen</label>
-				<name>wingmen</name>
-				<binding>
-					<command>dialog-show</command>
-					<dialog-name>wingmen</dialog-name>
-				</binding>
-			</item>
-
-			<item n="15">
-				<label>--- Weapons ---</label>
-				<enabled>false</enabled>
-			</item>
-
-			<item n="16">
 				<label>Payload Selection</label>
 				<name>payload-qs</name>
 				<binding>
@@ -151,7 +122,7 @@
 				</binding>
 			</item>
 
-			<item n="17">
+			<item n="13">
 				<label>Ground Targeting</label>
 				<name>ground-targeting</name>
 				<binding>
@@ -160,7 +131,7 @@
 				</binding>
 			</item>
 
-			<item n="18">
+			<item n="14">
 				<label>Reload Guns, Flares and Chaffs</label>
 				<binding>
 					<command>nasal</command>
@@ -174,12 +145,21 @@
 				</binding>
 			</item>
 
-			<item n="19">
+			<item n="15">
+				<label>Mission Preplanning</label>
+				<name>mission-preplanning</name>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>mission-preplanning</dialog-name><!-- is referenced in m2000-5.nas -->
+				</binding>
+			</item>
+
+			<item n="16">
 				<label>--- Other Stuff ---</label>
 				<enabled>false</enabled>
 			</item>
 
-			<item n="20">
+			<item n="17">
 				<label>Combat Event Log</label>
 				<name>event-log</name>
 				<binding>
@@ -188,7 +168,7 @@
 				</binding>
 			</item>
 
-			<item n="21">
+			<item n="18">
 				<label>Tacview</label>
 				<name>tacview</name>
 				<binding>
@@ -197,7 +177,7 @@
 				</binding>
 			</item>
 
-			<item n="22">
+			<item n="19">
 				<label>Call Pushback</label>
 				<name>pushback</name>
 				<binding>
@@ -206,29 +186,33 @@
 				</binding>
 			</item>
 
-			<item n="23">
-				<label>About the FlightGear Mirage 2000</label>
-				<name>about</name>
+			<item n="20">
+				<label>Training</label>
+				<name>training</name>
 				<binding>
 					<command>dialog-show</command>
-					<dialog-name>about_Mirage</dialog-name>
+					<dialog-name>scenario28</dialog-name>
 				</binding>
 			</item>
 
-			<item n="24">
-				<label>--- Temporary / Obsolete ---</label>
-				<enabled>false</enabled>
-			</item>
-
-			<item n="25">
-				<label>Development Tests</label>
-				<name>options</name>
+			<item n="21">
+				<label>AI Wingmen</label>
+				<name>wingmen</name>
 				<binding>
 					<command>dialog-show</command>
-					<dialog-name>options</dialog-name>
+					<dialog-name>wingmen</dialog-name>
+				</binding>
+			</item>
+
+			<item n="22">
+				<label>Show Performance Metrics</label>
+				<binding>
+					<command>nasal</command>
+					<script>monitor.PerformanceMonitor.instance().start()</script>
 				</binding>
 			</item>
 		</menu>
+
 		<menu n="116">
 			<label>Reset</label>
 			<enabled type="bool">true</enabled>

@@ -113,9 +113,6 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
 
 <!-- ========================================================================================= -->
 # Tidy up #
-* remove gui/dialogs/options.xml:
-  * move the performance thing to another place, rest goes away
-  * /controls/assistance and assistance.nas go away
 * remove Aircraft/Mirage-2000/Models/Interior/Instruments/hud/hud.xml etc. once we are sure that it revi has replaced it
 * remove radar.xml once we have a canvas VTM
 * Remove references to myRadar3 - even if commented out
@@ -161,22 +158,3 @@ notification.frameNotification is a singleton added at then end of M_frame_notif
 
 ## m2000-5.nas - myFramerate ##
 * The method _updateFunction() in m2000-5.nas checks time elapsed on only calls referenced methods after e.g. 0.05, 0.1, 0.5, 1, ... seconds. The variable myFramerate holds the last called time, so it can be compared with now. Based on time diff functions are called and last called time is reset.
-
-## Use prop references ##
-Stuart on the FG mailing list:
-If you are just going to set a property once, then setprop() is faster than globals.props.getNode("/property/path").setValue("something");
-However, if you already have the node stored: var n= globals.getNode("/property/path"); .... then n.setValue("something") is faster than setprop().
-I don't know how many writes you need to do to make the overhead of globals.props.getNode("/property/path") to be worthwhile, but my recommendation for any performance-oriented Nasal would be to call them all at the start of the day.
-
-		m.input = {
-			pitch:      "/orientation/pitch-deg",
-			roll:       "/orientation/roll-deg",
-			hdg:        "/orientation/heading-magnetic-deg",
-			hdgReal:    "/orientation/heading-deg",
-      ...
-      flightmode     : "/instrumentation/flightmode/selected"
-		};
-
-		foreach(var name; keys(m.input)) {
-			m.input[name] = props.globals.getNode(m.input[name], 1);
-		}

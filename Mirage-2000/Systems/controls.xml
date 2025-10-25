@@ -228,8 +228,6 @@
 		<shake-effect type="bool">true</shake-effect>
 	</cabin>
 
-	<assistance type="bool">0</assistance>
-
 
 	<displays>
 		<!-- Based on the JA37 -->

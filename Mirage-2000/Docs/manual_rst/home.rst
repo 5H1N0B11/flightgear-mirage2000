@@ -4,9 +4,9 @@ FlightGear Mirage 2000 Documentation
 
 Welcome to the documentation of the `Dassault Mirage 2000⇗ <https://en.wikipedia.org/wiki/Dassault_Mirage_2000>`_ for the `FlightGear⇗ <https://www.flightgear.org/>`_ open source flight simulator.
 
-The Mirage 2000 modelled here is mainly the -5 version ("Dash 5"/"tiret cinque"). The bi-place versions 2000D/N and 2000-B are also modelled to some degree (weapons, exterior 3d), but the cockpit remains for the moment the -5 version.
+The Mirage 2000 modelled here is mainly the -5 version ("Dash 5"/"tiret cinque"). The bi-place versions 2000D/N are also modelled to some degree (weapons, exterior 3d), but the cockpit remains for the moment the -5 version. There is also a -5B and -5B backseater version, but it is deprecated, not actively tested and might therefore simply not work.
 
-The Mirage 2000 is a multi-role all-weather fighter aircraft from `Dassault Aviation⇗ <https://www.dassault-aviation.com/en/defense/customer-support/operational-aircraft/mirage-2000/>`_. It is one of the best `dogfighters⇗ <https://en.wikipedia.org/wiki/Dogfight>`_ of its generation and a far beyond visual range combat aircraft, as well as very capable in air-to-ground strikes.
+The Mirage 2000 is a French multi-role all-weather fighter aircraft from `Dassault Aviation⇗ <https://www.dassault-aviation.com/en/defense/customer-support/operational-aircraft/mirage-2000/>`_. In the single-seater versions it is one of the best `dogfighters⇗ <https://en.wikipedia.org/wiki/Dogfight>`_ of its generation and a far beyond visual range combat aircraft. The single-seater as well as the specialized double-seater versions are very capable in air-to-ground strikes.
 
 .. image:: images/logo_2000D.png
    :scale: 20%
@@ -35,7 +35,7 @@ Given the lack of authoritative information on military sensitive information, t
 
 These remarks are especially relevant for the simulation of weapons/countermeasures/damage, which - apart from the natural lack of detailed documentation - are modelled as an opt-in to the FlightGear flight simulator and lack fidelity compared to reality. The fidelity and accuracy try to mimic what "could-be" real, but in the end just try to allow some recreational but still "realistic" game-play.
 
-As such this manual and the FlightGear model are merely free (as in beer) spare-time personal projects for entertainment in the FlightGear open source simulation community. This manual cannot be used to learn how to handle the systems of or fly the real Mirage 2000 variants.
+As such this manual and the FlightGear model are merely free (as in beer) spare-time personal projects for entertainment in the FlightGear open source simulation community. This manual cannot be used to learn how to handle the systems of or to fly real Mirage 2000 variants.
 
 Priorities
 ----------
@@ -45,8 +45,8 @@ The priorities for modelling the Mirage 2000 in FlightGear are currently roughly
 * Cockpit 3D modelling over exterior 3D modelling over weapons 3D modelling
 * Digital displays over conventional instruments over switches
 * Front seat over backseat
-* M2000-5 over M2000D over M2000N/5-B
-* Current latest stable FlightGear version (e.g. 2024.1.* as per year 2025) over backwards compatibility
+* M2000-5 over M2000n/D
+* Compatibility with the latest stable FlightGear version (e.g. 2024.1.* as per year 2025) over backwards compatibility
 
 Country variants
 ----------------
@@ -75,7 +75,7 @@ Credits
 
 * The authors of the model: Helijah (3D), 5H1N0B1 (Weapons, Systems), Richard Harrison (FDM), Leto, Josh Davidson (FCS/FBW/Autopilot), hardball, Domokos Juttner (Rudolf), F-Sig, J Maverick 16, legoboyvdlp, onox, ravenclaw_007, Niall "Salmon" Roe, Marsdolphin, R. "Wolf" Roquefort, Rick Gruber-Riemer
 
-* The authors of the common weapons and radar systems for `OpRedFlag⇗ <https://github.com/NikolaiVChr/OpRedFlag>`_, on which this model depends and which makes it possible, to use the plane in air and ground attack as part of military simulation in the `OPRF⇗ <https://opredflag.com/>`_ (Open Red Flag) community.
+* The authors of the common weapons and radar systems for `OpRedFlag⇗ <https://github.com/Op-RedFlag/OpRedFlag>`_, on which this model depends and which makes it possible, to use the plane in air and ground attack as part of military simulation in the `OPRF⇗ <https://opredflag.com/>`_ (Open Red Flag) community.
 
 * The authors of the `FlightGear F-16⇗ <https://github.com/NikolaiVChr/f16>`_ are a constant source of inspiration - and the level of sophistication of the model is what the M2000 is aiming for, but maybe never will get on par with.
 
