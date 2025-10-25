@@ -127,18 +127,6 @@ If changes have been made to the file, then they are marked with ADAPT_TO_M2000
 * Why is there the following instead of fall time from weapon props? TimeToTarget   :"/sim/dialog/groundTargeting/time-to-target",
 * In HUD.nas check use of input.IsRadarWorking.getValue()>24 and similar
 
-<!-- ========================================================================================= -->
-# Reference stuff #
-* https://codex.uoaf.net/index.php/Air-to-air_radar
-  * https://codex.uoaf.net/index.php/M2k
-  * https://codex.uoaf.net/index.php/Special:WhatLinksHere/Air-to-air_radar
-* https://www.sto.nato.int/publications/STO%2520Educational%2520Notes/RTO-EN-SET-063/EN-SET-063-%24%24ALL.pdf
-* https://forum.dcs.world/topic/311044-a-mirage-2000-5f-for-dcs/: picture of 2000-5F variant as well as backseat of 2000D-5
-* https://www.avionslegendaires.net/2024/07/actu/ejection-dun-pilote-de-dassault-aviation-mirage-2000-5/ 2000-5 cockpit
-* https://forum.air-defense.net/topic/18257-mirage-2000/page/168/ 2000-5F cockpit
-* https://thaimilitaryandasianregion.wordpress.com/2016/07/24/mirage-2000-multirole-combat-fighter-france/
-* https://www.estrepublicain.fr/defense-guerre-conflit/2023/04/10/vols-de-nuit-a-luxeuil-delicates-missions-pour-les-pilotes-de-mirage-de-la-ba-116 - picture 13 is 2000-5F cockpit
-* https://www.modellingnews.gr/el/%CE%BD%CE%AD%CE%B1-%CE%BC%CE%BF%CE%BD%CF%84%CE%B5%CE%BB%CE%B9%CF%83%CE%BC%CE%BF%CF%8D/mirage-2000-under-skin-ioannis-lekkas-ilias-gkonis-eagle-aviation
 
 <!-- ========================================================================================= -->
 # Performance Stuff #
