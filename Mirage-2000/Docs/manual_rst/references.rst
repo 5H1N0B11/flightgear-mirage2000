@@ -244,8 +244,8 @@ Links
   * `Blog post⇗ <https://blog.naver.com/PostView.nhn?blogId=pwrangshion&logNo=110120276719>`_: quite a few details on systems and weapons with pictures
   * Thai military and Asian region `blog post⇗ <https://thaimilitaryandasianregion.wordpress.com/2016/07/24/mirage-2000-multirole-combat-fighter-france/>`_: a lot of details across variants - also weapons
   * `Scalemates Dassault Mirage 2000 Walkarounds⇗ <https://www.scalemates.com/search.php?fkSECTION%5B%5D=Walkarounds&q=Dassault+Mirage+2000>`_
-  * Mirage 2000 discussion thread on `air-defense.net⇗ <https://forum.air-defense.net/topic/18257-mirage-2000/>`_(French)
-  * Mirage 2000 discussion threads on `DCS Forum⇗ <https://forum.dcs.world/forum/248-m-2000/>_`
+  * Mirage 2000 discussion thread on `air-defense.net⇗ <https://forum.air-defense.net/topic/18257-mirage-2000/>`_ (French)
+  * Mirage 2000 discussion threads on `DCS Forum⇗ <https://forum.dcs.world/forum/248-m-2000/>`_
 
 
 DVDs
@@ -397,3 +397,14 @@ Content:
 
 * 04:48: Overview of the firing range with different targets
 * 09:03: VTB image with and without LINK16
+
+
+Y11: Turkish F-16 vs Hellenic Mirage 2000 Dogfight Video Analysis
+-----------------------------------------------------------------
+
+URL: https://www.youtube.com/watch?v=0GGNbgV4crk
+
+Content:
+
+* Analysis of air-2-air combat with live HUD camera
+
