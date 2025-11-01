@@ -206,15 +206,25 @@ NB: you cannot choose to release 2 bombs at once (dual mode).
 Cannons and Guns
 ^^^^^^^^^^^^^^^^
 
-The Mirage uses `DEFA cannons⇗ <https://en.wikipedia.org/wiki/DEFA_cannon>`_. It is assumed:
+The Mirage uses `DEFA cannons⇗ <https://en.wikipedia.org/wiki/DEFA_cannon>`_:
 
-* DEFA 554 for the single-seat Mirage 2000-5: the rate of fire can be changed to either 1800/min (0.033) or 1200/min (0.05) using the PPA.
+* DEFA 554 for the single-seat Mirage 2000-5: the rate of fire can be changed to either ``High`` = 1800/min (0.033) or ``Low`` = 1200/min (0.05) using the PPA.
 * DEFA 553 in the CC442 gun pod for the Mirage 2000D has a constant rate of fire of 1300/min (0.046).
 
 In the PPA the gun mode can be set to either air-to-air or air-to-ground ("cannon air-sol").
 
-
 .. image:: images/ppa_cannon.png
+   :scale: 50%
+
+
+On the lower left of the PPA the symbology for shoot incitation in the HUD for air-to-air can be toggled between two modes:
+
+* CCLT (Calcul continu de la ligne de tir): tracer line (no radar needed)
+* PRED (Prédictif): shoot incitation symbology is displayed if there is a radar lock and the geometry between the aircraft and the target allows it.
+
+For air-to-air the wingspan of the expected target can be set between 7 and 40 metres using the switch on the lower right side (press up = +1 metre, press down = +5 metres). This influences the 600 m and 300 m markers on the tracer line in the HUD. In the picture below a plane with a wingspan over 40 metres is ca. 550 metres away and therefore a bit wider than the lower 600 m line and smaller than the 300 m line above.
+
+.. image:: images/tracer_wingspan.png
    :scale: 50%
 
 

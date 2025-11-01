@@ -945,7 +945,8 @@ var DisplaySystem = {
 				damage                     : "payload/armament/msg",
 				antiradar_target_type      : "controls/armament/antiradar-target-type",
 				cannon_air_ground          : "controls/armament/cannon-air-ground",
-				cannon_air_air_incitation  : "controls/armament/cannon-air-air-incitation"
+				cannon_air_air_incitation  : "controls/armament/cannon-air-air-incitation",
+				cannon_air_air_wingspan    : "controls/armament/cannon-air-air-wingspan",
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -1002,6 +1003,13 @@ var DisplaySystem = {
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 + 10, 100);
 			me.damage_text.enableUpdate();
+		},
+
+		_changeWingspan: func(increase) {
+			me.input.cannon_air_air_wingspan.setValue(me.input.cannon_air_air_wingspan.getValue() + increase);
+			if (me.input.cannon_air_air_wingspan.getValue() > 40) {
+				me.input.cannon_air_air_wingspan.setValue(7); # value is between 7 and 40 metres
+			}
 		},
 
 		enter: func {
@@ -1067,7 +1075,9 @@ var DisplaySystem = {
 					}
 				}
 			} elsif (controlName == OSB24) {
-				if (me.wpn_kind == WPN_KIND_FALL) {
+				if (me.wpn_kind == WPN_KIND_CANNON) {
+					me._changeWingspan(1);
+				} else if (me.wpn_kind == WPN_KIND_FALL) {
 					if (me.rpd == 5) {
 						pylons.fcs.setRippleDist(10);
 					} elsif (me.rpd < 200) {
@@ -1075,7 +1085,9 @@ var DisplaySystem = {
 					}
 				}
 			} elsif (controlName == OSB25) {
-				if (me.wpn_kind == WPN_KIND_FALL) {
+				if (me.wpn_kind == WPN_KIND_CANNON) {
+					me._changeWingspan(5);
+				} else if (me.wpn_kind == WPN_KIND_FALL) {
 					if (me.rpd == 10) {
 						pylons.fcs.setRippleDist(5);
 					} elsif (me.rpd > 10) {
@@ -1145,6 +1157,11 @@ var DisplaySystem = {
 					}
 					me.row_2_right_text.updateText("Mode:");
 					me.row_2_right_text.show();
+
+					me.osb24 = "+1";
+					me.osb25 = "+5";
+					me.row_4_right_text.updateText("Wingspan: "~me.input.cannon_air_air_wingspan.getValue());
+					me.row_4_right_text.show();
 
 					if (me.input.cannon_air_air_incitation.getValue() == TRUE) {
 						me.osb6 = "PRED";

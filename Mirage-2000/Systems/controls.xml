@@ -163,6 +163,7 @@
 		<antiradar-target-type type="int">0</antiradar-target-type> <!-- 0= ships and surface, 1=ships only, 2=surface only -->
 		<cannon-air-ground type="bool">false</cannon-air-ground>
 		<cannon-air-air-incitation type="bool">false</cannon-air-air-incitation> <!-- false=CCLT, true=predictive -->
+		<cannon-air-air-wingspan type="int">12</cannon-air-air-wingspan> <!-- between 7 and 40 metres -->
 
 		<dual type="int">1</dual> <!-- Double release or 1 by 1    -->
 		<!-- ' 0=OFF, 1=GUN, 2=A/A, 3=A/G -->
