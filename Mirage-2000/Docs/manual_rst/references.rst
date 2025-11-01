@@ -408,3 +408,13 @@ Content:
 
 * Analysis of air-2-air combat with live HUD camera
 
+
+Y12: French Mirage 2000 Landing at Berlin Schönefeld Airport for ILA 2012 HD
+----------------------------------------------------------------------------
+
+URL: https://www.youtube.com/watch?v=JcWj9M4LYDM&t=82s
+
+Content:
+
+* Aero braking by a M2000D/N
+
