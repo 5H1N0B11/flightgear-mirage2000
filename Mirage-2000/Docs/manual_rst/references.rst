@@ -418,3 +418,12 @@ Content:
 
 * Aero braking by a M2000D/N
 
+
+V13: Mirage 2000-N BAN Hyères - Atterrissage
+--------------------------------------------
+
+URL: https://www.youtube.com/watch?v=PQSUEYkh4yA
+
+Content:
+
+* Aero braking with air brakes on touch down
