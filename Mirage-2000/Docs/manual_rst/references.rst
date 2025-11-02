@@ -118,11 +118,12 @@ B10: Mirage 2000: L'histoire and l'armée de l'Air de 1974 a nos jours
 Ref: Hervé Beaumont, 2024; 2e édition; Sophia Editions; ISBN: 978-2-38514-081-6.
 
 Content:
+
 * Each version incl. the prototypes are described in depth in concise language - not so much "stories".
 
 
-Articles in Journals
-====================
+Articles in Journals or BLOGS
+=============================
 
 Jets - L'aéronautique à réaction et son histoire
 ------------------------------------------------
@@ -181,6 +182,19 @@ A05: RDY2 multi role, multi function radar
 
 A06: M53-P3 a new engine under the skin
 '''''''''''''''''''''''''''''''''''''''
+
+
+Others
+------
+
+Air Power Australia
+^^^^^^^^^^^^^^^^^^^
+
+A07: Matra/BAe ALARM and Matra Armat
+''''''''''''''''''''''''''''''''''''
+
+URL: https://www.ausairpower.net/alarm-armat.html
+
 
 
 Documents
@@ -242,7 +256,7 @@ Links
 
   * `Forum thread: Mirage 2000 RDM/RDI/RDY Radars and other avionics⇗ <https://www.secretprojects.co.uk/threads/mirage-2000-rdm-rdi-rdy-radars-and-other-avionics.37018/>`_
   * `Blog post⇗ <https://blog.naver.com/PostView.nhn?blogId=pwrangshion&logNo=110120276719>`_: quite a few details on systems and weapons with pictures
-  * Thai military and Asian region `blog post⇗ <https://thaimilitaryandasianregion.wordpress.com/2016/07/24/mirage-2000-multirole-combat-fighter-france/>`_: a lot of details across variants - also weapons
+  * `Thai military and Asian region blog post⇗ <https://thaimilitaryandasianregion.wordpress.com/2016/07/24/mirage-2000-multirole-combat-fighter-france/>`_: a lot of details across variants - also weapons
   * `Scalemates Dassault Mirage 2000 Walkarounds⇗ <https://www.scalemates.com/search.php?fkSECTION%5B%5D=Walkarounds&q=Dassault+Mirage+2000>`_
   * Mirage 2000 discussion thread on `air-defense.net⇗ <https://forum.air-defense.net/topic/18257-mirage-2000/>`_ (French)
   * Mirage 2000 discussion threads on `DCS Forum⇗ <https://forum.dcs.world/forum/248-m-2000/>`_

@@ -953,6 +953,8 @@ var DisplaySystem = {
 				me.input[name] = props.globals.getNode(me.input[name], 1);
 			}
 
+			me.wow = FALSE;
+
 			me.fuze = 0; # there are no real fuze settings in OPRF, so just faking
 
 			me.wpn_text = me.group.createChild("text", "wpn_text")
@@ -1024,6 +1026,7 @@ var DisplaySystem = {
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
+			me.wpn = pylons.fcs.getSelectedWeapon();
 			if (controlName == OSB6) {
 				if (me.wpn_kind == WPN_KIND_FALL) {
 					me.fuze += 1;
@@ -1031,9 +1034,11 @@ var DisplaySystem = {
 						me.fuze = 0;
 					}
 				} else if (me.wpn_kind == WPN_KIND_ARMAT) {
-					me.input.antiradar_target_type.setValue(me.input.antiradar_target_type.getValue() + 1);
-					if (me.input.antiradar_target_type.getValue() >2) {
-						me.input.antiradar_target_type.setValue(0);
+					if (me.wow == TRUE) { # cannot change in flight
+						me.input.antiradar_target_type.setValue(me.input.antiradar_target_type.getValue() + 1);
+						if (me.input.antiradar_target_type.getValue() >2) {
+							me.input.antiradar_target_type.setValue(0);
+						}
 					}
 				} elsif (me.wpn_kind == WPN_KIND_CANNON) {
 					if (me.input.cannon_air_air_incitation.getValue() == TRUE) {
@@ -1041,6 +1046,10 @@ var DisplaySystem = {
 					} else {
 						me.input.cannon_air_air_incitation.setValue(TRUE);
 					}
+				}
+			} elsif (controlName == OSB9) {
+				if (me.wpn != nil and me.wpn["powerOnRequired"] != nil and me.wpn["powerOnRequired"] == TRUE) {
+					me.wpn.togglePowerOn();
 				}
 			} elsif (controlName == OSB18) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
@@ -1101,6 +1110,11 @@ var DisplaySystem = {
 			if (noti.FrameCount != 3) {
 				return;
 			}
+			if (noti.getproper("wow")) {
+				me.wow = TRUE;
+			} else {
+				me.wow = FALSE;
+			}
 			me.wpn = pylons.fcs.getSelectedWeapon();
 			me.pylon = pylons.fcs.getSelectedPylon();
 
@@ -1108,6 +1122,8 @@ var DisplaySystem = {
 
 			me.osb6 = "";
 			me.osb6_selected = FALSE;
+			me.osb9 = ""; # reserved for Power On/Off
+			me.osb9_selected = FALSE;
 			me.osb18 = "";
 			me.osb18_selected = FALSE;
 			me.osb19 = "";
@@ -1132,6 +1148,11 @@ var DisplaySystem = {
 			} else {
 				me.wpn_text.updateText(me.wpn.type);
 				me.ammo_text.updateText("Ammo: "~pylons.fcs.getAmmo());
+
+				if (me.wpn["powerOnRequired"] != nil and me.wpn["powerOnRequired"] == TRUE) { # most guided weapons - therefore use a generic approach
+					me.osb9 = me.wpn.isPowerOn()?"PWR ON":"PWR OFF";
+					me.osb9_selected = TRUE;
+				}
 
 				if (me.wpn.type == "CC422" or me.wpn.type == "30mm Cannon") {
 					me.wpn_kind = WPN_KIND_CANNON;
@@ -1214,11 +1235,11 @@ var DisplaySystem = {
 				} else if (me.wpn.type == "AS-37-Armat") {
 					me.wpn_kind = WPN_KIND_ARMAT;
 					if (me.input.antiradar_target_type.getValue() == 0) {
-						me.osb6 = "ALL";
+						me.osb6 = "GROUND";
 					} elsif (me.input.antiradar_target_type.getValue() == 1) {
-						me.osb6 = "NAVAL";
+						me.osb6 = "SHIP";
 					} else {
-						me.osb6 = "SURFACE";
+						me.osb6 = "SAM";
 					}
 					me.osb6_selected = TRUE;
 				}
@@ -1233,6 +1254,7 @@ var DisplaySystem = {
 			}
 
 			me.device.controls[OSB6].setControlText(me.osb6, TRUE, me.osb6_selected);
+			me.device.controls[OSB9].setControlText(me.osb9, TRUE, me.osb9_selected);
 			me.device.controls[OSB18].setControlText(me.osb18, TRUE, me.osb18_selected);
 			me.device.controls[OSB19].setControlText(me.osb19, TRUE, me.osb19_selected);
 			me.device.controls[OSB20].setControlText(me.osb20, TRUE, me.osb20_selected);

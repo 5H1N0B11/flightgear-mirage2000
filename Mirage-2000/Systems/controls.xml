@@ -160,7 +160,7 @@
 		<master-arm-switch type="bool">false</master-arm-switch>
 		<laser-arm-dmd type="bool">false</laser-arm-dmd>
 
-		<antiradar-target-type type="int">0</antiradar-target-type> <!-- 0= ships and surface, 1=ships only, 2=surface only -->
+		<antiradar-target-type type="int">0</antiradar-target-type> <!-- 0= ground radar, 1=ships, 2=static SAMs -->
 		<cannon-air-ground type="bool">false</cannon-air-ground>
 		<cannon-air-air-incitation type="bool">false</cannon-air-air-incitation> <!-- false=CCLT, true=predictive -->
 		<cannon-air-air-wingspan type="int">12</cannon-air-air-wingspan> <!-- between 7 and 40 metres -->

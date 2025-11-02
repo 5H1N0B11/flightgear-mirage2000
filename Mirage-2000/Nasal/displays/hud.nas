@@ -1828,7 +1828,7 @@ var HUD = {
 
 		me.antirad_cue_core.hide();
 		me.antirad_cue_locked.hide();
-		if (me._isArmedAndHasWeapon() == TRUE and contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION) {
+		if (me._isArmedAndHasWeapon() == TRUE and contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION and me.selectedWeapon.isPowerOn()) {
 			me.antirad_cue_core.show();
 			if (pylons.fcs.isLock()) {
 				me.antirad_cue_locked.show();
@@ -1851,22 +1851,19 @@ var HUD = {
 				if (me.antirad_db_entry.rwrCode == nil) {
 					continue;
 				}
-				if (me.antirad_db_entry.isSurfaceAsset == FALSE and me.antirad_db_entry.isShip == FALSE) {
-					continue;
-				} else { # one of them is ok - and we do not have to test against 0=all
-					if (me.input.antiradar_target_type.getValue() == 1 and me.antirad_db_entry.isShip == FALSE) {
-						continue;
-					}
-					if (me.input.antiradar_target_type.getValue() == 2 and me.antirad_db_entry.isSurfaceAsset == FALSE) {
-						continue;
-					}
-				}
 				if (me.antirad_contact[0].get_range() > 50) { # own choice as documented in the M2000 manual
 					continue;
 				}
-				if (me.antirad_contact[1] <= 0) { # threat
+				if (me.antirad_db_entry.rwrCode == "S" and me.input.antiradar_target_type.getValue() > 0) {
 					continue;
-				} else if (me.antirad_contact[1] >= 0.5) {
+				} else if (me.antirad_db_entry.rwrCode == "SH" and me.input.antiradar_target_type.getValue() != 1) {
+					continue;
+				} else if (me.input.antiradar_target_type.getValue() == 2) {
+					if (me.antirad_db_entry.rwrCode != "3" and me.antirad_db_entry.rwrCode != "5" and me.antirad_db_entry.rwrCode != "20" and me.antirad_db_entry.rwrCode != "P") {
+						continue;
+					}
+				}
+				if (me.antirad_contact[1] >= 0.5) {
 					me.antirad_high_threat = TRUE;
 				} else {
 					me.antirad_high_threat = FALSE;
