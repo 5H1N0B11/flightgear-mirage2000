@@ -51,9 +51,6 @@
 #
 # GPL 2.0 or later
 
-var TRUE = 1;
-var FALSE = 0;
-
 var AIR = 0;
 var MARINE = 1;
 var SURFACE = 2;
@@ -437,7 +434,7 @@ var CallsignToContact = {
 		ctc.CallsignToContactRecipient.Receive = func(notification) {
 	        if (notification.NotificationType == "AINotification") {
 	        	#printf("OmniRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.struct_csContact = {};
 	    		    foreach(contact ; notification.vector) {
 	    		    	var cs = contact.getCallsign();
@@ -756,7 +753,7 @@ var AIContact = {
 		c.model    = model;
 		c.callsign = callsign;
 		c.pos_type = pos_type;
-		c.needInit = TRUE;
+		c.needInit = 1;
 		c.visible  = 1;
 		c.inClutter = 0;
 		c.hiddenFromDoppler = 0;
@@ -780,11 +777,11 @@ var AIContact = {
 	},
 
 	init: func {
-		if (me.needInit == FALSE) {
+		if (me.needInit == 0) {
 			# init is expensive. Avoid it if not needed.
 			return;
 		}
-		me.needInit = FALSE;
+		me.needInit = 0;
 		# read all properties and store them for fast lookup.
 		me.pos     = me.prop.getNode("position");
 		me.ori     = me.prop.getNode("orientation");
@@ -1438,7 +1435,7 @@ var AIContact = {
 	get_coord_for_view: func(anti_rad) {
 		var updated_coord = me.getCoord();
 		var extra_height = 0.;
-		if (anti_rad == TRUE and me.isRadarEnable() and isOmniRadiating(me.model)) {
+		if (anti_rad == 1 and me.isRadarEnable() and isOmniRadiating(me.model)) {
 			extra_height = 4.0;
 		} elsif (me.get_type() == SURFACE ) {
 			extra_height = 1.5;
@@ -1519,9 +1516,9 @@ var AIContact = {
         }
         if (me.rn < getRadarRange(me.model) and ((me.rdr != nil and me.rdr.getValue()!=1) or me.rdr == nil) and math.abs(geo.normdeg180(me.deviationRd)) < getRadarFieldRadius(me.model)) {
             # our radar is active and pointed at coord.
-            return TRUE;
+            return 1;
         }
-        return FALSE;
+        return 0;
 	},
 	isVirtual: func {
 		return 0;
@@ -1597,19 +1594,19 @@ var NoseRadar = {
 		nr.NoseRadarRecipient.Receive = func(notification) {
 	        if (notification.NotificationType == "AINotification") {
 	        	#printf("NoseRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.vector_aicontacts = notification.vector;
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
 	        } elsif (notification.NotificationType == "SliceNotification") {
 	        	#printf("NoseRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.scanFOR(notification.elev, notification.yaw, notification.elev_radius, notification.yaw_radius, notification.dist_m, notification.fa, notification.fg, notification.fs);
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
 	        } elsif (notification.NotificationType == "ContactNotification") {
 	        	#printf("NoseRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.scanSingleContact(notification.vector[0]);
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
@@ -1765,19 +1762,19 @@ var SimplerNoseRadar = {
 		nr.NoseRadarRecipient.Receive = func(notification) {
 	        if (notification.NotificationType == "AINotification") {
 	        	#printf("NoseRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.vector_aicontacts = notification.vector;
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
 	        } elsif (notification.NotificationType == "SliceNotification") {
 	        	#printf("NoseRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.scanFOR(notification.yaw_radius, notification.dist_m, notification.fa, notification.fg, notification.fs);
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
 	        } elsif (notification.NotificationType == "ContactNotification") {
 	        	#printf("NoseRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.scanSingleContact(notification.vector[0]);
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
@@ -1915,19 +1912,19 @@ var FullRadar = {
 		nr.FullRadarRecipient.Receive = func(notification) {
 	        if (notification.NotificationType == "AINotification") {
 	        	#printf("NoseRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.vector_aicontacts = notification.vector;
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
 	        } elsif (notification.NotificationType == "RequestFullNotification") {
 	        	#printf("NoseRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.scanFOR(notification.max_range);
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
 	        } elsif (notification.NotificationType == "Contact360Notification") {
 	        	#printf("FullRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.scanSingleContact(notification.vector[0]);
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
@@ -2072,7 +2069,7 @@ var OmniRadar = {
 		omni.OmniRadarRecipient.Receive = func(notification) {
 	        if (notification.NotificationType == "AINotification") {
 	        	#printf("OmniRadar recv: %s", notification.NotificationType);
-	            if (me.radar.enabled == TRUE) {
+	            if (me.radar.enabled == 1) {
 	    		    me.radar.vector_aicontacts = notification.vector;
 	    	    }
 	            return emesary.Transmitter.ReceiptStatus_OK;
