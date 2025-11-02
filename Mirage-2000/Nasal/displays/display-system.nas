@@ -1048,7 +1048,7 @@ var DisplaySystem = {
 					}
 				}
 			} elsif (controlName == OSB9) {
-				if (me.wpn != nil and me.wpn["powerOnRequired"] != nil and me.wpn["powerOnRequired"] == TRUE) {
+				if (me.wpn != nil and contains(me.wpn, "powerOnRequired") and me.wpn["powerOnRequired"] == TRUE) {
 					me.wpn.togglePowerOn();
 				}
 			} elsif (controlName == OSB18) {
@@ -1149,7 +1149,7 @@ var DisplaySystem = {
 				me.wpn_text.updateText(me.wpn.type);
 				me.ammo_text.updateText("Ammo: "~pylons.fcs.getAmmo());
 
-				if (me.wpn["powerOnRequired"] != nil and me.wpn["powerOnRequired"] == TRUE) { # most guided weapons - therefore use a generic approach
+				if (contains(me.wpn, "powerOnRequired") and me.wpn["powerOnRequired"] == TRUE) { # most guided weapons - therefore use a generic approach
 					me.osb9 = me.wpn.isPowerOn()?"PWR ON":"PWR OFF";
 					me.osb9_selected = TRUE;
 				}

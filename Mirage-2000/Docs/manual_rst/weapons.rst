@@ -166,6 +166,8 @@ The next picture shows a similar situation, but this time the weapon is a dumb f
    :scale: 50%
 
 
+.. _link_subsection_designation:
+
 Laser or GPS Designation
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -180,7 +182,7 @@ You can acquire coordinates in two ways: either write the lon and lat directly i
 
 Always the primary coordinates will be used to create/update targets, but a secondary pair can be input as well. A button can swap the primary and secondary coordinates.
 
-A sniped target (simulating what would be done with a laser) can be created with a button based on the primary coordinates. NB: the view can temporarily be changed automatically, such that the coordinate including its elevation above sea level can be fetched behind the scenes).
+A sniped target (simulating what would be done with a laser) can be created with a button based on the primary coordinates. NB: the view can temporarily be changed automatically, such that the coordinate including its elevation above sea level can be fetched behind the scenes.
 
 The target can then be designated using another button.
 
@@ -200,6 +202,26 @@ On the PPA the following settings can be done:
 * The fuze selector can be set to either ``RET.`` (retardé/delayed fuze), or ``INST.`` (instantaneous fuze) or ``INERT.`` (inertial fuze). However, this is not implemented and will always result in an instantaneous fuze.
 
 NB: you cannot choose to release 2 bombs at once (dual mode).
+
+For the GBUs a laser target has to be designated (see :ref:`link_subsection_designation`), the weapons guidance mode must be ``LDP`` and airspeed at least 350 kt.
+
+
+AS-30L(Laser)
+-------------
+
+The missile needs to be fired:
+
+* below 32'800 ft
+* below 5 g
+* below mach 0.9
+* below 45 degs of roll
+* within 9.7 nm (18 km) of the target
+* with a designated target and weapons guidance mode in ``LDP``
+* powered on
+* the airplane nose must point within 16 degrees to the target, because the seeker field is only 32 degrees
+
+For the designation of a laser target see :ref:`link_subsection_designation`. Once the missile has been launched, then the plane can turn away, because the target designation pod can illuminate by turning the laser pointer.
+
 
 Cannons and Guns
 ----------------
@@ -256,7 +278,7 @@ The missile needs to be fired:
 * below 5 g
 * below mach 0.9
 * below 45 degs of roll
-* within 50 nm of the target (more realistically below 40 nm if you launch it from pop-up)
+* within 50 nm of the target (more realistically below 35 nm if you launch it from pop-up)
 
 
 Tips:
@@ -264,3 +286,22 @@ Tips:
 * Once a lock is acquired the recticle does not have to be kept directly over the target. However, if the recticle is moved too far away before the missile is shot, then the lock will get broken.
 * The missile flies directly towards the target. If you launch too shallow, then it might hit the ground.
 * After the first missile has been fired, the second missile's power must be activated in the PPA.
+
+
+AM39 Exocet (Anti Ship)
+-----------------------
+
+The missile needs to be fired:
+
+* below 30'000 ft
+* below 5 g
+* below mach 0.9
+* below 45 degs of roll
+* within 38 nm of the target
+* flying level and not below 250 ft (the missile motor starts frist after a drop time of 2 seconds and needs some time to accelerate the missile to stable flight)
+* with a target selected in SEA radar mode
+
+
+Tips:
+
+* Power for the missile must be explicitly activated - also before you want to fire a second missile.

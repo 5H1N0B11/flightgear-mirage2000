@@ -584,6 +584,8 @@
 			<weight-fuel-lbm type="double">400</weight-fuel-lbm>
 			<weight-launch-lbs type="double">1146 </weight-launch-lbs> <!-- ref[B10] 520 kg-->
 			<weight-warhead-lbs type="double">551</weight-warhead-lbs> <!-- ref[B10] 250 kg-->
+			<requires-power-on type="bool">true</requires-power-on>
+			<power-on-battery-time type="double">0</power-on-battery-time><!-- infinite -->
 		</as30l>
 
 		<am39-exocet> <!-- Exocet -->
@@ -598,7 +600,8 @@
 			<drop-time type="double">2</drop-time>
 			<FCS-field-deg type="int"> 25 </FCS-field-deg>
 			<fire-msg type="string">Bruiser</fire-msg>
-			<guidance type="string">gps</guidance>
+			<guidance type="string">intertial</guidance>
+			<navigation type="string">direct</navigation>
 			<hit-everything-nearby type="bool">true</hit-everything-nearby>
 			<lock-on-sun-deg type="double"> 0 </lock-on-sun-deg>
 			<loft-altitude type="int"> 10 </loft-altitude>
@@ -608,8 +611,6 @@
 			<min-fire-range-nm type="double"> 0.5 </min-fire-range-nm>
 			<min-speed-for-guiding-mach type="double"> 0.25 </min-speed-for-guiding-mach>
 			<mounted-limit-g type="double"> 7.5 </mounted-limit-g>
-			<navigation type="string">PN</navigation>
-			<prowl-flight type="string">gyro-pitch</prowl-flight>
 			<rail type="bool">false</rail>
 			<reaquire type="bool">false</reaquire>
 			<release-limit-altitude type="double"> 30000 </release-limit-altitude>
@@ -634,6 +635,8 @@
 			<weight-fuel-lbm type="double"> 0 </weight-fuel-lbm>
 			<weight-launch-lbs type="double"> 1480 </weight-launch-lbs>
 			<weight-warhead-lbs type="double"> 364 </weight-warhead-lbs>
+			<requires-power-on type="bool">true</requires-power-on>
+			<power-on-battery-time type="double">0</power-on-battery-time><!-- infinite -->
 		</am39-exocet>
 
 		<mk-82>
