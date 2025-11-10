@@ -441,3 +441,13 @@ URL: https://www.youtube.com/watch?v=PQSUEYkh4yA
 Content:
 
 * Aero braking with air brakes on touch down
+
+Y14: Hellenic mirage 2000 is out for hunt
+-----------------------------------------
+
+URL: https://www.youtube.com/watch?v=uLpjhl8Yh3M
+
+Content:
+
+* Almost 4 minutes of HUD footage with diffreent A2A weapons in dogfight
+
