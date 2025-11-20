@@ -451,3 +451,11 @@ Content:
 
 * Almost 4 minutes of HUD footage with diffreent A2A weapons in dogfight
 
+Y15: Aviation - Crash Posé Mirage 2000 Trains Non Sortis Cambrai
+----------------------------------------------------------------
+
+URL: https://www.youtube.com/watch?v=vBRadALkXK0
+
+Content:
+
+* different warning tones plus HUD at landing
