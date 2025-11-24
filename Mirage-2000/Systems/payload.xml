@@ -471,8 +471,13 @@
 		ref[B10]
 		* Operational range 15-100 km depending on the height at launch. (100 km = 54 nm)
 
+
+		https://www.ausairpower.net/alarm-armat.html:
+		* The missile has a quoted range for a high altitude launch of about 50 NM.
+
+		Choice: max 50nm range and only 35nm from 1000m
 		Thrust has been calibrated with missile test in Hunter: If launched at 600 kt at 1000 m altitude
-		it can reach 103 km and a max speed of mach 2.4 and final speed below 0.2 mach.
+		it can reach 65 km (35nm) and a max speed of mach 1.3 and final speed below 0.2 mach.
 		-->
 		<as-37-armat>
 			<type-id type="int">14</type-id>
@@ -483,14 +488,14 @@
 			<guidance type="string">radiation</guidance>
 			<navigation type="string">PN</navigation> <!-- Because it is an older version cf. missile-code -->
 			<all-aspect type="bool">true</all-aspect>
-			<max-fire-range-nm type="double">54</max-fire-range-nm> <!-- originally set to 65 -->
+			<max-fire-range-nm type="double">50</max-fire-range-nm> <!-- originally set to 65 -->
 			<FCS-field-deg type="int">25</FCS-field-deg>
 			<seeker-field-deg type="int">100</seeker-field-deg>
 			<max-g type="int">15</max-g>
 			<!-- The large airframe accommodates a Hotchkiss-Brandt/SNPE Basile solid propellant boost stage with a 2.4 second burn. and an SNPE Cassandre solid propellant sustainer with a 22 second burn
 			https://www.globalsecurity.org/military/world/europe/as37-specs.htm -->
-			<thrust-lbf-stage-1 type="double">10000</thrust-lbf-stage-1> <!-- Boost Sustain 64.000 lbs./sec 630 mps/mach 2+ -->
-			<thrust-lbf-stage-2 type="double">3900</thrust-lbf-stage-2>
+			<thrust-lbf-stage-1 type="double">8000</thrust-lbf-stage-1> <!-- Boost Sustain 64.000 lbs./sec 630 mps/mach 2+ -->
+			<thrust-lbf-stage-2 type="double">1500</thrust-lbf-stage-2>
 			<stage-1-duration-sec type="double">2.4</stage-1-duration-sec>
 			<stage-2-duration-sec type="double">100</stage-2-duration-sec> <!-- ref[B10] 100s (agm-88 has 50s)-->
 			<weight-launch-lbs type="double">1212</weight-launch-lbs> <!-- ref[B10] 550kg -->
@@ -518,6 +523,8 @@
 			<release-limit-g type="double"> 5 </release-limit-g> <!-- no info on this -->
 			<release-limit-mach type="double"> 0.9 </release-limit-mach>
 			<release-limit-roll type="double"> 45 </release-limit-roll>
+			<requires-power-on type="bool">true</requires-power-on>
+			<power-on-battery-time type="double">0</power-on-battery-time><!-- infinite -->
 		</as-37-armat>
 
 		<!--
@@ -577,6 +584,8 @@
 			<weight-fuel-lbm type="double">400</weight-fuel-lbm>
 			<weight-launch-lbs type="double">1146 </weight-launch-lbs> <!-- ref[B10] 520 kg-->
 			<weight-warhead-lbs type="double">551</weight-warhead-lbs> <!-- ref[B10] 250 kg-->
+			<requires-power-on type="bool">true</requires-power-on>
+			<power-on-battery-time type="double">0</power-on-battery-time><!-- infinite -->
 		</as30l>
 
 		<am39-exocet> <!-- Exocet -->
@@ -591,7 +600,8 @@
 			<drop-time type="double">2</drop-time>
 			<FCS-field-deg type="int"> 25 </FCS-field-deg>
 			<fire-msg type="string">Bruiser</fire-msg>
-			<guidance type="string">gps</guidance>
+			<guidance type="string">intertial</guidance>
+			<navigation type="string">direct</navigation>
 			<hit-everything-nearby type="bool">true</hit-everything-nearby>
 			<lock-on-sun-deg type="double"> 0 </lock-on-sun-deg>
 			<loft-altitude type="int"> 10 </loft-altitude>
@@ -601,8 +611,6 @@
 			<min-fire-range-nm type="double"> 0.5 </min-fire-range-nm>
 			<min-speed-for-guiding-mach type="double"> 0.25 </min-speed-for-guiding-mach>
 			<mounted-limit-g type="double"> 7.5 </mounted-limit-g>
-			<navigation type="string">PN</navigation>
-			<prowl-flight type="string">gyro-pitch</prowl-flight>
 			<rail type="bool">false</rail>
 			<reaquire type="bool">false</reaquire>
 			<release-limit-altitude type="double"> 30000 </release-limit-altitude>
@@ -627,6 +635,8 @@
 			<weight-fuel-lbm type="double"> 0 </weight-fuel-lbm>
 			<weight-launch-lbs type="double"> 1480 </weight-launch-lbs>
 			<weight-warhead-lbs type="double"> 364 </weight-warhead-lbs>
+			<requires-power-on type="bool">true</requires-power-on>
+			<power-on-battery-time type="double">0</power-on-battery-time><!-- infinite -->
 		</am39-exocet>
 
 		<mk-82>

@@ -5,15 +5,18 @@ Abbreviations and Jargon
 French Abbreviations (Glossary)
 ===============================
 
-============ ======================================================================= ===================================
+============ ======================================================================= ========================================
 Abbreviation Meaning                                                                 English
-============ ======================================================================= ===================================
+============ ======================================================================= ========================================
 A / AR       arrête                                                                  off
 AST          assaut en suivi de terrain                                              terrain-following assault mode
 AU           automatique                                                             automatic
+BFR          Basse FRéquence                                                         Low Frequency (radar pulse frequency)
 CAS          cannon air-sol                                                          cannon in air-ground mode
+ENT          Entrelacé                                                               Interleaved (radar pulse frequency)
 D            droite                                                                  right
 G            gauche                                                                  left
+HFR          Haute FRéquence                                                         High Frequency (radar pulse frequency)
 ISG          indicateur sphérique gyroscopique                                       attitude indicator
 JVN          jumelles de vision nocturnes                                            night vision goggles
 LL           lance leurres                                                           decoy dispenser
@@ -27,6 +30,8 @@ PCA          poste de commande armement
 PCN          poste de commande navigation
 PCR          poste de commande radar
 PGS          plein gaz sec                                                           full military power (without reheat)
+PIC          Poursuite sur Information Continue                                      STT = Single Target Track
+PID          Poursuite sur Information Discontinue                                   TWS = Track While Scanning
 PLA          point de largage de l’armement                                          weapons release point
 PPA          poste préparation armement
 PSM          poste sélecteur de modes
@@ -39,7 +44,7 @@ TBA          très basse altitude                                               
 VTB          visualisation tête basse                                                HDD - head-down display
 VTM          visualisation tête moyenne                                              n/a - head level display
 VTH          visualisation tête haute                                                HUD - head-up display
-============ ======================================================================= ===================================
+============ ======================================================================= ========================================
 
 
 French Military Aviation Jargon

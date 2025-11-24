@@ -4720,10 +4720,14 @@ var AIM = {
 				me.geodPos = aircraftToCart({x:-me.radarX, y:me.radarY, z: -me.radarZ});
 				me.launchCoord.set_xyz(me.geodPos.x, me.geodPos.y, me.geodPos.z);
 			}
-
-			me.potentialCoord = me.tagt.get_coord_for_view(me.guidance == "radiation");
+			me.potentialCoord = nil;
+			if (contains(me.tagt, "get_coord_for_view")) {
+				me.potentialCoord = me.tagt.get_coord_for_view(me.guidance == "radiation");
+			} else {
+				me.potentialCoord = me.tagt.get_Coord();
+			}
 			me.xyz          = {"x":me.launchCoord.x(),                  "y":me.launchCoord.y(),                 "z":me.launchCoord.z()};
-		    me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
+			me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
 
 			# Check for terrain between own weapon and target:
 			me.terrainGeod = get_cart_ground_intersection(me.xyz, me.directionLOS);
@@ -4746,9 +4750,14 @@ var AIM = {
 	checkForViewInFlight: func (tagt) {
 		if (me.guidance != "gps-laser" and me.guidance != "gps" and me.guidance != "inertial" and me.guidance != "sample") {
 			me.launchCoord = me.coord;
-			me.potentialCoord = tagt.get_coord_for_view(me.guidance == "radiation");
+			me.potentialCoord = nil;
+			if (contains(me.tagt, "get_coord_for_view")) {
+				me.potentialCoord = me.tagt.get_coord_for_view(me.guidance == "radiation");
+			} else {
+				me.potentialCoord = me.tagt.get_Coord();
+			}
 			me.xyz          = {"x":me.launchCoord.x(),                  "y":me.launchCoord.y(),                 "z":me.launchCoord.z()};
-		    me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
+			me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
 
 			# Check for terrain between own weapon and target:
 			me.terrainGeod = get_cart_ground_intersection(me.xyz, me.directionLOS);

@@ -118,23 +118,24 @@ To make loading weapons easier, a set of typical loads for a given variant is av
 NB: you cannot change your payload when MP Damage is on and your aircraft is moving!
 
 
-Selecting and Configuring the Active Weapon
-===========================================
-
-The active weapon is selected using ``Key: w`` to cycle through the available mounted weapons. The stores management system (see :ref:`link_subsection_sms`) shows the available and active weapons. Depending on the active weapon some configurations can be done through the weapons configuration panel (see :ref:`link_subsection_ppa`).
-
-
-Ground Attack
-=============
-
 Basic Keys
-----------
+==========
 
 * ``Key: m``: toggle master arm
 * ``Key: w``: cycle through weapons
 * ``Key: ctrl-w``: toggle between CCIP and CCRP
 * ``Key: M``: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
 * ``Key: ctrl-l`` (small L): Fast snipe and designate clicked target for laser
+
+
+Configuring the Active Weapon
+===========================================
+
+The stores management system (see :ref:`link_subsection_sms`) shows the available and active weapons. Depending on the active weapon some configurations can be done through the weapons configuration panel (see :ref:`link_subsection_ppa`).
+
+
+Ground Attack
+=============
 
 
 Aiming Modes
@@ -165,6 +166,8 @@ The next picture shows a similar situation, but this time the weapon is a dumb f
    :scale: 50%
 
 
+.. _link_subsection_designation:
+
 Laser or GPS Designation
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -179,7 +182,7 @@ You can acquire coordinates in two ways: either write the lon and lat directly i
 
 Always the primary coordinates will be used to create/update targets, but a secondary pair can be input as well. A button can swap the primary and secondary coordinates.
 
-A sniped target (simulating what would be done with a laser) can be created with a button based on the primary coordinates. NB: the view can temporarily be changed automatically, such that the coordinate including its elevation above sea level can be fetched behind the scenes).
+A sniped target (simulating what would be done with a laser) can be created with a button based on the primary coordinates. NB: the view can temporarily be changed automatically, such that the coordinate including its elevation above sea level can be fetched behind the scenes.
 
 The target can then be designated using another button.
 
@@ -188,11 +191,8 @@ Alternatively, using ``Key: ctrl-l`` you can fast snipe and designate the clicke
 A FLIR view (``Key: F6``) can be activated and the button ``Focus FLIR on Sniped Target`` will then point the laser to the sniped coordinates. Thereby the coordinate can be improved by clicking exactly on the target through the FLIR and then updating the target.
 
 
-Weapon Specific Stuff
----------------------
-
 MK-82 / MK-82SE and GBU-12/GBU-24
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------
 
 On the PPA the following settings can be done:
 
@@ -203,25 +203,63 @@ On the PPA the following settings can be done:
 
 NB: you cannot choose to release 2 bombs at once (dual mode).
 
+For the GBUs a laser target has to be designated (see :ref:`link_subsection_designation`), the weapons guidance mode must be ``LDP`` and airspeed at least 350 kt.
+
+
+AS-30L(Laser)
+-------------
+
+The missile needs to be fired:
+
+* below 32'800 ft
+* below 5 g
+* below mach 0.9
+* below 45 degs of roll
+* within 9.7 nm (18 km) of the target
+* with a designated target and weapons guidance mode in ``LDP``
+* powered on
+* the airplane nose must point within 16 degrees to the target, because the seeker field is only 32 degrees
+
+For the designation of a laser target see :ref:`link_subsection_designation`. Once the missile has been launched, then the plane can turn away, because the target designation pod can illuminate by turning the laser pointer.
+
+
 Cannons and Guns
-^^^^^^^^^^^^^^^^
+----------------
 
-The Mirage uses `DEFA cannons⇗ <https://en.wikipedia.org/wiki/DEFA_cannon>`_. It is assumed:
+The Mirage uses `DEFA cannons⇗ <https://en.wikipedia.org/wiki/DEFA_cannon>`_:
 
-* DEFA 554 for the single-seat Mirage 2000-5: the rate of fire can be changed to either 1800/min (0.033) or 1200/min (0.05) using the PPA.
+* DEFA 554 for the single-seat Mirage 2000-5: the rate of fire can be changed to either ``High`` = 1800/min (0.033) or ``Low`` = 1200/min (0.05) using the PPA.
 * DEFA 553 in the CC442 gun pod for the Mirage 2000D has a constant rate of fire of 1300/min (0.046).
 
 In the PPA the gun mode can be set to either air-to-air or air-to-ground ("cannon air-sol").
-
 
 .. image:: images/ppa_cannon.png
    :scale: 50%
 
 
-AS-37 Armat (Anti-Radiation)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+On the lower left of the PPA the symbology for shoot incitation in the HUD for air-to-air can be toggled between two modes:
 
-There is very little information available for the Armat missile - especially how the aiming in the cockpit is done. Therefore, the implementation is purely fictional and takes inspiration from the DCS AV-8B Harrier AGM 122 Sidearm setup. Most probably the missile was only available in the -C version, maybe in the -D/N versions. This is why a rather primitive display system only using the HUD is used - only the -D and -5 versions have displays, which could show a page like in the F-16 or F-18 MFDs. If you have any information/hints available to make the implementation more realistic, then let the developers know.
+* CCLT (Calcul continu de la ligne de tir): tracer line (no radar needed)
+* PRED (Prédictif): shoot incitation symbology is displayed if there is a radar lock and the geometry between the aircraft and the target allows it.
+
+For air-to-air the wingspan of the expected target can be set between 7 and 40 metres using the switch on the lower right side (press up = +1 metre, press down = +5 metres). This influences the 600 m and 300 m markers on the tracer line in the HUD. In the picture below a plane with a wingspan over 40 metres is ca. 550 metres away and therefore a bit wider than the lower 600 m line and smaller than the 300 m line above.
+
+.. image:: images/tracer_wingspan.png
+   :scale: 50%
+
+
+AS-37 Armat (Anti-Radiation)
+----------------------------
+
+There is very little information available for the AS-37 Armat ("Anti Radiation MArTel") missile - especially how the aiming in the cockpit is done. And there is a lack of officially confirmed information abouts its use on Mirage 2000 variants as well as which countries might have been using it. Most probably requirements for not having to fit the launching aircraft with a lot of specialised equipment for the SEAD (`Suppression of Enemy Air Defenses⇗ <https://en.wikipedia.org/wiki/Suppression_of_enemy_air_defenses>`_) can be fulfilled by the AS-37 (e.g. like stated in "RAAF's requirement under AIR 5398" in ref[A07]). Ref[A07] also states "With its high launch weight, heavyweight warhead and long range, the Armat is primarily an offensive strategic ARM designed to destroy Early Warning and Ground Control Intercept radars." Some sources indicate that the Armat had few (3) different seeker head options that could track only specific radar types. Because this is decided on ground there is limited possibilitiy to chase opportunistic targets and cannot be used for (self) defence.
+
+NB: f you have any information/hints available to make the implementation more realistic, then let the developers know.
+
+Therefore, the implementation is purely fictional and takes inspiration from the DCS AV-8B Harrier AGM 122 Sidearm setup:
+
+* Most probably the missile was only available in the -C version, maybe in the -D/N versions. This is why a rather primitive display system only using the HUD is used - only the -D and -5 versions have displays, which could show a page like in the F-16 or F-18 MFDs.
+* The type of radar target has to be set on the ground: ``GROUND`` (GCI, radar towers - radar code ``S`` in OPRF), ``SHIP`` (frigates etc. - ``SH``), larger static ground based SAMS (SA-3 ``3``, SA-75 ``2``, S-200 ``5``, S-300 ``20``, MIM104D ``P``). E.g. smaller ships and self-propelled targets like the Shilka (``AA``), SA-6 (``6``) and Buk-M2 (``17``) cannot be targeted - this is really just a "random" choice for simulation.
+* Power for the missile seeker must be explicitly activated.
 
 For aiming you need to combine the RWR display (see :ref:`link_subsection_rwr`) with information in the HUD:
 
@@ -240,8 +278,30 @@ The missile needs to be fired:
 * below 5 g
 * below mach 0.9
 * below 45 degs of roll
-* within 50 nm of the target
+* within 50 nm of the target (more realistically below 35 nm if you launch it from pop-up)
 
-Once a lock is acquired the recticle does not have to be kept over the target. However, if the recticle is moved too far away before the missile is shot, then the lock will get broken.
 
-On the PPA page you can change between filtering on naval only, surface only or all (showing naval and surface stuff).
+Tips:
+
+* Once a lock is acquired the recticle does not have to be kept directly over the target. However, if the recticle is moved too far away before the missile is shot, then the lock will get broken.
+* The missile flies directly towards the target. If you launch too shallow, then it might hit the ground.
+* After the first missile has been fired, the second missile's power must be activated in the PPA.
+
+
+AM39 Exocet (Anti Ship)
+-----------------------
+
+The missile needs to be fired:
+
+* below 30'000 ft
+* below 5 g
+* below mach 0.9
+* below 45 degs of roll
+* within 38 nm of the target
+* flying level and not below 250 ft (the missile motor starts frist after a drop time of 2 seconds and needs some time to accelerate the missile to stable flight)
+* with a target selected in SEA radar mode
+
+
+Tips:
+
+* Power for the missile must be explicitly activated - also before you want to fire a second missile.

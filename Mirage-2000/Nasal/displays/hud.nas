@@ -67,6 +67,7 @@ var FONT_SIZE_LADDER = 30;
 var FONT_SIZE_ALPHA = 35;
 var FONT_SIZE_WAYPOINT = 30;
 var FONT_SIZE_ANTIRAD = 30;
+var FONT_SIZE_DISTANCE_TARGET = 24;
 
 
 # ==============================================================================
@@ -693,7 +694,7 @@ var HUD = {
 		m.shellPosXInit = [0];
 		m.shellPosYInit =  [0];
 		m.shellPosDistInit = [0];
-		m.wingspanFT = 35;# 7 to 40 meter
+		m.wingspan = 10;
 		m.resetGunPos();
 
 		m.eegsRightX = m._makeVector(m.funnelParts,0);
@@ -793,13 +794,13 @@ var HUD = {
 		m.distanceToTargetLineChevron = m.distanceToTargetLineTextGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(200,0)
-			.setFontSize(FONT_SIZE_CHEVRON)
+			.setFontSize(FONT_SIZE_DISTANCE_TARGET)
 			.setAlignment("left-center")
 			.setText("<");
 		m.distance_to_target_line_chevron_text = m.distanceToTargetLineTextGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(230,0)
-			.setFontSize(FONT_SIZE_CHEVRON)
+			.setFontSize(FONT_SIZE_DISTANCE_TARGET)
 			.setAlignment("left-center");
 		 m.distance_to_target_line_chevron_text.enableUpdate();
 
@@ -892,7 +893,8 @@ var HUD = {
 			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
 			launch_callsign           : "sound/rwr-launch",
 			antiradar_target_type     : "controls/armament/antiradar-target-type",
-			cannon_air_ground         : "controls/armament/cannon-air-ground"
+			cannon_air_ground         : "controls/armament/cannon-air-ground",
+			cannon_air_air_wingspan   : "controls/armament/cannon-air-air-wingspan"
 		};
 
 		foreach(var name; keys(m.input)) {
@@ -1826,7 +1828,7 @@ var HUD = {
 
 		me.antirad_cue_core.hide();
 		me.antirad_cue_locked.hide();
-		if (me._isArmedAndHasWeapon() == TRUE and contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION) {
+		if (me._isArmedAndHasWeapon() == TRUE and contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION and me.selectedWeapon.isPowerOn()) {
 			me.antirad_cue_core.show();
 			if (pylons.fcs.isLock()) {
 				me.antirad_cue_locked.show();
@@ -1849,22 +1851,19 @@ var HUD = {
 				if (me.antirad_db_entry.rwrCode == nil) {
 					continue;
 				}
-				if (me.antirad_db_entry.isSurfaceAsset == FALSE and me.antirad_db_entry.isShip == FALSE) {
-					continue;
-				} else { # one of them is ok - and we do not have to test against 0=all
-					if (me.input.antiradar_target_type.getValue() == 1 and me.antirad_db_entry.isShip == FALSE) {
-						continue;
-					}
-					if (me.input.antiradar_target_type.getValue() == 2 and me.antirad_db_entry.isSurfaceAsset == FALSE) {
-						continue;
-					}
-				}
 				if (me.antirad_contact[0].get_range() > 50) { # own choice as documented in the M2000 manual
 					continue;
 				}
-				if (me.antirad_contact[1] <= 0) { # threat
+				if (me.antirad_db_entry.rwrCode == "S" and me.input.antiradar_target_type.getValue() > 0) {
 					continue;
-				} else if (me.antirad_contact[1] >= 0.5) {
+				} else if (me.antirad_db_entry.rwrCode == "SH" and me.input.antiradar_target_type.getValue() != 1) {
+					continue;
+				} else if (me.input.antiradar_target_type.getValue() == 2) {
+					if (me.antirad_db_entry.rwrCode != "3" and me.antirad_db_entry.rwrCode != "5" and me.antirad_db_entry.rwrCode != "20" and me.antirad_db_entry.rwrCode != "P") {
+						continue;
+					}
+				}
+				if (me.antirad_contact[1] >= 0.5) {
 					me.antirad_high_threat = TRUE;
 				} else {
 					me.antirad_high_threat = FALSE;
@@ -2112,6 +2111,7 @@ var HUD = {
 	_displayEEGS: func() {
 		#note: this stuff is expensive like hell to compute, but..lets do it anyway.
 		#var me.funnelParts = 40;#max 10
+		me.wingspan = me.input.cannon_air_air_wingspan.getValue();
 		var st = systime();
 		me.eegsMe.dt = st-me.lastTime;
 		if (me.eegsMe.dt > me.averageDt*3) {
@@ -2305,7 +2305,7 @@ var HUD = {
 					}
 				}
 				if (me.drawEEGS300 and !me.drawEEGSPipper) {
-					var halfspan = math.atan2(me.wingspanFT*0.5,300*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
+					var halfspan = math.atan2(me.wingspan*0.5,300)*R2D*HudMath.getPixelPerDegreeAvg(2.0);
 					me.eegsGroup.createChild("path")
 						.setColor(COLOR_GREEN)
 						.moveTo(me.eegsRightX[1]-halfspan, me.eegsRightY[1])
@@ -2313,7 +2313,7 @@ var HUD = {
 						.setStrokeLineWidth(4);
 				}
 				if (me.drawEEGS600 and !me.drawEEGSPipper) {
-					var halfspan = math.atan2(me.wingspanFT*0.5,600*M2FT)*R2D*HudMath.getPixelPerDegreeAvg(2.0);#35ft average fighter wingspan
+					var halfspan = math.atan2(me.wingspan*0.5,600)*R2D*HudMath.getPixelPerDegreeAvg(2.0);
 					me.eegsGroup.createChild("path")
 						.setColor(COLOR_GREEN)
 						.moveTo(me.eegsRightX[2]-halfspan, me.eegsRightY[2])
