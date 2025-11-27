@@ -19,8 +19,23 @@ The Mirage 2000-5 has its name from the fact that it has 5 main displays:
 HUD
 ===
 
-Not yet described. Some description of information displayed is included in other sections.
+NB: Some description of information displayed in the HUD is included in other sections.
 
+
+Acceleration Vectors
+--------------------
+
+The acceleration vectors (aka. `chevrons⇗ <https://en.wikipedia.org/wiki/Chevron_(insignia)>`_) indicate the current acceleration. If they are diaplyed above the flight path indicator (the little airplane), then the aicraft is accelerating (gaining speed). A specialty of the M2000-5 version is that the chevrons are double when the afterburner is on, otherwise single.
+
+.. image:: images/hud_chevrons_ab.png
+   :align: center
+   :scale: 50%
+
+If the chevrons are displayed below the flight path indicator, then the aircraft is currently slowing down.
+
+.. image:: images/hud_chevrons_slow.png
+   :align: center
+   :scale: 50%
 
 .. _link_section_vtm:
 
@@ -35,7 +50,7 @@ This is a specialty of the Mirage 2000-5. Being positioned just below the HUD, t
 
 Most radar pictures are displayed in a B-scope (see picture above), the sea and ground radar modes are displayed as Plan Position Indicator - cf. `Radar Displays⇗ <https://en.wikipedia.org/wiki/Radar_display>`_ on Wikipedia.
 
-The top left corner shows the radar main mode (``Key: Q`` to cycle) and the radar sub-mode (``Key: ctrl-q`` to cycle). In the top middle the radar range in nm is displayed (``Key: R`` to increase, ``Key: E`` to decrease). The box in the top right corner shows data from the cursor: Θ shows the the heading of the cursor, Ρ shows the distance of the cursor on the radar.
+The top left corner shows the radar main mode (``Key: Q`` to cycle) and the radar sub-mode (``Key: ctrl-q`` to cycle). In the top middle the radar range in nm is displayed (``Key: R`` to increase, ``Key: E`` to decrease). The box in the top right corner shows data from the cursor: ``Θ`` shows the the heading of the cursor, ``Ρ`` shows the distance of the cursor on the radar.
 
 The cursor can be moved with arrow keys on the keyboard or using a binding to a joystick. On the left side of the cursor the radar distance is shown, on the left side the top and bottom altitudes being scanned by the radar (in ft).
 

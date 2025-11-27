@@ -149,36 +149,7 @@ var HUD = {
 		                       .lineTo(20,-30)
 		                       .vert(30);
 
-		#Chevrons Acceleration Vector (AV)
-		m.chevronFactor = 50;
-		m.chevronGroup = m.root.createChild("group");
-		m.chevronGroupAB = m.chevronGroup.createChild("group");
-
-		m.LeftChevron = m.chevronGroup.createChild("text")
-		                              .setColor(COLOR_GREEN)
-		                              .setTranslation(-150,0)
-		                              .setFontSize(FONT_SIZE_CHEVRON)
-		                              .setAlignment("center-center")
-		                              .setText(">");
-		m.LeftChevronAB = m.chevronGroupAB.createChild("text")
-		                              .setColor(COLOR_GREEN)
-		                              .setTranslation(-180,0)
-		                              .setFontSize(FONT_SIZE_CHEVRON)
-		                              .setAlignment("center-center")
-		                              .setText(">");
-
-		m.RightChevron = m.chevronGroup.createChild("text")
-		                               .setColor(COLOR_GREEN)
-		                               .setTranslation(150,0)
-		                               .setFontSize(FONT_SIZE_CHEVRON)
-		                               .setAlignment("center-center")
-		                               .setText("<");
-		m.RightChevronAB = m.chevronGroupAB.createChild("text")
-		                               .setColor(COLOR_GREEN)
-		                               .setTranslation(180,0)
-		                               .setFontSize(FONT_SIZE_CHEVRON)
-		                               .setAlignment("center-center")
-		                               .setText("<");
+		m._createChevrons();
 
 		#bore cross
 		m.boreCross = m.root.createChild("path")
@@ -935,6 +906,38 @@ var HUD = {
 		return m;
 	}, # END new
 
+	_createChevrons: func() { # Chevrons = Acceleration Vector (AV)
+		me.chevron_factor = 50;
+		me.chevronGroup = me.root.createChild("group");
+		me.chevronGroupAB = me.chevronGroup.createChild("group");
+
+		me.LeftChevron = me.chevronGroup.createChild("text")
+		                              .setColor(COLOR_GREEN)
+		                              .setTranslation(-150,0)
+		                              .setFontSize(FONT_SIZE_CHEVRON)
+		                              .setAlignment("center-center")
+		                              .setText(">");
+		me.LeftChevronAB = me.chevronGroupAB.createChild("text")
+		                              .setColor(COLOR_GREEN)
+		                              .setTranslation(-180,0)
+		                              .setFontSize(FONT_SIZE_CHEVRON)
+		                              .setAlignment("center-center")
+		                              .setText(">");
+
+		me.RightChevron = me.chevronGroup.createChild("text")
+		                               .setColor(COLOR_GREEN)
+		                               .setTranslation(150,0)
+		                               .setFontSize(FONT_SIZE_CHEVRON)
+		                               .setAlignment("center-center")
+		                               .setText("<");
+		me.RightChevronAB = me.chevronGroupAB.createChild("text")
+		                               .setColor(COLOR_GREEN)
+		                               .setTranslation(180,0)
+		                               .setFontSize(FONT_SIZE_CHEVRON)
+		                               .setAlignment("center-center")
+		                               .setText("<");
+	}, # END _createChevrons
+
 	_createCCRPSymbology: func() {
 		me.CCRP = me.root.createChild("group");
 
@@ -1579,8 +1582,7 @@ var HUD = {
 		} else {
 			me.chevronGroupAB.hide();
 		}
-		me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc.getValue()*FT2M*me.chevronFactor);
-		me.chevronGroup.update();
+		me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc.getValue()*FT2M*me.chevron_factor);
 	}, # END _displayChevron()
 
 	_displayHeadingBug: func() {
