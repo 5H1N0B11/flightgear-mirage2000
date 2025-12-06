@@ -458,4 +458,13 @@ URL: https://www.youtube.com/watch?v=vBRadALkXK0
 
 Content:
 
-* different warning tones plus HUD at landing
+* Different warning tones plus HUD at landing
+
+Y16: Hellenic Air Force Mirage 2000EG
+-------------------------------------
+
+URL: https://www.youtube.com/watch?v=qD3Atv7uF5g
+
+Content:
+
+* Around 14 min: Aero braking and HUD display approach/ground

@@ -22,7 +22,7 @@ The taxi lights have an angle of about 30 degrees in front of the aircraft and a
 Take-off
 --------
 
-Line up on the best runway for the current weather conditions and ask for clearance. Once the clearance is given and after releasing the parking brake, spool up while keeping the pedal brakes enabled. Then, throttle up to 99% RPM (military power) for long runways, 100%+ (with afterburners) for short runways or with heavy loadout. Rotation speed is at 120 knots when using a clean loadout, 140 knots if with payload. After this, bring the inverted "T" in the HUD under the line of horizon and you should be able to lift off at 170-190 knots, depending on your loadout. Do not exceed 14° nose angle or you will tail-strike. Even though the Mirage is airborne, you might feel that the plane with high nose angle "floats" over the runway until reaching well beyond 200 knots. Raise the gears with key ``g`` or by clicking the red gear lever.
+Line up on the best runway for the current weather conditions and ask for clearance. Once the clearance is given and after releasing the parking brake, spool up while keeping the pedal brakes enabled. Then, throttle up to 99% RPM (military power) for long runways, 100%+ (with afterburners) for short runways or with heavy loadout. Rotation speed is at 120 knots when using a clean loadout, 140 knots if with payload. After this, bring the inverted "T" in the HUD on the line of horizon and you should be able to lift off at 170-190 knots, depending on your loadout. Do not exceed 13° nose angle or you will tail-strike. Even though the Mirage is airborne, you might feel that the plane with high nose angle "floats" over the runway until reaching well beyond 200 knots. Raise the gears before reaching 260 knots with key ``g`` or by clicking the red gear lever.
 
 The Mirage needs long runway distances to take off, as it hasn't got a separate horizontal tail stabilizer/elevator. Because of the elevons' position (trailing edge of the wing), they create a considerable loss of lift when they are moved up to rotate, so higher rotation speeds are needed. Also, the delta wing is often called "flying airbrake", as they generate lots of drag at high angles of attack, like at take-off. This is why high speeds and long runways are needed.
 
@@ -48,7 +48,7 @@ While it has a bi-sonic flight possibility, it consumes lots of fuel. It is thus
 Visual Landing
 --------------
 
-Lower the gears when you are below 195 knots, then approach the runway at 175 knots (for 15% fuel left; add 5 knots every 20% additional fuel). If by night, put the landing lights on. On final approach, hold an angle of attack of between 6 and 9 degrees. When passing the runway threshold, flare and bring the aircraft to an angle of attack of 12 degrees. You should land at 145 knots (for 15% fuel left; add 5 knots every 20% additional fuel). When touching down, wait for the aircraft to slow down to 135 knots and apply pedal brakes. Use the brake parachute (key ``o`` to deploy) if necessary (heavy loadout or short runway) - and then release when not needed any more (same key ``o``).
+Lower the gears when you are below 195 knots, then approach the runway at 175 knots (for 15% fuel left; add 5 knots for every 20% additional fuel - and a bit more if you bring weapons home). If by night, put the landing lights on. On final approach, hold an angle of attack of between 6 and 9 degrees. When passing the runway threshold, flare and bring the aircraft to an angle of attack of 12 degrees. You should land at 145 knots (for 15% fuel left; add 5 knots every 20% additional fuel). When touching down, wait for the aircraft to slow down to 135 knots and apply pedal brakes. Use the brake parachute (key ``o`` to deploy) if necessary (heavy loadout or short runway) - and then release when not needed any more (same key ``o``).
 
 The easiest way to get approach and touchdown right is placing the inverted "T" at the bottom of the HUD on the runway threshold and regulate speed with throttle, such that the flightpath marker is on top of the inverted "T". When at speeds below 200 and high `angles of attack⇗ <https://en.wikipedia.org/wiki/Angle_of_attack>`_ you have to be ready to apply a considerable amount of throttle to keep a steady decent rate!
 
@@ -87,4 +87,5 @@ In order to see the MFDs and the VTB better as well as seeing better the gauges 
 
 * ``Key: n``: view left MFD and VTB
 * ``Key: N``: view right MDF and VTB
+* ``Key: -`` (minus): view VTM
 * ``Key: ctrl-n``: reset the view to the position of the current flight mode

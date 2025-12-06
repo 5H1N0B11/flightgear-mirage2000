@@ -203,6 +203,7 @@ var _updateFunction = func() {
 		}
 		myFramerate.d = AbsoluteTime;
 		mp_messaging();
+		checkGroundMode();
 	}
 
 	###################### rate 1.5 ###########################
@@ -485,14 +486,8 @@ var init_EjectionKey = func() {
 }
 
 
-var FLIGHT_MODE_APPROACH = "APP";
-var FLIGHT_MODE_TAKEOFF = "TO";
-var FLIGHT_MODE_NAVIGATION = "NAV";
-var FLIGHT_MODE_ATTACK = "ATT";
-
 var setFlightMode = func (mode) {
 	setprop("/instrumentation/flightmode/selected", mode);
-	screen.log.write("Flight mode is now: "~mode);
 	viewReset();
 }
 
@@ -503,17 +498,17 @@ var viewReset = func () {
 		setprop("sim/current-view/roll-offset-deg", 0);
 		# degs must be before -m
 		setprop("/sim/current-view/x-offset-m",0);
-		if (mode == FLIGHT_MODE_APPROACH or mode == FLIGHT_MODE_TAKEOFF) {
+		if (mode == constants.FLIGHT_MODE_APPROACH or mode == constants.FLIGHT_MODE_GROUND) {
 			setprop("sim/current-view/pitch-offset-deg", -15);
-			setprop("/sim/current-view/y-offset-m",0.1019);
+			setprop("/sim/current-view/y-offset-m",0.1400);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",75);
-		} elsif (mode == FLIGHT_MODE_NAVIGATION) {
+		} elsif (mode == constants.FLIGHT_MODE_NAVIGATION) {
 			setprop("sim/current-view/pitch-offset-deg", -12);
 			setprop("/sim/current-view/y-offset-m",0.025);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",83);
-		} elsif (mode == FLIGHT_MODE_ATTACK) {
+		} elsif (mode == constants.FLIGHT_MODE_ATTACK) {
 			setprop("sim/current-view/pitch-offset-deg", -15);
 			setprop("/sim/current-view/y-offset-m",0.099);
 			setprop("/sim/current-view/z-offset-m",-2.77);
@@ -558,6 +553,25 @@ var viewVTM = func() {
 	}
 }
 
+var toggleNavApproachMode = func {
+	var mode = getprop("/instrumentation/flightmode/selected");
+	if (mode == constants.FLIGHT_MODE_APPROACH) {
+		setFlightMode(constants.FLIGHT_MODE_NAVIGATION);
+	} else if (mode == constants.FLIGHT_MODE_NAVIGATION) {
+		setFlightMode(constants.FLIGHT_MODE_APPROACH);
+	} else if (mode == constants.FLIGHT_MODE_ATTACK) {
+		setFlightMode(constants.FLIGHT_MODE_NAVIGATION);
+	}
+	# else nothing to do - cannot toggle from GROUND
+}
+
+var checkGroundMode = func {
+	var mode = getprop("/instrumentation/flightmode/selected");
+	if (mode != constants.FLIGHT_MODE_GROUND and getprop("/gear/gear[1]/wow")) {
+		setFlightMode(constants.FLIGHT_MODE_GROUND);
+	}
+}
+
 var masterarm = func {
 	var now = getprop("controls/armament/master-arm-switch");
 	now += 1;
@@ -565,11 +579,6 @@ var masterarm = func {
 		now = 0;
 	}
 	setprop("controls/armament/master-arm-switch", now);
-	if (now == 1) {
-		setFlightMode(FLIGHT_MODE_ATTACK);
-	} else {
-		setFlightMode(FLIGHT_MODE_NAVIGATION);
-	}
 	screen.log.write("Master-arm "~(getprop("controls/armament/master-arm-switch")==0?"OFF":(getprop("controls/armament/master-arm-switch")==1?"ON":"SIM")), 0.5, 0.5, 1);
 }
 
@@ -582,19 +591,45 @@ var toggleDropModeCCxP = func {
 	}
 }
 
-var cycleLoadedWeapon = func {
+var _selectNewWeapon = func (mode) {
 	pylons.fcs.cycleLoadedWeapon();
-	setprop("/controls/armament/name", pylons.fcs.getSelectedType());
+	if (mode == constants.FLIGHT_MODE_ATTACK and pylons.fcs.getSelectedType() == nil) {
+		setFlightMode(constants.FLIGHT_MODE_NAVIGATION);
+	} else if (mode == constants.FLIGHT_MODE_NAVIGATION and pylons.fcs.getSelectedType() != nil) {
+		setFlightMode(constants.FLIGHT_MODE_ATTACK);
+	}
+}
+
+var cycleLoadedWeapon = func {
+	var mode = getprop("/instrumentation/flightmode/selected");
+	if (mode == constants.FLIGHT_MODE_NAVIGATION) {
+		# just try to get into ATTACK mode, but do not switch weapon if already selected
+		if (pylons.fcs.getSelectedType() != nil) {
+			setFlightMode(constants.FLIGHT_MODE_ATTACK);
+		} else {
+			_selectNewWeapon(mode);
+		}
+	} else {
+		_selectNewWeapon(mode);
+	}
 }
 
 var changeGearsPosition = func(is_up) {
-	controls.gearUp(is_up);
+	if (is_up == TRUE and (getprop("/gear/gear[1]/wow") or getprop("/gear/gear[2]/wow"))) {
+		return; # we do not want to shift position on ground!
+	}
 	if (is_up == TRUE) {
-		setFlightMode(FLIGHT_MODE_NAVIGATION);
+		var mode = getprop("/instrumentation/flightmode/selected");
+		if (mode == constants.FLIGHT_MODE_GROUND) {
+			setFlightMode(constants.FLIGHT_MODE_NAVIGATION);
+		}
+		setprop("/controls/gear/gear-down", 0);
 	} else {
-		setFlightMode(FLIGHT_MODE_APPROACH);
+		setprop("/controls/gear/gear-down", 1);
+		setprop("/controls/flight/flaps", 0);
 	}
 }
+
 
 var quickstart = func() {
 	settimer(func {
@@ -738,7 +773,7 @@ var long_starting = func() {
 
 	#puting back the view on take off view
 	settimer(func {
-		setFlightMode(FLIGHT_MODE_TAKEOFF);
+		setFlightMode(constants.FLIGHT_MODE_GROUND);
 	}, 45);
 
 	#turning on the air conditioning

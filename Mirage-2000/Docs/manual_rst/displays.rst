@@ -25,17 +25,27 @@ NB: Some description of information displayed in the HUD is included in other se
 Acceleration Vectors
 --------------------
 
-The acceleration vectors (aka. `chevrons⇗ <https://en.wikipedia.org/wiki/Chevron_(insignia)>`_) indicate the current acceleration. If they are diaplyed above the flight path indicator (the little airplane), then the aicraft is accelerating (gaining speed). A specialty of the M2000-5 version is that the chevrons are double when the afterburner is on, otherwise single.
+The acceleration vectors (aka. `chevrons⇗ <https://en.wikipedia.org/wiki/Chevron_(insignia)>`_) indicate the current acceleration. If they are diaplyed above the flight path vector (the little airplane), then the aicraft is accelerating (gaining speed). A specialty of the M2000-5 version is that the chevrons are double when the afterburner is on, otherwise single.
 
 .. image:: images/hud_chevrons_ab.png
    :align: center
    :scale: 50%
 
-If the chevrons are displayed below the flight path indicator, then the aircraft is currently slowing down.
+If the chevrons are displayed below the flight path vector, then the aircraft is currently slowing down.
 
 .. image:: images/hud_chevrons_slow.png
    :align: center
    :scale: 50%
+
+
+Ground Sub-mode
+---------------
+
+This mode clears much of the screen and displays 2 unique indicators:
+
+* A box showing the longitudal acceleration in Gs (can be negative when slowing down). It is mostly used for checking the engine performance at take off. The values are typically well below 1.0 and depend on the thrust of the engine, the air resistance and the weight.
+* An inverted ``T`` - the rotation index. Putting this line on the horizon at rotation speed will set the aircraft at a pitch angle of 13 degs, which is the desired angle to take off and avoids tail strikes. During landing and aero braking when only the 2 main wheels are on the ground the inverted ``T`` can help to keep the angle of attack at around 13 degs.
+
 
 .. _link_section_vtm:
 

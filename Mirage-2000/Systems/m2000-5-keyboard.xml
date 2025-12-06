@@ -597,36 +597,12 @@
 		</key>
 
 		<!-- CHANGE FLIGHT MODES -->
-		<key n="102">
-			<name>f</name>
-			<desc>Flight Mode Take-Off</desc>
-			<binding>
-				<command>nasal</command>
-				<script>mirage2000.setFlightMode(mirage2000.FLIGHT_MODE_TAKEOFF);</script>
-			</binding>
-		</key>
-		<key n="70">
-			<name>F</name>
-			<desc>Flight Mode Approach</desc>
-			<binding>
-				<command>nasal</command>
-				<script>mirage2000.setFlightMode(mirage2000.FLIGHT_MODE_APPROACH);</script>
-			</binding>
-		</key>
 		<key n="104">
 			<name>h</name>
-			<desc>Flight Mode Navigation</desc>
+			<desc>Toggle Flight Mode Nav/Approach</desc>
 			<binding>
 				<command>nasal</command>
-				<script>mirage2000.setFlightMode(mirage2000.FLIGHT_MODE_NAVIGATION);</script>
-			</binding>
-		</key>
-		<key n="72">
-			<name>H</name>
-			<desc>Flight Mode Attack</desc>
-			<binding>
-				<command>nasal</command>
-				<script>mirage2000.setFlightMode(mirage2000.FLIGHT_MODE_ATTACK);</script>
+				<script>mirage2000.toggleNavApproachMode();</script>
 			</binding>
 		</key>
 

@@ -160,23 +160,8 @@
 	</key>
 
 	<key>
-		<name>f</name>
-		<desc>Flight Mode Take-Off</desc>
-	</key>
-
-	<key>
-		<name>F</name>
-		<desc>Flight Mode Approach</desc>
-	</key>
-
-	<key>
 		<name>h</name>
-		<desc>Flight Mode Navigation</desc>
-	</key>
-
-	<key>
-		<name>H</name>
-		<desc>Flight Mode Attack</desc>
+		<desc>Toggle Flight Mode Nav/Approach</desc>
 	</key>
 
 	<key>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
+	<constants>
+		<file>Aircraft/Mirage-2000/Nasal/constants.nas</file>
+	</constants>
 	<notifications>
 		<file>Aircraft/Mirage-2000/Nasal/ArmamentNotification.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/M_frame_notification.nas</file>
@@ -31,9 +34,6 @@
 		<file>Aircraft/Mirage-2000/Nasal/radar/rcs_mand.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/radar/rcs.nas</file>
 	</rcs>
-	<controls>
-		<file>Aircraft/Mirage-2000/Nasal/m2000-5-controls.nas</file>
-	</controls>
 	<electrics>
 		<file>Aircraft/Mirage-2000/Nasal/m2000-5-electrical.nas</file>
 	</electrics>

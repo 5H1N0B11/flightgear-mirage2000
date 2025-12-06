@@ -10,7 +10,7 @@ Mirage 2000 instrument defintions in /instrumentation (i.e. != /sim/instrumenati
 <PropertyList>
 
 	<flightmode>
-		<selected type="string">TO</selected> <!-- m2000-5.nas FLIGHT_MODE_TAKEOFF -->
+		<selected type="string">GROUND</selected> <!-- constants.FLIGHT_MODE_GROUND -->
 	</flightmode>
 
 	<efis>
