@@ -59,6 +59,8 @@ The HUD helps with visual landing. Once aligned with the runway, put the flight 
    :align: center
    :scale: 50%
 
+The height of the approach bracket is 1° (+/- 0.5 deg from 14).
+
 When touching down and the 2 main wheels are on ground, the HUD automatically changes to flight mode ``Ground``. Keep the nose up at around 13 degrees to do aerodynamic braking (cf. image below - inverted "T" cue in the HUD is a bit high and should be on the line of horizon). Wait for the aircraft to slow down to at least 135 knots, bring the nosewheel down and first then apply pedal brakes. Use the brake parachute (key ``o`` to deploy) if necessary (heavy loadout or short runway) - and then release when not needed any more (same key ``o``). Aerodynamic breaking using a high angle of attack when landed is normal procedure. However, do not tilt the aircraft more than 13 degrees due to the possibility of a tail strake. NB: it is by procedure forbidden to use aerodynamic braking below 100 kts - even though it might be possible: you have to get weight on the nose wheel. The reason for this required procedure is that depending on speed, configuration, weight distribution (e.g. fuel) etc. it might suddenly not be possible anymore to bring the nose down given loss of effectiveness of the elevons vs. drag forces vs. weight forces.
 
 

@@ -1,3 +1,15 @@
+202x-xx-xx
+====================================================================
+
+Flight modes overhaul:
+- More aligned with pilots manual
+- HUD display depends on flight modes. Attack mode determines HUD display, not master-armament
+- Approach flight mode shows approach AoA brackets.
+- Attack flight mode has flashing ammunition names if master arm is off.
+
+Weapons & Armament:
+- AS37A Armat anti-radiation missile is now working (ficitve)
+
 2025-10-10
 ====================================================================
 Major release with extensive updates across all systems.

@@ -46,6 +46,10 @@ This mode clears much of the screen and displays 2 unique indicators:
 * A box showing the longitudal acceleration in Gs (can be negative when slowing down). It is mostly used for checking the engine performance at take off. The values are typically well below 1.0 and depend on the thrust of the engine, the air resistance and the weight.
 * An inverted ``T`` - the rotation index. Putting this line on the horizon at rotation speed will set the aircraft at a pitch angle of 13 degs, which is the desired angle to take off and avoids tail strikes. During landing and aero braking when only the 2 main wheels are on the ground the inverted ``T`` can help to keep the angle of attack at around 13 degs.
 
+.. image:: images/hud_inverted_t_takeoff.png
+   :align: center
+   :scale: 50%
+
 
 .. _link_section_vtm:
 

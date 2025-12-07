@@ -138,7 +138,7 @@ The stores management system (see :ref:`link_subsection_sms`) shows the availabl
 Shooting
 ========
 
-Make sure that the master arm is on. The HUD displays the diverse reticles in ``Attack`` mode also if master arm is off. If the master arm is off the weapon mode on the left side of the HUD is flashing.
+Make sure that the master arm is on. The HUD displays the diverse reticles in ``Attack`` mode also if master arm is off. If the master arm is off, then the weapon mode on the left side of the HUD is flashing.
 
 Use the trigger (``Key: e``) for releasing a weapon no matter the type.
 
