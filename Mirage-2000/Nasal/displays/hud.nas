@@ -34,6 +34,9 @@ print("*** LOADING HUD.nas ... ***");
 var FALSE = 0;
 var TRUE = 1;
 
+var APPROACH_AOA = 14;
+var TAKEOFF_AOA = 13;
+
 var DROP_MODE_CCRP = 0; # see fire-control.nas
 var DROP_MODE_CCIP = 1;
 
@@ -63,13 +66,16 @@ var FONT_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
 
 var FONT_SIZE_DEFAULT = 18;
 var FONT_SIZE_CHEVRON = 60;
-var FONT_SIZE_LADDER = 30;
+var FONT_SIZE_LADDER = 30; # also used for minor parts of altitude and mach
 var FONT_SIZE_ALPHA = 35;
 var FONT_SIZE_WAYPOINT = 30;
 var FONT_SIZE_ANTIRAD = 30;
 var FONT_SIZE_DISTANCE_TARGET = 24;
+var FONT_SIZE_SPEED = 45; # also used for hundreds part of altitude
 
 var MAX_LADDER_SPAN = 200;
+var LADDER_SCALE = 7.5;
+
 
 
 # ==============================================================================
@@ -106,8 +112,6 @@ var HUD = {
 		m.green = 1.0;
 		m.blue = 0.3;
 
-		m.MaxTarget = 30;
-
 		m.canvas.addPlacement(placement);
 		m.canvas.setColorBackground(m.red, m.green, m.blue, 0.00);
 
@@ -117,7 +121,100 @@ var HUD = {
 		                 .setDouble("character-size", FONT_SIZE_DEFAULT)
 		                 .setDouble("character-aspect-ration", 0.9);
 
-		m.text = m.root.createChild("group");
+		m.alternated = TRUE; # to be able to flash stuff every other UPDATE_INC
+
+		m.loads_hash =  { # Cannot use CANNON_30MM and CC422 constants
+			"30mm Cannon": "CAN",
+			"CC422": "CAN",
+			"Magic-2": "MAG",
+			"S530D":"530",
+			"MICA-IR":"MIC-I",
+			"MICA-EM":"MIC-E",
+			"GBU-12": "GBU12",
+			"SCALP": "SCALP",
+			"APACHE": "APACHE",
+			"AM39-Exocet":"AM39",
+			"AS-37-Armat":"AS37A",
+			"AS30L" :"AS30",
+			"Mk-82" : "Mk82",
+			"Mk-82SE":"Mk82S",
+			"GBU-24":"GBU24"
+		};
+
+		m.pylonsSide_hash = {
+			0 : "L",
+			1 : "L",
+			2 : "L",
+			7 : "L",
+			3 : "C",
+			4 : "R",
+			5 : "R",
+			6 : "R",
+			8 : "R",
+		};
+
+		m.input = {
+			pitch:      "/orientation/pitch-deg",
+			roll:       "/orientation/roll-deg",
+			hdg:        "/orientation/heading-magnetic-deg",
+			hdgReal:    "/orientation/heading-deg",
+			hdgBug:     "/autopilot/settings/heading-bug-deg",
+			hdgDisplay: "/instrumentation/efis/mfd/true-north",
+			speed_n:    "velocities/speed-north-fps",
+			speed_e:    "velocities/speed-east-fps",
+			speed_d:    "velocities/speed-down-fps",
+			uBody_fps:  "velocities/uBody-fps",
+			alpha:      "/orientation/alpha-deg",
+			beta:       "/orientation/side-slip-deg",
+			gload:      "/accelerations/pilot-g",
+			ias:        "/velocities/airspeed-kt",
+			mach:       "/velocities/mach",
+			gs:         "/velocities/groundspeed-kt",
+			vs:         "/velocities/vertical-speed-fps",
+			alt:        "/position/altitude-ft",
+			alt_instru: "/instrumentation/altimeter/indicated-altitude-ft",
+			rad_alt:    "position/altitude-agl-ft", #"/instrumentation/radar-altimeter/radar-altitude-ft",
+			wow_nlg:    "/gear/gear[1]/wow",
+			gearPos:    "/gear/gear[1]/position-norm",
+			airspeed:   "/velocities/airspeed-kt",
+			target_spd: "/autopilot/settings/target-speed-kt",
+			acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
+			afterburner: "/engines/engine[0]/afterburner",
+			NavFreq:    "/instrumentation/nav/frequencies/selected-mhz",
+			destRunway: "/autopilot/route-manager/destination/runway",
+			destAirport:"/autopilot/route-manager/destination/airport",
+			distNextWay:"/autopilot/route-manager/wp/dist",
+			NextWayNum :"/autopilot/route-manager/current-wp",
+			NextWayTrueBearing:"/autopilot/route-manager/wp/true-bearing-deg",
+			NextWayBearing:"/autopilot/route-manager/wp/bearing-deg",
+			AutopilotStatus:"/autopilot/locks/AP-status",
+			currentWp     : "/autopilot/route-manager/current-wp",
+			ILS_valid     :"/instrumentation/nav/data-is-valid",
+			NavHeadingRunwayILS:"/instrumentation/nav/heading-deg",
+			ILS_gs_in_range :"/instrumentation/nav/gs-in-range",
+			ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
+			NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
+			x_offset_m:    "/sim/current-view/x-offset-m",
+			y_offset_m:    "/sim/current-view/y-offset-m",
+			z_offset_m:    "/sim/current-view/z-offset-m",
+			TimeToTarget   :"/sim/dialog/groundTargeting/time-to-target",
+			IsRadarWorking : "/systems/electrical/outputs/radar",
+			gun_rate       : "/ai/submodels/submodel[1]/delay",
+			bullseye_lat   : "/instrumentation/bullseye/bulls-eye-lat",
+			bullseye_lon   : "instrumentation/bullseye/bulls-eye-lon",
+			bullseye_def   : "instrumentation/bullseye/bulls-eye-defined",
+			HUD_POWER_VOLT : "/systems/electrical/outputs/HUD",
+			flightmode     : "/instrumentation/flightmode/selected",
+			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
+			launch_callsign           : "sound/rwr-launch",
+			antiradar_target_type     : "controls/armament/antiradar-target-type",
+			cannon_air_ground         : "controls/armament/cannon-air-ground",
+			cannon_air_air_wingspan   : "controls/armament/cannon-air-air-wingspan"
+		};
+
+		foreach(var name; keys(m.input)) {
+			m.input[name] = props.globals.getNode(m.input[name], 1);
+		}
 
 		#fpv
 		m.fpv = m.root.createChild("path")
@@ -186,161 +283,10 @@ var HUD = {
 		                   .moveTo(-700, 0)
 		                   .horiz(1400)
 		                   .setStrokeLineWidth(4);
+		m.ladder_group = m.horizon_sub_group.createChild("group");
+		m._recalculateLadder();
 
-		#ILS stuff
-		m.ILS_Scale_dependant = m.horizon_sub_group.createChild("group");
-
-		#Runway on the HorizonLine
-		m.RunwayOnTheHorizonLine = m.ILS_Scale_dependant.createChild("path")
-		                                                .setColor(COLOR_GREEN)
-		                                                .move(0,0)
-		                                                .vert(-30)
-		                                                .setStrokeLineWidth(6);
-
-		m.ILS_localizer_deviation = m.ILS_Scale_dependant.createChild("path")
-		                                                 .setColor(COLOR_GREEN)
-		                                                 .move(0,0)
-		                                                 .vert(1500)
-		                                                 .setStrokeDashArray([30, 30, 30, 30, 30])
-		                                                 .setStrokeLineWidth(5);
-		m.ILS_localizer_deviation.setCenter(0,0);
-
-		#Part of the ILS not dependant of the SCALE
-		m.ILS_Scale_Independant = m.root.createChild("group");
-		m.ILS_Square  = m.ILS_Scale_Independant.createChild("path")
-		                                       .setColor(COLOR_GREEN)
-		                                       .move(-25,-25)
-		                                       .vert(50)
-		                                       .horiz(50)
-		                                       .vert(-50)
-		                                       .horiz(-50)
-		                                       .setStrokeLineWidth(6);
-
-		#Landing Brackets
-		m.brackets = m.ILS_Scale_Independant.createChild("group");
-		m.LeftBracket = m.brackets.createChild("text")
-		                          .setColor(COLOR_GREEN)
-		                          .setTranslation(-140,0)
-		                          .setFontSize(FONT_SIZE_CHEVRON)
-		                          .setAlignment("center-center")
-		                          .setText("]");
-
-		m.RightBracket = m.brackets.createChild("text")
-		                           .setColor(COLOR_GREEN)
-		                           .setTranslation(140,0)
-		                           .setFontSize(FONT_SIZE_CHEVRON)
-		                           .setAlignment("center-center")
-		                           .setText("[");
-
-		m.ladderScale = 7.5;
-
-		m.LadderGroup = m.horizon_sub_group.createChild("group");
-
-		for (var myladder = 5;myladder <= 90;myladder+=5) {
-			if (myladder/10 == int(myladder/10)) {
-				#Text bellow 0 left
-				m.LadderGroup.createChild("text")
-				             .setColor(COLOR_GREEN)
-				             .setAlignment("right-center")
-				             .setTranslation(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-				             .setFontSize(FONT_SIZE_LADDER)
-				             .setText(myladder);
-				#Text bellow 0 left
-				m.LadderGroup.createChild("text")
-				             .setColor(COLOR_GREEN)
-				             .setAlignment("left-center")
-				             .setTranslation(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-				             .setFontSize(FONT_SIZE_LADDER)
-				             .setText(myladder);
-
-				#Text above 0 left
-				m.LadderGroup.createChild("text")
-				             .setColor(COLOR_GREEN)
-				             .setAlignment("right-center")
-				             .setTranslation(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
-				             .setFontSize(FONT_SIZE_LADDER)
-				             .setText(myladder);
-				#Text above 0 right
-				m.LadderGroup.createChild("text")
-				             .setColor(COLOR_GREEN)
-				             .setAlignment("left-center")
-				             .setTranslation(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
-				             .setFontSize(FONT_SIZE_LADDER)
-				             .setText(myladder);
-			}
-
-			# =============  BELLOW 0 ===================
-			#half line bellow 0 (left part)       ------------------
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-			             .vert(-MAX_LADDER_SPAN/15)
-			             .setStrokeLineWidth(4);
-
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-			             .horiz(MAX_LADDER_SPAN*2/15)
-			             .setStrokeLineWidth(4);
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(-abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*2), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-			             .horiz(MAX_LADDER_SPAN*2/15)
-			             .setStrokeLineWidth(4);
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(-abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*4), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-			             .horiz(MAX_LADDER_SPAN*2/15)
-			             .setStrokeLineWidth(4);
-
-			#half line (rigt part)       ------------------
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-			             .vert(-MAX_LADDER_SPAN/15)
-			             .setStrokeLineWidth(4);
-
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-			             .horiz(-MAX_LADDER_SPAN*2/15)
-			             .setStrokeLineWidth(4);
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*2), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-			             .horiz(-MAX_LADDER_SPAN*2/15)
-			             .setStrokeLineWidth(4);
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*4), HudMath.getPixelPerDegreeAvg(m.ladderScale)*myladder)
-			             .horiz(-MAX_LADDER_SPAN*2/15)
-			             .setStrokeLineWidth(4);
-
-			# =============  ABOVE 0 ===================
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
-			             .vert(MAX_LADDER_SPAN/15)
-			             .setStrokeLineWidth(4);
-
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
-			             .horiz(MAX_LADDER_SPAN/3*2)
-			             .setStrokeLineWidth(4);
-
-			#half line (rigt part)       ------------------
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
-			             .horiz(-MAX_LADDER_SPAN/3*2)
-			             .setStrokeLineWidth(4);
-			m.LadderGroup.createChild("path")
-			             .setColor(COLOR_GREEN)
-			             .moveTo(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(m.ladderScale)*-myladder)
-			             .vert(MAX_LADDER_SPAN/15)
-			             .setStrokeLineWidth(4);
-		}
+		m._createApproachStuff(); # depends on horizon_sub_group
 
 		m.headScaleTickSpacing = 45;
 		m.headScaleVerticalPlace = -450;
@@ -425,7 +371,7 @@ var HUD = {
 		me.speed = m.speedAltGroup.createChild("text")
 			.setColor(COLOR_GREEN)
 			.setTranslation(- MAX_LADDER_SPAN,m.headScaleVerticalPlace)
-			.setFontSize(50)
+			.setFontSize(FONT_SIZE_SPEED)
 			.setAlignment("right-bottom");
 		me.speed.enableUpdate();
 
@@ -438,7 +384,7 @@ var HUD = {
 
 		me.hundred_feet_alt = m.speedAltGroup.createChild("text")
 			.setTranslation(MAX_LADDER_SPAN + 60 ,m.headScaleVerticalPlace)
-			.setFontSize(FONT_SIZE_LADDER)
+			.setFontSize(FONT_SIZE_SPEED)
 			.setAlignment("right-bottom");
 		me.hundred_feet_alt.enableUpdate();
 
@@ -464,23 +410,7 @@ var HUD = {
 			.setAlignment("left-bottom")
 			.setText("H");
 
-		m.alphaGroup = m.root.createChild("group");
-
-		#alpha
-		m.alpha = m.alphaGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(- MAX_LADDER_SPAN-70,m.headScaleVerticalPlace+50)
-			.setFontSize(FONT_SIZE_ALPHA)
-			.setAlignment("right-center")
-			.setText("α");
-
-		#aoa
-		m.aoa = m.alphaGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(- MAX_LADDER_SPAN-50,m.headScaleVerticalPlace+50)
-			.setFontSize(FONT_SIZE_ALPHA)
-			.setAlignment("left-center");
-		m.aoa.enableUpdate();
+		m._createAlphaAoA();
 
 		m.alphaGloadGroup = m.root.createChild("group");
 		m.gload_text = m.alphaGloadGroup.createChild("text")
@@ -573,7 +503,7 @@ var HUD = {
 			.setStrokeLineWidth(5);
 		m.pylons_Circle_Group.hide();
 
-		m._createGroundSubMode();
+		m._createGroundFlightMode();
 
 		#Waypoint Group
 		m.waypointGroup = m.root.createChild("group");
@@ -641,7 +571,7 @@ var HUD = {
 		m.shellPosYInit =  [0];
 		m.shellPosDistInit = [0];
 		m.wingspan = 10;
-		m.resetGunPos();
+		m._resetGunPos();
 
 		m.eegsRightX = m._makeVector(m.funnelParts,0);
 		m.eegsRightY = m._makeVector(m.funnelParts,0);
@@ -654,9 +584,7 @@ var HUD = {
 		m.eegsLoop = maketimer(m.averageDt, m, m._displayEEGS);
 		m.eegsLoop.simulatedTime = 1;
 
-		################################### Runways #######################################
-		m.myRunwayGroup = m.root.createChild("group");
-		m.selectedRunway = 0;
+		m.selected_runway = 0;
 
 		#######################  Triangles ##########################################
 
@@ -754,99 +682,6 @@ var HUD = {
 
 		m.root.setColor(m.red,m.green,m.blue,1);
 
-		m.loads_hash =  {
-			CANNON_30MM: "CAN",
-			CC422: "CAN",
-			"Magic-2": "MAG",
-			"S530D":"530",
-			"MICA-IR":"MIC-I",
-			"MICA-EM":"MIC-E",
-			"GBU-12": "GBU12",
-			"SCALP": "SCALP",
-			"APACHE": "APACHE",
-			"AM39-Exocet":"AM39",
-			"AS-37-Armat":"AS37A",
-			"AS30L" :"AS30",
-			"Mk-82" : "Mk82",
-			"Mk-82SE":"Mk82S",
-			"GBU-24":"GBU24"
-		};
-
-		m.pylonsSide_hash = {
-			0 : "L",
-			1 : "L",
-			2 : "L",
-			7 : "L",
-			3 : "C",
-			4 : "R",
-			5 : "R",
-			6 : "R",
-			8 : "R",
-		};
-
-		m.input = {
-			pitch:      "/orientation/pitch-deg",
-			roll:       "/orientation/roll-deg",
-			hdg:        "/orientation/heading-magnetic-deg",
-			hdgReal:    "/orientation/heading-deg",
-			hdgBug:     "/autopilot/settings/heading-bug-deg",
-			hdgDisplay: "/instrumentation/efis/mfd/true-north",
-			speed_n:    "velocities/speed-north-fps",
-			speed_e:    "velocities/speed-east-fps",
-			speed_d:    "velocities/speed-down-fps",
-			uBody_fps:  "velocities/uBody-fps",
-			alpha:      "/orientation/alpha-deg",
-			beta:       "/orientation/side-slip-deg",
-			gload:      "/accelerations/pilot-g",
-			ias:        "/velocities/airspeed-kt",
-			mach:       "/velocities/mach",
-			gs:         "/velocities/groundspeed-kt",
-			vs:         "/velocities/vertical-speed-fps",
-			alt:        "/position/altitude-ft",
-			alt_instru: "/instrumentation/altimeter/indicated-altitude-ft",
-			rad_alt:    "position/altitude-agl-ft", #"/instrumentation/radar-altimeter/radar-altitude-ft",
-			wow_nlg:    "/gear/gear[1]/wow",
-			gearPos:    "/gear/gear[1]/position-norm",
-			airspeed:   "/velocities/airspeed-kt",
-			target_spd: "/autopilot/settings/target-speed-kt",
-			acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
-			afterburner: "/engines/engine[0]/afterburner",
-			NavFreq:    "/instrumentation/nav/frequencies/selected-mhz",
-			destRunway: "/autopilot/route-manager/destination/runway",
-			destAirport:"/autopilot/route-manager/destination/airport",
-			distNextWay:"/autopilot/route-manager/wp/dist",
-			NextWayNum :"/autopilot/route-manager/current-wp",
-			NextWayTrueBearing:"/autopilot/route-manager/wp/true-bearing-deg",
-			NextWayBearing:"/autopilot/route-manager/wp/bearing-deg",
-			AutopilotStatus:"/autopilot/locks/AP-status",
-			currentWp     : "/autopilot/route-manager/current-wp",
-			ILS_valid     :"/instrumentation/nav/data-is-valid",
-			NavHeadingRunwayILS:"/instrumentation/nav/heading-deg",
-			ILS_gs_in_range :"/instrumentation/nav/gs-in-range",
-			ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
-			NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
-			x_offset_m:    "/sim/current-view/x-offset-m",
-			y_offset_m:    "/sim/current-view/y-offset-m",
-			z_offset_m:    "/sim/current-view/z-offset-m",
-			TimeToTarget   :"/sim/dialog/groundTargeting/time-to-target",
-			IsRadarWorking : "/systems/electrical/outputs/radar",
-			gun_rate       : "/ai/submodels/submodel[1]/delay",
-			bullseye_lat   : "/instrumentation/bullseye/bulls-eye-lat",
-			bullseye_lon   : "instrumentation/bullseye/bulls-eye-lon",
-			bullseye_def   : "instrumentation/bullseye/bulls-eye-defined",
-			HUD_POWER_VOLT : "/systems/electrical/outputs/HUD",
-			flightmode     : "/instrumentation/flightmode/selected",
-			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
-			launch_callsign           : "sound/rwr-launch",
-			antiradar_target_type     : "controls/armament/antiradar-target-type",
-			cannon_air_ground         : "controls/armament/cannon-air-ground",
-			cannon_air_air_wingspan   : "controls/armament/cannon-air-air-wingspan"
-		};
-
-		foreach(var name; keys(m.input)) {
-			m.input[name] = props.globals.getNode(m.input[name], 1);
-		}
-
 		m.lastWP = m.input.currentWp.getValue();
 		m.RunwayCoord =  geo.Coord.new();
 		m.RunwaysCoordCornerLeft = geo.Coord.new();
@@ -857,6 +692,7 @@ var HUD = {
 		m.NXTWP = geo.Coord.new();
 
 		m.last_update_inc = 0;
+		m.last_long_update_inc = 0;
 
 		m.flightmode_cached = nil; # value from input.flightmode cached
 		m.last_flightmode = nil; # only used to check need for recalculation
@@ -913,7 +749,79 @@ var HUD = {
 		                               .setText("<");
 	}, # END _createChevrons
 
-	_createGroundSubMode: func() {
+	_createAlphaAoA: func() {
+		me.alpha_group = me.root.createChild("group");
+
+		#alpha
+		me.alpha = me.alpha_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(- MAX_LADDER_SPAN-70, me.headScaleVerticalPlace+50)
+			.setFontSize(FONT_SIZE_ALPHA)
+			.setAlignment("right-center")
+			.setText("α");
+
+		#aoa
+		me.aoa = me.alpha_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(- MAX_LADDER_SPAN-50, me.headScaleVerticalPlace+50)
+			.setFontSize(FONT_SIZE_ALPHA)
+			.setAlignment("left-center");
+		me.aoa.enableUpdate();
+	}, # END _createAlphaAoA
+
+	_createApproachStuff: func() {
+		# AoA brackets
+		var bracket_size = HudMath.getPosFromDegs(0,- APPROACH_AOA)[1]- HudMath.getPosFromDegs(0,- (APPROACH_AOA - 1))[1];
+		me.approach_aoa_brackets = me.root.createChild("group");
+		me.left_bracket = me.approach_aoa_brackets.createChild("path")
+		                          .setColor(COLOR_GREEN)
+		                          .moveTo(-140, -bracket_size/2)
+		                          .horiz(10)
+		                          .vert(bracket_size)
+		                          .horiz(-10)
+		                          .setStrokeLineWidth(2);
+		me.right_bracket = me.approach_aoa_brackets.createChild("path")
+		                          .setColor(COLOR_GREEN)
+		                          .moveTo(140, -bracket_size/2)
+		                          .horiz(-10)
+		                          .vert(bracket_size)
+		                          .horiz(10)
+		                          .setStrokeLineWidth(2);
+
+		#ILS stuff
+		me.ILS_scale_dependant = me.horizon_sub_group.createChild("group");
+
+		# line for runway on the horizon
+		me.runway_horizon_line = me.ILS_scale_dependant.createChild("path")
+		                                                .setColor(COLOR_GREEN)
+		                                                .move(0,0)
+		                                                .vert(-30)
+		                                                .setStrokeLineWidth(4);
+
+		me.ILS_localizer_deviation = me.ILS_scale_dependant.createChild("path")
+		                                                 .setColor(COLOR_GREEN)
+		                                                 .move(0,0)
+		                                                 .vert(1500)
+		                                                 .setStrokeDashArray([30, 30, 30, 30, 30])
+		                                                 .setStrokeLineWidth(4);
+		me.ILS_localizer_deviation.setCenter(0,0);
+
+		#Part of the ILS not dependant of the SCALE
+		me.ILS_scale_independant = me.root.createChild("group");
+		me.ILS_square  = me.ILS_scale_independant.createChild("path")
+		                                       .setColor(COLOR_GREEN)
+		                                       .move(-25,-25)
+		                                       .vert(50)
+		                                       .horiz(50)
+		                                       .vert(-50)
+		                                       .horiz(-50)
+		                                       .setStrokeLineWidth(4);
+
+		# Synthetic runway rectangle - content will be set in _drawSyntheticRunway method on demand
+		me.runway_group = me.root.createChild("group");
+	}, # END _createApproachStuff
+
+	_createGroundFlightMode: func() {
 		me.acceleration_box_group = me.root.createChild("group");
 
 		me.acceleration_box_text = me.acceleration_box_group.createChild("text")
@@ -940,7 +848,7 @@ var HUD = {
 		                    .moveTo(0, 0)
 		                    .vert(-MAX_LADDER_SPAN/15*2)
 		                    .setStrokeLineWidth(6);
-	}, # END _createGroundSubMode
+	}, # END _createGroundFlightMode
 
 	_createCCRPSymbology: func() {
 		me.CCRP = me.root.createChild("group");
@@ -1119,12 +1027,12 @@ var HUD = {
 
 	}, # END _createAntiRadSymbology
 
-	_isArmedAndHasWeapon: func() {
-		if (me.selectedWeapon != nil and me.master_arm and me.input.wow_nlg.getValue() == 0) {
+	_weapon_has_guidance: func() {
+		if (me.selected_weapon != nil and contains(me.selected_weapon, "guidance")) {
 			return TRUE;
 		}
 		return FALSE;
-	}, # END _isArmedAndHasWeapon
+	}, # END _weapon_has_guidance
 
 	_update: func(noti = nil) {
 		if (me.input.HUD_POWER_VOLT.getValue()<23) {
@@ -1136,13 +1044,20 @@ var HUD = {
 		me.elapsed = noti.getproper("elapsed_seconds");
 		if (me.elapsed - me.last_update_inc >= UPDATE_INC) {
 			me.last_update_inc = me.elapsed;
-			if (me.input.flightmode.getValue() != nil) {
-				me.last_flightmode = me.flightmode_cached;
-				me.flightmode_cached = me.input.flightmode.getValue();
-				if (me.last_flightmode == nil or me.flightmode_cached != me.last_flightmode) {
-					me._recalculate_ladder();
-				}
+			if (me.alternated == TRUE) {
+				me.alternated = FALSE;
+			} else {
+				me.alternated = TRUE;
 			}
+
+			me.last_flightmode = me.flightmode_cached;
+			me.flightmode_cached = me.input.flightmode.getValue();
+			if (me.last_flightmode == nil or me.flightmode_cached != me.last_flightmode) {
+				me._recalculateLadder();
+			}
+		} else if (me.elapsed - me.last_long_update_inc >= 10*UPDATE_INC) {
+			me.last_long_update_inc = me.elapsed;
+			me._recalculateLadder(); # Force update to account for manual change of seat/view
 		}
 		me.master_arm = noti.getproper("master_arm");
 
@@ -1165,7 +1080,7 @@ var HUD = {
 		me.root.update();
 
 		me.eegsShow = FALSE;
-		me.selectedWeapon = pylons.fcs.getSelectedWeapon();
+		me.selected_weapon = pylons.fcs.getSelectedWeapon();
 
 		me.show_CCIP = FALSE;
 		me.show_CCRP = FALSE;
@@ -1176,13 +1091,13 @@ var HUD = {
 
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 
-		if (me._isArmedAndHasWeapon() == TRUE) {
-			if (me.selectedWeapon.type == ASMP) {
+		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
+			if (me.selected_weapon.type == ASMP) {
 				# nothing to do
-			} else if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) {
+			} else if (me.selected_weapon.type == CANNON_30MM or me.selected_weapon.type == CC422) {
 				me.eegsShow = TRUE;
-			} else if (me.selectedWeapon.class == AIM_CLASS_GMP) {
-				if (contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_UNGUIDED) {
+			} else if (me.selected_weapon.class == AIM_CLASS_GMP) {
+				if (me._weapon_has_guidance() == TRUE and me.selected_weapon.guidance == AIM_GUIDANCE_UNGUIDED) {
 					if (pylons.fcs.getDropMode() == DROP_MODE_CCIP) {
 						me.show_CCIP = me._displayCCIPMode();
 					} else {
@@ -1190,7 +1105,7 @@ var HUD = {
 							me.show_CCRP = me._displayCCRPMode(me.bore_pos);
 						} # else nothing to do until a target has been chosen
 					}
-				} else if (me.selectedWeapon.typeShort == GBU12 or me.selectedWeapon.typeShort == GBU24) {
+				} else if (me.selected_weapon.typeShort == GBU12 or me.selected_weapon.typeShort == GBU24) {
 					me.show_CCRP = me._displayCCRPMode(me.bore_pos);
 				}
 			}
@@ -1214,26 +1129,8 @@ var HUD = {
 		me.horizon_sub_group.setTranslation(me.horizStuff[2]);
 
 		#############################################################
-		#-------------  Approach stuff -------------
-		if (me.input.flightmode.getValue() == "APP") {
-			#Displaying ILS STUFF (but only show after LOCALIZER capture)
-			me._displayILSStuff();
-
-			#ILS not dependent of the Scale (but only show after GS capture)
-			me._displayILSSquare();
-			#me.RunwayOnTheHorizonLine.hide();
-
-			#Runway
-			me._callDisplayRunway();
-		} else {
-			me.ILS_Scale_dependant.hide();
-			me.ILS_Scale_Independant.hide();
-			me.myRunwayGroup.removeAllChildren();
-		}
-
-		#############################################################
 		#Calculate the GPS coord of the next WP
-		me.NextWaypointCoordinate();
+		me._calcNextWaypointCoordinate();
 
 		if (me.input.bullseye_def.getValue()) {
 			if (me.input.bullseye_lat.getValue() != nil and me.input.bullseye_lon.getValue() != nil) {
@@ -1253,15 +1150,15 @@ var HUD = {
 
 		if (me.input.gearPos.getValue() == 0) { # if masterArm is not selected
 			#if there is a route selected and Bulleye isn't selected
-			if ( me.NXTWP.is_defined() and !me.master_arm) {#if waypoint is active
+			if ( me.NXTWP.is_defined()) {#if waypoint is active
 				me._displayWaypointCross(me.NXTWP);  # displaying the ground cross
 				me._displayHouse(me.NXTWP);         # displaying the little house
-				me._display_waypoint(me.NXTWP,"DEST",me.input.NextWayNum.getValue());
+				me._displayWaypoint(me.NXTWP,"DEST",me.input.NextWayNum.getValue());
 			}
 			if (me.input.bullseye_def.getValue()) {
 				me._displayWaypointCross(me.bullseyeGeo);  # displaying the ground cross
 				me._displayHouse(me.bullseyeGeo);         # displaying the little house
-				me._display_waypoint(me.bullseyeGeo,"BE ",nil);
+				me._displayWaypoint(me.bullseyeGeo,"BE ",nil);
 			}
 		}
 
@@ -1272,35 +1169,29 @@ var HUD = {
 
 		###################################################
 
-		#Gun Cross (bore)
 		me._displayBoreCross(me.bore_pos);
 
-		# flight path vector (FPV)
 		me._displayFPV();
 
 		me._displayChevron();
 
-		me._displayGroundSubMode();
+		me._displayGroundFlightMode();
 
-		me._display_radar_altimeter();
+		me._displayApproachFlightMode();
 
-		#Display speedAltGroup
-		me._display_speed_alt_group();
+		me._displayRadarAltimeter();
 
-		#Display aoa
-		me._display_alpha();
+		me._displaySpeedAltGroup();
 
-		#Display gload
-		me._display_gload();
+		me._displayAlpha();
 
-		#Diplay Load type
+		me._displayGload();
+
 		me._displayLoadsType();
 
-		#Display bullet Count
-		me._display_bullet_count();
+		me._displayBulletCount();
 
-		#Display selected
-		me._display_selected_pylons();
+		me._displaySelectedPylons();
 
 		#Displaying the circles, the squares or even the triangles (triangles will be for a IR lock without radar)
 		me._displayTarget();
@@ -1327,78 +1218,8 @@ var HUD = {
 		me.lastWP = me.input.currentWp.getValue();
 	}, # END update
 
-	_callDisplayRunway: func() {
-		#--------------------- Selecting the Airport and the runway -------------
-		#------------------------------------------------------------------------
-		#Need to select the runways and write the conditions
-		#2. SYNTHETIC RUNWAY. The synthetic runway symbol is an aid for locating the real runway, especially during low visibility conditions.
-		#It is only visible when:
-		#a. The INS is on.
-		#b. The airport is the current fly-to waypoint.
-		#c. The runway data (heading and glideslope) were entered.
-		#d. Both localizer and glideslope have been captured
-		#e. The runway is less than 10 nautical miles away.
-		#f. Lateral deviation is less than 7º.
-		# The synthetic runway is removed from the HUD as soon as there is weight on the landing gear’s wheels.
-
-		#First trying with ILS
-		#var NavFrequency = getprop("/instrumentation/nav/frequencies/selected-mhz");
-		me.selectedRunway  = "0";
-		#print("-- Lengths of the runways at ", info.name, " (", info.id, ") --");
-		me.info = airportinfo();
-		foreach(var rwy; keys(me.info.runways)) {
-			if (sprintf("%.2f",me.info.runways[rwy].ils_frequency_mhz) == sprintf("%.2f",me.input.NavFreq.getValue())) {
-				me.selectedRunway = rwy;
-			}
-		}
-		#Then, trying with route manager
-		if (me.selectedRunway == "0" and !me.master_arm) {
-			if (me.input.destRunway.getValue() != "") {
-				if (me.fp.getPlanSize() == me.fp.indexOfWP(me.fp.currentWP())+1) {
-					me.info = airportinfo(me.input.destAirport.getValue());
-					me.selectedRunway = me.input.destRunway.getValue() ;
-				}
-			}
-		}
-		#print("Test : ",me.selectedRunway != "0");
-		if (me.selectedRunway != "0" and !me.master_arm) {
-			var (courseToAiport, distToAirport) = courseAndDistance(me.info);
-			if (distToAirport < 10 and me.input.wow_nlg.getValue() == 0) {
-				me.displayRunway();
-			} else {
-				me.myRunwayGroup.removeAllChildren();
-			}
-		} else {
-			me.myRunwayGroup.removeAllChildren();
-		}
-	}, # END _callDisplayRunway()
-
-	_displayILSStuff: func() {
-		if (me.input.ILS_valid.getValue() and !me.master_arm) {
-			me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading - me.input.NavHeadingRunwayILS.getValue() ));
-
-			me.ILS_Scale_dependant.setTranslation(me.runwayPosHrizonOnHUD,0);
-			me.ILS_localizer_deviation.setRotation(-45*me.input.NavHeadingNeedleDeflectionILS.getValue()*D2R);
-			me.ILS_Scale_dependant.update();
-			me.ILS_Scale_dependant.show();
-		} else {
-			me.ILS_Scale_dependant.hide();
-		}
-	}, # END _displayILSStuff()
-
-	_displayILSSquare: func() {
-		if (me.input.ILS_gs_in_range.getValue()and !me.master_arm) {
-			me.ILS_Square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
-			me.brackets.setTranslation(0,HudMath.getCenterPosFromDegs(0,me.input.pitch.getValue()-14)[1]);
-			me.ILS_Scale_Independant.update();
-			me.ILS_Scale_Independant.show();
-		} else {
-			me.ILS_Scale_Independant.hide();
-		}
-	}, # END _displayILSSquare()
-
 	_displayCCIPMode: func() {
-		me.ccipPos = me.selectedWeapon.getCCIPadv(18, 0.20);
+		me.ccipPos = me.selected_weapon.getCCIPadv(18, 0.20);
 		if (me.ccipPos != nil) {
 			me.hud_pos = HudMath.getPosFromCoord(me.ccipPos[0]);
 			if (me.hud_pos != nil) {
@@ -1418,8 +1239,8 @@ var HUD = {
 				me.CCIP_BFL_line.setVisible(1);
 				me.CCIP_BFL_line.update();
 
-				# Calculate safe altitude - me.selectedWeapon.reportDist*2 is an arbitrary choice
-				me.safe_alt = int(me.ccipPos[0].alt() + me.selectedWeapon.reportDist * 2);
+				# Calculate safe altitude - me.selected_weapon.reportDist*2 is an arbitrary choice
+				me.safe_alt = int(me.ccipPos[0].alt() + me.selected_weapon.reportDist * 2);
 				me.safe_alt_percent = me.safe_alt / (me.input.alt.getValue());
 				me.safe_y_pos = me.fpvCalc[1]-(me.fpvCalc[1]-me.pos_y)*(1-math.clamp(me.safe_alt_percent,0,1));
 				me.safe_diff_factor = (me.safe_y_pos - me.fpvCalc[1]) / (me.pos_y - me.fpvCalc[1]);
@@ -1444,11 +1265,11 @@ var HUD = {
 		me.DistanceToShoot = nil; # the distance the aircraft travels before bombs are released - not the distance to the target
 
 		var maxFallTime = 45;
-		if (me.selectedWeapon.Tgt != nil and me.selectedWeapon.Tgt.isVirtual() == FALSE) {
+		if (me.selected_weapon.Tgt != nil and me.selected_weapon.Tgt.isVirtual() == FALSE) {
 			var maxFallTime = me.input.TimeToTarget.getValue();
 		}
 
-		me.DistanceToShoot = me.selectedWeapon.getCCRP(maxFallTime, 0.1);
+		me.DistanceToShoot = me.selected_weapon.getCCRP(maxFallTime, 0.1);
 
 		if (me.DistanceToShoot != nil ) {
 			# This should be the CCRP function
@@ -1461,7 +1282,7 @@ var HUD = {
 			# flying directly to the target when they are level.
 
 			if (me.DistanceToShoot/ (me.input.gs.getValue() * KT2MPS) < 15) {
-				me.hud_pos = HudMath.getPosFromCoord(me.selectedWeapon.Tgt.get_Coord());
+				me.hud_pos = HudMath.getPosFromCoord(me.selected_weapon.Tgt.get_Coord());
 				if (me.hud_pos != nil) {
 					me.pos_x = me.hud_pos[0];
 					me.pos_y = me.hud_pos[1];
@@ -1486,12 +1307,12 @@ var HUD = {
 		# There is a target so the piper and the deviation should get displayed.
 		# The rotation is dispalyed with some exagerations at small deviations and less at larger deviations
 		me.CCRP_piper_group.setTranslation(HudMath.getBorePos());
-		if (me.selectedWeapon.Tgt != nil) {
+		if (me.selected_weapon.Tgt != nil) {
 			var deviation = 0.;
-			if (me.selectedWeapon.Tgt.isVirtual() == TRUE) {
-				deviation = geo.normdeg180(geo.aircraft_position().course_to(me.selectedWeapon.Tgt.get_Coord()) - me.input.hdgReal.getValue());
+			if (me.selected_weapon.Tgt.isVirtual() == TRUE) {
+				deviation = geo.normdeg180(geo.aircraft_position().course_to(me.selected_weapon.Tgt.get_Coord()) - me.input.hdgReal.getValue());
 			} else {
-				deviation = me.selectedWeapon.Tgt.getDeviation()[0];
+				deviation = me.selected_weapon.Tgt.getDeviation()[0];
 			}
 			if (deviation < 5) {
 				deviation = deviation * 5;
@@ -1590,20 +1411,144 @@ var HUD = {
 		me.headingScaleGroup.update();
 	}, # _displayHeadingBug()
 
-	_displayGroundSubMode: func() {
-		#Acc acceleration_box_group in G(so I guess /9,8)
+	_displayGroundFlightMode: func() {
 		if (me.flightmode_cached == constants.FLIGHT_MODE_GROUND) {
 			me.acceleration_box_text.updateText(sprintf("%.2f", int(me.input.acc.getValue()*FT2M/9.8*1000+1)/1000));
 			me.acceleration_box_group.show();
-			me.inverted_t.setTranslation(0, HudMath.getCenterPosFromDegs(0,-13)[1]);
+			me.inverted_t.setTranslation(0, HudMath.getCenterPosFromDegs(0,-TAKEOFF_AOA)[1]);
 			me.inverted_t.show();
 		} else {
 			me.acceleration_box_group.hide();
 			me.inverted_t.hide();
 		}
-	}, # END _displayGroundSubMode()
+	}, # END _displayGroundFlightMode()
 
-	_display_speed_alt_group: func() {
+	_displayApproachFlightMode: func() {
+		if (me.flightmode_cached == constants.FLIGHT_MODE_APPROACH) {
+			me.approach_aoa_brackets.setTranslation(0, HudMath.getCenterPosFromDegs(0, -APPROACH_AOA)[1]);
+			me.approach_aoa_brackets.show();
+
+			me._displayILSStuff();
+			me._displayILSSquare();
+			me._displayRunway();
+		} else {
+			me.approach_aoa_brackets.hide();
+
+			me.ILS_scale_dependant.hide();
+			me.ILS_scale_independant.hide();
+			me.runway_group.removeAllChildren();
+		}
+	}, # END _displayApproachFlightMode()
+
+	_displayILSStuff: func() {
+		if (me.input.ILS_valid.getValue()) {
+			me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading - me.input.NavHeadingRunwayILS.getValue() ));
+
+			me.ILS_scale_dependant.setTranslation(me.runwayPosHrizonOnHUD,0);
+			me.ILS_localizer_deviation.setRotation(-45*me.input.NavHeadingNeedleDeflectionILS.getValue()*D2R);
+			me.ILS_scale_dependant.update();
+			me.ILS_scale_dependant.show();
+		} else {
+			me.ILS_scale_dependant.hide();
+		}
+	}, # END _displayILSStuff()
+
+	_displayILSSquare: func() {
+		if (me.input.ILS_gs_in_range.getValue()) {
+			me.ILS_square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
+			me.ILS_scale_independant.show();
+		} else {
+			me.ILS_scale_independant.hide();
+		}
+	}, # END _displayILSSquare()
+
+	_displayRunway: func() {
+		#2. SYNTHETIC RUNWAY. The synthetic runway symbol is an aid for locating the real runway, especially during low visibility conditions.
+		#It is only visible when:
+		# in flightmode = FLIGHT_MOE_APPROACH
+		#a. The INS is on.
+		#b. The airport is the current fly-to waypoint.
+		#c. The runway data (heading and glideslope) were entered.
+		#d. Both localizer and glideslope have been captured
+		#e. The runway is less than 10 nautical miles away.
+		#f. Lateral deviation is less than 7º.
+		# The synthetic runway is removed from the HUD as soon as there is weight on the landing gear’s wheels.
+
+		#First trying with ILS
+		me.selected_runway = "0";
+		#print("-- Lengths of the runways at ", info.name, " (", info.id, ") --");
+		me.info = airportinfo();
+		foreach(var rwy; keys(me.info.runways)) {
+			if (sprintf("%.2f",me.info.runways[rwy].ils_frequency_mhz) == sprintf("%.2f",me.input.NavFreq.getValue())) {
+				me.selected_runway = rwy;
+				break;
+			}
+		}
+		#Then, trying with route manager
+		if (me.selected_runway == "0") {
+			if (me.input.destRunway.getValue() != "") {
+				if (me.fp.getPlanSize() == me.fp.indexOfWP(me.fp.currentWP())+1) {
+					me.info = airportinfo(me.input.destAirport.getValue());
+					me.selected_runway = me.input.destRunway.getValue();
+				}
+			}
+		}
+		#print("Test : ",me.selected_runway != "0");
+		if (me.selected_runway != "0") {
+			var (courseToAiport, distToAirport) = courseAndDistance(me.info);
+			if (distToAirport < 10) {
+				me._drawSyntheticRunway();
+			} else {
+				me.runway_group.removeAllChildren();
+			}
+		} else {
+			me.runway_group.removeAllChildren();
+		}
+	}, # END _displayRunway()
+
+	_drawSyntheticRunway: func() {
+		#Calculating GPS coord of the runway's corners
+		#No need to recalculate GPS position everytime, only when the destination airport is changed
+		if (me.RunwayCoord.lat != me.info.runways[me.selected_runway].lat or me.RunwayCoord.lpn != me.info.runways[me.selected_runway].lon) {
+			me.RunwayCoord.set_latlon(me.info.runways[me.selected_runway].lat, me.info.runways[me.selected_runway].lon, me.info.elevation);
+
+			me.RunwaysCoordCornerLeft.set_latlon(me.info.runways[me.selected_runway].lat, me.info.runways[me.selected_runway].lon, me.info.elevation);
+			me.RunwaysCoordCornerLeft.apply_course_distance((me.info.runways[me.selected_runway].heading)-90,(me.info.runways[me.selected_runway].width)/2);
+
+			me.RunwaysCoordCornerRight.set_latlon(me.info.runways[me.selected_runway].lat, me.info.runways[me.selected_runway].lon, me.info.elevation);
+			me.RunwaysCoordCornerRight.apply_course_distance((me.info.runways[me.selected_runway].heading)+90,(me.info.runways[me.selected_runway].width)/2);
+
+			me.RunwaysCoordEndCornerLeft.set_latlon(me.info.runways[me.selected_runway].lat, me.info.runways[me.selected_runway].lon, me.info.elevation);
+			me.RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selected_runway].heading)-90,(me.info.runways[me.selected_runway].width)/2);
+			me.RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selected_runway].heading),me.info.runways[me.selected_runway].length);
+
+			me.RunwaysCoordEndCornerRight.set_latlon(me.info.runways[me.selected_runway].lat, me.info.runways[me.selected_runway].lon, me.info.elevation);
+			me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selected_runway].heading)+90,(me.info.runways[me.selected_runway].width)/2);
+			me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selected_runway].heading),me.info.runways[me.selected_runway].length);
+		}
+
+		#Calculating the HUD coord of the runways coord
+		me.MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(me.RunwaysCoordCornerLeft);
+		me.MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(me.RunwaysCoordCornerRight);
+		me.MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerLeft);
+		me.MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerRight);
+
+		#Updating : clear all previous stuff
+		me.runway_group.removeAllChildren();
+		#drawing the runway
+		me.runways_drawing = me.runway_group.createChild("path")
+		                                    .setColor(COLOR_GREEN)
+		                                    .moveTo(me.MyRunwayCoordCornerLeftTripos[0],me.MyRunwayCoordCornerLeftTripos[1])
+		                                    .lineTo(me.MyRunwayCoordCornerRightTripos[0],me.MyRunwayCoordCornerRightTripos[1])
+		                                    .lineTo(me.MyRunwayCoordCornerEndRightTripos[0],me.MyRunwayCoordCornerEndRightTripos[1])
+		                                    .lineTo(me.MyRunwayCoordCornerEndLeftTripos[0],me.MyRunwayCoordCornerEndLeftTripos[1])
+		                                    .lineTo(me.MyRunwayCoordCornerLeftTripos[0],me.MyRunwayCoordCornerLeftTripos[1])
+		                                    .setStrokeLineWidth(4);
+
+		me.runway_group.update();
+	}, # END _drawSyntheticRunway
+
+	_displaySpeedAltGroup: func() {
 		me.speed.updateText(sprintf("%d",int(me.input.ias.getValue())));
 		if (me.input.mach.getValue()>= 0.6) {
 			me.speed_mach.updateText(sprintf("%0.2f",me.input.mach.getValue()));
@@ -1620,7 +1565,7 @@ var HUD = {
 		me.speedAltGroup.update();
 	},
 
-	_display_radar_altimeter: func() {
+	_displayRadarAltimeter: func() {
 		if ( me.input.rad_alt.getValue() < 5000) { #Or be selected be a special swith not yet done # Only show below 5000AGL
 			if (abs(me.input.pitch.getValue())<20 and abs(me.input.roll.getValue())<20) { #if the angle is above 20° the radar do not work
 				me.ground_alt.updateText(sprintf("%4d", me.input.rad_alt.getValue()-8));#The radar should show 0 when on Ground
@@ -1635,17 +1580,17 @@ var HUD = {
 		}
 	},
 
-	_display_alpha: func() {
-		if (me.input.gearPos.getValue() < 1 and abs(me.input.alpha.getValue())>2 and me.master_arm == FALSE) {
+	_displayAlpha: func() {
+		if ((me.flightmode_cached == constants.FLIGHT_MODE_NAVIGATION or me.flightmode_cached == constants.FLIGHT_MODE_APPROACH) and me.input.alpha.getValue() > 2) {
 			me.aoa.updateText(sprintf("%0.1f",me.input.alpha.getValue()));
-			me.alphaGroup.show();
+			me.alpha_group.show();
 		} else {
-			me.alphaGroup.hide();
+			me.alpha_group.hide();
 		}
 	},
 
-	_display_gload: func() {
-		if (me.master_arm) {
+	_displayGload: func() {
+		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK) {
 			me.gload_text.updateText(sprintf("%0.1fG",me.input.gload.getValue()));
 			me.alpha_text.updateText(sprintf("%0.1fα",me.input.alpha.getValue()));
 			me.alphaGloadGroup.show();
@@ -1655,21 +1600,25 @@ var HUD = {
 	},
 
 	_displayLoadsType: func() {
-		if (me.master_arm and me.selectedWeapon != nil) {
-			me.loads_type_text.updateText(me.loads_hash[me.selectedWeapon.type]);
+		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
+			if (me.master_arm or me.alternated == TRUE) {
+				me.loads_type_text.updateText(me.loads_hash[me.selected_weapon.type]);
+			} else {
+				me.loads_type_text.updateText(""); # flash to indicate master arm is off
+			}
 			me.loads_type_text.show();
 		} else {
 			me.loads_type_text.hide();
 		}
 	},
 
-	_display_bullet_count: func{
-		if (me.master_arm and me.selectedWeapon != nil) {
-			if (me.selectedWeapon.type == CANNON_30MM) {
+	_displayBulletCount: func{
+		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
+			if (me.selected_weapon.type == CANNON_30MM) {
 				me.left_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
 				me.right_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
 				me.bullet_CountGroup.show();
-			} else if (me.selectedWeapon.type == CC422) {
+			} else if (me.selected_weapon.type == CC422) {
 				me.left_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()));
 				me.right_bullet_count.updateText("");
 				me.bullet_CountGroup.show();
@@ -1681,38 +1630,36 @@ var HUD = {
 		}
 	},
 
-	_display_selected_pylons: func {
-		#Init the vector
-		me.pylonRemainAmmo_hash = {
-			"L": 0,
-			"C": 0,
-			"R": 0,
-		};
-
+	_displaySelectedPylons: func {
 		#Showing the circle around the L or R if the weapons is under the wings.
 		#A circle around a C is also done for center loads, but I couldn't find any docs on that, so it is conjecture
-		if (me.master_arm and me.selectedWeapon != nil) {
-			if (me.selectedWeapon.type != CANNON_30MM and me.selectedWeapon.type != CC422) {
-			me.pylons_Group.show();
-			me.pylons_Circle_Group.show();
+		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
+			if (me.selected_weapon.type != CANNON_30MM and me.selected_weapon.type != CC422) {
+				#Init the vector
+				me.pylonRemainAmmo_hash = {
+					"L": 0,
+					"C": 0,
+					"R": 0,
+				};
+				me.pylons_Group.show();
+				me.pylons_Circle_Group.show();
 				#create the remainingAmmo vector and starting to count L and R
 				me.RemainingAmmoVector = pylons.fcs.getAllAmmo(pylons.fcs.getSelectedType());
 				for (i = 0 ; i < size(me.RemainingAmmoVector)-1 ; i += 1) {
 					me.pylonRemainAmmo_hash[me.pylonsSide_hash[i]] += me.RemainingAmmoVector[i];
 				}
-			#Showing the pylon
-			if (me.pylonRemainAmmo_hash["L"]>0) {me.left_pylons.show();} else {me.left_pylons.hide();}
-			if (me.pylonRemainAmmo_hash["C"]>0) {me.center_pylons.show();} else {me.center_pylons.hide();}
-			if (me.pylonRemainAmmo_hash["R"]>0) {me.right_pylons.show();} else {me.right_pylons.hide();}
+				#Showing the pylon
+				if (me.pylonRemainAmmo_hash["L"]>0) {me.left_pylons.show();} else {me.left_pylons.hide();}
+				if (me.pylonRemainAmmo_hash["C"]>0) {me.center_pylons.show();} else {me.center_pylons.hide();}
+				if (me.pylonRemainAmmo_hash["R"]>0) {me.right_pylons.show();} else {me.right_pylons.hide();}
 
-			#Showing the Circle for the selected pylon
-			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L") {me.left_circle.show();} else {me.left_circle.hide();}
-			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "C") {me.center_circle.show();} else {me.center_circle.hide();}
-			if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "R") {me.right_circle.show();} else {me.right_circle.hide();}
-
+				#Showing the Circle for the selected pylon
+				if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "L") {me.left_circle.show();} else {me.left_circle.hide();}
+				if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "C") {me.center_circle.show();} else {me.center_circle.hide();}
+				if (me.pylonsSide_hash[pylons.fcs.getSelectedPylonNumber()] == "R") {me.right_circle.show();} else {me.right_circle.hide();}
 			} else {
-			me.pylons_Group.hide();
-			me.pylons_Circle_Group.hide();
+				me.pylons_Group.hide();
+				me.pylons_Circle_Group.hide();
 			}
 		} else {
 			me.pylons_Group.hide();
@@ -1720,7 +1667,7 @@ var HUD = {
 		}
 	},
 
-	_display_waypoint: func(coord, TEXT, NextNUM) {
+	_displayWaypoint: func(coord, TEXT, NextNUM) {
 		#coord is a geo object of the current destination
 		#TEXT is what will be written to describe our target : BE (Bullseye) ou DEST (route)
 		#NextNUM is the next waypoint/bullseye number (most of the time it's the waypoint number)
@@ -1748,18 +1695,18 @@ var HUD = {
 	},
 
 	_displayHeatTarget: func() {
-		if (me.selectedWeapon == nil or !me.master_arm) {
+		if (me.selected_weapon == nil or me.flightmode_cached != constants.FLIGHT_MODE_ATTACK) {
 			me.TriangleGroupe.hide();
 			return;
 		}
-		if (!contains(me.selectedWeapon, "guidance") or (contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance != "heat")) {
+		if (me._weapon_has_guidance() == FALSE or (me._weapon_has_guidance() == TRUE and me.selected_weapon.guidance != "heat")) {
 			me.TriangleGroupe.hide();
 			return;
 		}
 
 		#Starting to search (Shouldn't be there but in the controls)
-		me.selectedWeapon.start();
-		var coords = me.selectedWeapon.getSeekerInfo();
+		me.selected_weapon.start();
+		var coords = me.selected_weapon.getSeekerInfo();
 		if (coords != nil) {
 			var seekerTripos = HudMath.getCenterPosFromDegs(coords[0],coords[1]);
 			me.TriangleGroupe.show();
@@ -1776,38 +1723,39 @@ var HUD = {
 
 		me.showDistanceToken = FALSE;
 
-		me.raw_list = radar_system.apg68Radar.getActiveBleps();
-		me.designatedDistanceFT = nil;
+		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK) {
+			me.raw_list = radar_system.apg68Radar.getActiveBleps();
+			me.designatedDistanceFT = nil;
 
-		foreach(var contact; me.raw_list) {
-			var triPos = HudMath.getPosFromCoord(contact.getCoord());
-			#1- Show Rectangle : have been painted (or selected ?)
-			#2- Show double triangle : IR missile LOCK without radar
-			#3- Show circle : the radar see it, without focusing
-			#4- Do not show anything : nothing see it
+			foreach(var contact; me.raw_list) {
+				var triPos = HudMath.getPosFromCoord(contact.getCoord());
+				#1- Show Rectangle : have been painted (or selected ?)
+				#2- Show double triangle : IR missile LOCK without radar
+				#3- Show circle : the radar see it, without focusing
+				#4- Do not show anything : nothing see it
 
-			#1 Rectangle :
-			if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
+				#1 Rectangle :
+				if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
 
-				#Here for displaying the square (painting)
-				me.showDistanceToken = TRUE;
-				#Show square group
-				me.Square_Group.show();
-				me.locked_square.setTranslation(triPos);
-				me.locked_square_dash.setTranslation(math.clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), math.clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
-				#hide triangle and circle
-				#me.TriangleGroupe.hide();
+					#Here for displaying the square (painting)
+					me.showDistanceToken = TRUE;
+					#Show square group
+					me.Square_Group.show();
+					me.locked_square.setTranslation(triPos);
+					me.locked_square_dash.setTranslation(math.clamp(triPos[0],-me.MaxX*0.8,me.MaxX*0.8), math.clamp(triPos[1],-me.MaxY*0.8,me.MaxY*0.8));
+					#hide triangle and circle
+					#me.TriangleGroupe.hide();
 
-				me.distanceToTargetLineGroup.show();
-				me._displayDistanceToTargetLine(contact);
+					me.distanceToTargetLineGroup.show();
+					me._displayDistanceToTargetLine(contact);
 
-				if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
-					me.designatedDistanceFT = contact.getCoord().direct_distance_to(geo.aircraft_position())*M2FT;
+					if (math.abs(triPos[0])<2000 and math.abs(triPos[1])<2000) {#only show it when target is in front
+						me.designatedDistanceFT = contact.getCoord().direct_distance_to(geo.aircraft_position())*M2FT;
+					}
+					break;
 				}
-				break;
 			}
 		}
-
 		#The token has 1 when we have a selected target
 		#if we don't have target :
 		if (me.showDistanceToken == FALSE) {
@@ -1822,7 +1770,7 @@ var HUD = {
 
 		me.antirad_cue_core.hide();
 		me.antirad_cue_locked.hide();
-		if (me._isArmedAndHasWeapon() == TRUE and contains(me.selectedWeapon, "guidance") and me.selectedWeapon.guidance == AIM_GUIDANCE_RADIATION and me.selectedWeapon.isPowerOn()) {
+		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me._weapon_has_guidance() == TRUE and me.selected_weapon.guidance == AIM_GUIDANCE_RADIATION and me.selected_weapon.isPowerOn()) {
 			me.antirad_cue_core.show();
 			if (pylons.fcs.isLock()) {
 				me.antirad_cue_locked.show();
@@ -1901,7 +1849,7 @@ var HUD = {
 				}
 				me.antirad_i += 1; # will only be increased if it was used - i.e. not continued
 			}
-			me.selectedWeapon.setContacts(me.searchable_items);
+			me.selected_weapon.setContacts(me.searchable_items);
 
 			# hide every symbol, which is not needed
 			for (;me.antirad_i < MAX_ANTIRAD_TARGETS; me.antirad_i+=1) {
@@ -1947,10 +1895,10 @@ var HUD = {
 	},
 
 	_displayDLZ: func() {
-		if (me.selectedWeapon != nil and me.master_arm) {
+		if (me.selected_weapon != nil and me.flightmode_cached == constants.FLIGHT_MODE_ATTACK) {
 			#Testings
-			if (me.selectedWeapon.type != CANNON_30MM and me.selectedWeapon.type != CC422) {
-				if (me.selectedWeapon.class == "A" and me.selectedWeapon.parents[0] == armament.AIM) {
+			if (me.selected_weapon.type != CANNON_30MM and me.selected_weapon.type != CC422) {
+				if (me.selected_weapon.class == "A" and me.selected_weapon.parents[0] == armament.AIM) {
 
 					me.myDLZ = pylons.getDLZ();
 
@@ -1967,11 +1915,11 @@ var HUD = {
 						me.NEZFireRange.show();
 						return TRUE;
 					}
-				} elsif (me.selectedWeapon.class == "GM" or me.selectedWeapon.class == "M") {
-					me.MaxFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeapon.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+				} elsif (me.selected_weapon.class == "GM" or me.selected_weapon.class == "M") {
+					me.MaxFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selected_weapon.max_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
 					#MmiFireRange
-					me.MinFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selectedWeapon.min_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
+					me.MinFireRange.setTranslation(0, math.clamp((me.distanceToTargetLineMax-me.distanceToTargetLineMin)-(me.selected_weapon.min_fire_range_nm*(me.distanceToTargetLineMax-me.distanceToTargetLineMin)/ me.MaxRadarRange)-100,me.distanceToTargetLineMin,me.distanceToTargetLineMax));
 
 					me.NEZFireRange.hide();
 					return TRUE;
@@ -1981,65 +1929,9 @@ var HUD = {
 		return FALSE;
 	},
 
-  displayRunway: func() {
-
-    #var info = airportinfo(icao;
-    #Need to select the runways and write the conditions
-    #2. SYNTHETIC RUNWAY. The synthetic runway symbol is an aid for locating the real runway, especially during low visibility conditions.
-    #It is only visible when:
-    #a. The INS is on.
-    #b. The airport is the current fly-to waypoint.
-    #c. The runway data (heading and glideslope) were entered.
-    #d. Both localizer and glideslope have been captured
-    #e. The runway is less than 10 nautical miles away.
-    #f. Lateral deviation is less than 7º.
-    # The synthetic runway is removed from the HUD as soon as there is weight on the landing gear’s wheels.
-
-    #Calculating GPS coord of the runway's corners
-    #No need to recalculate GPS position everytime, only when the destination airport is changed
-    if (me.RunwayCoord.lat != me.info.runways[me.selectedRunway].lat or me.RunwayCoord.lpn != me.info.runways[me.selectedRunway].lon) {
-      me.RunwayCoord.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-
-      me.RunwaysCoordCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-      me.RunwaysCoordCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
-
-      me.RunwaysCoordCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-      me.RunwaysCoordCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
-
-      me.RunwaysCoordEndCornerLeft.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-      me.RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading)-90,(me.info.runways[me.selectedRunway].width)/2);
-      me.RunwaysCoordEndCornerLeft.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
-
-      me.RunwaysCoordEndCornerRight.set_latlon(me.info.runways[me.selectedRunway].lat, me.info.runways[me.selectedRunway].lon, me.info.elevation);
-      me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading)+90,(me.info.runways[me.selectedRunway].width)/2);
-      me.RunwaysCoordEndCornerRight.apply_course_distance((me.info.runways[me.selectedRunway].heading),me.info.runways[me.selectedRunway].length);
-    }
-
-    #Calculating the HUD coord of the runways coord
-    me.MyRunwayTripos                     = HudMath.getPosFromCoord(me.RunwayCoord);
-    me.MyRunwayCoordCornerLeftTripos      = HudMath.getPosFromCoord(me.RunwaysCoordCornerLeft);
-    me.MyRunwayCoordCornerRightTripos     = HudMath.getPosFromCoord(me.RunwaysCoordCornerRight);
-    me.MyRunwayCoordCornerEndLeftTripos   = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerLeft);
-    me.MyRunwayCoordCornerEndRightTripos  = HudMath.getPosFromCoord(me.RunwaysCoordEndCornerRight);
-
-    #Updating : clear all previous stuff
-    me.myRunwayGroup.removeAllChildren();
-    #drawing the runway
-    me.RunwaysDrawing = me.myRunwayGroup.createChild("path")
-    .setColor(COLOR_GREEN)
-    .moveTo(me.MyRunwayCoordCornerLeftTripos[0],me.MyRunwayCoordCornerLeftTripos[1])
-    .lineTo(me.MyRunwayCoordCornerRightTripos[0],me.MyRunwayCoordCornerRightTripos[1])
-    .lineTo(me.MyRunwayCoordCornerEndRightTripos[0],me.MyRunwayCoordCornerEndRightTripos[1])
-    .lineTo(me.MyRunwayCoordCornerEndLeftTripos[0],me.MyRunwayCoordCornerEndLeftTripos[1])
-    .lineTo(me.MyRunwayCoordCornerLeftTripos[0],me.MyRunwayCoordCornerLeftTripos[1])
-    .setStrokeLineWidth(4);
-
-    me.myRunwayGroup.update();
-  },
-
 	_displayBoreCross: func(bore_pos) {
-		if (me.master_arm and pylons.fcs.getSelectedWeapon() !=nil) {
-			if (me.selectedWeapon.type == CANNON_30MM or me.selectedWeapon.type == CC422) { # if weapons selected
+		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and pylons.fcs.getSelectedWeapon() !=nil) {
+			if (me.selected_weapon.type == CANNON_30MM or me.selected_weapon.type == CC422) { # if weapons selected
 				me.boreCross.setTranslation(bore_pos);
 				me.boreCross.show();
 			} else {
@@ -2060,37 +1952,36 @@ var HUD = {
 		}
 	},
 
-  #This should be called at every iteration
-  NextWaypointCoordinate: func() {
-      if (me.fp.currentWP() != nil) {
-          #Sometime you can set up an altitude to your waypoint. if it's the case we take it.
-          me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
+	_calcNextWaypointCoordinate: func() {
+		if (me.fp.currentWP() != nil) {
+			#Sometime you can set up an altitude to your waypoint. if it's the case we take it.
+			me.NxtElevation = getprop("/autopilot/route-manager/route/wp[" ~ me.input.currentWp.getValue() ~ "]/altitude-m");
 
-          #print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
-          #if the altitude isn't set, just take the ground alt.
-          var Geo_Elevation = geo.elevation(me.fp.currentWP().lat , me.fp.currentWP().lon);
-          Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation;
-          #print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
+			#print("me.NxtWP_latDeg:",me.NxtWP_latDeg, " me.NxtWP_lonDeg:",me.NxtWP_lonDeg);
+			#if the altitude isn't set, just take the ground alt.
+			var Geo_Elevation = geo.elevation(me.fp.currentWP().lat , me.fp.currentWP().lon);
+			Geo_Elevation = Geo_Elevation == nil ? 0: Geo_Elevation;
+			#print("Geo_Elevation:",Geo_Elevation," me.NxtElevation:",me.NxtElevation);
 
-          #if no altitude, then take ground alt
-          if ( me.NxtElevation  != nil) {
-            Geo_Elevation = me.NxtElevation  > Geo_Elevation ? me.NxtElevation : Geo_Elevation ;
-            me.NXTWP.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon ,  Geo_Elevation + 2);
-          }
+			#if no altitude, then take ground alt
+			if ( me.NxtElevation  != nil) {
+			Geo_Elevation = me.NxtElevation  > Geo_Elevation ? me.NxtElevation : Geo_Elevation ;
+			me.NXTWP.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon ,  Geo_Elevation + 2);
+			}
 
-      }
-  },
+		}
+	},
 
-  resetGunPos: func {
-      me.gunPos   = [];
-      for (i = 0;i < me.funnelParts*4;i+=1) {
-        var tmp = [];
-        for (var myloopy = 0;myloopy <= i+1;myloopy+=1) {
-          append(tmp,nil);
-        }
-        append(me.gunPos, tmp);
-      }
-  },
+	_resetGunPos: func {
+		me.gunPos   = [];
+		for (i = 0;i < me.funnelParts*4;i+=1) {
+		var tmp = [];
+		for (var myloopy = 0;myloopy <= i+1;myloopy+=1) {
+			append(tmp,nil);
+		}
+		append(me.gunPos, tmp);
+		}
+	},
 
 	_makeVector: func (siz,content) {
 		var vec = setsize([],siz*4);
@@ -2110,7 +2001,7 @@ var HUD = {
 		me.eegsMe.dt = st-me.lastTime;
 		if (me.eegsMe.dt > me.averageDt*3) {
 			me.lastTime = st;
-			me.resetGunPos();
+			me._resetGunPos();
 			me.eegsGroup.removeAllChildren();
 		} else {
 			#printf("dt %05.3f",me.eegsMe.dt);
@@ -2430,116 +2321,114 @@ var HUD = {
 	},
 
 	############## When pilot view is changed the whole scale needs to be redrawn ##########################
-    _recalculate_ladder: func() {
-        me.LadderGroup.removeAllChildren();
-        for (var myladder = 5;myladder <= 90;myladder+=5)
-        {
+	_recalculateLadder: func() {
+		me.ladder_group.removeAllChildren();
+		for (var myladder = 5;myladder <= 90;myladder+=5) {
+			var ladder_vert = HudMath.getPixelPerDegreeAvg(LADDER_SCALE)*myladder;
+			if (myladder/10 == int(myladder/10)) {
+				#Text bellow 0 left
+				me.ladder_group.createChild("text")
+				             .setColor(COLOR_GREEN)
+				             .setAlignment("right-bottom")
+				             .setTranslation(-MAX_LADDER_SPAN -10, ladder_vert)
+				             .setFontSize(FONT_SIZE_LADDER)
+				             .setText(myladder);
+				#Text bellow 0 right
+				me.ladder_group.createChild("text")
+				             .setColor(COLOR_GREEN)
+				             .setAlignment("left-bottom")
+				             .setTranslation(MAX_LADDER_SPAN + 10, ladder_vert)
+				             .setFontSize(FONT_SIZE_LADDER)
+				             .setText(myladder);
 
-          if (myladder/10 == int(myladder/10)) {
-              #Text bellow 0 left
-              me.LadderGroup.createChild("text")
-                .setColor(COLOR_GREEN)
-                .setAlignment("right-center")
-                .setTranslation(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-                .setFontSize(FONT_SIZE_LADDER)
-                .setText(myladder);
-              #Text bellow 0 left
-              me.LadderGroup.createChild("text")
-                .setColor(COLOR_GREEN)
-                .setAlignment("left-center")
-                .setTranslation(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-                .setFontSize(FONT_SIZE_LADDER)
-                .setText(myladder);
+				#Text above 0 left
+				me.ladder_group.createChild("text")
+				             .setColor(COLOR_GREEN)
+				             .setAlignment("right-bottom")
+				             .setTranslation(-MAX_LADDER_SPAN - 10, -ladder_vert + MAX_LADDER_SPAN/15)
+				             .setFontSize(FONT_SIZE_LADDER)
+				             .setText(myladder);
+				#Text above 0 right
+				me.ladder_group.createChild("text")
+				             .setColor(COLOR_GREEN)
+				             .setAlignment("left-bottom")
+				             .setTranslation(MAX_LADDER_SPAN + 10, -ladder_vert + MAX_LADDER_SPAN/15)
+				             .setFontSize(FONT_SIZE_LADDER)
+				             .setText(myladder);
+			}
 
-              #Text above 0 left
-              me.LadderGroup.createChild("text")
-                .setColor(COLOR_GREEN)
-                .setAlignment("right-center")
-                .setTranslation(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
-                .setFontSize(FONT_SIZE_LADDER)
-                .setText(myladder);
-              #Text above 0 right
-              me.LadderGroup.createChild("text")
-                .setColor(COLOR_GREEN)
-                .setAlignment("left-center")
-                .setTranslation(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
-                .setFontSize(FONT_SIZE_LADDER)
-                .setText(myladder);
-            }
+			# half line below 0 (left part)
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(-MAX_LADDER_SPAN, ladder_vert)
+			             .vert(-MAX_LADDER_SPAN/15)
+			             .setStrokeLineWidth(4);
 
-        # =============  BELLOW 0 ===================
-          #half line bellow 0 (left part)       ------------------
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-            .vert(-MAX_LADDER_SPAN/15)
-            .setStrokeLineWidth(4);
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(-MAX_LADDER_SPAN, ladder_vert)
+			             .horiz(MAX_LADDER_SPAN*2/15)
+			             .setStrokeLineWidth(4);
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(-abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*2), ladder_vert)
+			             .horiz(MAX_LADDER_SPAN*2/15)
+			             .setStrokeLineWidth(4);
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(-abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*4), ladder_vert)
+			             .horiz(MAX_LADDER_SPAN*2/15)
+			             .setStrokeLineWidth(4);
 
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-            .horiz(MAX_LADDER_SPAN*2/15)
-            .setStrokeLineWidth(4);
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(-abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*2), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-            .horiz(MAX_LADDER_SPAN*2/15)
-            .setStrokeLineWidth(4);
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(-abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*4), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-            .horiz(MAX_LADDER_SPAN*2/15)
-            .setStrokeLineWidth(4);
+			# half line below 0 (right part)
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(MAX_LADDER_SPAN, ladder_vert)
+			             .vert(-MAX_LADDER_SPAN/15)
+			             .setStrokeLineWidth(4);
 
-          #half line (rigt part)       ------------------
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-            .vert(-MAX_LADDER_SPAN/15)
-            .setStrokeLineWidth(4);
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(MAX_LADDER_SPAN, ladder_vert)
+			             .horiz(-MAX_LADDER_SPAN*2/15)
+			             .setStrokeLineWidth(4);
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*2), ladder_vert)
+			             .horiz(-MAX_LADDER_SPAN*2/15)
+			             .setStrokeLineWidth(4);
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*4), ladder_vert)
+			             .horiz(-MAX_LADDER_SPAN*2/15)
+			             .setStrokeLineWidth(4);
 
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-            .horiz(-MAX_LADDER_SPAN*2/15)
-            .setStrokeLineWidth(4);
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*2), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-            .horiz(-MAX_LADDER_SPAN*2/15)
-            .setStrokeLineWidth(4);
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(abs(MAX_LADDER_SPAN - MAX_LADDER_SPAN*2/15*4), HudMath.getPixelPerDegreeAvg(me.ladderScale)*myladder)
-            .horiz(-MAX_LADDER_SPAN*2/15)
-            .setStrokeLineWidth(4);
+			# half line above 0 (left part)
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(-MAX_LADDER_SPAN, -ladder_vert)
+			             .vert(MAX_LADDER_SPAN/15)
+			             .setStrokeLineWidth(4);
 
-      # =============  ABOVE 0 ===================
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
-            .vert(MAX_LADDER_SPAN/15)
-            .setStrokeLineWidth(4);
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(-MAX_LADDER_SPAN, -ladder_vert)
+			             .horiz(MAX_LADDER_SPAN/3*2)
+			             .setStrokeLineWidth(4);
 
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(-MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
-            .horiz(MAX_LADDER_SPAN/3*2)
-            .setStrokeLineWidth(4);
-
-          #half line (rigt part)       ------------------
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
-            .horiz(-MAX_LADDER_SPAN/3*2)
-            .setStrokeLineWidth(4);
-          me.LadderGroup.createChild("path")
-            .setColor(COLOR_GREEN)
-            .moveTo(MAX_LADDER_SPAN, HudMath.getPixelPerDegreeAvg(me.ladderScale)*-myladder)
-            .vert(MAX_LADDER_SPAN/15)
-            .setStrokeLineWidth(4);
-        }
-    }, # END _recalculate_ladder
+			# half line above (right part)
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(MAX_LADDER_SPAN, -ladder_vert)
+			             .horiz(-MAX_LADDER_SPAN/3*2)
+			             .setStrokeLineWidth(4);
+			me.ladder_group.createChild("path")
+			             .setColor(COLOR_GREEN)
+			             .moveTo(MAX_LADDER_SPAN, -ladder_vert)
+			             .vert(MAX_LADDER_SPAN/15)
+			             .setStrokeLineWidth(4);
+		}
+	}, # END _recalculateladder
 };
 
 var _drag = func (Mach, _cd) {

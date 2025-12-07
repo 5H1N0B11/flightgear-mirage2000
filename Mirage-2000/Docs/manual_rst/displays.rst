@@ -174,6 +174,8 @@ Electronic Attitude Direction Indicator (EADI)
 
 If applicable, the name of the route's next waypoint or target airport will be shown below the attitude indicator.
 
+.. _link_subsection_EHSI:
+
 Electronic Horizontal Situation Indicator (EHSI)
 ------------------------------------------------
 

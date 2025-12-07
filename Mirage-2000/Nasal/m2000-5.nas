@@ -203,7 +203,7 @@ var _updateFunction = func() {
 		}
 		myFramerate.d = AbsoluteTime;
 		mp_messaging();
-		checkGroundMode();
+		_checkGroundMode();
 	}
 
 	###################### rate 1.5 ###########################
@@ -498,7 +498,12 @@ var viewReset = func () {
 		setprop("sim/current-view/roll-offset-deg", 0);
 		# degs must be before -m
 		setprop("/sim/current-view/x-offset-m",0);
-		if (mode == constants.FLIGHT_MODE_APPROACH or mode == constants.FLIGHT_MODE_GROUND) {
+		if (mode == constants.FLIGHT_MODE_GROUND) {
+			setprop("sim/current-view/pitch-offset-deg", -15);
+			setprop("/sim/current-view/y-offset-m",0.100); # if seat too high then the horizon line is not visible
+			setprop("/sim/current-view/z-offset-m",-2.9);
+			setprop("/sim/current-view/field-of-view",75);
+		} else if (mode == constants.FLIGHT_MODE_APPROACH or mode == constants.FLIGHT_MODE_GROUND) {
 			setprop("sim/current-view/pitch-offset-deg", -15);
 			setprop("/sim/current-view/y-offset-m",0.1400);
 			setprop("/sim/current-view/z-offset-m",-2.9);
@@ -565,7 +570,7 @@ var toggleNavApproachMode = func {
 	# else nothing to do - cannot toggle from GROUND
 }
 
-var checkGroundMode = func {
+var _checkGroundMode = func {
 	var mode = getprop("/instrumentation/flightmode/selected");
 	if (mode != constants.FLIGHT_MODE_GROUND and getprop("/gear/gear[1]/wow")) {
 		setFlightMode(constants.FLIGHT_MODE_GROUND);

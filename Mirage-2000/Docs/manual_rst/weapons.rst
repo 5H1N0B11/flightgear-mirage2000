@@ -122,16 +122,25 @@ Basic Keys
 ==========
 
 * ``Key: m``: toggle master arm
-* ``Key: w``: cycle through weapons
+* ``Key: w``: cycle through weapons - also used to get into flight mode ``Attack``
+* ``Key: e``: weapons trigger for guns, missiles and bombs
 * ``Key: ctrl-w``: toggle between CCIP and CCRP
 * ``Key: M``: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
 * ``Key: ctrl-l`` (small L): Fast snipe and designate clicked target for laser
 
 
 Configuring the Active Weapon
-===========================================
+=============================
 
 The stores management system (see :ref:`link_subsection_sms`) shows the available and active weapons. Depending on the active weapon some configurations can be done through the weapons configuration panel (see :ref:`link_subsection_ppa`).
+
+
+Shooting
+========
+
+Make sure that the master arm is on. The HUD displays the diverse reticles in ``Attack`` mode also if master arm is off. If the master arm is off the weapon mode on the left side of the HUD is flashing.
+
+Use the trigger (``Key: e``) for releasing a weapon no matter the type.
 
 
 Ground Attack

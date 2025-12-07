@@ -45,16 +45,53 @@ The Mirage 2000 normally cruises between angels 35 and angels 40 (35,000 - 40,00
 
 While it has a bi-sonic flight possibility, it consumes lots of fuel. It is thus advised to stay sub-sonic during cruise flights, without using afterburners. With cargo loadout and without using afterburners, the Mirage can fly for more than two hours. For long cruises, it is advised to use the navigation, altitude and speed autopilots.
 
+
 Visual Landing
 --------------
 
-Lower the gears when you are below 195 knots, then approach the runway at 175 knots (for 15% fuel left; add 5 knots for every 20% additional fuel - and a bit more if you bring weapons home). If by night, put the landing lights on. On final approach, hold an angle of attack of between 6 and 9 degrees. When passing the runway threshold, flare and bring the aircraft to an angle of attack of 12 degrees. You should land at 145 knots (for 15% fuel left; add 5 knots every 20% additional fuel). When touching down, wait for the aircraft to slow down to 135 knots and apply pedal brakes. Use the brake parachute (key ``o`` to deploy) if necessary (heavy loadout or short runway) - and then release when not needed any more (same key ``o``).
+Make sure you have plenty of height and distance to align with the runway and land. Change the flight mode to ``Approach`` (cf. :ref:`link_section_flight_modes`).
 
-The easiest way to get approach and touchdown right is placing the inverted "T" at the bottom of the HUD on the runway threshold and regulate speed with throttle, such that the flightpath marker is on top of the inverted "T". When at speeds below 200 and high `angles of attack⇗ <https://en.wikipedia.org/wiki/Angle_of_attack>`_ you have to be ready to apply a considerable amount of throttle to keep a steady decent rate!
+Lower the gears when you are below 250 knots, then approach the runway at 175 knots (for 15% fuel left; add 5 knots for every 20% additional fuel - and a bit more if you bring weapons home). Put the landing lights and navigation lights on. On final approach, hold an angle of attack of ca. 14 degrees. When passing the runway threshold, do a short flare and hold angle of attack at ca. 14 degrees. You should land at 145 knots (for 15% fuel left; add 5 knots every 20% additional fuel).
 
-Air breaking using a high angle of attack when landed is normal procedure. However, do not tilt the aircraft at more than the inverted "T" cue in the HUD on the line of horizon. NB: it is by procedure forbidden to aerobrake below 100 kts - even though it might be possible: you have to get weight on the nose wheel. The reason for this required procedure is that depending on speed, configuration, weight distribution (e.g. fuel) etc. it might suddenly not be possible anymore to bring the nose down given loss of effectiveness of the elevons vs. drag forces vs. weight forces.
+The HUD helps with visual landing. Once aligned with the runway, put the flight path vector on the runway threshold, make sure that the flight path vector is between the 2 approach brackets in the lower part of the HUD (indication for `angle of attack (AoA)⇗ <https://en.wikipedia.org/wiki/Angle_of_attack>`_ is at degrees) and use the throttle to keep the AoA as well as the speed in the right regime:
 
-Note that nose-wheel steering will engage below 40kts (in-sim). As such, make sure your rudder is more or less straightened up when arriving on ground.
+.. image:: images/hud_approach_brackets.png
+   :align: center
+   :scale: 50%
+
+When touching down and the 2 main wheels are on ground, the HUD automatically changes to flight mode ``Ground``. Keep the nose up at around 13 degrees to do aerodynamic braking (cf. image below - inverted "T" cue in the HUD is a bit high and should be on the line of horizon). Wait for the aircraft to slow down to at least 135 knots, bring the nosewheel down and first then apply pedal brakes. Use the brake parachute (key ``o`` to deploy) if necessary (heavy loadout or short runway) - and then release when not needed any more (same key ``o``). Aerodynamic breaking using a high angle of attack when landed is normal procedure. However, do not tilt the aircraft more than 13 degrees due to the possibility of a tail strake. NB: it is by procedure forbidden to use aerodynamic braking below 100 kts - even though it might be possible: you have to get weight on the nose wheel. The reason for this required procedure is that depending on speed, configuration, weight distribution (e.g. fuel) etc. it might suddenly not be possible anymore to bring the nose down given loss of effectiveness of the elevons vs. drag forces vs. weight forces.
+
+
+.. image:: images/hud_inverted_t_aerobrake.png
+   :align: center
+   :scale: 30%
+
+
+Note that nose-wheel steering only be engaged below 40 kts.
+
+
+Landing with ILS
+----------------
+
+In bad weather or at night the `Instrument Landing System (ILS)⇗ <https://en.wikipedia.org/wiki/Instrument_landing_system>`_ can help to find the runway. The HUD of the mirage displays cues from the ILS as shown in the next image:
+
+* The synthetic runway.
+* The stipled line to the left shows the runway axis direction. If it is not on the synthetic runway symbol, then you have to fly towards the side of the stipled line to align with the runway.
+* A guidance window (square). To land correctly the airplane must be steered such that the flight path vector overlaps the guidance window - while also being correct in relation to the approach brackets (see chapter above).
+
+
+.. image:: images/hud_ils.png
+   :align: center
+   :scale: 50%
+
+A few things must be true for the symbology to be displayed:
+
+* The ILS frequency must be set (either through menu ``Equipment -> Radio Frequencies`` or in the Radio Managment Unit (cf. :ref:`link_subsection_RMU`)) to the runway (you can get the frequency from dialogue ``Location -> Select an Airport``).
+* The radial runway degrees must be set (either through menu ``Equipment -> Radio Frequencies`` or in the Electronic Horizontal Situation Indicator (cf. :ref:`link_subsection_EHSI`) - you can get the value from dialogue ``Location -> Select an Airport``).
+* The radio channel must be selected.
+* The runway axis and the guidance window are shown as soon as the localizer has been caught.
+* The runway is only shown if both the localizer has been caught and within the glide slope (max ca. 7 degrees lateral deviation from the runway direction) and max 10 nm distance from the runway.
+
 
 Navigation
 ----------
@@ -64,21 +101,43 @@ To switch between displaying heading in true North vs. magnetic North, use the s
 Miscellaneous
 -------------
 
-* When heavily loaded, the `fly-by-wire system (FBW)⇗ <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure: ``Mirage2000=>Options=> Change A/A to CHARGES``.
+* When heavily loaded, the `fly-by-wire system (FBW)⇗ <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure. Use the SMS page (:ref:`link_subsection_sms`).
 * Afterburners engage when throttle moves past 85% in real-life, 90% in-sim.
 * The 1700l and 2200l droppable tanks are not supersonic, but the 1300l is.
+
+
+.. _link_section_flight_modes:
 
 Flight Modes
 ============
 
 There are 4 flight modes:
 
-* Take-off (``key: f``)
-* Approach (``key: F``)
-* Navigation (``key: h``)
-* Attack (``key: H``)
+* ``Ground``: Default. Used for take-off and during aerobraking when landing.
+* ``Approach``: Used during landing before touch down.
+* ``Navigation``: As the name says - in the air
+* ``Attack``: when a weapon is selected for air/air and air/ground attack.
 
-The main difference between the flight modes for now is the view position and zoom. When you lower gear, then you get automatically into ``Approach`` mode - after gear up you end in mode ``Navigation``. Toggling the master arm switches between modes ``Attack`` and ``Navigation``.
+NB: the real Mirage has mode modes. E.g. there are several sub-modes to navigation, which are not yet simulated.
+
+The main difference between the flight modes are:
+
+* The view position and zoom.
+* What is displayed on the HUD (:ref:`link_section_hud`).
+
+If there is weight on the main wheels, then fligth mode ``Ground`` is automatically selected. Otherwise the possibilities to change between the different modes is as presented in the table below (left columns: from mode; top headers: to mode):
+
+=============== ===================== ============ ==========
+From / to       Navigation            Approach     Attack
+=============== ===================== ============ ==========
+``Ground``      ``Key: g`` (gear up)  n/a          n/a
+``Navigation``  n/a                   ``Key: h``   ``Key: w``
+``Approach``    ``Key: h``            n/a          n/a
+``Attack``      ``Key: h``            n/a          n/a
+=============== ===================== ============ ==========
+
+If you press the ``Key: w`` and no weapon can be selected, then mode ``Navigation`` is automatically selected.
+
 
 In Cockpit Views
 ================

@@ -45,7 +45,7 @@ The priorities for modelling the Mirage 2000 in FlightGear are currently roughly
 * Cockpit 3D modelling over exterior 3D modelling over weapons 3D modelling
 * Digital displays over conventional instruments over switches
 * Front seat over backseat
-* M2000-5 over M2000n/D
+* M2000-5 over M2000N/D
 * Compatibility with the latest stable FlightGear version (e.g. 2024.1.* as per year 2025) over backwards compatibility
 
 Country variants
