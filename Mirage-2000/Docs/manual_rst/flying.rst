@@ -2,8 +2,8 @@
 Flying
 ******
 
-Operations
-==========
+Basic Operations
+================
 
 Start-up
 --------
@@ -95,19 +95,6 @@ A few things must be true for the symbology to be displayed:
 * The runway is only shown if both the localizer has been caught and within the glide slope (max ca. 7 degrees lateral deviation from the runway direction) and max 10 nm distance from the runway.
 
 
-Navigation
-----------
-
-To switch between displaying heading in true North vs. magnetic North, use the second button from right on the lower button row of the VTB.
-
-Miscellaneous
--------------
-
-* When heavily loaded, the `fly-by-wire system (FBW)⇗ <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure. Use the SMS page (:ref:`link_subsection_sms`).
-* Afterburners engage when throttle moves past 85% in real-life, 90% in-sim.
-* The 1700l and 2200l droppable tanks are not supersonic, but the 1300l is.
-
-
 .. _link_section_flight_modes:
 
 Flight Modes
@@ -150,3 +137,33 @@ In order to see the MFDs and the VTB better as well as seeing better the gauges 
 * ``Key: N``: view right MDF and VTB
 * ``Key: -`` (minus): view VTM
 * ``Key: ctrl-n``: reset the view to the position of the current flight mode
+
+
+
+Other Stuff
+===========
+
+True vs. Magnetic North
+-----------------------
+
+To switch between displaying heading in true North vs. magnetic North, use the second button from right on the lower button row of the VTB.
+
+
+Nose Wheel Steering
+-------------------
+
+Use ``Key: S`` to toggle nose wheel steering.
+
+Nose wheel steering is automatically disabled above 40 kt and cannot be enabled as long as ground speed is faster than 40 kt.
+
+The steering degree is depending on the ground speed: at 1 kt it is 45° down to 10° at 30 kt.
+
+NB: Nose Wheel Steering is "Dirigeabilité Roue Avant" in French, which is abbreviated "DIRAV" - and therefore the name on the blueish control light on the gears panel.
+
+
+Miscellaneous
+-------------
+
+* When heavily loaded, the `fly-by-wire system (FBW)⇗ <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure. Use the SMS page (:ref:`link_subsection_sms`).
+* Afterburners engage when throttle moves past 85% in real-life, 90% in-sim.
+* The 1700l and 2200l droppable tanks are not supersonic, but the 1300l is.

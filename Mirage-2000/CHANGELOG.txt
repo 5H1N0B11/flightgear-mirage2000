@@ -10,6 +10,9 @@ Flight modes overhaul:
 Weapons & Armament:
 - AS37A Armat anti-radiation missile is now working (ficitve)
 
+Flight Control & Systems:
+- Nose Wheel Steering can be enabled/disabled
+
 2025-10-10
 ====================================================================
 Major release with extensive updates across all systems.

@@ -640,6 +640,16 @@
 			</binding>
 		</key>
 
+
+		<key n="83">
+			<name>S</name>
+			<desc>Toggle nose wheel steering</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.toggleNWS();</script>
+			</binding>
+		</key>
+
 	</keyboard>
 
 </PropertyList>

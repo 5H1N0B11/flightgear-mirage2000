@@ -15,6 +15,7 @@ BFR          Basse FRéquence                                                   
 CAS          cannon air-sol                                                          cannon in air-ground mode
 ENT          Entrelacé                                                               Interleaved (radar pulse frequency)
 D            droite                                                                  right
+DIRAV        Dirigeabilité Roue Avant                                                nose wheel steering(NWS)
 G            gauche                                                                  left
 HFR          Haute FRéquence                                                         High Frequency (radar pulse frequency)
 ISG          indicateur sphérique gyroscopique                                       attitude indicator

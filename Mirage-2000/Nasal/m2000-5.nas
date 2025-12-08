@@ -203,7 +203,7 @@ var _updateFunction = func() {
 		}
 		myFramerate.d = AbsoluteTime;
 		mp_messaging();
-		_checkGroundMode();
+		_checkGroundModeNWS();
 	}
 
 	###################### rate 1.5 ###########################
@@ -570,10 +570,16 @@ var toggleNavApproachMode = func {
 	# else nothing to do - cannot toggle from GROUND
 }
 
-var _checkGroundMode = func {
+var _checkGroundModeNWS = func {
+	# check mode
 	var mode = getprop("/instrumentation/flightmode/selected");
 	if (mode != constants.FLIGHT_MODE_GROUND and getprop("/gear/gear[1]/wow")) {
 		setFlightMode(constants.FLIGHT_MODE_GROUND);
+		mode = constants.FLIGHT_MODE_GROUND
+	}
+	# check NWS
+	if (mode == constants.FLIGHT_MODE_GROUND and getprop("/velocities/groundspeed-kt") > 40) {
+		setprop("/controls/flight/nws-enabled", FALSE);
 	}
 }
 
@@ -635,6 +641,14 @@ var changeGearsPosition = func(is_up) {
 	}
 }
 
+var toggleNWS = func() {
+	var enabled = getprop("/controls/flight/nws-enabled");
+	if (enabled == TRUE) {
+		setprop("/controls/flight/nws-enabled", FALSE);
+	} else {
+		setprop("/controls/flight/nws-enabled", TRUE);
+	}
+}
 
 var quickstart = func() {
 	settimer(func {

@@ -63,8 +63,8 @@
       <property>/instrumentation/gearBox/AirBrakes</property>
     </condition>
     <emission>
-      <red>   1.000 </red>
-      <green> 0 </green>
+      <red>   1.00 </red>
+      <green> 0.85 </green>
       <blue>  0</blue>
     </emission>
   </animation>
@@ -74,6 +74,30 @@
     <object-name>gears.A</object-name>
     <object-name>gears.F</object-name>
     <property>/instrumentation/gearBox/AirBrakes</property>
+    <factor>0.09</factor>
+    <axis>
+      <x> 0 </x>
+      <y> 1 </y>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>gears.dirav</object-name>
+    <condition>
+      <property>/controls/flight/nws-enabled</property>
+    </condition>
+    <emission>
+      <red>   0 </red>
+      <green> 0.80 </green>
+      <blue>  1.00</blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>gears.dirav</object-name>
+    <property>/controls/flight/nws-enabled</property>
     <factor>0.09</factor>
     <axis>
       <x> 0 </x>
@@ -184,8 +208,8 @@
       <property>/instrumentation/gearBox/brakes</property>
     </condition>
     <emission>
-      <red>   1 </red>
-      <green> 0 </green>
+      <red>   1.00 </red>
+      <green> 0.85 </green>
       <blue>  0 </blue>
     </emission>
   </animation>
