@@ -149,6 +149,7 @@ Ground Attack
 Aiming Modes
 ------------
 
+
 CCIP
 ^^^^
 
@@ -158,7 +159,7 @@ The release in the image below will not have a good accuracy, because the airpla
 
 .. image:: images/ground_attack_ccip_hud.png
 
-NB: CCIP is not available for the standard `Mk82 bomb <https://en.wikipedia.org/wiki/Mark_82_bomb>`_ - for those you need to use CCRP.
+CCIP vs CCRP is automatically chosen depending on the weapon. CCIP is chosen for the ``Snake eye`` retarded bombs, but is not available for the standard `Mk82 bomb <https://en.wikipedia.org/wiki/Mark_82_bomb>`_ as well as for guided bombs (e.g. GBU-12) - for those you need to use CCRP.
 
 
 CCRP
@@ -206,7 +207,6 @@ MK-82 / MK-82SE and GBU-12/GBU-24
 
 On the PPA the following settings can be done:
 
-* Change between ``CCIP`` and ``CCRP``.
 * The number of bombs to ripple (min = 1, max = 18, 0 is not available). You should not ripple GBU's.
 * The distance in metres between rippled bombs (min = 5, 10, 20, 30, ..., max = 200).
 * The fuze selector can be set to either ``RET.`` (retardé/delayed fuze), or ``INST.`` (instantaneous fuze) or ``INERT.`` (inertial fuze). However, this is not implemented and will always result in an instantaneous fuze.
