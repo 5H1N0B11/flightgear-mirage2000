@@ -1027,12 +1027,13 @@ var HUD = {
 
 	}, # END _createAntiRadSymbology
 
-	_weapon_has_guidance: func() {
+	_weapon_has_guidance_prop: func() {
+		# check whether the property "guidance" is available in the selected weapon
 		if (me.selected_weapon != nil and contains(me.selected_weapon, "guidance")) {
 			return TRUE;
 		}
 		return FALSE;
-	}, # END _weapon_has_guidance
+	}, # END _weapon_has_guidance_prop
 
 	_update: func(noti = nil) {
 		if (me.input.HUD_POWER_VOLT.getValue()<23) {
@@ -1097,7 +1098,7 @@ var HUD = {
 			} else if (me.selected_weapon.type == CANNON_30MM or me.selected_weapon.type == CC422) {
 				me.eegsShow = TRUE;
 			} else if (me.selected_weapon.class == AIM_CLASS_GMP) {
-				if (me._weapon_has_guidance() == TRUE and me.selected_weapon.guidance == AIM_GUIDANCE_UNGUIDED) {
+				if (me._weapon_has_guidance_prop() == TRUE and me.selected_weapon.guidance == AIM_GUIDANCE_UNGUIDED) {
 					if (pylons.fcs.getDropMode() == DROP_MODE_CCIP) {
 						me.show_CCIP = me._displayCCIPMode();
 					} else {
@@ -1699,7 +1700,7 @@ var HUD = {
 			me.TriangleGroupe.hide();
 			return;
 		}
-		if (me._weapon_has_guidance() == FALSE or (me._weapon_has_guidance() == TRUE and me.selected_weapon.guidance != "heat")) {
+		if (me._weapon_has_guidance_prop() == FALSE or (me._weapon_has_guidance_prop() == TRUE and me.selected_weapon.guidance != "heat")) {
 			me.TriangleGroupe.hide();
 			return;
 		}
@@ -1770,7 +1771,7 @@ var HUD = {
 
 		me.antirad_cue_core.hide();
 		me.antirad_cue_locked.hide();
-		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me._weapon_has_guidance() == TRUE and me.selected_weapon.guidance == AIM_GUIDANCE_RADIATION and me.selected_weapon.isPowerOn()) {
+		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me._weapon_has_guidance_prop() == TRUE and me.selected_weapon.guidance == AIM_GUIDANCE_RADIATION and me.selected_weapon.isPowerOn()) {
 			me.antirad_cue_core.show();
 			if (pylons.fcs.isLock()) {
 				me.antirad_cue_locked.show();

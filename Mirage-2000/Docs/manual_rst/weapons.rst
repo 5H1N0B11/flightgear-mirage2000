@@ -104,7 +104,7 @@ ASMP-A                                          N
 
 *Key: 5 refers to the 2000-5, B to the 2000-5B, D to the 2000D/N and N to the 2000N.*
 
-Apart from the available weapons per station no additional restrictions are imposed w.r.t. the combination of weapons. Pictures of real aircraft show that quite some variance is in action. However, it of course makes sense to e.g. have a pod installed if you need laser guidance - or that the weights on both sides of the fuselage are in balance.
+Apart from the available weapons per station, the simulation does currently not impose additional restrictions w.r.t. the combination of weapons. Pictures of real aircraft show that quite some variance is in action. However, it of course makes sense to e.g. have a pod installed if you need laser guidance - or that the weights on both sides of the fuselage are in balance. And the real Mirage can only carry one type of graound attack weapon at a time (e.g. not SAMP Mk-82 and SAMP MK-82SE at the same time).
 
 .. image:: images/fuel_and_payload_settings.png
    :scale: 75%
@@ -124,7 +124,6 @@ Basic Keys
 * ``Key: m``: toggle master arm
 * ``Key: w``: cycle through weapons - also used to get into flight mode ``Attack``
 * ``Key: e``: weapons trigger for guns, missiles and bombs
-* ``Key: ctrl-w``: toggle between CCIP and CCRP
 * ``Key: M``: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
 * ``Key: ctrl-l`` (small L): Fast snipe and designate clicked target for laser
 
@@ -153,11 +152,13 @@ Aiming Modes
 CCIP
 ^^^^
 
-A Constantly Computed Impact Point (CCIP) is in the Mirage shown as a line from the flight path indicator (top) to the impact point (bottom). When the impact point is just above the target, then you release the bomb(s). This shot will not have a good accuracy, because the airplane is slightly banked to the right - for a good shot the airplane should be horizontal.
+A Constantly Computed Impact Point (CCIP) is in the Mirage shown as a line from the flight path indicator (top) to the impact point (bottom). When the impact point is just above the target, then you release the bomb(s).
+
+The release in the image below will not have a good accuracy, because the airplane is slightly banked to the right - for a good shot the airplane should be horizontal.
 
 .. image:: images/ground_attack_ccip_hud.png
 
-If you use a standard `Mk82 bomb <https://en.wikipedia.org/wiki/Mark_82_bomb>`_, then you need to start a steep dive (ca. 40 degs) from at least 10'000 ft above the target to have enough time for aiming and for the bomb to get armed. Using the Snake-Eye retarding device (Mk82SE) you can fly pretty low without a deep dive - given enough speed.
+NB: CCIP is not available for the standard `Mk82 bomb <https://en.wikipedia.org/wiki/Mark_82_bomb>`_ - for those you need to use CCRP.
 
 
 CCRP

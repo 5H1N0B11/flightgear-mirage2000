@@ -9,6 +9,7 @@ Flight modes overhaul:
 
 Weapons & Armament:
 - AS37A Armat anti-radiation missile is now working (ficitve)
+- CCIP vs. CCRP is automatically chosen (previously on PPA screen)
 
 Flight Control & Systems:
 - Nose Wheel Steering can be enabled/disabled

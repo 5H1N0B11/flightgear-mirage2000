@@ -593,21 +593,22 @@ var masterarm = func {
 	screen.log.write("Master-arm "~(getprop("controls/armament/master-arm-switch")==0?"OFF":(getprop("controls/armament/master-arm-switch")==1?"ON":"SIM")), 0.5, 0.5, 1);
 }
 
-var toggleDropModeCCxP = func {
-	var mode = pylons.fcs.getDropMode();
-	if (mode == 0) { # CCRP = 0, CCIP =
-		pylons.fcs.setDropMode(1);
-	} else {
-		pylons.fcs.setDropMode(0);
-	}
-}
-
 var _selectNewWeapon = func (mode) {
 	pylons.fcs.cycleLoadedWeapon();
-	if (mode == constants.FLIGHT_MODE_ATTACK and pylons.fcs.getSelectedType() == nil) {
+	var selected_type = pylons.fcs.getSelectedType();
+	# handle flight mode
+	if (mode == constants.FLIGHT_MODE_ATTACK and selected_type == nil) {
 		setFlightMode(constants.FLIGHT_MODE_NAVIGATION);
-	} else if (mode == constants.FLIGHT_MODE_NAVIGATION and pylons.fcs.getSelectedType() != nil) {
+	} else if (mode == constants.FLIGHT_MODE_NAVIGATION and selected_type != nil) {
 		setFlightMode(constants.FLIGHT_MODE_ATTACK);
+	}
+	# handle drop mode
+	if (selected_type != nil) {
+		if (selected_type == "Mk-82SE") {
+			pylons.fcs.setDropMode(1); # CCIP
+		} else {
+			pylons.fcs.setDropMode(0); # CCRP
+		}
 	}
 }
 

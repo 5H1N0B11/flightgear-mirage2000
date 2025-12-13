@@ -1054,14 +1054,10 @@ var DisplaySystem = {
 			} elsif (controlName == OSB18) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
 					_changeCannonRate(TRUE);
-				} else if (me.wpn_kind == WPN_KIND_FALL) {
-					pylons.fcs.setDropMode(1);
 				}
 			} elsif (controlName == OSB19) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
 					_changeCannonRate(FALSE);
-				} else if (me.wpn_kind == WPN_KIND_FALL) {
-					pylons.fcs.setDropMode(0);
 				}
 			} elsif (controlName == OSB20) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
@@ -1192,14 +1188,6 @@ var DisplaySystem = {
 					me.osb6_selected = TRUE;
 				} else if (me.wpn.type == "Mk-82" or me.wpn.type == "Mk-82SE" or me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24") {
 					me.wpn_kind = WPN_KIND_FALL;
-					me.drop_mode = pylons.fcs.getDropMode();
-					me.osb18 = "CCIP";
-					me.osb19 = "CCRP";
-					if (me.drop_mode == 1) { # 0=ccrp, 1 = ccip
-						me.osb18_selected = TRUE;
-					} else {
-						me.osb19_selected = TRUE;
-					}
 
 					me.row_3_right_text.show();
 					me.rp = pylons.fcs.getRippleMode();

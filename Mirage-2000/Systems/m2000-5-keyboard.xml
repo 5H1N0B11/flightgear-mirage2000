@@ -226,17 +226,6 @@
 			</binding>
 		</key>
 
-		<key n="23">
-			<name>Ctrl-W</name>
-			<desc>Toggle Drop Mode CCRP/CCIP</desc>
-			<binding>
-				<command>nasal</command>
-				<script>
-					mirage2000.toggleDropModeCCxP();
-				</script>
-			</binding>
-		</key>
-
 		<key n="109">
 			<name>m</name>
 			<desc>Toggle master arm switch</desc>

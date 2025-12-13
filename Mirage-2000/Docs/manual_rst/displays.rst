@@ -1,6 +1,6 @@
-*********************************
-The Mirage 2000-5 Display Systems
-*********************************
+********************************
+The Mirage 2000-5 Display System
+********************************
 
 The Mirage 2000-5 has its name from the fact that it has 5 main displays:
 
@@ -13,6 +13,7 @@ The Mirage 2000-5 has its name from the fact that it has 5 main displays:
    :alt: 5 main screens of the M2000-5
    :align: center
 
+Currently all simulated variants use this system, because they use the same cockpit. In real life the cockpit of e.g. the -D variant looks quite different and does not have the right MFD not does it have the VTM.
 
 .. _link_section_hud:
 

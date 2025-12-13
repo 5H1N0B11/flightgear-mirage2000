@@ -5,14 +5,16 @@ Abbreviations and Jargon
 French Abbreviations (Glossary)
 ===============================
 
-============ ======================================================================= ========================================
+============ ======================================================================= ============================================
 Abbreviation Meaning                                                                 English
-============ ======================================================================= ========================================
+============ ======================================================================= ============================================
 A / AR       arrête                                                                  off
 AST          assaut en suivi de terrain                                              terrain-following assault mode
 AU           automatique                                                             automatic
 BFR          Basse FRéquence                                                         Low Frequency (radar pulse frequency)
 CAS          cannon air-sol                                                          cannon in air-ground mode
+CCPI         Calcul Continu du Point d'Impact                                        CCIP (Continuously Computed Impact Point)
+CCPL         Calcul Continu du Point de Largage                                      CCRP (Continuously Computed Release Point)
 ENT          Entrelacé                                                               Interleaved (radar pulse frequency)
 D            droite                                                                  right
 DIRAV        Dirigeabilité Roue Avant                                                nose wheel steering(NWS)
@@ -45,7 +47,7 @@ TBA          très basse altitude                                               
 VTB          visualisation tête basse                                                HDD - head-down display
 VTM          visualisation tête moyenne                                              n/a - head level display
 VTH          visualisation tête haute                                                HUD - head-up display
-============ ======================================================================= ========================================
+============ ======================================================================= ============================================
 
 
 French Military Aviation Jargon

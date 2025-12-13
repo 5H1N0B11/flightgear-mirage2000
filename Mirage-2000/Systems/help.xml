@@ -105,11 +105,6 @@
 	</key>
 
 	<key>
-		<name>Ctrl-W</name>
-		<desc>Toggle drop mode CCRP/CCIP</desc>
-	</key>
-
-	<key>
 		<name>m</name>
 		<desc>Toggle master arm switch</desc>
 	</key>
