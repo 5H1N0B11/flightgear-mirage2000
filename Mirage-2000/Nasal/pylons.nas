@@ -24,7 +24,7 @@ var pylon8 = nil;
 var pylon9 = nil;
 var pylonI = nil;
 
-var variantID = getprop("sim/variant-id"); # -5 = 1; -5B/-5B-backseat = 2; D = 3
+var variantID = getprop("sim/variant-id");
 
 
 ### Operation conditions for stations.
@@ -128,15 +128,7 @@ var pylonSetsSMSHelper = {
 	"2 x SAMP Mk-82 Snake-eye": ["BF", TRUE],
 };
 
-if (variantID != 3) {
-	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.b5, pylonSets.dmk82, pylonSets.dmk82se];
-	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.b5, pylonSets.dmk82, pylonSets.dmk82se];
-	var ExteriorWingSet = [pylonSets.empty, pylonSets.g, pylonSets.g2, pylonSets.smo];
-	var CenterSet = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.b3,pylonSets.b7];
-	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
-	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
-	var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
-} else { # 2000D
+if (variantID == constants.VARIANT_N) {
 	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
 	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
 	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
@@ -144,6 +136,22 @@ if (variantID != 3) {
 	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
 	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.c, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
 	var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+} else if (variantID == constants.VARIANT_D) {
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
+	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
+	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se,pylonSets.b7];
+	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.c, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+	var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+} else { # -5 / -5B
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.b5, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.b5, pylonSets.dmk82, pylonSets.dmk82se];
+	var ExteriorWingSet = [pylonSets.empty, pylonSets.g, pylonSets.g2, pylonSets.smo];
+	var CenterSet = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.b3,pylonSets.b7];
+	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
+	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
+	var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
 }
 #### note :
 # pylon options
@@ -221,17 +229,21 @@ var pylons = [pylon1, pylon2, pylon3, pylon4, pylon5, pylon6, pylon7, pylon8, py
 var pylon_order =[];
 var wp_order = [];
 
-if (variantID == 1) {
+if (variantID == constants.VARIANT_5) {
 	append(pylons,pylonI);
 	pylon_order = [9,0,8,1,7,2,6,3,5,4];
 	wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE", "GBU-12", "GBU-24", "SCALP","APACHE", "AM39-Exocet", "AS-37-Armat"];
-} elsif (variantID == 2) {
+} elsif (variantID == constants.VARIANT_5B) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
 	wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "GBU-24", "SCALP", "APACHE", "AM39-Exocet"];
-} elsif (variantID == 3) {
+} elsif (variantID == constants.VARIANT_N) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
-	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS30L", "ASMP"];
+	wp_order = ["Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS30L", "ASMP"];
+} elsif (variantID == constants.VARIANT_D) {
+	pylon_order = [0,8,1,7,2,6,3,5,4];
+	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS30L"];
 }
+
 
 fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
 
@@ -844,4 +856,15 @@ var codeStations = func() {
 #loop for all listener (20 => because I'm lazy)
 for(var i = 0 ; i <= MAX_PYLONS ; i += 1){
 	setEncodeMPListener(i);
+}
+
+var has_cc442 = func() {
+	if (variantID == constants.VARIANT_D) {
+		if (pylon1 != nil and pylon1.currentSet != nil) {
+			if (pylon1.currentSet.name == "CC422") {
+				return TRUE;
+			}
+		}
+	}
+	return FALSE;
 }

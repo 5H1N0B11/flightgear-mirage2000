@@ -113,3 +113,28 @@ Presentation of the Mirage 2000 Aircraft
 ****************************************
 
 Apart from restricted military information: the Mirage 2000 with all its variants is very well documented in books, articles and videos. Therefore, the Mirage 2000's history, technical characteristics etc. is not repeated here. Please use some of the resources listed in :ref:`link_chapter_references` instead.
+
+
+*************************
+Choosing a Variant to Fly
+*************************
+
+There is a set of variants to choose from in the FlightGear Launcher as shown in the picture:
+
+.. image:: images/launcher_choose_variant.png
+   :scale: 50%
+
+Stable versions working in FlightGear version 2024.1:
+
+* ``2000-5``: the single seater fighter variant with 5 displays
+* ``2000N``: the double-seater strike variant with ground-attack weapons (it does re-use the -5 cockpit and the backseat is not usable)
+
+Not maintained versions which might work in FlightGear version 2024.1:
+
+* ``2000-5B``: the trainer version for the -5 variant
+* ``2000-5B backseat``: sit in the backseat of the -5B over FlightGear multiplayer
+
+Experimental versions only working with the next/development version of FlightGear - not stable/no promises:
+
+* ``2000D``: the double-seater strike variant with ground-attack weapons (it is getting its own cockpit - at least in the front)
+

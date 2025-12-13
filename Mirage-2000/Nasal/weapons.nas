@@ -5,6 +5,9 @@ print("*** LOADING weapons.nas ... ***");
 #
 ################################################################################
 
+var TRUE = 1;
+var FALSE = 0;
+
 
 var input = {
 	flares          : "rotors/main/blade[3]/flap-deg",
@@ -59,18 +62,23 @@ var MPMessaging = props.globals.getNode("/payload/armament/msg", 1);
 # }
 #
 var reload_cannon_and_flares = func() {
-	var variantID = getprop("sim/variant-id"); # -5 = 1; -5B/-5B-backseat = 2; D = 3
+	var variantID = getprop("sim/variant-id");
 	var bullets_text = "2*125";
-	if (variantID == 3) {
+	var guns_reloaded = FALSE;
+	if (pylons.has_cc442() == TRUE) {
 		setprop("/ai/submodels/submodel/count", 250);
 		bullets_text = "250";
-	} else {
+		guns_reloaded = TRUE;
+	} else if (variantID == constants.VARIANT_5) {
 		setprop("/ai/submodels/submodel/count",    125);
 		setprop("/ai/submodels/submodel[1]/count", 125);
-	}
+		guns_reloaded = TRUE;
+	} # else nothing to do for the -N or the -5B
 	setprop("/ai/submodels/submodel[7]/count",120);
 	setprop("/ai/submodels/submodel[8]/count",120);
-	screen.log.write("Guns have been reloaded: "~bullets_text);
+	if (guns_reloaded == TRUE) {
+		screen.log.write("Guns have been reloaded: "~bullets_text);
+	}
 	screen.log.write("Flares have been reloaded: 120");
 }
 
@@ -80,8 +88,6 @@ var reload_cannon_and_flares = func() {
 var hits_count = 0;
 var hit_timer  = nil;
 var hit_callsign = "";
-var TRUE = 1;
-var FALSE = 0;
 
 var Mp = props.globals.getNode("ai/models");
 var valid_mp_types = {

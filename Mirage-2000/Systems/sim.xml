@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList include="views.xml">
+	<aero>Mirage2000-vsp</aero>
+	<author>5H1N0B1, Domokos "Rudolf" Juttner, F-Sig, hardball, Helijah, J Maverick 16, Josh Davidson, legoboyvdlp, Leto, Marsdolphin, Niall "Salmon" Roe, onox, ravenclaw_007, R. "Wolf" Roquefort, Richard Harrison, Rick Gruber-Riemer (current maintainer)</author>
+	<!--
+		Helijah (first 3D model / first FDM yasim)
+		5H1N0B1 (Weapons, systems)
+		F-Sig
+		hardball (improve 3D, systems, dual seat version, new cockpit)
+		Josh Davidson (FCS/FBW/Autopilot)
+		Leto
+		Richard Harrison (Flight Model, maintain FGAddon)
+		onox
+		legoboyvdlp
+		Domokos "Rudolf" Juttner
+		ravenclaw_007
+		J Maverick 16
+		Niall "Salmon" Roe
+	-->
+	<long-description>The Dassault Mirage 2000 is a French multirole, single-engine fourth-generation jet fighter manufactured by Dassault Aviation. It was designed in the late 1970s as a lightweight fighter based on the Mirage III for the French Air Force (Armée de l'Air). The Mirage 2000 evolved into a multirole aircraft with several variants developed, with sales to a number of nations. The variants include the Mirage 2000N and 2000D strike variants, the improved Mirage 2000-5 and several export variants. Over 600 aircraft were built and it has been in service with nine nations.</long-description>
+	<aircraft-version>2025-10-10</aircraft-version>
+	<minimum-fg-version>2024.1</minimum-fg-version>
+	<status>production</status>
+	<variant-of>m2000-5</variant-of>
+
+	<rating>
+		<FDM     type="int"> 4 </FDM>
+		<systems type="int"> 4 </systems>
+		<cockpit type="int"> 3 </cockpit>
+		<model   type="int"> 4 </model>
+	</rating>
+
+	<!-- cf. https://wiki.flightgear.org/Catalog_metadata -->
+	<tags>
+		<tag>dassault</tag>
+		<tag>single-engine</tag>
+		<tag>jet</tag>
+		<tag>retractable-gear</tag>
+		<tag>supersonic</tag>
+		<tag>coldwar</tag>
+		<tag>fighter</tag>
+		<tag>tricycle</tag>
+		<tag>1970s</tag>
+		<tag>1980s</tag>
+		<tag>1990s</tag>
+		<tag>2000s</tag>
+		<tag>delta</tag>
+		<tag>hud</tag>
+		<tag>afterburner</tag>
+		<tag>military</tag>
+		<tag>combat</tag>
+	</tags>
+
 	<current-view>
 		<z-offset-default type="float">25.0</z-offset-default>
 		<z-offset-min-m type="float">10.0</z-offset-min-m>

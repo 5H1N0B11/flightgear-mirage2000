@@ -148,7 +148,7 @@ var COLOR_LIGHT_BLUE = [0.2, 0.6, 1];
 
 var PUSHBUTTON = 0;
 
-var variantID = getprop("sim/variant-id"); # -5 = 1; -5B/-5B-backseat = 2; D = 3
+var variantID = getprop("sim/variant-id");
 
 # flare/chaff values can change every 0.5 seconds -> cf. weapons.nas
 # and sounds etc. for M2000 also have a length of 0.5 or multiples thereof
@@ -858,16 +858,14 @@ var DisplaySystem = {
 			me.caL_box.setVisible(sel==9);
 			me.caR_box.setVisible(sel==9);
 
-			if (variantID == 1) {
+			if (variantID == constants.VARIANT_5) {
 				me.caL_text.updateText(sprintf("%3d", pylons.pylonI.getAmmo()/2));
 				me.caR_text.updateText(sprintf("%3d", pylons.pylonI.getAmmo()/2));
-			} elsif (variantID == 3) {
-				if (pylons.pylon1 != nil and pylons.pylon1.currentSet != nil) {
-					if (pylons.pylon1.currentSet.name == "CC422") {
-						me.caL_text.updateText(sprintf("%3d", pylons.pylon1.getAmmo()));
-					} else {
-						me.caL_text.updateText("");
-					}
+			} elsif (variantID == constants.VARIANT_D) {
+				if (pylons.has_cc442() == TRUE) {
+					me.caL_text.updateText(sprintf("%3d", pylons.pylon1.getAmmo()));
+				} else {
+					me.caL_text.updateText("");
 				}
 				me.caR_text.updateText("");
 			} else {
@@ -2163,7 +2161,7 @@ var _changeCannonRate = func (air_to_air) { # 1 or 0
 	#     * 553: 1,300 rpm
 	# => going with DEFA 554 and 0.033 - 0.055 for the -5 and fixed 0.046 for the D (CC442 gun pod)
 	var rate = 0.0;
-	if (variantID == 3) {
+	if (variantID == constants.VARIANT_D) {
 		rate = 0.046; # no difference between A/A and A/G
 	} else if (air_to_air == TRUE) {
 		rate = 0.033;

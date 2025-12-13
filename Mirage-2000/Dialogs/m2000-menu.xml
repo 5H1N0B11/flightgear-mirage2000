@@ -98,12 +98,12 @@
 					<condition>
 						<or>
 							<equals>
-								<property>sim/aircraft</property>
-								<value>m2000-5</value>
+								<property>sim/variant-id</property>
+								<value>1</value>
 							</equals>
 							<equals>
-								<property>sim/aircraft</property>
-								<value>m2000-5B</value>
+								<property>sim/variant-id</property>
+								<value>2</value>
 							</equals>
 						</or>
 					</condition>
@@ -113,8 +113,18 @@
 				<binding>
 					<condition>
 						<equals>
-							<property>sim/aircraft</property>
-							<value>m2000D</value>
+							<property>sim/variant-id</property>
+							<value>3</value>
+						</equals>
+					</condition>
+					<command>dialog-show</command>
+					<dialog-name>payload-n</dialog-name><!-- is referenced in m2000-5.nas -->
+				</binding>
+				<binding>
+					<condition>
+						<equals>
+							<property>sim/variant-id</property>
+							<value>4</value>
 						</equals>
 					</condition>
 					<command>dialog-show</command>

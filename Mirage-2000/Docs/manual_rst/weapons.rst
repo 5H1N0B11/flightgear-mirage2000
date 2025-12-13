@@ -102,7 +102,7 @@ Smoke pod (white)               5BD                             5BD
 ASMP-A                                          N
 =============================== === === === === === === === === ===
 
-*Key: 5 refers to the 2000-5, B to the 2000-5B, D to the 2000D/N and N to the 2000N.*
+*Key: 5 refers to the 2000-5, B to the 2000-5B, D to the 2000D/N and N to only the 2000N.*
 
 Apart from the available weapons per station, the simulation does currently not impose additional restrictions w.r.t. the combination of weapons. Pictures of real aircraft show that quite some variance is in action. However, it of course makes sense to e.g. have a pod installed if you need laser guidance - or that the weights on both sides of the fuselage are in balance. And the real Mirage can only carry one type of graound attack weapon at a time (e.g. not SAMP Mk-82 and SAMP MK-82SE at the same time).
 

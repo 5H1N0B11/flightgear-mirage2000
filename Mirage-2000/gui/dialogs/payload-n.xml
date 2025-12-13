@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
-	<name>payload-d</name>
+	<name>payload-n</name>
 	<modal type="bool">false</modal>
 	<layout>vbox</layout>
 
@@ -46,7 +46,7 @@
 				<script>pylons.standoff()</script>
 			</binding>
 		</button>
-		<!--<button>
+		<button>
 			<pref-width>250</pref-width>
 			<row>0</row>
 			<col>1</col>
@@ -55,7 +55,7 @@
 				<command>nasal</command>
 				<script>pylons.nuke()</script>
 			</binding>
-		</button> -->
+		</button>
 		<!--
 		<button>
 			<pref-width>250</pref-width>

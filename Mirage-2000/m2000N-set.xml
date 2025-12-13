@@ -11,11 +11,11 @@
 	</_debug>
 
 	<sim>
-		<description>Mirage 2000-5B (Not Maintained)</description>
-		<variant-id type="int">2</variant-id>
+		<description>Mirage 2000N with a -5 cockpit</description>
+		<variant-id type="int">3</variant-id>
 
 		<model>
-			<path>Aircraft/Mirage-2000/Models/m2000-5B.xml</path>
+			<path>Aircraft/Mirage-2000/Models/m2000-N.xml</path>
 			<fallback-model-index type="int">527</fallback-model-index>
 		</model>
 

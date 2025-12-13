@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList include="Systems/m2000-common.xml">
+
+	<scalp-pos-norm type="float">0</scalp-pos-norm>
+
+	<_debug>
+		<x type="float">0</x>
+		<y type="float">0</y>
+		<z type="float">0</z>
+	</_debug>
+
+	<sim>
+		<description>Mirage 2000D experimental not-stable HDR version</description>
+		<variant-id type="int">4</variant-id>
+		<minimum-fg-version>2024.2</minimum-fg-version> <!-- override value in sim.xml-->
+		<compatibility>
+			<pbr-model type="bool">true</pbr-model>
+		</compatibility>
+		<model>
+			<path>Aircraft/Mirage-2000/Models/m2000-D.xml</path>
+			<fallback-model-index type="int">527</fallback-model-index>
+		</model>
+
+		<gui n="0" include="gui/it-gui.xml"/>
+
+		<previews>
+			<preview>
+				<type>exterior</type>
+				<splash type="bool">true</splash>
+				<path>Splashes/splashB-01.png</path>
+			</preview>
+		</previews>
+
+	</sim>
+
+</PropertyList>
