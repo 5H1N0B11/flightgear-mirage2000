@@ -643,40 +643,42 @@ var VTM = {
 					}
 					continue;
 				}
-				append(me.radar_contacts_pos, screen_pos);
-				append(me.radar_contacts, contact);
-				me.friend_contacts[i].hide(); # currently we do not know the friends
-				if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
-					has_priority = TRUE;
-					me.selected_target.setTranslation(screen_pos[0], screen_pos[1]);
-					me.selected_target_callsign.updateText(contact.getCallsign());
-					me.air_targets[i].hide();
-					me.gnd_targets[i].hide();
-				} else {
-					if (is_gnd == FALSE) {
-						me.air_targets[i].setRotation(relative_heading_rad);
-						me.air_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
-						me.air_targets[i].show();
+				if (i < MAX_CONTACTS) {
+					append(me.radar_contacts_pos, screen_pos);
+					append(me.radar_contacts, contact);
+					me.friend_contacts[i].hide(); # currently we do not know the friends
+					if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
+						has_priority = TRUE;
+						me.selected_target.setTranslation(screen_pos[0], screen_pos[1]);
+						me.selected_target_callsign.updateText(contact.getCallsign());
+						me.air_targets[i].hide();
 						me.gnd_targets[i].hide();
 					} else {
-						me.gnd_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
-						me.gnd_targets[i].show();
-						me.air_targets[i].hide();
+						if (is_gnd == FALSE) {
+							me.air_targets[i].setRotation(relative_heading_rad);
+							me.air_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
+							me.air_targets[i].show();
+							me.gnd_targets[i].hide();
+						} else {
+							me.gnd_targets[i].setTranslation(screen_pos[0], screen_pos[1]);
+							me.gnd_targets[i].show();
+							me.air_targets[i].hide();
+						}
 					}
-				}
 
-				# Draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
-				# Based on the pict from the book the selected target does not get a line, here we do
-				target_speed_m_s = contact.get_Speed() * KT2MPS;
-				if (target_speed_m_s > 25) {
-					delta = _calcTargetSpeedIndication(target_speed_m_s, relative_heading_rad);
-					me.targets_speeds[i] = me.targets_speed_group.createChild("path")
-					                                             .setColor(COLOR_RADAR)
-					                                             .moveTo(screen_pos[0] + delta[0], screen_pos[1] - delta[1])
-					                                             .lineTo(screen_pos[0] + delta[2], screen_pos[1] - delta[3])
-					                                             .setStrokeLineWidth(LINE_WIDTH);
-					me.targets_speeds[i].update(); # because targets_speed_group children get deleted in next frame
-				}
+					# Draw a line from the target to indicate the speed - only if faster than 50 kt, ca 25 m/s
+					# Based on the pict from the book the selected target does not get a line, here we do
+					target_speed_m_s = contact.get_Speed() * KT2MPS;
+					if (target_speed_m_s > 25) {
+						delta = _calcTargetSpeedIndication(target_speed_m_s, relative_heading_rad);
+						me.targets_speeds[i] = me.targets_speed_group.createChild("path")
+																	.setColor(COLOR_RADAR)
+																	.moveTo(screen_pos[0] + delta[0], screen_pos[1] - delta[1])
+																	.lineTo(screen_pos[0] + delta[2], screen_pos[1] - delta[3])
+																	.setStrokeLineWidth(LINE_WIDTH);
+						me.targets_speeds[i].update(); # because targets_speed_group children get deleted in next frame
+					}
+				} # else nothing - we cannot break because still interested in loop to find the sniped target
 			}
 			i += 1;
 		}
