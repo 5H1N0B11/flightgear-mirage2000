@@ -180,6 +180,15 @@
 	</key>
 
 	<key>
+		<name>Shift PageUp</name>
+		<desc>Adjust seat up</desc>
+	</key>
+	<key>
+		<name>Shift PageDown</name>
+		<desc>Adjust seat down</desc>
+	</key>
+
+	<key>
 		<name>S</name>
 		<desc>Toggle nose wheel steering</desc>
 	</key>

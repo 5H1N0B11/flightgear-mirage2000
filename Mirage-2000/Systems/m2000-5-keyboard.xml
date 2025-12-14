@@ -628,6 +628,29 @@
 				<script>mirage2000.viewVTM();</script>
 			</binding>
 		</key>
+		<key n="360">
+			<name>Shift PageUp</name>
+			<desc>Move seat up</desc>
+			<repeatable type="bool">true</repeatable>
+			<mod-shift>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.moveSeat(1);</script>
+			</binding>
+			</mod-shift>
+		</key>
+
+		<key n="361">
+			<name>Shift PageDown</name>
+			<desc>Move seat down</desc>
+			<repeatable type="bool">true</repeatable>
+			<mod-shift>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.moveSeat(-1);</script>
+			</binding>
+			</mod-shift>
+		</key>
 
 
 		<key n="83">

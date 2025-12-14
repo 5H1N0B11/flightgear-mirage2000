@@ -492,6 +492,25 @@ var setFlightMode = func (mode) {
 	viewReset();
 }
 
+# Seat movement parameters (y-axis)
+var SEAT_MIN = 0.0;
+var SEAT_MAX = 0.15;
+var SEAT_STEP = 0.005;
+var seat_current = 0.100; # for ground mode - if seat too high then the horizon line is not visible
+
+var moveSeat = func(dir) {
+	if (getprop("/sim/current-view/view-number-raw") == 0) {
+		# Apply seat movement to default view y position, clamped.
+		var step = SEAT_STEP * (dir > 0 ? 1 : -1);
+		var old_pos = getprop("sim/current-view/y-offset-m");
+		var pos = math.clamp(old_pos + step, SEAT_MIN, SEAT_MAX);
+		setprop("sim/current-view/y-offset-m", pos);
+		step = pos - old_pos; # Clamped movement
+		seat_current = getprop("sim/current-view/y-offset-m") + step;
+		setprop("sim/current-view/y-offset-m", seat_current);
+	}
+}
+
 var viewReset = func () {
 	if (getprop("/sim/current-view/view-number-raw") == 0) {
 		var mode = getprop("/instrumentation/flightmode/selected");
@@ -499,24 +518,21 @@ var viewReset = func () {
 		setprop("sim/current-view/roll-offset-deg", 0);
 		# degs must be before -m
 		setprop("/sim/current-view/x-offset-m",0);
+		setprop("/sim/current-view/y-offset-m", seat_current);
 		if (mode == constants.FLIGHT_MODE_GROUND) {
 			setprop("sim/current-view/pitch-offset-deg", -15);
-			setprop("/sim/current-view/y-offset-m",0.100); # if seat too high then the horizon line is not visible
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",75);
 		} else if (mode == constants.FLIGHT_MODE_APPROACH or mode == constants.FLIGHT_MODE_GROUND) {
 			setprop("sim/current-view/pitch-offset-deg", -15);
-			setprop("/sim/current-view/y-offset-m",0.1400);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",75);
 		} elsif (mode == constants.FLIGHT_MODE_NAVIGATION) {
 			setprop("sim/current-view/pitch-offset-deg", -12);
-			setprop("/sim/current-view/y-offset-m",0.025);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",83);
 		} elsif (mode == constants.FLIGHT_MODE_ATTACK) {
 			setprop("sim/current-view/pitch-offset-deg", -15);
-			setprop("/sim/current-view/y-offset-m",0.099);
 			setprop("/sim/current-view/z-offset-m",-2.77);
 			setprop("/sim/current-view/field-of-view",65);
 		}
