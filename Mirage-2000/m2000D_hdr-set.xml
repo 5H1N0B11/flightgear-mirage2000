@@ -10,14 +10,15 @@
 		<z type="float">0</z>
 	</_debug>
 
-	<compatibility>
-		<pbr-model type="bool">true</pbr-model>
-	</compatibility>
 
 	<sim>
 		<description>Mirage 2000D experimental not-stable HDR version</description>
 		<variant-id type="int">4</variant-id>
 		<minimum-fg-version>2024.2.0</minimum-fg-version> <!-- override value in sim.xml-->
+		<compatibility>
+			<pbr-model type="bool">true</pbr-model>
+		</compatibility>
+
 		<model>
 			<path>Aircraft/Mirage-2000/Models/m2000-D.xml</path>
 			<fallback-model-index type="int">527</fallback-model-index>

@@ -14,16 +14,16 @@ Mirage 2000 instrument defintions in /instrumentation (i.e. != /sim/instrumenati
 	</flightmode>
 
 	<efis>
-		<Mode type="bool">0</Mode>
-		<on type="bool">1</on>
+		<Mode type="bool">false</Mode>
+		<on type="bool">true</on>
 		<inputs>
 			<range-nm>20</range-nm>
-			<arpt type="bool">0</arpt>
-			<pos type="bool">1</pos>
+			<arpt type="bool">false</arpt>
+			<pos type="bool">true</pos>
 		</inputs>
 	</efis>
 
-	<ejection type="bool">
+	<ejection>
 		<ejection type="bool">false</ejection>
 		<force>1</force>
 		<done type="bool">false</done>
@@ -116,8 +116,8 @@ Mirage 2000 instrument defintions in /instrumentation (i.e. != /sim/instrumenati
 		<modeR type="int"> 0 </modeR>
 		<dimm-l type="float"> 1 </dimm-l>
 		<dimm-r type="float"> 1 </dimm-r>
-		<inhg-hpa type="bool"> 0 </inhg-hpa>
-		<mfd-glass type="bool"> 0 </mfd-glass>
+		<inhg-hpa type="bool">false</inhg-hpa>
+		<mfd-glass type="bool">false</mfd-glass>
 		<rmi-1-bearing-deg type="float"> 0 </rmi-1-bearing-deg>
 		<rmi-2-bearing-deg type="float"> 0 </rmi-2-bearing-deg>
 		<rmuL type="int"> 0 </rmuL>
@@ -126,7 +126,7 @@ Mirage 2000 instrument defintions in /instrumentation (i.e. != /sim/instrumenati
 			harball's note [2015-08-04] :
 			meteo dispayed at game start
 		-->
-		<wind-display type="bool"> 1 </wind-display>
+		<wind-display type="bool">true</wind-display>
 		<heading-displayed type="int">0</heading-displayed>
 		<bug-heading-displayed type="int">0</bug-heading-displayed>
 
@@ -168,40 +168,40 @@ Mirage 2000 instrument defintions in /instrumentation (i.e. != /sim/instrumenati
 		<x-center type="float"> 0.5 </x-center>
 		<y-center type="float"> 0.5 </y-center>
 		<display>
-			<arpt type="bool"> 1 </arpt>
-			<vor type="bool">  1 </vor>
-			<fix type="bool">  0 </fix>
-			<tcas type="bool"> 0 </tcas>
+			<arpt type="bool">true</arpt>
+			<vor type="bool">true</vor>
+			<fix type="bool">false</fix>
+			<tcas type="bool">false</tcas>
 		</display>
-		<line-width type="double"> 3 </line-width>
+		<line-width type="double">3</line-width>
 	</nd>
 
 	<primus2000>
 		<dc840>
-			<hsi type="bool"> 0 </hsi>
-			<wx type="bool"> 0 </wx>
-			<et type="bool"> 0 </et>
-			<tcas type="bool"> 0 </tcas>
-			<acft-sys type="bool"> 0 </acft-sys>
-			<mfd-map type="bool"> 1 </mfd-map>
-			<mfd-wx type="bool"> 0 </mfd-wx>
-			<norm type="bool"> 0 </norm>
-			<abn type="bool"> 0 </abn>
-			<emer type="bool"> 0 </emer>
-			<skp type="bool"> 0 </skp>
-			<pag type="bool"> 0 </pag>
-			<rcl type="bool"> 0 </rcl>
-			<ent type="bool"> 0 </ent>
+			<hsi type="bool">false</hsi>
+			<wx type="bool">false</wx>
+			<et type="bool">false</et>
+			<tcas type="bool">false</tcas>
+			<acft-sys type="bool">false</acft-sys>
+			<mfd-map type="bool">true</mfd-map>
+			<mfd-wx type="bool">false</mfd-wx>
+			<norm type="bool">false</norm>
+			<abn type="bool">false</abn>
+			<emer type="bool">false</emer>
+			<skp type="bool">false</skp>
+			<pag type="bool">false</pag>
+			<rcl type="bool">false</rcl>
+			<ent type="bool">false</ent>
 		</dc840>
 		<sc840>
-			<nav1ptr type="double"> 0 </nav1ptr>
-			<nav2ptr type="double"> 0 </nav2ptr>
+			<nav1ptr type="double">0</nav1ptr>
+			<nav2ptr type="double">0</nav2ptr>
 		</sc840>
 		<eicas>
-			<serviceable type="bool"> 1 </serviceable>
+			<serviceable type="bool">true</serviceable>
 		</eicas>
 		<mfd>
-			<menu-num type="int"> 0 </menu-num>
+			<menu-num type="int">0</menu-num>
 		</mfd>
 		<pfd></pfd>
 	</primus2000>
