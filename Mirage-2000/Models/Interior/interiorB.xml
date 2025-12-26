@@ -2,259 +2,259 @@
 
 <PropertyList>
 
-  <path>interiorB.ac</path>
+	<path>interiorB.ac</path>
 
-  <animation>
-    <!-- object name in ac file -->
-    <object-name>intcanopyArriere-BIPLACE</object-name>
-    <object-name>intcanopyAvant-BIPLACE</object-name>
-    <object-name>interieur-BIPLACE</object-name>
-    <object-name>intverriereArriere-BIPLACE</object-name>
-    <object-name>intverriereAvant-BIPLACE</object-name>
-    <object-name>intvitres</object-name>
-    <object-name>intvitres-BIPLACE</object-name>
-    <object-name>poigneesArriere-BIPLACE</object-name>
-    <object-name>poigneesAvant-BIPLACE</object-name>
-    <object-name>seat.backframe-BIPLACE</object-name>
-    <object-name>seat.backseat-BIPLACE</object-name>
-    <object-name>seat.frame-BIPLACE</object-name>
-    <object-name>seat.seat-BIPLACE</object-name>
-  </animation>
+	<animation>
+		<!-- object name in ac file -->
+		<object-name>intcanopyArriere-BIPLACE</object-name>
+		<object-name>intcanopyAvant-BIPLACE</object-name>
+		<object-name>interieur-BIPLACE</object-name>
+		<object-name>intverriereArriere-BIPLACE</object-name>
+		<object-name>intverriereAvant-BIPLACE</object-name>
+		<object-name>intvitres</object-name>
+		<object-name>intvitres-BIPLACE</object-name>
+		<object-name>poigneesArriere-BIPLACE</object-name>
+		<object-name>poigneesAvant-BIPLACE</object-name>
+		<object-name>seat.backframe-BIPLACE</object-name>
+		<object-name>seat.backseat-BIPLACE</object-name>
+		<object-name>seat.frame-BIPLACE</object-name>
+		<object-name>seat.seat-BIPLACE</object-name>
+	</animation>
 
-  <effect>
-    <inherits-from>Effects/glass</inherits-from>
-    <object-name>intvitres</object-name>
-    <object-name>intvitres-BIPLACE</object-name>
-    <object-name>intverriereAvant-BIPLACE</object-name>
-    <object-name>intverriereArriere-BIPLACE</object-name>
-  </effect>
-  
-  <animation>
-    <type>select</type>
-    <object-name>intvitres</object-name>
-    <object-name>intvitres-BIPLACE</object-name>
-    <object-name>intverriereAvant-BIPLACE</object-name>
-    <object-name>intverriereArriere-BIPLACE</object-name>
-    <condition>
-      <less-than>
-        <property>/environment/rain-norm</property>
-        <value>0.1</value>
-      </less-than>
-    </condition>
-  </animation>
-  <model>
-    <path>Aircraft/Mirage-2000/Models/Effects/RainDrops/rainglass.xml</path>
-    <condition>
-      <greater-than>
-        <property>/environment/rain-norm</property>
-        <value>0.1</value>
-      </greater-than>
-    </condition>
-  </model>
+	<effect>
+		<inherits-from>Effects/glass</inherits-from>
+		<object-name>intvitres</object-name>
+		<object-name>intvitres-BIPLACE</object-name>
+		<object-name>intverriereAvant-BIPLACE</object-name>
+		<object-name>intverriereArriere-BIPLACE</object-name>
+	</effect>
 
-  <effect>
-    <inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/interieur-BIPLACE_lighting</inherits-from>
-    <object-name>interieur-BIPLACE</object-name>
-  </effect>
+	<animation>
+		<type>select</type>
+		<object-name>intvitres</object-name>
+		<object-name>intvitres-BIPLACE</object-name>
+		<object-name>intverriereAvant-BIPLACE</object-name>
+		<object-name>intverriereArriere-BIPLACE</object-name>
+		<condition>
+		<less-than>
+			<property>/environment/rain-norm</property>
+			<value>0.1</value>
+		</less-than>
+		</condition>
+	</animation>
+	<model>
+		<path>Aircraft/Mirage-2000/Models/Effects/RainDrops/rainglass.xml</path>
+		<condition>
+		<greater-than>
+			<property>/environment/rain-norm</property>
+			<value>0.1</value>
+		</greater-than>
+		</condition>
+	</model>
+
+	<effect>
+		<inherits-from>Aircraft/Mirage-2000/Models/Effects/interior/interieur-BIPLACE_lighting</inherits-from>
+		<object-name>interieur-BIPLACE</object-name>
+	</effect>
 
 
-  <!-- Tableau de bord pilote -->
-  <model>
-    <name>panel_pilote</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/panel_pilote.xml</path>
-  </model>
+	<!-- Tableau de bord pilote -->
+	<model>
+		<name>panel_pilote</name>
+		<path>Aircraft/Mirage-2000/Models/Interior/panel_pilote.xml</path>
+	</model>
 
-  <!-- Tableau de bord copilote -->
-  <model>
-    <name>panel_copilote</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/panel_copilote.xml</path>
-    <offsets>
-      <x-m>1.62 </x-m>
-      <y-m>0</y-m>
-      <z-m>0.26</z-m>
-    </offsets>
-  </model>
+	<!-- Tableau de bord copilote -->
+	<model>
+		<name>panel_copilote</name>
+		<path>Aircraft/Mirage-2000/Models/Interior/panel_copilote.xml</path>
+		<offsets>
+		<x-m>1.62 </x-m>
+		<y-m>0</y-m>
+		<z-m>0.26</z-m>
+		</offsets>
+	</model>
 
-  <!-- retro -->
-  <model>
-    <name>retro</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/retro/retro.xml</path>
-    <offsets>
-      <x-m>-3.28 </x-m>
-      <y-m>0.00000</y-m>
-      <z-m>0.2</z-m>
-    </offsets>
-  </model>
+	<!-- retro -->
+	<model>
+		<name>retro</name>
+		<path>Aircraft/Mirage-2000/Models/Interior/Instruments/retro/retro.xml</path>
+		<offsets>
+		<x-m>-3.28 </x-m>
+		<y-m>0.00000</y-m>
+		<z-m>0.2</z-m>
+		</offsets>
+	</model>
 
-  <!-- loquet -->
-  <model>
-    <name>loquet_canopy</name>
-    <path>Aircraft/Mirage-2000/Models/Interior/Instruments/loquet/loquet.xml</path>
-    <offsets>
-      <x-m> -3.323 </x-m>
-      <y-m>  0.122 </y-m>
-      <z-m>  0.153 </z-m>
-      <pitch-deg>   -25 </pitch-deg>
-      <roll-deg>    -30 </roll-deg>
-      <heading-deg> -15 </heading-deg>
-    </offsets>
-  </model>
+	<!-- loquet -->
+	<model>
+		<name>loquet_canopy</name>
+		<path>Aircraft/Mirage-2000/Models/Interior/Instruments/loquet/loquet.xml</path>
+		<offsets>
+		<x-m> -3.323 </x-m>
+		<y-m>  0.122 </y-m>
+		<z-m>  0.153 </z-m>
+		<pitch-deg>   -25 </pitch-deg>
+		<roll-deg>    -30 </roll-deg>
+		<heading-deg> -15 </heading-deg>
+		</offsets>
+	</model>
 
-  <!-- pilot -->
-  <model>
-    <name>pilot</name>
-    <path>Aircraft/Mirage-2000/Models/Pilot/pilot.xml</path>
-    <condition>
-      <or>
-        <and>
-          <equals>
-            <property>/controls/seat/pilot</property>
-            <value>1</value>
-          </equals>
-          <equals>
-            <property>/sim/current-view/view-number-raw</property>
-            <value>0</value>
-          </equals>
-        </and>
-        <not>
-          <equals>
-            <property>/sim/current-view/view-number-raw</property>
-            <value>0</value>
-          </equals>
-        </not>
-      </or>
-    </condition>
-    <offsets>
-      <x-m> -2.8 </x-m>
-      <y-m>  0.000 </y-m>
-      <z-m> -0.464 </z-m>
-    </offsets>
-  </model>
+	<!-- pilot -->
+	<model>
+		<name>pilot</name>
+		<path>Aircraft/Mirage-2000/Models/Pilot/pilot.xml</path>
+		<condition>
+		<or>
+			<and>
+			<equals>
+				<property>/controls/seat/pilot</property>
+				<value>1</value>
+			</equals>
+			<equals>
+				<property>/sim/current-view/view-number-raw</property>
+				<value>0</value>
+			</equals>
+			</and>
+			<not>
+			<equals>
+				<property>/sim/current-view/view-number-raw</property>
+				<value>0</value>
+			</equals>
+			</not>
+		</or>
+		</condition>
+		<offsets>
+		<x-m> -2.8 </x-m>
+		<y-m>  0.000 </y-m>
+		<z-m> -0.464 </z-m>
+		</offsets>
+	</model>
 
-  <!-- copilot -->
-  <model>
-    <name>copilot</name>
-    <path>Aircraft/Mirage-2000/Models/Pilot/pilot.xml</path>
-    <condition>
-      <or>
-        <and>
-          <equals>
-            <property>/controls/seat/pilot</property>
-            <value>1</value>
-          </equals>
-          <equals>
-            <property>/sim/current-view/view-number-raw</property>
-            <value>103</value>
-          </equals>
-        </and>
-        <not>
-          <equals>
-            <property>/sim/current-view/view-number-raw</property>
-            <value>103</value>
-          </equals>
-        </not>
-      </or>
-    </condition>
-    <offsets>
-      <x-m> -1.15 </x-m>
-      <y-m>  0.000 </y-m>
-      <z-m> -0.23 </z-m>
-    </offsets>
-  </model>
+	<!-- copilot -->
+	<model>
+		<name>copilot</name>
+		<path>Aircraft/Mirage-2000/Models/Pilot/pilot.xml</path>
+		<condition>
+		<or>
+			<and>
+			<equals>
+				<property>/controls/seat/pilot</property>
+				<value>1</value>
+			</equals>
+			<equals>
+				<property>/sim/current-view/view-number-raw</property>
+				<value>103</value>
+			</equals>
+			</and>
+			<not>
+			<equals>
+				<property>/sim/current-view/view-number-raw</property>
+				<value>103</value>
+			</equals>
+			</not>
+		</or>
+		</condition>
+		<offsets>
+		<x-m> -1.15 </x-m>
+		<y-m>  0.000 </y-m>
+		<z-m> -0.23 </z-m>
+		</offsets>
+	</model>
 
-  <!-- canopy pilot -->
-  <animation>
-    <name>IntEnsembleCanopeAvant</name>
-    <object-name>intcanopyAvant-BIPLACE</object-name>
-    <object-name>intverriereAvant-BIPLACE</object-name>
-    <object-name>Retroviseur</object-name>
-    <object-name>poigneesAvant-BIPLACE</object-name>
-    <object-name>loquet_canopy</object-name>
-  </animation>
+	<!-- canopy pilot -->
+	<animation>
+		<name>IntEnsembleCanopeAvant</name>
+		<object-name>intcanopyAvant-BIPLACE</object-name>
+		<object-name>intverriereAvant-BIPLACE</object-name>
+		<object-name>Retroviseur</object-name>
+		<object-name>poigneesAvant-BIPLACE</object-name>
+		<object-name>loquet_canopy</object-name>
+	</animation>
 
-  <animation>
-    <type>pick</type>
-    <object-name>poigneesAvant-BIPLACE</object-name>
-    <visible>true</visible>
-    <action>
-      <button>0</button>
-      <repeatable>false</repeatable>
-      <binding>
-        <command>nasal</command>
-        <script>doors.move_canopy_byHand();</script>
-      </binding>
-    </action>
-  </animation>
+	<animation>
+		<type>pick</type>
+		<object-name>poigneesAvant-BIPLACE</object-name>
+		<visible>true</visible>
+		<action>
+		<button>0</button>
+		<repeatable>false</repeatable>
+		<binding>
+			<command>nasal</command>
+			<script>doors.move_canopy_byHand();</script>
+		</binding>
+		</action>
+	</animation>
 
-  <animation>
-    <type>rotate</type>
-    <object-name>IntEnsembleCanopeAvant</object-name>
-    <property>sim/model/door-positions/crew/position-norm</property>
-    <interpolation>
-      <entry><ind>0</ind><dep> 0</dep></entry>
-      <entry><ind>1</ind><dep>45</dep></entry>
-    </interpolation>
-    <center>
-      <x-m>-1.8695</x-m>
-      <y-m>  0.000 </y-m>
-      <z-m>0.481605</z-m>
-    </center>
-    <axis>
-      <x> 0 </x>
-      <y> 1 </y>
-      <z> 0 </z>
-    </axis>
-  </animation>
+	<animation>
+		<type>rotate</type>
+		<object-name>IntEnsembleCanopeAvant</object-name>
+		<property>sim/model/door-positions/crew/position-norm</property>
+		<interpolation>
+		<entry><ind>0</ind><dep> 0</dep></entry>
+		<entry><ind>1</ind><dep>45</dep></entry>
+		</interpolation>
+		<center>
+		<x-m>-1.8695</x-m>
+		<y-m>  0.000 </y-m>
+		<z-m>0.481605</z-m>
+		</center>
+		<axis>
+		<x> 0 </x>
+		<y> 1 </y>
+		<z> 0 </z>
+		</axis>
+	</animation>
 
-  <!-- canopy copilot-->
-  <animation>
-    <name>IntEnsembleCanopeArriere</name>
-    <object-name>intcanopyArriere-BIPLACE</object-name>
-    <object-name>intverriereArriere-BIPLACE</object-name>
-    <object-name>poigneesArriere-BIPLACE</object-name>
-  </animation>
+	<!-- canopy copilot-->
+	<animation>
+		<name>IntEnsembleCanopeArriere</name>
+		<object-name>intcanopyArriere-BIPLACE</object-name>
+		<object-name>intverriereArriere-BIPLACE</object-name>
+		<object-name>poigneesArriere-BIPLACE</object-name>
+	</animation>
 
-  <animation>
-    <type>pick</type>
-    <object-name>poigneesArriere-BIPLACE</object-name>
-    <visible>true</visible>
-    <action>
-      <button>0</button>
-      <repeatable>false</repeatable>
-      <binding>
-        <command>nasal</command>
-        <script>doors.move_canopy_byHand();</script>
-      </binding>
-    </action>
-  </animation>
+	<animation>
+		<type>pick</type>
+		<object-name>poigneesArriere-BIPLACE</object-name>
+		<visible>true</visible>
+		<action>
+		<button>0</button>
+		<repeatable>false</repeatable>
+		<binding>
+			<command>nasal</command>
+			<script>doors.move_canopy_byHand();</script>
+		</binding>
+		</action>
+	</animation>
 
-  <animation>
-    <type>rotate</type>
-    <object-name>IntEnsembleCanopeArriere</object-name>
-    <property>sim/model/door-positions/crew/position-norm</property>
-    <interpolation>
-      <entry><ind>0</ind><dep> 0</dep></entry>
-      <entry><ind>1</ind><dep>55</dep></entry>
-    </interpolation>
-    <center>
-      <x-m>-0.435658</x-m>
-      <y-m>  0.000 </y-m>
-      <z-m>0.48736</z-m>
-    </center>
-    <axis>
-      <x> 0 </x>
-      <y> 1 </y>
-      <z> 0 </z>
-    </axis>
-  </animation>
+	<animation>
+		<type>rotate</type>
+		<object-name>IntEnsembleCanopeArriere</object-name>
+		<property>sim/model/door-positions/crew/position-norm</property>
+		<interpolation>
+		<entry><ind>0</ind><dep> 0</dep></entry>
+		<entry><ind>1</ind><dep>55</dep></entry>
+		</interpolation>
+		<center>
+		<x-m>-0.435658</x-m>
+		<y-m>  0.000 </y-m>
+		<z-m>0.48736</z-m>
+		</center>
+		<axis>
+		<x> 0 </x>
+		<y> 1 </y>
+		<z> 0 </z>
+		</axis>
+	</animation>
 
-  <!-- LoD -->
-  <animation>
-    <object-name>panel_pilote</object-name>
-    <object-name>panel_copilote</object-name>
-    <type>range</type>
-    <min-m>  0 </min-m>
-    <max-m> 100 </max-m>
-  </animation>
+	<!-- LoD -->
+	<animation>
+		<object-name>panel_pilote</object-name>
+		<object-name>panel_copilote</object-name>
+		<type>range</type>
+		<min-m>  0 </min-m>
+		<max-m> 100 </max-m>
+	</animation>
 
 </PropertyList>

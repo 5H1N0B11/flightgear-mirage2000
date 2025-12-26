@@ -1025,6 +1025,8 @@ var _getCompassTopLeftTranslation = func() {
 	return [-0.5 * SCREEN_WIDTH + PADDING_HORIZONTAL, -SCREEN_HEIGHT/2 + PADDING_TOP + RADAR_VIEW_HEIGHT];
 };
 
+var variantID = getprop("sim/variant-id");
 var vtm = nil;
-
-var vtm = VTM.new("VTM");
+if (variantID != constants.VARIANT_D) {
+	vtm = VTM.new("VTM");
+}

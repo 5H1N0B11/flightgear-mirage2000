@@ -2095,6 +2095,11 @@ var m2000_mfd = nil;
 var main = func (module) {
 	if (module != nil) print("Display-system init as module");
 
+	var variantID = getprop("sim/variant-id");
+	if (variantID == constants.VARIANT_D) {
+		return; # nothing to do
+	}
+
 	rightMFDDisplayDevice = DisplayDevice.new("RightMFDDisplayDevice", [DISPLAY_WIDTH, DISPLAY_HEIGHT], [1, 1], "right_mfd.canvasCadre", "canvasTex.png");
 	rightMFDDisplayDevice.setColorBackground(COLOR_BLACK);
 

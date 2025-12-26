@@ -2446,5 +2446,10 @@ var _roundabout = func(x) {
 	return y < 0.5 ? int(x) : 1 + int(x) ;
 };
 
+var variantID = getprop("sim/variant-id");
 var hud_pilot = nil;
-var hud_pilot = hud.HUD.new("hud_pilot", {"node": "revi.canvasHUD", "texture": "hud.png"});
+if (variantID == constants.VARIANT_D) {
+	hub_pilot = hud.HUD.new("hud_pilot", {"node": "vth_d.canvas"});
+} else {
+	hud_pilot = hud.HUD.new("hud_pilot", {"node": "revi.canvasHUD", "texture": "hud.png"});
+}

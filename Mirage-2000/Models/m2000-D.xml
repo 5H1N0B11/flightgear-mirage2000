@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
-
 	<nasal>
 		<load>
 			<![CDATA[
@@ -93,9 +92,10 @@
 		<path>Aircraft/Mirage-2000/Models/Service-door/service-door.xml</path>
 	</model>
 
-	<!-- HIDING MONOPLACE PARTS -->
+	<!-- Hiding MONOPLACE parts -->
 	<animation>
 		<type>select</type>
+		<!-- in main.xml-->
 		<object-name>queue-MONOPLACE</object-name>
 		<object-name>canope-MONOPLACE</object-name>
 		<object-name>verriere-MONOPLACE</object-name>
@@ -110,6 +110,28 @@
 		<name>Interior</name>
 		<path>Aircraft/Mirage-2000/Models/Interior/interiorB.xml</path>
 	</model>
+
+	<!-- Hiding different interior parts replaced by -D specific parts -->
+	<animation>
+		<type>select</type>
+		<!-- in main.xml-->
+		<object-name>panel.hud</object-name>
+		<object-name>panel.board_symetric</object-name>
+
+		<!-- Canvas objects -->
+		<object-name>vtm_ac_object</object-name>
+		<object-name>revi.canvasHUD</object-name>
+		<condition>
+			<false />
+		</condition>
+	</animation>
+
+
+	<model>
+		<name>interior_d</name>
+		<path>Aircraft/Mirage-2000/Models/interior_d/interior_d.xml</path>
+	</model>
+
 
 	<animation>
 		<type>translate</type>

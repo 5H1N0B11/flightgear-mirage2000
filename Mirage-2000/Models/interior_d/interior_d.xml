@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+	<model>
+		<name>cockpit_front</name>
+		<path>cockpit_front.gltf</path>
+		<offsets>
+			<x-m>-3.28</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.05</z-m>
+		</offsets>
+	</model>
+
+</PropertyList>

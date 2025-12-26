@@ -79,7 +79,7 @@
 			<path>/instrumentation/tacan/frequencies/selected-channel[4]</path>
 			-->
 		</aircraft-data>
-		<tacview-recording type="bool">0</tacview-recording>
+		<tacview-recording type="bool">false</tacview-recording>
 	</sim>
 
 	<debug-radar> <!-- Needed as dependency when using radar-generic.nas / from F-16 -->
