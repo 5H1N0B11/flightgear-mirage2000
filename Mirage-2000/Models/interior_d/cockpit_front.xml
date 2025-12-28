@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+	<path>cockpit_front.ac</path>
+	<offsets>
+		<x-m>-3.28</x-m>
+		<y-m>0</y-m>
+		<z-m>-0.05</z-m>
+	</offsets>
+
+	<animation>
+		<object-name>vth_d.under_glass</object-name>
+		<object-name>vth_d.upper_glass</object-name>
+	</animation>
+
+	<effect>
+		<inherits-from>Effects/model-transparent</inherits-from>
+		<object-name>vth_d.under_glass</object-name>
+		<object-name>vth_d.upper_glass</object-name>
+	</effect>
+
+</PropertyList>

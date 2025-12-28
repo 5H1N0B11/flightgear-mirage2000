@@ -3,9 +3,14 @@
 <PropertyList>
 	<model>
 		<name>cockpit_front</name>
-		<path>cockpit_front.gltf</path>
+		<path>cockpit_front.xml</path>
+	</model>
+
+	<model>
+		<name>vth_canvas_front</name>
+		<path>vth_canvas_front.gltf</path>
 		<offsets>
-			<x-m>-3.28</x-m>
+			<x-m>-3.35</x-m>
 			<y-m>0</y-m>
 			<z-m>-0.05</z-m>
 		</offsets>

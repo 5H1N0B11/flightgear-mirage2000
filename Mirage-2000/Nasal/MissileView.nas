@@ -19,7 +19,10 @@ var missile_view_handler = {
 	start: func {
 		me.listener = setlistener("/sim/signals/ai-updated", func me._update_(), 1);
 		me.reset();
-		fgcommand("dialog-show", me.dialog);
+		var variantID = getprop("sim/variant-id");
+		if (variantID != constants.VARIANT_D) {
+			fgcommand("dialog-show", me.dialog); # not sure why this is needed at all
+		}
 	},
 
 	stop: func {
