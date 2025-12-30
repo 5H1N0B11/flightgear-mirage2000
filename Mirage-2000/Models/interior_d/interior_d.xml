@@ -10,9 +10,9 @@
 		<name>vth_canvas_front</name>
 		<path>vth_canvas_front.gltf</path>
 		<offsets>
-			<x-m>-3.35</x-m>
+			<x-m>-3.38</x-m>
 			<y-m>0</y-m>
-			<z-m>-0.05</z-m>
+			<z-m>-0.08</z-m>
 		</offsets>
 	</model>
 

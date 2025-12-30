@@ -3,9 +3,9 @@
 <PropertyList>
 	<path>cockpit_front.ac</path>
 	<offsets>
-		<x-m>-3.28</x-m>
+		<x-m>-3.38</x-m>
 		<y-m>0</y-m>
-		<z-m>-0.05</z-m>
+		<z-m>-0.08</z-m>
 	</offsets>
 
 	<animation>

@@ -115,9 +115,13 @@
 	<animation>
 		<type>select</type>
 		<!-- in main.xml-->
-		<object-name>panel.hud</object-name>
+		<object-name>panel.board_asymetric</object-name>
+		<object-name>panel.board_asymetric_light</object-name>
+		<object-name>panel.board_inscriptions</object-name>
 		<object-name>panel.board_symetric</object-name>
-
+		<object-name>panel.buttons_statics</object-name>
+		<object-name>panel.casquette</object-name>
+		<object-name>panel.hud</object-name>
 		<!-- Canvas objects -->
 		<object-name>vtm_ac_object</object-name>
 		<object-name>revi.canvasHUD</object-name>
