@@ -133,7 +133,7 @@ var display_heading = func() {
       if (bugbug != nil) {setprop("instrumentation/mfd/bug-heading-displayed",bugbug);}
     }
 
-    settimer(display_heading, 0.2);
+    settimer(display_heading, 1.);
 }
 
 display_heading();
@@ -143,7 +143,7 @@ var initIns = func()
     gearBox();
     Tacan();
 
-    settimer(initIns, 0.5);
+    settimer(initIns, 1.);
 }
 
 #Light Stuff can be considered as a part of the instrumentation--------------------------------------------------------

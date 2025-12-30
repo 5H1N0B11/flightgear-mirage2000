@@ -150,7 +150,7 @@ var _updateFunction = func() {
 	}
 
 	################## Rate 0.1 ##################
-	if (AbsoluteTime - myFramerate.a > 0.05) {
+	if (AbsoluteTime - myFramerate.a > 0.1) {
 		call(mirage2000.theShakeEffect,nil,nil,nil, myErr);
 		myFramerate.a = AbsoluteTime;
 	}

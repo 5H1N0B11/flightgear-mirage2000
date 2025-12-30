@@ -38,6 +38,10 @@ var DISPLAY_ROW_HEIGHT_4 = 6.0/6.4 * DISPLAY_HEIGHT;
 
 var LAYER_SERVICEABLE = "LayerServiceable";
 
+var PAGE_EHSI = "PageEHSI"; # Electronic Horizontal Situation Indicator (EHSI)
+var PAGE_EHSI_MENU_ITEM = "EHSI";
+var PAGE_EADI = "PageEADI"; # Electronic Attitude Direction Indicator (EADI)
+var PAGE_EADI_MENU_ITEM = "EADI";
 var PAGE_SMS = "PageSMS";
 var PAGE_SMS_MENU_ITEM = "SMS";
 var PAGE_RWR = "PageRWR";
@@ -56,6 +60,7 @@ var margin = {
 		fillHeight: 2,
 		outline: 2,
 		between_menu_item: 32, # for left and right hand buttons
+		to_virtual_item: 48, # ca. 1.5*between_menu_item
 		row_text: 60,
 	},
 };
@@ -180,6 +185,14 @@ var OSB22 = "OSB22";
 var OSB23 = "OSB23";
 var OSB24 = "OSB24";
 var OSB25 = "OSB25";
+var OSB26 = "OSB26";
+var OSB27 = "OSB27";
+var OSB28 = "OSB28";
+var OSB29 = "OSB29";
+var OSB30 = "OSB30";
+var OSB31 = "OSB31";
+var OSB32 = "OSB32";
+var OSB33 = "OSB33";
 
 var OSB_PLUS = " + "; # extra whitespace on purpose to get away from border
 var OSB_MINUS = " - ";
@@ -364,9 +377,9 @@ var DisplayDevice = {
 				.setTranslation(me.myCenter);
 	},
 
-    addControlFeedback: func {
-    	me.feedbackRadius = 35;
-    	me.cntlFeedback = me.controlGrp.createChild("path")
+	addControlFeedback: func {
+		me.feedbackRadius = 35;
+		me.cntlFeedback = me.controlGrp.createChild("path")
 	            .moveTo(-me.feedbackRadius,0)
 	            .arcSmallCW(me.feedbackRadius,me.feedbackRadius, 0,  me.feedbackRadius*2, 0)
 	            .arcSmallCW(me.feedbackRadius,me.feedbackRadius, 0, -me.feedbackRadius*2, 0)
@@ -376,7 +389,7 @@ var DisplayDevice = {
 	            .setColor(colorDot2[0],colorDot2[1],colorDot2[2],0.15)
 	            .setColorFill(colorDot2[0],colorDot2[1],colorDot2[2],0.3)
 	            .hide();
-    },
+	},
 
 	setControlTextColors: func (foreground, background) {
 		me.colorFront = foreground;
@@ -431,7 +444,7 @@ var DisplaySystem = {
 	},
 
 	initDevice: func (propertyNum, controlPositions, fontSize) {
-		me.device.addControls(PUSHBUTTON, "OSB", 1, 25, "controls/MFD["~propertyNum~"]/button-pressed", controlPositions);
+		me.device.addControls(PUSHBUTTON, "OSB", 1, 33, "controls/MFD["~propertyNum~"]/button-pressed", controlPositions);
 		me.device.fontSize = fontSize;
 
 		for (var i = 1; i <= 5; i+= 1) { # top row
@@ -440,16 +453,19 @@ var DisplaySystem = {
 		for (var i = 6; i <= 9; i+= 1) { # bottom row
 			me.device.addControlText("OSB", "OSB"~i, [0, -margin.device.button_text], i-1, 0, 1);
 		}
-		for (var i = 10; i <= 17; i+= 1) { # left column
+		for (var i = 10; i <= 21; i+= 1) { # left column
 			me.device.addControlText("OSB", "OSB"~i, [margin.device.button_text, 0], i-1, -1, 0);
 		}
-		for (var i = 18; i <= 25; i+= 1) { # right column
+		for (var i = 22; i <= 33; i+= 1) { # right column
 			me.device.addControlText("OSB", "OSB"~i, [-margin.device.button_text, 0], i-1, 1, 0);
 		}
 	},
 
 	initPage: func (pageName) {
-		if (DisplaySystem[pageName] == nil) {print(pageName," does not exist");return;}
+		if (DisplaySystem[pageName] == nil) {
+			print(pageName," does not exist");
+			return;
+		}
 		me.tempPageInstance = DisplaySystem[pageName].new();
 		me.device.initPage(me.tempPageInstance);
 		me.pages[me.tempPageInstance.name] = me.tempPageInstance;
@@ -465,6 +481,8 @@ var DisplaySystem = {
 		me.pages = {};
 		me.layers = {};
 
+		me.initPage(PAGE_EHSI);
+		me.initPage(PAGE_EADI);
 		me.initPage(PAGE_SMS);
 		me.initPage(PAGE_PPA);
 		me.initPage(PAGE_RWR);
@@ -568,6 +586,183 @@ var DisplaySystem = {
 			}
 			me.serviceable_markers.setVisible(noti.getproper("wow"));
 		},
+	},
+
+
+#    ██████   █████   ██████  ███████     ███████ ██   ██ ███████ ██
+#    ██   ██ ██   ██ ██       ██          ██      ██   ██ ██      ██
+#    ██████  ███████ ██   ███ █████       █████   ███████ ███████ ██
+#    ██      ██   ██ ██    ██ ██          ██      ██   ██      ██ ██
+#    ██      ██   ██  ██████  ███████     ███████ ██   ██ ███████ ██
+
+
+	PageEHSI: {
+		name: PAGE_EHSI,
+		isNew: TRUE,
+		needGroup: TRUE,
+
+		new: func {
+			me.instance = {parents:[DisplaySystem.PageEHSI]};
+			me.instance.group = nil;
+			return me.instance;
+		},
+
+		setup: func {
+			me.input = {
+				heading_true           : "/orientation/heading-deg",
+				heading_mag            : "/orientation/heading-magnetic-deg",
+				show_true_north        : "/instrumentation/efis/mfd/true-north"
+			};
+
+			foreach(var name; keys(me.input)) {
+				me.input[name] = props.globals.getNode(me.input[name], 1);
+			}
+
+			me.mode = 0; # VOR = 0, DATA = 1, TAC = 2
+			me.course_selected = 0; # OBS (Omni-Bearing Selector) of HSI / Needle / The path
+
+			me.osb13 = "TH";
+			me.osb14 = "MH";
+			me.osb16 = "VOR";
+			me.osb17 = "DATA";
+			me.osb18 = "TAC";
+			me.osb25 = OSB_PLUS;
+			me.osb26 = OSB_MINUS;
+		},
+
+		enter: func {
+			# printDebug("Enter ",me.name~" on ",me.device.name);
+			if (me.isNew) {
+				me.setup();
+				me.isNew = FALSE;
+			}
+			me.device.resetControls();
+			me.device.controls[OSB3].setControlText(PAGE_EADI_MENU_ITEM);
+		},
+
+		_changeMode: func(delta) {
+			me.mode += delta;
+			if (me.mode < 0) {
+				me.mode = 0;
+			} elsif (me.mode > 2) {
+				me.mode = 2;
+			}
+		},
+
+		_changeSelectedCourse: func(delta) {
+			me.course_selected += delta;
+			if (me.course_selected >= 360) {
+				me.course_selected -= 360;
+			} elsif (me.course_selected < 0) {
+				me.course_selected = 360 - me.course_selected;
+			}
+		},
+
+		controlAction: func (controlName) {
+			if (controlName == OSB13) {
+				me.input.show_true_north.setValue(TRUE);
+			} elsif (controlName == OSB14) {
+				me.input.show_true_north.setValue(FALSE);
+			} elsif (controlName == OSB16) {
+				me._changeMode(-1);
+			} elsif (controlName == OSB17) {
+				me._changeMode(1);
+			} elsif (controlName == OSB25) {
+				me._changeSelectedCourse(10);
+			} elsif (controlName == OSB26) {
+				me._changeSelectedCourse(-1);
+			}
+		},
+
+		update: func(noti = nil) {
+			if (noti.FrameCount != 3) {
+				return;
+			}
+			me.osb13_selected = FALSE;
+			me.osb14_selected = FALSE;
+			me.osb16_selected = FALSE;
+			me.osb17_selected = FALSE;
+			me.osb18_selected = FALSE;
+			if (me.input.show_true_north.getValue() == TRUE) {
+				me.osb13_selected = TRUE;
+			} else {
+				me.osb14_selected = TRUE;
+			}
+			if (me.mode == 0) {
+				me.osb16_selected = TRUE;
+			} elsif (me.mode == 1) {
+				me.osb17_selected = TRUE;
+			} else {
+				me.osb18_selected = TRUE;
+			}
+			me.device.controls[OSB13].setControlText(me.osb13, TRUE, me.osb13_selected);
+			me.device.controls[OSB14].setControlText(me.osb14, TRUE, me.osb14_selected);
+			me.device.controls[OSB16].setControlText(me.osb16, TRUE, me.osb16_selected);
+			me.device.controls[OSB17].setControlText(me.osb17, TRUE, me.osb17_selected);
+			me.device.controls[OSB18].setControlText(me.osb18, TRUE, me.osb18_selected);
+			me.device.controls[OSB25].setControlText(me.osb25);
+			me.device.controls[OSB26].setControlText(me.osb26);
+		},
+
+		exit: func {
+		},
+
+		links: {
+			OSB3: PAGE_EADI,
+		},
+
+		layers: [LAYER_SERVICEABLE],
+	},
+
+
+#    ██████   █████   ██████  ███████     ███████  █████  ██████  ██
+#    ██   ██ ██   ██ ██       ██          ██      ██   ██ ██   ██ ██
+#    ██████  ███████ ██   ███ █████       █████   ███████ ██   ██ ██
+#    ██      ██   ██ ██    ██ ██          ██      ██   ██ ██   ██ ██
+#    ██      ██   ██  ██████  ███████     ███████ ██   ██ ██████  ██
+
+
+	PageEADI: {
+		name: PAGE_EADI,
+		isNew: TRUE,
+		needGroup: TRUE,
+
+		new: func {
+			me.instance = {parents:[DisplaySystem.PageEADI]};
+			me.instance.group = nil;
+			return me.instance;
+		},
+
+		setup: func {
+		},
+
+		enter: func {
+			# printDebug("Enter ",me.name~" on ",me.device.name);
+			if (me.isNew) {
+				me.setup();
+				me.isNew = FALSE;
+			}
+			me.device.resetControls();
+			me.device.controls[OSB3].setControlText(PAGE_SMS_MENU_ITEM);
+		},
+
+		controlAction: func (controlName) {
+		},
+
+		update: func(noti = nil) {
+			if (noti.FrameCount != 3) {
+				return;
+			}
+		},
+
+		exit: func {
+		},
+
+		links: {
+			OSB3: PAGE_SMS,
+		},
+
+		layers: [LAYER_SERVICEABLE],
 	},
 
 
@@ -814,9 +1009,9 @@ var DisplaySystem = {
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB24) {
+			if (controlName == OSB32) {
 				me._toggle_fbw_mode(0);
-			} elsif (controlName == OSB25) {
+			} elsif (controlName == OSB33) {
 				me._toggle_fbw_mode(1);
 			}
 		},
@@ -824,11 +1019,11 @@ var DisplaySystem = {
 		_toggle_fbw_mode: func (mode) {
 			me.input.fbw_mode.setValue(mode);
 			if (mode == 0) {
-				me.device.controls[OSB24].setControlText(me.FBW_AA_MENU_ITEM, TRUE, TRUE);
-				me.device.controls[OSB25].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB32].setControlText(me.FBW_AA_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB33].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, FALSE);
 			} else {
-				me.device.controls[OSB24].setControlText(me.FBW_AA_MENU_ITEM, TRUE, FALSE);
-				me.device.controls[OSB25].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB32].setControlText(me.FBW_AA_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB33].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, TRUE);
 			}
 		},
 
@@ -1049,35 +1244,35 @@ var DisplaySystem = {
 				if (me.wpn != nil and contains(me.wpn, "powerOnRequired") and me.wpn["powerOnRequired"] == TRUE) {
 					me.wpn.togglePowerOn();
 				}
-			} elsif (controlName == OSB18) {
+			} elsif (controlName == OSB12) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
 					_changeCannonRate(TRUE);
 				}
-			} elsif (controlName == OSB19) {
+			} elsif (controlName == OSB23) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
 					_changeCannonRate(FALSE);
 				}
-			} elsif (controlName == OSB20) {
+			} elsif (controlName == OSB25) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
 					me.input.cannon_air_ground.setValue(FALSE); # air to air
 				}
-			} elsif (controlName == OSB21) {
+			} elsif (controlName == OSB26) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
 					me.input.cannon_air_ground.setValue(TRUE); # air to ground
 				}
-			} elsif (controlName == OSB22) {
+			} elsif (controlName == OSB28) {
 				if (me.wpn_kind == WPN_KIND_FALL) {
 					if (me.rp < 18) {
 						pylons.fcs.setRippleMode(me.rp + 1);
 					}
 				}
-			} elsif (controlName == OSB23) {
+			} elsif (controlName == OSB29) {
 				if (me.wpn_kind == WPN_KIND_FALL) {
 					if (me.rp > 1) {
 						pylons.fcs.setRippleMode(me.rp - 1);
 					}
 				}
-			} elsif (controlName == OSB24) {
+			} elsif (controlName == OSB32) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
 					me._changeWingspan(1);
 				} else if (me.wpn_kind == WPN_KIND_FALL) {
@@ -1087,7 +1282,7 @@ var DisplaySystem = {
 						pylons.fcs.setRippleDist(me.rpd + 10);
 					}
 				}
-			} elsif (controlName == OSB25) {
+			} elsif (controlName == OSB33) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
 					me._changeWingspan(5);
 				} else if (me.wpn_kind == WPN_KIND_FALL) {
@@ -1118,18 +1313,18 @@ var DisplaySystem = {
 			me.osb6_selected = FALSE;
 			me.osb9 = ""; # reserved for Power On/Off
 			me.osb9_selected = FALSE;
-			me.osb18 = "";
-			me.osb18_selected = FALSE;
-			me.osb19 = "";
-			me.osb19_selected = FALSE;
-			me.osb20 = "";
-			me.osb20_selected = FALSE;
-			me.osb21 = "";
-			me.osb21_selected = FALSE;
 			me.osb22 = "";
+			me.osb22_selected = FALSE;
 			me.osb23 = "";
-			me.osb24 = "";
+			me.osb23_selected = FALSE;
 			me.osb25 = "";
+			me.osb25_selected = FALSE;
+			me.osb26 = "";
+			me.osb26_selected = FALSE;
+			me.osb28 = "";
+			me.osb29 = "";
+			me.osb32 = "";
+			me.osb33 = "";
 
 			me.row_1_right_text.hide();
 			me.row_2_right_text.hide();
@@ -1152,29 +1347,29 @@ var DisplaySystem = {
 					me.wpn_kind = WPN_KIND_CANNON;
 					me.cannon_rate = me.input.cannon_rate_0.getValue();
 					if (me.wpn.type == "30mm Cannon") {
-						me.osb18 = "High";
-						me.osb19 = "Low";
+						me.osb22 = "High";
+						me.osb23 = "Low";
 						if (me.cannon_rate > 0.04) {
-							me.osb19_selected = TRUE;
+							me.osb23_selected = TRUE;
 						} else {
-							me.osb18_selected = TRUE;
+							me.osb22_selected = TRUE;
 						}
 						me.row_1_right_text.updateText("Fire rate:");
 						me.row_1_right_text.show();
 					} # else: the rate cannot be changed in the CC422 gun pod
 
-					me.osb20 = "A/A";
-					me.osb21 = "A/G";
+					me.osb25 = "A/A";
+					me.osb26 = "A/G";
 					if (me.input.cannon_air_ground.getValue()) {
-						me.osb21_selected = TRUE;
+						me.osb26_selected = TRUE;
 					} else {
-						me.osb20_selected = TRUE;
+						me.osb25_selected = TRUE;
 					}
 					me.row_2_right_text.updateText("Mode:");
 					me.row_2_right_text.show();
 
-					me.osb24 = "+1";
-					me.osb25 = "+5";
+					me.osb32 = "+1";
+					me.osb33 = "+5";
 					me.row_4_right_text.updateText("Wingspan: "~me.input.cannon_air_air_wingspan.getValue());
 					me.row_4_right_text.show();
 
@@ -1191,10 +1386,10 @@ var DisplaySystem = {
 					me.rp = pylons.fcs.getRippleMode();
 					me.row_3_right_text.updateText("Ripple: "~me.rp);
 					if (me.rp < 18) { # according to RAZBAM manual page 506
-						me.osb22 = OSB_PLUS;
+						me.osb28 = OSB_PLUS;
 					}
 					if (me.rp > 1) { # the Mirage can set it to 0, but setRippleMode in fire-control.nas will keep a min of 1
-						me.osb23 = OSB_MINUS;
+						me.osb29 = OSB_MINUS;
 					}
 
 					if (me.rp > 1) {
@@ -1202,10 +1397,10 @@ var DisplaySystem = {
 						me.row_4_right_text.show();
 						me.row_4_right_text.updateText("Dist m: "~me.rpd);
 						if (me.rpd < 200) { # according to RAZBAM manual page 508 200m is max
-							me.osb24 = OSB_PLUS;
+							me.osb32 = OSB_PLUS;
 						}
 						if (me.rpd > 5) { # according to RAZBAM manual page 508 it could be set to 0, but we cannot model that easily. Therefore 5
-							me.osb25 = OSB_MINUS;
+							me.osb33 = OSB_MINUS;
 						}
 					}
 
@@ -1241,14 +1436,14 @@ var DisplaySystem = {
 
 			me.device.controls[OSB6].setControlText(me.osb6, TRUE, me.osb6_selected);
 			me.device.controls[OSB9].setControlText(me.osb9, TRUE, me.osb9_selected);
-			me.device.controls[OSB18].setControlText(me.osb18, TRUE, me.osb18_selected);
-			me.device.controls[OSB19].setControlText(me.osb19, TRUE, me.osb19_selected);
-			me.device.controls[OSB20].setControlText(me.osb20, TRUE, me.osb20_selected);
-			me.device.controls[OSB21].setControlText(me.osb21, TRUE, me.osb21_selected);
-			me.device.controls[OSB22].setControlText(me.osb22);
-			me.device.controls[OSB23].setControlText(me.osb23);
-			me.device.controls[OSB24].setControlText(me.osb24);
-			me.device.controls[OSB25].setControlText(me.osb25);
+			me.device.controls[OSB22].setControlText(me.osb22, TRUE, me.osb22_selected);
+			me.device.controls[OSB23].setControlText(me.osb23, TRUE, me.osb23_selected);
+			me.device.controls[OSB25].setControlText(me.osb25, TRUE, me.osb25_selected);
+			me.device.controls[OSB26].setControlText(me.osb26, TRUE, me.osb26_selected);
+			me.device.controls[OSB28].setControlText(me.osb28);
+			me.device.controls[OSB29].setControlText(me.osb29);
+			me.device.controls[OSB32].setControlText(me.osb32);
+			me.device.controls[OSB33].setControlText(me.osb33);
 		},
 
 		exit: func {
@@ -1534,9 +1729,9 @@ var DisplaySystem = {
 			} elsif (controlName == OSB11) {
 				me._toggle_separate(FALSE);
 			}
-			if (controlName == OSB16) {
+			if (controlName == OSB20) {
 				me._toggle_show_unknowns(TRUE);
-			} elsif (controlName == OSB17) {
+			} elsif (controlName == OSB21) {
 				me._toggle_show_unknowns(FALSE);
 			}
 		},
@@ -1544,11 +1739,11 @@ var DisplaySystem = {
 		_toggle_show_unknowns: func (show) {
 			me.show_unknowns = show;
 			if (me.show_unknowns) {
-				me.device.controls[OSB16].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
-				me.device.controls[OSB17].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB20].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB20].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
 			} else {
-				me.device.controls[OSB16].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
-				me.device.controls[OSB17].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB20].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB21].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
 			}
 		},
 
@@ -1945,12 +2140,12 @@ var DisplaySystem = {
 			if (new_zoom != me.zoom) {
 				me.zoom = new_zoom;
 				if (me.zoom == me.MIN_ZOOM) {
-					me.device.controls[OSB25].setControlText("");
+					me.device.controls[OSB33].setControlText("");
 				} elsif (me.zoom == me.MAX_ZOOM) {
-					me.device.controls[OSB24].setControlText("");
+					me.device.controls[OSB32].setControlText("");
 				} else {
-					me.device.controls[OSB24].setControlText("In");
-					me.device.controls[OSB25].setControlText("Out");
+					me.device.controls[OSB32].setControlText("In");
+					me.device.controls[OSB33].setControlText("Out");
 				}
 			}
 		},
@@ -1962,16 +2157,16 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB3].setControlText(PAGE_SMS_MENU_ITEM);
-			me.device.controls[OSB24].setControlText("In");
-			me.device.controls[OSB25].setControlText("Out");
+			me.device.controls[OSB3].setControlText(PAGE_EHSI_MENU_ITEM);
+			me.device.controls[OSB32].setControlText("In");
+			me.device.controls[OSB33].setControlText("Out");
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB24) {
+			if (controlName == OSB32) {
 				me._changeZoomMap(1);
-			} elsif (controlName == OSB25) {
+			} elsif (controlName == OSB33) {
 				me._changeZoomMap(-1);
 			}
 		},
@@ -2044,7 +2239,7 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_SMS,
+			OSB3: PAGE_EHSI,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -2093,7 +2288,9 @@ var m2000_mfd = nil;
 
 
 var main = func (module) {
-	if (module != nil) print("Display-system init as module");
+	if (module != nil) {
+		print("Display-system init as module");
+	}
 
 	var variantID = getprop("sim/variant-id");
 	if (variantID == constants.VARIANT_D) {
@@ -2122,21 +2319,29 @@ var main = func (module) {
 		# These are not buttons, but rocker-switches - left row = pot-l1 ... pot-l4
 		[0, DISPLAY_ROW_HEIGHT_1 - margin.device.between_menu_item/2], # OSB10
 		[0, DISPLAY_ROW_HEIGHT_1 + margin.device.between_menu_item/2],
-		[0, DISPLAY_ROW_HEIGHT_2 - margin.device.between_menu_item/2], # OSB12
+		[0, DISPLAY_ROW_HEIGHT_1 + margin.device.to_virtual_item],
+		[0, DISPLAY_ROW_HEIGHT_2 - margin.device.between_menu_item/2], # OSB13
 		[0, DISPLAY_ROW_HEIGHT_2 + margin.device.between_menu_item/2],
-		[0, DISPLAY_ROW_HEIGHT_3 - margin.device.between_menu_item/2], # OSB14
+		[0, DISPLAY_ROW_HEIGHT_2 + margin.device.to_virtual_item],
+		[0, DISPLAY_ROW_HEIGHT_3 - margin.device.between_menu_item/2], # OSB16
 		[0, DISPLAY_ROW_HEIGHT_3 + margin.device.between_menu_item/2],
-		[0, DISPLAY_ROW_HEIGHT_4 - margin.device.between_menu_item/2], # OSB16
+		[0, DISPLAY_ROW_HEIGHT_3 + margin.device.to_virtual_item],
+		[0, DISPLAY_ROW_HEIGHT_4 - margin.device.to_virtual_item], # OSB19
+		[0, DISPLAY_ROW_HEIGHT_4 - margin.device.between_menu_item/2],
 		[0, DISPLAY_ROW_HEIGHT_4 + margin.device.between_menu_item/2],
 
 		# right row = pot-r1 ... pot-r4
-		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_1 - margin.device.between_menu_item/2], # OSB18
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_1 - margin.device.between_menu_item/2], # OSB22
 		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_1 + margin.device.between_menu_item/2],
-		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_2 - margin.device.between_menu_item/2], # OSB20
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_1 + margin.device.to_virtual_item],
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_2 - margin.device.between_menu_item/2], # OSB25
 		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_2 + margin.device.between_menu_item/2],
-		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_3 - margin.device.between_menu_item/2], # OSB22
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_2 + margin.device.to_virtual_item],
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_3 - margin.device.between_menu_item/2], # OSB28
 		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_3 + margin.device.between_menu_item/2],
-		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_4 - margin.device.between_menu_item/2], # OSB24
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_3 + margin.device.to_virtual_item],
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_4 - margin.device.to_virtual_item],#OSB31
+		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_4 - margin.device.between_menu_item/2],
 		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_4 + margin.device.between_menu_item/2],
 	];
 
@@ -2149,7 +2354,7 @@ var main = func (module) {
 	rightMFDDisplayDevice.addControlFeedback();
 
 	rightMFDDisplaySystem.initPages();
-	rightMFDDisplaySystem.selectPage(PAGE_SMS);
+	rightMFDDisplaySystem.selectPage(PAGE_EHSI);
 
 	m2000_mfd = M2000MFDRecipient.new("M2000");
 	emesary.GlobalTransmitter.Register(m2000_mfd);
@@ -2214,4 +2419,4 @@ var printfDebug = func {if (debugDisplays) {var str = call(sprintf,arg,nil,nil,v
 # Note calling printf directly with call() will sometimes crash the sim, so we call sprintf instead.
 
 
-main(nil);# disable this line if running as module
+main(nil); # disable this line if running as module
