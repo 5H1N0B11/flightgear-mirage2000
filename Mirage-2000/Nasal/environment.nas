@@ -47,18 +47,18 @@ var rho_sndspeed = func(altitude)
 }
 
 var max_cloud_layer = func() {
-  #Generate a property that give the max cloud layer  
-  
+  #Generate a property that give the max cloud layer
+
   #Creating property in tree
   var maxCloudLayer = props.globals.getNode("/environment/maxCloudLayer",1);
-  
+
   #Taking the tree for the loop
   var layerTree = props.globals.getNode("/environment/clouds/");
-    
+
   #Variable for the max alt
-  var cloudlayerAlt = 0 ; 
+  var cloudlayerAlt = 0 ;
   var raw_list = layerTree.getChildren();
-  
+
   #The loop
   foreach(var c ; raw_list)
   {
@@ -84,8 +84,8 @@ input = {
   apLockSpeed:      "autopilot/locks/speed",
   augmentation:     "/controls/engines/engine[0]/augmentation",
   dcVolt:           "systems/electrical/volts",
-  
-  
+
+
   dme:              "instrumentation/dme/KDI572-574/nm",
   dmeDist:          "instrumentation/dme/indicated-distance-nm",
   downFps:          "/velocities/down-relground-fps",
@@ -142,11 +142,10 @@ input = {
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
   groudSpeed:       "/velocities/groundspeed-kt",
-  srvHead:          "instrumentation/heading-indicator/serviceable",
   starter:          "controls/engines/engine[0]/starter-cmd",
   stationSelect:    "controls/armament/station-select",
-  subAmmo2:         "ai/submodels/submodel[2]/count", 
-  subAmmo3:         "ai/submodels/submodel[3]/count", 
+  subAmmo2:         "ai/submodels/submodel[2]/count",
+  subAmmo3:         "ai/submodels/submodel[3]/count",
   sunAngle:         "sim/time/sun-angle-rad",
   switchBeacon:     "controls/electric/lights-ext-beacon",
   switchFlash:      "controls/electric/lights-ext-flash",
@@ -159,7 +158,7 @@ input = {
   viewName:         "sim/current-view/name",
   viewYOffset:      "sim/current-view/y-offset-m",
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
-  
+
   airconditioningtype:        "/controls/ventilation/airconditioning-type",
   airconditioningtemperature: "/controls/ventilation/airconditioning-temperature",
   airconditioningenabled:     "/controls/ventilation/airconditioning-enabled",
@@ -181,8 +180,8 @@ var LOOP_SLOW_RATE     = 1.50;
   foreach(var name; keys(input)) {
       input[name] = props.globals.getNode(input[name], 1);
   }
-  
-input.glasstempIndex.setValue(0.80); 
+
+input.glasstempIndex.setValue(0.80);
 input.fogNormInside.setValue(0);
 input.fogNormOutside.setValue(0);
 input.frostNormInside.setValue(0);
@@ -197,15 +196,15 @@ input.airconditioningtype.setValue(0);
 
 #airConditionKnob is middle at 0 in auto mode.180 middle in manual mode
 #90 Max Hot.91 => going to manual d
-# 
+#
 #    30 -------------   22 ------------- 15     Temp deg C
 #                   Automatic
 #    90  ------------   0  ------------- 270    Knob deg
-#    |                                    | 
+#    |                                    |
 #    91  ------------- 180 ------------- 269    Knob deg
 #                   Manual
 #    30  ------------- 22 ---------------15     Temp deg C
-                  
+
 
 var acSetting = 0;
 var acTimer = 0;
@@ -263,7 +262,7 @@ var mask=0;
 
 #From the Viggen. Has to be converted
 var environment =  func (){
-    
+
     ###########################################################
     #               Aircondition, frost, fog and rain         #
     ###########################################################
@@ -321,8 +320,8 @@ var environment =  func (){
     pilot_deg_min  = 0.2;
     knob = getprop("controls/ventilation/windshield-hot-air-knob");
     hotAirOnWindshield = input.dcVolt.getValue() > 23?knob:0;
-    
-    
+
+
     if (input.canopyPos.getValue() > 0 ){ #or input.canopyHinge.getValue() == FALSE) {
       tempInside = tempOutside;
     } else {
@@ -330,7 +329,7 @@ var environment =  func (){
       if (tempInside < 37) {
         tempInside = tempInside + (pilot_deg_min/(60/LOOP_SLOW_RATE)); # pilot will also heat cockpit with 1 deg per 5 mins
       }
-      
+
       # outside temp will influence inside temp:
       coolingFactor = clamp(abs(tempInside - tempOutside)*0.005, 0, 0.10);# 20 degrees difference will cool/warm with 0.10 Deg C every 1.5 second
       if (tempInside < tempOutside) {
@@ -351,7 +350,7 @@ var environment =  func (){
     # calc temp of glass itself
     tempIndex = getprop("/environment/aircraft-effects/glass-temperature-index"); # 0.80 = good window   0.45 = bad window
     tempGlass = tempIndex*(tempInside - tempOutside)+tempOutside;
-    
+
     # calc dewpoint inside
     if (input.canopyPos.getValue() > 0){ # or input.canopyHinge.getValue() == FALSE) {
       # canopy is open, inside dewpoint aligns to outside dewpoint instead
@@ -377,7 +376,7 @@ var environment =  func (){
     # calc fogging outside and inside on glass
     fogNormOutside = clamp((tempOutsideDew-tempGlass)*0.05, 0, 1);
     fogNormInside = clamp((tempInsideDew-tempGlass)*0.05, 0, 1);
-    
+
     # calc frost
     frostNormOutside = getprop("/environment/aircraft-effects/frost-outside");
     frostNormInside = getprop("/environment/aircraft-effects/frost-inside");
@@ -436,19 +435,19 @@ var environment =  func (){
   var clamp = func(v, min, max) {
    v < min ? min : v > max ? max : v
   };
-  
+
 var TempInterpolation = func(){
   #airConditionKnob is middle at 0 in auto mode.180 middle in manual mode
 #90 Max Hot.91 => going to manual d
-# 
+#
 #    30 -------------   22 ------------- 15     Temp deg C
 #                   Automatic
 #    90  ------------   0  ------------- 270    Knob deg
-#    |                                    | 
+#    |                                    |
 #    91  ------------- 180 ------------- 269    Knob deg
 #                   Manual
 #    30  ------------- 22 ---------------15     Temp deg C
-  
+
 # input.airConditionKnob.setValue(0);
 # controls/ventilation/airconditioning-temperature
   input.airconditioningtemperature.setValue(8*math.sin(input.airConditionKnob.getValue()*D2R)+22);

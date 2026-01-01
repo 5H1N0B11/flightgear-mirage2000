@@ -88,12 +88,6 @@ Mirage 2000 instrument defintions in /sim/instrumenation (i.e. != /instrumenatio
 		<number>0</number>
 	</marker-beacon>
 
-	<heading-indicator>
-		<name>heading-indicator</name>
-		<number>0</number>
-		<suction>/systems/vacuum/suction-inhg</suction>
-	</heading-indicator>
-
 	<KT-70>
 		<name>kt-70</name>
 		<number>0</number>

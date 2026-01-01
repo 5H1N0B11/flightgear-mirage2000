@@ -38,6 +38,8 @@ var DISPLAY_ROW_HEIGHT_4 = 6.0/6.4 * DISPLAY_HEIGHT;
 
 var LAYER_SERVICEABLE = "LayerServiceable";
 
+var PAGE_HUB = "PageHub";
+var PAGE_HUB_MENU_ITEM = "Hub";
 var PAGE_EHSI = "PageEHSI"; # Electronic Horizontal Situation Indicator (EHSI)
 var PAGE_EHSI_MENU_ITEM = "EHSI";
 var PAGE_EADI = "PageEADI"; # Electronic Attitude Direction Indicator (EADI)
@@ -72,6 +74,11 @@ var lineWidth = {
 	layer_serviceable: {
 		lines: 6,
 	},
+	page_ehsi: {
+		triangle: 2,
+		course_needle: 4,
+		arrow: 4,
+	},
 	page_sms: {
 		aircraft_outline: 2,
 		pylons_box: 2,
@@ -86,6 +93,10 @@ var font = {
 	device: {
 		main: 24,
 		row_text: 24,
+	},
+	page_ehsi: {
+		compass: 16,
+		text: 32,
 	},
 	page_sms: {
 		pylons_text: 20,
@@ -278,8 +289,10 @@ var DisplayDevice = {
 								.set(Z_INDEX, zIndex.device.osb)
 								.set("font", FONT_MONO_REGULAR);
 		}
-		me.controls.master.setControlText = func (text, positive = 1, outline = 0, rear = 0, blink = 0) {
-			# rear is adjustment of the fill in x axis
+		me.controls.master.setControlText = func (text, positive = TRUE, outline = FALSE, hub = FALSE) {
+			# positive - draw with colorFront, swap with colorBackground
+			# outline - draw a border around the text
+			# hub - draw in a different colour to indicate that this is the current page and will lead to the navigation hub page
 
 			# store for later SWAP option
 			me.contentText = text;
@@ -287,20 +300,24 @@ var DisplayDevice = {
 			me.contentOutline = outline;
 
 			if (text == nil or text == "") {
-				me.letters.setVisible(0);
-				me.outline.setVisible(0);
-				me.fill.setVisible(0);
+				me.letters.setVisible(FALSE);
+				me.outline.setVisible(FALSE);
+				me.fill.setVisible(FALSE);
 				#me.fill.setColor((!positive)?me.device.colorFront:me.device.colorBack);
 				#me.fill.setColorFill((!positive)?me.device.colorFront:me.device.colorBack);
 				return;
 			}
-			me.letters.setVisible(1);
+			var front_colour = hub == TRUE ? me.device.colorNavigation : me.device.colorFront;
+			front_colour = positive ? front_colour: me.device.colorBack;
+			var back_colour = hub == TRUE ? me.device.colorNavigation : me.device.colorFront;
+			back_colour = (!positive)? back_colour : me.device.colorBack;
+			me.letters.setVisible(TRUE);
 			me.letters.setText(text);
-			me.letters.setColor(positive?me.device.colorFront:me.device.colorBack);
-			me.outline.setVisible(positive and outline);
-			me.fill.setVisible(1);
-			me.fill.setColor((!positive)?me.device.colorFront:me.device.colorBack);
-			me.fill.setColorFill((!positive)?me.device.colorFront:me.device.colorBack);
+			me.letters.setColor(front_colour);
+			me.outline.setVisible(positive == TRUE and outline == TRUE);
+			me.fill.setVisible(TRUE);
+			me.fill.setColor(back_colour);
+			me.fill.setColorFill(back_colour);
 			me.linebreak = find("\n", text) != -1?2:1;
 			me.lettersCount = size(text);
 			if (me.linebreak == 2) {
@@ -391,9 +408,10 @@ var DisplayDevice = {
 	            .hide();
 	},
 
-	setControlTextColors: func (foreground, background) {
+	setControlTextColors: func (foreground, background, navigation) {
 		me.colorFront = foreground;
 		me.colorBack  = background;
+		me.colorNavigation = navigation;
 	},
 
 	initPage: func (page) {
@@ -481,6 +499,7 @@ var DisplaySystem = {
 		me.pages = {};
 		me.layers = {};
 
+		me.initPage(PAGE_HUB);
 		me.initPage(PAGE_EHSI);
 		me.initPage(PAGE_EADI);
 		me.initPage(PAGE_SMS);
@@ -589,6 +608,92 @@ var DisplaySystem = {
 	},
 
 
+
+
+#    ██████   █████   ██████  ███████     ██   ██ ██    ██ ██████
+#    ██   ██ ██   ██ ██       ██          ██   ██ ██    ██ ██   ██
+#    ██████  ███████ ██   ███ █████       ███████ ██    ██ ██████
+#    ██      ██   ██ ██    ██ ██          ██   ██ ██    ██ ██   ██
+#    ██      ██   ██  ██████  ███████     ██   ██  ██████  ██████
+
+
+	PageHub: {
+		name: PAGE_HUB,
+		isNew: TRUE,
+		needGroup: TRUE,
+
+		new: func {
+			me.instance = {parents:[DisplaySystem.PageHub]};
+			me.instance.group = nil;
+			return me.instance;
+		},
+
+		setup: func {
+			var variantID = getprop("sim/variant-id");
+			var variant_text = "Dassault Mirage 2000-5"; # constants.VARIANT_5
+			if (variantID == constants.VARIANT_5B) {
+				variant_text = "Dassault Mirage 2000-5B";
+			} elsif (variantID == constants.VARIANT_N) {
+				variant_text = "Dassault Mirage 2000N-ish";
+			} elsif (variantID == constants.VARIANT_D) {
+				variant_text = "Dassault Mirage 2000D";
+			}
+			me.info_text = me.group.createChild("text", "info_text")
+				.setFontSize(font.page_ppa.wpn_text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("center-center")
+				.setText(variant_text)
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 80);
+		},
+
+		enter: func {
+			# printDebug("Enter ",me.name~" on ",me.device.name);
+			if (me.isNew) {
+				me.setup();
+				me.isNew = FALSE;
+			}
+			me.device.resetControls();
+			me.device.controls[OSB6].setControlText(PAGE_SMS_MENU_ITEM);
+			me.device.controls[OSB7].setControlText(PAGE_PPA_MENU_ITEM);
+			me.device.controls[OSB8].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB22].setControlText(PAGE_EHSI_MENU_ITEM);
+			me.device.controls[OSB25].setControlText(PAGE_EADI_MENU_ITEM);
+			me.device.controls[OSB28].setControlText(PAGE_MAP_MENU_ITEM);
+		},
+
+		controlAction: func (controlName) {
+			if (controlName == OSB6) {
+				me.device.system.selectPage(PAGE_SMS);
+			} elsif (controlName == OSB7) {
+				me.device.system.selectPage(PAGE_PPA);
+			} elsif (controlName == OSB8) {
+				me.device.system.selectPage(PAGE_RWR);
+			} elsif (controlName == OSB22) {
+				me.device.system.selectPage(PAGE_EHSI);
+			} elsif (controlName == OSB25) {
+				me.device.system.selectPage(PAGE_EADI);
+			} elsif (controlName == OSB28) {
+				me.device.system.selectPage(PAGE_MAP);
+			}
+		},
+
+		update: func(noti = nil) {
+			if (noti.FrameCount != 3) {
+				return;
+			}
+		},
+
+		exit: func {
+		},
+
+		links: {
+		},
+
+		layers: [LAYER_SERVICEABLE],
+	},
+
+
+
 #    ██████   █████   ██████  ███████     ███████ ██   ██ ███████ ██
 #    ██   ██ ██   ██ ██       ██          ██      ██   ██ ██      ██
 #    ██████  ███████ ██   ███ █████       █████   ███████ ███████ ██
@@ -611,15 +716,25 @@ var DisplaySystem = {
 			me.input = {
 				heading_true           : "/orientation/heading-deg",
 				heading_mag            : "/orientation/heading-magnetic-deg",
-				show_true_north        : "/instrumentation/efis/mfd/true-north"
+				show_true_north        : "/instrumentation/efis/mfd/true-north",
+				wind_deg               : "/environment/wind-from-heading-deg",
+				wind_kt                : "/environment/wind-speed-kt",
+				nav1_heading_bug_deg    : "instrumentation/nav[0]/radials/selected-deg", # OBS (Omni-Bearing Selector) of HSI / Needle / The path
+				nav2_heading_bug_deg    : "instrumentation/nav[1]/radials/selected-deg",
 			};
 
 			foreach(var name; keys(me.input)) {
 				me.input[name] = props.globals.getNode(me.input[name], 1);
 			}
 
+			# graphics stuff
+			me.radius = 0.6 * DISPLAY_HEIGHT/2;
+			me._createCompass();
+			me._createWind();
+
+			# content stuff
 			me.mode = 0; # VOR = 0, DATA = 1, TAC = 2
-			me.course_selected = 0; # OBS (Omni-Bearing Selector) of HSI / Needle / The path
+			me.nav_number = 1; # Either NAV1 or NAV2 toggled with OSB5
 
 			me.osb13 = "TH";
 			me.osb14 = "MH";
@@ -630,6 +745,82 @@ var DisplaySystem = {
 			me.osb26 = OSB_MINUS;
 		},
 
+		_createCompass: func() {
+			# cf. https://wiki.flightgear.org/CompassRose
+			me.compass_group = me.group.createChild("group", "compass_group")
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.55);
+			var style_hsi = canvas.CompassRose.Style.new();
+			style_hsi.setMarkLength(0.1)
+				.setMarkOffset(-1)
+				.setSubdivisions(1)
+				.setSubdivisionLength(0.5)
+				.setFontSize(font.page_ehsi.compass);
+			canvas.CompassRose.draw(me.compass_group, me.radius, style_hsi)
+				.setColor(COLOR_WHITE);
+
+			me.course_needle = me.compass_group.createChild("path")
+				.setColor(COLOR_GREEN)
+				.setStrokeLineWidth(lineWidth.page_ehsi.course_needle)
+				.moveTo(0, -me.radius)
+				.lineTo(0, -me.radius+24)
+				.moveTo(0, -me.radius+24) # triangle start
+				.lineTo(-10, -me.radius+40)
+				.moveTo(0, -me.radius+24)
+				.lineTo(10, -me.radius+40)
+				.moveTo(-10, -me.radius+40)
+				.lineTo(10, -me.radius+40)
+				.moveTo(-6, -me.radius+40) # left long line
+				.lineTo(-6, me.radius-24)
+				.moveTo(6, -me.radius+40) # right long line
+				.lineTo(6, me.radius-24)
+				.moveTo(-6, me.radius-24) # horizontal line between long lines
+				.lineTo(6, me.radius-24)
+				.moveTo(0, me.radius-24) # he tail
+				.lineTo(0, me.radius);
+
+			# triangles marking every 45 degs
+			me.triangles_group = me.group.createChild("group", "triangles_group")
+			                             .setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.55);
+			var delta = 2 * D2R;
+			var angle = 0;
+			var dist = me.radius * 1.1;
+			var dist2 = me.radius * 1.2;
+			var triangle = nil;
+			for (i = 0; i < 8; i += 1) {
+				angle = i * 45 * D2R;
+				triangle = me.triangles_group.createChild("path")
+					.setColor(COLOR_WHITE)
+					.setStrokeLineWidth(lineWidth.page_ehsi.triangle)
+					.moveTo(math.sin(angle) * dist, math.cos(angle) * dist)
+					.lineTo(math.sin(angle-delta) * dist2, math.cos(angle-delta) * dist2)
+					.moveTo(math.sin(angle-delta) * dist2, math.cos(angle-delta) * dist2)
+					.lineTo(math.sin(angle+delta) * dist2, math.cos(angle+delta) * dist2)
+					.moveTo(math.sin(angle+delta) * dist2, math.cos(angle+delta) * dist2)
+					.lineTo(math.sin(angle) * dist, math.cos(angle) * dist)
+			}
+		},
+
+		_createWind: func {
+			me.wind_group = me.group.createChild("group", "wind_group")
+				.setTranslation(DISPLAY_WIDTH*0.7, DISPLAY_HEIGHT*0.9);
+			me.wind_arrow = me.wind_group.createChild("path")
+				.setColor(COLOR_CYAN)
+				.setStrokeLineWidth(lineWidth.page_ehsi.arrow)
+				.moveTo(0, -16)
+				.lineTo(0, 16)
+				.moveTo(0, -16)
+				.lineTo(-3, 0)
+				.moveTo(0, -16)
+				.lineTo(3, 0);
+
+			me.wind_text = me.group.createChild("text", "wind_text")
+				.setFontSize(font.page_ehsi.text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH*0.7+20, DISPLAY_HEIGHT*0.9);
+			me.wind_text.enableUpdate();
+		},
+
 		enter: func {
 			# printDebug("Enter ",me.name~" on ",me.device.name);
 			if (me.isNew) {
@@ -637,7 +828,7 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB3].setControlText(PAGE_EADI_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_EHSI_MENU_ITEM, TRUE, FALSE, TRUE);
 		},
 
 		_changeMode: func(delta) {
@@ -650,16 +841,19 @@ var DisplaySystem = {
 		},
 
 		_changeSelectedCourse: func(delta) {
-			me.course_selected += delta;
-			if (me.course_selected >= 360) {
-				me.course_selected -= 360;
-			} elsif (me.course_selected < 0) {
-				me.course_selected = 360 - me.course_selected;
+			if (me.nav_number == 1) {
+				me.input.nav1_heading_bug_deg.setValue(geo.normdeg(me.input.nav1_heading_bug_deg.getValue() + delta));
+			} else {
+				me.input.nav2_heading_bug_deg.setValue(geo.normdeg(me.input.nav2_heading_bug_deg.getValue() + delta));
 			}
 		},
 
 		controlAction: func (controlName) {
-			if (controlName == OSB13) {
+			if (controlName == OSB2) {
+				me.device.system.selectPage(PAGE_HUB);
+			} elsif (controlName == OSB5) {
+				me.nav_number = me.nav_number == 1 ? 2 : 1;
+			} elsif (controlName == OSB13) {
 				me.input.show_true_north.setValue(TRUE);
 			} elsif (controlName == OSB14) {
 				me.input.show_true_north.setValue(FALSE);
@@ -674,10 +868,28 @@ var DisplaySystem = {
 			}
 		},
 
+		_updateCompassStuff: func() {
+			me.compass_group.setRotation(geo.normdeg(0 - me.heading_displayed)*D2R); # yeah, the diff from North
+			if (me.nav_number == 1) {
+				me.course_selected = me.input.nav1_heading_bug_deg.getValue();
+			} else {
+				me.course_selected = me.input.nav2_heading_bug_deg.getValue();
+			}
+			me.course_needle.setRotation(geo.normdeg(me.course_selected)*D2R); # in relation to the compass -> positive
+		},
+
+		_updateWindStuff: func() {
+			me.wind_arrow.setRotation(geo.normdeg(0 - me.heading_displayed + me.input.wind_deg.getValue())*D2R);
+			me.wind_text.updateText(sprintf("%.0f", me.input.wind_kt.getValue()));
+		},
+
 		update: func(noti = nil) {
 			if (noti.FrameCount != 3) {
 				return;
 			}
+
+			# button stuff
+			me.osb5 = me.nav_number == 1 ? "NAV1" : "NAV2";
 			me.osb13_selected = FALSE;
 			me.osb14_selected = FALSE;
 			me.osb16_selected = FALSE;
@@ -695,6 +907,7 @@ var DisplaySystem = {
 			} else {
 				me.osb18_selected = TRUE;
 			}
+			me.device.controls[OSB5].setControlText(me.osb5);
 			me.device.controls[OSB13].setControlText(me.osb13, TRUE, me.osb13_selected);
 			me.device.controls[OSB14].setControlText(me.osb14, TRUE, me.osb14_selected);
 			me.device.controls[OSB16].setControlText(me.osb16, TRUE, me.osb16_selected);
@@ -702,6 +915,11 @@ var DisplaySystem = {
 			me.device.controls[OSB18].setControlText(me.osb18, TRUE, me.osb18_selected);
 			me.device.controls[OSB25].setControlText(me.osb25);
 			me.device.controls[OSB26].setControlText(me.osb26);
+
+			# drawing stuff
+			me.heading_displayed = displays.common.getHeadingForDisplay();
+			me._updateCompassStuff();
+			me._updateWindStuff();
 		},
 
 		exit: func {
@@ -734,6 +952,12 @@ var DisplaySystem = {
 		},
 
 		setup: func {
+			me.info_text = me.group.createChild("text", "info_text")
+				.setFontSize(font.page_ppa.wpn_text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("center-center")
+				.setText("Not implemented - use left MFD")
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 80);
 		},
 
 		enter: func {
@@ -743,10 +967,13 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB3].setControlText(PAGE_SMS_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_EADI_MENU_ITEM, TRUE, FALSE, TRUE);
 		},
 
 		controlAction: func (controlName) {
+			if (controlName == OSB2) {
+				me.device.system.selectPage(PAGE_HUB);
+			}
 		},
 
 		update: func(noti = nil) {
@@ -1003,13 +1230,15 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB3].setControlText(PAGE_PPA_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_SMS_MENU_ITEM, TRUE, FALSE, TRUE);
 			me._toggle_fbw_mode(me.input.fbw_mode.getValue());
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB32) {
+			if (controlName == OSB2) {
+				me.device.system.selectPage(PAGE_HUB);
+			} elsif (controlName == OSB32) {
 				me._toggle_fbw_mode(0);
 			} elsif (controlName == OSB33) {
 				me._toggle_fbw_mode(1);
@@ -1214,13 +1443,15 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB3].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_PPA_MENU_ITEM, TRUE, FALSE, TRUE);
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
 			me.wpn = pylons.fcs.getSelectedWeapon();
-			if (controlName == OSB6) {
+			if (controlName == OSB2) {
+				me.device.system.selectPage(PAGE_HUB);
+			} elsif (controlName == OSB6) {
 				if (me.wpn_kind == WPN_KIND_FALL) {
 					me.fuze += 1;
 					if (me.fuze > 2) {
@@ -1716,7 +1947,7 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB3].setControlText(PAGE_MAP_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_RWR_MENU_ITEM, TRUE, FALSE, TRUE);
 
 			me._toggle_show_unknowns(me.show_unknowns);
 			me._toggle_separate(me.separate);
@@ -1724,7 +1955,9 @@ var DisplaySystem = {
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB10) {
+			if (controlName == OSB2) {
+				me.device.system.selectPage(PAGE_HUB);
+			} elsif (controlName == OSB10) {
 				me._toggle_separate(TRUE);
 			} elsif (controlName == OSB11) {
 				me._toggle_separate(FALSE);
@@ -2157,14 +2390,16 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB3].setControlText(PAGE_EHSI_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_MAP_MENU_ITEM, TRUE, FALSE, TRUE);
 			me.device.controls[OSB32].setControlText("In");
 			me.device.controls[OSB33].setControlText("Out");
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB32) {
+			if (controlName == OSB2) {
+				me.device.system.selectPage(PAGE_HUB);
+			} elsif (controlName == OSB32) {
 				me._changeZoomMap(1);
 			} elsif (controlName == OSB33) {
 				me._changeZoomMap(-1);
@@ -2300,7 +2535,7 @@ var main = func (module) {
 	rightMFDDisplayDevice = DisplayDevice.new("RightMFDDisplayDevice", [DISPLAY_WIDTH, DISPLAY_HEIGHT], [1, 1], "right_mfd.canvasCadre", "canvasTex.png");
 	rightMFDDisplayDevice.setColorBackground(COLOR_BLACK);
 
-	rightMFDDisplayDevice.setControlTextColors(COLOR_WHITE, COLOR_BLACK);
+	rightMFDDisplayDevice.setControlTextColors(COLOR_WHITE, COLOR_BLACK, COLOR_CYAN);
 
 	var osbPositions = [
 		# top row = bt-h1 ... bt-h5 in xml
@@ -2354,7 +2589,7 @@ var main = func (module) {
 	rightMFDDisplayDevice.addControlFeedback();
 
 	rightMFDDisplaySystem.initPages();
-	rightMFDDisplaySystem.selectPage(PAGE_EHSI);
+	rightMFDDisplaySystem.selectPage(PAGE_HUB);
 
 	m2000_mfd = M2000MFDRecipient.new("M2000");
 	emesary.GlobalTransmitter.Register(m2000_mfd);

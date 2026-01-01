@@ -1071,7 +1071,7 @@ var HUD = {
 		me.fp = flightplan();
 
 		#Choose the heading to display
-		me._getHeadingToDisplay();
+		me.heading_displayed = displays.common.getHeadingForDisplay();
 
 		#-----------------Test of paralax
 		me.vy = me.input.x_offset_m.getValue();
@@ -1331,18 +1331,10 @@ var HUD = {
 		return TRUE;
 	}, # END _displayCCRPMode()
 
-	_getHeadingToDisplay: func() {
-		if (me.input.hdgDisplay.getValue()) {
-			me.heading = me.input.hdgReal.getValue();
-		} else {
-			me.heading = me.input.hdg.getValue();
-		}
-	}, # END _getHeadingToDisplay()
-
 	_displayHeadingHorizonScale: func() {
-		me.headOffset = me.heading/10 - int (me.heading/10);
+		me.headOffset = me.heading_displayed/10 - int (me.heading_displayed/10);
 		me.headScaleOffset = me.headOffset;
-		me.middleText = _roundabout(me.heading/10);
+		me.middleText = _roundabout(me.heading_displayed/10);
 		me.middleText = me.middleText == 36?0:me.middleText;
 		me.leftText = me.middleText == 0?35:me.middleText-1;
 		me.rightText = me.middleText == 35?0:me.middleText+1;
@@ -1380,9 +1372,9 @@ var HUD = {
 			if (!me._isInCanvas(HudMath.getPosFromCoord(coord)[0],HudMath.getPosFromCoord(coord)[1]) or me.aircraft_position.direct_distance_to(coord)*M2NM >=10 ) {
 				# Depends on which heading we want to display
 				if (me.input.hdgDisplay.getValue()) {
-					me.houseTranslation = -(geo.normdeg180(me.heading - me.aircraft_position.course_to(coord)))*me.headScaleTickSpacing/5;
+					me.houseTranslation = -(geo.normdeg180(me.heading_displayed - me.aircraft_position.course_to(coord)))*me.headScaleTickSpacing/5;
 				} else {
-					me.houseTranslation = -(geo.normdeg180(me.heading - me.aircraft_position.course_to(coord)))*me.headScaleTickSpacing/5;
+					me.houseTranslation = -(geo.normdeg180(me.heading_displayed - me.aircraft_position.course_to(coord)))*me.headScaleTickSpacing/5;
 				}
 
 			me.HeadingHouse.setTranslation(math.clamp(me.houseTranslation,-MAX_LADDER_SPAN,MAX_LADDER_SPAN),me.fpvCalc[1]);
@@ -1407,7 +1399,7 @@ var HUD = {
 	}, # END _displayChevron()
 
 	_displayHeadingBug: func() {
-		var headOffset = -(geo.normdeg180(me.heading - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
+		var headOffset = -(geo.normdeg180(me.heading_displayed - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
 		me.head_scale_route_pointer.setTranslation(headOffset,0);
 		me.headingScaleGroup.update();
 	}, # _displayHeadingBug()
@@ -1443,7 +1435,7 @@ var HUD = {
 
 	_displayILSStuff: func() {
 		if (me.input.ILS_valid.getValue()) {
-			me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading - me.input.NavHeadingRunwayILS.getValue() ));
+			me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading_displayed - me.input.NavHeadingRunwayILS.getValue() ));
 
 			me.ILS_scale_dependant.setTranslation(me.runwayPosHrizonOnHUD,0);
 			me.ILS_localizer_deviation.setRotation(-45*me.input.NavHeadingNeedleDeflectionILS.getValue()*D2R);

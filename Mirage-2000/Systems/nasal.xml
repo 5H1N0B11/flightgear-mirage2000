@@ -44,11 +44,11 @@
 		<file>Aircraft/Mirage-2000/Nasal/displays/common.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/displays/display-system.nas</file>
 	</displays>
-	<hud>
+	<hud><!-- depends on displays -->
 		<file>Aircraft/Mirage-2000/Nasal/displays/hud_math.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/displays/hud.nas</file>
 	</hud>
-	<vtm>
+	<vtm><!-- depends on displays -->
 		<file>Aircraft/Mirage-2000/Nasal/displays/vtm.nas</file>
 	</vtm>
 	<mirage2000>

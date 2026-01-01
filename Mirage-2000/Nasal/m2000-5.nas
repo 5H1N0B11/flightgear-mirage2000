@@ -681,9 +681,6 @@ var quickstart = func() {
 }
 
 var autostart = func{
-	if (getprop("sim/time/elapsed-sec") < 10) {
-		return;
-	}
 	long_starting();
 	return; # this is a dirty and lazy way of doing it
 

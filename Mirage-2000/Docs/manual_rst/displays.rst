@@ -158,6 +158,9 @@ To change the currently displayed page, use the left button on the button row at
 
 The different pages of this MFD are the ``EADI`` (electronic attitude direction indicator), the ``EHSI`` (electronic horizontal situation indicator), the ``EICAS`` (engine indicating and crew alerting system) and the ``RMU`` (radio management unit).
 
+
+.. _link_subsection_EADI:
+
 Electronic Attitude Direction Indicator (EADI)
 ----------------------------------------------
 
@@ -178,6 +181,7 @@ Electronic Attitude Direction Indicator (EADI)
 #. Set QNH (+/- 0.34HPa)
 
 If applicable, the name of the route's next waypoint or target airport will be shown below the attitude indicator.
+
 
 .. _link_subsection_EHSI:
 
@@ -240,7 +244,10 @@ Radio Management Unit (RMU)
 Right MFD
 =========
 
-To change the currently displayed page, use the middle button on the button row at the top of the screen. The text below the button shows the next screen.
+To change the currently displayed page, use the second button from left (cyan colour) on the button row at the top of the screen. The text below the button shows the current page name, but leads back to the page hub. From the hub you can access all available pages.
+
+.. image:: images/hub_page.png
+
 
 Use the mouse wheel to push the toggles on the left and right side of the MFD up and down. Only those toggles work, which have a text associated on the screen.
 
@@ -348,3 +355,24 @@ The map is based `OpenStreetMap⇗ <https://osm.org>`_ and shows only the positi
 Depending on the network connection it might take a while for parts of the map (tiles) to load. Once loaded the tiles get cached and should therefore be available further on.
 
 .. image:: images/map_page.png
+
+
+Electronic Horizontal Situation Indicator (EHSI)
+------------------------------------------------
+
+NB: this page is under construction - you might want to use the page on the left MFD instead (cf. :ref:`link_subsection_EHSI`).
+
+.. image:: images/ehsi_page.png
+
+
+The compass rose is turning as the airplane turns. The current heading is at the top (where North is on a compass). You can toggle between true North heading (TH) and magnetic North heading (MH) with the know in the left side.
+
+The big green arrow shows the current selected course for either NAV1 or NAV2. NAV1/NAV2 can be toggled with a button on the right side of the top button row. The course can be corrected with the +/- knob on the right side: + changes by +10 degrees, minus changes by -1 degree.
+
+On the lower right side you can see the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose).
+
+
+Electronic Attitude Direction Indicator (EADI)
+----------------------------------------------
+
+NB: this page is under construction - you might want to use the page on the left MFD instead (cf. :ref:`link_subsection_EADI`).

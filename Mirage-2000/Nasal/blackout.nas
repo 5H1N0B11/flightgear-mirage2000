@@ -62,7 +62,7 @@ var redout_loop = func() {
       settimer(redout_loop, 0.5);
       return;
     }
-  
+
     setprop("sim/rendering/redout/enabled", 1);# enable the Fg default redout/blackout system.
     setprop("sim/rendering/redout/parameters/blackout-onset-g", blackout_onset);
     setprop("sim/rendering/redout/parameters/blackout-complete-g", blackout_fast);
@@ -154,7 +154,7 @@ var blackout_loop = func() {
         setprop("/sim/rendering/redout/red", 0);
         setprop("/sim/rendering/redout/alpha", sum);
     }
-    settimer(blackout_loop, 0.1);
+    settimer(blackout_loop, 0.5);
 }
 
 var blackout_init = func() {

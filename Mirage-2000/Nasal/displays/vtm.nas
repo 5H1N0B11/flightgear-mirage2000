@@ -80,9 +80,6 @@ var VTM = {
 
 		vtm_obj.input = {
 			radar_voltage          : "/systems/electrical/outputs/radar",
-			heading_true           : "/orientation/heading-deg",
-			heading_mag            : "/orientation/heading-magnetic-deg",
-			show_true_north        : "/instrumentation/efis/mfd/true-north"
 		};
 
 		foreach(var name; keys(vtm_obj.input)) {
@@ -628,7 +625,7 @@ var VTM = {
 		# walk through all existing targets as per available list
 		foreach(var contact; target_contacts_list) {
 			info = contact.getLastBlep();
-			relative_heading_rad = geo.normdeg(contact.getHeading() - me.heading_true) * D2R;
+			relative_heading_rad = geo.normdeg(contact.getHeading() - me.heading_displayed) * D2R;
 			if (me.is_ppi == TRUE) {
 				screen_pos = _calcScreenPositionPPIScopeToXY(info.getRangeNow(), max_distance_m, info.getAZDeviation()*D2R);
 			} else {
@@ -689,9 +686,9 @@ var VTM = {
 			var direct_dist = ac_pos.direct_distance_to(groundTargeting.mySnipedTarget.coord);
 			var bearing_abs = ac_pos.course_to(groundTargeting.mySnipedTarget.coord);
 			if (me.is_ppi == TRUE) {
-				screen_pos = _calcScreenPositionPPIScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - me.heading_true)*D2R);
+				screen_pos = _calcScreenPositionPPIScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - me.heading_displayed)*D2R);
 			} else {
-				screen_pos = _calcScreenPositionBScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - me.heading_true)*D2R, max_azimuth_rad);
+				screen_pos = _calcScreenPositionBScopeToXY(direct_dist, max_distance_m, geo.normdeg180(bearing_abs - me.heading_displayed)*D2R, max_azimuth_rad);
 			}
 			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
 				has_sniped_target = TRUE;
@@ -865,13 +862,7 @@ var VTM = {
 	_update: func(notification) {
 		me.global_visible = FALSE;
 		me.radar_voltage = me.input.radar_voltage.getValue();
-		me.heading_true = me.input.heading_true.getValue();
-		me.show_true_north = me.input.show_true_north.getValue();
-		if (me.show_true_north) {
-			me.heading_displayed = me.heading_true;
-		} else {
-			me.heading_displayed = me.input.heading_mag.getValue();
-		}
+		me.heading_displayed = displays.common.getHeadingForDisplay();
 		var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
 		var max_distance_m = radar_system.apg68Radar.getRange() * NM2M;
 		var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;
