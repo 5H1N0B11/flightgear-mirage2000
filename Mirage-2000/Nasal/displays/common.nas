@@ -24,9 +24,6 @@ var Common = {
 			co.input[name] = props.globals.getNode(co.input[name], 1);
 		}
 
-		co.show_true_north = FALSE;
-		co.heading_displayed = 0;
-
 		co.cursor = VTM;
 		return co;
 	},
@@ -44,18 +41,16 @@ var Common = {
 	},
 
 	getHeadingForDisplay: func {
-		me.show_true_north = me.input.show_true_north.getValue();
-		if (me.show_true_north) {
-			me.heading_displayed = me.input.hdg_true.getValue();
-		} else {
-			me.heading_displayed = me.input.hdg_magnetic.getValue();
+		var show_true_north = me.input.show_true_north.getValue();
+		var heading_true = me.input.hdg_true.getValue();
+		var heading_mag = me.input.hdg_magnetic.getValue();
+		var heading_displayed = heading_mag;
+		if (show_true_north) {
+			heading_displayed = heading_true;
 		}
-		return me.heading_displayed;
+		return [heading_displayed, show_true_north, heading_true - heading_mag];
 	},
 
-	isTrueNorth: func {
-		return me.show_true_north; # we just use the cached value
-	},
 };
 
 var common = Common.new();

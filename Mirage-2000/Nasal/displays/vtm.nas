@@ -862,7 +862,7 @@ var VTM = {
 	_update: func(notification) {
 		me.global_visible = FALSE;
 		me.radar_voltage = me.input.radar_voltage.getValue();
-		me.heading_displayed = displays.common.getHeadingForDisplay();
+		me.heading_displayed = displays.common.getHeadingForDisplay()[0];
 		var max_azimuth_rad = radar_system.apg68Radar.getAzimuthRadius() * D2R;
 		var max_distance_m = radar_system.apg68Radar.getRange() * NM2M;
 		var radar_mode_root_name = radar_system.apg68Radar.currentMode.rootName;

@@ -96,7 +96,7 @@ var font = {
 	},
 	page_ehsi: {
 		compass: 16,
-		text: 32,
+		text: 24,
 	},
 	page_sms: {
 		pylons_text: 20,
@@ -714,13 +714,25 @@ var DisplaySystem = {
 
 		setup: func {
 			me.input = {
-				heading_true           : "/orientation/heading-deg",
-				heading_mag            : "/orientation/heading-magnetic-deg",
-				show_true_north        : "/instrumentation/efis/mfd/true-north",
 				wind_deg               : "/environment/wind-from-heading-deg",
 				wind_kt                : "/environment/wind-speed-kt",
-				nav1_heading_bug_deg    : "instrumentation/nav[0]/radials/selected-deg", # OBS (Omni-Bearing Selector) of HSI / Needle / The path
-				nav2_heading_bug_deg    : "instrumentation/nav[1]/radials/selected-deg",
+				ground_speed           : "velocities/groundspeed-kt",
+				nav1_heading_bug_deg   : "instrumentation/nav[0]/radials/selected-deg", # OBS (Omni-Bearing Selector) of HSI / Needle / The path
+				nav2_heading_bug_deg   : "instrumentation/nav[1]/radials/selected-deg",
+				nav1_heading_deg       : "instrumentation/nav[0]/heading-deg",
+				nav2_heading_deg       : "instrumentation/nav[1]/heading-deg",
+				nav1_in_range          : "instrumentation/nav[0]/in-range",
+				nav2_in_range          : "instrumentation/nav[1]/in-range",
+				nav1_nav_id            : "instrumentation/nav[0]/nav-id",
+				nav2_nav_id            : "instrumentation/nav[1]/nav-id",
+				nav1_gs_in_range       : "instrumentation/nav[0]/gs-in-range",
+				nav2_gs_in_range       : "instrumentation/nav[1]/gs-in-range",
+				nav1_gs_distance       : "instrumentation/nav[0]/gs-distance",
+				nav2_gs_distance       : "instrumentation/nav[1]/gs-distance",
+				tacan_in_range         : "instrumentation/tacan/in-range",
+				tacan_bearing          : "instrumentation/tacan/indicated-bearing-true-deg",
+				tacan_distance         : "instrumentation/tacan/indicated-distance-nm",
+				tacan_channel          : "instrumentation/tacan/display/channel",
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -731,6 +743,7 @@ var DisplaySystem = {
 			me.radius = 0.6 * DISPLAY_HEIGHT/2;
 			me._createCompass();
 			me._createWind();
+			me._createLeftSideTexts();
 
 			# content stuff
 			me.mode = 0; # VOR = 0, DATA = 1, TAC = 2
@@ -748,7 +761,7 @@ var DisplaySystem = {
 		_createCompass: func() {
 			# cf. https://wiki.flightgear.org/CompassRose
 			me.compass_group = me.group.createChild("group", "compass_group")
-				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.55);
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
 			var style_hsi = canvas.CompassRose.Style.new();
 			style_hsi.setMarkLength(0.1)
 				.setMarkOffset(-1)
@@ -778,6 +791,16 @@ var DisplaySystem = {
 				.moveTo(0, me.radius-24) # he tail
 				.lineTo(0, me.radius);
 
+			me.destination_needle = me.compass_group.createChild("path")
+				.setColor(COLOR_CYAN)
+				.setStrokeLineWidth(lineWidth.page_ehsi.course_needle)
+				.moveTo(0, -me.radius)
+				.lineTo(0, me.radius)
+				.moveTo(0, -me.radius)
+				.lineTo(-12, -me.radius+24)
+				.moveTo(0, -me.radius)
+				.lineTo(12, -me.radius+24);
+
 			# triangles marking every 45 degs
 			me.triangles_group = me.group.createChild("group", "triangles_group")
 			                             .setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.55);
@@ -802,7 +825,7 @@ var DisplaySystem = {
 
 		_createWind: func {
 			me.wind_group = me.group.createChild("group", "wind_group")
-				.setTranslation(DISPLAY_WIDTH*0.7, DISPLAY_HEIGHT*0.9);
+				.setTranslation(536,510);
 			me.wind_arrow = me.wind_group.createChild("path")
 				.setColor(COLOR_CYAN)
 				.setStrokeLineWidth(lineWidth.page_ehsi.arrow)
@@ -817,8 +840,35 @@ var DisplaySystem = {
 				.setFontSize(font.page_ehsi.text)
 				.setColor(COLOR_CYAN)
 				.setAlignment("left-center")
-				.setTranslation(DISPLAY_WIDTH*0.7+20, DISPLAY_HEIGHT*0.9);
+				.setTranslation(536+20, 510);
 			me.wind_text.enableUpdate();
+		},
+
+		_createLeftSideTexts: func {
+			me.nav_id_text = me.group.createChild("text", "nav_id_text")
+				.setFontSize(font.page_ehsi.text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("right-center")
+				.setTranslation(190, 512);
+			me.nav_id_text.enableUpdate();
+			me.distance_text = me.group.createChild("text", "distance_text")
+				.setFontSize(font.page_ehsi.text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("right-center")
+				.setTranslation(240, 140);
+			me.distance_text.enableUpdate();
+			me.time_text = me.group.createChild("text", "time_text")
+				.setFontSize(font.page_ehsi.text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("right-center")
+				.setTranslation(260, 512);
+			me.time_text.enableUpdate();
+			me.tacan_text = me.group.createChild("text", "tacan_text")
+				.setFontSize(font.page_ehsi.text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("left-center")
+				.setTranslation(60, 544);
+			me.tacan_text.enableUpdate();
 		},
 
 		enter: func {
@@ -869,24 +919,89 @@ var DisplaySystem = {
 		},
 
 		_updateCompassStuff: func() {
-			me.compass_group.setRotation(geo.normdeg(0 - me.heading_displayed)*D2R); # yeah, the diff from North
+			me.compass_group.setRotation(geo.normdeg(0 - me.heading_displayed[0])*D2R); # yeah, the diff from North
+
+			# selected course needle
 			if (me.nav_number == 1) {
 				me.course_selected = me.input.nav1_heading_bug_deg.getValue();
 			} else {
 				me.course_selected = me.input.nav2_heading_bug_deg.getValue();
 			}
 			me.course_needle.setRotation(geo.normdeg(me.course_selected)*D2R); # in relation to the compass -> positive
+
+			# destination needle
+			var visible = FALSE;
+			if (me.mode == 0) {
+				if (me.nav_number == 1 and me.input.nav1_in_range.getValue()) {
+					visible = TRUE;
+					me.destination_needle.setRotation(me._correctTrueHeading(me.input.nav1_heading_deg.getValue())*D2R);
+				} elsif (me.nav_number == 2 and me.input.nav2_in_range.getValue()) {
+					visible = TRUE;
+					me.destination_needle.setRotation(me._correctTrueHeading(me.input.nav2_heading_deg.getValue())*D2R);
+				}
+			} elsif (me.mode == 2) {
+				if (me.input.tacan_in_range.getValue()) {
+					visible = TRUE;
+					me.destination_needle.setRotation(me._correctTrueHeading(me.input.tacan_bearing.getValue())*D2R);
+				}
+			} else { # DATA
+				visible = FALSE;
+			}
+			me.destination_needle.setVisible(visible);
 		},
 
 		_updateWindStuff: func() {
-			me.wind_arrow.setRotation(geo.normdeg(0 - me.heading_displayed + me.input.wind_deg.getValue())*D2R);
+			me.wind_arrow.setRotation(me._relativeHeading(me.input.wind_deg.getValue())*D2R);
 			me.wind_text.updateText(sprintf("%.0f", me.input.wind_kt.getValue()));
+		},
+
+		_relativeHeading: func(other_heading) { # where other heading is TRUE and we want th heading relative to the aircraft
+			return geo.normdeg(0 - me.heading_displayed[0] + me._correctTrueHeading(other_heading));
+		},
+
+		_correctTrueHeading: func(a_true_heading) { # we have a heading in True and want to have it either true or magnetic
+			return geo.normdeg(me.heading_displayed[1] == TRUE ? a_true_heading : a_true_heading - me.heading_displayed[2]);
+		},
+
+		_updateLeftSideTexts: func {
+			var distance_m = 0;
+			var distance_display = '...N';
+			var time_display = '...M';
+			var nav_id_display = '';
+			if (me.mode == 0) {
+				if (me.nav_number == 1 and me.input.nav1_in_range.getValue()) {
+					nav_id_display = me.input.nav1_nav_id.getValue();
+					if (me.input.nav1_gs_in_range.getValue()) {
+						distance_m = me.input.nav1_gs_distance.getValue();
+						distance_display = sprintf("%.1fN", distance_m*M2NM);
+						time_display = sprintf("%.0fM", me._calcTimeToDestination(distance_m));
+					}
+				}
+			} elsif (me.mode == 2) {
+				if (me.input.tacan_in_range.getValue()) {
+					distance_m = me.input.tacan_distance.getValue()*NM2M;
+					distance_display = sprintf("%.1fN", distance_m*M2NM);
+					time_display = sprintf("%.0fM", me._calcTimeToDestination(distance_m));
+				}
+			}
+			me.nav_id_text.updateText(nav_id_display);
+			me.distance_text.updateText(distance_display);
+			me.time_text.updateText(time_display);
+			me.tacan_text.updateText(me.input.tacan_channel.getValue());
+		},
+
+		_calcTimeToDestination: func (distance_m) { # how many minutes left
+			var speed_ms = me.input.ground_speed.getValue()*KT2MPS;
+			var value = speed_ms > 50 ? speed_ms : 206; # ca. 400 kt
+			return distance_m / value / 60;
 		},
 
 		update: func(noti = nil) {
 			if (noti.FrameCount != 3) {
 				return;
 			}
+
+			me.heading_displayed = displays.common.getHeadingForDisplay();
 
 			# button stuff
 			me.osb5 = me.nav_number == 1 ? "NAV1" : "NAV2";
@@ -895,7 +1010,7 @@ var DisplaySystem = {
 			me.osb16_selected = FALSE;
 			me.osb17_selected = FALSE;
 			me.osb18_selected = FALSE;
-			if (me.input.show_true_north.getValue() == TRUE) {
+			if (me.heading_displayed[1] == TRUE) {
 				me.osb13_selected = TRUE;
 			} else {
 				me.osb14_selected = TRUE;
@@ -917,9 +1032,9 @@ var DisplaySystem = {
 			me.device.controls[OSB26].setControlText(me.osb26);
 
 			# drawing stuff
-			me.heading_displayed = displays.common.getHeadingForDisplay();
 			me._updateCompassStuff();
 			me._updateWindStuff();
+			me._updateLeftSideTexts();
 		},
 
 		exit: func {

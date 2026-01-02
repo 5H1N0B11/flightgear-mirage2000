@@ -1071,7 +1071,7 @@ var HUD = {
 		me.fp = flightplan();
 
 		#Choose the heading to display
-		me.heading_displayed = displays.common.getHeadingForDisplay();
+		me.heading_displayed = displays.common.getHeadingForDisplay()[0];
 
 		#-----------------Test of paralax
 		me.vy = me.input.x_offset_m.getValue();

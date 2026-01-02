@@ -365,9 +365,35 @@ NB: this page is under construction - you might want to use the page on the left
 .. image:: images/ehsi_page.png
 
 
+Compass
+^^^^^^^
+
 The compass rose is turning as the airplane turns. The current heading is at the top (where North is on a compass). You can toggle between true North heading (TH) and magnetic North heading (MH) with the know in the left side.
 
+Current Selected Course
+'''''''''''''''''''''''
+
 The big green arrow shows the current selected course for either NAV1 or NAV2. NAV1/NAV2 can be toggled with a button on the right side of the top button row. The course can be corrected with the +/- knob on the right side: + changes by +10 degrees, minus changes by -1 degree.
+
+
+Heading Towards Selected Destination
+''''''''''''''''''''''''''''''''''''
+
+The blue arrow shows the direction towards the selected destination, which depends on the mode (``VOR``, ``DATA``, ``TAC``) and the actual selection within the mode.
+
+
+Data Presented
+^^^^^^^^^^^^^^
+
+* ``...N``: Distance to destination in nautical miles over ground. If there are only dots and no number, then the station is not yet in range for distance calculation.
+* ``...M``: Time to destination in minutes given current speed (or 400 kt if speed is below 100 kt). The calculation depends on the availability of the distance.
+* The name of the VOR/ILS station if available.
+* The TACAN channel
+
+
+Wind
+^^^^
+
 
 On the lower right side you can see the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose).
 
