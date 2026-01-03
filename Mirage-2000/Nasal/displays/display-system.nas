@@ -78,6 +78,7 @@ var lineWidth = {
 		triangle: 2,
 		course_needle: 4,
 		arrow: 4,
+		text_box: 2,
 	},
 	page_sms: {
 		aircraft_outline: 2,
@@ -721,10 +722,16 @@ var DisplaySystem = {
 				nav2_heading_bug_deg   : "instrumentation/nav[1]/radials/selected-deg",
 				nav1_heading_deg       : "instrumentation/nav[0]/heading-deg",
 				nav2_heading_deg       : "instrumentation/nav[1]/heading-deg",
+				nav1_gs_direct_deg     : "instrumentation/nav[0]/gs-direct-deg",
+				nav2_gs_direct_deg     : "instrumentation/nav[1]/gs-direct-deg",
 				nav1_in_range          : "instrumentation/nav[0]/in-range",
 				nav2_in_range          : "instrumentation/nav[1]/in-range",
 				nav1_nav_id            : "instrumentation/nav[0]/nav-id",
 				nav2_nav_id            : "instrumentation/nav[1]/nav-id",
+				nav1_nav_distance      : "instrumentation/nav[0]/nav-distance",
+				nav2_nav_distance      : "instrumentation/nav[1]/nav-distance",
+				nav1_has_gs            : "instrumentation/nav[0]/has-gs",
+				nav2_has_gs            : "instrumentation/nav[1]/has-gs",
 				nav1_gs_in_range       : "instrumentation/nav[0]/gs-in-range",
 				nav2_gs_in_range       : "instrumentation/nav[1]/gs-in-range",
 				nav1_gs_distance       : "instrumentation/nav[0]/gs-distance",
@@ -797,9 +804,9 @@ var DisplaySystem = {
 				.moveTo(0, -me.radius)
 				.lineTo(0, me.radius)
 				.moveTo(0, -me.radius)
-				.lineTo(-12, -me.radius+24)
+				.lineTo(-16, -me.radius+32)
 				.moveTo(0, -me.radius)
-				.lineTo(12, -me.radius+24);
+				.lineTo(16, -me.radius+32);
 
 			# triangles marking every 45 degs
 			me.triangles_group = me.group.createChild("group", "triangles_group")
@@ -845,27 +852,39 @@ var DisplaySystem = {
 		},
 
 		_createLeftSideTexts: func {
-			me.nav_id_text = me.group.createChild("text", "nav_id_text")
+			me.mode_box = me.group.createChild("path", "mode_box")
+				.setColor(COLOR_CYAN)
+				.setColorFill(COLOR_BLACK)
+				.rect(180 - 64, 108 - 12, 128, 24)
+				.setStrokeLineWidth(lineWidth.page_ehsi.text_box);
+			me.mode_text = me.group.createChild("text", "mode_text")
 				.setFontSize(font.page_ehsi.text)
 				.setColor(COLOR_CYAN)
-				.setAlignment("right-center")
-				.setTranslation(190, 512);
-			me.nav_id_text.enableUpdate();
+				.setAlignment("center-center")
+				.setTranslation(180, 108);
+			me.mode_text.enableUpdate();
+
 			me.distance_text = me.group.createChild("text", "distance_text")
 				.setFontSize(font.page_ehsi.text)
 				.setColor(COLOR_CYAN)
 				.setAlignment("right-center")
 				.setTranslation(240, 140);
 			me.distance_text.enableUpdate();
+			me.nav_id_text = me.group.createChild("text", "nav_id_text")
+				.setFontSize(font.page_ehsi.text)
+				.setColor(COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(172, 512);
+			me.nav_id_text.enableUpdate();
 			me.time_text = me.group.createChild("text", "time_text")
 				.setFontSize(font.page_ehsi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(COLOR_WHITE)
 				.setAlignment("right-center")
 				.setTranslation(260, 512);
 			me.time_text.enableUpdate();
 			me.tacan_text = me.group.createChild("text", "tacan_text")
 				.setFontSize(font.page_ehsi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(COLOR_WHITE)
 				.setAlignment("left-center")
 				.setTranslation(60, 544);
 			me.tacan_text.enableUpdate();
@@ -968,32 +987,61 @@ var DisplaySystem = {
 			var distance_display = '...N';
 			var time_display = '...M';
 			var nav_id_display = '';
+			var mode_display = "DATA";
+			var nav_id_text_color = COLOR_WHITE;
+			var tacan_text_color = COLOR_WHITE;
+
 			if (me.mode == 0) {
+				mode_display = "VOR";
+				nav_id_text_color = COLOR_CYAN;
 				if (me.nav_number == 1 and me.input.nav1_in_range.getValue()) {
 					nav_id_display = me.input.nav1_nav_id.getValue();
-					if (me.input.nav1_gs_in_range.getValue()) {
+					if (me.input.nav1_has_gs.getValue() and me.input.nav1_gs_in_range.getValue()) {
+						mode_display = "ILS";
 						distance_m = me.input.nav1_gs_distance.getValue();
-						distance_display = sprintf("%.1fN", distance_m*M2NM);
-						time_display = sprintf("%.0fM", me._calcTimeToDestination(distance_m));
+					} else {
+						distance_m = me.input.nav1_nav_distance.getValue();
 					}
+					distance_display = sprintf("%.1fN", distance_m*M2NM);
+					time_display = me._calcTimeToDestinationString(distance_m);
+				} elsif (me.nav_number == 2 and me.input.nav2_in_range.getValue()) {
+					nav_id_display = me.input.nav2_nav_id.getValue();
+					if (me.input.nav2_has_gs.getValue() and me.input.nav2_gs_in_range.getValue()) {
+						mode_display = "ILS";
+						distance_m = me.input.nav2_gs_distance.getValue();
+					} else {
+						distance_m = me.input.nav2_nav_distance.getValue();
+					}
+					distance_display = sprintf("%.1fN", distance_m*M2NM);
+					time_display = me._calcTimeToDestinationString(distance_m);
 				}
+			} elsif (me.mode == 1) {
+				mode_display = "DATA";
 			} elsif (me.mode == 2) {
+				mode_display = "TAC";
 				if (me.input.tacan_in_range.getValue()) {
 					distance_m = me.input.tacan_distance.getValue()*NM2M;
 					distance_display = sprintf("%.1fN", distance_m*M2NM);
-					time_display = sprintf("%.0fM", me._calcTimeToDestination(distance_m));
+					time_display = me._calcTimeToDestinationString(distance_m);
 				}
+				tacan_text_color = COLOR_CYAN;
 			}
+			me.mode_text.updateText(mode_display);
 			me.nav_id_text.updateText(nav_id_display);
+			me.nav_id_text.setColor(nav_id_text_color);
 			me.distance_text.updateText(distance_display);
 			me.time_text.updateText(time_display);
 			me.tacan_text.updateText(me.input.tacan_channel.getValue());
+			me.tacan_text.setColor(tacan_text_color);
 		},
 
-		_calcTimeToDestination: func (distance_m) { # how many minutes left
+		_calcTimeToDestinationString: func (distance_m) { # how much time left as a string mm:ss
 			var speed_ms = me.input.ground_speed.getValue()*KT2MPS;
 			var value = speed_ms > 50 ? speed_ms : 206; # ca. 400 kt
-			return distance_m / value / 60;
+			value = distance_m / value; # how many seconds
+			var minutes = math.floor(value/60);
+			var seconds = math.round(value - minutes*60);
+			return sprintf("%d:%02d", minutes, seconds);
 		},
 
 		update: func(noti = nil) {

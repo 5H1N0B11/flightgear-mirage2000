@@ -365,6 +365,9 @@ NB: this page is under construction - you might want to use the page on the left
 .. image:: images/ehsi_page.png
 
 
+The FlightGear wiki has a quite comprehensive page about `Radio Navigation⇗ <https://wiki.flightgear.org/Radio_navigation>`_ with a fair amount of links.
+
+
 Compass
 ^^^^^^^
 
@@ -385,10 +388,15 @@ The blue arrow shows the direction towards the selected destination, which depen
 Data Presented
 ^^^^^^^^^^^^^^
 
-* ``...N``: Distance to destination in nautical miles over ground. If there are only dots and no number, then the station is not yet in range for distance calculation.
-* ``...M``: Time to destination in minutes given current speed (or 400 kt if speed is below 100 kt). The calculation depends on the availability of the distance.
-* The name of the VOR/ILS station if available.
-* The TACAN channel
+On the left hand side:
+
+* The mode: If VOR is selected and it is an ILS station, then ``ILS`` is displayed as soon as the glidescope information is in range.
+* ``...N``: Distance to destination in nautical miles. If there are only dots and no number, then the station is not yet in range for distance calculation. The distance for ILS is displayed for the glidescope when available, else as VOR.
+* ``...M``: Time to destination in minutes and seconds given current speed (or 400 kt if speed is below 100 kt). The calculation depends on the availability of the distance.
+* The name of the VOR/ILS station if available (e.g. ``EHE``). Typically, ILS stastions start with an "I" in the name.
+* The TACAN channel (e.g. ``029X``)
+
+The data points beloning to the currently selected mode (e.g. VOR vs. TACAN) are shown in cyan colour, otherwise white.
 
 
 Wind
