@@ -878,7 +878,7 @@ var DisplaySystem = {
 			me.nav_id_text.enableUpdate();
 			me.time_text = me.group.createChild("text", "time_text")
 				.setFontSize(font.page_ehsi.text)
-				.setColor(COLOR_WHITE)
+				.setColor(COLOR_CYAN)
 				.setAlignment("right-center")
 				.setTranslation(260, 512);
 			me.time_text.enableUpdate();

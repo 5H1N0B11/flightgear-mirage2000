@@ -76,6 +76,9 @@ var FONT_SIZE_SPEED = 45; # also used for hundreds part of altitude
 var MAX_LADDER_SPAN = 200;
 var LADDER_SCALE = 7.5;
 
+var HEADSCALE_VERTICAL_PLACE = -450;
+var HEADSCALE_APPROACH_TRANSLATE = 300;
+var HEADSCALE_TICK_SPACING = 45;
 
 
 # ==============================================================================
@@ -288,127 +291,9 @@ var HUD = {
 
 		m._createApproachStuff(); # depends on horizon_sub_group
 
-		m.headScaleTickSpacing = 45;
-		m.headScaleVerticalPlace = -450;
-		m.headingStuff = m.root.createChild("group");
-		m.headingScaleGroup = m.headingStuff.createChild("group");
+		m._createHeadingScaleStuff();
 
-		m.headingStuff.set("clip-frame", canvas.Element.LOCAL);
-		m.headingStuff.set("clip", "rect(-500px, 150px, -400px, -150px)");# top,right,bottom,left
-
-		m.head_scale = m.headingScaleGroup.createChild("path")
-		                                  .setColor(COLOR_GREEN)
-		                                  .moveTo(-m.headScaleTickSpacing*2, m.headScaleVerticalPlace)
-		                                  .vert(-15)
-		                                  .moveTo(0, m.headScaleVerticalPlace)
-		                                  .vert(-15)
-		                                  .moveTo(m.headScaleTickSpacing*2, m.headScaleVerticalPlace)
-		                                  .vert(-15)
-		                                  .moveTo(m.headScaleTickSpacing*4, m.headScaleVerticalPlace)
-		                                  .vert(-15)
-		                                  .moveTo(-m.headScaleTickSpacing, m.headScaleVerticalPlace)
-		                                  .vert(-5)
-		                                  .moveTo(m.headScaleTickSpacing, m.headScaleVerticalPlace)
-		                                  .vert(-5)
-		                                  .moveTo(-m.headScaleTickSpacing*3, m.headScaleVerticalPlace)
-		                                  .vert(-5)
-		                                  .moveTo(m.headScaleTickSpacing*3, m.headScaleVerticalPlace)
-		                                  .vert(-5)
-		                                  .setStrokeLineWidth(5)
-		                                  .show();
-
-		#Heading middle number on horizon line
-		me.hdgMH = m.headingScaleGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(0,m.headScaleVerticalPlace -15)
-			.setFontSize(FONT_SIZE_LADDER)
-			.setAlignment("center-bottom");
-		me.hdgMH.enableUpdate();
-
-		# Heading left number on horizon line
-		me.hdgLH = m.headingScaleGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(-m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
-			.setFontSize(FONT_SIZE_LADDER)
-			.setAlignment("center-bottom");
-		me.hdgLH.enableUpdate();
-
-		# Heading right number on horizon line
-		me.hdgRH = m.headingScaleGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(m.headScaleTickSpacing*2,m.headScaleVerticalPlace -15)
-			.setFontSize(FONT_SIZE_LADDER)
-			.setAlignment("center-bottom");
-		me.hdgRH.enableUpdate();
-
-		# Heading right right number on horizon line
-		me.hdgRRH = m.headingScaleGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(m.headScaleTickSpacing*4,m.headScaleVerticalPlace -15)
-			.setFontSize(FONT_SIZE_LADDER)
-			.setAlignment("center-bottom");
-		me.hdgRRH.enableUpdate();
-
-		#Point the The Selected Route. it's at the middle of the HUD
-		m.TriangleSize = 4;
-		m.head_scale_route_pointer = m.headingStuff.createChild("path")
-			.setColor(COLOR_GREEN)
-			.setStrokeLineWidth(3)
-			.moveTo(0, m.headScaleVerticalPlace)
-			.lineTo(m.TriangleSize*-5/2, (m.headScaleVerticalPlace)+(m.TriangleSize*5))
-			.lineTo(m.TriangleSize*5/2,(m.headScaleVerticalPlace)+(m.TriangleSize*5))
-			.lineTo(0, m.headScaleVerticalPlace);
-
-		#a line represent the middle and the actual heading
-		m.heading_pointer_line = m.headingStuff.createChild("path")
-			.setColor(COLOR_GREEN)
-			.setStrokeLineWidth(4)
-			.moveTo(0, m.headScaleVerticalPlace + 2)
-			.vert(20);
-
-		m.speedAltGroup = m.root.createChild("group");
-
-		me.speed = m.speedAltGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(- MAX_LADDER_SPAN,m.headScaleVerticalPlace)
-			.setFontSize(FONT_SIZE_SPEED)
-			.setAlignment("right-bottom");
-		me.speed.enableUpdate();
-
-		me.speed_mach = m.speedAltGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(- MAX_LADDER_SPAN,m.headScaleVerticalPlace+25)
-			.setFontSize(FONT_SIZE_LADDER)
-			.setAlignment("right-bottom");
-		me.speed_mach.enableUpdate();
-
-		me.hundred_feet_alt = m.speedAltGroup.createChild("text")
-			.setTranslation(MAX_LADDER_SPAN + 60 ,m.headScaleVerticalPlace)
-			.setFontSize(FONT_SIZE_SPEED)
-			.setAlignment("right-bottom");
-		me.hundred_feet_alt.enableUpdate();
-
-		me.feet_alt = m.speedAltGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(MAX_LADDER_SPAN + 60,m.headScaleVerticalPlace)
-			.setFontSize(FONT_SIZE_LADDER)
-			.setAlignment("left-bottom");
-		me.feet_alt.enableUpdate();
-
-		me.ground_alt = m.speedAltGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(MAX_LADDER_SPAN + 95,m.headScaleVerticalPlace+25)
-			.setFontSize(FONT_SIZE_LADDER)
-			.setAlignment("right-bottom");
-		me.ground_alt.enableUpdate();
-
-		# Heading right right number on horizon line
-		me.the_H = m.speedAltGroup.createChild("text")
-			.setColor(COLOR_GREEN)
-			.setTranslation(MAX_LADDER_SPAN + 100,m.headScaleVerticalPlace+25)
-			.setFontSize(FONT_SIZE_LADDER)
-			.setAlignment("left-bottom")
-			.setText("H");
+		m._createSpeedAndAltitudeStuff();
 
 		m._createAlphaAoA();
 
@@ -512,7 +397,7 @@ var HUD = {
 		#Distance to next Waypoint
 		m.waypoint_dist_simple = m.waypointSimpleGroup.createChild("text")
 			.setColor(COLOR_GREEN)
-			.setTranslation( MAX_LADDER_SPAN + 45 ,m.headScaleVerticalPlace*2/5)
+			.setTranslation( MAX_LADDER_SPAN + 45 ,HEADSCALE_VERTICAL_PLACE*2/5)
 			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("right-center");
 		m.waypoint_dist_simple.enableUpdate();
@@ -520,7 +405,7 @@ var HUD = {
 		#next Waypoint NUMBER
 		m.waypoint_number_simple = m.waypointSimpleGroup.createChild("text")
 			.setColor(COLOR_GREEN)
-			.setTranslation( MAX_LADDER_SPAN + 85 ,m.headScaleVerticalPlace*2/5)
+			.setTranslation( MAX_LADDER_SPAN + 85 ,HEADSCALE_VERTICAL_PLACE*2/5)
 			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("left-center");
 		m.waypoint_number_simple.enableUpdate();
@@ -528,7 +413,7 @@ var HUD = {
 		#Distance to next Waypoint
 		m.waypoint_dist = m.waypointGroup.createChild("text")
 			.setColor(COLOR_GREEN)
-			.setTranslation( MAX_LADDER_SPAN + 80 ,m.headScaleVerticalPlace*2/5)
+			.setTranslation( MAX_LADDER_SPAN + 80 ,HEADSCALE_VERTICAL_PLACE*2/5)
 			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("left-center");
 		m.waypoint_dist.enableUpdate();
@@ -536,14 +421,14 @@ var HUD = {
 		#next Waypoint NUMBER
 		m.waypoint_number = m.waypointGroup.createChild("text")
 			.setColor(COLOR_GREEN)
-			.setTranslation( MAX_LADDER_SPAN + 80 ,m.headScaleVerticalPlace*2/5-25)
+			.setTranslation( MAX_LADDER_SPAN + 80 ,HEADSCALE_VERTICAL_PLACE*2/5-25)
 			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("left-center");
 		m.waypoint_number.enableUpdate();
 
 		m.dest = m.waypointGroup.createChild("text")
 			.setColor(COLOR_GREEN)
-			.setTranslation( MAX_LADDER_SPAN + 55 ,m.headScaleVerticalPlace*2/5-25)
+			.setTranslation( MAX_LADDER_SPAN + 55 ,HEADSCALE_VERTICAL_PLACE*2/5-25)
 			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("right-center");
 		m.dest.enableUpdate();
@@ -551,7 +436,7 @@ var HUD = {
 		#heading to the next Waypoint
 		m.waypoint_heading = m.waypointGroup.createChild("text")
 			.setColor(COLOR_GREEN)
-			.setTranslation( MAX_LADDER_SPAN + 65 ,m.headScaleVerticalPlace*2/5)
+			.setTranslation( MAX_LADDER_SPAN + 65 ,HEADSCALE_VERTICAL_PLACE*2/5)
 			.setFontSize(FONT_SIZE_WAYPOINT)
 			.setAlignment("right-center");
 		m.waypoint_heading.enableUpdate();
@@ -717,6 +602,130 @@ var HUD = {
 		return m;
 	}, # END new
 
+	_createHeadingScaleStuff: func () {
+		me.heading_stuff_group = me.root.createChild("group");
+		me.heading_scale_group = me.heading_stuff_group.createChild("group");
+
+		me.heading_stuff_group.set("clip-frame", canvas.Element.LOCAL);
+		me.heading_stuff_group.set("clip", "rect(-500px, 150px, -400px, -150px)");# top,right,bottom,left
+
+		me.head_scale = me.heading_scale_group.createChild("path")
+		                                  .setColor(COLOR_GREEN)
+		                                  .moveTo(-HEADSCALE_TICK_SPACING*2, HEADSCALE_VERTICAL_PLACE)
+		                                  .vert(-15)
+		                                  .moveTo(0, HEADSCALE_VERTICAL_PLACE)
+		                                  .vert(-15)
+		                                  .moveTo(HEADSCALE_TICK_SPACING*2, HEADSCALE_VERTICAL_PLACE)
+		                                  .vert(-15)
+		                                  .moveTo(HEADSCALE_TICK_SPACING*4, HEADSCALE_VERTICAL_PLACE)
+		                                  .vert(-15)
+		                                  .moveTo(-HEADSCALE_TICK_SPACING, HEADSCALE_VERTICAL_PLACE)
+		                                  .vert(-5)
+		                                  .moveTo(HEADSCALE_TICK_SPACING, HEADSCALE_VERTICAL_PLACE)
+		                                  .vert(-5)
+		                                  .moveTo(-HEADSCALE_TICK_SPACING*3, HEADSCALE_VERTICAL_PLACE)
+		                                  .vert(-5)
+		                                  .moveTo(HEADSCALE_TICK_SPACING*3, HEADSCALE_VERTICAL_PLACE)
+		                                  .vert(-5)
+		                                  .setStrokeLineWidth(5)
+		                                  .show();
+
+		#Heading middle number on horizon line
+		me.hdgMH = me.heading_scale_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(0,HEADSCALE_VERTICAL_PLACE -15)
+			.setFontSize(FONT_SIZE_LADDER)
+			.setAlignment("center-bottom");
+		me.hdgMH.enableUpdate();
+
+		# Heading left number on horizon line
+		me.hdgLH = me.heading_scale_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(-HEADSCALE_TICK_SPACING*2,HEADSCALE_VERTICAL_PLACE -15)
+			.setFontSize(FONT_SIZE_LADDER)
+			.setAlignment("center-bottom");
+		me.hdgLH.enableUpdate();
+
+		# Heading right number on horizon line
+		me.hdgRH = me.heading_scale_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(HEADSCALE_TICK_SPACING*2,HEADSCALE_VERTICAL_PLACE -15)
+			.setFontSize(FONT_SIZE_LADDER)
+			.setAlignment("center-bottom");
+		me.hdgRH.enableUpdate();
+
+		# Heading right right number on horizon line
+		me.hdgRRH = me.heading_scale_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(HEADSCALE_TICK_SPACING*4,HEADSCALE_VERTICAL_PLACE -15)
+			.setFontSize(FONT_SIZE_LADDER)
+			.setAlignment("center-bottom");
+		me.hdgRRH.enableUpdate();
+
+		#Point the The Selected Route. it's at the middle of the HUD
+		me.TriangleSize = 4;
+		me.head_scale_route_pointer = me.heading_stuff_group.createChild("path")
+			.setColor(COLOR_GREEN)
+			.setStrokeLineWidth(3)
+			.moveTo(0, HEADSCALE_VERTICAL_PLACE)
+			.lineTo(me.TriangleSize*-5/2, (HEADSCALE_VERTICAL_PLACE)+(me.TriangleSize*5))
+			.lineTo(me.TriangleSize*5/2,(HEADSCALE_VERTICAL_PLACE)+(me.TriangleSize*5))
+			.lineTo(0, HEADSCALE_VERTICAL_PLACE);
+
+		#a line represent the middle and the actual heading
+		me.heading_pointer_line = me.heading_stuff_group.createChild("path")
+			.setColor(COLOR_GREEN)
+			.setStrokeLineWidth(4)
+			.moveTo(0, HEADSCALE_VERTICAL_PLACE + 2)
+			.vert(20);
+	}, # END _createHeadingScaleStuff
+
+	_createSpeedAndAltitudeStuff: func () {
+		me.speed_and_alt_group = me.root.createChild("group");
+
+		me.speed = me.speed_and_alt_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(- MAX_LADDER_SPAN,HEADSCALE_VERTICAL_PLACE)
+			.setFontSize(FONT_SIZE_SPEED)
+			.setAlignment("right-bottom");
+		me.speed.enableUpdate();
+
+		me.speed_mach = me.speed_and_alt_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(- MAX_LADDER_SPAN,HEADSCALE_VERTICAL_PLACE+25)
+			.setFontSize(FONT_SIZE_LADDER)
+			.setAlignment("right-bottom");
+		me.speed_mach.enableUpdate();
+
+		me.hundred_feet_alt = me.speed_and_alt_group.createChild("text")
+			.setTranslation(MAX_LADDER_SPAN + 60 ,HEADSCALE_VERTICAL_PLACE)
+			.setFontSize(FONT_SIZE_SPEED)
+			.setAlignment("right-bottom");
+		me.hundred_feet_alt.enableUpdate();
+
+		me.feet_alt = me.speed_and_alt_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(MAX_LADDER_SPAN + 60,HEADSCALE_VERTICAL_PLACE)
+			.setFontSize(FONT_SIZE_LADDER)
+			.setAlignment("left-bottom");
+		me.feet_alt.enableUpdate();
+
+		me.ground_alt = me.speed_and_alt_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(MAX_LADDER_SPAN + 95,HEADSCALE_VERTICAL_PLACE+25)
+			.setFontSize(FONT_SIZE_LADDER)
+			.setAlignment("right-bottom");
+		me.ground_alt.enableUpdate();
+
+		# Heading right right number on horizon line
+		me.the_H = me.speed_and_alt_group.createChild("text")
+			.setColor(COLOR_GREEN)
+			.setTranslation(MAX_LADDER_SPAN + 100,HEADSCALE_VERTICAL_PLACE+25)
+			.setFontSize(FONT_SIZE_LADDER)
+			.setAlignment("left-bottom")
+			.setText("H");
+	}, # END _createSpeedAndAltitudeStuff
+
 	_createChevrons: func() { # Chevrons = Acceleration Vector (AV)
 		me.chevron_factor = 50;
 		me.chevronGroup = me.root.createChild("group");
@@ -755,7 +764,7 @@ var HUD = {
 		#alpha
 		me.alpha = me.alpha_group.createChild("text")
 			.setColor(COLOR_GREEN)
-			.setTranslation(- MAX_LADDER_SPAN-70, me.headScaleVerticalPlace+50)
+			.setTranslation(- MAX_LADDER_SPAN-70, HEADSCALE_VERTICAL_PLACE+50)
 			.setFontSize(FONT_SIZE_ALPHA)
 			.setAlignment("right-center")
 			.setText("α");
@@ -763,7 +772,7 @@ var HUD = {
 		#aoa
 		me.aoa = me.alpha_group.createChild("text")
 			.setColor(COLOR_GREEN)
-			.setTranslation(- MAX_LADDER_SPAN-50, me.headScaleVerticalPlace+50)
+			.setTranslation(- MAX_LADDER_SPAN-50, HEADSCALE_VERTICAL_PLACE+50)
 			.setFontSize(FONT_SIZE_ALPHA)
 			.setAlignment("left-center");
 		me.aoa.enableUpdate();
@@ -839,7 +848,7 @@ var HUD = {
 			.horiz(-140)
 			.vert(-50)
 			.setStrokeLineWidth(4);
-		me.acceleration_box_group.setTranslation(0,me.headScaleVerticalPlace*2/5);
+		me.acceleration_box_group.setTranslation(0,HEADSCALE_VERTICAL_PLACE*2/5);
 
 		me.inverted_t = me.root.createChild("path")
 		                    .setColor(COLOR_GREEN)
@@ -1203,9 +1212,6 @@ var HUD = {
 		# -------------------- displayHeadingHorizonScale ---------------
 		me._displayHeadingHorizonScale();
 
-		# -------------------- display_heading_bug ---------------
-		me._displayHeadingBug();
-
 		#---------------------- EEGS --------------------
 		if (!me.eegsShow) {
 			me.eegsGroup.setVisible(me.eegsShow);
@@ -1341,16 +1347,23 @@ var HUD = {
 		me.rightRightText = me.rightText == 35?0:me.rightText+1;
 
 		if (me.headOffset > 0.5) {
-			me.middleOffset = -(me.headScaleOffset-1)*me.headScaleTickSpacing*2;
+			me.middleOffset = -(me.headScaleOffset-1)*HEADSCALE_TICK_SPACING*2;
 		} else {
-			me.middleOffset = -me.headScaleOffset*me.headScaleTickSpacing*2;
+			me.middleOffset = -me.headScaleOffset*HEADSCALE_TICK_SPACING*2;
 		}
-		me.headingScaleGroup.setTranslation(me.middleOffset , 0);
 		me.hdgRH.updateText(sprintf("%02d", me.rightText));
 		me.hdgMH.updateText(sprintf("%02d", me.middleText));
 		me.hdgLH.updateText(sprintf("%02d", me.leftText));
 		me.hdgRRH.updateText(sprintf("%02d", me.rightRightText));
-		me.headingScaleGroup.update();
+
+		# heading bug
+		headOffset = -(geo.normdeg180(me.heading_displayed - me.input.hdgBug.getValue() ))*HEADSCALE_TICK_SPACING/5;
+		me.head_scale_route_pointer.setTranslation(headOffset,0);
+
+		me.heading_scale_group.setTranslation(me.middleOffset , 0);
+		me.heading_scale_group.update();
+
+		me.heading_stuff_group.setTranslation(0 , me.flightmode_cached == constants.FLIGHT_MODE_APPROACH ? HEADSCALE_APPROACH_TRANSLATE : 0);
 	}, # END _displayHeadingHorizonScale()
 
 	# flight path vector (FPV)
@@ -1372,13 +1385,13 @@ var HUD = {
 			if (!me._isInCanvas(HudMath.getPosFromCoord(coord)[0],HudMath.getPosFromCoord(coord)[1]) or me.aircraft_position.direct_distance_to(coord)*M2NM >=10 ) {
 				# Depends on which heading we want to display
 				if (me.input.hdgDisplay.getValue()) {
-					me.houseTranslation = -(geo.normdeg180(me.heading_displayed - me.aircraft_position.course_to(coord)))*me.headScaleTickSpacing/5;
+					me.houseTranslation = -(geo.normdeg180(me.heading_displayed - me.aircraft_position.course_to(coord)))*HEADSCALE_TICK_SPACING/5;
 				} else {
-					me.houseTranslation = -(geo.normdeg180(me.heading_displayed - me.aircraft_position.course_to(coord)))*me.headScaleTickSpacing/5;
+					me.houseTranslation = -(geo.normdeg180(me.heading_displayed - me.aircraft_position.course_to(coord)))*HEADSCALE_TICK_SPACING/5;
 				}
 
 			me.HeadingHouse.setTranslation(math.clamp(me.houseTranslation,-MAX_LADDER_SPAN,MAX_LADDER_SPAN),me.fpvCalc[1]);
-			if (abs(me.houseTranslation/(me.headScaleTickSpacing/5))>90) {
+			if (abs(me.houseTranslation/(HEADSCALE_TICK_SPACING/5))>90) {
 				me.HeadingHouse.setRotation(me.horizStuff[1]+(180* D2R));
 			} else {
 				me.HeadingHouse.setRotation(me.horizStuff[1]);
@@ -1397,12 +1410,6 @@ var HUD = {
 		}
 		me.chevronGroup.setTranslation(me.fpvCalc[0],me.fpvCalc[1]-me.input.acc.getValue()*FT2M*me.chevron_factor);
 	}, # END _displayChevron()
-
-	_displayHeadingBug: func() {
-		var headOffset = -(geo.normdeg180(me.heading_displayed - me.input.hdgBug.getValue() ))*me.headScaleTickSpacing/5;
-		me.head_scale_route_pointer.setTranslation(headOffset,0);
-		me.headingScaleGroup.update();
-	}, # _displayHeadingBug()
 
 	_displayGroundFlightMode: func() {
 		if (me.flightmode_cached == constants.FLIGHT_MODE_GROUND) {
@@ -1555,11 +1562,13 @@ var HUD = {
 		} else {
 			me.hundred_feet_alt.updateText(sprintf("-%d",abs(int((me.input.alt_instru.getValue()/100)))));
 		}
-		me.speedAltGroup.update();
-	},
+
+		me.speed_and_alt_group.setTranslation(0 , me.flightmode_cached == constants.FLIGHT_MODE_APPROACH ? HEADSCALE_APPROACH_TRANSLATE : 0);
+		me.speed_and_alt_group.update();
+	}, # END _displaySpeedAltGroup
 
 	_displayRadarAltimeter: func() {
-		if ( me.input.rad_alt.getValue() < 5000) { #Or be selected be a special swith not yet done # Only show below 5000AGL
+		if (me.input.rad_alt.getValue() < 5000) { #Or be selected be a special swith not yet done # Only show below 5000AGL
 			if (abs(me.input.pitch.getValue())<20 and abs(me.input.roll.getValue())<20) { #if the angle is above 20° the radar do not work
 				me.ground_alt.updateText(sprintf("%4d", me.input.rad_alt.getValue()-8));#The radar should show 0 when on Ground
 			} else {
@@ -1571,7 +1580,7 @@ var HUD = {
 			me.ground_alt.hide();
 			me.the_H.hide();
 		}
-	},
+	}, # END _displayRadarAltimeter
 
 	_displayAlpha: func() {
 		if ((me.flightmode_cached == constants.FLIGHT_MODE_NAVIGATION or me.flightmode_cached == constants.FLIGHT_MODE_APPROACH) and me.input.alpha.getValue() > 2) {
