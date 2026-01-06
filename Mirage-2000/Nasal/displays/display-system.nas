@@ -80,6 +80,10 @@ var lineWidth = {
 		arrow: 4,
 		text_box: 2,
 	},
+	page_eadi: {
+		sphere_outline: 2,
+		pitch_scale: 4,
+	},
 	page_sms: {
 		aircraft_outline: 2,
 		pylons_box: 2,
@@ -98,6 +102,10 @@ var font = {
 	page_ehsi: {
 		compass: 16,
 		text: 24,
+	},
+	page_eadi: {
+		text: 24,
+		text_big: 32,
 	},
 	page_sms: {
 		pylons_text: 20,
@@ -154,6 +162,7 @@ var colorDot2 = [1, 1, 1];
 var COLOR_WHITE = [1, 1, 1];
 var COLOR_BLACK = [0, 0, 0];
 var COLOR_YELLOW = [1, 1, 0];
+var COLOR_AMBER = [1, 0.75, 0];
 var COLOR_MAGENTA = [1, 0, 1];
 var COLOR_CYAN = [0, 1, 1];
 var COLOR_RED = [1, 0, 0];
@@ -1115,12 +1124,75 @@ var DisplaySystem = {
 		},
 
 		setup: func {
-			me.info_text = me.group.createChild("text", "info_text")
-				.setFontSize(font.page_ppa.wpn_text)
+			me.radius = 0.5 * DISPLAY_HEIGHT/2;
+
+			me._createSphere();
+			me._createSpeedHdgAltTexts();
+		},
+
+		_createSphere: func {
+			me.sphere_group = me.group.createChild("group", "sphere_group")
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
+
+			me.lower_sphere = me.sphere_group.createChild("path", "lower_sphere")
+				.setColor(COLOR_WHITE)
+				.setColorFill(COLOR_AMBER)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_outline)
+				.moveTo(-me.radius, 0)
+				.arcSmallCCW(me.radius, me.radius, 0, me.radius*2, 0);
+			me.upper_sphere = me.sphere_group.createChild("path", "upper_sphere")
+				.setColor(COLOR_WHITE)
+				.setColorFill(COLOR_LIGHT_BLUE)
+				.moveTo(-me.radius, 0)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_outline)
+				.arcSmallCW(me.radius, me.radius, 0, me.radius*2, 0);
+		},
+
+		_createSpeedHdgAltTexts: func {
+			me.speed_ias_text = me.group.createChild("text", "speed_ias_text")
+				.setFontSize(font.page_eadi.text_big)
+				.setColor(COLOR_CYAN)
+				.setAlignment("right-bottom")
+				.setTranslation(160, 132);
+			me.speed_ias_text.enableUpdate();
+			me.speed_mach_text = me.group.createChild("text", "speed_mach_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("right-center")
+				.setTranslation(160, 152);
+			me.speed_mach_text.enableUpdate();
+
+			me.hdg_text = me.group.createChild("text", "hdg_text")
+				.setFontSize(font.page_eadi.text)
 				.setColor(COLOR_CYAN)
 				.setAlignment("center-center")
-				.setText("Not implemented - use left MFD")
-				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 80);
+				.setTranslation(DISPLAY_WIDTH/2, 100);
+			me.hdg_text.enableUpdate();
+
+			me.alt_hundreds_text = me.group.createChild("text", "alt_hundreds_text")
+				.setFontSize(font.page_eadi.text_big)
+				.setColor(COLOR_CYAN)
+				.setAlignment("right-bottom")
+				.setTranslation(DISPLAY_WIDTH - 208, 132);
+			me.alt_hundreds_text.enableUpdate();
+			me.alt_digits_text = me.group.createChild("text", "alt_digits_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("right-bottom")
+				.setTranslation(DISPLAY_WIDTH - 180, 132);
+			me.alt_digits_text.enableUpdate();
+			me.alt_radar_text = me.group.createChild("text", "alt_radar_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(COLOR_CYAN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - 178, 152);
+			me.alt_radar_text.enableUpdate();
+			me.the_H = me.group.createChild("text", "the_H")
+				.setFontSize(font.page_eadi.text)
+				.setColor(COLOR_CYAN)
+				.setText("H")
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH - 178, 152);
 		},
 
 		enter: func {
@@ -1139,10 +1211,37 @@ var DisplaySystem = {
 			}
 		},
 
+		_updateSpeedHdgAltTexts: func {
+			var speed_display = displays.common.getSpeedForDisplay();
+			me.speed_ias_text.updateText(speed_display[0]);
+			if (speed_display[1] != nil) {
+				me.speed_mach_text.updateText(speed_display[1]);
+				me.speed_mach_text.show();
+			} else {
+				me.speed_mach_text.hide();
+			}
+
+			me.heading_displayed = math.round(displays.common.getHeadingForDisplay()[0]);
+			me.hdg_text.updateText(sprintf("%03d", me.heading_displayed));
+
+			me.alt_for_display = displays.common.getAltForDisplay();
+			me.alt_hundreds_text.updateText(me.alt_for_display[0]);
+			me.alt_digits_text.updateText(me.alt_for_display[1]);
+			if (me.alt_for_display[2] != nil) { 
+				me.alt_radar_text.updateText(me.alt_for_display[2]);
+				me.alt_radar_text.show();
+				me.the_H.show();
+			} else {
+				me.alt_radar_text.hide();
+				me.the_H.hide();
+			}
+		},
+
 		update: func(noti = nil) {
 			if (noti.FrameCount != 3) {
 				return;
 			}
+			me._updateSpeedHdgAltTexts();
 		},
 
 		exit: func {

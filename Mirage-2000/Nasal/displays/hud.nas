@@ -170,13 +170,9 @@ var HUD = {
 			alpha:      "/orientation/alpha-deg",
 			beta:       "/orientation/side-slip-deg",
 			gload:      "/accelerations/pilot-g",
-			ias:        "/velocities/airspeed-kt",
-			mach:       "/velocities/mach",
 			gs:         "/velocities/groundspeed-kt",
 			vs:         "/velocities/vertical-speed-fps",
 			alt:        "/position/altitude-ft",
-			alt_instru: "/instrumentation/altimeter/indicated-altitude-ft",
-			rad_alt:    "position/altitude-agl-ft", #"/instrumentation/radar-altimeter/radar-altitude-ft",
 			wow_nlg:    "/gear/gear[1]/wow",
 			gearPos:    "/gear/gear[1]/position-norm",
 			airspeed:   "/velocities/airspeed-kt",
@@ -1189,9 +1185,11 @@ var HUD = {
 
 		me._displayApproachFlightMode();
 
-		me._displayRadarAltimeter();
+		me.alt_for_display = displays.common.getAltForDisplay();
 
-		me._displaySpeedAltGroup();
+		me._displayRadarAltimeter(me.alt_for_display[2]);
+
+		me._displaySpeedAltGroup(me.alt_for_display[0], me.alt_for_display[1]);
 
 		me._displayAlpha();
 
@@ -1548,32 +1546,26 @@ var HUD = {
 		me.runway_group.update();
 	}, # END _drawSyntheticRunway
 
-	_displaySpeedAltGroup: func() {
-		me.speed.updateText(sprintf("%d",int(me.input.ias.getValue())));
-		if (me.input.mach.getValue()>= 0.6) {
-			me.speed_mach.updateText(sprintf("%0.2f",me.input.mach.getValue()));
+	_displaySpeedAltGroup: func(alt_hundreds_str, alt_digits_str) {
+		var speed_display = displays.common.getSpeedForDisplay();
+		me.speed.updateText(speed_display[0]);
+		if (speed_display[1] != nil) {
+			me.speed_mach.updateText(speed_display[1]);
 			me.speed_mach.show();
 		} else {
 			me.speed_mach.hide();
 		}
-		me.feet_alt.updateText(sprintf("%02d",abs(int(((me.input.alt_instru.getValue()/100) - int(me.input.alt_instru.getValue()/100))*100))));
-		if (me.input.alt_instru.getValue()>0) {
-			me.hundred_feet_alt.updateText(sprintf("%d",abs(int((me.input.alt_instru.getValue()/100)))));
-		} else {
-			me.hundred_feet_alt.updateText(sprintf("-%d",abs(int((me.input.alt_instru.getValue()/100)))));
-		}
+
+		me.feet_alt.updateText(alt_digits_str);
+		me.hundred_feet_alt.updateText(alt_hundreds_str);
 
 		me.speed_and_alt_group.setTranslation(0 , me.flightmode_cached == constants.FLIGHT_MODE_APPROACH ? HEADSCALE_APPROACH_TRANSLATE : 0);
 		me.speed_and_alt_group.update();
 	}, # END _displaySpeedAltGroup
 
-	_displayRadarAltimeter: func() {
-		if (me.input.rad_alt.getValue() < 5000) { #Or be selected be a special swith not yet done # Only show below 5000AGL
-			if (abs(me.input.pitch.getValue())<20 and abs(me.input.roll.getValue())<20) { #if the angle is above 20° the radar do not work
-				me.ground_alt.updateText(sprintf("%4d", me.input.rad_alt.getValue()-8));#The radar should show 0 when on Ground
-			} else {
-				me.ground_alt.updateText("*****");
-			}
+	_displayRadarAltimeter: func(rad_alt_str) {
+		if (rad_alt_str != nil) { 
+			me.ground_alt.updateText(rad_alt_str);
 			me.ground_alt.show();
 			me.the_H.show();
 		} else {
