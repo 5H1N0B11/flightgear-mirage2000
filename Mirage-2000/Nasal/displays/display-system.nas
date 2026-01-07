@@ -81,7 +81,7 @@ var lineWidth = {
 		text_box: 2,
 	},
 	page_eadi: {
-		sphere_outline: 2,
+		sphere_lines: 4,
 		pitch_scale: 4,
 	},
 	page_sms: {
@@ -137,6 +137,12 @@ var zIndex = {
 		outline: 11,
 		fill: 9,
 		feedback: 7,
+	},
+	page_eadi: {
+		sphere_back: 5,
+		sphere_over: 10,
+		roll_triangle: 15,
+		sphere_fixed: 50,
 	},
 	page_sms: {
 		aircraft_outline: 15,
@@ -1124,28 +1130,76 @@ var DisplaySystem = {
 		},
 
 		setup: func {
+			me.input = {
+				roll             : "/orientation/roll-deg",
+			};
+
+			foreach(var name; keys(me.input)) {
+				me.input[name] = props.globals.getNode(me.input[name], 1);
+			}
+
 			me.radius = 0.5 * DISPLAY_HEIGHT/2;
 
 			me._createSphere();
+			me._createSphereFixedStuff();
 			me._createSpeedHdgAltTexts();
 		},
 
 		_createSphere: func {
 			me.sphere_group = me.group.createChild("group", "sphere_group")
+				.set(Z_INDEX, zIndex.page_eadi.sphere_back)
 				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
 
 			me.lower_sphere = me.sphere_group.createChild("path", "lower_sphere")
-				.setColor(COLOR_WHITE)
+				.setColor(COLOR_AMBER)
 				.setColorFill(COLOR_AMBER)
-				.setStrokeLineWidth(lineWidth.page_eadi.sphere_outline)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
 				.moveTo(-me.radius, 0)
 				.arcSmallCCW(me.radius, me.radius, 0, me.radius*2, 0);
 			me.upper_sphere = me.sphere_group.createChild("path", "upper_sphere")
-				.setColor(COLOR_WHITE)
+				.setColor(COLOR_LIGHT_BLUE)
 				.setColorFill(COLOR_LIGHT_BLUE)
 				.moveTo(-me.radius, 0)
-				.setStrokeLineWidth(lineWidth.page_eadi.sphere_outline)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
 				.arcSmallCW(me.radius, me.radius, 0, me.radius*2, 0);
+
+			me.roll_triangle = me.sphere_group.createChild("path", "roll_triangle")
+				.set(Z_INDEX, zIndex.page_eadi.roll_triangle)
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+				.moveTo(0, me.radius)
+				.lineTo(12, me.radius - 24)
+				.moveTo(0, me.radius)
+				.lineTo(-12, me.radius - 24)
+				.moveTo(-12, me. radius - 24)
+				.lineTo(12, me.radius - 24);
+		},
+
+		_createSphereFixedStuff: func {
+			me.sphere_fixed_group = me.group.createChild("group", "sphere_fixed_group")
+				.set(Z_INDEX, zIndex.page_eadi.sphere_fixed)
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
+			me.aircraft_circle = canvas.draw.circle(me.sphere_fixed_group, 6)
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines);
+			var wing_width = me.radius - 15 - 30;
+			me.aircraft_left = canvas.draw.rectangle(me.sphere_fixed_group, wing_width, 12, -me.radius + 15, -6)
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines);
+			me.aircraft_right = canvas.draw.rectangle(me.sphere_fixed_group, wing_width, 12, 30, -6)
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines);
+
+			var roll_scale_style = canvas.draw.marksStyle.new();
+			roll_scale_style.setMarkLength(0.1)
+				.setMarkOffset(roll_scale_style.MARK_OUT)
+				.setSubdivisions(2)
+				#.setBaselineWidth(lineWidth.page_eadi.sphere_lines)
+				#.setMarkWidth(lineWidth.page_eadi.sphere_lines)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+				.setSubdivisionLength(0.5);
+			me.roll_scale = canvas.draw.marksCircular(me.sphere_fixed_group, me.radius, 30, 120, 240, roll_scale_style)
+				.setColor(COLOR_WHITE);
 		},
 
 		_createSpeedHdgAltTexts: func {
@@ -1211,6 +1265,10 @@ var DisplaySystem = {
 			}
 		},
 
+		_updateSphere: func {
+			me.sphere_group.setRotation(me.input.roll.getValue()*D2R);
+		},
+
 		_updateSpeedHdgAltTexts: func {
 			var speed_display = displays.common.getSpeedForDisplay();
 			me.speed_ias_text.updateText(speed_display[0]);
@@ -1241,6 +1299,7 @@ var DisplaySystem = {
 			if (noti.FrameCount != 3) {
 				return;
 			}
+			me._updateSphere();
 			me._updateSpeedHdgAltTexts();
 		},
 
@@ -2851,7 +2910,7 @@ var main = func (module) {
 	rightMFDDisplayDevice.addControlFeedback();
 
 	rightMFDDisplaySystem.initPages();
-	rightMFDDisplaySystem.selectPage(PAGE_HUB);
+	rightMFDDisplaySystem.selectPage(PAGE_EADI);
 
 	m2000_mfd = M2000MFDRecipient.new("M2000");
 	emesary.GlobalTransmitter.Register(m2000_mfd);
