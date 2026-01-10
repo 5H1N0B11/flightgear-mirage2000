@@ -1060,9 +1060,7 @@ var DisplaySystem = {
 		},
 
 		update: func(noti = nil) {
-			if (noti.FrameCount != 3) {
-				return;
-			}
+			# allways update on notification - not based on frame count
 
 			me.heading_displayed = displays.common.getHeadingForDisplay();
 
@@ -1266,7 +1264,7 @@ var DisplaySystem = {
 		},
 
 		_updateSphere: func {
-			me.sphere_group.setRotation(me.input.roll.getValue()*D2R);
+			me.sphere_group.setRotation(-1*me.input.roll.getValue()*D2R);
 		},
 
 		_updateSpeedHdgAltTexts: func {
@@ -1285,7 +1283,7 @@ var DisplaySystem = {
 			me.alt_for_display = displays.common.getAltForDisplay();
 			me.alt_hundreds_text.updateText(me.alt_for_display[0]);
 			me.alt_digits_text.updateText(me.alt_for_display[1]);
-			if (me.alt_for_display[2] != nil) { 
+			if (me.alt_for_display[2] != nil) {
 				me.alt_radar_text.updateText(me.alt_for_display[2]);
 				me.alt_radar_text.show();
 				me.the_H.show();
@@ -1296,9 +1294,7 @@ var DisplaySystem = {
 		},
 
 		update: func(noti = nil) {
-			if (noti.FrameCount != 3) {
-				return;
-			}
+			# allways update on notification - not based on frame count
 			me._updateSphere();
 			me._updateSpeedHdgAltTexts();
 		},
@@ -2910,7 +2906,7 @@ var main = func (module) {
 	rightMFDDisplayDevice.addControlFeedback();
 
 	rightMFDDisplaySystem.initPages();
-	rightMFDDisplaySystem.selectPage(PAGE_EADI);
+	rightMFDDisplaySystem.selectPage(PAGE_HUB);
 
 	m2000_mfd = M2000MFDRecipient.new("M2000");
 	emesary.GlobalTransmitter.Register(m2000_mfd);
