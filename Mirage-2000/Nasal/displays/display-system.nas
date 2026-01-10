@@ -165,18 +165,6 @@ var FONT_MONO_BOLD = "LiberationFonts/LiberationMono-Bold.ttf";
 # also used in apg-68.nas
 var colorDot2 = [1, 1, 1];
 
-var COLOR_WHITE = [1, 1, 1];
-var COLOR_BLACK = [0, 0, 0];
-var COLOR_YELLOW = [1, 1, 0];
-var COLOR_AMBER = [1, 0.75, 0];
-var COLOR_MAGENTA = [1, 0, 1];
-var COLOR_CYAN = [0, 1, 1];
-var COLOR_RED = [1, 0, 0];
-var COLOR_GREEN = [0, 1, 0];
-var COLOR_BLUE = [0, 0, 1];
-
-var COLOR_AMBER = [1, 0.6, 0.2];
-var COLOR_LIGHT_BLUE = [0.2, 0.6, 1];
 
 var PUSHBUTTON = 0;
 
@@ -390,7 +378,7 @@ var DisplayDevice = {
 				.horiz(-me.letterWidth*4-margin.device.outline*2)
 				.vert(-me.letterHeight*1.0-margin.device.outline*2)
 				.close()
-				.setColor(COLOR_GREEN)
+				.setColor(consts.COLOR_GREEN)
 				.hide()
 				.setStrokeLineWidth(lineWidth.device.outline)
 				.setTranslation(me.myCenter);
@@ -611,7 +599,7 @@ var DisplaySystem = {
 				.moveTo(25, 50)
 				.lineTo(50, -50)
 				.setStrokeLineWidth(lineWidth.layer_serviceable.lines)
-				.setColor(COLOR_RED);
+				.setColor(consts.COLOR_RED);
 			me.serviceable_markers.hide();
 		},
 
@@ -646,17 +634,17 @@ var DisplaySystem = {
 
 		setup: func {
 			var variantID = getprop("sim/variant-id");
-			var variant_text = "Dassault Mirage 2000-5"; # constants.VARIANT_5
-			if (variantID == constants.VARIANT_5B) {
+			var variant_text = "Dassault Mirage 2000-5"; # consts.VARIANT_5
+			if (variantID == consts.VARIANT_5B) {
 				variant_text = "Dassault Mirage 2000-5B";
-			} elsif (variantID == constants.VARIANT_N) {
+			} elsif (variantID == consts.VARIANT_N) {
 				variant_text = "Dassault Mirage 2000N-ish";
-			} elsif (variantID == constants.VARIANT_D) {
+			} elsif (variantID == consts.VARIANT_D) {
 				variant_text = "Dassault Mirage 2000D";
 			}
 			me.info_text = me.group.createChild("text", "info_text")
 				.setFontSize(font.page_ppa.wpn_text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("center-center")
 				.setText(variant_text)
 				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 80);
@@ -791,10 +779,10 @@ var DisplaySystem = {
 				.setSubdivisionLength(0.5)
 				.setFontSize(font.page_ehsi.compass);
 			canvas.CompassRose.draw(me.compass_group, me.radius, style_hsi)
-				.setColor(COLOR_WHITE);
+				.setColor(consts.COLOR_WHITE);
 
 			me.course_needle = me.compass_group.createChild("path")
-				.setColor(COLOR_GREEN)
+				.setColor(consts.COLOR_GREEN)
 				.setStrokeLineWidth(lineWidth.page_ehsi.course_needle)
 				.moveTo(0, -me.radius)
 				.lineTo(0, -me.radius+24)
@@ -814,7 +802,7 @@ var DisplaySystem = {
 				.lineTo(0, me.radius);
 
 			me.destination_needle = me.compass_group.createChild("path")
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setStrokeLineWidth(lineWidth.page_ehsi.course_needle)
 				.moveTo(0, -me.radius)
 				.lineTo(0, me.radius)
@@ -834,7 +822,7 @@ var DisplaySystem = {
 			for (i = 0; i < 8; i += 1) {
 				angle = i * 45 * D2R;
 				triangle = me.triangles_group.createChild("path")
-					.setColor(COLOR_WHITE)
+					.setColor(consts.COLOR_WHITE)
 					.setStrokeLineWidth(lineWidth.page_ehsi.triangle)
 					.moveTo(math.sin(angle) * dist, math.cos(angle) * dist)
 					.lineTo(math.sin(angle-delta) * dist2, math.cos(angle-delta) * dist2)
@@ -849,7 +837,7 @@ var DisplaySystem = {
 			me.wind_group = me.group.createChild("group", "wind_group")
 				.setTranslation(536,510);
 			me.wind_arrow = me.wind_group.createChild("path")
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setStrokeLineWidth(lineWidth.page_ehsi.arrow)
 				.moveTo(0, -16)
 				.lineTo(0, 16)
@@ -860,7 +848,7 @@ var DisplaySystem = {
 
 			me.wind_text = me.group.createChild("text", "wind_text")
 				.setFontSize(font.page_ehsi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("left-center")
 				.setTranslation(536+20, 510);
 			me.wind_text.enableUpdate();
@@ -868,38 +856,38 @@ var DisplaySystem = {
 
 		_createLeftSideTexts: func {
 			me.mode_box = me.group.createChild("path", "mode_box")
-				.setColor(COLOR_CYAN)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_CYAN)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(180 - 64, 108 - 12, 128, 24)
 				.setStrokeLineWidth(lineWidth.page_ehsi.text_box);
 			me.mode_text = me.group.createChild("text", "mode_text")
 				.setFontSize(font.page_ehsi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("center-center")
 				.setTranslation(180, 108);
 			me.mode_text.enableUpdate();
 
 			me.distance_text = me.group.createChild("text", "distance_text")
 				.setFontSize(font.page_ehsi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-center")
 				.setTranslation(240, 140);
 			me.distance_text.enableUpdate();
 			me.nav_id_text = me.group.createChild("text", "nav_id_text")
 				.setFontSize(font.page_ehsi.text)
-				.setColor(COLOR_WHITE)
+				.setColor(consts.COLOR_WHITE)
 				.setAlignment("right-center")
 				.setTranslation(172, 512);
 			me.nav_id_text.enableUpdate();
 			me.time_text = me.group.createChild("text", "time_text")
 				.setFontSize(font.page_ehsi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-center")
 				.setTranslation(260, 512);
 			me.time_text.enableUpdate();
 			me.tacan_text = me.group.createChild("text", "tacan_text")
 				.setFontSize(font.page_ehsi.text)
-				.setColor(COLOR_WHITE)
+				.setColor(consts.COLOR_WHITE)
 				.setAlignment("left-center")
 				.setTranslation(60, 544);
 			me.tacan_text.enableUpdate();
@@ -1003,12 +991,12 @@ var DisplaySystem = {
 			var time_display = '...M';
 			var nav_id_display = '';
 			var mode_display = "DATA";
-			var nav_id_text_color = COLOR_WHITE;
-			var tacan_text_color = COLOR_WHITE;
+			var nav_id_text_color = consts.COLOR_WHITE;
+			var tacan_text_color = consts.COLOR_WHITE;
 
 			if (me.mode == 0) {
 				mode_display = "VOR";
-				nav_id_text_color = COLOR_CYAN;
+				nav_id_text_color = consts.COLOR_CYAN;
 				if (me.nav_number == 1 and me.input.nav1_in_range.getValue()) {
 					nav_id_display = me.input.nav1_nav_id.getValue();
 					if (me.input.nav1_has_gs.getValue() and me.input.nav1_gs_in_range.getValue()) {
@@ -1039,7 +1027,7 @@ var DisplaySystem = {
 					distance_display = sprintf("%.1fN", distance_m*M2NM);
 					time_display = me._calcTimeToDestinationString(distance_m);
 				}
-				tacan_text_color = COLOR_CYAN;
+				tacan_text_color = consts.COLOR_CYAN;
 			}
 			me.mode_text.updateText(mode_display);
 			me.nav_id_text.updateText(nav_id_display);
@@ -1129,6 +1117,7 @@ var DisplaySystem = {
 
 		setup: func {
 			me.input = {
+				pitch            : "/orientation/pitch-deg",
 				roll             : "/orientation/roll-deg",
 			};
 
@@ -1136,7 +1125,7 @@ var DisplaySystem = {
 				me.input[name] = props.globals.getNode(me.input[name], 1);
 			}
 
-			me.radius = 0.5 * DISPLAY_HEIGHT/2;
+			me.radius = 0.6 * DISPLAY_HEIGHT/2;
 
 			me._createSphere();
 			me._createSphereFixedStuff();
@@ -1148,22 +1137,30 @@ var DisplaySystem = {
 				.set(Z_INDEX, zIndex.page_eadi.sphere_back)
 				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
 
-			me.lower_sphere = me.sphere_group.createChild("path", "lower_sphere")
-				.setColor(COLOR_AMBER)
-				.setColorFill(COLOR_AMBER)
+			me.sky_circle = me.sphere_group.createChild("path", "sky_circle")
+				.setColor(consts.COLOR_LIGHT_BLUE)
+				.setColorFill(consts.COLOR_LIGHT_BLUE)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+				.circle(me.radius, 0, 0);
+
+			me.ground_circle = me.sphere_group.createChild("path", "ground_circle")
+				.setColor(consts.COLOR_BROWN)
+				.setColorFill(consts.COLOR_BROWN)
+				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+				.circle(me.radius, 0, 0);
+
+			me.sky_part_circle = me.sphere_group.createChild("path", "sky_part_circle")
+				.setColor(consts.COLOR_BLUE)
+				.setColorFill(consts.COLOR_BLUE)
 				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
 				.moveTo(-me.radius, 0)
 				.arcSmallCCW(me.radius, me.radius, 0, me.radius*2, 0);
-			me.upper_sphere = me.sphere_group.createChild("path", "upper_sphere")
-				.setColor(COLOR_LIGHT_BLUE)
-				.setColorFill(COLOR_LIGHT_BLUE)
-				.moveTo(-me.radius, 0)
-				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
-				.arcSmallCW(me.radius, me.radius, 0, me.radius*2, 0);
+
+			me.ground_part_circle = me.sphere_group.createChild("path", "ground_part_circle");
 
 			me.roll_triangle = me.sphere_group.createChild("path", "roll_triangle")
 				.set(Z_INDEX, zIndex.page_eadi.roll_triangle)
-				.setColor(COLOR_WHITE)
+				.setColor(consts.COLOR_WHITE)
 				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
 				.moveTo(0, me.radius)
 				.lineTo(12, me.radius - 24)
@@ -1178,14 +1175,14 @@ var DisplaySystem = {
 				.set(Z_INDEX, zIndex.page_eadi.sphere_fixed)
 				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
 			me.aircraft_circle = canvas.draw.circle(me.sphere_fixed_group, 6)
-				.setColor(COLOR_WHITE)
+				.setColor(consts.COLOR_WHITE)
 				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines);
 			var wing_width = me.radius - 15 - 30;
 			me.aircraft_left = canvas.draw.rectangle(me.sphere_fixed_group, wing_width, 12, -me.radius + 15, -6)
-				.setColor(COLOR_WHITE)
+				.setColor(consts.COLOR_WHITE)
 				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines);
 			me.aircraft_right = canvas.draw.rectangle(me.sphere_fixed_group, wing_width, 12, 30, -6)
-				.setColor(COLOR_WHITE)
+				.setColor(consts.COLOR_WHITE)
 				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines);
 
 			var roll_scale_style = canvas.draw.marksStyle.new();
@@ -1197,51 +1194,51 @@ var DisplaySystem = {
 				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
 				.setSubdivisionLength(0.5);
 			me.roll_scale = canvas.draw.marksCircular(me.sphere_fixed_group, me.radius, 30, 120, 240, roll_scale_style)
-				.setColor(COLOR_WHITE);
+				.setColor(consts.COLOR_WHITE);
 		},
 
 		_createSpeedHdgAltTexts: func {
 			me.speed_ias_text = me.group.createChild("text", "speed_ias_text")
 				.setFontSize(font.page_eadi.text_big)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-bottom")
 				.setTranslation(160, 132);
 			me.speed_ias_text.enableUpdate();
 			me.speed_mach_text = me.group.createChild("text", "speed_mach_text")
 				.setFontSize(font.page_eadi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-center")
 				.setTranslation(160, 152);
 			me.speed_mach_text.enableUpdate();
 
 			me.hdg_text = me.group.createChild("text", "hdg_text")
 				.setFontSize(font.page_eadi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("center-center")
 				.setTranslation(DISPLAY_WIDTH/2, 100);
 			me.hdg_text.enableUpdate();
 
 			me.alt_hundreds_text = me.group.createChild("text", "alt_hundreds_text")
 				.setFontSize(font.page_eadi.text_big)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-bottom")
 				.setTranslation(DISPLAY_WIDTH - 208, 132);
 			me.alt_hundreds_text.enableUpdate();
 			me.alt_digits_text = me.group.createChild("text", "alt_digits_text")
 				.setFontSize(font.page_eadi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-bottom")
 				.setTranslation(DISPLAY_WIDTH - 180, 132);
 			me.alt_digits_text.enableUpdate();
 			me.alt_radar_text = me.group.createChild("text", "alt_radar_text")
 				.setFontSize(font.page_eadi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH - 178, 152);
 			me.alt_radar_text.enableUpdate();
 			me.the_H = me.group.createChild("text", "the_H")
 				.setFontSize(font.page_eadi.text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setText("H")
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH - 178, 152);
@@ -1264,6 +1261,47 @@ var DisplaySystem = {
 		},
 
 		_updateSphere: func {
+			me.pitch = me.input.pitch.getValue();
+			if (me.pitch > 0) {
+				me.sky_circle.show();
+				me.sky_part_circle.hide();
+				me.ground_circle.hide();
+
+				if (me.pitch != 90) {
+					me.small_part_x = me.radius * math.cos(me.pitch*D2R);
+					me.small_part_y = me.radius * math.sin(me.pitch*D2R);
+					me.ground_part_circle.reset();
+					me.ground_part_circle.setColor(consts.COLOR_BROWN)
+						.setColorFill(consts.COLOR_BROWN)
+						.moveTo(-me.small_part_x, me.small_part_y)
+						.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+						.arcSmallCCW(me.radius, me.radius, 0, 2*me.small_part_x, 0);
+
+					me.ground_part_circle.show();
+				} else {
+					me.ground_part_circle.hide();
+				}
+			} else {
+				me.sky_circle.hide();
+				me.ground_circle.show();
+				me.ground_part_circle.hide();
+
+				if (me.pitch != -90) {
+					me.small_part_x = me.radius * math.cos(me.pitch*D2R);
+					me.small_part_y = me.radius * math.sin(me.pitch*D2R);
+					me.sky_part_circle.reset();
+					me.sky_part_circle.setColor(consts.COLOR_LIGHT_BLUE)
+						.setColorFill(consts.COLOR_LIGHT_BLUE)
+						.moveTo(-me.small_part_x, me.small_part_y)
+						.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+						.arcSmallCW(me.radius, me.radius, 0, 2*me.small_part_x, 0);
+
+					me.sky_part_circle.show();
+				} else {
+					me.sky_part_circle.hide();
+				}
+			}
+
 			me.sphere_group.setRotation(-1*me.input.roll.getValue()*D2R);
 		},
 
@@ -1344,7 +1382,7 @@ var DisplaySystem = {
 
 			me.fbw_mode_text = me.group.createChild("text", "fbw_mode_text")
 				.setFontSize(font.page_sms.fbw_mode_text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2 - 150, 250);
 			me.fbw_mode_text.enableUpdate();
@@ -1355,7 +1393,7 @@ var DisplaySystem = {
 		_setup_aircraft_outline: func {
 			me.aircraft_outline_left = me.group.createChild("path")
 				.set(Z_INDEX, zIndex.page_sms.aircraft_outline)
-				.setColor(COLOR_WHITE)
+				.setColor(consts.COLOR_WHITE)
 				.setStrokeLineWidth(lineWidth.page_sms.aircraft_outline)
 				.moveTo(DISPLAY_WIDTH/2 - 60, 96)
 				.lineTo(DISPLAY_WIDTH/2 - 51.6, 192)
@@ -1370,7 +1408,7 @@ var DisplaySystem = {
 
 			me.aircraft_outline_right = me.group.createChild("path")
 				.set(Z_INDEX, zIndex.page_sms.aircraft_outline)
-				.setColor(COLOR_WHITE)
+				.setColor(consts.COLOR_WHITE)
 				.setStrokeLineWidth(lineWidth.page_sms.aircraft_outline)
 				.moveTo(DISPLAY_WIDTH/2 + 60, 96)
 				.lineTo(DISPLAY_WIDTH/2 + 51.6, 192)
@@ -1387,154 +1425,154 @@ var DisplaySystem = {
 		_setup_pylon_boxes_and_text: func {
 			# Pylon 1L (position 0)
 			me.p1L_box = me.group.createChild("path", "p1L_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 - (10+72), 196, 72, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.p1L_text = me.group.createChild("text", "p1L_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 - (10+72), 196 + 24/2);
 			me.p1L_text.enableUpdate();
 
 			# Pylon 1R (position 6)
 			me.p1R_box = me.group.createChild("path", "p1R_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 + 10, 196, 72, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.p1R_text = me.group.createChild("text", "p1R_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2 + (10+72), 196 + 24/2);
 			me.p1R_text.enableUpdate();
 
 			# Pylon 3C (position 3)
 			me.p3C_box = me.group.createChild("path", "p3C_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 -36, 264, 72, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.p3C_text = me.group.createChild("text", "p3C_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("center-center")
 				.setTranslation(DISPLAY_WIDTH/2, 264 + 24/2);
 			me.p3C_text.enableUpdate();
 
 			# Pylon 3L (position 4)
 			me.p3L_box = me.group.createChild("path", "p3L_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 - (60+72), 324, 72, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.p3L_text = me.group.createChild("text", "p3L_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 - (60+72), 324 + 24/2);
 			me.p3L_text.enableUpdate();
 
 			# Pylon 3R (position 2)
 			me.p3R_box = me.group.createChild("path", "p3R_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 + 60, 324, 72, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.p3R_text = me.group.createChild("text", "p3R_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2 + (60+72), 324 + 24/2);
 			me.p3R_text.enableUpdate();
 
 			# Pylon 2L (position 1)
 			me.p2L_box = me.group.createChild("path", "p2L_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 - (114+72), 400, 72, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.p2L_text = me.group.createChild("text", "p2L_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 - (114+72), 400 + 24/2);
 			me.p2L_text.enableUpdate();
 
 			# Pylon 2R (position 5)
 			me.p2R_box = me.group.createChild("path", "p2R_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 + 114, 400, 72, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.p2R_text = me.group.createChild("text", "p2R_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2 + (114+72), 400 + 24/2);
 			me.p2R_text.enableUpdate();
 
 			# Pylon 4L (position 7)
 			me.p4L_box = me.group.createChild("path", "p4L_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 - (10+72), 390, 72, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.p4L_text = me.group.createChild("text", "p4L_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 - (10+72), 390 + 24/2);
 			me.p4L_text.enableUpdate();
 
 			# Pylon 4R (position 8)
 			me.p4R_box = me.group.createChild("path", "p4R_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 + 10, 390, 72, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.p4R_text = me.group.createChild("text", "p4R_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2 + (10+72), 390 + 24/2);
 			me.p4R_text.enableUpdate();
 
 			# Cannon left (also used for number of bullets in gun pod)
 			me.caL_box = me.group.createChild("path", "caL_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 - (132+48), 108, 48, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.caL_text = me.group.createChild("text", "caL_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("right-center") # yes it is a deviation from what we do otherwise
 				.setTranslation(DISPLAY_WIDTH/2 - 132, 108 + 24/2);
 			me.caL_text.enableUpdate();
 
 			# Cannon right
 			me.caR_box = me.group.createChild("path", "caR_box")
-				.setColor(COLOR_YELLOW)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_YELLOW)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(DISPLAY_WIDTH/2 + 132, 108, 48, 24)
 				.setStrokeLineWidth(lineWidth.page_sms.pylons_box)
 				.hide();
 			me.caR_text = me.group.createChild("text", "caR_text")
 				.setFontSize(font.page_sms.pylons_text)
-				.setColor(COLOR_YELLOW)
+				.setColor(consts.COLOR_YELLOW)
 				.setAlignment("right-center") # yes it is a deviation from what we do otherwise
 				.setTranslation(DISPLAY_WIDTH/2 + (132+48), 108 + 24/2);
 			me.caR_text.enableUpdate();
@@ -1581,9 +1619,9 @@ var DisplaySystem = {
 			me.catNumber = pylons.fcs.getCategory(); # catNumber is 1 or 2 - mode is 0 or 1
 			me.fbw_mode_text.updateText(sprintf("Load type:\n%s", me.catNumber==1?"A/A":"Charges"));
 			if (me.catNumber != me.input.fbw_mode.getValue() + 1) {
-				me.fbw_mode_text.setColor(COLOR_RED);
+				me.fbw_mode_text.setColor(consts.COLOR_RED);
 			} else {
-				me.fbw_mode_text.setColor(COLOR_CYAN);
+				me.fbw_mode_text.setColor(consts.COLOR_CYAN);
 			}
 
 			var sel = pylons.fcs.getSelectedPylonNumber();
@@ -1599,10 +1637,10 @@ var DisplaySystem = {
 			me.caL_box.setVisible(sel==9);
 			me.caR_box.setVisible(sel==9);
 
-			if (variantID == constants.VARIANT_5) {
+			if (variantID == consts.VARIANT_5) {
 				me.caL_text.updateText(sprintf("%3d", pylons.pylonI.getAmmo()/2));
 				me.caR_text.updateText(sprintf("%3d", pylons.pylonI.getAmmo()/2));
-			} elsif (variantID == constants.VARIANT_D) {
+			} elsif (variantID == consts.VARIANT_D) {
 				if (pylons.has_cc442() == TRUE) {
 					me.caL_text.updateText(sprintf("%3d", pylons.pylon1.getAmmo()));
 				} else {
@@ -1698,49 +1736,49 @@ var DisplaySystem = {
 
 			me.wpn_text = me.group.createChild("text", "wpn_text")
 				.setFontSize(font.page_ppa.wpn_text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("center-center")
 				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 80);
 			me.wpn_text.enableUpdate();
 			me.ammo_text = me.group.createChild("text", "ammo_text")
 				.setFontSize(font.page_ppa.ammo_text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("center-center")
 				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2 + 120);
 			me.ammo_text.enableUpdate();
 			me.row_1_right_text = me.group.createChild("text", "row_1_right_text")
 				.setFontSize(font.device.row_text)
-				.setColor(COLOR_GREEN)
+				.setColor(consts.COLOR_GREEN)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_1);
 			me.row_1_right_text.enableUpdate();
 			me.row_2_right_text = me.group.createChild("text", "row_2_right_text")
 				.setFontSize(font.device.row_text)
-				.setColor(COLOR_GREEN)
+				.setColor(consts.COLOR_GREEN)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_2);
 			me.row_2_right_text.enableUpdate();
 			me.row_3_right_text = me.group.createChild("text", "row_3_right_text")
 				.setFontSize(font.device.row_text)
-				.setColor(COLOR_GREEN)
+				.setColor(consts.COLOR_GREEN)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_3);
 			me.row_3_right_text.enableUpdate();
 			me.row_4_right_text = me.group.createChild("text", "row_4_right_text")
 				.setFontSize(font.device.row_text)
-				.setColor(COLOR_GREEN)
+				.setColor(consts.COLOR_GREEN)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_4);
 			me.row_4_right_text.enableUpdate();
 			me.damage_label = me.group.createChild("text", "damage_label")
 				.setFontSize(font.page_ppa.damage_text)
-				.setColor(COLOR_WHITE)
+				.setColor(consts.COLOR_WHITE)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2, 100)
 				.setText("Damage:");
 			me.damage_text = me.group.createChild("text", "damage_text")
 				.setFontSize(font.page_ppa.damage_text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 + 10, 100);
 			me.damage_text.enableUpdate();
@@ -1976,10 +2014,10 @@ var DisplaySystem = {
 
 			if (me.input.damage.getValue()) {
 				me.damage_text.updateText("On");
-				me.damage_text.setColor(COLOR_GREEN);
+				me.damage_text.setColor(consts.COLOR_GREEN);
 			} else {
 				me.damage_text.updateText("Off");
-				me.damage_text.setColor(COLOR_CYAN);
+				me.damage_text.setColor(consts.COLOR_CYAN);
 			}
 
 			me.device.controls[OSB6].setControlText(me.osb6, TRUE, me.osb6_selected);
@@ -2089,7 +2127,7 @@ var DisplaySystem = {
 
 			me.row_4_left_text = me.group.createChild("text", "row_4_right_text")
 				.setFontSize(font.device.row_text)
-				.setColor(COLOR_GREEN)
+				.setColor(consts.COLOR_GREEN)
 				.setAlignment("left-center")
 				.setTranslation(margin.device.row_text, DISPLAY_ROW_HEIGHT_4)
 				.setText("Show unk.");
@@ -2101,7 +2139,7 @@ var DisplaySystem = {
 
 			me.row_1_left_text = me.group.createChild("text", "row_4_right_text")
 				.setFontSize(font.device.row_text)
-				.setColor(COLOR_GREEN)
+				.setColor(consts.COLOR_GREEN)
 				.setAlignment("left-center")
 				.setTranslation(margin.device.row_text, DISPLAY_ROW_HEIGHT_1)
 				.setText("Sep.");
@@ -2114,19 +2152,19 @@ var DisplaySystem = {
 				.moveTo(0, -me.TICK_LENGTH_SHORT)
 				.lineTo(0, me.TICK_LENGTH_SHORT)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_rwr)
-				.setColor(COLOR_WHITE);
+				.setColor(consts.COLOR_WHITE);
 			me.rwr_circles_group.createChild("path") # middle circle
 				.moveTo(-me.circle_radius_middle, 0)
 				.arcSmallCW(me.circle_radius_middle, me.circle_radius_middle, 0, me.circle_radius_middle*2, 0)
 				.arcSmallCW(me.circle_radius_middle, me.circle_radius_middle, 0, -me.circle_radius_middle*2, 0)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_rwr)
-				.setColor(COLOR_CYAN);
+				.setColor(consts.COLOR_CYAN);
 			me.rwr_circles_group.createChild("path") # outer circle
 				.moveTo(-me.radius, 0)
 				.arcSmallCW(me.radius, me.radius, 0, me.radius*2, 0)
 				.arcSmallCW(me.radius, me.radius, 0, -me.radius*2, 0)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_rwr)
-				.setColor(COLOR_WHITE);
+				.setColor(consts.COLOR_WHITE);
 			me.rwr_circles_group.createChild("path") # large ticks around the circle
 				.moveTo(me.radius, 0)
 				.horiz(me.TICK_LENGTH_LONG) # 90
@@ -2137,7 +2175,7 @@ var DisplaySystem = {
 				.moveTo(0, -me.radius)
 				.vert(-me.TICK_LENGTH_LONG) # 0 / 360
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_rwr * 2)
-				.setColor(COLOR_WHITE);
+				.setColor(consts.COLOR_WHITE);
 			var rad_30 = 30 * D2R;
 			var rad_60 = 60 * D2R;
 			me.rwr_circles_group.createChild("path") # ticks like clock at outer ring
@@ -2159,14 +2197,14 @@ var DisplaySystem = {
 				.moveTo(-me.radius*math.cos(rad_60),me.radius*math.sin(rad_60))
 				.lineTo(-(me.radius+me.TICK_LENGTH_SHORT)*math.cos(rad_60),(me.radius+me.TICK_LENGTH_SHORT)*math.sin(rad_60))
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_rwr)
-				.setColor(COLOR_WHITE);
+				.setColor(consts.COLOR_WHITE);
 		},
 		_createRWRSymbols: func() {
 			me.texts = setsize([], me.max_icons+1);
 			for (var i = 0; i < me.max_icons+1; i+=1) {
 				me.texts[i] = me.rwr_circles_group.createChild("text")
 					.setAlignment("center-center")
-					.setColor(COLOR_YELLOW)
+					.setColor(consts.COLOR_YELLOW)
 					.setFontSize(font.page_rwr.threat_text)
 					.hide();
 				me.texts[i].enableUpdate();
@@ -2185,7 +2223,7 @@ var DisplaySystem = {
 					.moveTo(0, -font.page_rwr.symbols_dist)
 					.lineTo(-font.page_rwr.symbols_dist*0.9, -font.page_rwr.symbols_dist*0.6)
 					.setStrokeLineWidth(lineWidth.page_rwr.lines_rwr)
-					.setColor(COLOR_YELLOW)
+					.setColor(consts.COLOR_YELLOW)
 					.hide();
 			}
 
@@ -2197,7 +2235,7 @@ var DisplaySystem = {
 					.moveTo(0, font.page_rwr.symbols_dist)
 					.lineTo(-font.page_rwr.symbols_dist*0.9, font.page_rwr.symbols_dist*0.6)
 					.setStrokeLineWidth(lineWidth.page_rwr.lines_rwr)
-					.setColor(COLOR_YELLOW)
+					.setColor(consts.COLOR_YELLOW)
 					.hide();
 			}
 		},
@@ -2205,13 +2243,13 @@ var DisplaySystem = {
 		_createDispenserIndicators: func {
 			# Lance-Leurres (Decoy Dispenser)
 			me.ll_box  = me.dispenser_group.createChild("path", "ll_box")
-				.setColor(COLOR_CYAN)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_CYAN)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(0, 0, me.DISPENSER_BOX_WIDTH, me.DISPENSER_BOX_WIDTH)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_indicators);
 			me.ll_text = me.dispenser_group.createChild("text", "ll_text")
 				.setFontSize(font.page_rwr.indicators_text)
-				.setColor(COLOR_CYAN)
+				.setColor(consts.COLOR_CYAN)
 				.setAlignment("center-center")
 				.setText("LL")
 				.setTranslation(me.DISPENSER_BOX_WIDTH/2, me.DISPENSER_BOX_WIDTH/2);
@@ -2219,39 +2257,39 @@ var DisplaySystem = {
 			# Contremesures Électromagnétiques/Chaff
 			var add_down = me.DISPENSER_BOX_WIDTH + me.DISPENSER_BOX_SEPARATION;
 			me.em_box  = me.dispenser_group.createChild("path", "em_box")
-				.setColor(COLOR_MAGENTA)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_MAGENTA)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(0, add_down, me.DISPENSER_BOX_WIDTH, me.DISPENSER_BOX_WIDTH)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_indicators);
 			me.em_text = me.dispenser_group.createChild("text", "em_text")
 				.setFontSize(font.page_rwr.indicators_text)
-				.setColor(COLOR_MAGENTA)
+				.setColor(consts.COLOR_MAGENTA)
 				.setAlignment("center-center")
 				.setText("EM")
 				.setTranslation(me.DISPENSER_BOX_WIDTH/2, add_down + me.DISPENSER_BOX_WIDTH/2);
 			# IR (Contremesures Infrarouges/Flares)
 			var add_down = 2*(me.DISPENSER_BOX_WIDTH + me.DISPENSER_BOX_SEPARATION);
 			me.ir_box  = me.dispenser_group.createChild("path", "ir_box")
-				.setColor(COLOR_MAGENTA)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_MAGENTA)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(0, add_down, me.DISPENSER_BOX_WIDTH, me.DISPENSER_BOX_WIDTH)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_indicators);
 			me.ir_text = me.dispenser_group.createChild("text", "ir_text")
 				.setFontSize(font.page_rwr.indicators_text)
-				.setColor(COLOR_MAGENTA)
+				.setColor(consts.COLOR_MAGENTA)
 				.setAlignment("center-center")
 				.setText("IR")
 				.setTranslation(me.DISPENSER_BOX_WIDTH/2, add_down + me.DISPENSER_BOX_WIDTH/2);
 			# EO (Contremesures Électro-optiques/Electro-Optical
 			var add_down = 3*(me.DISPENSER_BOX_WIDTH + me.DISPENSER_BOX_SEPARATION);
 			me.eo_box  = me.dispenser_group.createChild("path", "eo_box")
-				.setColor(COLOR_MAGENTA)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_MAGENTA)
+				.setColorFill(consts.COLOR_BLACK)
 				.rect(0, add_down, me.DISPENSER_BOX_WIDTH, me.DISPENSER_BOX_WIDTH)
 				.setStrokeLineWidth(lineWidth.page_rwr.lines_indicators);
 			me.eo_text = me.dispenser_group.createChild("text", "eo_text")
 				.setFontSize(font.page_rwr.indicators_text)
-				.setColor(COLOR_MAGENTA)
+				.setColor(consts.COLOR_MAGENTA)
 				.setAlignment("center-center")
 				.setText("EO")
 				.setTranslation(me.DISPENSER_BOX_WIDTH/2, add_down + me.DISPENSER_BOX_WIDTH/2);
@@ -2547,24 +2585,24 @@ var DisplaySystem = {
 		_updateCounterMeasures: func() {
 			# dispensing counter measures
 			if (me.input.flares.getValue() == 0) {
-				me.ll_box.setColor(COLOR_CYAN);
-				me.ll_box.setColorFill(COLOR_BLACK);
-				me.ll_text.setColor(COLOR_CYAN);
+				me.ll_box.setColor(consts.COLOR_CYAN);
+				me.ll_box.setColorFill(consts.COLOR_BLACK);
+				me.ll_text.setColor(consts.COLOR_CYAN);
 			} else {
-				me.ll_box.setColor(COLOR_BLACK);
-				me.ll_box.setColorFill(COLOR_CYAN);
-				me.ll_text.setColor(COLOR_BLACK);
+				me.ll_box.setColor(consts.COLOR_BLACK);
+				me.ll_box.setColorFill(consts.COLOR_CYAN);
+				me.ll_text.setColor(consts.COLOR_BLACK);
 			}
 			# remaining counter measures
-			me.cm_background_line = COLOR_MAGENTA;
-			me.cm_background_fill = COLOR_BLACK;
+			me.cm_background_line = consts.COLOR_MAGENTA;
+			me.cm_background_fill = consts.COLOR_BLACK;
 			if (me.input.cm_remaining.getValue() == 0) {
-				me.cm_background_line = COLOR_BLACK;
-				me.cm_background_fill = COLOR_MAGENTA;
+				me.cm_background_line = consts.COLOR_BLACK;
+				me.cm_background_fill = consts.COLOR_MAGENTA;
 			} else if (me.input.cm_remaining.getValue() <= 20) {
 				if (me.alternated == TRUE) {
-					me.cm_background_line = COLOR_BLACK;
-					me.cm_background_fill = COLOR_MAGENTA;
+					me.cm_background_line = consts.COLOR_BLACK;
+					me.cm_background_fill = consts.COLOR_MAGENTA;
 				}
 			}
 			me.em_box.setColor(me.cm_background_line);
@@ -2667,8 +2705,8 @@ var DisplaySystem = {
 			me.row_4_right_text = me.group.createChild("text", "row_4_right_text")
 				.set(Z_INDEX, zIndex.page_map.row_text)
 				.setFontSize(font.device.row_text)
-				.setColor(COLOR_GREEN)
-				.setColorFill(COLOR_BLACK)
+				.setColor(consts.COLOR_GREEN)
+				.setColorFill(consts.COLOR_BLACK)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_4)
 				.setText("Zoom");
@@ -2677,7 +2715,7 @@ var DisplaySystem = {
 			me.load_message_text = "";
 			me.load_message = me.group.createChild("text", "load_message")
 				.set(Z_INDEX, zIndex.page_map.load_message)
-				.setColor(COLOR_MAGENTA)
+				.setColor(consts.COLOR_MAGENTA)
 				.setFont(FONT_MONO_BOLD)
 				.setFontSize(font.page_map.load_message)
 				.setAlignment("center-center")
@@ -2845,14 +2883,14 @@ var main = func (module) {
 	}
 
 	var variantID = getprop("sim/variant-id");
-	if (variantID == constants.VARIANT_D) {
+	if (variantID == consts.VARIANT_D) {
 		return; # nothing to do
 	}
 
 	rightMFDDisplayDevice = DisplayDevice.new("RightMFDDisplayDevice", [DISPLAY_WIDTH, DISPLAY_HEIGHT], [1, 1], "right_mfd.canvasCadre", "canvasTex.png");
-	rightMFDDisplayDevice.setColorBackground(COLOR_BLACK);
+	rightMFDDisplayDevice.setColorBackground(consts.COLOR_BLACK);
 
-	rightMFDDisplayDevice.setControlTextColors(COLOR_WHITE, COLOR_BLACK, COLOR_CYAN);
+	rightMFDDisplayDevice.setControlTextColors(consts.COLOR_WHITE, consts.COLOR_BLACK, consts.COLOR_CYAN);
 
 	var osbPositions = [
 		# top row = bt-h1 ... bt-h5 in xml
@@ -2923,7 +2961,7 @@ var _changeCannonRate = func (air_to_air) { # 1 or 0
 	#     * 553: 1,300 rpm
 	# => going with DEFA 554 and 0.033 - 0.055 for the -5 and fixed 0.046 for the D (CC442 gun pod)
 	var rate = 0.0;
-	if (variantID == constants.VARIANT_D) {
+	if (variantID == consts.VARIANT_D) {
 		rate = 0.046; # no difference between A/A and A/G
 	} else if (air_to_air == TRUE) {
 		rate = 0.033;

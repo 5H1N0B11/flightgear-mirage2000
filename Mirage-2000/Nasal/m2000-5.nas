@@ -519,19 +519,19 @@ var viewReset = func () {
 		# degs must be before -m
 		setprop("/sim/current-view/x-offset-m",0);
 		setprop("/sim/current-view/y-offset-m", seat_current);
-		if (mode == constants.FLIGHT_MODE_GROUND) {
+		if (mode == consts.FLIGHT_MODE_GROUND) {
 			setprop("sim/current-view/pitch-offset-deg", -15);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",75);
-		} else if (mode == constants.FLIGHT_MODE_APPROACH or mode == constants.FLIGHT_MODE_GROUND) {
+		} else if (mode == consts.FLIGHT_MODE_APPROACH or mode == consts.FLIGHT_MODE_GROUND) {
 			setprop("sim/current-view/pitch-offset-deg", -15);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",75);
-		} elsif (mode == constants.FLIGHT_MODE_NAVIGATION) {
+		} elsif (mode == consts.FLIGHT_MODE_NAVIGATION) {
 			setprop("sim/current-view/pitch-offset-deg", -12);
 			setprop("/sim/current-view/z-offset-m",-2.9);
 			setprop("/sim/current-view/field-of-view",83);
-		} elsif (mode == constants.FLIGHT_MODE_ATTACK) {
+		} elsif (mode == consts.FLIGHT_MODE_ATTACK) {
 			setprop("sim/current-view/pitch-offset-deg", -15);
 			setprop("/sim/current-view/z-offset-m",-2.77);
 			setprop("/sim/current-view/field-of-view",65);
@@ -577,12 +577,12 @@ var viewVTM = func() {
 
 var toggleNavApproachMode = func {
 	var mode = getprop("/instrumentation/flightmode/selected");
-	if (mode == constants.FLIGHT_MODE_APPROACH) {
-		setFlightMode(constants.FLIGHT_MODE_NAVIGATION);
-	} else if (mode == constants.FLIGHT_MODE_NAVIGATION) {
-		setFlightMode(constants.FLIGHT_MODE_APPROACH);
-	} else if (mode == constants.FLIGHT_MODE_ATTACK) {
-		setFlightMode(constants.FLIGHT_MODE_NAVIGATION);
+	if (mode == consts.FLIGHT_MODE_APPROACH) {
+		setFlightMode(consts.FLIGHT_MODE_NAVIGATION);
+	} else if (mode == consts.FLIGHT_MODE_NAVIGATION) {
+		setFlightMode(consts.FLIGHT_MODE_APPROACH);
+	} else if (mode == consts.FLIGHT_MODE_ATTACK) {
+		setFlightMode(consts.FLIGHT_MODE_NAVIGATION);
 	}
 	# else nothing to do - cannot toggle from GROUND
 }
@@ -590,12 +590,12 @@ var toggleNavApproachMode = func {
 var _checkGroundModeNWS = func {
 	# check mode
 	var mode = getprop("/instrumentation/flightmode/selected");
-	if (mode != constants.FLIGHT_MODE_GROUND and getprop("/gear/gear[1]/wow")) {
-		setFlightMode(constants.FLIGHT_MODE_GROUND);
-		mode = constants.FLIGHT_MODE_GROUND
+	if (mode != consts.FLIGHT_MODE_GROUND and getprop("/gear/gear[1]/wow")) {
+		setFlightMode(consts.FLIGHT_MODE_GROUND);
+		mode = consts.FLIGHT_MODE_GROUND
 	}
 	# check NWS
-	if (mode == constants.FLIGHT_MODE_GROUND and getprop("/velocities/groundspeed-kt") > 40) {
+	if (mode == consts.FLIGHT_MODE_GROUND and getprop("/velocities/groundspeed-kt") > 40) {
 		setprop("/controls/flight/nws-enabled", FALSE);
 	}
 }
@@ -614,10 +614,10 @@ var _selectNewWeapon = func (mode) {
 	pylons.fcs.cycleLoadedWeapon();
 	var selected_type = pylons.fcs.getSelectedType();
 	# handle flight mode
-	if (mode == constants.FLIGHT_MODE_ATTACK and selected_type == nil) {
-		setFlightMode(constants.FLIGHT_MODE_NAVIGATION);
-	} else if (mode == constants.FLIGHT_MODE_NAVIGATION and selected_type != nil) {
-		setFlightMode(constants.FLIGHT_MODE_ATTACK);
+	if (mode == consts.FLIGHT_MODE_ATTACK and selected_type == nil) {
+		setFlightMode(consts.FLIGHT_MODE_NAVIGATION);
+	} else if (mode == consts.FLIGHT_MODE_NAVIGATION and selected_type != nil) {
+		setFlightMode(consts.FLIGHT_MODE_ATTACK);
 	}
 	# handle drop mode
 	if (selected_type != nil) {
@@ -631,10 +631,10 @@ var _selectNewWeapon = func (mode) {
 
 var cycleLoadedWeapon = func {
 	var mode = getprop("/instrumentation/flightmode/selected");
-	if (mode == constants.FLIGHT_MODE_NAVIGATION) {
+	if (mode == consts.FLIGHT_MODE_NAVIGATION) {
 		# just try to get into ATTACK mode, but do not switch weapon if already selected
 		if (pylons.fcs.getSelectedType() != nil) {
-			setFlightMode(constants.FLIGHT_MODE_ATTACK);
+			setFlightMode(consts.FLIGHT_MODE_ATTACK);
 		} else {
 			_selectNewWeapon(mode);
 		}
@@ -649,8 +649,8 @@ var changeGearsPosition = func(is_up) {
 	}
 	if (is_up == TRUE) {
 		var mode = getprop("/instrumentation/flightmode/selected");
-		if (mode == constants.FLIGHT_MODE_GROUND) {
-			setFlightMode(constants.FLIGHT_MODE_NAVIGATION);
+		if (mode == consts.FLIGHT_MODE_GROUND) {
+			setFlightMode(consts.FLIGHT_MODE_NAVIGATION);
 		}
 		setprop("/controls/gear/gear-down", 0);
 	} else {
@@ -807,7 +807,7 @@ var long_starting = func() {
 
 	#puting back the view on take off view
 	settimer(func {
-		setFlightMode(constants.FLIGHT_MODE_GROUND);
+		setFlightMode(consts.FLIGHT_MODE_GROUND);
 	}, 45);
 
 	#turning on the air conditioning

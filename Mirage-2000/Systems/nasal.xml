@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
-	<constants>
+	<consts>
 		<file>Aircraft/Mirage-2000/Nasal/constants.nas</file>
-	</constants>
+	</consts>
 	<notifications>
 		<file>Aircraft/Mirage-2000/Nasal/ArmamentNotification.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/M_frame_notification.nas</file>

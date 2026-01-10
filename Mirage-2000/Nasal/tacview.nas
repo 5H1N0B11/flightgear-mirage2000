@@ -16,11 +16,11 @@
 
 # Aircraft type string for tacview
 var tacview_ac_type = "M2000-5"; # sim/variant-id = 1
-if (getprop("sim/variant-id") == constants.VARIANT_5B) {
+if (getprop("sim/variant-id") == consts.VARIANT_5B) {
 	tacview_ac_type = "M2000-5B";
-} else if (getprop("sim/variant-id") == constants.VARIANT_N) {
+} else if (getprop("sim/variant-id") == consts.VARIANT_N) {
 	tacview_ac_type = "M2000N";
-} else if (getprop("sim/variant-id") == constants.VARIANT_D) {
+} else if (getprop("sim/variant-id") == consts.VARIANT_D) {
 	tacview_ac_type = "M2000D";
 }
 # Aircraft type as inserted in the output file name

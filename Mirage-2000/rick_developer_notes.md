@@ -141,7 +141,7 @@ For explanation see the headers of the two Nasal files plus https://github.com/5
 
 notification.FrameCount (0, 1, 2, 3) can be used to limit the times a function is called - instead of each time the FrameNotificaiton is sent.
 
-notification.frameNotification is a singleton added at then end of M_frame_notification.nas.
+notification.frameNotification is a singleton added at the end of M_frame_notification.nas.
 
 
 ## m2000-5.nas - myFramerate ##

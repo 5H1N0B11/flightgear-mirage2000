@@ -69,7 +69,7 @@ var reload_cannon_and_flares = func() {
 		setprop("/ai/submodels/submodel/count", 250);
 		bullets_text = "250";
 		guns_reloaded = TRUE;
-	} else if (variantID == constants.VARIANT_5) {
+	} else if (variantID == consts.VARIANT_5) {
 		setprop("/ai/submodels/submodel/count",    125);
 		setprop("/ai/submodels/submodel[1]/count", 125);
 		guns_reloaded = TRUE;

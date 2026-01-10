@@ -1097,7 +1097,7 @@ var HUD = {
 
 		var target_contacts_list = radar_system.apg68Radar.getActiveBleps();
 
-		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
 			if (me.selected_weapon.type == ASMP) {
 				# nothing to do
 			} else if (me.selected_weapon.type == CANNON_30MM or me.selected_weapon.type == CC422) {
@@ -1361,7 +1361,7 @@ var HUD = {
 		me.heading_scale_group.setTranslation(me.middleOffset , 0);
 		me.heading_scale_group.update();
 
-		me.heading_stuff_group.setTranslation(0 , me.flightmode_cached == constants.FLIGHT_MODE_APPROACH ? HEADSCALE_APPROACH_TRANSLATE : 0);
+		me.heading_stuff_group.setTranslation(0 , me.flightmode_cached == consts.FLIGHT_MODE_APPROACH ? HEADSCALE_APPROACH_TRANSLATE : 0);
 	}, # END _displayHeadingHorizonScale()
 
 	# flight path vector (FPV)
@@ -1410,7 +1410,7 @@ var HUD = {
 	}, # END _displayChevron()
 
 	_displayGroundFlightMode: func() {
-		if (me.flightmode_cached == constants.FLIGHT_MODE_GROUND) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_GROUND) {
 			me.acceleration_box_text.updateText(sprintf("%.2f", int(me.input.acc.getValue()*FT2M/9.8*1000+1)/1000));
 			me.acceleration_box_group.show();
 			me.inverted_t.setTranslation(0, HudMath.getCenterPosFromDegs(0,-TAKEOFF_AOA)[1]);
@@ -1422,7 +1422,7 @@ var HUD = {
 	}, # END _displayGroundFlightMode()
 
 	_displayApproachFlightMode: func() {
-		if (me.flightmode_cached == constants.FLIGHT_MODE_APPROACH) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_APPROACH) {
 			me.approach_aoa_brackets.setTranslation(0, HudMath.getCenterPosFromDegs(0, -APPROACH_AOA)[1]);
 			me.approach_aoa_brackets.show();
 
@@ -1559,12 +1559,12 @@ var HUD = {
 		me.feet_alt.updateText(alt_digits_str);
 		me.hundred_feet_alt.updateText(alt_hundreds_str);
 
-		me.speed_and_alt_group.setTranslation(0 , me.flightmode_cached == constants.FLIGHT_MODE_APPROACH ? HEADSCALE_APPROACH_TRANSLATE : 0);
+		me.speed_and_alt_group.setTranslation(0 , me.flightmode_cached == consts.FLIGHT_MODE_APPROACH ? HEADSCALE_APPROACH_TRANSLATE : 0);
 		me.speed_and_alt_group.update();
 	}, # END _displaySpeedAltGroup
 
 	_displayRadarAltimeter: func(rad_alt_str) {
-		if (rad_alt_str != nil) { 
+		if (rad_alt_str != nil) {
 			me.ground_alt.updateText(rad_alt_str);
 			me.ground_alt.show();
 			me.the_H.show();
@@ -1575,7 +1575,7 @@ var HUD = {
 	}, # END _displayRadarAltimeter
 
 	_displayAlpha: func() {
-		if ((me.flightmode_cached == constants.FLIGHT_MODE_NAVIGATION or me.flightmode_cached == constants.FLIGHT_MODE_APPROACH) and me.input.alpha.getValue() > 2) {
+		if ((me.flightmode_cached == consts.FLIGHT_MODE_NAVIGATION or me.flightmode_cached == consts.FLIGHT_MODE_APPROACH) and me.input.alpha.getValue() > 2) {
 			me.aoa.updateText(sprintf("%0.1f",me.input.alpha.getValue()));
 			me.alpha_group.show();
 		} else {
@@ -1584,7 +1584,7 @@ var HUD = {
 	},
 
 	_displayGload: func() {
-		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_ATTACK) {
 			me.gload_text.updateText(sprintf("%0.1fG",me.input.gload.getValue()));
 			me.alpha_text.updateText(sprintf("%0.1fα",me.input.alpha.getValue()));
 			me.alphaGloadGroup.show();
@@ -1594,7 +1594,7 @@ var HUD = {
 	},
 
 	_displayLoadsType: func() {
-		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
 			if (me.master_arm or me.alternated == TRUE) {
 				me.loads_type_text.updateText(me.loads_hash[me.selected_weapon.type]);
 			} else {
@@ -1607,7 +1607,7 @@ var HUD = {
 	},
 
 	_displayBulletCount: func{
-		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
 			if (me.selected_weapon.type == CANNON_30MM) {
 				me.left_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
 				me.right_bullet_count.updateText(sprintf("%3d", pylons.fcs.getAmmo()/2));
@@ -1627,7 +1627,7 @@ var HUD = {
 	_displaySelectedPylons: func {
 		#Showing the circle around the L or R if the weapons is under the wings.
 		#A circle around a C is also done for center loads, but I couldn't find any docs on that, so it is conjecture
-		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_ATTACK and me.selected_weapon != nil) {
 			if (me.selected_weapon.type != CANNON_30MM and me.selected_weapon.type != CC422) {
 				#Init the vector
 				me.pylonRemainAmmo_hash = {
@@ -1689,7 +1689,7 @@ var HUD = {
 	},
 
 	_displayHeatTarget: func() {
-		if (me.selected_weapon == nil or me.flightmode_cached != constants.FLIGHT_MODE_ATTACK) {
+		if (me.selected_weapon == nil or me.flightmode_cached != consts.FLIGHT_MODE_ATTACK) {
 			me.TriangleGroupe.hide();
 			return;
 		}
@@ -1717,7 +1717,7 @@ var HUD = {
 
 		me.showDistanceToken = FALSE;
 
-		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_ATTACK) {
 			me.raw_list = radar_system.apg68Radar.getActiveBleps();
 			me.designatedDistanceFT = nil;
 
@@ -1764,7 +1764,7 @@ var HUD = {
 
 		me.antirad_cue_core.hide();
 		me.antirad_cue_locked.hide();
-		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and me._weapon_has_guidance_prop() == TRUE and me.selected_weapon.guidance == AIM_GUIDANCE_RADIATION and me.selected_weapon.isPowerOn()) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_ATTACK and me._weapon_has_guidance_prop() == TRUE and me.selected_weapon.guidance == AIM_GUIDANCE_RADIATION and me.selected_weapon.isPowerOn()) {
 			me.antirad_cue_core.show();
 			if (pylons.fcs.isLock()) {
 				me.antirad_cue_locked.show();
@@ -1889,7 +1889,7 @@ var HUD = {
 	},
 
 	_displayDLZ: func() {
-		if (me.selected_weapon != nil and me.flightmode_cached == constants.FLIGHT_MODE_ATTACK) {
+		if (me.selected_weapon != nil and me.flightmode_cached == consts.FLIGHT_MODE_ATTACK) {
 			#Testings
 			if (me.selected_weapon.type != CANNON_30MM and me.selected_weapon.type != CC422) {
 				if (me.selected_weapon.class == "A" and me.selected_weapon.parents[0] == armament.AIM) {
@@ -1924,7 +1924,7 @@ var HUD = {
 	},
 
 	_displayBoreCross: func(bore_pos) {
-		if (me.flightmode_cached == constants.FLIGHT_MODE_ATTACK and pylons.fcs.getSelectedWeapon() !=nil) {
+		if (me.flightmode_cached == consts.FLIGHT_MODE_ATTACK and pylons.fcs.getSelectedWeapon() !=nil) {
 			if (me.selected_weapon.type == CANNON_30MM or me.selected_weapon.type == CC422) { # if weapons selected
 				me.boreCross.setTranslation(bore_pos);
 				me.boreCross.show();
@@ -2441,7 +2441,7 @@ var _roundabout = func(x) {
 
 var variantID = getprop("sim/variant-id");
 var hud_pilot = nil;
-if (variantID == constants.VARIANT_D) {
+if (variantID == consts.VARIANT_D) {
 	hub_pilot = hud.HUD.new("hud_pilot", {"node": "vth_d.canvas", "texture": "canvasTex.png"});
 } else {
 	hud_pilot = hud.HUD.new("hud_pilot", {"node": "revi.canvasHUD", "texture": "hud.png"});

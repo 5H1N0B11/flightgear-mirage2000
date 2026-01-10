@@ -1018,6 +1018,6 @@ var _getCompassTopLeftTranslation = func() {
 
 var variantID = getprop("sim/variant-id");
 var vtm = nil;
-if (variantID != constants.VARIANT_D) {
+if (variantID != consts.VARIANT_D) {
 	vtm = VTM.new("VTM");
 }
