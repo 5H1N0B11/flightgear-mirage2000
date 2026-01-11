@@ -1149,14 +1149,12 @@ var DisplaySystem = {
 				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
 				.circle(me.radius, 0, 0);
 
-			me.sky_part_circle = me.sphere_group.createChild("path", "sky_part_circle")
-				.setColor(consts.COLOR_BLUE)
-				.setColorFill(consts.COLOR_BLUE)
-				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
-				.moveTo(-me.radius, 0)
-				.arcSmallCCW(me.radius, me.radius, 0, me.radius*2, 0);
+			me.sky_part_circle = me.sphere_group.createChild("path", "sky_part_circle");
 
 			me.ground_part_circle = me.sphere_group.createChild("path", "ground_part_circle");
+
+			# the white scale lines in the sphere
+			me.scale_0_deg = me.sphere_group.createChild("path", "scale_0_deg");
 
 			me.roll_triangle = me.sphere_group.createChild("path", "roll_triangle")
 				.set(Z_INDEX, zIndex.page_eadi.roll_triangle)
@@ -1262,14 +1260,16 @@ var DisplaySystem = {
 
 		_updateSphere: func {
 			me.pitch = me.input.pitch.getValue();
+			me.small_part_x = me.radius * math.cos(me.pitch*D2R);
+			me.small_part_y = me.radius * math.sin(me.pitch*D2R);
+
+			# sphere parts
 			if (me.pitch > 0) {
 				me.sky_circle.show();
 				me.sky_part_circle.hide();
 				me.ground_circle.hide();
 
 				if (me.pitch != 90) {
-					me.small_part_x = me.radius * math.cos(me.pitch*D2R);
-					me.small_part_y = me.radius * math.sin(me.pitch*D2R);
 					me.ground_part_circle.reset();
 					me.ground_part_circle.setColor(consts.COLOR_BROWN)
 						.setColorFill(consts.COLOR_BROWN)
@@ -1287,8 +1287,6 @@ var DisplaySystem = {
 				me.ground_part_circle.hide();
 
 				if (me.pitch != -90) {
-					me.small_part_x = me.radius * math.cos(me.pitch*D2R);
-					me.small_part_y = me.radius * math.sin(me.pitch*D2R);
 					me.sky_part_circle.reset();
 					me.sky_part_circle.setColor(consts.COLOR_LIGHT_BLUE)
 						.setColorFill(consts.COLOR_LIGHT_BLUE)
@@ -1300,6 +1298,19 @@ var DisplaySystem = {
 				} else {
 					me.sky_part_circle.hide();
 				}
+			}
+
+			# scale
+			if (math.abs(me.pitch) != 90) {
+				me.scale_0_deg.reset();
+				me.scale_0_deg.setColor(consts.COLOR_WHITE)
+					.moveTo(-me.small_part_x, me.small_part_y)
+					.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+					.lineTo(me.small_part_x, me.small_part_y);
+
+				me.scale_0_deg.show();
+			} else {
+				me.scale_0_deg.hide();
 			}
 
 			me.sphere_group.setRotation(-1*me.input.roll.getValue()*D2R);
