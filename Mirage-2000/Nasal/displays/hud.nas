@@ -179,7 +179,6 @@ var HUD = {
 			target_spd: "/autopilot/settings/target-speed-kt",
 			acc:        "/fdm/jsbsim/accelerations/udot-ft_sec2",
 			afterburner: "/engines/engine[0]/afterburner",
-			NavFreq:    "/instrumentation/nav/frequencies/selected-mhz",
 			destRunway: "/autopilot/route-manager/destination/runway",
 			destAirport:"/autopilot/route-manager/destination/airport",
 			distNextWay:"/autopilot/route-manager/wp/dist",
@@ -188,11 +187,19 @@ var HUD = {
 			NextWayBearing:"/autopilot/route-manager/wp/bearing-deg",
 			AutopilotStatus:"/autopilot/locks/AP-status",
 			currentWp     : "/autopilot/route-manager/current-wp",
-			ILS_valid     :"/instrumentation/nav/data-is-valid",
-			NavHeadingRunwayILS:"/instrumentation/nav/heading-deg",
-			ILS_gs_in_range :"/instrumentation/nav/gs-in-range",
-			ILS_gs_deg:  "/instrumentation/nav/gs-direct-deg",
-			NavHeadingNeedleDeflectionILS:"/instrumentation/nav/heading-needle-deflection-norm",
+			nav_source    : "autopilot/settings/nav-source",
+			nav1_valid     :"/instrumentation/nav[0]/data-is-valid",
+			nav2_valid     :"/instrumentation/nav[1]/data-is-valid",
+			nav1_heading_deg :"/instrumentation/nav[0]/heading-deg",
+			nav2_heading_deg :"/instrumentation/nav[1]/heading-deg",
+			nav1_gs_in_range :"/instrumentation/nav[0]/gs-in-range",
+			nav2_gs_in_range :"/instrumentation/nav[1]/gs-in-range",
+			nav1_gs_direct_deg:  "/instrumentation/nav[0]/gs-direct-deg",
+			nav2_gs_direct_deg:  "/instrumentation/nav[1]/gs-direct-deg",
+			nav1_heading_needle_deflection :"/instrumentation/nav[0]/heading-needle-deflection-norm",
+			nav2_heading_needle_deflection :"/instrumentation/nav[1]/heading-needle-deflection-norm",
+			nav1_freq:    "/instrumentation/nav[0]/frequencies/selected-mhz",
+			nav2_freq:    "/instrumentation/nav[1]/frequencies/selected-mhz",
 			x_offset_m:    "/sim/current-view/x-offset-m",
 			y_offset_m:    "/sim/current-view/y-offset-m",
 			z_offset_m:    "/sim/current-view/z-offset-m",
@@ -1426,6 +1433,23 @@ var HUD = {
 			me.approach_aoa_brackets.setTranslation(0, HudMath.getCenterPosFromDegs(0, -APPROACH_AOA)[1]);
 			me.approach_aoa_brackets.show();
 
+			me.nav_source = me.input.nav_source.getValue();
+			if (me.nav_source == consts.NAV_SOURCE_NAV2) {
+				me.nav_valid = me.input.nav2_valid.getValue();
+				me.nav_heading_deg = me.input.nav2_heading_deg.getValue();
+				me.nav_gs_in_range = me.input.nav2_gs_in_range.getValue();
+				me.nav_gs_direct_deg = me.input.nav2_gs_direct_deg.getValue();
+				me.nav_heading_needle_deflection = me.input.nav2_heading_needle_deflection.getValue();
+				me.nav_freq = me.input.nav2_freq.getValue();
+			} else { # fallback to NAV1 no matter whether current nav_source or something else
+				me.nav_valid = me.input.nav1_valid.getValue();
+				me.nav_heading_deg = me.input.nav1_heading_deg.getValue();
+				me.nav_gs_in_range = me.input.nav1_gs_in_range.getValue();
+				me.nav_gs_direct_deg = me.input.nav1_gs_direct_deg.getValue();
+				me.nav_heading_needle_deflection = me.input.nav1_heading_needle_deflection.getValue();
+				me.nav_freq = me.input.nav1_freq.getValue();
+			}
+
 			me._displayILSStuff();
 			me._displayILSSquare();
 			me._displayRunway();
@@ -1439,11 +1463,11 @@ var HUD = {
 	}, # END _displayApproachFlightMode()
 
 	_displayILSStuff: func() {
-		if (me.input.ILS_valid.getValue()) {
-			me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading_displayed - me.input.NavHeadingRunwayILS.getValue() ));
+		if (me.nav_valid) {
+			me.runwayPosHrizonOnHUD = HudMath.getPixelPerDegreeXAvg(7.5)*-(geo.normdeg180(me.heading_displayed - me.nav_heading_deg));
 
 			me.ILS_scale_dependant.setTranslation(me.runwayPosHrizonOnHUD,0);
-			me.ILS_localizer_deviation.setRotation(-45*me.input.NavHeadingNeedleDeflectionILS.getValue()*D2R);
+			me.ILS_localizer_deviation.setRotation(-45*me.nav_heading_needle_deflection*D2R);
 			me.ILS_scale_dependant.update();
 			me.ILS_scale_dependant.show();
 		} else {
@@ -1452,8 +1476,8 @@ var HUD = {
 	}, # END _displayILSStuff()
 
 	_displayILSSquare: func() {
-		if (me.input.ILS_gs_in_range.getValue()) {
-			me.ILS_square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.input.ILS_gs_deg.getValue()-me.input.pitch.getValue())[1]);
+		if (me.nav_gs_in_range) {
+			me.ILS_square.setTranslation(0,HudMath.getCenterPosFromDegs(0,-me.nav_gs_direct_deg-me.input.pitch.getValue())[1]);
 			me.ILS_scale_independant.show();
 		} else {
 			me.ILS_scale_independant.hide();
@@ -1477,7 +1501,7 @@ var HUD = {
 		#print("-- Lengths of the runways at ", info.name, " (", info.id, ") --");
 		me.info = airportinfo();
 		foreach(var rwy; keys(me.info.runways)) {
-			if (sprintf("%.2f",me.info.runways[rwy].ils_frequency_mhz) == sprintf("%.2f",me.input.NavFreq.getValue())) {
+			if (sprintf("%.2f",me.info.runways[rwy].ils_frequency_mhz) == sprintf("%.2f", me.nav_freq)) {
 				me.selected_runway = rwy;
 				break;
 			}

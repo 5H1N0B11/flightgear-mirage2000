@@ -5,6 +5,12 @@ var FLIGHT_MODE_GROUND = "GROUND"; # Navigation sub-mode
 var FLIGHT_MODE_NAVIGATION = "NAV";
 var FLIGHT_MODE_ATTACK = "ATT";
 
+var NAV_SOURCE_NAV1 = "NAV1";
+var NAV_SOURCE_NAV2 = "NAV2";
+var NAV_SOURCE_TACAN = "TACAN";
+var NAV_SOURCE_FMS = "FMS";
+var NAV_SOURCE_DATA = "DATA";
+
 # for /sim/variant-id
 
 var VARIANT_5 = 1;

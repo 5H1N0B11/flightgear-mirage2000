@@ -143,6 +143,7 @@ var zIndex = {
 		sphere_over: 10,
 		roll_triangle: 15,
 		sphere_fixed: 50,
+		ils_stuff: 60,
 	},
 	page_sms: {
 		aircraft_outline: 15,
@@ -721,6 +722,7 @@ var DisplaySystem = {
 				wind_deg               : "/environment/wind-from-heading-deg",
 				wind_kt                : "/environment/wind-speed-kt",
 				ground_speed           : "velocities/groundspeed-kt",
+				nav_source             : "autopilot/settings/nav-source",
 				nav1_heading_bug_deg   : "instrumentation/nav[0]/radials/selected-deg", # OBS (Omni-Bearing Selector) of HSI / Needle / The path
 				nav2_heading_bug_deg   : "instrumentation/nav[1]/radials/selected-deg",
 				nav1_heading_deg       : "instrumentation/nav[0]/heading-deg",
@@ -756,14 +758,14 @@ var DisplaySystem = {
 			me._createLeftSideTexts();
 
 			# content stuff
-			me.mode = 0; # VOR = 0, DATA = 1, TAC = 2
+			me.mode = 0; # VOR = 0 (NAV1 or NAV2), DATA = 1, TACAN = 2, FMS = 3
 			me.nav_number = 1; # Either NAV1 or NAV2 toggled with OSB5
 
 			me.osb13 = "TH";
 			me.osb14 = "MH";
 			me.osb16 = "VOR";
 			me.osb17 = "DATA";
-			me.osb18 = "TAC";
+			me.osb18 = "TAC"; # TACAN
 			me.osb25 = OSB_PLUS;
 			me.osb26 = OSB_MINUS;
 		},
@@ -907,8 +909,18 @@ var DisplaySystem = {
 			me.mode += delta;
 			if (me.mode < 0) {
 				me.mode = 0;
-			} elsif (me.mode > 2) {
-				me.mode = 2;
+			} elsif (me.mode > 3) {
+				me.mode = 3;
+			}
+
+			if (me.mode == 0) {
+				me.input.nav_source.setValue(me.nav_number == 1 ? consts.NAV_SOURCE_NAV1 : consts.NAV_SOURCE_NAV2);
+			} elsif (me.mode == 1) {
+				me.input.nav_source.setValue(consts.NAV_SOURCE_DATA);
+			} elsif (me.mode == 2) {
+				me.input.nav_source.setValue(consts.NAV_SOURCE_TACAN);
+			} else {
+				me.input.nav_source.setValue(consts.NAV_SOURCE_FMS);
 			}
 		},
 
@@ -925,6 +937,9 @@ var DisplaySystem = {
 				me.device.system.selectPage(PAGE_HUB);
 			} elsif (controlName == OSB5) {
 				me.nav_number = me.nav_number == 1 ? 2 : 1;
+				if (me.mode == 0) {
+					me.input.nav_source.setValue(me.nav_number == 1 ? consts.NAV_SOURCE_NAV1 : consts.NAV_SOURCE_NAV2);
+				}
 			} elsif (controlName == OSB13) {
 				me.input.show_true_north.setValue(TRUE);
 			} elsif (controlName == OSB14) {
@@ -966,7 +981,7 @@ var DisplaySystem = {
 					visible = TRUE;
 					me.destination_needle.setRotation(me._correctTrueHeading(me.input.tacan_bearing.getValue())*D2R);
 				}
-			} else { # DATA
+			} else { # DATA, FMS
 				visible = FALSE;
 			}
 			me.destination_needle.setVisible(visible);
@@ -1028,6 +1043,8 @@ var DisplaySystem = {
 					time_display = me._calcTimeToDestinationString(distance_m);
 				}
 				tacan_text_color = consts.COLOR_CYAN;
+			} else { # mode == 3 -> FMS
+				mode_display = "...";
 			}
 			me.mode_text.updateText(mode_display);
 			me.nav_id_text.updateText(nav_id_display);
@@ -1052,6 +1069,21 @@ var DisplaySystem = {
 
 			me.heading_displayed = displays.common.getHeadingForDisplay();
 
+			me.nav_source = me.input.nav_source.getValue();
+			if (me.nav_source == consts.NAV_SOURCE_NAV1) {
+				me.nav_number = 1;
+				me.mode = 0;
+			} elsif (me.nav_source == consts.NAV_SOURCE_NAV2) {
+				me.nav_number = 2;
+				me.mode = 0;
+			} elsif (me.nav_source == consts.NAV_SOURCE_DATA) {
+				me.mode = 1;
+			} elsif (me.nav_source == consts.NAV_SOURCE_TACAN) {
+				me.mode = 2;
+			} else { # consts.NAV_SOURCE_FMS
+				me.mode = 3;
+			}
+
 			# button stuff
 			me.osb5 = me.nav_number == 1 ? "NAV1" : "NAV2";
 			me.osb13_selected = FALSE;
@@ -1068,9 +1100,9 @@ var DisplaySystem = {
 				me.osb16_selected = TRUE;
 			} elsif (me.mode == 1) {
 				me.osb17_selected = TRUE;
-			} else {
+			} elsif (me.mode == 2) {
 				me.osb18_selected = TRUE;
-			}
+			} # nothing to do for me.mode == 3 -> FMS
 			me.device.controls[OSB5].setControlText(me.osb5);
 			me.device.controls[OSB13].setControlText(me.osb13, TRUE, me.osb13_selected);
 			me.device.controls[OSB14].setControlText(me.osb14, TRUE, me.osb14_selected);
@@ -1117,8 +1149,17 @@ var DisplaySystem = {
 
 		setup: func {
 			me.input = {
-				pitch            : "/orientation/pitch-deg",
-				roll             : "/orientation/roll-deg",
+				pitch                          : "/orientation/pitch-deg",
+				roll                           : "/orientation/roll-deg",
+				nav_source                     : "autopilot/settings/nav-source",
+				nav1_in_range                  : "instrumentation/nav[0]/in-range",
+				nav2_in_range                  : "instrumentation/nav[1]/in-range",
+				nav1_gs_in_range               : "instrumentation/nav[0]/gs-in-range",
+				nav2_gs_in_range               : "instrumentation/nav[1]/gs-in-range",
+				nav1_gs_needle_deflection      : "instrumentation/nav[0]/gs-needle-deflection-norm",
+				nav2_gs_needle_deflection      : "instrumentation/nav[1]/gs-needle-deflection-norm",
+				nav1_heading_needle_deflection : "instrumentation/nav[0]/heading-needle-deflection-norm",
+				nav2_heading_needle_deflection : "instrumentation/nav[1]/heading-needle-deflection-norm",
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -1129,6 +1170,7 @@ var DisplaySystem = {
 
 			me._createSphere();
 			me._createSphereFixedStuff();
+			me._createILSStuff();
 			me._createSpeedHdgAltTexts();
 		},
 
@@ -1193,6 +1235,15 @@ var DisplaySystem = {
 				.setSubdivisionLength(0.5);
 			me.roll_scale = canvas.draw.marksCircular(me.sphere_fixed_group, me.radius, 30, 120, 240, roll_scale_style)
 				.setColor(consts.COLOR_WHITE);
+		},
+
+		_createILSStuff: func {
+			me.ils_group = me.group.createChild("group", "ils_group")
+				.set(Z_INDEX, zIndex.page_eadi.ils_stuff)
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
+
+			me.lateral_guide = me.ils_group.createChild("path", "lateral_guide");
+			me.vertical_guide = me.ils_group.createChild("path", "vertical_guide");
 		},
 
 		_createSpeedHdgAltTexts: func {
@@ -1316,6 +1367,46 @@ var DisplaySystem = {
 			me.sphere_group.setRotation(-1*me.input.roll.getValue()*D2R);
 		},
 
+		_updateILSStuff: func {
+			me.nav_source = me.input.nav_source.getValue();
+			if (me.nav_source == consts.NAV_SOURCE_NAV1 or me.nav_source == consts.NAV_SOURCE_NAV2) {
+				if (me.nav_source == consts.NAV_SOURCE_NAV1) {
+					me.nav_in_range = me.input.nav1_in_range.getValue();
+					me.nav_gs_in_range = me.input.nav1_gs_in_range.getValue();
+				} else {
+					me.nav_in_range = me.input.nav2_in_range.getValue();
+					me.nav_gs_in_range = me.input.nav2_gs_in_range.getValue();
+				}
+				if (me.nav_in_range and me.nav_gs_in_range) {
+					if (me.nav_source == consts.NAV_SOURCE_NAV1) {
+						me.nav_gs_needle_deflection = me.input.nav1_gs_needle_deflection.getValue();
+						me.nav_heading_needle_deflection = me.input.nav1_heading_needle_deflection.getValue();
+					} else {
+						me.nav_gs_needle_deflection = me.input.nav2_gs_needle_deflection.getValue();
+						me.nav_heading_needle_deflection = me.input.nav2_heading_needle_deflection.getValue();
+					}
+
+					me.vertical_guide.reset();
+					me.vertical_guide.setColor(consts.COLOR_MAGENTA)
+						.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+						.moveTo(-me.radius-10, me.nav_gs_needle_deflection * me.radius * -1)
+						.lineTo(me.radius+10, me.nav_gs_needle_deflection * me.radius * -1);
+					me.lateral_guide.reset();
+					me.lateral_guide.setColor(consts.COLOR_MAGENTA)
+						.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+						.moveTo(me.nav_heading_needle_deflection * me.radius, -me.radius-10)
+						.lineTo(me.nav_heading_needle_deflection * me.radius, me.radius+10);
+
+					me.ils_group.show();
+				} else {
+					me.ils_group.hide();
+				}
+			} else {
+				me.ils_group.hide();
+			}
+
+		},
+
 		_updateSpeedHdgAltTexts: func {
 			var speed_display = displays.common.getSpeedForDisplay();
 			me.speed_ias_text.updateText(speed_display[0]);
@@ -1345,6 +1436,7 @@ var DisplaySystem = {
 		update: func(noti = nil) {
 			# allways update on notification - not based on frame count
 			me._updateSphere();
+			me._updateILSStuff();
 			me._updateSpeedHdgAltTexts();
 		},
 
