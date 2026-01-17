@@ -662,6 +662,28 @@
 			</binding>
 		</key>
 
+		<key n="44">
+			<mod-ctrl>
+				<name>,</name>
+				<desc>Next Waypoint</desc>
+				<binding>
+					<command>nasal</command>
+					<script>setprop("/autopilot/route-manager/input", "@next")</script>
+				</binding>
+			</mod-ctrl>
+		</key>
+
+		<key n="46">
+			<mod-ctrl>
+				<name>.</name>
+				<desc>Previous Waypoint</desc>
+				<binding>
+					<command>nasal</command>
+					<script>setprop("/autopilot/route-manager/input", "@previous")</script>
+				</binding>
+			</mod-ctrl>
+		</key>
+
 	</keyboard>
 
 </PropertyList>

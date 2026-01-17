@@ -411,6 +411,11 @@ On the left hand side:
 
 The data points beloning to the currently selected mode (e.g. VOR vs. TACAN) are shown in cyan colour, otherwise white.
 
+On the right hand side - if there is an active flightplan:
+
+* The number of the current waypoint
+* The distance to the current waypoint
+
 
 Wind
 ^^^^

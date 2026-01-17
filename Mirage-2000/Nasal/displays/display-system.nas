@@ -755,11 +755,14 @@ var DisplaySystem = {
 			me.radius = 0.6 * DISPLAY_HEIGHT/2;
 			me._createCompass();
 			me._createWind();
-			me._createLeftSideTexts();
+			me._createTexts();
 
 			# content stuff
 			me.mode = 0; # VOR = 0 (NAV1 or NAV2), DATA = 1, TACAN = 2, FMS = 3
 			me.nav_number = 1; # Either NAV1 or NAV2 toggled with OSB5
+
+			me.fp = flightplan();
+			me.current_wp_geo = geo.Coord.new();
 
 			me.osb13 = "TH";
 			me.osb14 = "MH";
@@ -856,7 +859,7 @@ var DisplaySystem = {
 			me.wind_text.enableUpdate();
 		},
 
-		_createLeftSideTexts: func {
+		_createTexts: func {
 			me.mode_box = me.group.createChild("path", "mode_box")
 				.setColor(consts.COLOR_CYAN)
 				.setColorFill(consts.COLOR_BLACK)
@@ -893,6 +896,24 @@ var DisplaySystem = {
 				.setAlignment("left-center")
 				.setTranslation(60, 544);
 			me.tacan_text.enableUpdate();
+
+			me.destination_box = me.group.createChild("path", "destination_box")
+				.setColor(consts.COLOR_GREEN)
+				.setColorFill(consts.COLOR_BLACK)
+				.rect(DISPLAY_WIDTH/2 + 132, 108 - 12, 128, 24)
+				.setStrokeLineWidth(lineWidth.page_ehsi.text_box);
+			me.destination_text = me.group.createChild("text", "destination_text")
+				.setFontSize(font.page_ehsi.text)
+				.setColor(consts.COLOR_GREEN)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 140, 108);
+			me.destination_text.enableUpdate();
+			me.distdest_text = me.group.createChild("text", "distdest_text")
+				.setFontSize(font.page_ehsi.text)
+				.setColor(consts.COLOR_GREEN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 140 + 120, 140);
+			me.distdest_text.enableUpdate();
 		},
 
 		enter: func {
@@ -983,7 +1004,12 @@ var DisplaySystem = {
 					visible = TRUE;
 					me.destination_needle.setRotation(me._correctTrueHeading(me.input.tacan_bearing.getValue())*D2R);
 				}
-			} else { # DATA, FMS
+			} elsif (me.mode == 3) {
+				if (me.dest_ok == TRUE) {
+					visible = TRUE;
+					me.destination_needle.setRotation(me._correctTrueHeading(me.aircraft_position.course_to(me.current_wp_geo))*D2R);
+				}
+			} else { # DATA 
 				visible = FALSE;
 			}
 			me.destination_needle.setVisible(visible);
@@ -1002,7 +1028,7 @@ var DisplaySystem = {
 			return geo.normdeg(me.heading_displayed[1] == TRUE ? a_true_heading : a_true_heading - me.heading_displayed[2]);
 		},
 
-		_updateLeftSideTexts: func {
+		_updateTexts: func {
 			var distance_m = 0;
 			var distance_display = '...N';
 			var time_display = '...M';
@@ -1047,7 +1073,11 @@ var DisplaySystem = {
 				tacan_text_color = consts.COLOR_CYAN;
 			} else { # mode == 3 -> FMS
 				mode_display = "...";
+				if (me.dest_ok == TRUE) {
+					time_display = me._calcTimeToDestinationString(me.aircraft_position.direct_distance_to(me.current_wp_geo));
+				}
 			}
+
 			me.mode_text.updateText(mode_display);
 			me.nav_id_text.updateText(nav_id_display);
 			me.nav_id_text.setColor(nav_id_text_color);
@@ -1055,6 +1085,18 @@ var DisplaySystem = {
 			me.time_text.updateText(time_display);
 			me.tacan_text.updateText(me.input.tacan_channel.getValue());
 			me.tacan_text.setColor(tacan_text_color);
+
+			# destination stuff
+			var distdest_display = "...N";
+			var destination_display = "...";
+
+			if (me.dest_ok == TRUE) {
+				destination_display = sprintf("DEST %02d", me.fp.current + 1);
+				distdest_display = sprintf("%.1fN", me.aircraft_position.direct_distance_to(me.current_wp_geo)*M2NM);
+			}
+
+			me.destination_text.updateText(destination_display);
+			me.distdest_text.updateText(distdest_display);
 		},
 
 		_calcTimeToDestinationString: func (distance_m) { # how much time left as a string mm:ss
@@ -1118,10 +1160,18 @@ var DisplaySystem = {
 			me.device.controls[OSB25].setControlText(me.osb25);
 			me.device.controls[OSB26].setControlText(me.osb26);
 
+			if (me.fp != nil and me.fp.currentWP() != nil) {
+				me.dest_ok = TRUE;
+				me.aircraft_position = geo.aircraft_position();
+				me.current_wp_geo.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon);
+			} else {
+				me.dest_ok = FALSE;
+			}
+
 			# drawing stuff
 			me._updateCompassStuff();
 			me._updateWindStuff();
-			me._updateLeftSideTexts();
+			me._updateTexts();
 		},
 
 		exit: func {
