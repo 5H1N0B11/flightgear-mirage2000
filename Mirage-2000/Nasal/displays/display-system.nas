@@ -139,9 +139,9 @@ var zIndex = {
 		feedback: 7,
 	},
 	page_eadi: {
-		sphere_back: 5,
-		sphere_over: 10,
-		roll_triangle: 15,
+		sphere_back: 10,
+		sphere_over: 15,
+		roll_triangle: 16,
 		sphere_fixed: 50,
 		ils_stuff: 60,
 	},
@@ -908,9 +908,9 @@ var DisplaySystem = {
 		_changeMode: func(delta) {
 			me.mode += delta;
 			if (me.mode < 0) {
-				me.mode = 0;
-			} elsif (me.mode > 3) {
 				me.mode = 3;
+			} elsif (me.mode > 3) {
+				me.mode = 0;
 			}
 
 			if (me.mode == 0) {
@@ -936,9 +936,11 @@ var DisplaySystem = {
 			if (controlName == OSB2) {
 				me.device.system.selectPage(PAGE_HUB);
 			} elsif (controlName == OSB5) {
-				me.nav_number = me.nav_number == 1 ? 2 : 1;
 				if (me.mode == 0) {
+					me.nav_number = me.nav_number == 1 ? 2 : 1;
 					me.input.nav_source.setValue(me.nav_number == 1 ? consts.NAV_SOURCE_NAV1 : consts.NAV_SOURCE_NAV2);
+				} else {
+					me.input.nav_source.setValue(consts.NAV_SOURCE_NAV1);
 				}
 			} elsif (controlName == OSB13) {
 				me.input.show_true_north.setValue(TRUE);
@@ -1085,7 +1087,11 @@ var DisplaySystem = {
 			}
 
 			# button stuff
-			me.osb5 = me.nav_number == 1 ? "NAV1" : "NAV2";
+			if (me.mode == 0) {
+				me.osb5 = me.nav_number == 1 ? "NAV1" : "NAV2";
+			} else {
+				me.osb5 = "NAV*";
+			}
 			me.osb13_selected = FALSE;
 			me.osb14_selected = FALSE;
 			me.osb16_selected = FALSE;
@@ -1122,7 +1128,7 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_EADI,
+			OSB2: PAGE_HUB,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -1160,6 +1166,8 @@ var DisplaySystem = {
 				nav2_gs_needle_deflection      : "instrumentation/nav[1]/gs-needle-deflection-norm",
 				nav1_heading_needle_deflection : "instrumentation/nav[0]/heading-needle-deflection-norm",
 				nav2_heading_needle_deflection : "instrumentation/nav[1]/heading-needle-deflection-norm",
+				nav1_heading_deg               : "instrumentation/nav[0]/heading-deg",
+				nav2_heading_deg               : "instrumentation/nav[1]/heading-deg",
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -1306,6 +1314,14 @@ var DisplaySystem = {
 		controlAction: func (controlName) {
 			if (controlName == OSB2) {
 				me.device.system.selectPage(PAGE_HUB);
+			} elsif (controlName == OSB5) {
+				if (me.nav_source == consts.NAV_SOURCE_NAV1) {
+					me.input.nav_source.setValue(consts.NAV_SOURCE_NAV2);
+				} elsif (me.nav_source == consts.NAV_SOURCE_NAV2) {
+					me.input.nav_source.setValue(consts.NAV_SOURCE_NAV1);
+				} else {
+					me.input.nav_source.setValue(consts.NAV_SOURCE_NAV1);
+				}
 			}
 		},
 
@@ -1368,16 +1384,18 @@ var DisplaySystem = {
 		},
 
 		_updateILSStuff: func {
-			me.nav_source = me.input.nav_source.getValue();
+			me.heading_true = displays.common.getHeadingForDisplay()[3];
 			if (me.nav_source == consts.NAV_SOURCE_NAV1 or me.nav_source == consts.NAV_SOURCE_NAV2) {
 				if (me.nav_source == consts.NAV_SOURCE_NAV1) {
 					me.nav_in_range = me.input.nav1_in_range.getValue();
 					me.nav_gs_in_range = me.input.nav1_gs_in_range.getValue();
+					me.nav_heading = me.input.nav1_heading_deg.getValue();
 				} else {
 					me.nav_in_range = me.input.nav2_in_range.getValue();
 					me.nav_gs_in_range = me.input.nav2_gs_in_range.getValue();
+					me.nav_heading = me.input.nav2_heading_deg.getValue();
 				}
-				if (me.nav_in_range and me.nav_gs_in_range) {
+				if (me.nav_in_range and me.nav_gs_in_range and math.abs(me.heading_true - me.nav_heading) < 90) {
 					if (me.nav_source == consts.NAV_SOURCE_NAV1) {
 						me.nav_gs_needle_deflection = me.input.nav1_gs_needle_deflection.getValue();
 						me.nav_heading_needle_deflection = me.input.nav1_heading_needle_deflection.getValue();
@@ -1434,6 +1452,14 @@ var DisplaySystem = {
 		},
 
 		update: func(noti = nil) {
+			me.nav_source = me.input.nav_source.getValue();
+			if (me.nav_source == consts.NAV_SOURCE_NAV1 or me.nav_source == consts.NAV_SOURCE_NAV2) {
+				me.osb5 = me.nav_source;
+			} else {
+				me.osb5 = "NAV*";
+			}
+			me.device.controls[OSB5].setControlText(me.osb5);
+
 			# allways update on notification - not based on frame count
 			me._updateSphere();
 			me._updateILSStuff();
@@ -1444,9 +1470,9 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_SMS,
-		},
+			OSB2: PAGE_HUB,
 
+		},
 		layers: [LAYER_SERVICEABLE],
 	},
 

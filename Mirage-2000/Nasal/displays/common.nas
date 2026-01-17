@@ -54,7 +54,7 @@ var Common = {
 		if (me.show_true_north) {
 			me.heading_displayed = me.heading_true;
 		}
-		return [me.heading_displayed, me.show_true_north, me.heading_true - me.heading_mag];
+		return [me.heading_displayed, me.show_true_north, me.heading_true - me.heading_mag, me.heading_true];
 	},
 
 	getSpeedForDisplay: func {

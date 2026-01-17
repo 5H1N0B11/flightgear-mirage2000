@@ -620,8 +620,8 @@
 				<script>mirage2000.viewRightMFD();</script>
 			</binding>
 		</key>
-		<key n="45">
-			<name>- (Minus)</name>
+		<key n="99">
+			<name>c</name>
 			<desc>View VTM</desc>
 			<binding>
 				<command>nasal</command>

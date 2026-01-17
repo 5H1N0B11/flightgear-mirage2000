@@ -368,6 +368,19 @@ NB: this page is under construction - you might want to use the page on the left
 The FlightGear wiki has a quite comprehensive page about `Radio Navigation⇗ <https://wiki.flightgear.org/Radio_navigation>`_ with a fair amount of links.
 
 
+Navigation Modes
+^^^^^^^^^^^^^^^^
+
+The navigation modes can be selected on the left side of the screen (``FMS`` is active by default if none of the others is highlighted):
+
+* ``VOR`` (incl. ILS) for ``NAV1`` and ``NAV2``
+* ``DATA``
+* ``TAC`` (TACAN)
+* ``FMS`` (Flight Management System - waypoints)
+
+You can change between ``NAV1`` and ``NAV2`` with the button at the right of the top botton row - unless ``NAV*`` is displayed because you are in another navigation maode than ``VOR``. In that case you can change to ``NAV1``.
+
+
 Compass
 ^^^^^^^
 
@@ -382,7 +395,7 @@ The big green arrow shows the current selected course for either NAV1 or NAV2. N
 Heading Towards Selected Destination
 ''''''''''''''''''''''''''''''''''''
 
-The blue arrow shows the direction towards the selected destination, which depends on the mode (``VOR``, ``DATA``, ``TAC``) and the actual selection within the mode.
+The blue arrow shows the direction towards the selected destination, which depends on the mode (``VOR``, ``DATA``, ``TAC``, ``FMS``) and the actual selection within the mode.
 
 
 Data Presented
@@ -410,3 +423,28 @@ Electronic Attitude Direction Indicator (EADI)
 ----------------------------------------------
 
 NB: this page is under construction - you might want to use the page on the left MFD instead (cf. :ref:`link_subsection_EADI`).
+
+
+The Sphere
+^^^^^^^^^^
+
+The sphere in the middle shows attitude data (pitch and roll). If the nose is vertical up, then the sphere will be totally blue. If the nose is vertical down, then the sphere will be totally brown (you are flying directly into ground).
+
+
+ILS Guides
+^^^^^^^^^^
+
+If the navigation mode is either ``NAV1`` or ``NAV2``, then glideslope an lateral guidance lines are shown if the station provides ILS and the following is true:
+
+* Heading data is in range
+* Glidslope data is in range
+* The heading deviation is less than 90 degrees.
+
+
+You change the navigation mode in the ``EHSI`` page. If the mode is not ``NAV1`` or ``NAV2``, then on the top right ``NAV*`` is displayed and you can change to ``NAV1`` using the button above. Otherwise you can toggle between ``NAV1`` and ``NAV2`` with the button above.
+
+
+Data Presented
+^^^^^^^^^^^^^^
+
+On the top of the screen HUD data is repeated: speed (left side), heading (middle), altitude (right side).

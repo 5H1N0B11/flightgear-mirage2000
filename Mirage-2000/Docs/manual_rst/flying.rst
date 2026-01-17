@@ -133,9 +133,9 @@ In Cockpit Views
 
 In order to see the MFDs and the VTB better as well as seeing better the gauges on each side of the VTM, you can use key bindings:
 
-* ``Key: n``: view left MFD and VTB
-* ``Key: N``: view right MDF and VTB
-* ``Key: -`` (minus): view VTM
+* ``Key: n``: view the left MFD and the VTB
+* ``Key: N``: view the right MDF and the VTB
+* ``Key: c``: view the VTM
 * ``Key: ctrl-n``: reset the view to the position of the current flight mode
 
 Depending on the flight mode you need to adjust the seat to see better - including the symbology in the HUD. At take-off you should seat low to see the symbology in the HUD. During approach/landing and ground attack your seat should be adjusted upwards, so you can see the point of the nose.
