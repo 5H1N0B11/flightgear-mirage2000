@@ -193,5 +193,15 @@
 		<desc>Toggle nose wheel steering</desc>
 	</key>
 
+	<key>
+		<name>Ctrl + ,</name>
+		<desc>Next Waypoint</desc>
+	</key>
+
+	<key>
+		<name>Ctrl + .</name>
+		<desc>Previous Waypoint</desc>
+	</key>
+
 	<text>Two PDF manuals are located in the Mirage-2000/Docs/ folder - e.g. accessible through the menu Mirage 2000 > New | Old PDF Manual.</text>
 </PropertyList>
