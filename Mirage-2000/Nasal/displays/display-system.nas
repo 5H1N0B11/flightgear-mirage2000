@@ -719,6 +719,7 @@ var DisplaySystem = {
 
 		setup: func {
 			me.input = {
+				show_true_north        : "/instrumentation/efis/mfd/true-north",
 				wind_deg               : "/environment/wind-from-heading-deg",
 				wind_kt                : "/environment/wind-speed-kt",
 				ground_speed           : "velocities/groundspeed-kt",
@@ -776,7 +777,7 @@ var DisplaySystem = {
 		_createCompass: func() {
 			# cf. https://wiki.flightgear.org/CompassRose
 			me.compass_group = me.group.createChild("group", "compass_group")
-				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.55);
 			var style_hsi = canvas.CompassRose.Style.new();
 			style_hsi.setMarkLength(0.1)
 				.setMarkOffset(-1)
@@ -1009,7 +1010,7 @@ var DisplaySystem = {
 					visible = TRUE;
 					me.destination_needle.setRotation(me._correctTrueHeading(me.aircraft_position.course_to(me.current_wp_geo))*D2R);
 				}
-			} else { # DATA 
+			} else { # DATA
 				visible = FALSE;
 			}
 			me.destination_needle.setVisible(visible);
@@ -1091,7 +1092,7 @@ var DisplaySystem = {
 			var destination_display = "...";
 
 			if (me.dest_ok == TRUE) {
-				destination_display = sprintf("DEST %02d", me.fp.current + 1);
+				destination_display = sprintf("DEST %02d", me.fp.current);
 				distdest_display = sprintf("%.1fN", me.aircraft_position.direct_distance_to(me.current_wp_geo)*M2NM);
 			}
 

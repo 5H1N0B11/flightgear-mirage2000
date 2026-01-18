@@ -244,7 +244,9 @@ Radio Management Unit (RMU)
 Right MFD
 =========
 
-To change the currently displayed page, use the second button from left (cyan colour) on the button row at the top of the screen. The text below the button shows the current page name, but leads back to the page hub. From the hub you can access all available pages.
+To change the currently displayed page, use the second button from left (cyan colour) on the button row at the top of the screen. The text below the button shows the current page name, but leads back to the page hub.
+
+From the hub (see illustration) you can access all available pages.
 
 .. image:: images/hub_page.png
 
@@ -384,7 +386,7 @@ You can change between ``NAV1`` and ``NAV2`` with the button at the right of the
 Compass
 ^^^^^^^
 
-The compass rose is turning as the airplane turns. The current heading is at the top (where North is on a compass). You can toggle between true North heading (TH) and magnetic North heading (MH) with the know in the left side.
+The compass rose is turning as the airplane turns. The current heading is at the top. You can toggle between true heading (TH) and magnetic heading (MH) with the knob on the left side.
 
 Current Selected Course
 '''''''''''''''''''''''
@@ -405,7 +407,7 @@ On the left hand side:
 
 * The mode: If VOR is selected and it is an ILS station, then ``ILS`` is displayed as soon as the glidescope information is in range.
 * ``...N``: Distance to destination in nautical miles. If there are only dots and no number, then the station is not yet in range for distance calculation. The distance for ILS is displayed for the glidescope when available, else as VOR.
-* ``...M``: Time to destination in minutes and seconds given current speed (or 400 kt if speed is below 100 kt). The calculation depends on the availability of the distance.
+* ``...M``: Time to destination in minutes and seconds given current speed (or estimated with 400 kt if the speed is below 100 kt). The calculation depends on the availability of the distance.
 * The name of the VOR/ILS station if available (e.g. ``EHE``). Typically, ILS stastions start with an "I" in the name.
 * The TACAN channel (e.g. ``029X``)
 
