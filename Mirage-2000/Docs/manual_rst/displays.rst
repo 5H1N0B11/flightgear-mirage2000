@@ -405,7 +405,7 @@ Data Presented
 
 On the left hand side:
 
-* The mode: If VOR is selected and it is an ILS station, then ``ILS`` is displayed as soon as the glidescope information is in range.
+* The navigation mode: If VOR is selected and it is an ILS station, then ``ILS`` is displayed as soon as the glidescope information is in range.
 * ``...N``: Distance to destination in nautical miles. If there are only dots and no number, then the station is not yet in range for distance calculation. The distance for ILS is displayed for the glidescope when available, else as VOR.
 * ``...M``: Time to destination in minutes and seconds given current speed (or estimated with 400 kt if the speed is below 100 kt). The calculation depends on the availability of the distance.
 * The name of the VOR/ILS station if available (e.g. ``EHE``). Typically, ILS stastions start with an "I" in the name.
@@ -455,3 +455,9 @@ Data Presented
 ^^^^^^^^^^^^^^
 
 On the top of the screen HUD data is repeated: speed (left side), heading (middle), altitude (right side).
+
+In the middle of the screen navigation data is presented - left side is visible only if navigation mode is ``DATA``, right side is for waypoints:
+
+* the selected number
+* the time in minutes (e.g. ``023/``) given current speed (or estimated with 400 kt if the speed is below 100 kt)
+* the distance (e.g. ``32N``).

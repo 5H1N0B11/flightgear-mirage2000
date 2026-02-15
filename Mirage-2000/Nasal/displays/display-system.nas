@@ -761,7 +761,6 @@ var DisplaySystem = {
 			# content stuff
 			me.mode = 0; # VOR = 0 (NAV1 or NAV2), DATA = 1, TACAN = 2, FMS = 3
 			me.nav_number = 1; # Either NAV1 or NAV2 toggled with OSB5
-
 			me.fp = flightplan();
 			me.current_wp_geo = geo.Coord.new();
 
@@ -1208,6 +1207,7 @@ var DisplaySystem = {
 			me.input = {
 				pitch                          : "/orientation/pitch-deg",
 				roll                           : "/orientation/roll-deg",
+				ground_speed                   : "velocities/groundspeed-kt",
 				nav_source                     : "autopilot/settings/nav-source",
 				nav1_in_range                  : "instrumentation/nav[0]/in-range",
 				nav2_in_range                  : "instrumentation/nav[1]/in-range",
@@ -1231,16 +1231,22 @@ var DisplaySystem = {
 			me._createSphereFixedStuff();
 			me._createILSStuff();
 			me._createSpeedHdgAltTexts();
+			me._createTexts();
+
+			# content stuff
+			me.mode = 0; # VOR = 0 (NAV1 or NAV2), DATA = 1, TACAN = 2, FMS = 3
+			me.fp = flightplan();
+			me.current_wp_geo = geo.Coord.new();
 		},
 
 		_createSphere: func {
 			me.sphere_group = me.group.createChild("group", "sphere_group")
 				.set(Z_INDEX, zIndex.page_eadi.sphere_back)
-				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.55);
 
 			me.sky_circle = me.sphere_group.createChild("path", "sky_circle")
-				.setColor(consts.COLOR_LIGHT_BLUE)
-				.setColorFill(consts.COLOR_LIGHT_BLUE)
+				.setColor(consts.COLOR_BLUE)
+				.setColorFill(consts.COLOR_BLUE)
 				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
 				.circle(me.radius, 0, 0);
 
@@ -1272,7 +1278,7 @@ var DisplaySystem = {
 		_createSphereFixedStuff: func {
 			me.sphere_fixed_group = me.group.createChild("group", "sphere_fixed_group")
 				.set(Z_INDEX, zIndex.page_eadi.sphere_fixed)
-				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.55);
 			me.aircraft_circle = canvas.draw.circle(me.sphere_fixed_group, 6)
 				.setColor(consts.COLOR_WHITE)
 				.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines);
@@ -1299,7 +1305,7 @@ var DisplaySystem = {
 		_createILSStuff: func {
 			me.ils_group = me.group.createChild("group", "ils_group")
 				.set(Z_INDEX, zIndex.page_eadi.ils_stuff)
-				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.6);
+				.setTranslation(DISPLAY_WIDTH/2, DISPLAY_HEIGHT*0.55);
 
 			me.lateral_guide = me.ils_group.createChild("path", "lateral_guide");
 			me.vertical_guide = me.ils_group.createChild("path", "vertical_guide");
@@ -1310,13 +1316,13 @@ var DisplaySystem = {
 				.setFontSize(font.page_eadi.text_big)
 				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-bottom")
-				.setTranslation(160, 132);
+				.setTranslation(200, 132);
 			me.speed_ias_text.enableUpdate();
 			me.speed_mach_text = me.group.createChild("text", "speed_mach_text")
 				.setFontSize(font.page_eadi.text)
 				.setColor(consts.COLOR_CYAN)
 				.setAlignment("right-center")
-				.setTranslation(160, 152);
+				.setTranslation(200, 152);
 			me.speed_mach_text.enableUpdate();
 
 			me.hdg_text = me.group.createChild("text", "hdg_text")
@@ -1350,6 +1356,65 @@ var DisplaySystem = {
 				.setText("H")
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH - 178, 152);
+		},
+
+		_createTexts: func {
+			me.data_text = me.group.createChild("text", "data_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(consts.COLOR_WHITE)
+				.setText("DATA")
+				.setAlignment("left-center")
+				.setTranslation(32, DISPLAY_HEIGHT * 0.5 - 16);
+
+			me.datanumber_text = me.group.createChild("text", "datanumber_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(consts.COLOR_GREEN)
+				.setText("..")
+				.setAlignment("right-center")
+				.setTranslation(144, DISPLAY_HEIGHT * 0.5 - 16);
+
+			me.datatime_text = me.group.createChild("text", "datatime_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(consts.COLOR_GREEN)
+				.setText(".../")
+				.setAlignment("left-center")
+				.setTranslation(32, DISPLAY_HEIGHT * 0.5 + 16);
+
+			me.datadist_text = me.group.createChild("text", "datadist_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(consts.COLOR_GREEN)
+				.setText("..N")
+				.setAlignment("right-center")
+				.setTranslation(160, DISPLAY_HEIGHT * 0.5 + 16);
+
+
+			me.dest_text = me.group.createChild("text", "dest_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(consts.COLOR_WHITE)
+				.setText("DEST")
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH - 160, DISPLAY_HEIGHT * 0.5 - 16);
+
+			me.destnumber_text = me.group.createChild("text", "destnumber_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(consts.COLOR_GREEN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - 48, DISPLAY_HEIGHT * 0.5 - 16);
+			me.destnumber_text.enableUpdate();
+
+			me.desttime_text = me.group.createChild("text", "desttime_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(consts.COLOR_GREEN)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH - 160, DISPLAY_HEIGHT * 0.5 + 16);
+			me.desttime_text.enableUpdate();
+
+			me.destdist_text = me.group.createChild("text", "destdist_text")
+				.setFontSize(font.page_eadi.text)
+				.setColor(consts.COLOR_GREEN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - 32, DISPLAY_HEIGHT * 0.5 + 16);
+			me.destdist_text.enableUpdate();
 		},
 
 		enter: func {
@@ -1406,8 +1471,8 @@ var DisplaySystem = {
 
 				if (me.pitch != -90) {
 					me.sky_part_circle.reset();
-					me.sky_part_circle.setColor(consts.COLOR_LIGHT_BLUE)
-						.setColorFill(consts.COLOR_LIGHT_BLUE)
+					me.sky_part_circle.setColor(consts.COLOR_BLUE)
+						.setColorFill(consts.COLOR_BLUE)
 						.moveTo(-me.small_part_x, me.small_part_y)
 						.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
 						.arcSmallCW(me.radius, me.radius, 0, 2*me.small_part_x, 0);
@@ -1502,19 +1567,84 @@ var DisplaySystem = {
 			}
 		},
 
+		_updateTexts: func {
+			var distance_m = 0;
+			var distance_display = '...N';
+
+			# DATA stuff
+			if (me.mode == 1) {
+				me.data_text.show();
+				me.datanumber_text.show();
+				me.datatime_text.show();
+				me.datadist_text.show();
+			} else {
+				me.data_text.hide();
+				me.datanumber_text.hide();
+				me.datatime_text.hide();
+				me.datadist_text.hide();
+			}
+
+			# DEST stuff
+			var destnumber_display = "..";
+			var desttime_display = ".../";
+			var destdist_display = "...N";
+
+			if (me.dest_ok == TRUE) {
+				destnumber_display = sprintf("%02d", me.fp.current);
+				desttime_display = me._calcTimeToDestinationString(me.aircraft_position.direct_distance_to(me.current_wp_geo));
+				destdist_display = sprintf("%.0fN", me.aircraft_position.direct_distance_to(me.current_wp_geo)*M2NM);
+			}
+
+			me.destnumber_text.updateText(destnumber_display);
+			me.desttime_text.updateText(desttime_display);
+			me.destdist_text.updateText(destdist_display);
+		},
+
+		_calcTimeToDestinationString: func (distance_m) { # how much time left as a string mmm/
+			var speed_ms = me.input.ground_speed.getValue()*KT2MPS;
+			var value = speed_ms > 50 ? speed_ms : 206; # ca. 400 kt
+			value = distance_m / value; # how many seconds
+			var minutes = math.round(value/60);
+			return sprintf("%03d/", minutes);
+		},
+
 		update: func(noti = nil) {
 			me.nav_source = me.input.nav_source.getValue();
-			if (me.nav_source == consts.NAV_SOURCE_NAV1 or me.nav_source == consts.NAV_SOURCE_NAV2) {
-				me.osb5 = me.nav_source;
+			if (me.nav_source == consts.NAV_SOURCE_NAV1) {
+				me.nav_number = 1;
+				me.mode = 0;
+			} elsif (me.nav_source == consts.NAV_SOURCE_NAV2) {
+				me.nav_number = 2;
+				me.mode = 0;
+			} elsif (me.nav_source == consts.NAV_SOURCE_DATA) {
+				me.mode = 1;
+			} elsif (me.nav_source == consts.NAV_SOURCE_TACAN) {
+				me.mode = 2;
+			} else { # consts.NAV_SOURCE_FMS
+				me.mode = 3;
+			}
+
+			# button stuff
+			if (me.mode == 0) {
+				me.osb5 = me.nav_number == 1 ? "NAV1" : "NAV2";
 			} else {
 				me.osb5 = "NAV*";
 			}
 			me.device.controls[OSB5].setControlText(me.osb5);
 
+			if (me.fp != nil and me.fp.currentWP() != nil) {
+				me.dest_ok = TRUE;
+				me.aircraft_position = geo.aircraft_position();
+				me.current_wp_geo.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon);
+			} else {
+				me.dest_ok = FALSE;
+			}
+
 			# allways update on notification - not based on frame count
 			me._updateSphere();
 			me._updateILSStuff();
 			me._updateSpeedHdgAltTexts();
+			me._updateTexts();
 		},
 
 		exit: func {
