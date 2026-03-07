@@ -117,27 +117,6 @@ var Tacan = func() {
 }
 
 
-var display_heading = func() {
-    var trackingNorth = getprop("instrumentation/efis/mfd/true-north");
-    var magneticNorth = getprop("orientation/heading-magnetic-deg");
-    var trueNorth = getprop("orientation/heading-deg");
-    var bugbug = getprop("autopilot/internal/fdm-heading-bug-error-deg");
-
-    if (getprop("instrumentation/efis/mfd/true-north")) {
-      setprop("instrumentation/mfd/heading-displayed",trueNorth);
-      if (bugbug != nil) {setprop("instrumentation/mfd/bug-heading-displayed",math.mod(bugbug + magneticNorth-trueNorth, 360));}
-    } else {
-      #To prevent bug detected by Chris
-      magneticNorth = magneticNorth==nil?0:magneticNorth;
-      setprop("instrumentation/mfd/heading-displayed",magneticNorth);
-      if (bugbug != nil) {setprop("instrumentation/mfd/bug-heading-displayed",bugbug);}
-    }
-
-    settimer(display_heading, 1.);
-}
-
-display_heading();
-
 var initIns = func()
 {
     gearBox();
