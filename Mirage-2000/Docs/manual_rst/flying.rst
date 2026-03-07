@@ -10,7 +10,7 @@ Start-up
 
 When your aircraft is cold and dark before start-up, the external generator and fuel truck are connected to your aircraft, and protections (in red) will be on your aircraft, as well as chocks. They will disappear automatically as you start up.
 
-You can either auto-start your aircraft with key ``}`` or press button ``autostart`` in the dialogue opened by using menu ``Mirage 2000 -> Configuration``.
+You can either auto-start your aircraft with ``Key: }`` or press button ``autostart`` in the dialogue opened by using menu ``Mirage 2000 -> Configuration``.
 
 Taxi
 ----
@@ -24,7 +24,7 @@ The taxi lights have an angle of about 30 degrees in front of the aircraft and a
 Take-off
 --------
 
-Line up on the best runway for the current weather conditions and ask for clearance. Once the clearance is given and after releasing the parking brake, spool up while keeping the pedal brakes enabled. Then, throttle up to 99% RPM (military power) for long runways, 100%+ (with afterburners) for short runways or with heavy loadout. Rotation speed is at 120 knots when using a clean loadout, 140 knots if with payload. After this, bring the inverted "T" in the HUD on the line of horizon and you should be able to lift off at 170-190 knots, depending on your loadout. Do not exceed 13° nose angle or you will tail-strike. Even though the Mirage is airborne, you might feel that the plane with high nose angle "floats" over the runway until reaching well beyond 200 knots. Raise the gears before reaching 260 knots with key ``g`` or by clicking the red gear lever.
+Line up on the best runway for the current weather conditions and ask for clearance. Once the clearance is given and after releasing the parking brake, spool up while keeping the pedal brakes enabled. Then, throttle up to 99% RPM (military power) for long runways, 100%+ (with afterburners) for short runways or with heavy loadout. Rotation speed is at 120 knots when using a clean loadout, 140 knots if with payload. After this, bring the inverted "T" in the HUD on the line of horizon and you should be able to lift off at 170-190 knots, depending on your loadout. Do not exceed 13° nose angle or you will tail-strike. Even though the Mirage is airborne, you might feel that the plane with high nose angle "floats" over the runway until reaching well beyond 200 knots. Raise the gears before reaching 260 knots with ``Key: g`` or by clicking the red gear lever.
 
 The Mirage needs long runway distances to take off, as it hasn't got a separate horizontal tail stabilizer/elevator. Because of the elevons' position (trailing edge of the wing), they create a considerable loss of lift when they are moved up to rotate, so higher rotation speeds are needed. Also, the delta wing is often called "flying airbrake", as they generate lots of drag at high angles of attack, like at take-off. This is why high speeds and long runways are needed.
 
@@ -63,7 +63,7 @@ The HUD helps with visual landing. Once aligned with the runway, put the flight 
 
 The height of the approach bracket is 1° (+/- 0.5 deg from 14).
 
-When touching down and the 2 main wheels are on ground, the HUD automatically changes to flight mode ``Ground``. Keep the nose up at around 13 degrees to do aerodynamic braking (cf. image below - inverted "T" cue in the HUD is a bit high and should be on the line of horizon). Wait for the aircraft to slow down to at least 135 knots, bring the nosewheel down and first then apply pedal brakes. Use the brake parachute (key ``o`` to deploy) if necessary (heavy loadout or short runway) - and then release when not needed any more (same key ``o``). Aerodynamic breaking using a high angle of attack when landed is normal procedure. However, do not tilt the aircraft more than 13 degrees due to the possibility of a tail strake. NB: it is by procedure forbidden to use aerodynamic braking below 100 kts - even though it might be possible: you have to get weight on the nose wheel. The reason for this required procedure is that depending on speed, configuration, weight distribution (e.g. fuel) etc. it might suddenly not be possible anymore to bring the nose down given loss of effectiveness of the elevons vs. drag forces vs. weight forces.
+When touching down and the 2 main wheels are on ground, the HUD automatically changes to flight mode ``Ground``. Keep the nose up at around 13 degrees to do aerodynamic braking (cf. image below - inverted "T" cue in the HUD is a bit high and should be on the line of horizon). Wait for the aircraft to slow down to at least 135 knots, bring the nosewheel down and first then apply pedal brakes. Use the brake parachute (``Key: o`` to deploy) if necessary (heavy loadout or short runway) - and then release when not needed any more (same ``Key: o``). Aerodynamic breaking using a high angle of attack when landed is normal procedure. However, do not tilt the aircraft more than 13 degrees due to the possibility of a tail strake. NB: it is by procedure forbidden to use aerodynamic braking below 100 kts - even though it might be possible: you have to get weight on the nose wheel. The reason for this required procedure is that depending on speed, configuration, weight distribution (e.g. fuel) etc. it might suddenly not be possible anymore to bring the nose down given loss of effectiveness of the elevons vs. drag forces vs. weight forces.
 
 
 .. image:: images/hud_inverted_t_aerobrake.png
@@ -90,8 +90,8 @@ In bad weather or at night the `Instrument Landing System (ILS)⇗ <https://en.w
 
 A few things must be true for the symbology to be displayed:
 
-* The ILS frequency must be set (either through menu ``Equipment -> Radio Frequencies`` or in the Radio Managment Unit (cf. :ref:`link_subsection_RMU`)) to the runway (you can get the frequency from dialogue ``Location -> Select an Airport``).
-* The radial runway degrees must be set (either through menu ``Equipment -> Radio Frequencies`` or in the Electronic Horizontal Situation Indicator (cf. :ref:`link_subsection_EHSI`) - you can get the value from dialogue ``Location -> Select an Airport``).
+* The ILS frequency must be set through menu ``Equipment -> Radio Frequencies`` to the runway (you can get the frequency from dialogue ``Location -> Select an Airport``).
+* The radial runway degrees must be set through menu ``Equipment -> Radio Frequencies`` - you can get the value from dialogue ``Location -> Select an Airport``.
 * The radio channel must be selected.
 * The runway axis and the guidance window are shown as soon as the localizer has been caught.
 * The runway is only shown if both the localizer has been caught and within the glide slope (max ca. 7 degrees lateral deviation from the runway direction) and max 10 nm distance from the runway.

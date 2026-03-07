@@ -2,114 +2,115 @@
 
 <PropertyList>
 
-  <path>right_mfd.ac</path>
+	<path>right_mfd.ac</path>
 
-  <animation>
-    <!-- object name in ac file -->
-    <object-name>right_mfd.bl-dec</object-name>
-    <object-name>right_mfd.bl-inc</object-name>
-    <object-name>right_mfd.bl-knob</object-name>
-    <object-name>right_mfd.black_screen</object-name>
-    <object-name>right_mfd.br-dec</object-name>
-    <object-name>right_mfd.br-inc</object-name>
-    <object-name>right_mfd.br-knob</object-name>
-    <object-name>right_mfd.bt-b1</object-name>
-    <object-name>right_mfd.bt-b2</object-name>
-    <object-name>right_mfd.bt-b3</object-name>
-    <object-name>right_mfd.bt-b4</object-name>
-    <object-name>right_mfd.bt-h1</object-name>
-    <object-name>right_mfd.bt-h2</object-name>
-    <object-name>right_mfd.bt-h3</object-name>
-    <object-name>right_mfd.bt-h4</object-name>
-    <object-name>right_mfd.bt-h5</object-name>
-    <object-name>right_mfd.canvasCadre</object-name>
-    <object-name>right_mfd.light</object-name>
-    <object-name>right_mfd.pot-l1</object-name>
-    <object-name>right_mfd.pot-l2</object-name>
-    <object-name>right_mfd.pot-l3</object-name>
-    <object-name>right_mfd.pot-l4</object-name>
-    <object-name>right_mfd.pot-r1</object-name>
-    <object-name>right_mfd.pot-r2</object-name>
-    <object-name>right_mfd.pot-r3</object-name>
-    <object-name>right_mfd.pot-r4</object-name>
-    <object-name>right_mfd.vitre</object-name>
-  </animation>
+	<animation>
+		<!-- object name in ac file -->
+		<object-name>right_mfd.bl-dec</object-name>
+		<object-name>right_mfd.bl-inc</object-name>
+		<object-name>right_mfd.bl-knob</object-name>
+		<object-name>right_mfd.black_screen</object-name>
+		<object-name>right_mfd.br-dec</object-name>
+		<object-name>right_mfd.br-inc</object-name>
+		<object-name>right_mfd.br-knob</object-name>
+		<object-name>right_mfd.bt-b1</object-name>
+		<object-name>right_mfd.bt-b2</object-name>
+		<object-name>right_mfd.bt-b3</object-name>
+		<object-name>right_mfd.bt-b4</object-name>
+		<object-name>right_mfd.bt-h1</object-name>
+		<object-name>right_mfd.bt-h2</object-name>
+		<object-name>right_mfd.bt-h3</object-name>
+		<object-name>right_mfd.bt-h4</object-name>
+		<object-name>right_mfd.bt-h5</object-name>
+		<object-name>right_mfd.canvasCadre</object-name>
+		<object-name>right_mfd.light</object-name>
+		<object-name>right_mfd.pot-l1</object-name>
+		<object-name>right_mfd.pot-l2</object-name>
+		<object-name>right_mfd.pot-l3</object-name>
+		<object-name>right_mfd.pot-l4</object-name>
+		<object-name>right_mfd.pot-r1</object-name>
+		<object-name>right_mfd.pot-r2</object-name>
+		<object-name>right_mfd.pot-r3</object-name>
+		<object-name>right_mfd.pot-r4</object-name>
+		<object-name>right_mfd.vitre</object-name>
+	</animation>
 
-  <animation>
-    <!-- lights : illuminations -->
-    <type>material</type>
-    <object-name>right_mfd.light</object-name>
-    <emission>
-      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
-      <red>   0.1 </red>
-      <green> 0.5 </green>
-      <blue>  0.2 </blue>
-    </emission>
-  </animation>
-  <animation>
-    <!-- lights : flood -->
-    <type>material</type>
-    <object-name>right_mfd.bl-dec</object-name>
-    <object-name>right_mfd.bl-inc</object-name>
-    <object-name>right_mfd.bl-knob</object-name>
-    <object-name>right_mfd.br-dec</object-name>
-    <object-name>right_mfd.br-inc</object-name>
-    <object-name>right_mfd.br-knob</object-name>
-    <object-name>right_mfd.bt-b1</object-name>
-    <object-name>right_mfd.bt-b2</object-name>
-    <object-name>right_mfd.bt-b3</object-name>
-    <object-name>right_mfd.bt-b4</object-name>
-    <object-name>right_mfd.bt-h1</object-name>
-    <object-name>right_mfd.bt-h2</object-name>
-    <object-name>right_mfd.bt-h3</object-name>
-    <object-name>right_mfd.bt-h4</object-name>
-    <object-name>right_mfd.bt-h5</object-name>
-    <object-name>right_mfd.pot-l1</object-name>
-    <object-name>right_mfd.pot-l2</object-name>
-    <object-name>right_mfd.pot-l3</object-name>
-    <object-name>right_mfd.pot-l4</object-name>
-    <object-name>right_mfd.pot-r1</object-name>
-    <object-name>right_mfd.pot-r2</object-name>
-    <object-name>right_mfd.pot-r3</object-name>
-    <object-name>right_mfd.pot-r4</object-name>
-    <emission>
-      <factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
-      <red>   0.012 </red>
-      <green> 0.06 </green>
-      <blue>  0.02 </blue>
-    </emission>
-  </animation>
+	<animation>
+		<!-- lights : illuminations -->
+		<type>material</type>
+		<object-name>right_mfd.light</object-name>
+		<emission>
+		<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+		<red>   0.1 </red>
+		<green> 0.5 </green>
+		<blue>  0.2 </blue>
+		</emission>
+	</animation>
 
-  <!-- working for Rembrandt -->
-  <effect>
-    <inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
-    <object-name>right_mfd.vitre</object-name>
-  </effect>
+	<animation>
+		<!-- lights : flood -->
+		<type>material</type>
+		<object-name>right_mfd.bl-dec</object-name>
+		<object-name>right_mfd.bl-inc</object-name>
+		<object-name>right_mfd.bl-knob</object-name>
+		<object-name>right_mfd.br-dec</object-name>
+		<object-name>right_mfd.br-inc</object-name>
+		<object-name>right_mfd.br-knob</object-name>
+		<object-name>right_mfd.bt-b1</object-name>
+		<object-name>right_mfd.bt-b2</object-name>
+		<object-name>right_mfd.bt-b3</object-name>
+		<object-name>right_mfd.bt-b4</object-name>
+		<object-name>right_mfd.bt-h1</object-name>
+		<object-name>right_mfd.bt-h2</object-name>
+		<object-name>right_mfd.bt-h3</object-name>
+		<object-name>right_mfd.bt-h4</object-name>
+		<object-name>right_mfd.bt-h5</object-name>
+		<object-name>right_mfd.pot-l1</object-name>
+		<object-name>right_mfd.pot-l2</object-name>
+		<object-name>right_mfd.pot-l3</object-name>
+		<object-name>right_mfd.pot-l4</object-name>
+		<object-name>right_mfd.pot-r1</object-name>
+		<object-name>right_mfd.pot-r2</object-name>
+		<object-name>right_mfd.pot-r3</object-name>
+		<object-name>right_mfd.pot-r4</object-name>
+		<emission>
+		<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+		<red>   0.012 </red>
+		<green> 0.06 </green>
+		<blue>  0.02 </blue>
+		</emission>
+	</animation>
 
-  <effect>
-    <inherits-from>Effects/model-transparent</inherits-from>
-    <object-name>right_mfd.vitre</object-name>
-  </effect>
+	<!-- working for Rembrandt -->
+	<effect>
+		<inherits-from>Aircraft/Mirage-2000/Models/Effects/Glass/glass</inherits-from>
+		<object-name>right_mfd.vitre</object-name>
+	</effect>
 
-  <!--temporary hide windshield waiting anti-fog :)-->
-  <animation>
-    <type>select</type>
-    <object-name>right_mfd.vitre</object-name>
-    <condition>
-      <property>instrumentation/mfd/mfd-glass</property>
-    </condition>
-  </animation>
+	<effect>
+		<inherits-from>Effects/model-transparent</inherits-from>
+		<object-name>right_mfd.vitre</object-name>
+	</effect>
 
-   <animation>
-    <type>select</type>
-    <object-name>right_mfd.black_screen</object-name>
-    <condition>
-      <less-than>
-        <property>/systems/electrical/volts</property>
-        <value>12</value>
-      </less-than>
-    </condition>
-  </animation>
+	<!--temporary hide windshield waiting anti-fog :)-->
+	<animation>
+		<type>select</type>
+		<object-name>right_mfd.vitre</object-name>
+		<condition>
+		<property>instrumentation/mfd/mfd-glass</property>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>right_mfd.black_screen</object-name>
+		<condition>
+		<less-than>
+			<property>/systems/electrical/volts</property>
+			<value>12</value>
+		</less-than>
+		</condition>
+	</animation>
 
 	<!-- ======================== BUTTONS H ======================== -->
 
@@ -126,13 +127,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>1</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -152,13 +153,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>2</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -178,13 +179,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>3</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -204,13 +205,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>4</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -230,13 +231,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>5</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -258,13 +259,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>6</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -284,13 +285,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>7</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -310,13 +311,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>8</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -336,13 +337,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>9</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -364,13 +365,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>10</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -389,13 +390,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>11</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -414,13 +415,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>13</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -439,13 +440,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>14</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -464,13 +465,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>16</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -489,13 +490,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>17</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -514,13 +515,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>20</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -539,13 +540,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>21</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -565,13 +566,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>22</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -590,13 +591,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>23</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -615,13 +616,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>25</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -640,13 +641,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>26</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -665,13 +666,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>28</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -690,13 +691,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>29</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -715,13 +716,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>32</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -740,13 +741,13 @@
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>controls/MFD[0]/button-pressed</property>
+				<property>controls/MFD[1]/button-pressed</property>
 				<value>33</value>
 			</binding>
 			<mod-up>
 				<binding>
 					<command>property-assign</command>
-					<property>controls/MFD[0]/button-pressed</property>
+					<property>controls/MFD[1]/button-pressed</property>
 					<value>0</value>
 				</binding>
 			</mod-up>
@@ -796,51 +797,5 @@
 			</binding>
 		</action>
 	</animation>
-
-
-  <!--
-================================================================================
-                                                                        TEXT OSG
-================================================================================
-  -->
-  <text>
-    <name>right_mfd.textosg</name>
-    <type type="string">literal</type>
-    <text type="string">Right MFD</text>
-    <draw-text type="bool">true</draw-text>
-    <font>Helvetica.txf</font>
-    <character-size type="double">0.016</character-size>
-    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
-    <axis-alignment>yz-plane</axis-alignment>
-    <max-height>0.06</max-height>
-    <max-width>0.08</max-width>
-    <font-resolution>
-      <width type="int">64</width>
-      <height type="int">64</height>
-    </font-resolution>
-    <alignment>center-center</alignment>
-    <offsets>
-      <x-m>-3.5</x-m>
-      <y-m>.18</y-m>
-      <z-m>-.33</z-m>
-    </offsets>
-  </text>
-
-  <animation>
-    <type>material</type>
-    <object-name>right_mfd.textosg</object-name>
-    <emission>
-      <red>1</red>
-      <green>0.2</green>
-      <blue>0.2</blue>
-    </emission>
-  </animation>
-  <animation>
-    <type>select</type>
-    <object-name>right_mfd.textosg</object-name>
-    <condition>
-      <property>sim/panel-hotspots</property>
-    </condition>
-  </animation>
 
 </PropertyList>

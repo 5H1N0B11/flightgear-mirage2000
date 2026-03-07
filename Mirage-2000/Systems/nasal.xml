@@ -53,7 +53,6 @@
 	</vtm>
 	<mirage2000>
 		<file>Aircraft/Mirage-2000/Nasal/exec.nas</file>
-		<file>Aircraft/Mirage-2000/Nasal/m2000-5_mfd.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/liveries.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/m2000-5_flightdirector.nas</file>
 		<file>Aircraft/Mirage-2000/Nasal/terrain_follow.nas</file>

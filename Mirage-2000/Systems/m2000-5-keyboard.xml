@@ -628,6 +628,25 @@
 				<script>mirage2000.viewVTM();</script>
 			</binding>
 		</key>
+
+		<key n="362">
+			<name>HOME</name>
+			<desc>Select next page on left MFD</desc>
+			<binding>
+				<command>nasal</command>
+				<script>displays.selectNextPage(true);</script>
+			</binding>
+		</key>
+
+		<key n="363">
+			<name>END</name>
+			<desc>Select next page on right MFD</desc>
+			<binding>
+				<command>nasal</command>
+				<script>displays.selectNextPage(false);</script>
+			</binding>
+		</key>
+
 		<key n="360">
 			<name>Shift PageUp</name>
 			<desc>Move seat up</desc>

@@ -485,7 +485,9 @@ var DisplaySystem = {
 		}
 	},
 
-	initPage: func (pageName) {
+	initPage: func (pageName, nextName) {
+		# each page is defined as a PageXYZ structure with a "name" attribute (e.g. PageHub: { name: PAGE_HUB})
+		# and therefore there is an implicit dict, which can check whether the page exists
 		if (DisplaySystem[pageName] == nil) {
 			print(pageName," does not exist");
 			return;
@@ -493,6 +495,7 @@ var DisplaySystem = {
 		me.tempPageInstance = DisplaySystem[pageName].new();
 		me.device.initPage(me.tempPageInstance);
 		me.pages[me.tempPageInstance.name] = me.tempPageInstance;
+		me.nextPages[pageName] = nextName;
 	},
 
 	initLayer: func (layerName) {
@@ -503,15 +506,17 @@ var DisplaySystem = {
 
 	initPages: func () {
 		me.pages = {};
+		me.nextPages = {}; # which next page should be picked for a given page
 		me.layers = {};
 
-		me.initPage(PAGE_HUB);
-		me.initPage(PAGE_EHSI);
-		me.initPage(PAGE_EADI);
-		me.initPage(PAGE_SMS);
-		me.initPage(PAGE_PPA);
-		me.initPage(PAGE_RWR);
-		me.initPage(PAGE_MAP);
+		me.initPage(PAGE_HUB, PAGE_EHSI);
+		me.initPage(PAGE_EHSI, PAGE_EADI);
+		me.initPage(PAGE_EADI, PAGE_SMS);
+		me.initPage(PAGE_SMS, PAGE_PPA);
+		me.initPage(PAGE_PPA, PAGE_RWR);
+		me.initPage(PAGE_RWR, PAGE_MAP);
+		me.initPage(PAGE_MAP, PAGE_EHSI); # we do not go to Hub
+
 
 		me.initLayer(LAYER_SERVICEABLE);
 
@@ -569,6 +574,14 @@ var DisplaySystem = {
 		#me.currPage.update(nil);
 		foreach(var layer; me.currPage.layers) {
 			me.fetchLayer(layer).group.show();
+		}
+	},
+
+	selectNextPage: func {
+		if (me["currPage"] != nil) {
+			me.selectPage(me.nextPages[me.currPage.name]);
+		} else {
+			me.selectPage(PAGE_HUB); # fall back
 		}
 	},
 
@@ -3223,6 +3236,7 @@ var DisplaySystem = {
 #   ██████    ████   ███████ ██   ██ ██   ██ ███████ ███████     ███████ ███████    ██     ██████  ██
 
 
+var leftMFDDisplayDevice = nil;
 var rightMFDDisplayDevice = nil;
 
 var M2000MFDRecipient =
@@ -3241,6 +3255,7 @@ var M2000MFDRecipient =
 
             if (notification.NotificationType == "FrameNotification")
             {
+                leftMFDDisplayDevice.update(notification);
                 rightMFDDisplayDevice.update(notification);
                 return emesary.Transmitter.ReceiptStatus_OK;
             }
@@ -3266,9 +3281,13 @@ var main = func (module) {
 		return; # nothing to do
 	}
 
+
+	leftMFDDisplayDevice = DisplayDevice.new("LeftMFDDisplayDevice", [DISPLAY_WIDTH, DISPLAY_HEIGHT], [1, 1], "left_mfd.canvasCadre", "canvasTex.png");
+	leftMFDDisplayDevice.setColorBackground(consts.COLOR_BLACK);
+	leftMFDDisplayDevice.setControlTextColors(consts.COLOR_WHITE, consts.COLOR_BLACK, consts.COLOR_CYAN);
+
 	rightMFDDisplayDevice = DisplayDevice.new("RightMFDDisplayDevice", [DISPLAY_WIDTH, DISPLAY_HEIGHT], [1, 1], "right_mfd.canvasCadre", "canvasTex.png");
 	rightMFDDisplayDevice.setColorBackground(consts.COLOR_BLACK);
-
 	rightMFDDisplayDevice.setControlTextColors(consts.COLOR_WHITE, consts.COLOR_BLACK, consts.COLOR_CYAN);
 
 	var osbPositions = [
@@ -3314,11 +3333,24 @@ var main = func (module) {
 		[DISPLAY_WIDTH, DISPLAY_ROW_HEIGHT_4 + margin.device.between_menu_item/2],
 	];
 
+
+	var leftMFDDisplaySystem = DisplaySystem.new();
+
+	leftMFDDisplayDevice.setDisplaySystem(leftMFDDisplaySystem);
+
+	leftMFDDisplaySystem.initDevice(0, osbPositions, font.device.main);
+
+	leftMFDDisplayDevice.addControlFeedback();
+
+	leftMFDDisplaySystem.initPages();
+	leftMFDDisplaySystem.selectPage(PAGE_EHSI);
+
+
 	var rightMFDDisplaySystem = DisplaySystem.new();
 
 	rightMFDDisplayDevice.setDisplaySystem(rightMFDDisplaySystem);
 
-	rightMFDDisplaySystem.initDevice(0, osbPositions, font.device.main);
+	rightMFDDisplaySystem.initDevice(1, osbPositions, font.device.main);
 
 	rightMFDDisplayDevice.addControlFeedback();
 
@@ -3330,6 +3362,14 @@ var main = func (module) {
 
 	# to be sure we have consistent rates for cannon fire
 	_changeCannonRate(TRUE);
+}
+
+var selectNextPage = func (is_left_mfd) {
+	if (is_left_mfd and leftMFDDisplayDevice != nil) {
+		leftMFDDisplayDevice.system.selectNextPage();
+	} else if (!is_left_mfd and rightMFDDisplayDevice != nil) {
+		rightMFDDisplayDevice.system.selectNextPage();
+	}
 }
 
 var _changeCannonRate = func (air_to_air) { # 1 or 0
@@ -3352,9 +3392,9 @@ var _changeCannonRate = func (air_to_air) { # 1 or 0
 }
 
 var unload = func {
-	if (leftMFD != nil) {
-		leftMFD.del();
-		leftMFD = nil;
+	if (leftMFDDisplayDevice != nil) {
+		leftMFDDisplayDevice.del();
+		leftMFDDisplayDevice = nil;
 	}
 	if (rightMFDDisplayDevice != nil) {
 		rightMFDDisplayDevice.del();

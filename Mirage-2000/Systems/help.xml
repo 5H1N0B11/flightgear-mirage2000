@@ -179,6 +179,16 @@
 		<desc>View VTM</desc>
 	</key>
 
+	<key n="362">
+		<name>HOME</name>
+		<desc>Select next page on left MFD</desc>
+	</key>
+
+	<key n="363">
+		<name>END</name>
+		<desc>Select next page on right MFD</desc>
+	</key>
+
 	<key>
 		<name>Shift PageUp</name>
 		<desc>Adjust seat up</desc>

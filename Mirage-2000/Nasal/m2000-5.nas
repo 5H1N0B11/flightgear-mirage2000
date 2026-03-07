@@ -157,7 +157,6 @@ var _updateFunction = func() {
 
 	################## Rate 0.25 ##################
 	if (AbsoluteTime - myFramerate.b > 0.25) {
-		mirage2000.mfd_update_main();
 		mirage2000.Intake_pelles();
 		instrumentation.checkStallWarning();
 		myFramerate.b = AbsoluteTime;

@@ -149,102 +149,12 @@ The buttons around the screen influence settings as follows:
 #. Toggle true/magnetic heading
 
 
-.. _link_section_left_mfd:
+.. _link_section_left_and_right_mfd:
 
-Left MFD
-========
+Left and Right MFDs
+===================
 
-To change the currently displayed page, use the left button on the button row at the bottom of the screen.
-
-The different pages of this MFD are the ``EADI`` (electronic attitude direction indicator), the ``EHSI`` (electronic horizontal situation indicator), the ``EICAS`` (engine indicating and crew alerting system) and the ``RMU`` (radio management unit).
-
-
-.. _link_subsection_EADI:
-
-Electronic Attitude Direction Indicator (EADI)
-----------------------------------------------
-
-.. image:: images/eadi.png
-   :alt: EADI
-   :align: center
-
-#. Autopilot speed adjustment knob (+/- 5kts)
-#. Autopilot desired speed
-#. Autopilot status indicator (AP1/blank, PTCH/VS/ALT/TF, ROLL/HDG/LNAV)
-#. Autopilot desired altitude (ASL or AGL for ALT/TF autopilot modes respectively)
-#. Autopilot altitude adjustment knob (+/- 50ft)
-#. Airspeed in mach and kts
-#. Ground speed in kts
-#. Attitude indicator
-#. ASL Altimeter in ft (green number) and variometer in ft/min (in red). The green arrow's extention is proportional to the vertical speed of the aircraft.
-#. Switch to ``EHSI`` page
-#. Set QNH (+/- 0.34HPa)
-
-If applicable, the name of the route's next waypoint or target airport will be shown below the attitude indicator.
-
-
-.. _link_subsection_EHSI:
-
-Electronic Horizontal Situation Indicator (EHSI)
-------------------------------------------------
-
-.. image:: images/ehsi.png
-   :alt: EHSI
-   :align: center
-
-#. Red arrow status, cycles through hidden, ``NAV1``, ``TACAN``, ``ADF2``. Hidden by default.
-#. Yellow arrow status, cycles through hidden, ``NAV2``, ``ADF1``. Hidden by default.
-#. Toggle the visibility of the atmospheric conditions (wind orientation, speed in kts, outside air temperature in °C, dewpoint in °C). They are shown in bright green at the top right of the screen. The wind's direction is also shown in relation to the aircraft with the small bright green compass.
-#. Horizontal situation indicator. It displays in bright green triangles the orientation of the aircraft (0°, 45°, 90°, etc).
-#. Heading bug adjustment knob (+/- 1°). It is displayed as a white dented rectangle on the rim of the compass.
-#. Switch to the ``EICAS`` page
-#. Cycle between autopilot navigation sources: ``NAV1``, ``NAV2``, ``TACAN`` (all three set in the ``RMU`` page of this same MFD) and ``FMS`` (route set in ``Autopilot -> Route manager``). The selected source and evental additional information will be displayed in blue text. This also controls the blue arrow's status.
-#. Navigation heading adjustment knob (+/- 1°). Only applicable if ``NAV1`` and/or ``NAV2`` do not have a valid navigation frequency set.
-
-Engine Indicating and Crew Alerting System (EICAS)
---------------------------------------------------
-
-.. image:: images/eicas.png
-   :alt: EADI
-   :align: center
-
-#. Ratio of the engine's speed to its maximum military power
-#. Numerical value of the aforementioned ratio. Note that it is in 1/10,000 and not in %.
-#. Outside air temperature in °C
-#. Internal turbine temperature
-#. Throttle (green range only)
-#. Fuel consumption in kg/min
-#. Oil temperature in °C and oil pressure
-#. Hydraulic system pressure
-#. Switch to the ``RMU`` page
-
-
-.. _link_subsection_RMU:
-
-Radio Management Unit (RMU)
----------------------------
-
-.. image:: images/rmu.png
-   :alt: RMU
-   :align: center
-
-#. Cycle through and the available channels on the left-hand side of the page (None, ``COMM1``, ``COMM2``, ``NAV1``, ``NAV2``). Having one channel selected will enable the pilot to edit its parameters.
-#. Swap the active and inactive frequencies of the selected left-hand side channel
-#. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 1 MHz)
-#. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 0.05 MHz)
-#. Swap the active and inactive frequencies of the selected right-hand side channel
-#. Cycle through and the available channels on the left-hand side of the page (None, ``ADF1``, ``ADF2``, ``TACAN``).
-#. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 10 kHz) if ADF is selected, otherwise adjust the TACAN channel (+/- 1)
-#. Knob to adjust the selected left-hand side inactive channel's frequency (+/- 1 kHz) or switch the TACAN mode (X/Y)
-#. Switch to the ``EADI`` page
-
-
-.. _link_section_right_mfd:
-
-Right MFD
-=========
-
-To change the currently displayed page, use the second button from left (cyan colour) on the button row at the top of the screen. The text below the button shows the current page name, but leads back to the page hub.
+To change the currently displayed page, use the second button from left (cyan colour) on the button row at the top of the MFD. The text below the button shows the current page name, but leads back to the page hub.
 
 From the hub (see illustration) you can access all available pages.
 
@@ -253,12 +163,128 @@ From the hub (see illustration) you can access all available pages.
    :align: center
    :scale: 50%
 
+Alternatively, you can use ``Key: Home`` to get to the next page on the left MFD and ``Key: END`` to get to the next page on the right MFD. The page sequence is the same as the sequence in this chapter.
 
 Use the mouse wheel to push the toggles on the left and right side of the MFD up and down. Only those toggles work, which have a text associated on the screen.
 
 You can also change the view with ``Key: N`` to better see the right MFD (and the VTB). Use ``Key: ctrl-n`` to go back to the default view.
 
-NB: you cannot display pages from the right MFD on the left MFD or the VTB.
+NB: the display pages on the left and right MFD are the same.
+
+
+Electronic Horizontal Situation Indicator (EHSI)
+------------------------------------------------
+
+.. image:: images/ehsi_page.png
+   :alt: EHSI page
+   :align: center
+   :scale: 50%
+
+
+The FlightGear wiki has a quite comprehensive page about `Radio Navigation⇗ <https://wiki.flightgear.org/Radio_navigation>`_ with a fair amount of links.
+
+
+Navigation Modes
+^^^^^^^^^^^^^^^^
+
+The navigation modes can be selected on the left side of the screen (``FMS`` is active by default if none of the others is highlighted):
+
+* ``VOR`` (incl. ILS) for ``NAV1`` and ``NAV2``
+* ``DATA``
+* ``TAC`` (TACAN)
+* ``FMS`` (Flight Management System - waypoints)
+
+You can change between ``NAV1`` and ``NAV2`` with the button at the right of the top botton row - unless ``NAV*`` is displayed because you are in another navigation maode than ``VOR``. In that case you can change to ``NAV1``.
+
+
+Compass
+^^^^^^^
+
+The compass rose is turning as the airplane turns. The current heading is at the top. You can toggle between true heading (TH) and magnetic heading (MH) with the knob on the left side.
+
+Current Selected Course
+'''''''''''''''''''''''
+
+The big green arrow shows the current selected course for either NAV1 or NAV2. NAV1/NAV2 can be toggled with a button on the right side of the top button row. The course can be corrected with the +/- knob on the right side: + changes by +10 degrees, minus changes by -1 degree.
+
+
+Heading Towards Selected Destination
+''''''''''''''''''''''''''''''''''''
+
+The blue arrow shows the direction towards the selected destination, which depends on the mode (``VOR``, ``DATA``, ``TAC``, ``FMS``) and the actual selection within the mode.
+
+
+Autopilot Bug
+'''''''''''''
+
+The magenta triangle shows the selected course for the autopilot in ``HDG`` mode.
+
+
+Data Presented
+^^^^^^^^^^^^^^
+
+On the Left Hand Side
+'''''''''''''''''''''
+
+* The navigation mode: If VOR is selected and it is an ILS station, then ``ILS`` is displayed as soon as the glidescope information is in range.
+* ``...N``: Distance to destination in nautical miles. If there are only dots and no number, then the station is not yet in range for distance calculation. The distance for ILS is displayed for the glidescope when available, else as VOR.
+* ``...M``: Time to destination in minutes and seconds given current speed (or estimated with 400 kt if the speed is below 100 kt). The calculation depends on the availability of the distance.
+* The name of the VOR/ILS station if available (e.g. ``EHE``). Typically, ILS stastions start with an "I" in the name.
+* The TACAN channel (e.g. ``029X``)
+
+The data points beloning to the currently selected mode (e.g. VOR vs. TACAN) are shown in cyan colour, otherwise white.
+
+On the Right Hand Side
+''''''''''''''''''''''
+
+If there is an active flightplan (in green):
+
+* The number of the current waypoint
+* The distance to the current waypoint
+
+A bit under the middle (in magenta): The selected altitude hold for the autopilot ``ALT`` mode.
+
+At the bottom (in blue): the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose).
+
+
+Electronic Attitude Direction Indicator (EADI)
+----------------------------------------------
+
+.. image:: images/eadi_page.png
+   :alt: EADI page
+   :align: center
+   :scale: 50%
+
+
+The Sphere
+^^^^^^^^^^
+
+The sphere in the middle shows attitude data (pitch and roll). If the nose is vertical up, then the sphere will be totally blue. If the nose is vertical down, then the sphere will be totally brown (you are flying directly into ground).
+
+
+ILS Guides
+^^^^^^^^^^
+
+If the navigation mode is either ``NAV1`` or ``NAV2`` and the flight mode is ``Approach``, then glideslope an lateral guidance lines are shown if the station provides ILS and the following is true:
+
+* Heading data is in range
+* Glidslope data is in range
+* The heading deviation is less than 90 degrees.
+
+
+You change the navigation mode in the ``EHSI`` page. If the mode is not ``NAV1`` or ``NAV2``, then on the top right ``NAV*`` is displayed and you can change to ``NAV1`` using the button above. Otherwise you can toggle between ``NAV1`` and ``NAV2`` with the button above.
+
+
+Data Presented
+^^^^^^^^^^^^^^
+
+On the top of the screen HUD data is repeated: speed (left side), heading (middle), altitude (right side).
+
+In the middle of the screen navigation data is presented - left side is visible only if navigation mode is ``DATA``, right side is for waypoints:
+
+* the selected number
+* the time in minutes (e.g. ``023/``) given current speed (or estimated with 400 kt if the speed is below 100 kt)
+* the distance (e.g. ``32N``).
 
 
 .. _link_subsection_sms:
@@ -373,122 +399,3 @@ Depending on the network connection it might take a while for parts of the map (
    :alt: Map page
    :align: center
    :scale: 50%
-
-
-Electronic Horizontal Situation Indicator (EHSI)
-------------------------------------------------
-
-NB: this page is under construction - you might want to use the page on the left MFD instead (cf. :ref:`link_subsection_EHSI`).
-
-.. image:: images/ehsi_page.png
-   :alt: EHSI page
-   :align: center
-   :scale: 50%
-
-
-The FlightGear wiki has a quite comprehensive page about `Radio Navigation⇗ <https://wiki.flightgear.org/Radio_navigation>`_ with a fair amount of links.
-
-
-Navigation Modes
-^^^^^^^^^^^^^^^^
-
-The navigation modes can be selected on the left side of the screen (``FMS`` is active by default if none of the others is highlighted):
-
-* ``VOR`` (incl. ILS) for ``NAV1`` and ``NAV2``
-* ``DATA``
-* ``TAC`` (TACAN)
-* ``FMS`` (Flight Management System - waypoints)
-
-You can change between ``NAV1`` and ``NAV2`` with the button at the right of the top botton row - unless ``NAV*`` is displayed because you are in another navigation maode than ``VOR``. In that case you can change to ``NAV1``.
-
-
-Compass
-^^^^^^^
-
-The compass rose is turning as the airplane turns. The current heading is at the top. You can toggle between true heading (TH) and magnetic heading (MH) with the knob on the left side.
-
-Current Selected Course
-'''''''''''''''''''''''
-
-The big green arrow shows the current selected course for either NAV1 or NAV2. NAV1/NAV2 can be toggled with a button on the right side of the top button row. The course can be corrected with the +/- knob on the right side: + changes by +10 degrees, minus changes by -1 degree.
-
-
-Heading Towards Selected Destination
-''''''''''''''''''''''''''''''''''''
-
-The blue arrow shows the direction towards the selected destination, which depends on the mode (``VOR``, ``DATA``, ``TAC``, ``FMS``) and the actual selection within the mode.
-
-
-Autopilot Bug
-'''''''''''''
-
-The magenta triangle shows the selected course for the autopilot in ``HDG`` mode.
-
-
-Data Presented
-^^^^^^^^^^^^^^
-
-On the Left Hand Side
-'''''''''''''''''''''
-
-* The navigation mode: If VOR is selected and it is an ILS station, then ``ILS`` is displayed as soon as the glidescope information is in range.
-* ``...N``: Distance to destination in nautical miles. If there are only dots and no number, then the station is not yet in range for distance calculation. The distance for ILS is displayed for the glidescope when available, else as VOR.
-* ``...M``: Time to destination in minutes and seconds given current speed (or estimated with 400 kt if the speed is below 100 kt). The calculation depends on the availability of the distance.
-* The name of the VOR/ILS station if available (e.g. ``EHE``). Typically, ILS stastions start with an "I" in the name.
-* The TACAN channel (e.g. ``029X``)
-
-The data points beloning to the currently selected mode (e.g. VOR vs. TACAN) are shown in cyan colour, otherwise white.
-
-On the Right Hand Side
-''''''''''''''''''''''
-
-If there is an active flightplan (in green):
-
-* The number of the current waypoint
-* The distance to the current waypoint
-
-A bit under the middle (in magenta): The selected altitude hold for the autopilot ``ALT`` mode.
-
-At the bottom (in blue): the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose).
-
-
-Electronic Attitude Direction Indicator (EADI)
-----------------------------------------------
-
-NB: this page is under construction - you might want to use the page on the left MFD instead (cf. :ref:`link_subsection_EADI`).
-
-.. image:: images/eadi_page.png
-   :alt: EADI page
-   :align: center
-   :scale: 50%
-
-
-The Sphere
-^^^^^^^^^^
-
-The sphere in the middle shows attitude data (pitch and roll). If the nose is vertical up, then the sphere will be totally blue. If the nose is vertical down, then the sphere will be totally brown (you are flying directly into ground).
-
-
-ILS Guides
-^^^^^^^^^^
-
-If the navigation mode is either ``NAV1`` or ``NAV2`` and the flight mode is ``Approach``, then glideslope an lateral guidance lines are shown if the station provides ILS and the following is true:
-
-* Heading data is in range
-* Glidslope data is in range
-* The heading deviation is less than 90 degrees.
-
-
-You change the navigation mode in the ``EHSI`` page. If the mode is not ``NAV1`` or ``NAV2``, then on the top right ``NAV*`` is displayed and you can change to ``NAV1`` using the button above. Otherwise you can toggle between ``NAV1`` and ``NAV2`` with the button above.
-
-
-Data Presented
-^^^^^^^^^^^^^^
-
-On the top of the screen HUD data is repeated: speed (left side), heading (middle), altitude (right side).
-
-In the middle of the screen navigation data is presented - left side is visible only if navigation mode is ``DATA``, right side is for waypoints:
-
-* the selected number
-* the time in minutes (e.g. ``023/``) given current speed (or estimated with 400 kt if the speed is below 100 kt)
-* the distance (e.g. ``32N``).
