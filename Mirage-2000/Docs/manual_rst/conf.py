@@ -2,7 +2,7 @@
 
 # -- Project information -----------------------------------------------------
 project = 'FlightGear Mirage 2000'
-copyright = '2025, FlightGear Mirage 2000 Team'
+copyright = '2026, FlightGear Mirage 2000 Team'
 author = 'Rick Gruber-Riemer, Renaud Roquefort'
 release = '0.0.1'
 
@@ -25,11 +25,6 @@ language = 'en'
 
 pygments_style = 'sphinx'
 
-
-# -- Options for HTML output -------------------------------------------------
-html_theme = 'sphinx_rtd_theme'
-# html_static_path = ['_static']
-htmlhelp_basename = 'M2000doc'
 
 
 # -- Options for rinohtype (direct PDF) output -----------------------------------

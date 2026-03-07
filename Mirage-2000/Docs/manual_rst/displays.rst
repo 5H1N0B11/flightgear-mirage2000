@@ -249,6 +249,9 @@ To change the currently displayed page, use the second button from left (cyan co
 From the hub (see illustration) you can access all available pages.
 
 .. image:: images/hub_page.png
+   :alt: HUB page
+   :align: center
+   :scale: 50%
 
 
 Use the mouse wheel to push the toggles on the left and right side of the MFD up and down. Only those toggles work, which have a text associated on the screen.
@@ -274,7 +277,9 @@ The SMS page shows the currently loaded weapons incl. external tanks. A few thin
 The abbreviations used for the stores are available in the weapons overview table in :ref:`link_section_overview_weapons` (a number in front of the abbreviations means the number of this weapon at the station).
 
 .. image:: images/sms_page.png
-
+   :alt: SMS page
+   :align: center
+   :scale: 50%
 
 .. _link_subsection_ppa:
 
@@ -288,7 +293,9 @@ At the top of the page a reminder for the pilot is displayed: "Damage: Off" mean
 The displayed menus depend on the chosen weapon and sometimes on previously chosen menu items (e.g. the ripple distance is only shown, if ripple mode is set to more than 1).
 
 .. image:: images/ppa_page.png
-
+   :alt: PPA page
+   :align: center
+   :scale: 50%
 
 .. _link_subsection_rwr:
 
@@ -298,8 +305,9 @@ Radar Warning Receiver (RWR)
 The radar warning receiver (`RWR⇗ <https://en.wikipedia.org/wiki/Radar_warning_receiver>`_) screen is actually a combination of a RWR display and a counter-measures dispenser display.
 
 .. image:: images/rwr_intro.png
-   :alt: RWR Display
+   :alt: RWR page
    :align: center
+   :scale: 50%
 
 On the left side of the screen there are 2 menu items for the RWR:
 
@@ -310,6 +318,9 @@ RWR
 ^^^
 
 .. image:: images/rwr_symbols.png
+   :alt: RWR page
+   :align: center
+   :scale: 50%
 
 The RWR displays a maximum of 12 threats. High level threats (e.g. with an STT lock or actively guiding a missile) are displayed within the blue centre ring. Lower level threats are displayed closer to the outer ring. I.e. the distance from centre is an interpretation of threat and not a real distance. The position is a top-down view around your aircraft (nose towards up/North).
 
@@ -318,6 +329,7 @@ Different types of threats are displayed with different symbols according to USA
 .. image:: images/rwr_locked.png
    :alt: RWR Threat Symbols
    :align: center
+   :scale: 50%
 
 If there is a chevron below the symbol, then the threat has a radar lock on you. If there is a hat on top of the symbol, then the threat is either source to an active missile or guiding a semi-active missile.
 
@@ -338,6 +350,7 @@ At the right side of the RWR there are 4 indicators for dispensed counter-measur
 .. image:: images/rwr_counter_measures.png
    :alt: Counter-Measures Dispenser Display
    :align: center
+   :scale: 50%
 
 * ``LL`` = decoy dispenser (Lance-Leurres) - blue: blinks when counter-measures are being dispensed.
 * ``EM`` = chaff (Électro-magnétique) - amber: blinks when remaining quantity is at or below 20. Steady light when remaining quantity is at 0 (empty).
@@ -357,6 +370,9 @@ The map is based `OpenStreetMap⇗ <https://osm.org>`_ and shows only the positi
 Depending on the network connection it might take a while for parts of the map (tiles) to load. Once loaded the tiles get cached and should therefore be available further on.
 
 .. image:: images/map_page.png
+   :alt: Map page
+   :align: center
+   :scale: 50%
 
 
 Electronic Horizontal Situation Indicator (EHSI)
@@ -365,6 +381,9 @@ Electronic Horizontal Situation Indicator (EHSI)
 NB: this page is under construction - you might want to use the page on the left MFD instead (cf. :ref:`link_subsection_EHSI`).
 
 .. image:: images/ehsi_page.png
+   :alt: EHSI page
+   :align: center
+   :scale: 50%
 
 
 The FlightGear wiki has a quite comprehensive page about `Radio Navigation⇗ <https://wiki.flightgear.org/Radio_navigation>`_ with a fair amount of links.
@@ -400,10 +419,17 @@ Heading Towards Selected Destination
 The blue arrow shows the direction towards the selected destination, which depends on the mode (``VOR``, ``DATA``, ``TAC``, ``FMS``) and the actual selection within the mode.
 
 
+Autopilot Bug
+'''''''''''''
+
+The magenta triangle shows the selected course for the autopilot in ``HDG`` mode.
+
+
 Data Presented
 ^^^^^^^^^^^^^^
 
-On the left hand side:
+On the Left Hand Side
+'''''''''''''''''''''
 
 * The navigation mode: If VOR is selected and it is an ILS station, then ``ILS`` is displayed as soon as the glidescope information is in range.
 * ``...N``: Distance to destination in nautical miles. If there are only dots and no number, then the station is not yet in range for distance calculation. The distance for ILS is displayed for the glidescope when available, else as VOR.
@@ -413,17 +439,17 @@ On the left hand side:
 
 The data points beloning to the currently selected mode (e.g. VOR vs. TACAN) are shown in cyan colour, otherwise white.
 
-On the right hand side - if there is an active flightplan:
+On the Right Hand Side
+''''''''''''''''''''''
+
+If there is an active flightplan (in green):
 
 * The number of the current waypoint
 * The distance to the current waypoint
 
+A bit under the middle (in magenta): The selected altitude hold for the autopilot ``ALT`` mode.
 
-Wind
-^^^^
-
-
-On the lower right side you can see the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose).
+At the bottom (in blue): the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose).
 
 
 Electronic Attitude Direction Indicator (EADI)
@@ -432,6 +458,9 @@ Electronic Attitude Direction Indicator (EADI)
 NB: this page is under construction - you might want to use the page on the left MFD instead (cf. :ref:`link_subsection_EADI`).
 
 .. image:: images/eadi_page.png
+   :alt: EADI page
+   :align: center
+   :scale: 50%
 
 
 The Sphere

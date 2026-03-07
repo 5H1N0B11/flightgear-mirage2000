@@ -77,6 +77,7 @@ var lineWidth = {
 	page_ehsi: {
 		triangle: 2,
 		course_needle: 4,
+		bug: 3,
 		arrow: 4,
 		text_box: 2,
 	},
@@ -746,6 +747,8 @@ var DisplaySystem = {
 				tacan_bearing          : "instrumentation/tacan/indicated-bearing-true-deg",
 				tacan_distance         : "instrumentation/tacan/indicated-distance-nm",
 				tacan_channel          : "instrumentation/tacan/display/channel",
+				autopilot_hdg          : "autopilot/settings/heading-bug-deg",
+				autopilot_alt          : "autopilot/settings/target-altitude-ft"
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -815,6 +818,16 @@ var DisplaySystem = {
 				.lineTo(-16, -me.radius+32)
 				.moveTo(0, -me.radius)
 				.lineTo(16, -me.radius+32);
+
+			me.autopilot_bug = me.compass_group.createChild("path")
+				.setColor(consts.COLOR_MAGENTA)
+				.setStrokeLineWidth(lineWidth.page_ehsi.bug)
+				.moveTo(0, -me.radius+10)
+				.lineTo(-15, -me.radius - 20)
+				.moveTo(-15, -me.radius - 20)
+				.lineTo(15, -me.radius - 20)
+				.moveTo(0, -me.radius+10)
+				.lineTo(15, -me.radius - 20);
 
 			# triangles marking every 45 degs
 			me.triangles_group = me.group.createChild("group", "triangles_group")
@@ -914,6 +927,13 @@ var DisplaySystem = {
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2 + 140 + 120, 140);
 			me.distdest_text.enableUpdate();
+
+			me.autopilot_alt_text = me.group.createChild("text", "autopilot_alt_text")
+				.setFontSize(font.page_ehsi.text)
+				.setColor(consts.COLOR_MAGENTA)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - 60, 400);
+			me.autopilot_alt_text.enableUpdate();
 		},
 
 		enter: func {
@@ -1013,6 +1033,9 @@ var DisplaySystem = {
 				visible = FALSE;
 			}
 			me.destination_needle.setVisible(visible);
+
+			# autopilot bug
+			me.autopilot_bug.setRotation(me._correctTrueHeading(me.input.autopilot_hdg.getValue())*D2R);
 		},
 
 		_updateWindStuff: func() {
@@ -1097,6 +1120,9 @@ var DisplaySystem = {
 
 			me.destination_text.updateText(destination_display);
 			me.distdest_text.updateText(distdest_display);
+
+			# autopilot stuff
+			me.autopilot_alt_text.updateText(sprintf("%dFT", me.input.autopilot_alt.getValue()));
 		},
 
 		_calcTimeToDestinationString: func (distance_m) { # how much time left as a string mm:ss
