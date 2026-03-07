@@ -44,7 +44,7 @@
 
 		<key n="125">
 			<name>}</name>
-			<desc>Engine Autostart</desc>
+			<desc>Autostart aircraft</desc>
 			<binding>
 				<command>nasal</command>
 				<script>mirage2000.autostart();</script>

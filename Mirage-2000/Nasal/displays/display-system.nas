@@ -1262,6 +1262,18 @@ var DisplaySystem = {
 
 			# the white scale lines in the sphere
 			me.scale_0_deg = me.sphere_group.createChild("path", "scale_0_deg");
+			me.scale_pos_deg = setsize([], 9); # positive scale
+			me.scale_neg_deg = setsize([], 9); # negative scale
+			me.scale_width = setsize([], 9); # the width of the scale
+			for (var i = 0; i < 9; i+=1) {
+				me.scale_pos_deg[i] = me.sphere_group.createChild("path");
+				me.scale_neg_deg[i] = me.sphere_group.createChild("path");
+				if (i < 8) {
+					me.scale_width[i] = me.radius * 0.5 * math.cos((i+1)*10*D2R);
+				} else { # special case for 90 degs
+					me.scale_width[i] = me.radius * 0.5 * math.cos(85*D2R);
+				}
+			}
 
 			me.roll_triangle = me.sphere_group.createChild("path", "roll_triangle")
 				.set(Z_INDEX, zIndex.page_eadi.roll_triangle)
@@ -1483,17 +1495,48 @@ var DisplaySystem = {
 				}
 			}
 
-			# scale
+			# scale 0 deg
 			if (math.abs(me.pitch) != 90) {
 				me.scale_0_deg.reset();
 				me.scale_0_deg.setColor(consts.COLOR_WHITE)
 					.moveTo(-me.small_part_x, me.small_part_y)
 					.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
 					.lineTo(me.small_part_x, me.small_part_y);
-
 				me.scale_0_deg.show();
 			} else {
 				me.scale_0_deg.hide();
+			}
+			# scale pos deg
+			for (var i = 0; i < 9; i+=1) {
+				me.scale_x_deg = me.pitch - (i+1)*10;
+				if (me.scale_x_deg > -90) {
+					me.small_part_x = math.min(me.radius * math.cos(me.scale_x_deg*D2R), me.scale_width[i]);
+					me.small_part_y = me.radius * math.sin(me.scale_x_deg*D2R);
+					me.scale_pos_deg[i].reset();
+					me.scale_pos_deg[i].setColor(consts.COLOR_WHITE)
+						.moveTo(-me.small_part_x, me.small_part_y)
+						.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+						.lineTo(me.small_part_x, me.small_part_y);
+					me.scale_pos_deg[i].show();
+				} else {
+					me.scale_pos_deg[i].hide();
+				}
+			}
+			# scale neg deg
+			for (var i = 0; i < 9; i+=1) {
+				me.scale_x_deg = me.pitch + (i+1)*10;
+				if (me.scale_x_deg < 90) {
+					me.small_part_x = math.min(me.radius * math.cos(me.scale_x_deg*D2R), me.scale_width[i]);
+					me.small_part_y = me.radius * math.sin(me.scale_x_deg*D2R);
+					me.scale_neg_deg[i].reset();
+					me.scale_neg_deg[i].setColor(consts.COLOR_WHITE)
+						.moveTo(-me.small_part_x, me.small_part_y)
+						.setStrokeLineWidth(lineWidth.page_eadi.sphere_lines)
+						.lineTo(me.small_part_x, me.small_part_y);
+					me.scale_neg_deg[i].show();
+				} else {
+					me.scale_neg_deg[i].hide();
+				}
 			}
 
 			me.sphere_group.setRotation(-1*me.input.roll.getValue()*D2R);

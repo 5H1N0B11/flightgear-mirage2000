@@ -8,7 +8,9 @@ Basic Operations
 Start-up
 --------
 
-When your aircraft is cold and dark before start-up, the external generator and fuel truck are connected to your aircraft, and protections (in red) will be on your aircraft, as well as chocks. They will disappear automatically as you start up. With the ``}`` key, you can auto-start your aircraft.
+When your aircraft is cold and dark before start-up, the external generator and fuel truck are connected to your aircraft, and protections (in red) will be on your aircraft, as well as chocks. They will disappear automatically as you start up.
+
+You can either auto-start your aircraft with key ``}`` or press button ``autostart`` in the dialogue opened by using menu ``Mirage 2000 -> Configuration``.
 
 Taxi
 ----

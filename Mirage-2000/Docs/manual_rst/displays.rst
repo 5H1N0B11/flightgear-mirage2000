@@ -431,6 +431,8 @@ Electronic Attitude Direction Indicator (EADI)
 
 NB: this page is under construction - you might want to use the page on the left MFD instead (cf. :ref:`link_subsection_EADI`).
 
+.. image:: images/eadi_page.png
+
 
 The Sphere
 ^^^^^^^^^^
@@ -441,7 +443,7 @@ The sphere in the middle shows attitude data (pitch and roll). If the nose is ve
 ILS Guides
 ^^^^^^^^^^
 
-If the navigation mode is either ``NAV1`` or ``NAV2``, then glideslope an lateral guidance lines are shown if the station provides ILS and the following is true:
+If the navigation mode is either ``NAV1`` or ``NAV2`` and the flight mode is ``Approach``, then glideslope an lateral guidance lines are shown if the station provides ILS and the following is true:
 
 * Heading data is in range
 * Glidslope data is in range
