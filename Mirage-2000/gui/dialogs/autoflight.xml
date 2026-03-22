@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- M2000 autopilot dialogue overriding the default FlightGear dialogue. -->
+
+<PropertyList>
+
+	<name>autopilot</name>
+	<layout>vbox</layout>
+
+	<group>
+		<layout>hbox</layout>
+
+		<text>
+			<halign>left</halign>
+			<label>M2000 Autopilot System</label>
+		</text>
+		<empty><stretch>1</stretch></empty>
+
+		<button>
+			<row>0</row>
+			<col>1</col>
+			<halign>right</halign>
+			<pref-width>20</pref-width>
+			<pref-height>20</pref-height>
+			<legend>X</legend>
+			<key>Esc</key>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+		</button>
+	</group>
+
+	<hrule/>
+
+	<group>
+		<layout>table</layout>
+
+		<!-- Row for attitude mode -->
+		<button>
+			<row>0</row>
+			<col>0</col>
+			<halign>fill</halign>
+			<legend>PA</legend>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_PA);</script>
+			</binding>
+		</button>
+
+		<!-- row for altitude at engagement mode -->
+		<button>
+			<row>1</row>
+			<col>0</col>
+			<halign>fill</halign>
+			<legend>ALT</legend>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_ALT);</script>
+			</binding>
+		</button>
+		<!-- row for altitude selected mode -->
+		<button>
+			<row>2</row>
+			<col>0</col>
+			<halign>fill</halign>
+			<legend>ALT AFF</legend>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_ALT_AFF);</script>
+			</binding>
+		</button>
+		<!-- altitude selection -->
+		<group>
+			<row>2</row>
+			<col>1</col>
+			<layout>table</layout>
+
+			<text>
+				<row>0</row>
+				<col>0</col>
+				<label>SELECTED ALT (FT):</label>
+			</text>
+
+			<button>
+				<row>0</row>
+				<col>1</col>
+				<pref-width>25</pref-width>
+				<pref-height>25</pref-height>
+				<legend>&lt;&lt;</legend>
+				<binding>
+					<command>property-adjust</command>
+					<property>/autopilot/settings/selected-altitude-ft</property>
+					<min>1000</min>
+					<max>50000</max>
+					<step>-1000</step>
+					<wrap>true</wrap>
+				</binding>
+			</button>
+			<button>
+				<row>0</row>
+				<col>2</col>
+				<pref-width>25</pref-width>
+				<pref-height>25</pref-height>
+				<legend>&lt;</legend>
+				<binding>
+					<command>property-adjust</command>
+					<property>/autopilot/settings/selected-altitude-ft</property>
+					<min>1000</min>
+					<max>50000</max>
+					<step>-100</step>
+					<wrap>true</wrap>
+				</binding>
+			</button>
+
+			<input>
+				<row>0</row>
+				<col>3</col>
+				<pref-width>70</pref-width>
+				<property>/autopilot/settings/selected-altitude-ft</property>
+				<live>true</live>
+				<binding>
+					<command>dialog-apply</command>
+				</binding>
+			</input>
+
+			<button>
+				<row>0</row>
+				<col>4</col>
+				<pref-width>25</pref-width>
+				<pref-height>25</pref-height>
+				<legend>&gt;</legend>
+				<binding>
+					<command>property-adjust</command>
+					<property>/autopilot/settings/selected-altitude-ft</property>
+					<min>1000</min>
+					<max>50000</max>
+					<step>100</step>
+					<wrap>true</wrap>
+				</binding>
+			</button>
+			<button>
+				<row>0</row>
+				<col>5</col>
+				<halign>left</halign>
+				<pref-width>25</pref-width>
+				<pref-height>25</pref-height>
+				<legend>&gt;&gt;</legend>
+				<binding>
+					<command>property-adjust</command>
+					<property>/autopilot/settings/target-altitude-ft</property>
+					<min>1000</min>
+					<max>50000</max>
+					<step>1000</step>
+					<wrap>true</wrap>
+				</binding>
+			</button>
+		</group>
+		<!-- row for approach mode -->
+		<button>
+			<row>3</row>
+			<col>0</col>
+			<halign>fill</halign>
+			<legend>LG</legend>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_LG);</script>
+			</binding>
+		</button>
+		<!-- row for standby mode -->
+		<button>
+			<row>5</row>
+			<col>0</col>
+			<halign>fill</halign>
+			<legend>STBY</legend>
+			<color>
+				<red>0.0</red>
+				<green>0.0</green>
+				<blue>1.0</blue>
+			</color>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_STBY);</script>
+			</binding>
+		</button>
+	</group>
+
+</PropertyList>

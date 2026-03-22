@@ -236,7 +236,7 @@ var HUD = {
 		              .vert(-15)
 		              .setStrokeLineWidth(4);
 
-		m.AutopilotStar = m.root.createChild("text")
+		m.AutopilotStar = m.root.createChild("text") # displays an asterix on top of the fpv to inicate AP
 		                        .setColor(COLOR_GREEN)
 		                        .setTranslation(150,0)
 		                        .setFontSize(50)
@@ -1375,7 +1375,7 @@ var HUD = {
 	_displayFPV: func() {
 		me.fpvCalc = HudMath.getFlightPathIndicatorPosWind();
 		me.fpv.setTranslation(me.fpvCalc);
-		if (me.input.AutopilotStatus.getValue()=="AP1") {
+		if (me.input.AutopilotStatus.getValue()==consts.AP_STATUS_ON) {
 			me.AutopilotStar.setTranslation(me.fpvCalc);
 			me.AutopilotStar.show();
 		} else {

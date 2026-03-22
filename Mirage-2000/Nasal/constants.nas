@@ -33,3 +33,28 @@ var COLOR_BROWN = [0.6, 0.3, 0];
 
 var COLOR_LIGHT_BLUE = [0.2, 0.6, 1];
 
+
+# autopilot
+var BTN_PA = "PA";
+var BTN_STBY = "STBY";
+var BTN_ALT = "ALT"; # hold the current altitude
+var BTN_ALT_AFF = "ALT_AFF"; # hold the altitude assigned
+var BTN_LG = "LG"; # approach
+
+var AP_STATUS_ON = "AP1"; # M2000 specific
+var AP_STATUS_STBY = "TEMP DISENGAGE"; # M2000 specific
+var AP_STATUS_OFF = "";
+
+var AP_LOCK_ALTITUDE_PITCH = "PTCH";
+var AP_LOCK_ALTITUDE_ALT = "ALT";
+var AP_LOCK_ALTITUDE_GS = "GS"; # not the same as GS for armed!
+var AP_LOCK_ALTITUDE_ARM_GS = "GS";
+var AP_LOCK_HEADING_ROLL = "ROLL";
+var AP_LOCK_HEADING_HDG = "HDG";
+var AP_LOCK_HEADING_ARM_LOC = "LOC";
+
+var AP_MODE_OFF = "Off";
+var AP_MODE_ATTITUDE = "Attitude";
+var AP_MODE_ALTITUDE_HOLD = "Altitude hold";
+var AP_MODE_ALTITUDE_SELECTED = "Altitude selected";
+var AP_MODE_APPROACH = "Approach";

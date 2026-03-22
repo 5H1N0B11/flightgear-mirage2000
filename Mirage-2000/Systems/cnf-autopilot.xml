@@ -11,8 +11,10 @@
 		<bank-limit type="int"> 47 </bank-limit>
 		<target-speed-kt type="int"> 350 </target-speed-kt>
 		<target-speed-mach type="double"> 0.40 </target-speed-mach>
+		<target-altitude-ft type="int">4000</target-altitude-ft> <!-- what will be followed by the autopilot-->
+		<selected-altitude-ft type="int">4000</selected-altitude-ft> <!-- what is preselected by the pilot and might be placed into target-alt -->
 		<changeover type="bool">false</changeover>
-		<heading-bug-deg type="int"> 0 </heading-bug-deg>
+		<heading-bug-deg type="int">0</heading-bug-deg>
 		<tf-mode type="int">8</tf-mode> <!-- Larger values give smoother results -->
 	</settings>
 

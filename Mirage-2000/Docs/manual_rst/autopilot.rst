@@ -12,17 +12,18 @@ Autopilot Panel
    :alt: Autopilot display
    :align: center
 
-The autopilot allows the onboard computer to control the aircraft without constant input from the pilot. 
+The autopilot allows the onboard computer to control the aircraft without constant input from the pilot.
 
 Clicking one of the switches equals to toggling the mode and eventually disabling other incompatible modes. An enabled mode will be lit up or blinking, but they will only be active if the ``AP`` switch is also lit up.
 
 Only the ``Stby`` button being lit up by default (the autopilot is not enabled on startup).
 
-While the autopilot panel allows the pilot to toggle its different modes, the details of each parameter have to be set either on the ILS/TACAN panel, on the left MFD, or in the ``Autopilot -> Route manager`` built-in FlightGear menu. 
+While the autopilot panel allows the pilot to toggle its different modes, the details of each parameter have to be set either on the ILS/TACAN panel, on the left MFD, or in the ``Autopilot -> Route manager`` built-in FlightGear menu.
 
 Details about the autopilot's enabled modes, registered altitude, heading, next waypoint, and speed can all be found in the ``EADI`` tab of the left MFD. The active pitch and roll control modes will be shown in white near the top of the ``EADI``.
 
 Note that the switches might not all be visible depending on your viewpoint. You can move your head by using ``Key: shift``, ``right mouse  button`` and dragging your mouse across the screen. To reset it, you can use one of the flight mode keys (see Flight Modes section).
+
 
 Autopilot Switches and Modes
 ============================
@@ -61,17 +62,13 @@ This mode appears as ``VS`` in the ``EADI``.
 Alt (Altitude)
 --------------
 
-This switch controls two modes: altitude above sea level (ASL) and altitude above ground level (AGL), also called terrain following mode (TF). The switch will be lit in ASL mode, and blink in TF mode. Alternating between the two can be done by clicking the switch, with ASL being enabled first if the switch is off.
-
-Double-clicking the ``Alt`` switch will register the current altitude (either ASL or AGL depending on the mode), which will be visible at the top right corner of the EADI. 
+This switch controls the altitude above sea level (ASL) mode (there is no terrain following mode).
 
 The ASL mode will attempt to maintain the aircraft at the altitude set, or climb/descend towards it at a low vertical speed (ca. 450ft/min). It is recommended to use the ``Vs`` mode for faster changes in altitude. This mode will lock the manual pitch and yaw input of the aircraft, but will only control the pitch.
 
-The TF mode will only function below 10,000ft and if aircraft is close to horizontal and will not override the pilot's input. It will also attempt to follow the terrain based on the feed of the radar. To adjust the smoothness of the aircraft's trajectory and the range of the terrain taken into account, you can move the ``AP TF smooth`` and ``Predictions`` sliders in the ``Mirage 2000 -> Configuration`` menu respectively.
+This mode is incompatible with the ``VS`` and ``APP`` modes.
 
-These modes are incompatible with the ``VS`` and ``APP`` modes.
-
-The ASL and AGL modes appear as ``ALT`` and ``TF`` in the ``EADI``.
+The ASL mode appears as ``ALT`` in the ``EADI``.
 
 Hdg (Heading)
 -------------
@@ -105,7 +102,7 @@ This mode appears as ``APP`` in the ``EADI``.
 Spd (Speed)
 -----------
 
-This is an in-sim switch only, and does not exist on actual Mirage 2000s. It overrides the pilot's throttle input in order to maintain the airspeed set in the ``EADI`` tab of the left MFD. 
+This is an in-sim switch only, and does not exist on actual Mirage 2000s. It overrides the pilot's throttle input in order to maintain the airspeed set in the ``EADI`` tab of the left MFD.
 
 Note that once disabled, the pilot has to move the throttle in order to unlock it again.
 

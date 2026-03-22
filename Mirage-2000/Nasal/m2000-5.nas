@@ -77,7 +77,7 @@ var _mainInitLoop = func() {
 	#print("Radar ... Check");
 
 	print("Flight Director ... Check");
-	mirage2000.init_set();
+	mirage2000.initAutopilot();
 
 	print("Transponder ... Check");
 	init_Transpondeur();
@@ -128,8 +128,6 @@ var _updateFunction = func() {
 	AbsoluteTime = getprop("/sim/time/elapsed-sec");
 	#Things to update, order by refresh rate.
 
-	var AP_Alt = getprop("/autopilot/locks/altitude");
-
 	########################### rate 0
 	# mirage2000.Update_SAS(); #we need to check what is still here, and what we can convert in xml
 
@@ -138,16 +136,6 @@ var _updateFunction = func() {
 	#	 } else {
 	#		 setprop("instrumentation/ejection/force", 7);
 	#	 }
-
-	# Flight Director (autopilot)
-	if (getprop("/autopilot/locks/AP-status") == "AP1") {
-		call(mirage2000.update_fd,nil,nil,nil, myErr= []);
-		if (size(myErr)>0) {
-			foreach(var i;myErr) {
-				print(i);
-			}
-		}
-	}
 
 	################## Rate 0.1 ##################
 	if (AbsoluteTime - myFramerate.a > 0.1) {
@@ -167,16 +155,6 @@ var _updateFunction = func() {
 	if (AbsoluteTime - myFramerate.c > 0.5) {
 		#call(m2000_load.Encode_Load,nil,nil,nil, myErr);
 		call(m2000_mp.Encode_Bool,nil,nil,nil, myErr);
-		#if (getprop("autopilot/settings/tf-mode")) { <- need to find what is enabling it
-		#8 second prevision do not need to be updated each fps
-		if (AP_Alt =="TF") {
-			call(mirage2000.tfs_radar,nil,nil,nil, myErr= []);
-			if (size(myErr)) {
-				foreach(var i;myErr) {
-					print(i);
-				}
-			}
-		}
 		bingo_calculator.update(); # needs high frequency due to blinking
 
 		#mirage2000.weather_effects_loop();
@@ -192,17 +170,10 @@ var _updateFunction = func() {
 	###################### rate 1 ###########################
 	if (AbsoluteTime - myFramerate.d > 1) {
 		#call(mirage2000.fuel_managment,nil,nil,nil, myErr);
-		if (getprop("/autopilot/locks/AP-status") != "AP1") {
-			call(mirage2000.update_fd,nil,nil,nil, myErr= []);
-			if (size(myErr)>0) {
-				foreach(var i;myErr) {
-					print(i);
-				}
-			}
-		}
 		myFramerate.d = AbsoluteTime;
 		mp_messaging();
 		_checkGroundModeNWS();
+		updateAutopilot();
 	}
 
 	###################### rate 1.5 ###########################
@@ -221,14 +192,6 @@ var _updateFunction = func() {
 
 	###################### rate 2 ###########################
 	if (AbsoluteTime - myFramerate.f > 2) {
-		if (AP_Alt =="TF") {
-			call(mirage2000.long_view_avoiding,nil,nil,nil, myErr);
-			if (size(myErr)>0) {
-				foreach(var i;myErr) {
-					print(i);
-				}
-			}
-		}
 		instrumentation.checkConfigurationCategory();
 
 		myFramerate.f = AbsoluteTime;
