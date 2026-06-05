@@ -337,6 +337,13 @@
 			</function>
 		</fcs_function>
 		
+		<switch name="fbw/roll/rudder-rai-input">
+			<default value="fbw/yaw/rudder-nul"/>
+			<test value="0">
+				fbw/ap/roll-enabled eq 1
+			</test>
+		</switch>
+		
 		<fcs_function name="fbw/roll/rate-stick"> <!-- Air/Air: 270 deg/4.71239 rad, Charges: 150 deg/2.61799 rad per sec -->
 			<function>
 				<sum>
@@ -358,7 +365,7 @@
 						</tableData>
 					</table>
 					<table> <!-- RAI -->
-						<independentVar lookup="row">fbw/yaw/rudder-nul</independentVar>
+						<independentVar lookup="row">fbw/roll/rudder-rai-input</independentVar>
 						<independentVar lookup="column">position/wow</independentVar>
 						<tableData>
 							    0        1
@@ -905,6 +912,13 @@
 			<c1>3.8</c1>
 		</lag_filter>
 		
+		<switch name="fbw/yaw/aileron-ari-input">
+			<default value="fbw/roll/aileron-modified"/>
+			<test value="0">
+				fbw/ap/roll-enabled eq 1
+			</test>
+		</switch>
+		
 		<fcs_function name="fbw/yaw/beta-cmd">
 			<function>
 				<sum>
@@ -919,7 +933,7 @@
 						</tableData>
 					</table>
 					<table> <!-- ARI -->
-						<independentVar lookup="row">fbw/roll/aileron-modified</independentVar>
+						<independentVar lookup="row">fbw/yaw/aileron-ari-input</independentVar>
 						<independentVar lookup="column">fbw/pitch/alpha-lag</independentVar>
 						<independentVar lookup="table">velocities/vc-kts</independentVar>
 						<tableData breakPoint="200">
