@@ -13,7 +13,7 @@ The Mirage 2000-5 has its name from the fact that it has 5 main displays:
    :alt: 5 main screens of the M2000-5
    :align: center
 
-Currently all simulated variants use this system, because they use the same cockpit. In real life the cockpit of e.g. the -D variant looks quite different and does not have the right MFD not does it have the VTM.
+Currently all simulated variants use this system, because they use the same cockpit. In real life the cockpit of e.g. the -D variant looks quite different and does neither have the right MFD nor does it have the VTM.
 
 .. _link_section_hud:
 
@@ -154,8 +154,6 @@ The buttons around the screen influence settings as follows:
 Left and Right MFDs
 ===================
 
-To change the currently displayed page, use the second button from left (cyan colour) on the button row at the top of the MFD. The text below the button shows the current page name, but leads back to the page hub.
-
 From the hub (see illustration) you can access all available pages.
 
 .. image:: images/hub_page.png
@@ -163,11 +161,13 @@ From the hub (see illustration) you can access all available pages.
    :align: center
    :scale: 50%
 
-Alternatively, you can use ``Key: Home`` to get to the next page on the left MFD and ``Key: END`` to get to the next page on the right MFD. The page sequence is the same as the sequence in this chapter.
+You can use ``Key: Home`` to get to the next page on the left MFD and ``Key: END`` to get to the next page on the right MFD. The page sequence is the same as the sequence in this chapter.
 
-Use the mouse wheel to push the toggles on the left and right side of the MFD up and down. Only those toggles work, which have a text associated on the screen.
+To change back to the hub page, use the second button from left (amber frame) on the button row at the top of the MFD. The text below the button shows the current page name.
 
-You can also change the view with ``Key: N`` to better see the right MFD (and the VTB). Use ``Key: ctrl-n`` to go back to the default view.
+Use the mouse wheel to push the toggles (yellow frame) on the left and right side of the MFD up and down. Only those toggles work, which have a text associated on the screen. Alternatively, use left-click to push the toggle up and right-click to push the toggle down.
+
+You can focus the view with  ``Key: n`` to better see the left MFD respectively ``Key: N`` to better see the right MFD. Use ``Key: ctrl-n`` to go back to the default view.
 
 NB: the display pages on the left and right MFD are the same.
 
