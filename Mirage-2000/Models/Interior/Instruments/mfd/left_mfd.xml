@@ -36,18 +36,19 @@
 	</animation>
 
 	<animation>
-	<!-- lights : illuminations -->
+		<!-- lights : illuminations -->
 		<type>material</type>
 		<object-name>left_mfd.light</object-name>
 		<emission>
-			<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
-			<red>   0.1 </red>
-			<green> 0.5 </green>
-			<blue>  0.2 </blue>
+		<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+		<red>   0.1 </red>
+		<green> 0.5 </green>
+		<blue>  0.2 </blue>
 		</emission>
 	</animation>
 
-	<animation> <!-- lights : flood -->
+	<animation>
+		<!-- lights : flood -->
 		<type>material</type>
 		<object-name>left_mfd.bl-dec</object-name>
 		<object-name>left_mfd.bl-inc</object-name>
@@ -73,10 +74,10 @@
 		<object-name>left_mfd.pot-r3</object-name>
 		<object-name>left_mfd.pot-r4</object-name>
 		<emission>
-			<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
-			<red>   0.012 </red>
-			<green> 0.06 </green>
-			<blue>  0.02 </blue>
+		<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+		<red>   0.012 </red>
+		<green> 0.06 </green>
+		<blue>  0.02 </blue>
 		</emission>
 	</animation>
 
