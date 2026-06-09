@@ -707,24 +707,9 @@
 			<c1>7.5</c1>
 			<output>/instrumentation/g-meter/instrumented-g</output>
 		</lag_filter>
-		
-		<fcs_function name="fbw/pitch/instrumented-g-input">
-			<function>
-				<sum>
-					<product>
-						<property>aero/cos-alpha</property>
-						<property>accelerations/Nz</property>
-					</product>
-					<product>
-						<property>aero/sin-alpha</property>
-						<property>accelerations/Nx</property>
-					</product>
-				</sum>
-			</function>
-		</fcs_function>
 
 		<lag_filter name="fbw/pitch/instrumented-g">
-			<input>fbw/pitch/instrumented-g-input</input>
+			<input>accelerations/Nz</input>
 			<c1>50</c1>
 		</lag_filter>
 		
