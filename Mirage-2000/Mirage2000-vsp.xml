@@ -647,8 +647,9 @@
             </function>
             <output>position/h-agl-m</output>
         </fcs_function>
+  </channel>
 
-	<!-- Copied from JA37 -->
+  <!-- Copied from JA37 -->
 	<channel execrate="4" name="Cursor">
 		<switch name="names/cursor/cursor-x-from-flight-controls">
 			<description>Cursor control component from flight controls</description>
