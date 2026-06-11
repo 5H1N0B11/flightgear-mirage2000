@@ -529,8 +529,9 @@
 				<table>
 					<independentVar lookup="row">fbw/pitch/alpha-lag</independentVar>
 					<tableData>
-						26  0.0
-						34  0.8
+						24  0.0
+						28  0.7
+						32  1.0
 					</tableData>
 				</table>
 			</function>
@@ -541,9 +542,9 @@
 				<table>
 					<independentVar lookup="row">fbw/pitch/alpha-lag</independentVar>
 					<tableData>
-						17 -1.00
-						27 -0.85
-						29 -0.40
+						16 -1.0
+						26 -0.4
+						28 -0.2
 					</tableData>
 				</table>
 			</function>
@@ -1061,7 +1062,7 @@
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<tableData>
 						0.3800  9.32
-						0.4000  9.16
+						0.4000  9.22
 						0.4500  9.16
 						0.5000  9.09
 						0.5500  9.05
@@ -1082,7 +1083,7 @@
 					<independentVar lookup="row">velocities/mach</independentVar>
 					<tableData>
 						0.3800  6.16
-						0.4000  6.00
+						0.4000  6.07
 						0.4500  6.00
 						0.5000  5.93
 						0.5500  5.88
@@ -1097,18 +1098,25 @@
 			</function>
 		</fcs_function>
 		
+		<lead_lag_filter name="fbw/slat/alpha-leadlag">
+			<input>fbw/pitch/alpha-switched</input>
+			<c1>1.09</c1>
+			<c2>1.0</c2>
+			<c3>0.78</c3>
+			<c4>1.0</c4>
+		</lead_lag_filter>
+		
 		<fcs_function name="fbw/slat/extension-calc">
 			<function>
 				<table>
-					<independentVar lookup="row">aero/alpha-deg</independentVar>
+					<independentVar lookup="row">fbw/slat/alpha-leadlag</independentVar>
 					<independentVar lookup="column">velocities/mach</independentVar>
 					<tableData>
 						    0      0.45   0.5    0.8    0.9    1
 						 0  0.000  0.000  0.000  0.000  0.000  0.000
-						 8  0.000  0.000  0.178  0.178  0.000  0.000
-						10  0.245  0.245  0.315  0.315  0.000  0.000
-						20  1.000  1.000  1.000  1.000  0.000  0.000
-						25  1.000  1.000  1.000  1.000  0.000  0.000
+						15  0.000  0.000  0.000  0.000  0.000  0.000
+						17  0.245  0.245  0.315  0.315  0.000  0.000
+						23  1.000  1.000  1.000  1.000  0.000  0.000
 					</tableData>
 				</table>
 			</function>
@@ -1117,33 +1125,23 @@
 		<switch name="fbw/slat/active">
 			<default value="fbw/slat/active"/>
 			<test logic="OR" value="0">
-				aero/alpha-deg lt fbw/slat/retraction-aoa
+				fbw/pitch/alpha-lag lt fbw/slat/retraction-aoa
 				velocities/mach gt fbw/slat/partially-extended-max-mn
 				gear/gear-pos-norm gt 0
 			</test>
 			<test logic="AND" value="1">
-				aero/alpha-deg gt fbw/slat/extension-aoa
+				fbw/pitch/alpha-lag gt fbw/slat/extension-aoa
 				velocities/mach le fbw/slat/fully-extended-max-mn
 				gear/gear-pos-norm le 0.3
 			</test>
 		</switch>
 		
-		<fcs_function name="fbw/slat/auto-cmd"> <!-- Prevent manual slat from going less than auto -->
-			<function>
-				<max>
-					<property>fbw/slat/extension-calc</property>
-					<property>/controls/flight/flaps</property>
-				</max>
-			</function>
-		</fcs_function>
-		
 		<switch name="fbw/slat-output">
 			<default value="fbw/slat/extension-calc"/>
-			<test logic="OR" value="/controls/flight/flaps">
+			<test logic="OR" value="0">
 				gear/gear-pos-norm gt 0.7
 				fbw/man-slat gt 0
 				fbw/enable ne 1
-				/controls/flight/flaps gt 0
 				fbw/slat/active le 0
 			</test>
 		</switch>
@@ -1369,7 +1367,6 @@
 			<default value="0"/>
 			<test logic="AND" value="1">
 				/controls/flight/nws-enabled eq 1
-				velocities/vtrue-kts le 40
 				systems/hydraulics/number2-system-available eq 1
 			</test>
 		</switch>
@@ -1387,6 +1384,7 @@
 							 1.0 -45  0  45
 							20.0 -20  0  20
 							30.0 -10  0  10
+							45.0  -5  0   5
 						</tableData>
 					</table>
 				</product>
@@ -1410,13 +1408,22 @@
 			</test>
 		</switch>
 		
-		<actuator name="fcs/slat-a">
-			<input>fbw/slat-output</input>
+		<fcs_function name="fcs/slat-cmd">
+			<function>
+				<max>
+					<property>fbw/slat-output</property>
+					<property>/controls/flight/flaps</property>
+				</max>
+			</function>
+		</fcs_function>
+		
+		<actuator name="fcs/slat-actuator">
+			<input>fcs/slat-cmd</input>
 			<rate_limit>fcs/slat-pos-rate</rate_limit>
 		</actuator>
 		
 		<pure_gain name="fcs/slat-outer">
-			<input>fcs/slat-a</input>
+			<input>fcs/slat-actuator</input>
 			<gain>30.0</gain>
 			<output>fcs/slat-1L-pos-deg</output>
 			<output>fcs/slat-1R-pos-deg</output>
@@ -1435,7 +1442,7 @@
 		</aerosurface_scale>
 		
 		<pure_gain name="fcs/slat-inner">
-			<input>fcs/slat-a</input>
+			<input>fcs/slat-actuator</input>
 			<gain>17.5</gain>
 			<output>fcs/slat-2L-pos-deg</output>
 			<output>fcs/slat-2R-pos-deg</output>
