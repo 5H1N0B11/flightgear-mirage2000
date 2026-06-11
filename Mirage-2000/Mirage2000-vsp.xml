@@ -602,7 +602,6 @@
 
 <system file="Mirage-2000-hydraulics"/>
 <system file="Mirage-2000-avionics"/>
-<system file="Mirage-2000-fadec"/>
 <system file="Mirage-2000-engines-Snecma-M53"/>
 <system file="Mirage-2000-fcs"/>
 <system file="Mirage-2000-fuel"/>
@@ -3724,9 +3723,8 @@
     <description>SIDE FORCE DUE TO RUDDER DEFLECTION</description>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
-            <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/rudder-pos-deg</independentVar>
-              <tableData breakPoint="0">
+            <independentVar lookup="column">fcs/rudder-pos-deg</independentVar>
+              <tableData>
                               -25	         0	        25
                     -10	  -0.07775	   0.00000	   0.07785
                      -5	  -0.07550	   0.00000	   0.07550

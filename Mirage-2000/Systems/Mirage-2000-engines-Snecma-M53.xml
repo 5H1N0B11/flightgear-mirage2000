@@ -1,4 +1,9 @@
 ﻿<?xml version="1.0"?>
+<!--
+  SPDX-FileCopyrightText: 2017-2026 Richard Harrison <rjh@zaretto.com>
+  SPDX-FileCopyrightText: 2026 Joshua Davidson (Octal450)
+  SPDX-License-Identifier: GPL-2.0-or-later
+-->
 
 <!--
         Description: SNECMA M53 for Mirage 2000. Based on F-15 F-100 engines
@@ -17,6 +22,109 @@
     <property value="0">propulsion/engine[0]/augmentation-alight</property>
     <property value="0.01"> propulsion/engine[0]/c-oil-temperature-lag </property>
     <property value="0"> propulsion/engine[0]/oil-temperature-R </property>
+    <property value="0">/engines/engine[0]/fuel-flow_pph</property> <!-- not initialised by FGFS before this loads -->
+
+    <!-- Seed the EGT-R lead-lag filter's dynamic denominator coefficients so
+         they are non-zero when FGFilter's constructor runs CalculateDynamicFilters().
+         delta and c-egt-lead are fcs_function outputs that have not yet executed at
+         load time, so without a seed denom = 2*delta + dt*c-egt-lead = 0 and the
+         filter computes 0/0 = NaN. FlightGear masks FP exceptions and recomputes the
+         coefficients on the first frame, but the trapping standalone JSBSim.exe aborts.
+         delta = 1.0 is the ISA-SL pressure ratio; c-egt-lead = 18.2 is the N1=0 row. -->
+    <property value="1.0"> propulsion/engine[0]/delta </property>
+    <property value="18.2"> propulsion/engine[0]/c-egt-lead </property>
+
+    <!-- DEC flat-rate corner, expressed as a density-altitude offset (ft).
+         ~1800 ft corresponds to roughly ISA+15 C near sea level (the usual
+         ~120 ft/C density-altitude rule of thumb). Set to 0 to flat-rate
+         exactly at ISA, or raise it to widen the flat-rated temperature band. -->
+    <property value="1800"> propulsion/engine[0]/dec/flat-rate-corner-ft </property>
+
+    <!-- Thrust rating (DEC / FADEC flat-rating)
+         =========================================
+         The SNECMA_M53-P2 thrust tables are indexed on this rating-altitude
+         instead of raw atmosphere/density-altitude. Real FADEC engines hold
+         (flat-rate) their rated thrust on cold days and derate to protect
+         turbine inlet temperature on hot days; a bare density-altitude lookup
+         only does the hot-day half and spuriously over-thrusts when cold.
+
+         rating-altitude = max( pressure-altitude , density-altitude - corner )
+
+           - Cold day:  density-alt < pressure-alt  -> max picks pressure-alt
+                        => flat-rated, no spurious cold-day thrust boost.
+           - ISA day:   density-alt = pressure-alt, (density-alt - corner)
+                        < pressure-alt -> max picks pressure-alt = density-alt
+                        => identical to the old lookup (calibration preserved).
+           - Hot day:   once density-alt exceeds pressure-alt by more than the
+                        corner, max picks (density-alt - corner)
+                        => hot-day derate retained, offset by the flat-rate band.
+
+         max / difference are registered JSBSim FGFunction operators; both
+         atmosphere/pressure-altitude and atmosphere/density-altitude are tied
+         by FGStandardAtmosphere and computed from the live (FlightGear-
+         overridden) pressure and temperature. -->
+    <channel name="Thrust rating (DEC) SNECMA M53">
+        <fcs_function name="propulsion/engine[0]/dec/rating-altitude-ft">
+            <description>FADEC flat-rating reference altitude for the thrust tables</description>
+            <function>
+                <max>
+                    <property>atmosphere/pressure-altitude</property>
+                    <difference>
+                        <property>atmosphere/density-altitude</property>
+                        <property>propulsion/engine[0]/dec/flat-rate-corner-ft</property>
+                    </difference>
+                </max>
+            </function>
+        </fcs_function>
+    </channel>
+
+    <!-- FADEC: throttle conditioning, 5-stage AB schedule, RPM smoothing, fuel-flow
+         units. Original work by Joshua Davidson (Octal450), merged here from the
+         former Systems/Mirage-2000-fadec.xml. MUST run before "Engines SNECMA M53"
+         below, which reads fcs/throttle-pos-norm[0]. -->
+    <channel name="FADEC SNECMA M53">
+
+        <lag_filter name="fcs/throttle1"> <!-- Make a nice smooth throttle input -->
+            <input>/controls/engines/engine[0]/throttle</input>
+            <c1>0.95</c1>
+        </lag_filter>
+
+        <scheduled_gain name="fcs/throttle-pos1"> <!-- 5 stage non linear augmentation -->
+            <input>fcs/throttle1</input>
+            <table>
+                <independentVar>fcs/throttle1</independentVar>
+                <tableData>
+                    0.00    0.0
+                    0.8999  0.999
+                    0.91    1.0
+                    0.93    1.25
+                    0.95    1.50
+                    0.97    1.75
+                    1.00    2.0
+                </tableData>
+            </table>
+            <output>fcs/throttle-pos-norm[0]</output>
+        </scheduled_gain>
+
+        <lag_filter name="fcs/n1-actual"> <!-- Smooth the RPM value nicely (cockpit gauges) -->
+            <input>/engines/engine[0]/n1</input>
+            <c1>2.25</c1>
+            <output>/engines/engine[0]/n1-actual</output>
+        </lag_filter>
+
+        <lag_filter name="fcs/n2-actual">
+            <input>/engines/engine[0]/n2</input>
+            <c1>2.25</c1>
+            <output>/engines/engine[0]/n2-actual</output>
+        </lag_filter>
+
+        <pure_gain name="fcs/ff-kg-min">
+            <input>/engines/engine[0]/fuel-flow_pph</input>
+            <gain>0.007559873</gain>
+            <output>/engines/engine[0]/fuel-flow-kg-min</output>
+        </pure_gain>
+
+    </channel>
 
     <channel name="Engines SNECMA M53">
         <fcs_function name="propulsion/engine[0]/c-egt-lead">
