@@ -553,6 +553,10 @@
 
 
 <flight_control name="Mirage2000-FCS">
+ <!-- Tuning factor scaling all three rudder aero coefficients (roll/side-force/yaw) together,
+      preserving their geometric coupling. 1.0 = as-computed by VSPAERO. Set >1 to trial a
+      stronger rudder without pushing deflection past the +/-25 deg aero table limit. -->
+ <property value="1.0">aero/rudder-effectivity-factor</property>
  <channel name="extra-aero">
         <fcs_function name="pb">
             <description>PB Denormalization</description>
@@ -2965,6 +2969,8 @@
     </function>
     <function name="aero/c/CMLDRD">
     <description>ROLLING MOMENT DUE TO RUDDER DEFLECTION</description>
+    <product>
+          <property>aero/rudder-effectivity-factor</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
@@ -3042,6 +3048,7 @@
                      60	   0.00010	   0.00030	   0.00011	   0.00049	   0.00012	   0.00009	   0.00027	
               </tableData>
           </table>
+    </product>
     </function>
     <function name="aero/c/CMLGEAR">
     <description>ROLLING MOMENT INCREMENT DUE TO GEAR</description>
@@ -3612,12 +3619,15 @@
     </function>
     <function name="aero/c/CFYDRD">
     <description>SIDE FORCE DUE TO RUDDER DEFLECTION</description>
+    <!-- Generated beta-independent (Miarge2000_VSPAero.cs restricts this coefficient
+         to beta==0 cases); table is 2D (alpha x rudder-pos-deg), not 3D. -->
+    <product>
+          <property>aero/rudder-effectivity-factor</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
-            <independentVar lookup="column">aero/beta-deg</independentVar>
-            <independentVar lookup="table">fcs/rudder-pos-deg</independentVar>
-              <tableData breakPoint="0">
-                              -25	         0	        25	
+            <independentVar lookup="column">fcs/rudder-pos-deg</independentVar>
+              <tableData>
+                              -25	         0	        25
                     -10	  -0.06629	   0.00000	   0.06625	
                      -5	  -0.06385	   0.00000	   0.06387	
                      -2	  -0.06233	   0.00000	   0.06225	
@@ -3641,6 +3651,7 @@
                      60	  -0.00862	   0.00000	   0.01061	
               </tableData>
           </table>
+    </product>
     </function>
     <function name="aero/c/CFYGEAR">
     <description>SIDE FORCE INCREMENT DUE TO GEAR</description>
@@ -4189,6 +4200,8 @@
     </function>
     <function name="aero/c/CMNDRDr">
     <description>YAWING MOMENT DUE TO RUDDER DEFLECTION</description>
+    <product>
+          <property>aero/rudder-effectivity-factor</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">aero/beta-deg</independentVar>
@@ -4266,6 +4279,7 @@
                      60	   0.00140	   0.00103	   0.00043	   0.00365	   0.00068	   0.00024	   0.00073	
               </tableData>
           </table>
+    </product>
     </function>
     <function name="aero/c/CMNGEAR">
     <description>YAWING MOMENT INCREMENT DUE TO GEAR</description>
