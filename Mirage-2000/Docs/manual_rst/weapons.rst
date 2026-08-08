@@ -211,7 +211,8 @@ On the PPA the following settings can be done:
 * The distance in metres between rippled bombs (min = 5, 10, 20, 30, ..., max = 200).
 * The fuze selector can be set to either ``RET.`` (retardé/delayed fuze), or ``INST.`` (instantaneous fuze) or ``INERT.`` (inertial fuze). However, this is not implemented and will always result in an instantaneous fuze.
 
-NB: you cannot choose to release 2 bombs at once (dual mode).
+NB: You cannot choose to release 2 bombs at once (dual mode).
+NB: The performance of your computer influences what the minimal distance between rippled bombs can be. If you have 60 fps and fly 600 kt then 5 metres is possible, but if you have 30 fps then 10 metres is the minimum distance, etc. If you fly 300 kt and 30 fps then 5 metres are possible, etc.
 
 For the GBUs a laser target has to be designated (see :ref:`link_subsection_designation`), the weapons guidance mode must be ``LDP`` and airspeed at least 350 kt.
 
@@ -308,7 +309,7 @@ The missile needs to be fired:
 * below mach 0.9
 * below 45 degs of roll
 * within 38 nm of the target
-* flying level and not below 250 ft (the missile motor starts frist after a drop time of 2 seconds and needs some time to accelerate the missile to stable flight)
+* flying level and not below 250 ft (the missile motor starts frist after a drop time of 2 seconds and needs some time to accelerate the missile to stable flight). Flying level is really important, because if the nose points downwards, then in addition to the drop time the missile will accelerate towards the water without the pitch correction having a chance to react in due time.
 * with a target selected in SEA radar mode
 
 

@@ -250,6 +250,7 @@ fcs = fc.FireControl.new(pylons, pylon_order, wp_order);
 # sensible defaults
 fcs.setRippleMode(1);
 fcs.setRippleDist(10);
+fcs.setRippleIntervalType(fc.RIPPLE_INTERVAL_METERS); # is already default - just to make sure
 
 var aimListener = func (obj) {
 	# If auto focus on missile is activated, then we call the function

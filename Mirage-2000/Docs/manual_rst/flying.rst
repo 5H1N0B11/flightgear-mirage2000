@@ -21,6 +21,8 @@ The front gear can turn 90° to the left and to the right, so a turn radius of 3
 
 The taxi lights have an angle of about 30 degrees in front of the aircraft and are not attached to the moving part of the front gear, so they will always light in front.
 
+NB: The nose wheel steering gets automatically disabled above 40 kt and cannot be enabled as long as ground speed is faster than 40 kt. The nose wheel steering can be toggled/re-enabled with ``Key: S``.
+
 Take-off
 --------
 
