@@ -778,6 +778,7 @@ var DisplaySystem = {
 			me.mode = 0; # VOR = 0 (NAV1 or NAV2), DATA = 1, TACAN = 2, FMS = 3
 			me.nav_number = 1; # Either NAV1 or NAV2 toggled with OSB5
 			me.fp = flightplan();
+			me.flightplan_enabled = FALSE;
 			me.current_wp_geo = geo.Coord.new();
 
 			me.osb13 = "TH";
@@ -1038,7 +1039,7 @@ var DisplaySystem = {
 					me.destination_needle.setRotation(me._correctTrueHeading(me.input.tacan_bearing.getValue())*D2R);
 				}
 			} elsif (me.mode == 3) {
-				if (me.dest_ok == TRUE) {
+				if (me.flightplan_enabled == TRUE) {
 					visible = TRUE;
 					me.destination_needle.setRotation(me._correctTrueHeading(me.aircraft_position.course_to(me.current_wp_geo))*D2R);
 				}
@@ -1109,7 +1110,7 @@ var DisplaySystem = {
 				tacan_text_color = consts.COLOR_CYAN;
 			} else { # mode == 3 -> FMS
 				mode_display = "...";
-				if (me.dest_ok == TRUE) {
+				if (me.flightplan_enabled == TRUE) {
 					time_display = me._calcTimeToDestinationString(me.aircraft_position.direct_distance_to(me.current_wp_geo));
 				}
 			}
@@ -1126,7 +1127,7 @@ var DisplaySystem = {
 			var distdest_display = "...N";
 			var destination_display = "...";
 
-			if (me.dest_ok == TRUE) {
+			if (me.flightplan_enabled == TRUE) {
 				destination_display = sprintf("DEST %02d", me.fp.current);
 				distdest_display = sprintf("%.1fN", me.aircraft_position.direct_distance_to(me.current_wp_geo)*M2NM);
 			}
@@ -1200,11 +1201,11 @@ var DisplaySystem = {
 			me.device.controls[OSB26].setControlText(me.osb26);
 
 			if (me.fp != nil and me.fp.currentWP() != nil) {
-				me.dest_ok = TRUE;
+				me.flightplan_enabled = TRUE;
 				me.aircraft_position = geo.aircraft_position();
 				me.current_wp_geo.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon);
 			} else {
-				me.dest_ok = FALSE;
+				me.flightplan_enabled = FALSE;
 			}
 
 			# drawing stuff
@@ -1275,6 +1276,7 @@ var DisplaySystem = {
 			# content stuff
 			me.mode = 0; # VOR = 0 (NAV1 or NAV2), DATA = 1, TACAN = 2, FMS = 3
 			me.fp = flightplan();
+			me.flightplan_enabled = FALSE;
 			me.current_wp_geo = geo.Coord.new();
 		},
 
@@ -1671,7 +1673,7 @@ var DisplaySystem = {
 			var desttime_display = ".../";
 			var destdist_display = "...N";
 
-			if (me.dest_ok == TRUE) {
+			if (me.flightplan_enabled == TRUE) {
 				destnumber_display = sprintf("%02d", me.fp.current);
 				desttime_display = me._calcTimeToDestinationString(me.aircraft_position.direct_distance_to(me.current_wp_geo));
 				destdist_display = sprintf("%.0fN", me.aircraft_position.direct_distance_to(me.current_wp_geo)*M2NM);
@@ -1715,12 +1717,13 @@ var DisplaySystem = {
 			me.device.controls[OSB5].setControlText(me.osb5);
 
 			if (me.fp != nil and me.fp.currentWP() != nil) {
-				me.dest_ok = TRUE;
+				me.flightplan_enabled = TRUE;
 				me.aircraft_position = geo.aircraft_position();
 				me.current_wp_geo.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon);
 			} else {
-				me.dest_ok = FALSE;
+				me.flightplan_enabled = FALSE;
 			}
+
 
 			# allways update on notification - not based on frame count
 			me._updateSphere();
@@ -3343,7 +3346,7 @@ var main = func (module) {
 	leftMFDDisplayDevice.addControlFeedback();
 
 	leftMFDDisplaySystem.initPages();
-	leftMFDDisplaySystem.selectPage(PAGE_EHSI);
+	leftMFDDisplaySystem.selectPage(PAGE_HUB); # may not be a page with a flightplan or anything else that needs to be initialized (e.g. EHSI)
 
 
 	var rightMFDDisplaySystem = DisplaySystem.new();
@@ -3355,7 +3358,7 @@ var main = func (module) {
 	rightMFDDisplayDevice.addControlFeedback();
 
 	rightMFDDisplaySystem.initPages();
-	rightMFDDisplaySystem.selectPage(PAGE_HUB);
+	rightMFDDisplaySystem.selectPage(PAGE_HUB); # see comment for left MFD
 
 	m2000_mfd = M2000MFDRecipient.new("M2000");
 	emesary.GlobalTransmitter.Register(m2000_mfd);
