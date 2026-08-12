@@ -115,7 +115,7 @@ var font = {
 	page_ppa: {
 		wpn_text: 32,
 		ammo_text: 32,
-		damage_text: 20,
+		status_text: 20,
 	},
 	page_rwr: {
 		threat_text: 36,
@@ -218,6 +218,7 @@ var OSB_MINUS = " - ";
 var WPN_KIND_CANNON = "cannon";
 var WPN_KIND_FALL = "fall"; # free fall bombs (guided or unguided)
 var WPN_KIND_ARMAT = "armat";
+var WPN_KIND_LASER = "laser";
 
 
 #  ██████  ██ ███████ ██████  ██       █████  ██    ██     ██████  ███████ ██    ██ ██  ██████ ███████
@@ -2115,6 +2116,7 @@ var DisplaySystem = {
 			me.input = {
 				cannon_rate_0              : "/ai/submodels/submodel/delay",
 				damage                     : "payload/armament/msg",
+				master_arm                 : "controls/armament/master-arm",
 				antiradar_target_type      : "controls/armament/antiradar-target-type",
 				cannon_air_ground          : "controls/armament/cannon-air-ground",
 				cannon_air_air_incitation  : "controls/armament/cannon-air-air-incitation",
@@ -2166,17 +2168,53 @@ var DisplaySystem = {
 				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_4);
 			me.row_4_right_text.enableUpdate();
 			me.damage_label = me.group.createChild("text", "damage_label")
-				.setFontSize(font.page_ppa.damage_text)
+				.setFontSize(font.page_ppa.status_text)
 				.setColor(consts.COLOR_WHITE)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2, 100)
 				.setText("Damage:");
 			me.damage_text = me.group.createChild("text", "damage_text")
-				.setFontSize(font.page_ppa.damage_text)
-				.setColor(consts.COLOR_CYAN)
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 + 10, 100);
 			me.damage_text.enableUpdate();
+			me.masterarm_label = me.group.createChild("text", "masterarm_label")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2, 130)
+				.setText("Master-arm:");
+			me.masterarm_text = me.group.createChild("text", "masterarm_text")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 130);
+			me.masterarm_text.enableUpdate();
+			me.spotted_label = me.group.createChild("text", "spotted_label")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2, 160)
+				.setText("Tgt spotted:");
+			me.spotted_text = me.group.createChild("text", "spotted_text")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 160);
+			me.spotted_text.enableUpdate();
+			me.designated_label = me.group.createChild("text", "designated_label")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2, 190)
+				.setText("Tgt design.:");
+			me.designated_text = me.group.createChild("text", "designated_text")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 190);
+			me.designated_text.enableUpdate();
 		},
 
 		_changeWingspan: func(increase) {
@@ -2315,7 +2353,37 @@ var DisplaySystem = {
 			if (me.wpn == nil) {
 				me.wpn_text.updateText("No weapon selected");
 				me.ammo_text.updateText("");
+				me.spotted_label.hide();
+				me.spotted_text.hide();
+				me.designated_label.hide();
+				me.designated_text.hide();
 			} else {
+				if (me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24" or me.wpn.type == "AS30L") {
+					if (groundTargeting.theSpottedTarget != nil) {
+						me.spotted_text.updateText("Yes");
+						me.spotted_text.setColor(consts.COLOR_GREEN);
+					} else {
+						me.spotted_text.updateText("No");
+						me.spotted_text.setColor(consts.COLOR_RED);
+					}
+					if (armament.contactPoint != nil) {
+						me.designated_text.updateText("Yes");
+						me.designated_text.setColor(consts.COLOR_GREEN);
+					} else {
+						me.designated_text.updateText("No");
+						me.designated_text.setColor(consts.COLOR_RED);
+					}
+					me.spotted_label.show();
+					me.spotted_text.show();
+					me.designated_label.show();
+					me.designated_text.show();
+				} else {
+					me.spotted_label.hide();
+					me.spotted_text.hide();
+					me.designated_label.hide();
+					me.designated_text.hide();
+				}
+
 				me.wpn_text.updateText(me.wpn.type);
 				me.ammo_text.updateText("Ammo: "~pylons.fcs.getAmmo());
 
@@ -2412,7 +2480,14 @@ var DisplaySystem = {
 				me.damage_text.setColor(consts.COLOR_GREEN);
 			} else {
 				me.damage_text.updateText("Off");
-				me.damage_text.setColor(consts.COLOR_CYAN);
+				me.damage_text.setColor(consts.COLOR_RED);
+			}
+			if (me.input.master_arm.getValue()) {
+				me.masterarm_text.updateText("On");
+				me.masterarm_text.setColor(consts.COLOR_GREEN);
+			} else {
+				me.masterarm_text.updateText("Off");
+				me.masterarm_text.setColor(consts.COLOR_RED);
 			}
 
 			me.device.controls[OSB6].setControlText(me.osb6, TRUE, me.osb6_selected);

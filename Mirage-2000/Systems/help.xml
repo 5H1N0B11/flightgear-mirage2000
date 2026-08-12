@@ -101,7 +101,7 @@
 
 	<key>
 		<name>W</name>
-		<desc>Designate sniped target as target</desc>
+		<desc>Designate spotted target as target</desc>
 	</key>
 
 	<key>
@@ -151,7 +151,7 @@
 
 	<key>
 		<name>Ctrl-L</name>
-		<desc>Fast snipe and designate clicked target for laser</desc>
+		<desc>Fast spot and designate clicked target for laser</desc>
 	</key>
 
 	<key>

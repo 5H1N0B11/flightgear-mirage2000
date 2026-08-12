@@ -202,19 +202,21 @@ In the ``Mirage 2000`` menu there is a menu point ``Ground Targeting``, which wi
 .. image:: images/ground_attack_targeting_dialogue.png
    :scale: 50%
 
-It is important to do all steps sequentially!
+It is important to do all steps sequentially: (a) acquire a targets coordinates, (b) make it a spotted target, (c) designate the target for engagement.
 
-You can acquire coordinates in two ways: either write the lon and lat directly into the fields - or click on the ground where you want to pick the coordinate and then press the top button (it will be disabled if no laser designation pod has been added to the airplane).
+You can acquire coordinates in two ways: either write the lon and lat directly into the fields - or look outside of the cockpit and click on the ground where you want to pick the coordinate from. Then press the top button (it will be disabled if no laser designation pod has been added to the airplane).
 
 Always the primary coordinates will be used to create/update targets, but a secondary pair can be input as well. A button can swap the primary and secondary coordinates.
 
-A sniped target (simulating what would be done with a laser) can be created with a button based on the primary coordinates. NB: the view can temporarily be changed automatically, such that the coordinate including its elevation above sea level can be fetched behind the scenes.
+A spotted target (simulating what would be done with a laser) can be created with a button based on the primary coordinates. NB: the view can briefly changed automatically, such that the coordinate including its elevation above sea level can be fetched by FlightGear behind the scenes.
 
-The target can then be designated using another button.
+The spotted target can then become a designated target using another button.
 
-Alternatively, using ``Key: ctrl-l`` you can fast snipe and designate the clicked target for laser.
+Alternatively, using ``Key: ctrl-l`` you can fast spot and designate the clicked target for laser.
 
 A FLIR view (``Key: F6``) can be activated and the button ``Focus FLIR on Sniped Target`` will then point the laser to the sniped coordinates. Thereby the coordinate can be improved by clicking exactly on the target through the FLIR and then updating the target.
+
+NB: The laser-guided bombs and the AS-30L have a relatively narrow seeker field of view of ca. 30 degrees. Therfore, the aircraft nose must point to the designated target at launch time, such that the seeker can pick it up.
 
 
 MK-82 / MK-82SE and GBU-12/GBU-24

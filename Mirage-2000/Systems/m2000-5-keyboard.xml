@@ -217,11 +217,11 @@
 
 		<key n="87">
 			<name>W</name>
-			<desc>Designate sniped target as target</desc>
+			<desc>Designate spotted target as target</desc>
 			<binding>
 				<command>nasal</command>
 				<script>
-					groundTargeting.designateSnipedTarget();
+					groundTargeting.designateSpottedTarget();
 				</script>
 			</binding>
 		</key>
@@ -578,10 +578,10 @@
 
 		<key n="12">
 			<name>Ctrl-L</name>
-			<desc>Fast snipe and designate clicked target for laser</desc>
+			<desc>Fast spot and designate clicked target for laser</desc>
 			<binding>
 				<command>nasal</command>
-				<script>groundTargeting.fastSnipeAndDesignateLaserTarget();</script>
+				<script>groundTargeting.fastSpotAndDesignateLaserTarget();</script>
 			</binding>
 		</key>
 
