@@ -4,8 +4,8 @@ Weapons and Armament
 
 .. _link_section_overview_weapons:
 
-Overview of Available Weapons
-=============================
+Overview of Available Weapons in the FlighGear version
+======================================================
 
 The abbreviation column refers to the abbreviations used in the SMS page (see :ref:`link_subsection_sms`).
 
@@ -21,7 +21,7 @@ MAG    `Matra R550 Magic 2⇗ <https://en.wikipedia.org/wiki/R.550_Magic>`_
 SUP    `Matra Super 530D⇗ <https://en.wikipedia.org/wiki/Super_530>`_
 IR     `MICA⇗ <https://en.wikipedia.org/wiki/MICA_(missile)>`_ IR
 EM     MICA EM
-AM39   `AM.39 Exocet⇗ <https://en.wikipedia.org/wiki/Exocet>`_
+AM39   `AM39 Exocet⇗ <https://en.wikipedia.org/wiki/Exocet>`_
 AS37A  AS-37 Armat (`Martel⇗ <https://en.wikipedia.org/wiki/Martel_(missile)>`_)
 AS30L  `AS-30L⇗ <https://en.wikipedia.org/wiki/AS-30>`_
 APACH  `APACHE⇗ <https://en.wikipedia.org/wiki/Apache_(missile)>`_
@@ -38,6 +38,21 @@ RP500  1700 l drop tank
 PDLCT  `PDLCT⇗ <https://en.wikipedia.org/wiki/PDLCT>`_ targeting pod (TGP)
 SMOKE  Smoke Pod
 ====== =========================================================================================================================
+
+The main source of information about available weapons as well as which variant can carry which weapons is ref[B10]:
+
+* ``C`` variant plus general descriptions: pages 45-56
+* ``N`` variant: pages 132-134
+* ``D`` variant: pages 164-166 for pods, pages 174-175 for APACHE/SCALP, page 163 & 177 for weapons on stations
+* ``-5`` variant: page 207.
+
+Just because a variant has the capability to use a weapon does not mean, that a given air force (incl. the French) has used them. E.g.:
+
+* the `Hellenic Air Force (HAF) <https://www.haf.gr/en/>`_ uses only the SCALP and the AM39 Exocet for ground attack (ref[A08, A09])
+* France does not seem to use the AM39 on Mirage 2000x - it uses other fighter jets
+* Egypt was probably the only air force to use the ARMAT (ref[A10])
+* Some weapons like the `BLG 66 Belouga <https://fr.wikipedia.org/wiki/BLG_66_Belouga>`_ have been withdrawn from service by e.g. France due to political concerns regarding the use of cluster ammunition.
+
 
 MP Damage
 =========
@@ -97,12 +112,12 @@ SAMP Mk-82SE                            5BD 5BD     5BD 5BD
 2x SAMP Mk-82                       5BD         5BD         5BD
 2x SAMP Mk-82SE                     5BD         5BD         5BD
 PDLCT (targeting pod)                               5BD
-CC422 (gun pod)                              D
+CC422 (gun pod)                             D*
 Smoke pod (white)               5BD                             5BD
 ASMP-A                                          N
 =============================== === === === === === === === === ===
 
-*Key: 5 refers to the 2000-5, B to the 2000-5B, D to the 2000D/N and N to only the 2000N.*
+*Key: 5 refers to the 2000-5, B to the 2000-5B, D to the 2000D/N, D* to only the 2000D and N to only the 2000N.*
 
 Apart from the available weapons per station, the simulation does currently not impose additional restrictions w.r.t. the combination of weapons. Pictures of real aircraft show that quite some variance is in action. However, it of course makes sense to e.g. have a pod installed if you need laser guidance - or that the weights on both sides of the fuselage are in balance. And the real Mirage can only carry one type of graound attack weapon at a time (e.g. not SAMP Mk-82 and SAMP MK-82SE at the same time).
 

@@ -64,33 +64,33 @@ var smokepod = stations.Dummy.new("smoke-pod", "smoke-pod");
 
 var pylonSets = {
 	empty: {name: "none", content: [], fireOrder: [], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1},
-	e: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	gun_internal: {name: "30mm Cannon", content: [cannon], fireOrder: [0], launcherDragArea: 0.0, launcherMass: 0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 	t: {name: "1300 l Droptank", content: [RP522], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 	t2: {name: "2000 l Droptank", content: [RP542], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 	tb2: {name: "1700 l Droptank", content: [RP502], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 	t4: {name: "2000 l Droptank", content: [RP541], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 	tb4: {name: "1700 l Droptank", content: [RP501], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 392, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
 
-	smo: {name: "Smoke Pod", content: [smokepod], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	pod_smo: {name: "Smoke Pod", content: [smokepod], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 
-	g: {name: "Matra R550 Magic 2", content: ["Magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
-	g2: {name: "MICA IR", content: ["MICA-IR"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	magic_2: {name: "Matra R550 Magic 2", content: ["Magic-2"], fireOrder: [0], launcherDragArea: -0.0785, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	mica_ir: {name: "MICA IR", content: ["MICA-IR"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 
-	h: {name: "Matra Super 530D", content: ["S530D"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
+	super_530: {name: "Matra Super 530D", content: ["S530D"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},#non wingtip
 
-	i: {name: "MICA EM", content: ["MICA-EM"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
+	mica_em: {name: "MICA EM", content: ["MICA-EM"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 
-	s: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
-	c: {name: "CC422", content: [cc422], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 480, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1}, # launcher mass is pure guess
-	b2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	pod_pdlct: {name: "PDLCT", content: [dummy1], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 410, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1, category: 1},
+	gun_cc422: {name: "CC422", content: [cc422], fireOrder: [0], launcherDragArea: 0.18, launcherMass: 480, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 1}, # launcher mass is pure guess
+	gbu12_x2: {name: "2 x GBU-12", content: ["GBU-12", "GBU-12"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	gbu12: {name: "GBU-12", content: ["GBU-12"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	gbu24: {name: "GBU-24", content: ["GBU-24"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-	b3: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-	b4: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-	b5: {name: "AS-37-Armat", content: ["AS-37-Armat"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-	b6: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-	b7: {name: "APACHE", content: ["APACHE"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
-	b10: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
+	scalp: {name: "SCALP", content: ["SCALP"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	am39: {name: "AM39-Exocet", content: ["AM39-Exocet"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	as37: {name: "AS-37-Armat", content: ["AS-37-Armat"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	as30: {name: "AS30L", content: ["AS30L"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	apache: {name: "APACHE", content: ["APACHE"], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
+	asmp: {name: "ASMP", content: [dummy2], fireOrder: [0], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 0, category: 2},
 	mk82: {name: "SAMP Mk-82", content: ["Mk-82"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
 	dmk82: {name: "2 x SAMP Mk-82", content: ["Mk-82", "Mk-82"], fireOrder: [0,1], launcherDragArea: 0.005, launcherMass: 10, launcherJettisonable: 1, showLongTypeInsteadOfCount: 0, category: 2},
 	mk82se: {name: "SAMP Mk-82 Snake-eye", content: ["Mk-82SE"], fireOrder: [0], launcherDragArea: -0.025, launcherMass: 10, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1, category: 1},
@@ -129,29 +129,29 @@ var pylonSetsSMSHelper = {
 };
 
 if (variantID == consts.VARIANT_N) {
-	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
-	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.b10, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se,pylonSets.b7];
-	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
-	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.c, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.am39, pylonSets.as30, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.am39, pylonSets.as30, pylonSets.dmk82, pylonSets.dmk82se];
+	var ExteriorWingSet  = [pylonSets.empty,pylonSets.magic_2, pylonSets.pod_smo];
+	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.gbu12_x2, pylonSets.scalp, pylonSets.asmp, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.apache];
+	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.pod_pdlct, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
 	var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
 } else if (variantID == consts.VARIANT_D) {
-	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.b4, pylonSets.b6, pylonSets.dmk82, pylonSets.dmk82se];
-	var ExteriorWingSet  = [pylonSets.empty,pylonSets.g, pylonSets.smo];
-	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.b3, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se,pylonSets.b7];
-	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.s, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
-	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.c, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.am39, pylonSets.as30, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.am39, pylonSets.as30, pylonSets.dmk82, pylonSets.dmk82se];
+	var ExteriorWingSet  = [pylonSets.empty,pylonSets.magic_2, pylonSets.pod_smo];
+	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.gbu12_x2, pylonSets.scalp, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.apache];
+	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.pod_pdlct, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
+	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.gun_cc422, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
 	var Rearfuselagepylons = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
 } else { # -5 / -5B
-	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.h, pylonSets.b4, pylonSets.b5, pylonSets.dmk82, pylonSets.dmk82se];
-	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.h, pylonSets.b4, pylonSets.b5, pylonSets.dmk82, pylonSets.dmk82se];
-	var ExteriorWingSet = [pylonSets.empty, pylonSets.g, pylonSets.g2, pylonSets.smo];
-	var CenterSet = [pylonSets.empty, pylonSets.t, pylonSets.b2, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.b3,pylonSets.b7];
-	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.s, pylonSets.mk82, pylonSets.mk82se];
-	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
-	var Rearfuselagepylons = [pylonSets.empty, pylonSets.i, pylonSets.g2, pylonSets.mk82, pylonSets.mk82se];
+	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.super_530, pylonSets.am39, pylonSets.as37, pylonSets.dmk82, pylonSets.dmk82se];
+	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.super_530, pylonSets.am39, pylonSets.as37, pylonSets.dmk82, pylonSets.dmk82se];
+	var ExteriorWingSet = [pylonSets.empty, pylonSets.magic_2, pylonSets.mica_ir, pylonSets.pod_smo];
+	var CenterSet = [pylonSets.empty, pylonSets.t, pylonSets.gbu12_x2, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.scalp, pylonSets.apache];
+	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.mica_em, pylonSets.mica_ir, pylonSets.pod_pdlct, pylonSets.mk82, pylonSets.mk82se];
+	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.mica_em, pylonSets.mica_ir, pylonSets.mk82, pylonSets.mk82se];
+	var Rearfuselagepylons = [pylonSets.empty, pylonSets.mica_em, pylonSets.mica_ir, pylonSets.mk82, pylonSets.mk82se];
 }
 #### note :
 # pylon options
@@ -223,7 +223,7 @@ pylon8 = stations.Pylon.new("pylonB.L", 7, [3.360,-0.920,-1.380], Rearfuselagepy
 pylon9 = stations.Pylon.new("pylonB.R", 8, [3.360,0.920,-1.380], Rearfuselagepylons, 8, props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[8]",1),props.globals.getNode("fdm/jsbsim/inertia/pointmass-dragarea-sqft[8]",1),func{return getprop("payload/armament/fire-control/serviceable")});
 
 # Internal
-pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.e], props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[9]",1));
+pylonI = stations.InternalStation.new("Internal gun mount", 9, [pylonSets.gun_internal], props.globals.getNode("fdm/jsbsim/inertia/pointmass-weight-lbs[9]",1));
 
 var pylons = [pylon1, pylon2, pylon3, pylon4, pylon5, pylon6, pylon7, pylon8, pylon9];
 var pylon_order =[];
@@ -332,8 +332,8 @@ var lisse = func {
 var a2a_po_old = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.empty);
@@ -359,12 +359,12 @@ var a2a_po_old = func {
 var a2a_fox_old = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
-		pylon3.loadSet(pylonSets.h);
-		pylon5.loadSet(pylonSets.h);
+		pylon3.loadSet(pylonSets.super_530);
+		pylon5.loadSet(pylonSets.super_530);
 
 		#Center Fuselage
 		pylon4.loadSet(pylonSets.t);
@@ -385,8 +385,8 @@ var a2a_fox_old = func {
 var a2a_fox_mix = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.empty);
@@ -396,12 +396,12 @@ var a2a_fox_mix = func {
 		pylon4.loadSet(pylonSets.t);
 
 		#Side fuselage forward
-		pylon1.loadSet(pylonSets.i);
-		pylon7.loadSet(pylonSets.i);
+		pylon1.loadSet(pylonSets.mica_em);
+		pylon7.loadSet(pylonSets.mica_em);
 
 		#Side fuselage backward
-		pylon8.loadSet(pylonSets.i);
-		pylon9.loadSet(pylonSets.i);
+		pylon8.loadSet(pylonSets.mica_em);
+		pylon9.loadSet(pylonSets.mica_em);
 	} else {
 		screen.log.write(mirage2000.msgB);
 	}
@@ -411,8 +411,8 @@ var a2a_fox_mix = func {
 var a2a_fox_mica = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g2);
-		pylon6.loadSet(pylonSets.g2);
+		pylon2.loadSet(pylonSets.mica_ir);
+		pylon6.loadSet(pylonSets.mica_ir);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.empty);
@@ -422,12 +422,12 @@ var a2a_fox_mica = func {
 		pylon4.loadSet(pylonSets.t);
 
 		#Side fuselage forward
-		pylon1.loadSet(pylonSets.i);
-		pylon7.loadSet(pylonSets.i);
+		pylon1.loadSet(pylonSets.mica_em);
+		pylon7.loadSet(pylonSets.mica_em);
 
 		#Side fuselage backward
-		pylon8.loadSet(pylonSets.i);
-		pylon9.loadSet(pylonSets.i);
+		pylon8.loadSet(pylonSets.mica_em);
+		pylon9.loadSet(pylonSets.mica_em);
 	} else {
 		screen.log.write(mirage2000.msgB);
 	}
@@ -437,8 +437,8 @@ var a2a_fox_mica = func {
 var a2a_bravo_mix = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.t2);
@@ -448,12 +448,12 @@ var a2a_bravo_mix = func {
 		pylon4.loadSet(pylonSets.empty);
 
 		#Side fuselage forward
-		pylon1.loadSet(pylonSets.i);
-		pylon7.loadSet(pylonSets.i);
+		pylon1.loadSet(pylonSets.mica_em);
+		pylon7.loadSet(pylonSets.mica_em);
 
 		#Side fuselage backward
-		pylon8.loadSet(pylonSets.i);
-		pylon9.loadSet(pylonSets.i);
+		pylon8.loadSet(pylonSets.mica_em);
+		pylon9.loadSet(pylonSets.mica_em);
 	} else {
 	screen.log.write(mirage2000.msgB);
 	}
@@ -463,8 +463,8 @@ var a2a_bravo_mix = func {
 var a2a_kilo_mica = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g2);
-		pylon6.loadSet(pylonSets.g2);
+		pylon2.loadSet(pylonSets.mica_ir);
+		pylon6.loadSet(pylonSets.mica_ir);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.t2);
@@ -474,12 +474,12 @@ var a2a_kilo_mica = func {
 		pylon4.loadSet(pylonSets.t);
 
 		#Side fuselage forward
-		pylon1.loadSet(pylonSets.i);
-		pylon7.loadSet(pylonSets.i);
+		pylon1.loadSet(pylonSets.mica_em);
+		pylon7.loadSet(pylonSets.mica_em);
 
 		#Side fuselage backward
-		pylon8.loadSet(pylonSets.i);
-		pylon9.loadSet(pylonSets.i);
+		pylon8.loadSet(pylonSets.mica_em);
+		pylon9.loadSet(pylonSets.mica_em);
 	} else {
 		screen.log.write(mirage2000.msgB);
 	}
@@ -489,19 +489,19 @@ var a2a_kilo_mica = func {
 var a2g_bravo_mix = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.t2);
 		pylon5.loadSet(pylonSets.t4);
 
 		#Center Fuselage
-		pylon4.loadSet(pylonSets.b2);
+		pylon4.loadSet(pylonSets.gbu12_x2);
 
 		#Side fuselage forward
 		pylon1.loadSet(pylonSets.empty);
-		pylon7.loadSet(pylonSets.s);
+		pylon7.loadSet(pylonSets.pod_pdlct);
 
 		#Side fuselage backward
 		pylon8.loadSet(pylonSets.empty);
@@ -515,12 +515,12 @@ var a2g_bravo_mix = func {
 var a2ouadi_fox = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
-		pylon3.loadSet(pylonSets.b5);
-		pylon5.loadSet(pylonSets.b5);
+		pylon3.loadSet(pylonSets.as37);
+		pylon5.loadSet(pylonSets.as37);
 
 		#Center Fuselage
 		pylon4.loadSet(pylonSets.t);
@@ -541,12 +541,12 @@ var a2ouadi_fox = func {
 var a2s_fox = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wingAllPossible
-		pylon3.loadSet(pylonSets.b4);
-		pylon5.loadSet(pylonSets.b4);
+		pylon3.loadSet(pylonSets.am39);
+		pylon5.loadSet(pylonSets.am39);
 
 		#Center Fuselage
 		pylon4.loadSet(pylonSets.t);
@@ -566,15 +566,15 @@ var a2s_fox = func {
 # ASMP Air-Sol Moyenne Portée nuclear cruise missile
 var nuke = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.t2);
 		pylon5.loadSet(pylonSets.t4);
 
 		#Center Fuselage
-		pylon4.loadSet(pylonSets.b10);
+		pylon4.loadSet(pylonSets.asmp);
 
 		#Side fuselage forward
 		pylon1.loadSet(pylonSets.empty);
@@ -592,19 +592,19 @@ var nuke = func {
 var rifle = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
-		pylon3.loadSet(pylonSets.b6);
-		pylon5.loadSet(pylonSets.b6);
+		pylon3.loadSet(pylonSets.as30);
+		pylon5.loadSet(pylonSets.as30);
 
 		#Center Fuselage
 		pylon4.loadSet(pylonSets.t);
 
 		#Side fuselage forward
 		pylon1.loadSet(pylonSets.empty);
-		pylon7.loadSet(pylonSets.s);
+		pylon7.loadSet(pylonSets.pod_pdlct);
 
 		#Side fuselage backward
 		pylon8.loadSet(pylonSets.empty);
@@ -618,15 +618,15 @@ var rifle = func {
 var standoff = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.t2);
 		pylon5.loadSet(pylonSets.t4);
 
 		#Center Fuselage
-		pylon4.loadSet(pylonSets.b3);
+		pylon4.loadSet(pylonSets.scalp);
 
 		#Side fuselage forward
 		pylon1.loadSet(pylonSets.empty);
@@ -644,8 +644,8 @@ var standoff = func {
 var unguided = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.dmk82);
@@ -670,8 +670,8 @@ var unguided = func {
 var unguided_er = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.t2);
@@ -696,8 +696,8 @@ var unguided_er = func {
 var unguided_se = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.dmk82se);
@@ -722,8 +722,8 @@ var unguided_se = func {
 var unguided_se_er = func {
 	if (fcs != nil and getprop("payload/armament/msg") == FALSE or getprop("/gear/gear[2]/wow")) {
 		#External wings
-		pylon2.loadSet(pylonSets.g);
-		pylon6.loadSet(pylonSets.g);
+		pylon2.loadSet(pylonSets.magic_2);
+		pylon6.loadSet(pylonSets.magic_2);
 
 		#Internal wing
 		pylon3.loadSet(pylonSets.t2);

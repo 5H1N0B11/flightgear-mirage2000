@@ -196,6 +196,27 @@ A07: Matra/BAe ALARM and Matra Armat
 URL: https://www.ausairpower.net/alarm-armat.html
 
 
+Key.Aero
+^^^^^^^^
+
+A08: Multi-Role Hellenic Mirages (May 2017)
+'''''''''''''''''''''''''''''''''''''''''''
+
+URL: https://www.key.aero/article/multi-role-hellenic-mirages
+
+
+A09: Theseus over the Aegean (May 2020)
+'''''''''''''''''''''''''''''''''''''''
+
+URL:
+
+
+A10: To Kill a Radar: Analysing the now largely-forgotten ARMAT missile (Jan 2022)
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+URL: https://www.key.aero/article/kill-radar-analysing-now-largely-forgotten-armat-missile
+
+
 
 Documents
 ============================

@@ -4,7 +4,7 @@ FlightGear Mirage 2000 Documentation
 
 Welcome to the documentation of the `Dassault Mirage 2000⇗ <https://en.wikipedia.org/wiki/Dassault_Mirage_2000>`_ for the `FlightGear⇗ <https://www.flightgear.org/>`_ open source flight simulator.
 
-The Mirage 2000 modelled here is mainly the -5 version ("Dash 5"/"tiret cinque"). The bi-place versions 2000D/N are also modelled to some degree (weapons, exterior 3d), but the cockpit remains for the moment the -5 version. There is also a -5B and -5B backseater version, but it is deprecated, not actively tested and might therefore simply not work.
+The Mirage 2000 modelled here is mainly the -5 version ("Dash 5"/"tiret cinque"). The bi-place versions 2000D/N are also modelled to some degree (weapons, exterior 3d), but the cockpit remains for the moment the -5 version. There are also -5B and -5B backseater versions, but they deprecated, not actively tested and might therefore simply not work.
 
 The Mirage 2000 is a French multi-role all-weather fighter aircraft from `Dassault Aviation⇗ <https://www.dassault-aviation.com/en/defense/customer-support/operational-aircraft/mirage-2000/>`_. In the single-seater versions it is one of the best `dogfighters⇗ <https://en.wikipedia.org/wiki/Dogfight>`_ of its generation and a far beyond visual range combat aircraft. The single-seater as well as the specialized double-seater versions are very capable in air-to-ground strikes.
 
@@ -29,13 +29,13 @@ Realism
 Disclaimer
 ----------
 
-This model in all variants is an interpretation of the real Mirage 2000 based on publicly available information (see :ref:`link_chapter_references`) without any form of involvement from the original equipment manufacturer or any other entity with knowledge of unpublished/classified material of the original aircraft or its offensive/defensive systems.
+This model in all variants is an interpretation of the real Mirage 2000 based on publicly available information (see :ref:`link_chapter_references`) without any form of involvement from the original equipment manufacturers or any other entity with knowledge of unpublished/classified material of the original aircraft or its offensive/defensive systems.
 
 Given the lack of authoritative information on military sensitive information, the realism of this model is by nature limited. Likewise, the goal of the simulation is for pure recreational activity - and therefore the simulation sometimes deliberately reduces and other times enhances real functionality/procedures to make the model more accessible to the casual simulation pilot. A lot of functionality / characteristics are "could-be" guesses good enough for gameplay purposes.
 
 These remarks are especially relevant for the simulation of weapons/countermeasures/damage, which - apart from the natural lack of detailed documentation - are modelled as an opt-in to the FlightGear flight simulator and lack fidelity compared to reality. The fidelity and accuracy try to mimic what "could-be" real, but in the end just try to allow some recreational but still "realistic" game-play.
 
-As such this manual and the FlightGear model are merely free (as in beer) spare-time personal projects for entertainment in the FlightGear open source simulation community. This manual cannot be used to learn how to handle the systems of or to fly real Mirage 2000 variants.
+As such this manual and the FlightGear model are merely free (as in beer) spare-time personal projects for use in the FlightGear open source simulation community. This manual cannot be used to learn how to handle the systems of or to fly real Mirage 2000 variants.
 
 Priorities
 ----------
@@ -46,10 +46,12 @@ The priorities for modelling the Mirage 2000 in FlightGear are currently roughly
 * Digital displays over conventional instruments over switches
 * Front seat over backseat
 * M2000-5 over M2000N/D
-* Compatibility with the latest stable FlightGear version (e.g. 2024.1.* as per year 2025) over backwards compatibility
+* Compatibility with the latest stable FlightGear version (e.g. 2024.1.* as per year 2026) over backwards compatibility
 
 Country variants
 ----------------
+
+The modelled variants in FlightGear are mainly reflecting interior and exterior properties of the French and sometimes Greek aircraft - mainly due to easier access to information for the authors.
 
 Currently there is no explicit modelling of export variants - neither in terms of 3D, specific weapons or systems, labelling of the cockpit etc. However, a larger set of liveries covering many countries and squadrons can be chosen.
 
@@ -64,7 +66,7 @@ Other Documentation
 
 Apart from this manual, there are other sources of documentation for the FlightGear version:
 
-* The `Mirage 200 wiki page⇗ <https://wiki.flightgear.org/Dassault_Mirage_2000-5>`_ on the official `FlightGear wiki⇗ <https://wiki.flightgear.org/>`_ (not very well maintained).
+* The `Mirage 2000 wiki page⇗ <https://wiki.flightgear.org/Dassault_Mirage_2000-5>`_ (not very well maintained) on the official `FlightGear wiki⇗ <https://wiki.flightgear.org/>`_.
 * The main and original author of the FlightGear version has published some `5H1N0B1 YouTube videos⇗ <https://www.youtube.com/@5H1N0B1/videos>`_ (a bit aged).
 * The excellently modelled FlightGear version of the `F-16⇗ <https://en.wikipedia.org/wiki/General_Dynamics_F-16_Fighting_Falcon>`_ has a very well written `wiki⇗ <https://github.com/NikolaiVChr/f16/wiki>`_, which also explains concepts (e.g. how a radar works).
 
@@ -127,7 +129,7 @@ There is a set of variants to choose from in the FlightGear Launcher as shown in
 Stable versions working in FlightGear version 2024.1:
 
 * ``2000-5``: the single seater fighter variant with 5 displays
-* ``2000N``: the double-seater strike variant with ground-attack weapons (it does re-use the -5 cockpit and the backseat is not usable)
+* ``2000N``: the double-seater strike variant with ground-attack weapons (it does re-use the -5 cockpit and the backseat is not usable and some -D variant weapons are also available)
 
 Not maintained versions which might work in FlightGear version 2024.1:
 
