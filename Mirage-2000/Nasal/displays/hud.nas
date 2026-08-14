@@ -1814,9 +1814,9 @@ var HUD = {
 				if (me.antirad_contact[0].get_range() > 50) { # own choice as documented in the M2000 manual
 					continue;
 				}
-				if (me.antirad_db_entry.rwrCode == "S" and me.input.antiradar_target_type.getValue() > 0) {
+				if (me.input.antiradar_target_type.getValue() == 0 and me.antirad_db_entry.rwrCode != "S") {
 					continue;
-				} else if (me.antirad_db_entry.rwrCode == "SH" and me.input.antiradar_target_type.getValue() != 1) {
+				} else if (me.input.antiradar_target_type.getValue() == 1 and me.antirad_db_entry.rwrCode != "SH") {
 					continue;
 				} else if (me.input.antiradar_target_type.getValue() == 2) {
 					if (me.antirad_db_entry.rwrCode != "3" and me.antirad_db_entry.rwrCode != "5" and me.antirad_db_entry.rwrCode != "20" and me.antirad_db_entry.rwrCode != "P") {

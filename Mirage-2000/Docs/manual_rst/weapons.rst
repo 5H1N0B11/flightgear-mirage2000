@@ -286,7 +286,7 @@ NB: f you have any information/hints available to make the implementation more r
 Therefore, the implementation is purely fictional and takes inspiration from the DCS AV-8B Harrier AGM 122 Sidearm setup:
 
 * Most probably the missile was only available in the -C version, maybe in the -D/N versions. This is why a rather primitive display system only using the HUD is used - only the -D and -5 versions have displays, which could show a page like in the F-16 or F-18 MFDs.
-* The type of radar target has to be set on the ground: ``GROUND`` (GCI, radar towers - radar code ``S`` in OPRF), ``SHIP`` (frigates etc. - ``SH``), larger static ground based SAMS (SA-3 ``3``, SA-75 ``2``, S-200 ``5``, S-300 ``20``, MIM104D ``P``). E.g. smaller ships and self-propelled targets like the Shilka (``AA``), SA-6 (``6``) and Buk-M2 (``17``) cannot be targeted - this is really just a "random" choice for simulation.
+* The type of radar target has to be set before takeoff (to simulate that early versions of the AX-37 had 3 different seekers to be installed): ``GROUND`` (GCI, radar towers - radar code ``S`` in OPRF), ``SHIP`` (frigates etc. - ``SH``), or ``SAM`` larger static ground based SAMS (SA-3 ``3``, S-200 ``5``, S-300 ``20``, MIM104D ``P``). E.g. smaller ships and self-propelled targets like the Shilka (``AA``), SA-6 (``6``) and Buk-M2 (``17``) cannot be targeted - this is really just a "random" choice for simulation.
 * Power for the missile seeker must be explicitly activated.
 
 For aiming you need to combine the RWR display (see :ref:`link_subsection_rwr`) with information in the HUD:

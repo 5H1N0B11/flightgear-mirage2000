@@ -244,7 +244,7 @@ If there is an active flightplan (in green):
 
 A bit under the middle (in magenta): The selected altitude hold for the autopilot ``ALT`` mode.
 
-At the bottom (in blue): the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose).
+At the bottom (in blue): the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose). The arrow point towards where the wind is coming from.
 
 
 Electronic Attitude Direction Indicator (EADI)
