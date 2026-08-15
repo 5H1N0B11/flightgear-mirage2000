@@ -629,6 +629,24 @@
 			</binding>
 		</key>
 
+		<key n="8">
+			<name>Ctrl + h</name>
+			<desc>Toggle Headtracker (if available)</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.toggleHeadtracker();</script>
+			</binding>
+		</key>
+
+		<key n="20">
+			<name>Ctrl + t</name>
+			<desc>Toggle Headtracker translate (if available)</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.toggleHeadtrackerTranslate();</script>
+			</binding>
+		</key>
+
 		<key n="362">
 			<name>HOME</name>
 			<desc>Select next page on left MFD</desc>

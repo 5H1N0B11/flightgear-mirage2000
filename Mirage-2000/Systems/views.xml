@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
-  
+
   <chase-distance-m type="double"> -20 </chase-distance-m>
-  
+
   <view n="100">
     <name>Tail Camera View</name>
     <type>lookfrom</type>
@@ -34,7 +34,7 @@
       <at-model type="bool">true</at-model>
     </config>
   </view>
-  
+
   <view n="102">
     <name>Sniping cam</name>
     <enabled>false</enabled>
@@ -50,8 +50,8 @@
       <default-field-of-view-deg>20</default-field-of-view-deg>
     </config>
   </view>
-  
-  
+
+
   <view n="103">
     <name>Pilot cam</name>
     <internal>true</internal>
@@ -71,19 +71,21 @@
     <internal>true</internal>
     <config>
       <x-offset-m>0.000</x-offset-m> <!-- Right -->
-      <y-offset-m>0.0093</y-offset-m> <!-- Up    47--> 
+      <y-offset-m>0.0093</y-offset-m> <!-- Up    47-->
       <z-offset-m>-2.9</z-offset-m> <!-- Back  -->
       <pitch-offset-deg>-14</pitch-offset-deg>
+      <roll-offset-deg>0</roll-offset-deg>
+      <heading-offset-deg>0</heading-offset-deg>
       <default-field-of-view-deg>83</default-field-of-view-deg>
       <limits>
         <right>
-          <heading-max-deg>170</heading-max-deg>
+          <heading-max-deg>160</heading-max-deg>
           <x-offset-threshold-deg>15</x-offset-threshold-deg>
           <x-offset-threshold-max-m>0.10</x-offset-threshold-max-m>
           <x-offset-max-m>0.175</x-offset-max-m>
         </right>
         <left>
-          <heading-max-deg>170</heading-max-deg>
+          <heading-max-deg>160</heading-max-deg>
           <x-offset-threshold-deg>15</x-offset-threshold-deg>
           <x-offset-threshold-max-m>0.10</x-offset-threshold-max-m>
           <x-offset-max-m>0.175</x-offset-max-m>

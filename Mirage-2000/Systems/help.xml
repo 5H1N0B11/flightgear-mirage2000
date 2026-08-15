@@ -179,6 +179,16 @@
 		<desc>View VTM</desc>
 	</key>
 
+	<key>
+		<name>Ctrl + h</name>
+		<desc>Toggle Headtracker (if available)</desc>
+	</key>
+
+	<key>
+		<name>Ctrl + t</name>
+		<desc>Toggle Headtracker translate (if available)</desc>
+	</key>
+
 	<key n="362">
 		<name>HOME</name>
 		<desc>Select next page on left MFD</desc>

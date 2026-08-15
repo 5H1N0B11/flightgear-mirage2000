@@ -262,7 +262,7 @@ controls.deployChute = func(v) {
 			setprop("controls/flight/chute_deployed", 0);
 			setprop("controls/flight/chute_open", 0);
 		}
-		chuteLoop.start();
+		_chuteLoop.start();
 	}
 	# Jettison
 	if (v < 0) {
@@ -270,16 +270,16 @@ controls.deployChute = func(v) {
 		if (voltage > 20) {
 			setprop("controls/flight/chute_jettisoned", 1);
 			setprop("controls/flight/chute_open", 0);
-			chuteLoop.stop();
+			_chuteLoop.stop();
 		}
 	}
 }
 
-var chuteAngle = func {
+var _chuteAngle = func {
 	var chute_open = getprop('controls/flight/chute_open');
 	if (chute_open != '1') {
 		setprop("fdm/jsbsim/external_reactions/chute/magnitude", 0);
-		chuteLoop.stop();
+		_chuteLoop.stop();
 		return();
 	}
 	var speed = getprop('/velocities/airspeed-kt');
@@ -291,7 +291,7 @@ var chuteAngle = func {
 	if (speed > 250) {
 		setprop("controls/flight/chute_jettisoned", 1); # Model Shear Pin
 		setprop("fdm/jsbsim/external_reactions/chute/magnitude", 0);
-		chuteLoop.stop();
+		_chuteLoop.stop();
 		return();
 	}
 	# Chute Pitch
@@ -320,13 +320,7 @@ var chuteAngle = func {
         setprop("fdm/jsbsim/external_reactions/chute/magnitude", force);
 }
 
-var chuteRepack = func {
-	setprop('controls/flight/chute_open', 0);
-	setprop('controls/flight/chute_deployed', 0);
-	setprop('controls/flight/chute_jettisoned', 0);
-}
-
-var chuteLoop = maketimer(0.05, chuteAngle);
+var _chuteLoop = maketimer(0.1, _chuteAngle);
 
 var fuel_managment = func() {
 	var Externaltank = getprop("/consumables/fuel/tank[2]/empty");
@@ -488,7 +482,6 @@ var init_EjectionKey = func() {
 
 var setFlightMode = func (mode) {
 	setprop("/instrumentation/flightmode/selected", mode);
-	viewReset();
 }
 
 # Seat movement parameters (y-axis)
@@ -510,68 +503,71 @@ var moveSeat = func(dir) {
 	}
 }
 
-var viewReset = func () {
-	if (getprop("/sim/current-view/view-number-raw") == 0) {
-		var mode = getprop("/instrumentation/flightmode/selected");
-		setprop("sim/current-view/heading-offset-deg", 0);
-		setprop("sim/current-view/roll-offset-deg", 0);
-		# degs must be before -m
-		setprop("/sim/current-view/x-offset-m",0);
-		setprop("/sim/current-view/y-offset-m", seat_current);
-		if (mode == consts.FLIGHT_MODE_GROUND) {
-			setprop("sim/current-view/pitch-offset-deg", -15);
-			setprop("/sim/current-view/z-offset-m",-2.9);
-			setprop("/sim/current-view/field-of-view",75);
-		} else if (mode == consts.FLIGHT_MODE_APPROACH or mode == consts.FLIGHT_MODE_GROUND) {
-			setprop("sim/current-view/pitch-offset-deg", -15);
-			setprop("/sim/current-view/z-offset-m",-2.9);
-			setprop("/sim/current-view/field-of-view",75);
-		} elsif (mode == consts.FLIGHT_MODE_NAVIGATION) {
-			setprop("sim/current-view/pitch-offset-deg", -12);
-			setprop("/sim/current-view/z-offset-m",-2.9);
-			setprop("/sim/current-view/field-of-view",83);
-		} elsif (mode == consts.FLIGHT_MODE_ATTACK) {
-			setprop("sim/current-view/pitch-offset-deg", -15);
-			setprop("/sim/current-view/z-offset-m",-2.77);
-			setprop("/sim/current-view/field-of-view",65);
-		}
+var toggleHeadtracker = func() {
+	var enabled = getprop("sim/headtracker/config/enable");
+	if (enabled != nil) {
+		setprop("sim/headtracker/config/enable", enabled == 1 ? 0 : 1);
 	}
+}
+
+var toggleHeadtrackerTranslate = func() {
+	var enabled = getprop("sim/headtracker/config/enable-translation");
+	if (enabled != nil) {
+		setprop("sim/headtracker/config/enable-translation", enabled == 1 ? 0 : 1);
+	}
+}
+
+var _enableHeadtracker = func(do_enable) {
+	var enabled = getprop("sim/headtracker/config/enable");
+	if (enabled != nil and enabled != do_enable) {
+		setprop("sim/headtracker/config/enable", do_enable);
+	}
+}
+
+var _setCockpitView = func(enable_headtracker,
+	                      heading_offset_deg,
+	                      pitch_offset_deg,
+	                      roll_offset_deg,
+	                      x_offset_m,
+	                      y_offset_m,
+	                      z_offset_m,
+	                      field_of_view) {
+	if (getprop("/sim/current-view/view-number-raw") == 0) {
+		_enableHeadtracker(enable_headtracker);
+
+		setprop("sim/current-view/heading-offset-deg", heading_offset_deg);
+		setprop("sim/current-view/pitch-offset-deg", pitch_offset_deg);
+		setprop("sim/current-view/roll-offset-deg", roll_offset_deg);
+		# degs must be before -m
+		setprop("/sim/current-view/x-offset-m", x_offset_m);
+		setprop("/sim/current-view/y-offset-m", y_offset_m);
+		setprop("/sim/current-view/z-offset-m", z_offset_m);
+		setprop("/sim/current-view/field-of-view", field_of_view);
+	}
+}
+
+var viewReset = func() {
+	_setCockpitView(TRUE,
+	                getprop("/sim/view[0]/config/heading-offset-deg"),
+	                getprop("/sim/view[0]/config/pitch-offset-deg"),
+	                getprop("/sim/view[0]/config/roll-offset-deg"),
+	                getprop("/sim/view[0]/config/x-offset-m"),
+	                seat_current,
+	                getprop("/sim/view[0]/config/z-offset-m"),
+	                getprop("/sim/view[0]/config/default-field-of-view-deg")
+	);
 }
 
 var viewLeftMFD = func() {
-	if (getprop("/sim/current-view/view-number-raw") == 0) {
-		setprop("sim/current-view/heading-offset-deg", 0);
-		setprop("sim/current-view/pitch-offset-deg", -12);
-		setprop("sim/current-view/roll-offset-deg", 0);
-		setprop("/sim/current-view/x-offset-m", -0.12);
-		setprop("/sim/current-view/y-offset-m",-0.22);
-		setprop("/sim/current-view/z-offset-m",-3.04);
-		setprop("/sim/current-view/field-of-view",80);
-	}
+	_setCockpitView(FALSE, 0, -12, 0, -0.12, -0.22, -3.04, 80);
 }
 
 var viewRightMFD = func() {
-	if (getprop("/sim/current-view/view-number-raw") == 0) {
-		setprop("sim/current-view/heading-offset-deg", 0);
-		setprop("sim/current-view/pitch-offset-deg", -12);
-		setprop("sim/current-view/roll-offset-deg", 0);
-		setprop("/sim/current-view/x-offset-m", 0.12);
-		setprop("/sim/current-view/y-offset-m",-0.24);
-		setprop("/sim/current-view/z-offset-m",-3.04);
-		setprop("/sim/current-view/field-of-view",80);
-	}
+	_setCockpitView(FALSE, 0, -12, 0,  0.12, -0.24, -3.04, 80);
 }
 
 var viewVTM = func() {
-	if (getprop("/sim/current-view/view-number-raw") == 0) {
-		setprop("sim/current-view/heading-offset-deg", 0);
-		setprop("sim/current-view/pitch-offset-deg", -12);
-		setprop("sim/current-view/roll-offset-deg", 0);
-		setprop("/sim/current-view/x-offset-m", 0);
-		setprop("/sim/current-view/y-offset-m",-0.07);
-		setprop("/sim/current-view/z-offset-m",-3.18);
-		setprop("/sim/current-view/field-of-view",80);
-	}
+	_setCockpitView(FALSE, 0, -12, 0,     0, -0.07, -3.18, 80);
 }
 
 var toggleNavApproachMode = func {
@@ -667,70 +663,8 @@ var toggleNWS = func() {
 	}
 }
 
-var quickstart = func() {
-	settimer(func {
-		setprop("controls/engines/engine[0]/cutoff",0);
-		setprop("engines/engine[0]/out-of-fuel",0);
-		setprop("engines/engine[0]/cutoff",0);
-
-		setprop("fdm/jsbsim/propulsion/starter_cmd",1);
-		setprop("fdm/jsbsim/propulsion/cutoff_cmd",1);
-		setprop("fdm/jsbsim/propulsion/set-running",0);
-	}, 0.2);
-}
-
 var autostart = func{
-	long_starting();
-	return; # this is a dirty and lazy way of doing it
-
-	if (!getprop("/controls/engines/engine[0]/cutoff")) {
-		me.autostart_status = 0;
-		# Cut Off
-		setprop("/controls/switches/hide-cutoff", 1);
-		setprop("/controls/engines/engine/cutoff", 1);
-	}
-	else {
-		setprop("/controls/engines/engine[0]/cutoff",1);
-
-		# Place here all the switch 'on' needed for the autostart
-		# First electrics switchs
-		setprop("/controls/switches/battery-switch", 1);
-		setprop("/controls/switches/transformator-switch", 1);
-		setprop("/controls/switches/ALT1-switch", 1);
-		setprop("/controls/switches/ALT2-switch", 1);
-
-		# Launching process
-		# Cut Off
-		setprop("/controls/switches/hide-cutoff", 0);
-		setprop("/controls/engines/engine/cutoff", 0);
-		# Fuel Pumps
-		setprop("/controls/switches/pump-BPG", 1);
-		setprop("/controls/switches/pump-BPD", 1);
-		# This isn't a pump, but it's here is the starting process.
-		# Vent is to clear fuel of the engine, allumage is to burn it.
-		# So 1 is allumage 0 vent.
-		setprop("/controls/switches/vent-allumage", 1);
-		setprop("/controls/switches/pump-BP", 1);
-		setprop("/controls/switches/hide-starter",1);
-		setprop("/controls/engines/engine/starter",1);
-		mystarter();
-	}
-}
-
-var long_starting = func() {
-	#Placing the view on take off view
-	if (getprop("/sim/current-view/view-number-raw") == 0) {
-		setprop("/sim/current-view/x-offset-m",0);
-		setprop("/sim/current-view/y-offset-m",0.1019);
-		setprop("/sim/current-view/z-offset-m",-2.9);
-		setprop("/sim/current-view/field-of-view",83);
-
-		#zooming on fuel, electrics and alerts
-		setprop("/sim/current-view/pitch-offset-deg",-40);
-		setprop("/sim/current-view/heading-offset-deg",338);
-		setprop("/sim/current-view/field-of-view",36);
-	}
-
+	screen.log.write("Autostart in progress ...");
 	settimer(func {
 		setprop("/controls/switches/battery-switch",1);
 	}, 3);
@@ -743,15 +677,6 @@ var long_starting = func() {
 		setprop("/controls/switches/ALT1-switch",1);
 		setprop("/controls/switches/ALT2-switch",1);
 	}, 4);
-
-	#Zooming on starting panel
-	settimer(func {
-		if (getprop("/sim/current-view/view-number-raw") == 0) {
-			setprop("/sim/current-view/pitch-offset-deg",-62);
-			setprop("/sim/current-view/heading-offset-deg",312);
-			setprop("/sim/current-view/field-of-view",21.6);
-		}
-	}, 5);
 
 	# Cut Off
 	settimer(func {
@@ -790,30 +715,22 @@ var long_starting = func() {
 		mystarter();
 	}, 13);
 
-	#zooming on fuel, electrics and alerts
-	settimer(func {
-		if (getprop("/sim/current-view/view-number-raw") == 0) {
-			setprop("/sim/current-view/pitch-offset-deg",-38);
-			setprop("/sim/current-view/heading-offset-deg",338);
-			setprop("/sim/current-view/field-of-view",36);
-		}
-	}, 15);
-
 	# Close the canopy one notch
 	settimer(func {
 		doors.move_canopy();
 	}, 42);
 
-	#puting back the view on take off view
-	settimer(func {
-		setFlightMode(consts.FLIGHT_MODE_GROUND);
-	}, 45);
+	setFlightMode(consts.FLIGHT_MODE_GROUND);
 
 	#turning on the air conditioning
 	setprop("/controls/ventilation/airconditioning-enabled",1);
 	setprop("/environment/aircraft-effects/cabin-heat-set",1);
 	setprop("/environment/aircraft-effects/cabin-air-set",1);
 	setprop("/controls/ventilation/windshield-hot-air-knob",1);
+
+	settimer(func {
+		screen.log.write("Autostart done");
+	}, 45);
 }
 
 
