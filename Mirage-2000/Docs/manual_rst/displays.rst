@@ -325,10 +325,10 @@ The displayed menus depend on the chosen weapon and sometimes on previously chos
 
 .. _link_subsection_rwr:
 
-Radar Warning Receiver (RWR)
-----------------------------
+Radar Warning Receiver (RWR) and Counter-Measures
+-------------------------------------------------
 
-The radar warning receiver (`RWR⇗ <https://en.wikipedia.org/wiki/Radar_warning_receiver>`_) screen is actually a combination of a RWR display and a counter-measures dispenser display.
+The radar warning receiver (`RWR⇗ <https://en.wikipedia.org/wiki/Radar_warning_receiver>`_) screen is a combination of a RWR display and a counter-measures dispenser display.
 
 .. image:: images/rwr_intro.png
    :alt: RWR page
@@ -348,7 +348,9 @@ RWR
    :align: center
    :scale: 50%
 
-The RWR displays a maximum of 12 threats. High level threats (e.g. with an STT lock or actively guiding a missile) are displayed within the blue centre ring. Lower level threats are displayed closer to the outer ring. I.e. the distance from centre is an interpretation of threat and not a real distance. The position is a top-down view around your aircraft (nose towards up/North).
+The RWR displays a maximum of 12 threats. High level threats (e.g. with an STT lock or actively guiding a missile) are displayed within the blue centre ring. Lower level threats are displayed closer to the outer ring. I.e. the distance from centre is an interpretation of threat and not a real distance. The position is a top-down view around your aircraft (own aircraft nose towards up/North).
+
+NB: most signals from OPRF are only available, if MP Damage is on!
 
 Different types of threats are displayed with different symbols according to USA/NATO standards (i.e. not according to French symbology at the moment). ``U`` is for unknown threat, ``S`` is for surveillance aircraft (e.g. `AWACS⇗ <https://en.wikipedia.org/wiki/Airborne_early_warning_and_control>`_ - which typically cannot shoot), and ``AI`` is for aircraft which have not yet been classified in OPRF.
 
@@ -357,7 +359,7 @@ Different types of threats are displayed with different symbols according to USA
    :align: center
    :scale: 50%
 
-If there is a chevron below the symbol, then the threat has a radar lock on you. If there is a hat on top of the symbol, then the threat is either source to an active missile or guiding a semi-active missile.
+If there is a chevron below the symbol, then the threat has a radar lock on you. If there is a hat on top of the symbol, then the threat is the either source of an active missile or guiding a semi-active missile.
 
 Only one missile in the air can be displayed - even though several might be in the air at the same time. The missile is shown with the symbol ``W`` close to the centre - again the distance is not the real distance and only the bearing relative to your aircraft is shown. If a missile is in the air, then the related threats are blinking once per second.
 
@@ -367,6 +369,8 @@ In addition to the visual indications there are sounds (refreshed every 0.5 seco
 * A new radar lock (STT) has been detected: 1 kHz tone chopped at 25Hz for 0.5 seconds.
 * A semi-active missile is being supported: 1 kHz tone chopped at 25Hz for 0.5 seconds repeating after 0.5 seconds of silence.
 * An active radar missile is in the air: continuous 1 kHz tone chopped at 25Hz until the missile is not detected any more.
+
+Sounds can be heard even if the RWR is not shown on any screen.
 
 Counter-Measures Dispenser Display
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

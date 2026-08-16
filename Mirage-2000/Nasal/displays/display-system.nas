@@ -28,6 +28,13 @@
 var TRUE = 1;
 var FALSE = 0;
 
+var MAX_RWR_TRACKED = 12; # what is displayed as threats. +1 for 1 tracked missile (i.e. 12+1 = 13)
+var RWR_AIRCRAFT_UNKNOWN  = "U";
+var RWR_ASSET_AI          = "AI";
+var RWR_AIRCRAFT_SEARCH   = "S";
+
+
+
 var DISPLAY_WIDTH = 768;
 var DISPLAY_HEIGHT = 576;
 
@@ -2536,22 +2543,13 @@ var DisplaySystem = {
 				flares                    : "rotors/main/blade[3]/flap-deg", # see weapons.nas
 				# chaff                     : "rotors/main/blade[3]/position-deg", # not needed because same as flares
 				cm_remaining              : "/ai/submodels/submodel[7]/count",
-				semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
-				maw_active                : "payload/armament/MAW-active",
-				maw_bearing               : "payload/armament/MAW-bearing",
-				launch_callsign           : "sound/rwr-launch",
-				sound_rwr_threat_new      : "sound/rwr-threat-new",
-				sound_rwr_threat_stt      : "sound/rwr-threat-stt",
-				sound_rwr_maw_semi_active : "sound/rwr-maw-semi-active",
-				sound_rwr_maw_active      : "sound/rwr-maw-active",
-				heading_true              : "orientation/heading-deg",
 			};
 
 			foreach(var name; keys(me.input)) {
 				me.input[name] = props.globals.getNode(me.input[name], 1);
 			}
 
-			me.max_icons = 12; # what is displayed as threats. +1 for 1 tracked missile (i.e. 12+1 = 13)
+			me.max_tracked = MAX_RWR_TRACKED;
 			me.radius = 0.8 * DISPLAY_HEIGHT/2; # we want a bit of space around the circle
 			me.high_threat_radius = me.radius*0.45; # where to put the high threat symbols
 			me.missile_radius = me.radius*0.2; # where to put the missile(s)
@@ -2563,10 +2561,6 @@ var DisplaySystem = {
 			me.sep1_radius = me.radius*0.400;
 			me.sep2_radius = me.radius*0.525;
 			me.sep3_radius = me.radius*0.775;
-
-			me.AIRCRAFT_UNKNOWN  = "U";
-			me.ASSET_AI          = "AI";
-			me.AIRCRAFT_SEARCH   = "S";
 
 			me.TICK_LENGTH_SHORT = 10;
 			me.TICK_LENGTH_LONG = 20;
@@ -2584,14 +2578,12 @@ var DisplaySystem = {
 				.setTranslation(DISPLAY_WIDTH-me.DISPENSER_BOX_WIDTH-me.DISPENSER_BOX_SEPARATION, 6*me.DISPENSER_BOX_SEPARATION);
 			me._createDispenserIndicators();
 
-			me.prev_contacts = [];
-			me.prev_stt = [];
-
 			me.last_update_inc = 0;
 			me.alternated = FALSE; # toggles every ca. UPDATE_INC seconds between TRUE and FALSE
 
+			me.separate = FALSE;
+
 			# whether or not to show unknowns
-			me.show_unknowns = TRUE;
 			me.SHOW_UNKNOWNS_MENU_ITEM = "Y";
 			me.HIDE_UNKNOWNS_MENU_ITEM = "N";
 
@@ -2603,7 +2595,6 @@ var DisplaySystem = {
 				.setText("Show unk.");
 
 			# whether to reduce overlapping (at the expense of angle accuracy)
-			me.separate = FALSE;
 			me.SEPARATE_ACTIVE_MENU_ITEM = "Y";
 			me.SEPARATE_NONE_MENU_ITEM = "N";
 
@@ -2670,23 +2661,23 @@ var DisplaySystem = {
 				.setColor(consts.COLOR_WHITE);
 		},
 		_createRWRSymbols: func() {
-			me.texts = setsize([], me.max_icons+1);
-			for (var i = 0; i < me.max_icons+1; i+=1) {
+			me.texts = setsize([], me.max_tracked+1);
+			for (var i = 0; i < me.max_tracked+1; i+=1) {
 				me.texts[i] = me.rwr_circles_group.createChild("text")
 					.setAlignment("center-center")
 					.setColor(consts.COLOR_YELLOW)
 					.setFontSize(font.page_rwr.threat_text)
 					.hide();
 				me.texts[i].enableUpdate();
-				if (i == me.max_icons) {
+				if (i == me.max_tracked) {
 					me.texts[i].updateText("W"); # will not change -> missile
 				} else {
 					me.texts[i].updateText("00");
 				}
 			}
 
-			me.symbol_hat = setsize([], me.max_icons+1); # supporting active missile
-			for (var i = 0; i < me.max_icons+1; i+=1) {
+			me.symbol_hat = setsize([], me.max_tracked+1); # supporting active missile
+			for (var i = 0; i < me.max_tracked+1; i+=1) {
 				me.symbol_hat[i] = me.rwr_circles_group.createChild("path")
 					.moveTo(0, -font.page_rwr.symbols_dist)
 					.lineTo(font.page_rwr.symbols_dist*0.9, -font.page_rwr.symbols_dist*0.6)
@@ -2697,8 +2688,8 @@ var DisplaySystem = {
 					.hide();
 			}
 
-			me.symbol_chevron = setsize([], me.max_icons+1); # STT / spike
-			for (var i = 0; i < me.max_icons+1; i+=1) {
+			me.symbol_chevron = setsize([], me.max_tracked+1); # STT / spike
+			for (var i = 0; i < me.max_tracked+1; i+=1) {
 				me.symbol_chevron[i] = me.rwr_circles_group.createChild("path")
 					.moveTo(0, font.page_rwr.symbols_dist)
 					.lineTo(font.page_rwr.symbols_dist*0.9, font.page_rwr.symbols_dist*0.6)
@@ -2774,7 +2765,7 @@ var DisplaySystem = {
 			me.device.resetControls();
 			me.device.controls[OSB2].setControlText(PAGE_RWR_MENU_ITEM, TRUE, FALSE, TRUE);
 
-			me._toggle_show_unknowns(me.show_unknowns);
+			me._toggle_show_unknowns(rwrDevice.show_unknowns);
 			me._toggle_separate(me.separate);
 		},
 
@@ -2795,10 +2786,10 @@ var DisplaySystem = {
 		},
 
 		_toggle_show_unknowns: func (show) {
-			me.show_unknowns = show;
-			if (me.show_unknowns) {
+			rwrDevice.show_unknown = show;
+			if (show) {
 				me.device.controls[OSB20].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
-				me.device.controls[OSB20].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB21].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
 			} else {
 				me.device.controls[OSB20].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
 				me.device.controls[OSB21].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
@@ -2807,7 +2798,7 @@ var DisplaySystem = {
 
 		_toggle_separate: func (do_separate) {
 			me.separate = do_separate;
-			if (me.separate) {
+			if (do_separate) {
 				me.device.controls[OSB10].setControlText(me.SEPARATE_ACTIVE_MENU_ITEM, TRUE, TRUE);
 				me.device.controls[OSB11].setControlText(me.SEPARATE_NONE_MENU_ITEM, TRUE, FALSE);
 			} else {
@@ -2880,175 +2871,88 @@ var DisplaySystem = {
 
 			me._updateCounterMeasures();
 
-			me.semi_callsign = me.input.semiactive_callsign.getValue();
-			me.launch_callsign = me.input.launch_callsign.getValue();
-			me.has_maw_active = FALSE;
-			me.has_maw_semi_active = FALSE;
-			if (me.launch_callsign != nil and me.launch_callsign != '') {
-				me.has_maw_active = TRUE;
-			}
-			if (me.semi_callsign != nil and me.semi_callsign != '') {
-				me.has_maw_semi_active = TRUE;
-			}
-
-			var sorter = func(a, b) {
-				if (a[1] > b[1]) {
-					return -1; # A should before b in the returned vector
-				} elsif (a[1] == b[1]) {
-					return 0; # A is equivalent to b
-				} else {
-					return 1; # A should after b in the returned vector
-				}
-			}
-			me.sorted_list = sort(radar_system.f16_rwr.vector_aicontacts_threats, sorter);
-
 			me.sep_spots = [[0,0,0,0,0,0,0,0],#45 degs  8
 							[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],# 20 degs  18
 							[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];# 15 degs  24
 			me.sep_angles = [45,20,15];
 
-			me.new_contacts = [];
-			me.new_stt = [];
 			me.i = 0;
-			me.has_new_threat = FALSE;
-			me.has_new_stt = FALSE;
-			foreach(me.contact; me.sorted_list) {
-				me.dbEntry = radar_system.getDBEntry(me.contact[0].getModel());
-				me.typ = me.dbEntry.rwrCode;
-				# first exclude what does not need to be shown
-				if (me.i > me.max_icons-1) {
-					break;
-				}
-				if (me.typ == nil) {
-					me.typ = me.AIRCRAFT_UNKNOWN;
-					if (!me.show_unknowns) {
-						continue;
-					}
-				}
-				if (me.typ == me.ASSET_AI) {
-					if (!me.show_unknowns) {
-						continue;
-					}
-				}
-				if (me.contact[0].get_range() > 170) { # deviates from F16, which has 150
-					continue;
-				}
-				me.threat = me.contact[1];
-				if (me.threat <= 0) {
-					continue;
-				}
-
-				# now we know it should be shown
-				me.is_blinking = FALSE;
-				if (me.has_maw_active and me.launch_callsign == me.contact[0].get_Callsign()) {
-					me.is_blinking = TRUE;
-				} else if (me.has_maw_semi_active and me.semi_callsign == me.contact[0].get_Callsign()) {
-					me.is_blinking = TRUE;
-				}
-				me.dev = -me.contact[2]+90;
-				if (me.separate == TRUE) {
-					if (me.typ == me.AIRCRAFT_UNKNOWN or me.typ == me.AIRCRAFT_SEARCH) {
-						me.threat = 2.;
-					} else if (me.threat > 0.5) {
-						me.threat = 0.;
-					} else if (me.threat > 0.25) {
-						me.threat = 1.;
+			foreach(me.contact; rwrDevice.threats) {
+				if (me.contact[0] != nil) {
+					me.typ = me.contact[0];
+					me.threat = me.contact[1];
+					if (me.separate == TRUE) {
+						if (me.typ == RWR_AIRCRAFT_UNKNOWN or me.typ == RWR_AIRCRAFT_SEARCH) {
+							me.threat = 2.;
+						} else if (me.threat > 0.5) {
+							me.threat = 0.;
+						} else if (me.threat > 0.25) {
+							me.threat = 1.;
+						} else {
+							me.threat = 2.;
+						}
+						me._assign_sep_spot();
 					} else {
-						me.threat = 2.;
+						if (me.typ == RWR_AIRCRAFT_UNKNOWN or me.typ == RWR_AIRCRAFT_SEARCH) {
+							me.threat = me.unknown_threat_radius;
+						} else if (me.threat > 0.5) {
+							me.threat = me.high_threat_radius;
+						} else {
+							me.threat = me.lower_threat_radius;
+						}
 					}
-					me._assign_sep_spot();
-				} else {
-					if (me.typ == me.AIRCRAFT_UNKNOWN or me.typ == me.AIRCRAFT_SEARCH) {
-						me.threat = me.unknown_threat_radius;
-					} else if (me.threat > 0.5) {
-						me.threat = me.high_threat_radius;
-					} else {
-						me.threat = me.lower_threat_radius;
-					}
-				}
 
-				me.x = math.cos(me.dev*D2R)*me.threat;
-				me.y = -math.sin(me.dev*D2R)*me.threat;
-				me.texts[me.i].setTranslation(me.x, me.y);
-				me.texts[me.i].updateText(me.typ);
-				me.symbol_chevron[me.i].setTranslation(me.x, me.y);
-				me.symbol_hat[me.i].setTranslation(me.x, me.y);
+					me.dev = me.contact[2];
+					me.x = math.cos(me.dev*D2R)*me.threat;
+					me.y = -math.sin(me.dev*D2R)*me.threat;
 
-				if (me.is_blinking == TRUE and me.alternated == TRUE) {
-					me.texts[me.i].show();
-					me.symbol_chevron[me.i].show();
-					me.symbol_hat[me.i].show();
-				} else if (me.is_blinking == TRUE and me.alternated == FALSE) {
-					me.texts[me.i].hide();
-					me.symbol_chevron[me.i].hide();
-					me.symbol_hat[me.i].hide();
-				} else {
-					me.texts[me.i].show();
-					me.symbol_hat[me.i].hide();
-					if (me.contact[0].isSpikingMe()) {
+					me.texts[me.i].setTranslation(me.x, me.y);
+					me.texts[me.i].updateText(me.contact[0]);
+					me.symbol_chevron[me.i].setTranslation(me.x, me.y);
+					me.symbol_hat[me.i].setTranslation(me.x, me.y);
+
+					if (me.contact[3] == TRUE and me.alternated == TRUE) {
+						me.texts[me.i].show();
 						me.symbol_chevron[me.i].show();
-						append(me.new_stt, me.contact[0]);
-						if (me.has_new_stt == FALSE) {
-							foreach (me.old; me.prev_stt) {
-								if (me.old.getUnique()==me.contact[0].getUnique()) {
-									me.has_new_stt = TRUE;
-									break;
-								}
-							}
-						}
-					} else {
+						me.symbol_hat[me.i].show();
+					} else if (me.contact[3] == TRUE and me.alternated == FALSE) {
+						me.texts[me.i].hide();
 						me.symbol_chevron[me.i].hide();
-					}
-				}
-				# check whether new threat
-				if (me.has_new_threat == FALSE) {
-					foreach (me.old; me.prev_contacts) {
-						if (me.old.getUnique()==me.contact[0].getUnique()) {
-							me.has_new_threat = TRUE;
-							break;
+						me.symbol_hat[me.i].hide();
+					} else {
+						me.texts[me.i].show();
+						if (me.contact[4] == TRUE) {
+							me.symbol_chevron[me.i].show();
+						} else {
+							me.symbol_chevron[me.i].hide();
 						}
+						me.symbol_hat[me.i].hide();
 					}
+				} else {
+					# hide every symbol, which is not needed
+					me.texts[me.i].hide();
+					me.symbol_hat[me.i].hide();
+					me.symbol_chevron[me.i].hide();
 				}
-				append(me.new_contacts, me.contact[0]);
 				me.i += 1;
 			}
-			# hide every symbol, which is not needed
-			for (;me.i<me.max_icons;me.i+=1) {
-				me.texts[me.i].hide();
-				me.symbol_hat[me.i].hide();
-				me.symbol_chevron[me.i].hide();
-			}
-
-			me.prev_contacts = me.new_contacts; # the prev_contacts will be the "old" one in next call to _update
-			me.prev_stt = me.new_stt;
 
 			# show the active missile (only one can be shown in OPRF)
-			if (me.input.maw_active.getValue() and me.alternated == TRUE) { # we show blinking when FALSE to make it more visible
-				me.dev = -geo.normdeg180(me.input.maw_bearing.getValue() - me.input.heading_true.getValue()) + 90;
+			if (rwrDevice.active_missile != nil and me.alternated == TRUE) { # we show blinking when FALSE to make it more visible
+				me.dev = rwrDevice.active_missile;
 				me.x = math.cos(me.dev*D2R)*me.missile_radius;
 				me.y = -math.sin(me.dev*D2R)*me.missile_radius;
-				me.texts[me.max_icons].setTranslation(me.x, me.y);
-				me.symbol_chevron[me.max_icons].setTranslation(me.x, me.y);
-				me.symbol_hat[me.max_icons].setTranslation(me.x, me.y);
+				me.texts[me.max_tracked].setTranslation(me.x, me.y);
+				me.symbol_chevron[me.max_tracked].setTranslation(me.x, me.y);
+				me.symbol_hat[me.max_tracked].setTranslation(me.x, me.y);
 
-				me.texts[me.max_icons].show();
-				me.symbol_hat[me.max_icons].show();
-				me.symbol_chevron[me.max_icons].show();
+				me.texts[me.max_tracked].show();
+				me.symbol_hat[me.max_tracked].show();
+				me.symbol_chevron[me.max_tracked].show();
 			} else {
-				me.texts[me.max_icons].hide();
-				me.symbol_hat[me.max_icons].hide();
-				me.symbol_chevron[me.max_icons].hide();
-			}
-
-			# set the sounds
-			me.input.sound_rwr_threat_new.setValue(me.has_new_threat);
-			me.input.sound_rwr_threat_stt.setValue(me.has_new_stt);
-
-			me.input.sound_rwr_maw_active.setValue(me.has_maw_active);
-			if (me.has_maw_active == FALSE and me.has_maw_semi_active == TRUE) {
-				me.input.sound_rwr_maw_semi_active.setValue(TRUE);
-			} else {
-				me.input.sound_rwr_maw_semi_active.setValue(FALSE);
+				me.texts[me.max_tracked].hide();
+				me.symbol_hat[me.max_tracked].hide();
+				me.symbol_chevron[me.max_tracked].hide();
 			}
 		},
 
@@ -3307,6 +3211,197 @@ var DisplaySystem = {
 };
 
 
+#    ██████  ██     ██ ██████      ██████  ███████ ██    ██ ██  ██████ ███████
+#    ██   ██ ██     ██ ██   ██     ██   ██ ██      ██    ██ ██ ██      ██
+#    ██████  ██  █  ██ ██████      ██   ██ █████   ██    ██ ██ ██      █████
+#    ██   ██ ██ ███ ██ ██   ██     ██   ██ ██       ██  ██  ██ ██      ██
+#    ██   ██  ███ ███  ██   ██     ██████  ███████   ████   ██  ██████ ███████
+
+
+var RWRDevice = {
+	new: func {
+		var r_obj = { parents: [RWRDevice] };
+
+		r_obj.input = {
+			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
+			maw_active                : "payload/armament/MAW-active",
+			maw_bearing               : "payload/armament/MAW-bearing",
+			launch_callsign           : "sound/rwr-launch",
+			sound_rwr_threat_new      : "sound/rwr-threat-new",
+			sound_rwr_threat_stt      : "sound/rwr-threat-stt",
+			sound_rwr_maw_semi_active : "sound/rwr-maw-semi-active",
+			sound_rwr_maw_active      : "sound/rwr-maw-active",
+			heading_true              : "orientation/heading-deg",
+		};
+
+		foreach(var name; keys(r_obj.input)) {
+			r_obj.input[name] = props.globals.getNode(r_obj.input[name], 1);
+		}
+
+		r_obj.last_update_inc = 0;
+		r_obj.max_tracked = MAX_RWR_TRACKED;
+
+		r_obj.prev_contacts = [];
+		r_obj.prev_spike_contacts = [];
+
+		# all variables below this line are used in Page RWR
+		r_obj.show_unknowns = TRUE;
+
+		r_obj.threats = setsize([], r_obj.max_tracked+1);
+		for (var i = 0; i < size(r_obj.threats); i += 1) {
+			r_obj.threats[i] = [nil, 0.0, 0.0, 0, 0]; # threat type = nil if not used, threat level, dev, is_blinking, is_spiking
+		}
+		r_obj.active_missile = nil; # nil if not used or deviation in degrees
+
+		return r_obj;
+	},
+
+	update: func (noti = nil) {
+		me.elapsed = noti.getproper("elapsed_seconds");
+		if (me.elapsed - me.last_update_inc >= UPDATE_INC) {
+			me.last_update_inc = me.elapsed;
+		} else {
+			return;
+		}
+		# let us see whether we are ready at all first
+		if (noti.getproper("wow")) {
+			return;
+		}
+
+		me.semi_callsign = me.input.semiactive_callsign.getValue();
+		me.launch_callsign = me.input.launch_callsign.getValue();
+		me.has_maw_active = FALSE;
+		me.has_maw_semi_active = FALSE;
+		if (me.launch_callsign != nil and me.launch_callsign != '') {
+			me.has_maw_active = TRUE;
+		}
+		if (me.semi_callsign != nil and me.semi_callsign != '') {
+			me.has_maw_semi_active = TRUE;
+		}
+
+		var sorter = func(a, b) {
+			if (a[1] > b[1]) {
+				return -1; # A should before b in the returned vector
+			} elsif (a[1] == b[1]) {
+				return 0; # A is equivalent to b
+			} else {
+				return 1; # A should after b in the returned vector
+			}
+		}
+		me.sorted_list = sort(radar_system.f16_rwr.vector_aicontacts_threats, sorter);
+
+		me.new_contacts = [];
+		me.new_spike_contacts = [];
+		me.i = 0;
+		me.has_new_threat = FALSE;
+		me.has_new_stt = FALSE;
+		foreach(me.contact; me.sorted_list) {
+			me.contact_callsign = me.contact[0].getCallsign();
+			me.dbEntry = radar_system.getDBEntry(me.contact[0].getModel());
+			me.typ = me.dbEntry.rwrCode;
+			# first exclude what does not need to be shown
+			if (me.i > me.max_tracked-1) {
+				break;
+			}
+			if (me.typ == nil) {
+				me.typ = RWR_AIRCRAFT_UNKNOWN;
+				if (!me.show_unknowns) {
+					continue;
+				}
+			}
+			if (me.typ == RWR_ASSET_AI) {
+				if (!me.show_unknowns) {
+					continue;
+				}
+			}
+			if (me.contact[0].get_range() > 160) { # deviates from F16, which has 150
+				continue;
+			}
+			me.threat_level = me.contact[1];
+			if (me.threat_level <= 0) {
+				continue;
+			}
+
+			# now we know it should be shown
+			me.is_blinking = FALSE;
+			if (me.has_maw_active and me.launch_callsign == me.contact_callsign) {
+				me.is_blinking = TRUE;
+			} else if (me.has_maw_semi_active and me.semi_callsign == me.contact_callsign) {
+				me.is_blinking = TRUE;
+			}
+			me.dev = -me.contact[2]+90;
+
+			me.threats[me.i][0] = me.typ;
+			me.threats[me.i][1] = me.threat_level;
+			me.threats[me.i][2] = me.dev;
+			me.threats[me.i][3] = me.is_blinking;
+
+			if (me.contact[0].isSpikingMe()) {
+				me.threats[me.i][4] = TRUE;
+				append(me.new_spike_contacts, me.contact_callsign);
+				if (me.has_new_stt == FALSE) {
+					me.found_in_prev = FALSE;
+					foreach (me.old; me.prev_spike_contacts) {
+						if (me.old == me.contact_callsign) {
+							me.found_in_prev = TRUE;
+							break;
+						}
+					}
+					if (me.found_in_prev == FALSE) {
+						me.has_new_stt = TRUE;
+					}
+				}
+			} else {
+				me.threats[me.i][4] = FALSE;
+			}
+
+			# check whether new threat
+			if (me.has_new_threat == FALSE) {
+				me.found_in_prev = FALSE;
+				foreach (me.old; me.prev_contacts) {
+					if (me.old == me.contact_callsign) {
+						me.found_in_prev = TRUE;
+						break;
+					}
+				}
+				if (me.found_in_prev == FALSE) {
+					me.has_new_threat = TRUE;
+				}
+			}
+			append(me.new_contacts, me.contact_callsign);
+			me.i += 1;
+		}
+		# set text to nil to indicate that it is not used
+		for (;me.i<me.max_tracked;me.i+=1) {
+			me.threats[me.i][0] = nil;
+		}
+
+		me.prev_contacts = me.new_contacts; # the prev_contacts will be the "old" one in next call to _update
+		me.prev_spike_contacts = me.new_spike_contacts;
+
+
+		# show the active missile (only one can be shown in OPRF)
+		if (me.input.maw_active.getValue()) {
+			me.active_missile = -geo.normdeg180(me.input.maw_bearing.getValue() - me.input.heading_true.getValue()) + 90;
+		} else {
+			me.active_missile = nil;
+		}
+
+		# set the sounds
+		me.input.sound_rwr_threat_new.setValue(me.has_new_threat);
+		me.input.sound_rwr_threat_stt.setValue(me.has_new_stt);
+
+		me.input.sound_rwr_maw_active.setValue(me.has_maw_active);
+		if (me.has_maw_active == FALSE and me.has_maw_semi_active == TRUE) {
+			me.input.sound_rwr_maw_semi_active.setValue(TRUE);
+		} else {
+			me.input.sound_rwr_maw_semi_active.setValue(FALSE);
+		}
+	},
+};
+
+
+
 #   ██████  ██    ██ ███████ ██████   █████  ██      ██          ███████ ███████ ████████ ██    ██ ██████
 #  ██    ██ ██    ██ ██      ██   ██ ██   ██ ██      ██          ██      ██         ██    ██    ██ ██   ██
 #  ██    ██ ██    ██ █████   ██████  ███████ ██      ██          ███████ █████      ██    ██    ██ ██████
@@ -3316,6 +3411,7 @@ var DisplaySystem = {
 
 var leftMFDDisplayDevice = nil;
 var rightMFDDisplayDevice = nil;
+var rwrDevice = nil;
 
 var M2000MFDRecipient =
 {
@@ -3333,6 +3429,7 @@ var M2000MFDRecipient =
 
             if (notification.NotificationType == "FrameNotification")
             {
+				rwrDevice.update(notification);
                 leftMFDDisplayDevice.update(notification);
                 rightMFDDisplayDevice.update(notification);
                 return emesary.Transmitter.ReceiptStatus_OK;
@@ -3359,6 +3456,7 @@ var main = func (module) {
 		return; # nothing to do
 	}
 
+	rwrDevice = RWRDevice.new();  # must come before displays
 
 	leftMFDDisplayDevice = DisplayDevice.new("LeftMFDDisplayDevice", [DISPLAY_WIDTH, DISPLAY_HEIGHT], [1, 1], "left_mfd.canvasCadre", "canvasTex.png");
 	leftMFDDisplayDevice.setColorBackground(consts.COLOR_BLACK);
@@ -3477,6 +3575,10 @@ var unload = func {
 	if (rightMFDDisplayDevice != nil) {
 		rightMFDDisplayDevice.del();
 		rightMFDDisplayDevice = nil;
+	}
+	if (rwrDevice != nil) { # must come after displays
+		rwrDevice.del();
+		rwrDevice = nil;
 	}
 	DisplayDevice = nil;
 	DisplaySystem = nil;
