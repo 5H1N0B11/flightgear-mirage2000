@@ -68,3 +68,12 @@ In other modes use the arrows on your keyboard (``Key: ⇐, ⇒, ⇑, ⇓``) to 
         </binding>
     </axis>
 
+
+Visibility of Other Targets When One Target Has Been Selected
+-------------------------------------------------------------
+
+For air-to-air: unless you are in `Track While Scan (TWS) <https://en.wikipedia.org/wiki/Track_while_scan>`_ mode, you will only see the selected target and no other targets on the display. I.e. you are in ``Single Target Track (STT)``, where the radar dedicates the whole radar beam to one contact and therefore looses track of the other potential targets.
+
+For air-to-ground in the simulated M2000 the model is ``Fixed Target Track (FTT)`` for ground / sea and ``Ground Moving Target Track (GM(T)T)``, which again dedicate the whole radar beam to the selected target. Therefore, once you have selected/locked one target, all other targets disappear from the radar screen.
+
+When you un-lock/deselect a target (``Key: ctrl-y``), the other contacts will start to appear again.
