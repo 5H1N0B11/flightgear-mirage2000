@@ -73,7 +73,7 @@
       <x-offset-m>0.000</x-offset-m> <!-- Right -->
       <y-offset-m>0.0093</y-offset-m> <!-- Up    47-->
       <z-offset-m>-2.9</z-offset-m> <!-- Back  -->
-      <pitch-offset-deg>-14</pitch-offset-deg>
+      <pitch-offset-deg>0</pitch-offset-deg>
       <roll-offset-deg>0</roll-offset-deg>
       <heading-offset-deg>0</heading-offset-deg>
       <default-field-of-view-deg>83</default-field-of-view-deg>
