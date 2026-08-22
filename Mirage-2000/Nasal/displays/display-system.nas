@@ -2255,7 +2255,7 @@ var DisplaySystem = {
 				} else if (me.wpn_kind == WPN_KIND_ARMAT) {
 					if (me.wow == TRUE) { # cannot change in flight
 						me.input.antiradar_target_type.setValue(me.input.antiradar_target_type.getValue() + 1);
-						if (me.input.antiradar_target_type.getValue() >2) {
+						if (me.input.antiradar_target_type.getValue() > 3) {
 							me.input.antiradar_target_type.setValue(0);
 						}
 					}
@@ -2471,12 +2471,14 @@ var DisplaySystem = {
 					me.osb6_selected = TRUE;
 				} else if (me.wpn.type == "AS-37-Armat") {
 					me.wpn_kind = WPN_KIND_ARMAT;
-					if (me.input.antiradar_target_type.getValue() == 0) {
+					if (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_GROUND) {
 						me.osb6 = "GROUND";
-					} elsif (me.input.antiradar_target_type.getValue() == 1) {
+					} elsif (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_SHIP) {
 						me.osb6 = "SHIP";
-					} else {
+					} elsif (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_SAM) {
 						me.osb6 = "SAM";
+					} else { # consts.ANTIRADAR_TARGET_TYP_AAW
+						me.osb6 = "AAW";
 					}
 					me.osb6_selected = TRUE;
 				}

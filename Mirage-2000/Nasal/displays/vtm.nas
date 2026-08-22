@@ -522,6 +522,7 @@ var VTM = {
 		me.targets_speed_group = me.root.createChild("group", "targets_speed_group");
 		me.targets_speed_group.setTranslation(_getRadarScreenTranslation());
 		me.targets_speeds = setsize([],MAX_CONTACTS);
+		me.targets_speed_group.hide();
 	},
 
 	# When the radar goes into stand-by mode
@@ -890,6 +891,7 @@ var VTM = {
 		if (me.global_visible == FALSE) {
 			me.standby_group.setVisible(me.global_visible);
 			me.targets_group.setVisible(me.global_visible);
+			me.targets_speed_group.setVisible(me.global_visible);
 		#} else if (props.globals.getNode("/instrumentation/radar/radar-standby").getBoolValue()) {
 		#	me.standby_group.show();
 		#	me.targets_group.hide();

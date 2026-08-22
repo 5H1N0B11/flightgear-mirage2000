@@ -1814,12 +1814,16 @@ var HUD = {
 				if (me.antirad_contact[0].get_range() > 50) { # own choice as documented in the M2000 manual
 					continue;
 				}
-				if (me.input.antiradar_target_type.getValue() == 0 and me.antirad_db_entry.rwrCode != "S") {
+				if (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_GROUND and me.antirad_db_entry.rwrCode != "S") {
 					continue;
-				} else if (me.input.antiradar_target_type.getValue() == 1 and me.antirad_db_entry.rwrCode != "SH") {
+				} else if (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_SHIP and me.antirad_db_entry.rwrCode != "SH") {
 					continue;
-				} else if (me.input.antiradar_target_type.getValue() == 2) {
+				} else if (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_SAM) {
 					if (me.antirad_db_entry.rwrCode != "3" and me.antirad_db_entry.rwrCode != "5" and me.antirad_db_entry.rwrCode != "20" and me.antirad_db_entry.rwrCode != "P") {
+						continue;
+					}
+				} else if (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_AAW) {
+					if (me.antirad_db_entry.rwrCode != "6" and me.antirad_db_entry.rwrCode != "17" and me.antirad_db_entry.rwrCode != "AA") {
 						continue;
 					}
 				}
