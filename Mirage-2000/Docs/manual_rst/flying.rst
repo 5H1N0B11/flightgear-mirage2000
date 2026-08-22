@@ -142,7 +142,7 @@ In order to see the MFDs and the VTB better as well as seeing better the gauges 
 * ``Key: c``: view the VTM
 * ``Key: ctrl-n``: reset the view to the position of the current flight mode
 
-Depending on the flight mode you need to adjust the seat to see better - including the symbology in the HUD. At take-off you should seat low to see the symbology in the HUD. During approach/landing and ground attack your seat should be adjusted upwards, so you can see the point of the nose.
+Depending on the flight mode you need to adjust the seat to see better - including the symbology in the HUD. At take-off you should seat raised to see the symbology in the HUD. During approach/landing and ground attack your seat should be adjusted upwards, so you can see the point of the nose, etc.
 
 * ``Key: shift-PageUp``: adjust the seat up
 * ``Key: shift-PageDown``: adjust the seat down

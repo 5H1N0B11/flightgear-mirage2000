@@ -53,7 +53,7 @@ Selecting Targets
 
 When in TWS mode the next target can be selected using ``Key: y`` (can be used several times to cycle between targets). To deselect the current target use ``Key: ctrl-y``.
 
-In other modes use the arrows on your keyboard (``Key: ⇐, ⇒, ⇑, ⇓``) to move the cursor on the VTM. Use ``Key: l`` (small L) to designate a target. You can also bind the cursor movement to your joystick of throttle like the following example (for vertical you just use the ``cursor-slew-y property``)::
+In other modes use the arrows on your keyboard (``Key: ⇐, ⇒, ⇑, ⇓``) to move the cursor on the VTM. Use ``Key: l`` (lowercase L) to designate a target. You can also bind the cursor movement to your joystick of throttle like the following example (for vertical you just use the ``cursor-slew-y property``)::
 
     <axis>
         <name>Hat Switch Front Horizontal</name>
@@ -77,3 +77,20 @@ For air-to-air: unless you are in `Track While Scan (TWS) <https://en.wikipedia.
 For air-to-ground in the simulated M2000 the model is ``Fixed Target Track (FTT)`` for ground / sea and ``Ground Moving Target Track (GM(T)T)``, which again dedicate the whole radar beam to the selected target. Therefore, once you have selected/locked one target, all other targets disappear from the radar screen.
 
 When you un-lock/deselect a target (``Key: ctrl-y``), the other contacts will start to appear again.
+
+Target symbols
+--------------
+
+* Air modes:
+
+  * Contact: open rectangle with a line showing the direction the target is flying at (the longer the line, the faster)
+  * Selected/locked target: cross with line as above
+  * IFF friendly contact during interrogation (not yet implemented): filled diamond
+  * IFF foe contact during interrogation (not yet implemented): v-formed
+
+* Ground modes:
+
+  * Contact: filled circle without direction or speed information
+  * Selected/locked target: cross
+  * Spotted laser/GPS target: diamond without fill
+  * designated laser/GPS target: diamond with dot in the middle

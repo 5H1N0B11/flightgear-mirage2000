@@ -269,7 +269,7 @@ Cannot be moved via the mouse, only with ``Key: PageUp`` and ``Key: PageDown``. 
 
 NB: this value is different in a real Mirage 2000, where it lies at 75%.
 
-Elevon hydraulic pressure indicators [20]
+Elevon Hydraulic Pressure Indicators [20]
 =========================================
 
 Not functional.

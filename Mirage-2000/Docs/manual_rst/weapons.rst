@@ -140,7 +140,10 @@ Basic Keys
 * ``Key: w``: cycle through weapons - also used to get into flight mode ``Attack``
 * ``Key: e``: weapons trigger for guns, missiles and bombs
 * ``Key: M``: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
-* ``Key: ctrl-l`` (small L): Fast snipe and designate clicked target for laser
+* ``Key: y``: select next target in TWS mode
+* ``Key: l`` (lowercase L): designate target under the cursor
+* ``Key: ctrl-l`` (lowercase L): Fast snipe and designate clicked target for laser
+* ``Key: ctrl-y``: deselect the current target use (air and ground modes)
 
 
 Configuring the Active Weapon

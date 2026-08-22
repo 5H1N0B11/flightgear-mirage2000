@@ -459,12 +459,17 @@ var VTM = {
 		me.selected_target_callsign.enableUpdate();
 		me.selected_target_callsign.updateText("");
 
+		# From IFF - filled diamond
 		me.friend_contacts = setsize([],MAX_CONTACTS);
 		for (var i = 0; i<MAX_CONTACTS; i += 1) {
 			me.friend_contacts[i] = me.targets_group.createChild("path")
 			                                       .setColor(COLOR_RADAR)
-			                                       .circle(0.5 * TARGET_WIDTH, 0, 0)
-			                                       .setStrokeLineWidth(2*LINE_WIDTH);
+			                                       .setColorFill(COLOR_RADAR)
+			                                       .moveTo(0, -0.5 * TARGET_WIDTH)
+			                                       .lineTo(0.5 * TARGET_WIDTH, 0)
+			                                       .lineTo(0, 0.5 * TARGET_WIDTH)
+			                                       .lineTo(-0.5 * TARGET_WIDTH, 0)
+			                                       .setStrokeLineWidth(LINE_WIDTH);
 		}
 
 		# Foe's in the air - which are not on the ground or at sea.
@@ -482,42 +487,34 @@ var VTM = {
 		}
 
 		# Targets on the ground or at sea.
-		# Looks like a diamond - filled
+		# Looks like a circle - filled
 		me.gnd_targets = setsize([],MAX_CONTACTS);
 		for (var i = 0; i<MAX_CONTACTS; i += 1) {
 			me.gnd_targets[i]    = me.targets_group.createChild("path")
 			                                       .setColor(COLOR_RADAR)
 			                                       .setColorFill(COLOR_RADAR)
-			                                       .moveTo(0, -0.5 * TARGET_WIDTH)
-			                                       .lineTo(0.5 * TARGET_WIDTH, 0)
-			                                       .lineTo(0, 0.5 * TARGET_WIDTH)
-			                                       .lineTo(-0.5 * TARGET_WIDTH, 0)
+			                                       .circle(0.35 * TARGET_WIDTH, 0, 0)
 			                                       .setStrokeLineWidth(LINE_WIDTH);
 		}
 
 		# Spotted ground target
-		# Looks like a square - not filled and a bit larger than the other targets
+		# Looks like a diamond - not filled and a bit larger than the other targets
 		var length = TARGET_WIDTH*1.2;
 		me.spotted_target =       me.targets_group.createChild("path", "spotted_target")
-		                                         .setColor(COLOR_RADAR)
-		                                         .moveTo(-0.5 * length, -0.5 * length)
-		                                         .vert(length)
-		                                         .horiz(length)
-		                                         .moveTo(-0.5 * length, -0.5 * length)
-		                                         .horiz(length)
-		                                         .vert(length)
-		                                         .setStrokeLineWidth(2*LINE_WIDTH);
-		# if this is also designated / priority target
+			                                       .setColor(COLOR_RADAR)
+			                                       .moveTo(0, -0.75 * TARGET_WIDTH)
+			                                       .lineTo(0.75 * TARGET_WIDTH, 0)
+			                                       .lineTo(0, 0.75 * TARGET_WIDTH)
+			                                       .lineTo(-0.75 * TARGET_WIDTH, 0)
+			                                       .lineTo(0, -0.75 * TARGET_WIDTH)
+			                                       .setStrokeLineWidth(LINE_WIDTH);
+		# if this is also designated / priority target -> small do in the middle
 		length = TARGET_WIDTH*0.8;
 		me.spotted_target_prio =  me.targets_group.createChild("path", "spotted_target_prio")
-		                                         .setColor(COLOR_RADAR)
-		                                         .moveTo(-0.5 * length, -0.5 * length)
-		                                         .vert(length)
-		                                         .horiz(length)
-		                                         .moveTo(-0.5 * length, -0.5 * length)
-		                                         .horiz(length)
-		                                         .vert(length)
-		                                         .setStrokeLineWidth(LINE_WIDTH);
+			                                       .setColor(COLOR_RADAR)
+			                                       .setColorFill(COLOR_RADAR)
+			                                       .circle(0.1 * TARGET_WIDTH, 0, 0)
+			                                       .setStrokeLineWidth(LINE_WIDTH);
 
 		me.targets_group.hide();
 
@@ -634,12 +631,6 @@ var VTM = {
 			# only take into account stuff which is really within the limits ofthe screen (plus a margin)
 			# the radar can scan a bit outside of the range/azimuth
 			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
-				if (contact.getCallsign() == groundTargeting.SPOTTED_TARGET) {
-					if (contact.equalsFast(radar_system.apg68Radar.getPriorityTarget())) {
-						spotted_target_is_priority = TRUE;
-					}
-					continue;
-				}
 				if (i < MAX_CONTACTS) {
 					append(me.radar_contacts_pos, screen_pos);
 					append(me.radar_contacts, contact);
@@ -680,7 +671,7 @@ var VTM = {
 			i += 1;
 		}
 
-		# we want to show the spotted target - although it is not selectable directly
+		# we want to show the laser/GPS spotted target - although it is not selectable directly
 		if (is_solid_gnd == TRUE and groundTargeting.theSpottedTarget != nil) {
 			var ac_pos = geo.aircraft_position();
 			var direct_dist = ac_pos.direct_distance_to(groundTargeting.theSpottedTarget.coord);
@@ -693,7 +684,10 @@ var VTM = {
 			if (math.abs(screen_pos[0]) < (RADAR_VIEW_WIDTH/2 + TARGET_WIDTH) and math.abs(screen_pos[1]) < (RADAR_VIEW_HEIGHT/2 + TARGET_WIDTH)) {
 				has_spotted_target = TRUE;
 				me.spotted_target.setTranslation(screen_pos[0], screen_pos[1]);
-				me.spotted_target_prio.setTranslation(screen_pos[0], screen_pos[1]);
+				if (armament.contactPoint != nil) {
+					spotted_target_is_priority = TRUE;
+					me.spotted_target_prio.setTranslation(screen_pos[0], screen_pos[1]);
+				}
 			}
 		}
 

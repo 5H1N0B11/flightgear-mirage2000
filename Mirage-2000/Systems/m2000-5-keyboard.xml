@@ -560,7 +560,7 @@
 		</key>
 
 		<key n="108">
-			<name>l</name>
+			<name>l</name> <!-- lowercase L -->
 			<desc>Cursor designate</desc>
 			<binding>
 				<command>property-assign</command>

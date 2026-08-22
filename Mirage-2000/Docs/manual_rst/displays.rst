@@ -88,7 +88,7 @@ In TWS mode a target can be selected using ``Key: y`` (and deselected with ``Key
    :alt: Selected Air-to-Air Target
    :align: center
 
-To select a target in another air-2-air or air-2-ground or air-2-see mode, the cursor must be moved over the middle of the target and then designated using ``Key: l`` (small L).
+To select a target in another air-2-air or air-2-ground or air-2-see mode, the cursor must be moved over the middle of the target and then designated using ``Key: l`` (lowercase L).
 
 .. image:: images/vtm_crm_rws.png
    :alt: Target Designation
@@ -99,13 +99,13 @@ Air-to-Sea
 
 Like all ground modes the radar picture is displayed as PPI.
 
-In air-2-sea mode the target is selected and designated using the cursor. A not designated target is shown as a diamond.
+In air-2-sea mode the target is selected and designated using the cursor. A not designated target is shown as a filled circle.
 
 .. image:: images/vtm_sea.png
    :alt: Air-to-Sea Target (Undesignated)
    :align: center
 
-When selected the target is shown as a cross. There is no information about direction / speed displayed.
+When the target is selected/locken, then it is shown as a cross. There is no information about direction / speed displayed.
 
 .. image:: images/vtm_sea_selected.png
    :alt: Air-to-Sea Target (Selected)
@@ -114,11 +114,25 @@ When selected the target is shown as a cross. There is no information about dire
 Air-to-Ground
 -------------
 
-The following picture shows a few targets in ground mode (like for sea targets they are displayed as diamonds). Notice that the antenna elevation has been lowered a few degrees (radar pitch scale at left side) and one of the targets (boxed) has been designated using the laser - and therefore the LDP guidance mode is highlighted.
+The following picture shows a few targets in ground mode (like for sea targets they are displayed as filled circles). Notice that the antenna elevation has been lowered a few degrees (radar pitch scale at left side). It is easier to get ground contacts when flying e.g. level at 1000 ft above ground and a shallow antenna elevation then flying high with or without pitch.
 
 .. image:: images/vtm_ground.png
    :alt: Air-to-Ground Targets
    :align: center
+
+
+When a target has been marked a spotted, then it appears as a diamond (not filled) in the display. LDP guidance mode needs to be on.
+
+.. image:: images/vtm_spotted.png
+   :alt: Air-to-Ground Target Spotted
+   :align: center
+
+When the spotted target is then designated ("locked"), the diamond gets a dot in the middle:
+
+.. image:: images/vtm_spotted_designated.png
+   :alt: Spotted Air-to-Ground Designated
+   :align: center
+
 
 
 .. _link_section_vtb:
