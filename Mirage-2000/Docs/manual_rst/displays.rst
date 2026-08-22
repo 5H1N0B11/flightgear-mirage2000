@@ -179,11 +179,13 @@ You can use ``Key: Home`` to get to the next page on the left MFD and ``Key: END
 
 To change back to the hub page, use the second button from left (amber frame) on the button row at the top of the MFD. The text below the button shows the current page name.
 
+To go directly to the RWR page, use the first button from left (green frame) on the button row at the top of the MFD.
+
 Use the mouse wheel to push the toggles (yellow frame) on the left and right side of the MFD up and down. Only those toggles work, which have a text associated on the screen. Alternatively, use left-click to push the toggle up and right-click to push the toggle down.
 
 You can focus the view with  ``Key: n`` to better see the left MFD respectively ``Key: N`` to better see the right MFD. Use ``Key: ctrl-n`` to go back to the default view.
 
-NB: the display pages on the left and right MFD are the same.
+NB: the available pages on the left and right MFD are the same.
 
 
 Electronic Horizontal Situation Indicator (EHSI)

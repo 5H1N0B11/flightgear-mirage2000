@@ -680,9 +680,9 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
 			me.device.controls[OSB6].setControlText(PAGE_SMS_MENU_ITEM);
 			me.device.controls[OSB7].setControlText(PAGE_PPA_MENU_ITEM);
-			me.device.controls[OSB8].setControlText(PAGE_RWR_MENU_ITEM);
 			me.device.controls[OSB22].setControlText(PAGE_EHSI_MENU_ITEM);
 			me.device.controls[OSB25].setControlText(PAGE_EADI_MENU_ITEM);
 			me.device.controls[OSB28].setControlText(PAGE_MAP_MENU_ITEM);
@@ -693,8 +693,6 @@ var DisplaySystem = {
 				me.device.system.selectPage(PAGE_SMS);
 			} elsif (controlName == OSB7) {
 				me.device.system.selectPage(PAGE_PPA);
-			} elsif (controlName == OSB8) {
-				me.device.system.selectPage(PAGE_RWR);
 			} elsif (controlName == OSB22) {
 				me.device.system.selectPage(PAGE_EHSI);
 			} elsif (controlName == OSB25) {
@@ -714,6 +712,7 @@ var DisplaySystem = {
 		},
 
 		links: {
+			OSB1: PAGE_RWR,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -965,7 +964,8 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_EHSI_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 		},
 
 		_changeMode: func(delta) {
@@ -996,9 +996,7 @@ var DisplaySystem = {
 		},
 
 		controlAction: func (controlName) {
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB5) {
+			if (controlName == OSB5) {
 				if (me.mode == 0) {
 					me.nav_number = me.nav_number == 1 ? 2 : 1;
 					me.input.nav_source.setValue(me.nav_number == 1 ? consts.NAV_SOURCE_NAV1 : consts.NAV_SOURCE_NAV2);
@@ -1226,6 +1224,7 @@ var DisplaySystem = {
 		},
 
 		links: {
+			OSB1: PAGE_RWR,
 			OSB2: PAGE_HUB,
 		},
 
@@ -1485,13 +1484,12 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_EADI_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 		},
 
 		controlAction: func (controlName) {
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB5) {
+			if (controlName == OSB5) {
 				if (me.nav_source == consts.NAV_SOURCE_NAV1) {
 					me.input.nav_source.setValue(consts.NAV_SOURCE_NAV2);
 				} elsif (me.nav_source == consts.NAV_SOURCE_NAV2) {
@@ -1744,8 +1742,8 @@ var DisplaySystem = {
 		},
 
 		links: {
+			OSB1: PAGE_RWR,
 			OSB2: PAGE_HUB,
-
 		},
 		layers: [LAYER_SERVICEABLE],
 	},
@@ -1988,15 +1986,14 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_SMS_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 			me._toggle_fbw_mode(me.input.fbw_mode.getValue());
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB32) {
+			if (controlName == OSB32) {
 				me._toggle_fbw_mode(0);
 			} elsif (controlName == OSB33) {
 				me._toggle_fbw_mode(1);
@@ -2094,7 +2091,8 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_PPA,
+			OSB1: PAGE_RWR,
+			OSB2: PAGE_HUB,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -2128,6 +2126,7 @@ var DisplaySystem = {
 				cannon_air_ground          : "controls/armament/cannon-air-ground",
 				cannon_air_air_incitation  : "controls/armament/cannon-air-air-incitation",
 				cannon_air_air_wingspan    : "controls/armament/cannon-air-air-wingspan",
+				flightmode                 : "/instrumentation/flightmode/selected",
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -2198,29 +2197,41 @@ var DisplaySystem = {
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 + 10, 130);
 			me.masterarm_text.enableUpdate();
-			me.spotted_label = me.group.createChild("text", "spotted_label")
+			me.flightmode_label = me.group.createChild("text", "flightmode_label")
 				.setFontSize(font.page_ppa.status_text)
 				.setColor(consts.COLOR_WHITE)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2, 160)
+				.setText("Flight mode:");
+			me.flightmode_text = me.group.createChild("text", "flightmode_text")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 160);
+			me.flightmode_text.enableUpdate();
+			me.spotted_label = me.group.createChild("text", "spotted_label")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2, 190)
 				.setText("Tgt spotted:");
 			me.spotted_text = me.group.createChild("text", "spotted_text")
 				.setFontSize(font.page_ppa.status_text)
 				.setColor(consts.COLOR_RED)
 				.setAlignment("left-center")
-				.setTranslation(DISPLAY_WIDTH/2 + 10, 160);
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 190);
 			me.spotted_text.enableUpdate();
 			me.designated_label = me.group.createChild("text", "designated_label")
 				.setFontSize(font.page_ppa.status_text)
 				.setColor(consts.COLOR_WHITE)
 				.setAlignment("right-center")
-				.setTranslation(DISPLAY_WIDTH/2, 190)
+				.setTranslation(DISPLAY_WIDTH/2, 220)
 				.setText("Tgt design.:");
 			me.designated_text = me.group.createChild("text", "designated_text")
 				.setFontSize(font.page_ppa.status_text)
 				.setColor(consts.COLOR_RED)
 				.setAlignment("left-center")
-				.setTranslation(DISPLAY_WIDTH/2 + 10, 190);
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 220);
 			me.designated_text.enableUpdate();
 		},
 
@@ -2238,15 +2249,14 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_PPA_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
 			me.wpn = pylons.fcs.getSelectedWeapon();
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB6) {
+			if (controlName == OSB6) {
 				if (me.wpn_kind == WPN_KIND_FALL) {
 					me.fuze += 1;
 					if (me.fuze > 2) {
@@ -2498,6 +2508,12 @@ var DisplaySystem = {
 				me.masterarm_text.updateText("Off");
 				me.masterarm_text.setColor(consts.COLOR_RED);
 			}
+			me.flightmode_text.updateText(me.input.flightmode.getValue());
+			if (me.input.flightmode.getValue() == consts.FLIGHT_MODE_ATTACK) {
+				me.flightmode_text.setColor(consts.COLOR_GREEN);
+			} else {
+				me.flightmode_text.setColor(consts.COLOR_RED);
+			}
 
 			me.device.controls[OSB6].setControlText(me.osb6, TRUE, me.osb6_selected);
 			me.device.controls[OSB9].setControlText(me.osb9, TRUE, me.osb9_selected);
@@ -2516,7 +2532,8 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_RWR,
+			OSB1: PAGE_RWR,
+			OSB2: PAGE_HUB,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -2765,7 +2782,7 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_RWR_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 
 			me._toggle_show_unknowns(rwrDevice.show_unknowns);
 			me._toggle_separate(me.separate);
@@ -2773,9 +2790,7 @@ var DisplaySystem = {
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB10) {
+			if (controlName == OSB10) {
 				me._toggle_separate(TRUE);
 			} elsif (controlName == OSB11) {
 				me._toggle_separate(FALSE);
@@ -2995,7 +3010,7 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_MAP,
+			OSB2: PAGE_HUB,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -3121,16 +3136,15 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_MAP_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 			me.device.controls[OSB32].setControlText("In");
 			me.device.controls[OSB33].setControlText("Out");
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB32) {
+			if (controlName == OSB32) {
 				me._changeZoomMap(1);
 			} elsif (controlName == OSB33) {
 				me._changeZoomMap(-1);
@@ -3205,7 +3219,8 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_EHSI,
+			OSB1: PAGE_RWR,
+			OSB2: PAGE_HUB,
 		},
 
 		layers: [LAYER_SERVICEABLE],
