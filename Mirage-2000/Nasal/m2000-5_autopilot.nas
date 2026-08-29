@@ -22,6 +22,7 @@ var input = {
 	ap_target_altitude         : "/autopilot/settings/target-altitude-ft",
 	ap_target_heading_deg      : "/autopilot/settings/heading-bug-deg",
 	ap_selected_altitude       : "/autopilot/settings/selected-altitude-ft",
+	ap_target_climb_rate       : "/autopilot/settings/target-climb-rate-fpm",
 	nav_source                 : "autopilot/settings/nav-source",
 	nav1_heading_bug_deg       : "instrumentation/nav[0]/radials/selected-deg", # OBS (Omni-Bearing Selector) of HSI / Needle / The path
 	nav2_heading_bug_deg       : "instrumentation/nav[1]/radials/selected-deg",
@@ -53,6 +54,24 @@ foreach(var name; keys(input)) {
 }
 
 var ap_mode = consts.AP_MODE_OFF;
+
+# Vertical-speed caps (fpm) written to /autopilot/settings/target-climb-rate-fpm,
+# which the "IT-CONTROLLER: FPM Hold" controller in Mirage-2000-autopilot.xml uses
+# to clamp the climb/descent rate it commands while the ALT lock is engaged.
+var ALT_HOLD_CLIMB_RATE_FPM     = 500;  # plain "hold this altitude" - deliberately gentle
+var ALT_SEL_CLIMB_RATE_MIN_FPM  = 1600; # ALT-selected capture, low speed
+var ALT_SEL_CLIMB_RATE_MAX_FPM  = 6000; # ALT-selected capture, high speed
+
+# Airspeed-scaled climb/descent rate for capturing a selected altitude:
+# ~1500 fpm up to 200 kt, ~3000 fpm at 400 kt cruise, ~4500 fpm from 600 kt up.
+# The FPM Hold controller still tapers this to a smooth capture near the target.
+var _selectedAltitudeClimbRate = func() {
+	var ias = input.airspeed.getValue();
+	if (ias == nil) {
+		return ALT_SEL_CLIMB_RATE_MIN_FPM;
+	}
+	return math.clamp(ias * 8.0, ALT_SEL_CLIMB_RATE_MIN_FPM, ALT_SEL_CLIMB_RATE_MAX_FPM);
+}
 
 var initAutopilot = func() {
 	return; # nothing_to_do
@@ -96,6 +115,7 @@ var updateAPMode = func(btn_pressed) {
 		} else {
 			_changeMode(consts.AP_MODE_ALTITUDE_HOLD);
 			input.ap_lock_altitude.setValue(consts.AP_LOCK_ALTITUDE_ALT);
+			input.ap_target_climb_rate.setValue(ALT_HOLD_CLIMB_RATE_FPM);
 			var current_altitude = input.altitude.getValue();
 			input.ap_target_altitude.setValue(current_altitude);
 		}
@@ -107,6 +127,7 @@ var updateAPMode = func(btn_pressed) {
 		} else {
 			_changeMode(consts.AP_MODE_ALTITUDE_SELECTED);
 			input.ap_lock_altitude.setValue(consts.AP_LOCK_ALTITUDE_ALT);
+			input.ap_target_climb_rate.setValue(_selectedAltitudeClimbRate());
 			input.ap_target_altitude.setValue(input.ap_selected_altitude.getValue());
 		}
 	} else if (btn_pressed == consts.BTN_LG) {
@@ -145,6 +166,7 @@ var _resetAttitudeMode = func {
 	# attitude pitch
 	input.ap_lock_altitude.setValue(consts.AP_LOCK_ALTITUDE_PITCH);
 	input.ap_target_pitch_deg.setValue(input.pitch_deg.getValue());
+	input.ap_target_climb_rate.setValue(ALT_HOLD_CLIMB_RATE_FPM); # back to the gentle default
 
 	# attitude roll
 	var current_roll = input.roll_deg.getValue();
@@ -225,10 +247,10 @@ var _checkAPOperationalLimits = func(check_mode) {
 	if (current_altitude > 50000) {
 		screen.log.write("Altitude is over operational limits for autopilot");
 		return false;
-	} else if (current_altitude < 1000 and check_mode == AP_MODE_ALTITUDE_SELECTED) {
+	} else if (current_altitude < 1000 and check_mode == consts.AP_MODE_ALTITUDE_SELECTED) {
 		screen.log.write("Altitude is under operational limits for autopilot");
 		return false;
-	} else if (current_altitude < 200 and check_mode == AP_MODE_APPROACH) {
+	} else if (current_altitude < 200 and check_mode == consts.AP_MODE_APPROACH) {
 		screen.log.write("Altitude is under operational limits for autopilot");
 		return false;
 	} else if (current_altitude < 500) {
@@ -256,6 +278,7 @@ var updateAutopilot = func () {
 		_courseOffset(input.ap_target_heading_deg.getValue());
 	} elsif (ap_mode == consts.AP_MODE_ALTITUDE_SELECTED) { # altitude selected mode
 		input.ap_target_altitude.setValue(input.ap_selected_altitude.getValue()); # the pilot could have changed the selected altitude
+		input.ap_target_climb_rate.setValue(_selectedAltitudeClimbRate()); # keep the capture rate matched to current airspeed
 	} elsif (ap_mode == consts.AP_MODE_APPROACH) {
 		# update a lot of internal stuff and do _courseOffset() for NAV1 or NAV2
 		input.ap_internal_gs_valid.setValue(1);

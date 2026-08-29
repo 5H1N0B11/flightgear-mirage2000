@@ -7,6 +7,7 @@
 		<target-roll-deg type="double"> 0 </target-roll-deg>
 		<target-pitch-deg type="double"> 0 </target-pitch-deg>
 		<vertical-speed-fpm type="double"> 0 </vertical-speed-fpm>
+		<target-climb-rate-fpm type="double"> 500 </target-climb-rate-fpm> <!-- max |vertical speed| the ALT lock will command; raised by m2000-5_autopilot.nas for ALT-selected capture -->
 		<nav-source type="string">NAV1</nav-source>
 		<bank-limit type="int"> 47 </bank-limit>
 		<target-speed-kt type="int"> 350 </target-speed-kt>

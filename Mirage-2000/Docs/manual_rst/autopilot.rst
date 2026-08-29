@@ -62,13 +62,22 @@ This mode appears as ``VS`` in the ``EADI``.
 Alt (Altitude)
 --------------
 
-This switch controls the altitude above sea level (ASL) mode (there is no terrain following mode).
+This switch controls the altitude above sea level (ASL) hold mode (there is no terrain following mode). Enabling it registers the current altitude and holds it, correcting small deviations at a low vertical speed (ca. 500ft/min). Use it once you are already level at the altitude you want to keep.
 
-The ASL mode will attempt to maintain the aircraft at the altitude set, or climb/descend towards it at a low vertical speed (ca. 450ft/min). It is recommended to use the ``Vs`` mode for faster changes in altitude. This mode will lock the manual pitch and yaw input of the aircraft, but will only control the pitch.
+This mode will lock the manual pitch and yaw input of the aircraft, but will only control the pitch.
 
 This mode is incompatible with the ``VS`` and ``APP`` modes.
 
-The ASL mode appears as ``ALT`` in the ``EADI``.
+The ASL hold mode appears as ``ALT`` in the ``EADI``.
+
+Alt Aff (Altitude Assigned)
+---------------------------
+
+This switch captures the ``SELECTED ALT`` set in the autopilot panel (or the ``EADI`` tab of the left MFD). The aircraft climbs or descends towards it at a brisk, airspeed-scaled vertical speed (ca. 1500ft/min at low speed, ca. 3000ft/min at cruise, up to ca. 4500ft/min at high speed), then smoothly levels off and holds the assigned altitude. The throttle is not controlled, so watch your speed during steep climbs or engage the ``Spd`` mode.
+
+Like ``Alt``, this mode locks the manual pitch and yaw input and only controls the pitch, and is incompatible with the ``VS`` and ``APP`` modes.
+
+This mode also appears as ``ALT`` in the ``EADI``.
 
 Hdg (Heading)
 -------------

@@ -403,6 +403,10 @@
 					<value>ALT</value>
 				</equals>
 			</condition>
+			<!-- Commanded vertical speed to capture the target altitude. The
+			     climb/descent rate is capped by /autopilot/settings/target-climb-rate-fpm,
+			     which is set by m2000-5_autopilot.nas: a gentle value for plain ALT
+			     hold, a brisk airspeed-scaled value for ALT-selected capture. -->
 			<expression>
 				<min>
 					<max>
@@ -418,9 +422,12 @@
 								<entry><ind>950</ind><dep>-2</dep></entry>
 							</table>
 						</product>
-						<value>-500</value>
+						<product>
+							<property>/autopilot/settings/target-climb-rate-fpm</property>
+							<value>-1</value>
+						</product>
 					</max>
-					<value>500</value>
+					<property>/autopilot/settings/target-climb-rate-fpm</property>
 				</min>
 			</expression>
 		</reference>
