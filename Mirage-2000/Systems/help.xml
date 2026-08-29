@@ -101,7 +101,7 @@
 
 	<key>
 		<name>W</name>
-		<desc>Designate sniped target as target</desc>
+		<desc>Designate spotted target as target</desc>
 	</key>
 
 	<key>
@@ -146,12 +146,12 @@
 
 	<key>
 		<name>l</name>
-		<desc>Cursor designate</desc>
+		<desc>Cursor designate (lowercase L)</desc>
 	</key>
 
 	<key>
 		<name>Ctrl-L</name>
-		<desc>Fast snipe and designate clicked target for laser</desc>
+		<desc>Fast spot and designate clicked target for laser</desc>
 	</key>
 
 	<key>
@@ -177,6 +177,16 @@
 	<key>
 		<name>c</name>
 		<desc>View VTM</desc>
+	</key>
+
+	<key>
+		<name>Ctrl + h</name>
+		<desc>Toggle Headtracker (if available)</desc>
+	</key>
+
+	<key>
+		<name>Ctrl + t</name>
+		<desc>Toggle Headtracker translate (if available)</desc>
 	</key>
 
 	<key n="362">

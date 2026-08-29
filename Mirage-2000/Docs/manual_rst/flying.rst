@@ -21,6 +21,8 @@ The front gear can turn 90° to the left and to the right, so a turn radius of 3
 
 The taxi lights have an angle of about 30 degrees in front of the aircraft and are not attached to the moving part of the front gear, so they will always light in front.
 
+NB: The nose wheel steering gets automatically disabled above 40 kt and cannot be enabled as long as ground speed is faster than 40 kt. The nose wheel steering can be toggled/re-enabled with ``Key: S``.
+
 Take-off
 --------
 
@@ -130,7 +132,7 @@ From / to       Navigation            Approach     Attack
 If you press the ``Key: w`` and no weapon can be selected, then mode ``Navigation`` is automatically selected.
 
 
-In Cockpit Views
+In-Cockpit Views
 ================
 
 In order to see the MFDs and the VTB better as well as seeing better the gauges on each side of the VTM, you can use key bindings:
@@ -140,11 +142,16 @@ In order to see the MFDs and the VTB better as well as seeing better the gauges 
 * ``Key: c``: view the VTM
 * ``Key: ctrl-n``: reset the view to the position of the current flight mode
 
-Depending on the flight mode you need to adjust the seat to see better - including the symbology in the HUD. At take-off you should seat low to see the symbology in the HUD. During approach/landing and ground attack your seat should be adjusted upwards, so you can see the point of the nose.
+Depending on the flight mode you need to adjust the seat to see better - including the symbology in the HUD. At take-off you should seat raised to see the symbology in the HUD. During approach/landing and ground attack your seat should be adjusted upwards, so you can see the point of the nose, etc.
 
 * ``Key: shift-PageUp``: adjust the seat up
 * ``Key: shift-PageDown``: adjust the seat down
 
+It is highly recommended to use a `head-tracking device⇗ <https://en.wikipedia.org/wiki/3D_tracking>`_. There are FlightGear Wikipedia articles for both `FaceTrackNoIR <https://wiki.flightgear.org/FaceTrackNoIR>`_ and `Opentrack <https://wiki.flightgear.org/Opentrack>`_. If you are using the `Headtracker AddOn <https://sourceforge.net/p/flightgear/fgaddon/HEAD/tree/trunk/Addons/Headtracker/>`_:
+
+* changing the in-cockpit views will automatically toggle the headtracker
+* use ``Key: ctrl+h`` to manually toggle the view (instead of using the menu)
+* use ``Key: ctrl+t`` to manually toggle the translation (instead of using the menu). If headtracking is on and translation is on, then you can better see the indicators to the left and right of the HUD, but the seat will be default. To use the seat up/down changes, you have to disable transaltion.
 
 
 Other Stuff

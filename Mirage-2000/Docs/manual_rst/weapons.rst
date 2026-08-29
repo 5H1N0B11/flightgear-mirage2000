@@ -4,8 +4,8 @@ Weapons and Armament
 
 .. _link_section_overview_weapons:
 
-Overview of Available Weapons
-=============================
+Overview of Available Weapons in the FlighGear version
+======================================================
 
 The abbreviation column refers to the abbreviations used in the SMS page (see :ref:`link_subsection_sms`).
 
@@ -21,7 +21,7 @@ MAG    `Matra R550 Magic 2⇗ <https://en.wikipedia.org/wiki/R.550_Magic>`_
 SUP    `Matra Super 530D⇗ <https://en.wikipedia.org/wiki/Super_530>`_
 IR     `MICA⇗ <https://en.wikipedia.org/wiki/MICA_(missile)>`_ IR
 EM     MICA EM
-AM39   `AM.39 Exocet⇗ <https://en.wikipedia.org/wiki/Exocet>`_
+AM39   `AM39 Exocet⇗ <https://en.wikipedia.org/wiki/Exocet>`_
 AS37A  AS-37 Armat (`Martel⇗ <https://en.wikipedia.org/wiki/Martel_(missile)>`_)
 AS30L  `AS-30L⇗ <https://en.wikipedia.org/wiki/AS-30>`_
 APACH  `APACHE⇗ <https://en.wikipedia.org/wiki/Apache_(missile)>`_
@@ -38,6 +38,21 @@ RP500  1700 l drop tank
 PDLCT  `PDLCT⇗ <https://en.wikipedia.org/wiki/PDLCT>`_ targeting pod (TGP)
 SMOKE  Smoke Pod
 ====== =========================================================================================================================
+
+The main source of information about available weapons as well as which variant can carry which weapons is ref[B10]:
+
+* ``C`` variant plus general descriptions: pages 45-56
+* ``N`` variant: pages 132-134
+* ``D`` variant: pages 164-166 for pods, pages 174-175 for APACHE/SCALP, page 163 & 177 for weapons on stations
+* ``-5`` variant: page 207.
+
+Just because a variant has the capability to use a weapon does not mean, that a given air force (incl. the French) has used them. E.g.:
+
+* the `Hellenic Air Force (HAF) <https://www.haf.gr/en/>`_ uses only the SCALP and the AM39 Exocet for ground attack (ref[A08, A09])
+* France does not seem to use the AM39 on Mirage 2000x - it uses other fighter jets
+* Egypt was probably the only air force to use the ARMAT (ref[A10])
+* Some weapons like the `BLG 66 Belouga <https://fr.wikipedia.org/wiki/BLG_66_Belouga>`_ have been withdrawn from service by e.g. France due to political concerns regarding the use of cluster ammunition.
+
 
 MP Damage
 =========
@@ -97,12 +112,12 @@ SAMP Mk-82SE                            5BD 5BD     5BD 5BD
 2x SAMP Mk-82                       5BD         5BD         5BD
 2x SAMP Mk-82SE                     5BD         5BD         5BD
 PDLCT (targeting pod)                               5BD
-CC422 (gun pod)                              D
+CC422 (gun pod)                             D*
 Smoke pod (white)               5BD                             5BD
 ASMP-A                                          N
 =============================== === === === === === === === === ===
 
-*Key: 5 refers to the 2000-5, B to the 2000-5B, D to the 2000D/N and N to only the 2000N.*
+*Key: 5 refers to the 2000-5, B to the 2000-5B, D to the 2000D/N, D* to only the 2000D and N to only the 2000N.*
 
 Apart from the available weapons per station, the simulation does currently not impose additional restrictions w.r.t. the combination of weapons. Pictures of real aircraft show that quite some variance is in action. However, it of course makes sense to e.g. have a pod installed if you need laser guidance - or that the weights on both sides of the fuselage are in balance. And the real Mirage can only carry one type of graound attack weapon at a time (e.g. not SAMP Mk-82 and SAMP MK-82SE at the same time).
 
@@ -125,7 +140,10 @@ Basic Keys
 * ``Key: w``: cycle through weapons - also used to get into flight mode ``Attack``
 * ``Key: e``: weapons trigger for guns, missiles and bombs
 * ``Key: M``: cycle through weapon guidance modes (e.g. LDP for laser guided ammunition)
-* ``Key: ctrl-l`` (small L): Fast snipe and designate clicked target for laser
+* ``Key: y``: select next target in TWS mode
+* ``Key: l`` (lowercase L): designate target under the cursor
+* ``Key: ctrl-l`` (lowercase L): Fast snipe and designate clicked target for laser
+* ``Key: ctrl-y``: deselect the current target use (air and ground modes)
 
 
 Configuring the Active Weapon
@@ -187,19 +205,21 @@ In the ``Mirage 2000`` menu there is a menu point ``Ground Targeting``, which wi
 .. image:: images/ground_attack_targeting_dialogue.png
    :scale: 50%
 
-It is important to do all steps sequentially!
+It is important to do all steps sequentially: (a) acquire a targets coordinates, (b) make it a spotted target, (c) designate the target for engagement.
 
-You can acquire coordinates in two ways: either write the lon and lat directly into the fields - or click on the ground where you want to pick the coordinate and then press the top button (it will be disabled if no laser designation pod has been added to the airplane).
+You can acquire coordinates in two ways: either write the lon and lat directly into the fields - or look outside of the cockpit and click on the ground where you want to pick the coordinate from. Then press the top button (it will be disabled if no laser designation pod has been added to the airplane).
 
 Always the primary coordinates will be used to create/update targets, but a secondary pair can be input as well. A button can swap the primary and secondary coordinates.
 
-A sniped target (simulating what would be done with a laser) can be created with a button based on the primary coordinates. NB: the view can temporarily be changed automatically, such that the coordinate including its elevation above sea level can be fetched behind the scenes.
+A spotted target (simulating what would be done with a laser) can be created with a button based on the primary coordinates. NB: the view can briefly changed automatically, such that the coordinate including its elevation above sea level can be fetched by FlightGear behind the scenes.
 
-The target can then be designated using another button.
+The spotted target can then become a designated target using another button.
 
-Alternatively, using ``Key: ctrl-l`` you can fast snipe and designate the clicked target for laser.
+Alternatively, using ``Key: ctrl-l`` you can fast spot and designate the clicked target for laser.
 
 A FLIR view (``Key: F6``) can be activated and the button ``Focus FLIR on Sniped Target`` will then point the laser to the sniped coordinates. Thereby the coordinate can be improved by clicking exactly on the target through the FLIR and then updating the target.
+
+NB: The laser-guided bombs and the AS-30L have a relatively narrow seeker field of view of ca. 30 degrees. Therfore, the aircraft nose must point to the designated target at launch time, such that the seeker can pick it up.
 
 
 MK-82 / MK-82SE and GBU-12/GBU-24
@@ -211,7 +231,8 @@ On the PPA the following settings can be done:
 * The distance in metres between rippled bombs (min = 5, 10, 20, 30, ..., max = 200).
 * The fuze selector can be set to either ``RET.`` (retardé/delayed fuze), or ``INST.`` (instantaneous fuze) or ``INERT.`` (inertial fuze). However, this is not implemented and will always result in an instantaneous fuze.
 
-NB: you cannot choose to release 2 bombs at once (dual mode).
+NB: You cannot choose to release 2 bombs at once (dual mode).
+NB: The performance of your computer influences what the minimal distance between rippled bombs can be. If you have 60 fps and fly 600 kt then 5 metres is possible, but if you have 30 fps then 10 metres is the minimum distance, etc. If you fly 300 kt and 30 fps then 5 metres are possible, etc.
 
 For the GBUs a laser target has to be designated (see :ref:`link_subsection_designation`), the weapons guidance mode must be ``LDP`` and airspeed at least 350 kt.
 
@@ -263,12 +284,12 @@ AS-37 Armat (Anti-Radiation)
 
 There is very little information available for the AS-37 Armat ("Anti Radiation MArTel") missile - especially how the aiming in the cockpit is done. And there is a lack of officially confirmed information abouts its use on Mirage 2000 variants as well as which countries might have been using it. Most probably requirements for not having to fit the launching aircraft with a lot of specialised equipment for the SEAD (`Suppression of Enemy Air Defenses⇗ <https://en.wikipedia.org/wiki/Suppression_of_enemy_air_defenses>`_) can be fulfilled by the AS-37 (e.g. like stated in "RAAF's requirement under AIR 5398" in ref[A07]). Ref[A07] also states "With its high launch weight, heavyweight warhead and long range, the Armat is primarily an offensive strategic ARM designed to destroy Early Warning and Ground Control Intercept radars." Some sources indicate that the Armat had few (3) different seeker head options that could track only specific radar types. Because this is decided on ground there is limited possibilitiy to chase opportunistic targets and cannot be used for (self) defence.
 
-NB: f you have any information/hints available to make the implementation more realistic, then let the developers know.
+NB: if you have any information/hints available to make the implementation more realistic, then let the developers know.
 
 Therefore, the implementation is purely fictional and takes inspiration from the DCS AV-8B Harrier AGM 122 Sidearm setup:
 
 * Most probably the missile was only available in the -C version, maybe in the -D/N versions. This is why a rather primitive display system only using the HUD is used - only the -D and -5 versions have displays, which could show a page like in the F-16 or F-18 MFDs.
-* The type of radar target has to be set on the ground: ``GROUND`` (GCI, radar towers - radar code ``S`` in OPRF), ``SHIP`` (frigates etc. - ``SH``), larger static ground based SAMS (SA-3 ``3``, SA-75 ``2``, S-200 ``5``, S-300 ``20``, MIM104D ``P``). E.g. smaller ships and self-propelled targets like the Shilka (``AA``), SA-6 (``6``) and Buk-M2 (``17``) cannot be targeted - this is really just a "random" choice for simulation.
+* The type of radar target has to be set before takeoff (to simulate that early versions of the AS-37 had 3 different seekers to be installed - even though the AS-37A most probably did not have diffenet seekers): ``GROUND`` (GCI, radar towers - radar code ``S`` in OPRF), ``SHIP`` (frigates etc. - ``SH``), ``SAM`` for larger static ground based SAMS (SA-3 ``3``, S-200 ``5``, S-300 ``20``, MIM104D ``P``), or ``AAW``` for smaller SAMS and self-propelled anti-aircraft warefare systems (Shilka ``AA``, SA-6 ``6`` and Buk-M2 ``17``) - this is really just a "random" choice for simulation.
 * Power for the missile seeker must be explicitly activated.
 
 For aiming you need to combine the RWR display (see :ref:`link_subsection_rwr`) with information in the HUD:
@@ -308,7 +329,7 @@ The missile needs to be fired:
 * below mach 0.9
 * below 45 degs of roll
 * within 38 nm of the target
-* flying level and not below 250 ft (the missile motor starts frist after a drop time of 2 seconds and needs some time to accelerate the missile to stable flight)
+* flying level and not below 250 ft (the missile motor starts frist after a drop time of 2 seconds and needs some time to accelerate the missile to stable flight). Flying level is really important, because if the nose points downwards, then in addition to the drop time the missile will accelerate towards the water without the pitch correction having a chance to react in due time.
 * with a target selected in SEA radar mode
 
 

@@ -196,6 +196,27 @@ A07: Matra/BAe ALARM and Matra Armat
 URL: https://www.ausairpower.net/alarm-armat.html
 
 
+Key.Aero
+^^^^^^^^
+
+A08: Multi-Role Hellenic Mirages (May 2017)
+'''''''''''''''''''''''''''''''''''''''''''
+
+URL: https://www.key.aero/article/multi-role-hellenic-mirages
+
+
+A09: Theseus over the Aegean (May 2020)
+'''''''''''''''''''''''''''''''''''''''
+
+URL:
+
+
+A10: To Kill a Radar: Analysing the now largely-forgotten ARMAT missile (Jan 2022)
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+URL: https://www.key.aero/article/kill-radar-analysing-now-largely-forgotten-armat-missile
+
+
 
 Documents
 ============================
@@ -433,7 +454,7 @@ Content:
 * Aero braking by a M2000D/N
 
 
-V13: Mirage 2000-N BAN Hyères - Atterrissage
+Y13: Mirage 2000-N BAN Hyères - Atterrissage
 --------------------------------------------
 
 URL: https://www.youtube.com/watch?v=PQSUEYkh4yA
@@ -468,3 +489,12 @@ URL: https://www.youtube.com/watch?v=qD3Atv7uF5g
 Content:
 
 * Around 14 min: Aero braking and HUD display approach/ground
+
+Y17: Fighter Jets: Engineered to Push Pilots to the Limit | Documentary
+-----------------------------------------------------------------------
+
+URL: https://www.youtube.com/watch?v=QeEhiRkg6BA
+
+* In general: the evolution of the Ouragan, M2000 and Rafale
+* Around ca. 19:22 and 20:34: footage of -5 cockpit instruments from another simulator
+* Around ca. 24:00: footage of TGP display

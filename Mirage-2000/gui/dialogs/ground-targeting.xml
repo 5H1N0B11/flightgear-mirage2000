@@ -40,7 +40,7 @@
 	<hrule />
 
 	<button>
-		<legend>Snipe lon/lat from Previous Click on Ground</legend>
+		<legend>Acquire lon/lat from Previous Click on Ground</legend>
 		<enable>
 			<equals>
 				<property>payload/armament/station/id-6-set</property>
@@ -49,11 +49,11 @@
 		</enable>
 		<binding>
 			<command>nasal</command>
-			<script>groundTargeting.sniping();</script>
+			<script>groundTargeting.acquireClickedCoordinates();</script>
 		</binding>
 	</button>
 
-	<text><label>Sniped or Typed Primary Coordinates</label></text>
+	<text><label>Spotted or Typed Primary Coordinates</label></text>
 
 	<input>
 		<width>75</width>
@@ -101,48 +101,48 @@
 	<hrule />
 
 	<button>
-		<legend>Create/Update Sniped Target from Primary Coords</legend>
+		<legend>Create/Update Spotted Target from Primary Coords</legend>
 		<binding>
 			<command>dialog-apply</command>
 		</binding>
 		<binding>
 			<command>nasal</command>
-			<script>groundTargeting.createSnipedTarget()</script>
+			<script>groundTargeting.createSpottedTarget()</script>
 		</binding>
 	</button>
 
 	<button>
-		<legend>Delete Sniped Target</legend>
+		<legend>Delete Spotted Target</legend>
 		<binding>
 			<command>dialog-apply</command>
 		</binding>
 		<binding>
 			<command>nasal</command>
-			<script>groundTargeting.deleteSnipedTarget()</script>
+			<script>groundTargeting.deleteSpottedTarget()</script>
 		</binding>
 	</button>
 
 	<hrule />
 
 	<button>
-		<legend>Designate Sniped Target as Target</legend>
+		<legend>Designate Spotted Target as Ready for Engagement</legend>
 		<binding>
 			<command>dialog-apply</command>
 		</binding>
 		<binding>
 			<command>nasal</command>
-			<script>groundTargeting.designateSnipedTarget()</script>
+			<script>groundTargeting.designateSpottedTarget()</script>
 		</binding>
 	</button>
 
 	<button>
-		<legend>Focus FLIR on Sniped Target</legend>
+		<legend>Focus FLIR on Spotted Target</legend>
 		<binding>
 			<command>dialog-apply</command>
 		</binding>
 		<binding>
 			<command>nasal</command>
-			<script>groundTargeting.focusFLIROnSnipedTarget()</script>
+			<script>groundTargeting.focusFLIROnSpottedTarget()</script>
 		</binding>
 	</button>
 

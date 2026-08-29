@@ -28,6 +28,13 @@
 var TRUE = 1;
 var FALSE = 0;
 
+var MAX_RWR_TRACKED = 12; # what is displayed as threats. +1 for 1 tracked missile (i.e. 12+1 = 13)
+var RWR_AIRCRAFT_UNKNOWN  = "U";
+var RWR_ASSET_AI          = "AI";
+var RWR_AIRCRAFT_SEARCH   = "S";
+
+
+
 var DISPLAY_WIDTH = 768;
 var DISPLAY_HEIGHT = 576;
 
@@ -115,7 +122,7 @@ var font = {
 	page_ppa: {
 		wpn_text: 32,
 		ammo_text: 32,
-		damage_text: 20,
+		status_text: 20,
 	},
 	page_rwr: {
 		threat_text: 36,
@@ -218,6 +225,7 @@ var OSB_MINUS = " - ";
 var WPN_KIND_CANNON = "cannon";
 var WPN_KIND_FALL = "fall"; # free fall bombs (guided or unguided)
 var WPN_KIND_ARMAT = "armat";
+var WPN_KIND_LASER = "laser";
 
 
 #  ██████  ██ ███████ ██████  ██       █████  ██    ██     ██████  ███████ ██    ██ ██  ██████ ███████
@@ -672,9 +680,9 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
 			me.device.controls[OSB6].setControlText(PAGE_SMS_MENU_ITEM);
 			me.device.controls[OSB7].setControlText(PAGE_PPA_MENU_ITEM);
-			me.device.controls[OSB8].setControlText(PAGE_RWR_MENU_ITEM);
 			me.device.controls[OSB22].setControlText(PAGE_EHSI_MENU_ITEM);
 			me.device.controls[OSB25].setControlText(PAGE_EADI_MENU_ITEM);
 			me.device.controls[OSB28].setControlText(PAGE_MAP_MENU_ITEM);
@@ -685,8 +693,6 @@ var DisplaySystem = {
 				me.device.system.selectPage(PAGE_SMS);
 			} elsif (controlName == OSB7) {
 				me.device.system.selectPage(PAGE_PPA);
-			} elsif (controlName == OSB8) {
-				me.device.system.selectPage(PAGE_RWR);
 			} elsif (controlName == OSB22) {
 				me.device.system.selectPage(PAGE_EHSI);
 			} elsif (controlName == OSB25) {
@@ -706,6 +712,7 @@ var DisplaySystem = {
 		},
 
 		links: {
+			OSB1: PAGE_RWR,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -778,6 +785,7 @@ var DisplaySystem = {
 			me.mode = 0; # VOR = 0 (NAV1 or NAV2), DATA = 1, TACAN = 2, FMS = 3
 			me.nav_number = 1; # Either NAV1 or NAV2 toggled with OSB5
 			me.fp = flightplan();
+			me.flightplan_enabled = FALSE;
 			me.current_wp_geo = geo.Coord.new();
 
 			me.osb13 = "TH";
@@ -956,7 +964,8 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_EHSI_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 		},
 
 		_changeMode: func(delta) {
@@ -987,9 +996,7 @@ var DisplaySystem = {
 		},
 
 		controlAction: func (controlName) {
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB5) {
+			if (controlName == OSB5) {
 				if (me.mode == 0) {
 					me.nav_number = me.nav_number == 1 ? 2 : 1;
 					me.input.nav_source.setValue(me.nav_number == 1 ? consts.NAV_SOURCE_NAV1 : consts.NAV_SOURCE_NAV2);
@@ -1038,7 +1045,7 @@ var DisplaySystem = {
 					me.destination_needle.setRotation(me._correctTrueHeading(me.input.tacan_bearing.getValue())*D2R);
 				}
 			} elsif (me.mode == 3) {
-				if (me.dest_ok == TRUE) {
+				if (me.flightplan_enabled == TRUE) {
 					visible = TRUE;
 					me.destination_needle.setRotation(me._correctTrueHeading(me.aircraft_position.course_to(me.current_wp_geo))*D2R);
 				}
@@ -1109,7 +1116,7 @@ var DisplaySystem = {
 				tacan_text_color = consts.COLOR_CYAN;
 			} else { # mode == 3 -> FMS
 				mode_display = "...";
-				if (me.dest_ok == TRUE) {
+				if (me.flightplan_enabled == TRUE) {
 					time_display = me._calcTimeToDestinationString(me.aircraft_position.direct_distance_to(me.current_wp_geo));
 				}
 			}
@@ -1126,7 +1133,7 @@ var DisplaySystem = {
 			var distdest_display = "...N";
 			var destination_display = "...";
 
-			if (me.dest_ok == TRUE) {
+			if (me.flightplan_enabled == TRUE) {
 				destination_display = sprintf("DEST %02d", me.fp.current);
 				distdest_display = sprintf("%.1fN", me.aircraft_position.direct_distance_to(me.current_wp_geo)*M2NM);
 			}
@@ -1200,11 +1207,11 @@ var DisplaySystem = {
 			me.device.controls[OSB26].setControlText(me.osb26);
 
 			if (me.fp != nil and me.fp.currentWP() != nil) {
-				me.dest_ok = TRUE;
+				me.flightplan_enabled = TRUE;
 				me.aircraft_position = geo.aircraft_position();
 				me.current_wp_geo.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon);
 			} else {
-				me.dest_ok = FALSE;
+				me.flightplan_enabled = FALSE;
 			}
 
 			# drawing stuff
@@ -1217,6 +1224,7 @@ var DisplaySystem = {
 		},
 
 		links: {
+			OSB1: PAGE_RWR,
 			OSB2: PAGE_HUB,
 		},
 
@@ -1275,6 +1283,7 @@ var DisplaySystem = {
 			# content stuff
 			me.mode = 0; # VOR = 0 (NAV1 or NAV2), DATA = 1, TACAN = 2, FMS = 3
 			me.fp = flightplan();
+			me.flightplan_enabled = FALSE;
 			me.current_wp_geo = geo.Coord.new();
 		},
 
@@ -1475,13 +1484,12 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_EADI_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 		},
 
 		controlAction: func (controlName) {
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB5) {
+			if (controlName == OSB5) {
 				if (me.nav_source == consts.NAV_SOURCE_NAV1) {
 					me.input.nav_source.setValue(consts.NAV_SOURCE_NAV2);
 				} elsif (me.nav_source == consts.NAV_SOURCE_NAV2) {
@@ -1671,7 +1679,7 @@ var DisplaySystem = {
 			var desttime_display = ".../";
 			var destdist_display = "...N";
 
-			if (me.dest_ok == TRUE) {
+			if (me.flightplan_enabled == TRUE) {
 				destnumber_display = sprintf("%02d", me.fp.current);
 				desttime_display = me._calcTimeToDestinationString(me.aircraft_position.direct_distance_to(me.current_wp_geo));
 				destdist_display = sprintf("%.0fN", me.aircraft_position.direct_distance_to(me.current_wp_geo)*M2NM);
@@ -1715,12 +1723,13 @@ var DisplaySystem = {
 			me.device.controls[OSB5].setControlText(me.osb5);
 
 			if (me.fp != nil and me.fp.currentWP() != nil) {
-				me.dest_ok = TRUE;
+				me.flightplan_enabled = TRUE;
 				me.aircraft_position = geo.aircraft_position();
 				me.current_wp_geo.set_latlon(me.fp.currentWP().lat , me.fp.currentWP().lon);
 			} else {
-				me.dest_ok = FALSE;
+				me.flightplan_enabled = FALSE;
 			}
+
 
 			# allways update on notification - not based on frame count
 			me._updateSphere();
@@ -1733,8 +1742,8 @@ var DisplaySystem = {
 		},
 
 		links: {
+			OSB1: PAGE_RWR,
 			OSB2: PAGE_HUB,
-
 		},
 		layers: [LAYER_SERVICEABLE],
 	},
@@ -1977,15 +1986,14 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_SMS_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 			me._toggle_fbw_mode(me.input.fbw_mode.getValue());
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB32) {
+			if (controlName == OSB32) {
 				me._toggle_fbw_mode(0);
 			} elsif (controlName == OSB33) {
 				me._toggle_fbw_mode(1);
@@ -2083,7 +2091,8 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_PPA,
+			OSB1: PAGE_RWR,
+			OSB2: PAGE_HUB,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -2112,10 +2121,12 @@ var DisplaySystem = {
 			me.input = {
 				cannon_rate_0              : "/ai/submodels/submodel/delay",
 				damage                     : "payload/armament/msg",
+				master_arm                 : "controls/armament/master-arm",
 				antiradar_target_type      : "controls/armament/antiradar-target-type",
 				cannon_air_ground          : "controls/armament/cannon-air-ground",
 				cannon_air_air_incitation  : "controls/armament/cannon-air-air-incitation",
 				cannon_air_air_wingspan    : "controls/armament/cannon-air-air-wingspan",
+				flightmode                 : "/instrumentation/flightmode/selected",
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -2163,17 +2174,65 @@ var DisplaySystem = {
 				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_4);
 			me.row_4_right_text.enableUpdate();
 			me.damage_label = me.group.createChild("text", "damage_label")
-				.setFontSize(font.page_ppa.damage_text)
+				.setFontSize(font.page_ppa.status_text)
 				.setColor(consts.COLOR_WHITE)
 				.setAlignment("right-center")
 				.setTranslation(DISPLAY_WIDTH/2, 100)
 				.setText("Damage:");
 			me.damage_text = me.group.createChild("text", "damage_text")
-				.setFontSize(font.page_ppa.damage_text)
-				.setColor(consts.COLOR_CYAN)
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
 				.setAlignment("left-center")
 				.setTranslation(DISPLAY_WIDTH/2 + 10, 100);
 			me.damage_text.enableUpdate();
+			me.masterarm_label = me.group.createChild("text", "masterarm_label")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2, 130)
+				.setText("Master-arm:");
+			me.masterarm_text = me.group.createChild("text", "masterarm_text")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 130);
+			me.masterarm_text.enableUpdate();
+			me.flightmode_label = me.group.createChild("text", "flightmode_label")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2, 160)
+				.setText("Flight mode:");
+			me.flightmode_text = me.group.createChild("text", "flightmode_text")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 160);
+			me.flightmode_text.enableUpdate();
+			me.spotted_label = me.group.createChild("text", "spotted_label")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2, 190)
+				.setText("Tgt spotted:");
+			me.spotted_text = me.group.createChild("text", "spotted_text")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 190);
+			me.spotted_text.enableUpdate();
+			me.designated_label = me.group.createChild("text", "designated_label")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_WHITE)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH/2, 220)
+				.setText("Tgt design.:");
+			me.designated_text = me.group.createChild("text", "designated_text")
+				.setFontSize(font.page_ppa.status_text)
+				.setColor(consts.COLOR_RED)
+				.setAlignment("left-center")
+				.setTranslation(DISPLAY_WIDTH/2 + 10, 220);
+			me.designated_text.enableUpdate();
 		},
 
 		_changeWingspan: func(increase) {
@@ -2190,15 +2249,14 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_PPA_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
 			me.wpn = pylons.fcs.getSelectedWeapon();
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB6) {
+			if (controlName == OSB6) {
 				if (me.wpn_kind == WPN_KIND_FALL) {
 					me.fuze += 1;
 					if (me.fuze > 2) {
@@ -2207,7 +2265,7 @@ var DisplaySystem = {
 				} else if (me.wpn_kind == WPN_KIND_ARMAT) {
 					if (me.wow == TRUE) { # cannot change in flight
 						me.input.antiradar_target_type.setValue(me.input.antiradar_target_type.getValue() + 1);
-						if (me.input.antiradar_target_type.getValue() >2) {
+						if (me.input.antiradar_target_type.getValue() > 3) {
 							me.input.antiradar_target_type.setValue(0);
 						}
 					}
@@ -2312,7 +2370,37 @@ var DisplaySystem = {
 			if (me.wpn == nil) {
 				me.wpn_text.updateText("No weapon selected");
 				me.ammo_text.updateText("");
+				me.spotted_label.hide();
+				me.spotted_text.hide();
+				me.designated_label.hide();
+				me.designated_text.hide();
 			} else {
+				if (me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24" or me.wpn.type == "AS30L") {
+					if (groundTargeting.theSpottedTarget != nil) {
+						me.spotted_text.updateText("Yes");
+						me.spotted_text.setColor(consts.COLOR_GREEN);
+					} else {
+						me.spotted_text.updateText("No");
+						me.spotted_text.setColor(consts.COLOR_RED);
+					}
+					if (armament.contactPoint != nil) {
+						me.designated_text.updateText("Yes");
+						me.designated_text.setColor(consts.COLOR_GREEN);
+					} else {
+						me.designated_text.updateText("No");
+						me.designated_text.setColor(consts.COLOR_RED);
+					}
+					me.spotted_label.show();
+					me.spotted_text.show();
+					me.designated_label.show();
+					me.designated_text.show();
+				} else {
+					me.spotted_label.hide();
+					me.spotted_text.hide();
+					me.designated_label.hide();
+					me.designated_text.hide();
+				}
+
 				me.wpn_text.updateText(me.wpn.type);
 				me.ammo_text.updateText("Ammo: "~pylons.fcs.getAmmo());
 
@@ -2393,12 +2481,14 @@ var DisplaySystem = {
 					me.osb6_selected = TRUE;
 				} else if (me.wpn.type == "AS-37-Armat") {
 					me.wpn_kind = WPN_KIND_ARMAT;
-					if (me.input.antiradar_target_type.getValue() == 0) {
+					if (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_GROUND) {
 						me.osb6 = "GROUND";
-					} elsif (me.input.antiradar_target_type.getValue() == 1) {
+					} elsif (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_SHIP) {
 						me.osb6 = "SHIP";
-					} else {
+					} elsif (me.input.antiradar_target_type.getValue() == consts.ANTIRADAR_TARGET_TYPE_SAM) {
 						me.osb6 = "SAM";
+					} else { # consts.ANTIRADAR_TARGET_TYP_AAW
+						me.osb6 = "AAW";
 					}
 					me.osb6_selected = TRUE;
 				}
@@ -2409,7 +2499,20 @@ var DisplaySystem = {
 				me.damage_text.setColor(consts.COLOR_GREEN);
 			} else {
 				me.damage_text.updateText("Off");
-				me.damage_text.setColor(consts.COLOR_CYAN);
+				me.damage_text.setColor(consts.COLOR_RED);
+			}
+			if (me.input.master_arm.getValue()) {
+				me.masterarm_text.updateText("On");
+				me.masterarm_text.setColor(consts.COLOR_GREEN);
+			} else {
+				me.masterarm_text.updateText("Off");
+				me.masterarm_text.setColor(consts.COLOR_RED);
+			}
+			me.flightmode_text.updateText(me.input.flightmode.getValue());
+			if (me.input.flightmode.getValue() == consts.FLIGHT_MODE_ATTACK) {
+				me.flightmode_text.setColor(consts.COLOR_GREEN);
+			} else {
+				me.flightmode_text.setColor(consts.COLOR_RED);
 			}
 
 			me.device.controls[OSB6].setControlText(me.osb6, TRUE, me.osb6_selected);
@@ -2429,7 +2532,8 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_RWR,
+			OSB1: PAGE_RWR,
+			OSB2: PAGE_HUB,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -2458,22 +2562,13 @@ var DisplaySystem = {
 				flares                    : "rotors/main/blade[3]/flap-deg", # see weapons.nas
 				# chaff                     : "rotors/main/blade[3]/position-deg", # not needed because same as flares
 				cm_remaining              : "/ai/submodels/submodel[7]/count",
-				semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
-				maw_active                : "payload/armament/MAW-active",
-				maw_bearing               : "payload/armament/MAW-bearing",
-				launch_callsign           : "sound/rwr-launch",
-				sound_rwr_threat_new      : "sound/rwr-threat-new",
-				sound_rwr_threat_stt      : "sound/rwr-threat-stt",
-				sound_rwr_maw_semi_active : "sound/rwr-maw-semi-active",
-				sound_rwr_maw_active      : "sound/rwr-maw-active",
-				heading_true              : "orientation/heading-deg",
 			};
 
 			foreach(var name; keys(me.input)) {
 				me.input[name] = props.globals.getNode(me.input[name], 1);
 			}
 
-			me.max_icons = 12; # what is displayed as threats. +1 for 1 tracked missile (i.e. 12+1 = 13)
+			me.max_tracked = MAX_RWR_TRACKED;
 			me.radius = 0.8 * DISPLAY_HEIGHT/2; # we want a bit of space around the circle
 			me.high_threat_radius = me.radius*0.45; # where to put the high threat symbols
 			me.missile_radius = me.radius*0.2; # where to put the missile(s)
@@ -2485,10 +2580,6 @@ var DisplaySystem = {
 			me.sep1_radius = me.radius*0.400;
 			me.sep2_radius = me.radius*0.525;
 			me.sep3_radius = me.radius*0.775;
-
-			me.AIRCRAFT_UNKNOWN  = "U";
-			me.ASSET_AI          = "AI";
-			me.AIRCRAFT_SEARCH   = "S";
 
 			me.TICK_LENGTH_SHORT = 10;
 			me.TICK_LENGTH_LONG = 20;
@@ -2506,14 +2597,12 @@ var DisplaySystem = {
 				.setTranslation(DISPLAY_WIDTH-me.DISPENSER_BOX_WIDTH-me.DISPENSER_BOX_SEPARATION, 6*me.DISPENSER_BOX_SEPARATION);
 			me._createDispenserIndicators();
 
-			me.prev_contacts = [];
-			me.prev_stt = [];
-
 			me.last_update_inc = 0;
 			me.alternated = FALSE; # toggles every ca. UPDATE_INC seconds between TRUE and FALSE
 
+			me.separate = FALSE;
+
 			# whether or not to show unknowns
-			me.show_unknowns = TRUE;
 			me.SHOW_UNKNOWNS_MENU_ITEM = "Y";
 			me.HIDE_UNKNOWNS_MENU_ITEM = "N";
 
@@ -2525,7 +2614,6 @@ var DisplaySystem = {
 				.setText("Show unk.");
 
 			# whether to reduce overlapping (at the expense of angle accuracy)
-			me.separate = FALSE;
 			me.SEPARATE_ACTIVE_MENU_ITEM = "Y";
 			me.SEPARATE_NONE_MENU_ITEM = "N";
 
@@ -2592,23 +2680,23 @@ var DisplaySystem = {
 				.setColor(consts.COLOR_WHITE);
 		},
 		_createRWRSymbols: func() {
-			me.texts = setsize([], me.max_icons+1);
-			for (var i = 0; i < me.max_icons+1; i+=1) {
+			me.texts = setsize([], me.max_tracked+1);
+			for (var i = 0; i < me.max_tracked+1; i+=1) {
 				me.texts[i] = me.rwr_circles_group.createChild("text")
 					.setAlignment("center-center")
 					.setColor(consts.COLOR_YELLOW)
 					.setFontSize(font.page_rwr.threat_text)
 					.hide();
 				me.texts[i].enableUpdate();
-				if (i == me.max_icons) {
+				if (i == me.max_tracked) {
 					me.texts[i].updateText("W"); # will not change -> missile
 				} else {
 					me.texts[i].updateText("00");
 				}
 			}
 
-			me.symbol_hat = setsize([], me.max_icons+1); # supporting active missile
-			for (var i = 0; i < me.max_icons+1; i+=1) {
+			me.symbol_hat = setsize([], me.max_tracked+1); # supporting active missile
+			for (var i = 0; i < me.max_tracked+1; i+=1) {
 				me.symbol_hat[i] = me.rwr_circles_group.createChild("path")
 					.moveTo(0, -font.page_rwr.symbols_dist)
 					.lineTo(font.page_rwr.symbols_dist*0.9, -font.page_rwr.symbols_dist*0.6)
@@ -2619,8 +2707,8 @@ var DisplaySystem = {
 					.hide();
 			}
 
-			me.symbol_chevron = setsize([], me.max_icons+1); # STT / spike
-			for (var i = 0; i < me.max_icons+1; i+=1) {
+			me.symbol_chevron = setsize([], me.max_tracked+1); # STT / spike
+			for (var i = 0; i < me.max_tracked+1; i+=1) {
 				me.symbol_chevron[i] = me.rwr_circles_group.createChild("path")
 					.moveTo(0, font.page_rwr.symbols_dist)
 					.lineTo(font.page_rwr.symbols_dist*0.9, font.page_rwr.symbols_dist*0.6)
@@ -2694,17 +2782,15 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_RWR_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 
-			me._toggle_show_unknowns(me.show_unknowns);
+			me._toggle_show_unknowns(rwrDevice.show_unknowns);
 			me._toggle_separate(me.separate);
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB10) {
+			if (controlName == OSB10) {
 				me._toggle_separate(TRUE);
 			} elsif (controlName == OSB11) {
 				me._toggle_separate(FALSE);
@@ -2717,10 +2803,10 @@ var DisplaySystem = {
 		},
 
 		_toggle_show_unknowns: func (show) {
-			me.show_unknowns = show;
-			if (me.show_unknowns) {
+			rwrDevice.show_unknown = show;
+			if (show) {
 				me.device.controls[OSB20].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
-				me.device.controls[OSB20].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB21].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
 			} else {
 				me.device.controls[OSB20].setControlText(me.SHOW_UNKNOWNS_MENU_ITEM, TRUE, FALSE);
 				me.device.controls[OSB21].setControlText(me.HIDE_UNKNOWNS_MENU_ITEM, TRUE, TRUE);
@@ -2729,7 +2815,7 @@ var DisplaySystem = {
 
 		_toggle_separate: func (do_separate) {
 			me.separate = do_separate;
-			if (me.separate) {
+			if (do_separate) {
 				me.device.controls[OSB10].setControlText(me.SEPARATE_ACTIVE_MENU_ITEM, TRUE, TRUE);
 				me.device.controls[OSB11].setControlText(me.SEPARATE_NONE_MENU_ITEM, TRUE, FALSE);
 			} else {
@@ -2802,175 +2888,88 @@ var DisplaySystem = {
 
 			me._updateCounterMeasures();
 
-			me.semi_callsign = me.input.semiactive_callsign.getValue();
-			me.launch_callsign = me.input.launch_callsign.getValue();
-			me.has_maw_active = FALSE;
-			me.has_maw_semi_active = FALSE;
-			if (me.launch_callsign != nil and me.launch_callsign != '') {
-				me.has_maw_active = TRUE;
-			}
-			if (me.semi_callsign != nil and me.semi_callsign != '') {
-				me.has_maw_semi_active = TRUE;
-			}
-
-			var sorter = func(a, b) {
-				if (a[1] > b[1]) {
-					return -1; # A should before b in the returned vector
-				} elsif (a[1] == b[1]) {
-					return 0; # A is equivalent to b
-				} else {
-					return 1; # A should after b in the returned vector
-				}
-			}
-			me.sorted_list = sort(radar_system.f16_rwr.vector_aicontacts_threats, sorter);
-
 			me.sep_spots = [[0,0,0,0,0,0,0,0],#45 degs  8
 							[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],# 20 degs  18
 							[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];# 15 degs  24
 			me.sep_angles = [45,20,15];
 
-			me.new_contacts = [];
-			me.new_stt = [];
 			me.i = 0;
-			me.has_new_threat = FALSE;
-			me.has_new_stt = FALSE;
-			foreach(me.contact; me.sorted_list) {
-				me.dbEntry = radar_system.getDBEntry(me.contact[0].getModel());
-				me.typ = me.dbEntry.rwrCode;
-				# first exclude what does not need to be shown
-				if (me.i > me.max_icons-1) {
-					break;
-				}
-				if (me.typ == nil) {
-					me.typ = me.AIRCRAFT_UNKNOWN;
-					if (!me.show_unknowns) {
-						continue;
-					}
-				}
-				if (me.typ == me.ASSET_AI) {
-					if (!me.show_unknowns) {
-						continue;
-					}
-				}
-				if (me.contact[0].get_range() > 170) { # deviates from F16, which has 150
-					continue;
-				}
-				me.threat = me.contact[1];
-				if (me.threat <= 0) {
-					continue;
-				}
-
-				# now we know it should be shown
-				me.is_blinking = FALSE;
-				if (me.has_maw_active and me.launch_callsign == me.contact[0].get_Callsign()) {
-					me.is_blinking = TRUE;
-				} else if (me.has_maw_semi_active and me.semi_callsign == me.contact[0].get_Callsign()) {
-					me.is_blinking = TRUE;
-				}
-				me.dev = -me.contact[2]+90;
-				if (me.separate == TRUE) {
-					if (me.typ == me.AIRCRAFT_UNKNOWN or me.typ == me.AIRCRAFT_SEARCH) {
-						me.threat = 2.;
-					} else if (me.threat > 0.5) {
-						me.threat = 0.;
-					} else if (me.threat > 0.25) {
-						me.threat = 1.;
+			foreach(me.contact; rwrDevice.threats) {
+				if (me.contact[0] != nil) {
+					me.typ = me.contact[0];
+					me.threat = me.contact[1];
+					if (me.separate == TRUE) {
+						if (me.typ == RWR_AIRCRAFT_UNKNOWN or me.typ == RWR_AIRCRAFT_SEARCH) {
+							me.threat = 2.;
+						} else if (me.threat > 0.5) {
+							me.threat = 0.;
+						} else if (me.threat > 0.25) {
+							me.threat = 1.;
+						} else {
+							me.threat = 2.;
+						}
+						me._assign_sep_spot();
 					} else {
-						me.threat = 2.;
+						if (me.typ == RWR_AIRCRAFT_UNKNOWN or me.typ == RWR_AIRCRAFT_SEARCH) {
+							me.threat = me.unknown_threat_radius;
+						} else if (me.threat > 0.5) {
+							me.threat = me.high_threat_radius;
+						} else {
+							me.threat = me.lower_threat_radius;
+						}
 					}
-					me._assign_sep_spot();
-				} else {
-					if (me.typ == me.AIRCRAFT_UNKNOWN or me.typ == me.AIRCRAFT_SEARCH) {
-						me.threat = me.unknown_threat_radius;
-					} else if (me.threat > 0.5) {
-						me.threat = me.high_threat_radius;
-					} else {
-						me.threat = me.lower_threat_radius;
-					}
-				}
 
-				me.x = math.cos(me.dev*D2R)*me.threat;
-				me.y = -math.sin(me.dev*D2R)*me.threat;
-				me.texts[me.i].setTranslation(me.x, me.y);
-				me.texts[me.i].updateText(me.typ);
-				me.symbol_chevron[me.i].setTranslation(me.x, me.y);
-				me.symbol_hat[me.i].setTranslation(me.x, me.y);
+					me.dev = me.contact[2];
+					me.x = math.cos(me.dev*D2R)*me.threat;
+					me.y = -math.sin(me.dev*D2R)*me.threat;
 
-				if (me.is_blinking == TRUE and me.alternated == TRUE) {
-					me.texts[me.i].show();
-					me.symbol_chevron[me.i].show();
-					me.symbol_hat[me.i].show();
-				} else if (me.is_blinking == TRUE and me.alternated == FALSE) {
-					me.texts[me.i].hide();
-					me.symbol_chevron[me.i].hide();
-					me.symbol_hat[me.i].hide();
-				} else {
-					me.texts[me.i].show();
-					me.symbol_hat[me.i].hide();
-					if (me.contact[0].isSpikingMe()) {
+					me.texts[me.i].setTranslation(me.x, me.y);
+					me.texts[me.i].updateText(me.contact[0]);
+					me.symbol_chevron[me.i].setTranslation(me.x, me.y);
+					me.symbol_hat[me.i].setTranslation(me.x, me.y);
+
+					if (me.contact[3] == TRUE and me.alternated == TRUE) {
+						me.texts[me.i].show();
 						me.symbol_chevron[me.i].show();
-						append(me.new_stt, me.contact[0]);
-						if (me.has_new_stt == FALSE) {
-							foreach (me.old; me.prev_stt) {
-								if (me.old.getUnique()==me.contact[0].getUnique()) {
-									me.has_new_stt = TRUE;
-									break;
-								}
-							}
-						}
-					} else {
+						me.symbol_hat[me.i].show();
+					} else if (me.contact[3] == TRUE and me.alternated == FALSE) {
+						me.texts[me.i].hide();
 						me.symbol_chevron[me.i].hide();
-					}
-				}
-				# check whether new threat
-				if (me.has_new_threat == FALSE) {
-					foreach (me.old; me.prev_contacts) {
-						if (me.old.getUnique()==me.contact[0].getUnique()) {
-							me.has_new_threat = TRUE;
-							break;
+						me.symbol_hat[me.i].hide();
+					} else {
+						me.texts[me.i].show();
+						if (me.contact[4] == TRUE) {
+							me.symbol_chevron[me.i].show();
+						} else {
+							me.symbol_chevron[me.i].hide();
 						}
+						me.symbol_hat[me.i].hide();
 					}
+				} else {
+					# hide every symbol, which is not needed
+					me.texts[me.i].hide();
+					me.symbol_hat[me.i].hide();
+					me.symbol_chevron[me.i].hide();
 				}
-				append(me.new_contacts, me.contact[0]);
 				me.i += 1;
 			}
-			# hide every symbol, which is not needed
-			for (;me.i<me.max_icons;me.i+=1) {
-				me.texts[me.i].hide();
-				me.symbol_hat[me.i].hide();
-				me.symbol_chevron[me.i].hide();
-			}
-
-			me.prev_contacts = me.new_contacts; # the prev_contacts will be the "old" one in next call to _update
-			me.prev_stt = me.new_stt;
 
 			# show the active missile (only one can be shown in OPRF)
-			if (me.input.maw_active.getValue() and me.alternated == TRUE) { # we show blinking when FALSE to make it more visible
-				me.dev = -geo.normdeg180(me.input.maw_bearing.getValue() - me.input.heading_true.getValue()) + 90;
+			if (rwrDevice.active_missile != nil and me.alternated == TRUE) { # we show blinking when FALSE to make it more visible
+				me.dev = rwrDevice.active_missile;
 				me.x = math.cos(me.dev*D2R)*me.missile_radius;
 				me.y = -math.sin(me.dev*D2R)*me.missile_radius;
-				me.texts[me.max_icons].setTranslation(me.x, me.y);
-				me.symbol_chevron[me.max_icons].setTranslation(me.x, me.y);
-				me.symbol_hat[me.max_icons].setTranslation(me.x, me.y);
+				me.texts[me.max_tracked].setTranslation(me.x, me.y);
+				me.symbol_chevron[me.max_tracked].setTranslation(me.x, me.y);
+				me.symbol_hat[me.max_tracked].setTranslation(me.x, me.y);
 
-				me.texts[me.max_icons].show();
-				me.symbol_hat[me.max_icons].show();
-				me.symbol_chevron[me.max_icons].show();
+				me.texts[me.max_tracked].show();
+				me.symbol_hat[me.max_tracked].show();
+				me.symbol_chevron[me.max_tracked].show();
 			} else {
-				me.texts[me.max_icons].hide();
-				me.symbol_hat[me.max_icons].hide();
-				me.symbol_chevron[me.max_icons].hide();
-			}
-
-			# set the sounds
-			me.input.sound_rwr_threat_new.setValue(me.has_new_threat);
-			me.input.sound_rwr_threat_stt.setValue(me.has_new_stt);
-
-			me.input.sound_rwr_maw_active.setValue(me.has_maw_active);
-			if (me.has_maw_active == FALSE and me.has_maw_semi_active == TRUE) {
-				me.input.sound_rwr_maw_semi_active.setValue(TRUE);
-			} else {
-				me.input.sound_rwr_maw_semi_active.setValue(FALSE);
+				me.texts[me.max_tracked].hide();
+				me.symbol_hat[me.max_tracked].hide();
+				me.symbol_chevron[me.max_tracked].hide();
 			}
 		},
 
@@ -3011,7 +3010,7 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_MAP,
+			OSB2: PAGE_HUB,
 		},
 
 		layers: [LAYER_SERVICEABLE],
@@ -3137,16 +3136,15 @@ var DisplaySystem = {
 				me.isNew = FALSE;
 			}
 			me.device.resetControls();
-			me.device.controls[OSB2].setControlText(PAGE_MAP_MENU_ITEM, TRUE, FALSE, TRUE);
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
 			me.device.controls[OSB32].setControlText("In");
 			me.device.controls[OSB33].setControlText("Out");
 		},
 
 		controlAction: func (controlName) {
 			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB2) {
-				me.device.system.selectPage(PAGE_HUB);
-			} elsif (controlName == OSB32) {
+			if (controlName == OSB32) {
 				me._changeZoomMap(1);
 			} elsif (controlName == OSB33) {
 				me._changeZoomMap(-1);
@@ -3221,12 +3219,204 @@ var DisplaySystem = {
 		},
 
 		links: {
-			OSB3: PAGE_EHSI,
+			OSB1: PAGE_RWR,
+			OSB2: PAGE_HUB,
 		},
 
 		layers: [LAYER_SERVICEABLE],
 	}
 };
+
+
+#    ██████  ██     ██ ██████      ██████  ███████ ██    ██ ██  ██████ ███████
+#    ██   ██ ██     ██ ██   ██     ██   ██ ██      ██    ██ ██ ██      ██
+#    ██████  ██  █  ██ ██████      ██   ██ █████   ██    ██ ██ ██      █████
+#    ██   ██ ██ ███ ██ ██   ██     ██   ██ ██       ██  ██  ██ ██      ██
+#    ██   ██  ███ ███  ██   ██     ██████  ███████   ████   ██  ██████ ███████
+
+
+var RWRDevice = {
+	new: func {
+		var r_obj = { parents: [RWRDevice] };
+
+		r_obj.input = {
+			semiactive_callsign       : "payload/armament/MAW-semiactive-callsign",
+			maw_active                : "payload/armament/MAW-active",
+			maw_bearing               : "payload/armament/MAW-bearing",
+			launch_callsign           : "sound/rwr-launch",
+			sound_rwr_threat_new      : "sound/rwr-threat-new",
+			sound_rwr_threat_stt      : "sound/rwr-threat-stt",
+			sound_rwr_maw_semi_active : "sound/rwr-maw-semi-active",
+			sound_rwr_maw_active      : "sound/rwr-maw-active",
+			heading_true              : "orientation/heading-deg",
+		};
+
+		foreach(var name; keys(r_obj.input)) {
+			r_obj.input[name] = props.globals.getNode(r_obj.input[name], 1);
+		}
+
+		r_obj.last_update_inc = 0;
+		r_obj.max_tracked = MAX_RWR_TRACKED;
+
+		r_obj.prev_contacts = [];
+		r_obj.prev_spike_contacts = [];
+
+		# all variables below this line are used in Page RWR
+		r_obj.show_unknowns = TRUE;
+
+		r_obj.threats = setsize([], r_obj.max_tracked+1);
+		for (var i = 0; i < size(r_obj.threats); i += 1) {
+			r_obj.threats[i] = [nil, 0.0, 0.0, 0, 0]; # threat type = nil if not used, threat level, dev, is_blinking, is_spiking
+		}
+		r_obj.active_missile = nil; # nil if not used or deviation in degrees
+
+		return r_obj;
+	},
+
+	update: func (noti = nil) {
+		me.elapsed = noti.getproper("elapsed_seconds");
+		if (me.elapsed - me.last_update_inc >= UPDATE_INC) {
+			me.last_update_inc = me.elapsed;
+		} else {
+			return;
+		}
+		# let us see whether we are ready at all first
+		if (noti.getproper("wow")) {
+			return;
+		}
+
+		me.semi_callsign = me.input.semiactive_callsign.getValue();
+		me.launch_callsign = me.input.launch_callsign.getValue();
+		me.has_maw_active = FALSE;
+		me.has_maw_semi_active = FALSE;
+		if (me.launch_callsign != nil and me.launch_callsign != '') {
+			me.has_maw_active = TRUE;
+		}
+		if (me.semi_callsign != nil and me.semi_callsign != '') {
+			me.has_maw_semi_active = TRUE;
+		}
+
+		var sorter = func(a, b) {
+			if (a[1] > b[1]) {
+				return -1; # A should before b in the returned vector
+			} elsif (a[1] == b[1]) {
+				return 0; # A is equivalent to b
+			} else {
+				return 1; # A should after b in the returned vector
+			}
+		}
+		me.sorted_list = sort(radar_system.f16_rwr.vector_aicontacts_threats, sorter);
+
+		me.new_contacts = [];
+		me.new_spike_contacts = [];
+		me.i = 0;
+		me.has_new_threat = FALSE;
+		me.has_new_stt = FALSE;
+		foreach(me.contact; me.sorted_list) {
+			me.contact_callsign = me.contact[0].getCallsign();
+			me.dbEntry = radar_system.getDBEntry(me.contact[0].getModel());
+			me.typ = me.dbEntry.rwrCode;
+			# first exclude what does not need to be shown
+			if (me.i > me.max_tracked-1) {
+				break;
+			}
+			if (me.typ == nil) {
+				me.typ = RWR_AIRCRAFT_UNKNOWN;
+				if (!me.show_unknowns) {
+					continue;
+				}
+			}
+			if (me.typ == RWR_ASSET_AI) {
+				if (!me.show_unknowns) {
+					continue;
+				}
+			}
+			if (me.contact[0].get_range() > 160) { # deviates from F16, which has 150
+				continue;
+			}
+			me.threat_level = me.contact[1];
+			if (me.threat_level <= 0) {
+				continue;
+			}
+
+			# now we know it should be shown
+			me.is_blinking = FALSE;
+			if (me.has_maw_active and me.launch_callsign == me.contact_callsign) {
+				me.is_blinking = TRUE;
+			} else if (me.has_maw_semi_active and me.semi_callsign == me.contact_callsign) {
+				me.is_blinking = TRUE;
+			}
+			me.dev = -me.contact[2]+90;
+
+			me.threats[me.i][0] = me.typ;
+			me.threats[me.i][1] = me.threat_level;
+			me.threats[me.i][2] = me.dev;
+			me.threats[me.i][3] = me.is_blinking;
+
+			if (me.contact[0].isSpikingMe()) {
+				me.threats[me.i][4] = TRUE;
+				append(me.new_spike_contacts, me.contact_callsign);
+				if (me.has_new_stt == FALSE) {
+					me.found_in_prev = FALSE;
+					foreach (me.old; me.prev_spike_contacts) {
+						if (me.old == me.contact_callsign) {
+							me.found_in_prev = TRUE;
+							break;
+						}
+					}
+					if (me.found_in_prev == FALSE) {
+						me.has_new_stt = TRUE;
+					}
+				}
+			} else {
+				me.threats[me.i][4] = FALSE;
+			}
+
+			# check whether new threat
+			if (me.has_new_threat == FALSE) {
+				me.found_in_prev = FALSE;
+				foreach (me.old; me.prev_contacts) {
+					if (me.old == me.contact_callsign) {
+						me.found_in_prev = TRUE;
+						break;
+					}
+				}
+				if (me.found_in_prev == FALSE) {
+					me.has_new_threat = TRUE;
+				}
+			}
+			append(me.new_contacts, me.contact_callsign);
+			me.i += 1;
+		}
+		# set text to nil to indicate that it is not used
+		for (;me.i<me.max_tracked;me.i+=1) {
+			me.threats[me.i][0] = nil;
+		}
+
+		me.prev_contacts = me.new_contacts; # the prev_contacts will be the "old" one in next call to _update
+		me.prev_spike_contacts = me.new_spike_contacts;
+
+
+		# show the active missile (only one can be shown in OPRF)
+		if (me.input.maw_active.getValue()) {
+			me.active_missile = -geo.normdeg180(me.input.maw_bearing.getValue() - me.input.heading_true.getValue()) + 90;
+		} else {
+			me.active_missile = nil;
+		}
+
+		# set the sounds
+		me.input.sound_rwr_threat_new.setValue(me.has_new_threat);
+		me.input.sound_rwr_threat_stt.setValue(me.has_new_stt);
+
+		me.input.sound_rwr_maw_active.setValue(me.has_maw_active);
+		if (me.has_maw_active == FALSE and me.has_maw_semi_active == TRUE) {
+			me.input.sound_rwr_maw_semi_active.setValue(TRUE);
+		} else {
+			me.input.sound_rwr_maw_semi_active.setValue(FALSE);
+		}
+	},
+};
+
 
 
 #   ██████  ██    ██ ███████ ██████   █████  ██      ██          ███████ ███████ ████████ ██    ██ ██████
@@ -3238,6 +3428,7 @@ var DisplaySystem = {
 
 var leftMFDDisplayDevice = nil;
 var rightMFDDisplayDevice = nil;
+var rwrDevice = nil;
 
 var M2000MFDRecipient =
 {
@@ -3255,6 +3446,7 @@ var M2000MFDRecipient =
 
             if (notification.NotificationType == "FrameNotification")
             {
+				rwrDevice.update(notification);
                 leftMFDDisplayDevice.update(notification);
                 rightMFDDisplayDevice.update(notification);
                 return emesary.Transmitter.ReceiptStatus_OK;
@@ -3281,6 +3473,7 @@ var main = func (module) {
 		return; # nothing to do
 	}
 
+	rwrDevice = RWRDevice.new();  # must come before displays
 
 	leftMFDDisplayDevice = DisplayDevice.new("LeftMFDDisplayDevice", [DISPLAY_WIDTH, DISPLAY_HEIGHT], [1, 1], "left_mfd.canvasCadre", "canvasTex.png");
 	leftMFDDisplayDevice.setColorBackground(consts.COLOR_BLACK);
@@ -3343,7 +3536,7 @@ var main = func (module) {
 	leftMFDDisplayDevice.addControlFeedback();
 
 	leftMFDDisplaySystem.initPages();
-	leftMFDDisplaySystem.selectPage(PAGE_EHSI);
+	leftMFDDisplaySystem.selectPage(PAGE_HUB); # may not be a page with a flightplan or anything else that needs to be initialized (e.g. EHSI)
 
 
 	var rightMFDDisplaySystem = DisplaySystem.new();
@@ -3355,7 +3548,7 @@ var main = func (module) {
 	rightMFDDisplayDevice.addControlFeedback();
 
 	rightMFDDisplaySystem.initPages();
-	rightMFDDisplaySystem.selectPage(PAGE_HUB);
+	rightMFDDisplaySystem.selectPage(PAGE_HUB); # see comment for left MFD
 
 	m2000_mfd = M2000MFDRecipient.new("M2000");
 	emesary.GlobalTransmitter.Register(m2000_mfd);
@@ -3399,6 +3592,10 @@ var unload = func {
 	if (rightMFDDisplayDevice != nil) {
 		rightMFDDisplayDevice.del();
 		rightMFDDisplayDevice = nil;
+	}
+	if (rwrDevice != nil) { # must come after displays
+		rwrDevice.del();
+		rwrDevice = nil;
 	}
 	DisplayDevice = nil;
 	DisplaySystem = nil;

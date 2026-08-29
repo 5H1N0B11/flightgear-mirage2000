@@ -34,6 +34,7 @@ var FireControl = {
 		fc.setupMFDObservers();
 		fc.dropMode = 0;          # 0=ccrp, 1 = ccip
 		fc.changeListener = nil;
+		fc.delayTimer = 0.015;    # minimum delay between ripple shot test loop, in seconds. At 600 kt this is ca. 4.6 metres (requires 60 fps).
 		setlistener("controls/armament/trigger",func{fc.trigger();fc.updateDual()},nil,0);
 		#setlistener("controls/armament/master-arm",func{fc.updateCurrent()},nil,0);
 		setlistener(masterArmSwitch,func{fc.masterArmSwitch()},nil,0);
@@ -919,15 +920,14 @@ var FireControl = {
 				}
 			}
 		}
-		var delayTimer = me.rippleInterval == RIPPLE_INTERVAL_METERS?0.25:0.025;
-		if (me.rippleCount > 7.5/delayTimer) {
+		if (me.rippleCount > 7.5/me.delayTimer) {
 			# after 7.5 seconds if its not finished rippling, cancel it. Might happen if the aircraft is still.
 			me.isRippling = 0;
 			setprop("payload/armament/gravity-dropping", 0);
 			screen.log.write("Cancelled ripple", 0.5, 0.5, 1);
 			return;
 		}
-		settimer(func me.rippleTest(), delayTimer);
+		settimer(func me.rippleTest(), me.delayTimer);
 	},
 
 	triggerHold: func (aimer) {

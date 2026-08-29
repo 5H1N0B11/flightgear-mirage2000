@@ -486,7 +486,16 @@
 			<vol-search type="double">0.075</vol-search>
 			<vol-track type="double">0.25</vol-track>
 			<guidance type="string">radiation</guidance>
-			<navigation type="string">PN</navigation> <!-- Because it is an older version cf. missile-code -->
+			<!-- PN seems to be right - it is also what AGM-65 does according to
+			     https://www.globalsecurity.org/military/systems/munitions/agm-65-specs.htm .
+			     "direct" instead of PN would make it vulnerable to wind and moving targets. -->
+			<navigation type="string">PN</navigation>
+			<!-- proportionality-constant default is 3, which is fine for air-to-air.
+			     But air-2-surface makes it first drop towards the ground in the beginning and then fly more horizontal,
+				 which makes it vulnerable to smaller obstacles in line of sight.
+				 Setting to a lower value makes it fly more direct.
+				 Also used for AS-30L -->
+			<proportionality-constant type="double">2</proportionality-constant>
 			<all-aspect type="bool">true</all-aspect>
 			<max-fire-range-nm type="double">50</max-fire-range-nm> <!-- originally set to 65 -->
 			<FCS-field-deg type="int">25</FCS-field-deg>
@@ -506,7 +515,7 @@
 			<arming-time-sec type="double">4.0</arming-time-sec>
 			<min-speed-for-guiding-mach type="double">0.2</min-speed-for-guiding-mach>
 			<self-destruct-time-sec type="double">600</self-destruct-time-sec>
-			<loft-altitude type="int">36000</loft-altitude>
+			<loft-altitude type="int">0</loft-altitude>
 			<min-fire-range-nm type="double">0.25</min-fire-range-nm> <!-- originally set to 0.25 -->
 			<rail type="bool">false</rail>
 			<max-report-distance type="double">65</max-report-distance>
@@ -547,19 +556,20 @@
 			<FCS-field-deg type="int"> 200 </FCS-field-deg>
 			<fire-msg type="string">Rifle</fire-msg>
 			<guidance type="string">laser</guidance>
+			<navigation type="string">PN</navigation> <!-- cf. comment ARMAT -->
+			<proportionality-constant type="double">2</proportionality-constant> <!-- cf. comment ARMAT -->
 			<hit-everything-nearby type="bool">true</hit-everything-nearby>
 			<lateral-dps type="double"> 270 </lateral-dps>
 			<lock-on-after-launch type="bool">false</lock-on-after-launch>
 			<lock-on-sun-deg type="double"> 0 </lock-on-sun-deg>
 			<loft-altitude type="int"> 0 </loft-altitude>
-			<max-fire-range-nm type="double">9.7</max-fire-range-nm> <!-- ref[B10 18 km -->
+			<max-fire-range-nm type="double">9.7</max-fire-range-nm> <!-- ref[B10] 18 km -->
 			<max-g type="double"> 15 </max-g>
 			<max-pitch-deg type="double">-45</max-pitch-deg>
 			<max-report-distance type="double">50</max-report-distance>
 			<min-fire-range-nm type="double">0.25</min-fire-range-nm> <!-- 3 km (1.8nm)-->
 			<min-speed-for-guiding-mach type="double">0.2</min-speed-for-guiding-mach>
 			<mounted-limit-g type="double"> 7.5 </mounted-limit-g>
-			<navigation type="string">PN</navigation>
 			<rail type="bool">true</rail>
 			<rail-length-m type="double"> 3.667 </rail-length-m>
 			<rail-pitch-deg type="double"> 0 </rail-pitch-deg>
@@ -604,7 +614,10 @@
 			<navigation type="string">direct</navigation>
 			<hit-everything-nearby type="bool">true</hit-everything-nearby>
 			<lock-on-sun-deg type="double"> 0 </lock-on-sun-deg>
-			<loft-altitude type="int"> 10 </loft-altitude>
+			<!-- https://en.missilery.info/missile/exocet says first 7.5 metres and 2-3 metres plus sea state probing
+			     https://en.wikipedia.org/wiki/Exocet says 1-2 metres above sea
+				 => we go a bit higher than published -->
+			<loft-altitude type="int"> 10 </loft-altitude> <!-- feet -->
 			<max-fire-range-nm type="double">38</max-fire-range-nm> <!-- MBDA AM39: 70km -->
 			<max-g type="int"> 15 </max-g>
 			<max-report-distance type="double"> 275 </max-report-distance>

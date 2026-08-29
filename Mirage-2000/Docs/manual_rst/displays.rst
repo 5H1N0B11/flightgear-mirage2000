@@ -13,7 +13,7 @@ The Mirage 2000-5 has its name from the fact that it has 5 main displays:
    :alt: 5 main screens of the M2000-5
    :align: center
 
-Currently all simulated variants use this system, because they use the same cockpit. In real life the cockpit of e.g. the -D variant looks quite different and does not have the right MFD not does it have the VTM.
+Currently all simulated variants use this system, because they use the same cockpit. In real life the cockpit of e.g. the -D variant looks quite different and does neither have the right MFD nor does it have the VTM.
 
 .. _link_section_hud:
 
@@ -88,7 +88,7 @@ In TWS mode a target can be selected using ``Key: y`` (and deselected with ``Key
    :alt: Selected Air-to-Air Target
    :align: center
 
-To select a target in another air-2-air or air-2-ground or air-2-see mode, the cursor must be moved over the middle of the target and then designated using ``Key: l`` (small L).
+To select a target in another air-2-air or air-2-ground or air-2-see mode, the cursor must be moved over the middle of the target and then designated using ``Key: l`` (lowercase L).
 
 .. image:: images/vtm_crm_rws.png
    :alt: Target Designation
@@ -99,13 +99,13 @@ Air-to-Sea
 
 Like all ground modes the radar picture is displayed as PPI.
 
-In air-2-sea mode the target is selected and designated using the cursor. A not designated target is shown as a diamond.
+In air-2-sea mode the target is selected and designated using the cursor. A not designated target is shown as a filled circle.
 
 .. image:: images/vtm_sea.png
    :alt: Air-to-Sea Target (Undesignated)
    :align: center
 
-When selected the target is shown as a cross. There is no information about direction / speed displayed.
+When the target is selected/locken, then it is shown as a cross. There is no information about direction / speed displayed.
 
 .. image:: images/vtm_sea_selected.png
    :alt: Air-to-Sea Target (Selected)
@@ -114,11 +114,25 @@ When selected the target is shown as a cross. There is no information about dire
 Air-to-Ground
 -------------
 
-The following picture shows a few targets in ground mode (like for sea targets they are displayed as diamonds). Notice that the antenna elevation has been lowered a few degrees (radar pitch scale at left side) and one of the targets (boxed) has been designated using the laser - and therefore the LDP guidance mode is highlighted.
+The following picture shows a few targets in ground mode (like for sea targets they are displayed as filled circles). Notice that the antenna elevation has been lowered a few degrees (radar pitch scale at left side). It is easier to get ground contacts when flying e.g. level at 1000 ft above ground and a shallow antenna elevation then flying high with or without pitch.
 
 .. image:: images/vtm_ground.png
    :alt: Air-to-Ground Targets
    :align: center
+
+
+When a target has been marked a spotted, then it appears as a diamond (not filled) in the display. LDP guidance mode needs to be on.
+
+.. image:: images/vtm_spotted.png
+   :alt: Air-to-Ground Target Spotted
+   :align: center
+
+When the spotted target is then designated ("locked"), the diamond gets a dot in the middle:
+
+.. image:: images/vtm_spotted_designated.png
+   :alt: Spotted Air-to-Ground Designated
+   :align: center
+
 
 
 .. _link_section_vtb:
@@ -154,8 +168,6 @@ The buttons around the screen influence settings as follows:
 Left and Right MFDs
 ===================
 
-To change the currently displayed page, use the second button from left (cyan colour) on the button row at the top of the MFD. The text below the button shows the current page name, but leads back to the page hub.
-
 From the hub (see illustration) you can access all available pages.
 
 .. image:: images/hub_page.png
@@ -163,13 +175,17 @@ From the hub (see illustration) you can access all available pages.
    :align: center
    :scale: 50%
 
-Alternatively, you can use ``Key: Home`` to get to the next page on the left MFD and ``Key: END`` to get to the next page on the right MFD. The page sequence is the same as the sequence in this chapter.
+You can use ``Key: Home`` to get to the next page on the left MFD and ``Key: END`` to get to the next page on the right MFD. The page sequence is the same as the sequence in this chapter.
 
-Use the mouse wheel to push the toggles on the left and right side of the MFD up and down. Only those toggles work, which have a text associated on the screen.
+To change back to the hub page, use the second button from left (amber frame) on the button row at the top of the MFD. The text below the button shows the current page name.
 
-You can also change the view with ``Key: N`` to better see the right MFD (and the VTB). Use ``Key: ctrl-n`` to go back to the default view.
+To go directly to the RWR page, use the first button from left (green frame) on the button row at the top of the MFD.
 
-NB: the display pages on the left and right MFD are the same.
+Use the mouse wheel to push the toggles (yellow frame) on the left and right side of the MFD up and down. Only those toggles work, which have a text associated on the screen. Alternatively, use left-click to push the toggle up and right-click to push the toggle down.
+
+You can focus the view with  ``Key: n`` to better see the left MFD respectively ``Key: N`` to better see the right MFD. Use ``Key: ctrl-n`` to go back to the default view.
+
+NB: the available pages on the left and right MFD are the same.
 
 
 Electronic Horizontal Situation Indicator (EHSI)
@@ -244,7 +260,7 @@ If there is an active flightplan (in green):
 
 A bit under the middle (in magenta): The selected altitude hold for the autopilot ``ALT`` mode.
 
-At the bottom (in blue): the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose).
+At the bottom (in blue): the actual wind direction and wind speed. Please be aware that the indicated wind direction is relative to the aircraft (like the compass rose). The arrow point towards where the wind is coming from.
 
 
 Electronic Attitude Direction Indicator (EADI)
@@ -325,10 +341,10 @@ The displayed menus depend on the chosen weapon and sometimes on previously chos
 
 .. _link_subsection_rwr:
 
-Radar Warning Receiver (RWR)
-----------------------------
+Radar Warning Receiver (RWR) and Counter-Measures
+-------------------------------------------------
 
-The radar warning receiver (`RWR⇗ <https://en.wikipedia.org/wiki/Radar_warning_receiver>`_) screen is actually a combination of a RWR display and a counter-measures dispenser display.
+The radar warning receiver (`RWR⇗ <https://en.wikipedia.org/wiki/Radar_warning_receiver>`_) screen is a combination of a RWR display and a counter-measures dispenser display.
 
 .. image:: images/rwr_intro.png
    :alt: RWR page
@@ -348,7 +364,9 @@ RWR
    :align: center
    :scale: 50%
 
-The RWR displays a maximum of 12 threats. High level threats (e.g. with an STT lock or actively guiding a missile) are displayed within the blue centre ring. Lower level threats are displayed closer to the outer ring. I.e. the distance from centre is an interpretation of threat and not a real distance. The position is a top-down view around your aircraft (nose towards up/North).
+The RWR displays a maximum of 12 threats. High level threats (e.g. with an STT lock or actively guiding a missile) are displayed within the blue centre ring. Lower level threats are displayed closer to the outer ring. I.e. the distance from centre is an interpretation of threat and not a real distance. The position is a top-down view around your aircraft (own aircraft nose towards up/North).
+
+NB: most signals from OPRF are only available, if MP Damage is on!
 
 Different types of threats are displayed with different symbols according to USA/NATO standards (i.e. not according to French symbology at the moment). ``U`` is for unknown threat, ``S`` is for surveillance aircraft (e.g. `AWACS⇗ <https://en.wikipedia.org/wiki/Airborne_early_warning_and_control>`_ - which typically cannot shoot), and ``AI`` is for aircraft which have not yet been classified in OPRF.
 
@@ -357,7 +375,7 @@ Different types of threats are displayed with different symbols according to USA
    :align: center
    :scale: 50%
 
-If there is a chevron below the symbol, then the threat has a radar lock on you. If there is a hat on top of the symbol, then the threat is either source to an active missile or guiding a semi-active missile.
+If there is a chevron below the symbol, then the threat has a radar lock on you. If there is a hat on top of the symbol, then the threat is the either source of an active missile or guiding a semi-active missile.
 
 Only one missile in the air can be displayed - even though several might be in the air at the same time. The missile is shown with the symbol ``W`` close to the centre - again the distance is not the real distance and only the bearing relative to your aircraft is shown. If a missile is in the air, then the related threats are blinking once per second.
 
@@ -367,6 +385,8 @@ In addition to the visual indications there are sounds (refreshed every 0.5 seco
 * A new radar lock (STT) has been detected: 1 kHz tone chopped at 25Hz for 0.5 seconds.
 * A semi-active missile is being supported: 1 kHz tone chopped at 25Hz for 0.5 seconds repeating after 0.5 seconds of silence.
 * An active radar missile is in the air: continuous 1 kHz tone chopped at 25Hz until the missile is not detected any more.
+
+Sounds can be heard even if the RWR is not shown on any screen.
 
 Counter-Measures Dispenser Display
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

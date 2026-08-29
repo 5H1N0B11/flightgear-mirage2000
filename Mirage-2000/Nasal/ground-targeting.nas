@@ -1,18 +1,18 @@
 print("*** LOADING ground-targeting.nas ... ***");
 ################################################################################
 #
-#                     m2005-5's ADDING SNIPED TARGET
+#                     m2005-5's ADDING TARGET SPOTTING / DESIGNATION
 #
 ################################################################################
 
 var FALSE = 0;
 var TRUE = 1;
 
-var mySnipedTarget = nil;
+var theSpottedTarget = nil;
 var Mp = props.globals.getNode("ai/models");
 var MyActualview = props.globals.getNode("/sim/current-view/view-number");
 
-var SNIPED_TARGET = "SNIPED_";
+var SPOTTED_TARGET = "SPOTTED_";
 
 var AIM_GUIDANCE_LASER = "laser";
 var AIM_GUIDANCE_GPS = "gps";
@@ -35,21 +35,23 @@ var toggleTargetDesignationMode = func {
 	}
 }
 
-# The function that create the sniped target object when the dialog box is pressed
-var createSnipedTarget = func() {
+# The function that create the spotted target object when the dialog box is pressed
+var createSpottedTarget = func() {
 	var is_new = TRUE;
-	if (mySnipedTarget == nil){
-		screen.log.write("Creating sniped target can take time and temp. switch view ...");
-		mySnipedTarget = SnipedTarget.new();
-		mySnipedTarget.init();
+	if (theSpottedTarget == nil){
+		screen.log.write("Creating spotted target can take time and might briefly switch the view ...");
+		theSpottedTarget = SpottedTarget.new();
+		print("hello 1");
+		theSpottedTarget.init();
 	} else {
-		screen.log.write("Updating sniped target can take time and temp. switch view ...");
-		mySnipedTarget.update();
+		screen.log.write("Updating spotted target can take time and might briefly switch the view ...");
+		theSpottedTarget.update();
 		is_new = FALSE;
 	}
-
-	if (geo.elevation(mySnipedTarget.lat.getValue(), mySnipedTarget.long.getValue(),10000) == nil) {
-		var oldView = viewSnipedTarget(mySnipedTarget);
+	print("hello 2");
+	if (geo.elevation(theSpottedTarget.lat.getValue(), theSpottedTarget.lon.getValue(),10000) == nil) {
+		print("hello 3");
+		var oldView = viewSpottedTarget(theSpottedTarget);
 		var timer = maketimer(10,func(){
 			setprop("/sim/current-view/view-number", oldView);
 		});
@@ -57,19 +59,20 @@ var createSnipedTarget = func() {
 		timer.start();
 	}
 	if (is_new == TRUE) {
-		setprop("ai/models/model-added", mySnipedTarget.ai.getPath());
+		print("hello 4");
+		setprop("ai/models/model-added", theSpottedTarget.ai.getPath());
 	}
 	screen.log.write("... done");
 }
 
-var focusFLIROnSnipedTarget = func() {
-	if (mySnipedTarget != nil) {
-		mirage2000.flir_updater.click_coord_cam = mySnipedTarget.coord;
+var focusFLIROnSpottedTarget = func() {
+	if (theSpottedTarget != nil) {
+		mirage2000.flir_updater.click_coord_cam = theSpottedTarget.coord;
 	}
 }
 
-var designateSnipedTarget = func() {
-	if (mySnipedTarget != nil) {
+var designateSpottedTarget = func() {
+	if (theSpottedTarget != nil) {
 		var selectedWeapon = pylons.fcs.getSelectedWeapon();
 		if (selectedWeapon == nil) {
 			screen.log.write("Master arm must be on and a suitable weapon must be selected.");
@@ -84,31 +87,31 @@ var designateSnipedTarget = func() {
 					return;
 				}
 			}
-			var spot = radar_system.ContactTGP.new("TGP-Spot", mySnipedTarget.coord, guidance);
+			var spot = radar_system.ContactTGP.new("TGP-Spot", theSpottedTarget.coord, guidance);
 			armament.contactPoint = spot;
 			armament.DEBUG_STATS = 1;
 			armament.DEBUG_SEARCH=1;
-			screen.log.write("Sniped target is now the designated target.");
+			screen.log.write("Spotted target is now the designated target.");
 		} else {
-			screen.log.write("A laser or GPS guided ground targeting weapon must be selected - no sniped target designated.");
+			screen.log.write("A laser or GPS guided ground targeting weapon must be selected - no spotted target designated.");
 		}
 	} else {
-		screen.log.write("A sniped target must exist");
+		screen.log.write("A spotted target must exist");
 	}
 }
 
-var fastSnipeAndDesignateLaserTarget = func() {
-	var success = sniping();
+var fastSpotAndDesignateLaserTarget = func() {
+	var success = acquireClickedCoordinates();
 	if (success == TRUE) {
-		createSnipedTarget();
-		designateSnipedTarget();
-	} # else is not needed because method createSnipedTarget will work always - and last method tells result already
+		createSpottedTarget();
+		designateSpottedTarget();
+	} # else is not needed because method createSpottedTarget will work always - and last method tells result already
 }
 
 # This object creates an AI object at the spot of the last click
-var SnipedTarget = {
+var SpottedTarget = {
 	new: func() {
-		var m = { parents : [SnipedTarget]};
+		var m = { parents : [SpottedTarget]};
 		m.coord = geo.Coord.new();
 
 		# Find the next index for "models/model" and create property node.
@@ -140,7 +143,7 @@ var SnipedTarget = {
 
 		#coordinate tree
 		m.lat = m.ai.getNode("position/latitude-deg", 1);
-		m.long = m.ai.getNode("position/longitude-deg", 1);
+		m.lon = m.ai.getNode("position/longitude-deg", 1);
 		m.alt = m.ai.getNode("position/altitude-ft", 1);
 
 		#Orientation tree
@@ -205,10 +208,10 @@ var SnipedTarget = {
 
 		# there must be value in it
 		me.lat.setValue(tempLat);
-		me.long.setValue(tempLon);
+		me.lon.setValue(tempLon);
 		me.alt.setValue(tempAlt*M2FT);
 
-		me.callsign.setValue(SNIPED_TARGET);
+		me.callsign.setValue(SPOTTED_TARGET);
 		me.id.setValue(-2);
 		me.hdgN.setValue(0);
 		me.pitchN.setValue(0);
@@ -226,7 +229,7 @@ var SnipedTarget = {
 		# beware : No absolute value here but the way to find the property
 		me.model.getNode("path", 1).setValue(me.id_model);
 		me.model.getNode("latitude-deg-prop", 1).setValue(me.lat.getPath());
-		me.model.getNode("longitude-deg-prop", 1).setValue(me.long.getPath());
+		me.model.getNode("longitude-deg-prop", 1).setValue(me.lon.getPath());
 		me.model.getNode("elevation-ft-prop", 1).setValue(me.alt.getPath());
 		me.model.getNode("heading-deg-prop", 1).setValue(me.hdgN.getPath());
 		me.model.getNode("pitch-deg-prop", 1).setValue(me.pitchN.getPath());
@@ -254,7 +257,7 @@ var SnipedTarget = {
 		var tempLon = me.coord.lon();
 		var tempAlt = me.coord.alt()+0.1;
 		me.lat.setValue(tempLat);
-		me.long.setValue(tempLon);
+		me.lon.setValue(tempLon);
 		me.alt.setValue(tempAlt*M2FT);
 
 		# update Distance to aircaft
@@ -288,7 +291,7 @@ var SnipedTarget = {
 	setCoord: func(new_coord) {
 		me.coord.set(new_coord);
 		me.lat.setValue(me.coord.lat());
-		me.long.setValue(me.coord.lon());
+		me.lon.setValue(me.coord.lon());
 		me.alt.setValue(me.coord.alt()*M2FT);
 
 		me.dialog_lat.setValue(me.coord.lat());
@@ -296,25 +299,25 @@ var SnipedTarget = {
 	}, # END setCoord()
 };
 
-var sniping = func(){
+var acquireClickedCoordinates = func(){
 	var coord = geo.click_position();
 	var success = FALSE;
 
 	if (coord != nil) {
 		setprop("/sim/dialog/groundTargeting/primary-longitude-deg", coord.lon());
 		setprop("/sim/dialog/groundTargeting/primary-latitude-deg", coord.lat());
-		screen.log.write("Sniped");
+		screen.log.write("Spot acquired from clicked coordinates");
 		gui.dialog_update("ground-targeting");
 		success = TRUE;
 	} else {
-		screen.log.write("Nothing was there to be sniped");
+		screen.log.write("Nothing was there to be acquired");
 	}
 	return success;
 }
 
 # In order to have the right terrain elevation, we have to load the tile.
 # For that, we focus the view on the target
-var viewSnipedTarget = func(target) {
+var viewSpottedTarget = func(target) {
 
 	# We select the missile name
 	var targetName = string.replace(target.ai.getPath(), "/ai/models/", "");
@@ -334,17 +337,17 @@ var viewSnipedTarget = func(target) {
 	return actualView;
 }
 
-var deleteSnipedTarget = func() {
-	if (mySnipedTarget != nil) {
-		mySnipedTarget.del();
+var deleteSpottedTarget = func() {
+	if (theSpottedTarget != nil) {
+		theSpottedTarget.del();
 		armament.contactPoint = nil;
-		mySnipedTarget = nil;
-		screen.log.write("Sniped target deleted");
+		theSpottedTarget = nil;
+		screen.log.write("Spotted target deleted");
 	}
 }
 
 var swapCoordinates = func() {
-	deleteSnipedTarget();
+	deleteSpottedTarget();
 	var prev_secondary_lon = getprop("/sim/dialog/groundTargeting/secondary-longitude-deg");
 	var prev_secondary_lat = getprop("/sim/dialog/groundTargeting/secondary-latitude-deg");
 
