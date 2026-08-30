@@ -58,6 +58,8 @@ var PAGE_MAP = "PageMap";
 var PAGE_MAP_MENU_ITEM = "Map";
 var PAGE_PPA = "PagePPA";
 var PAGE_PPA_MENU_ITEM = "PPA";
+var PAGE_CFG = "PageConfig";
+var PAGE_CFG_MENU_ITEM = "CFG";
 
 var Z_INDEX = "z-index";
 
@@ -69,7 +71,7 @@ var margin = {
 		outline: 2,
 		between_menu_item: 32, # for left and right hand buttons
 		to_virtual_item: 48, # ca. 1.5*between_menu_item
-		row_text: 60,
+		row_text: 70,
 	},
 };
 
@@ -103,8 +105,8 @@ var lineWidth = {
 
 var font = {
 	device: {
-		main: 24,
-		row_text: 24,
+		main: 20,
+		row_text: 20,
 	},
 	page_ehsi: {
 		compass: 16,
@@ -116,12 +118,15 @@ var font = {
 	},
 	page_sms: {
 		pylons_text: 20,
-		fbw_mode_text: 20,
 	},
 	page_ppa: {
 		wpn_text: 32,
 		ammo_text: 32,
 		status_text: 20,
+	},
+	page_cfg: {
+		fbw_mode_text: 20,
+		variant_text: 24,
 	},
 	page_rwr: {
 		threat_text: 36,
@@ -520,7 +525,8 @@ var DisplaySystem = {
 		me.initPage(PAGE_EHSI, PAGE_EADI);
 		me.initPage(PAGE_EADI, PAGE_SMS);
 		me.initPage(PAGE_SMS, PAGE_PPA);
-		me.initPage(PAGE_PPA, PAGE_RWR);
+		me.initPage(PAGE_PPA, PAGE_CFG);
+		me.initPage(PAGE_CFG, PAGE_RWR);
 		me.initPage(PAGE_RWR, PAGE_MAP);
 		me.initPage(PAGE_MAP, PAGE_EHSI); # we do not go to Hub
 
@@ -655,15 +661,7 @@ var DisplaySystem = {
 		},
 
 		setup: func {
-			var variantID = getprop("sim/variant-id");
-			var variant_text = "Dassault Mirage 2000-5"; # consts.VARIANT_5
-			if (variantID == consts.VARIANT_5B) {
-				variant_text = "Dassault Mirage 2000-5B";
-			} elsif (variantID == consts.VARIANT_N) {
-				variant_text = "Dassault Mirage 2000N-ish";
-			} elsif (variantID == consts.VARIANT_D) {
-				variant_text = "Dassault Mirage 2000D";
-			}
+			var variant_text = displays.common.getMirage2000VariantName();
 			me.info_text = me.group.createChild("text", "info_text")
 				.setFontSize(font.page_ppa.wpn_text)
 				.setColor(consts.COLOR_CYAN)
@@ -682,6 +680,7 @@ var DisplaySystem = {
 			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
 			me.device.controls[OSB6].setControlText(PAGE_SMS_MENU_ITEM);
 			me.device.controls[OSB7].setControlText(PAGE_PPA_MENU_ITEM);
+			me.device.controls[OSB8].setControlText(PAGE_CFG_MENU_ITEM);
 			me.device.controls[OSB22].setControlText(PAGE_EHSI_MENU_ITEM);
 			me.device.controls[OSB25].setControlText(PAGE_EADI_MENU_ITEM);
 			me.device.controls[OSB28].setControlText(PAGE_MAP_MENU_ITEM);
@@ -692,6 +691,8 @@ var DisplaySystem = {
 				me.device.system.selectPage(PAGE_SMS);
 			} elsif (controlName == OSB7) {
 				me.device.system.selectPage(PAGE_PPA);
+			} elsif (controlName == OSB8) {
+				me.device.system.selectPage(PAGE_CFG);
 			} elsif (controlName == OSB22) {
 				me.device.system.selectPage(PAGE_EHSI);
 			} elsif (controlName == OSB25) {
@@ -1767,27 +1768,8 @@ var DisplaySystem = {
 		},
 
 		setup: func {
-			# printDebug(me.name," on ",me.device.name," is being setup");
-
-			me.input = {
-				fbw_mode                  : "fdm/jsbsim/fbw/mode",
-			};
-
-			foreach(var name; keys(me.input)) {
-				me.input[name] = props.globals.getNode(me.input[name], 1);
-			}
-
 			me._setup_aircraft_outline();
 			me._setup_pylon_boxes_and_text();
-
-			me.fbw_mode_text = me.group.createChild("text", "fbw_mode_text")
-				.setFontSize(font.page_sms.fbw_mode_text)
-				.setColor(consts.COLOR_CYAN)
-				.setAlignment("right-center")
-				.setTranslation(DISPLAY_WIDTH/2 - 150, 250);
-			me.fbw_mode_text.enableUpdate();
-			me.FBW_AA_MENU_ITEM = "A/A";
-			me.FBW_CHARGES_MENU_ITEM = "CHARGES";
 		},
 
 		_setup_aircraft_outline: func {
@@ -1987,40 +1969,15 @@ var DisplaySystem = {
 			me.device.resetControls();
 			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
 			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
-			me._toggle_fbw_mode(me.input.fbw_mode.getValue());
 		},
 
 		controlAction: func (controlName) {
-			# printDebug(me.name,": ",controlName," activated on ",me.device.name);
-			if (controlName == OSB32) {
-				me._toggle_fbw_mode(0);
-			} elsif (controlName == OSB33) {
-				me._toggle_fbw_mode(1);
-			}
-		},
-
-		_toggle_fbw_mode: func (mode) {
-			me.input.fbw_mode.setValue(mode);
-			if (mode == 0) {
-				me.device.controls[OSB32].setControlText(me.FBW_AA_MENU_ITEM, TRUE, TRUE);
-				me.device.controls[OSB33].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, FALSE);
-			} else {
-				me.device.controls[OSB32].setControlText(me.FBW_AA_MENU_ITEM, TRUE, FALSE);
-				me.device.controls[OSB33].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, TRUE);
-			}
+			return;
 		},
 
 		update: func (noti = nil) {
 			if (noti.FrameCount != 3) {
 				return;
-			}
-
-			me.catNumber = pylons.fcs.getCategory(); # catNumber is 1 or 2 - mode is 0 or 1
-			me.fbw_mode_text.updateText(sprintf("Load type:\n%s", me.catNumber==1?"A/A":"Charges"));
-			if (me.catNumber != me.input.fbw_mode.getValue() + 1) {
-				me.fbw_mode_text.setColor(consts.COLOR_RED);
-			} else {
-				me.fbw_mode_text.setColor(consts.COLOR_CYAN);
 			}
 
 			var sel = pylons.fcs.getSelectedPylonNumber();
@@ -2558,6 +2515,165 @@ var DisplaySystem = {
 
 		layers: [LAYER_SERVICEABLE],
 	},
+
+
+#  ██████   █████   ██████  ███████      ██████  ██████  ███    ██ ███████ ██  ██████
+#  ██   ██ ██   ██ ██       ██          ██      ██    ██ ████   ██ ██      ██ ██
+#  ██████  ███████ ██   ███ █████       ██      ██    ██ ██ ██  ██ █████   ██ ██   ███
+#  ██      ██   ██ ██    ██ ██          ██      ██    ██ ██  ██ ██ ██      ██ ██    ██
+#  ██      ██   ██  ██████  ███████      ██████  ██████  ██   ████ ██      ██  ██████
+
+	PageConfig: {
+		name: PAGE_CFG,
+		isNew: TRUE,
+		needGroup: TRUE,
+
+		new: func {
+			me.instance = {parents:[DisplaySystem.PageConfig]};
+			me.instance.group = nil;
+			return me.instance;
+		},
+
+		setup: func {
+			me.input = {
+				bingo_fuel                : "/instrumentation/consumables/bingo_fuel",
+				selected_altitude         : "/autopilot/settings/selected-altitude-ft",
+				fbw_mode                  : "fdm/jsbsim/fbw/mode",
+			};
+
+			foreach(var name; keys(me.input)) {
+				me.input[name] = props.globals.getNode(me.input[name], 1);
+			}
+
+			me.fbw_mode_text = me.group.createChild("text", "fbw_mode_text")
+				.setFontSize(font.page_cfg.fbw_mode_text)
+				.setColor(consts.COLOR_CYAN)
+				.setAlignment("left-center")
+				.setTranslation(100, 200);
+			me.fbw_mode_text.enableUpdate();
+			me.FBW_AA_MENU_ITEM = "A/A";
+			me.FBW_CHARGES_MENU_ITEM = "CHARGES";
+
+			var variant_str = "Variant: "~displays.common.getMirage2000VariantName();
+			me.variant_text = me.group.createChild("text", "variant_text")
+				.setFontSize(font.page_cfg.variant_text)
+				.setColor(consts.COLOR_CYAN)
+				.setAlignment("center-center")
+				.setText(variant_str)
+				.setTranslation(DISPLAY_WIDTH/2, 100);
+
+			me.row_3_right_text = me.group.createChild("text", "row_3_right_text")
+				.setFontSize(font.device.row_text)
+				.setColor(consts.COLOR_GREEN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_3);
+			me.row_3_right_text.enableUpdate();
+
+			me.row_4_right_text = me.group.createChild("text", "row_4_right_text")
+				.setFontSize(font.device.row_text)
+				.setColor(consts.COLOR_GREEN)
+				.setAlignment("right-center")
+				.setTranslation(DISPLAY_WIDTH - margin.device.row_text, DISPLAY_ROW_HEIGHT_4);
+			me.row_4_right_text.enableUpdate();
+		},
+
+		enter: func {
+			# printDebug("Enter ",me.name~" on ",me.device.name);
+			if (me.isNew) {
+				me.setup();
+				me.isNew = FALSE;
+			}
+			me.device.resetControls();
+			me.device.controls[OSB1].setControlText(PAGE_RWR_MENU_ITEM);
+			me.device.controls[OSB2].setControlText(PAGE_HUB_MENU_ITEM);
+			me._toggle_fbw_mode(me.input.fbw_mode.getValue());
+		},
+
+		controlAction: func (controlName) {
+			if (controlName == OSB22) {
+				me._toggle_fbw_mode(0);
+			} elsif (controlName == OSB23) {
+				me._toggle_fbw_mode(1);
+			} elsif (controlName == OSB28) {
+				me._changeSelectedAltitude(1000);
+			} elsif (controlName == OSB29) {
+				me._changeSelectedAltitude(-100);
+			} elsif (controlName == OSB32) {
+				me._changeBingoFuel(100);
+			} elsif (controlName == OSB33) {
+				me._changeBingoFuel(-10);
+			}
+		},
+
+		_changeBingoFuel: func (delta) {
+			me.bingo_value = me.input.bingo_fuel.getValue() + delta;
+			if (me.bingo_value > 3000) {
+				me.bingo_value = 100;
+			} elsif (me.bingo_value < 0) {
+				me.bingo_value = 3000;
+			}
+			me.input.bingo_fuel.setValue(me.bingo_value);
+		},
+
+		_changeSelectedAltitude: func (delta) {
+			me.selected_alt_value = me.input.selected_altitude.getValue() + delta;
+			if (me.selected_alt_value > 50000) {
+				me.selected_alt_value = 1000;
+			} elsif (me.selected_alt_value < 1000) {
+				me.selected_alt_value = 50000;
+			}
+			me.input.selected_altitude.setValue(me.selected_alt_value);
+		},
+
+		_toggle_fbw_mode: func (mode) {
+			me.input.fbw_mode.setValue(mode);
+			if (mode == 0) {
+				me.device.controls[OSB22].setControlText(me.FBW_AA_MENU_ITEM, TRUE, TRUE);
+				me.device.controls[OSB23].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, FALSE);
+			} else {
+				me.device.controls[OSB22].setControlText(me.FBW_AA_MENU_ITEM, TRUE, FALSE);
+				me.device.controls[OSB23].setControlText(me.FBW_CHARGES_MENU_ITEM, TRUE, TRUE);
+			}
+		},
+
+		update: func(noti = nil) {
+			if (noti.FrameCount != 3) {
+				return;
+			}
+
+			me.catNumber = pylons.fcs.getCategory(); # catNumber is 1 or 2 - mode is 0 or 1
+			me.fbw_mode_text.updateText(sprintf("Load type: %s", me.catNumber==1?"A/A":"Charges"));
+			if (me.catNumber != me.input.fbw_mode.getValue() + 1) {
+				me.fbw_mode_text.setColor(consts.COLOR_RED);
+			} else {
+				me.fbw_mode_text.setColor(consts.COLOR_CYAN);
+			}
+
+			me.osb28 = "+1000";
+			me.osb29 = "-100";
+			me.osb32 = "+100";
+			me.osb33 = "-10";
+
+			me.row_3_right_text.updateText("Alt. aff. (ft): "~me.input.selected_altitude.getValue());
+			me.row_4_right_text.updateText("Bingo (kg): "~me.input.bingo_fuel.getValue());
+
+			me.device.controls[OSB28].setControlText(me.osb28);
+			me.device.controls[OSB29].setControlText(me.osb29);
+			me.device.controls[OSB32].setControlText(me.osb32);
+			me.device.controls[OSB33].setControlText(me.osb33);
+		},
+
+		exit: func {
+		},
+
+		links: {
+			OSB1: PAGE_RWR,
+			OSB2: PAGE_HUB,
+		},
+
+		layers: [LAYER_SERVICEABLE],
+	},
+
 
 
 #  ██████   █████   ██████  ███████     ██████  ██     ██ ██████

@@ -24,6 +24,7 @@ var Common = {
 			rad_alt          : "position/altitude-agl-ft", #"/instrumentation/radar-altimeter/radar-altitude-ft",
 			pitch            : "/orientation/pitch-deg",
 			roll             : "/orientation/roll-deg",
+			variant_id       : "sim/variant-id",
 		};
 
 		foreach(var name; keys(co.input)) {
@@ -81,6 +82,18 @@ var Common = {
 		return [me.alt_hundreds_str, me.alt_digits_str, me.rad_alt_str];
 	},
 
+	getMirage2000VariantName: func {
+		var variantID = me.input.variant_id.getValue();
+		var variant_text = "Dassault Mirage 2000-5"; # consts.VARIANT_5
+		if (variantID == consts.VARIANT_5B) {
+			variant_text = "Dassault Mirage 2000-5B";
+		} elsif (variantID == consts.VARIANT_N) {
+			variant_text = "Dassault Mirage 2000N-ish";
+		} elsif (variantID == consts.VARIANT_D) {
+			variant_text = "Dassault Mirage 2000D";
+		}
+		return variant_text;
+	},
 };
 
 var common = Common.new();

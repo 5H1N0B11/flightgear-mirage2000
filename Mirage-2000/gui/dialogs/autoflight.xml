@@ -69,92 +69,15 @@
 				<script>mirage2000.updateAPMode(consts.BTN_ALT_AFF);</script>
 			</binding>
 		</button>
-		<!-- altitude selection -->
-		<group>
+
+		<input>
 			<row>2</row>
 			<col>1</col>
-			<layout>table</layout>
-
-			<text>
-				<row>0</row>
-				<col>0</col>
-				<label>SELECTED ALT (FT):</label>
-			</text>
-
-			<button>
-				<row>0</row>
-				<col>1</col>
-				<pref-width>25</pref-width>
-				<pref-height>25</pref-height>
-				<legend>&lt;&lt;</legend>
-				<binding>
-					<command>property-adjust</command>
-					<property>/autopilot/settings/selected-altitude-ft</property>
-					<min>1000</min>
-					<max>50000</max>
-					<step>-1000</step>
-					<wrap>true</wrap>
-				</binding>
-			</button>
-			<button>
-				<row>0</row>
-				<col>2</col>
-				<pref-width>25</pref-width>
-				<pref-height>25</pref-height>
-				<legend>&lt;</legend>
-				<binding>
-					<command>property-adjust</command>
-					<property>/autopilot/settings/selected-altitude-ft</property>
-					<min>1000</min>
-					<max>50000</max>
-					<step>-100</step>
-					<wrap>true</wrap>
-				</binding>
-			</button>
-
-			<input>
-				<row>0</row>
-				<col>3</col>
-				<pref-width>70</pref-width>
-				<property>/autopilot/settings/selected-altitude-ft</property>
-				<live>true</live>
-				<binding>
-					<command>dialog-apply</command>
-				</binding>
-			</input>
-
-			<button>
-				<row>0</row>
-				<col>4</col>
-				<pref-width>25</pref-width>
-				<pref-height>25</pref-height>
-				<legend>&gt;</legend>
-				<binding>
-					<command>property-adjust</command>
-					<property>/autopilot/settings/selected-altitude-ft</property>
-					<min>1000</min>
-					<max>50000</max>
-					<step>100</step>
-					<wrap>true</wrap>
-				</binding>
-			</button>
-			<button>
-				<row>0</row>
-				<col>5</col>
-				<halign>left</halign>
-				<pref-width>25</pref-width>
-				<pref-height>25</pref-height>
-				<legend>&gt;&gt;</legend>
-				<binding>
-					<command>property-adjust</command>
-					<property>/autopilot/settings/selected-altitude-ft</property>
-					<min>1000</min>
-					<max>50000</max>
-					<step>1000</step>
-					<wrap>true</wrap>
-				</binding>
-			</button>
-		</group>
+			<pref-width>70</pref-width>
+			<property>/autopilot/settings/selected-altitude-ft</property>
+			<live>true</live>
+			<enable><false/></enable>
+		</input>
 		<!-- row for approach mode -->
 		<button>
 			<row>3</row>

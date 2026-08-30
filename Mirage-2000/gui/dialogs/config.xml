@@ -100,21 +100,6 @@
 		</checkbox>
 	</group>
 
-	<hrule />
-
-	<text><label>Bingo Fuel Value</label></text>
-
-	<input>
-		<name>bingo_fuel</name>
-		<width>75</width>
-		<height>25</height>
-		<label> KG</label>
-		<property>/instrumentation/consumables/bingo_fuel</property>
-		<binding>
-			<command>dialog-apply</command>
-			<object-name>bingo_fuel</object-name>
-		</binding>
-	</input>
 
 	<hrule />
 
