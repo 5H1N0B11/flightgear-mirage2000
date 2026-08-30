@@ -160,6 +160,12 @@ Make sure that the master arm is on. The HUD displays the diverse reticles in ``
 Use the trigger (``Key: e``) for releasing a weapon no matter the type.
 
 
+Smoke Pods
+==========
+
+You can use smoke pods on the left outer station (2.L) and/or the right outer station (2.R). Use ``Key: w`` to switch to smoke pods and then use the weapons configuration panel (see :ref:`link_subsection_ppa`) to toggle smoke on and off.
+
+
 Ground Attack
 =============
 

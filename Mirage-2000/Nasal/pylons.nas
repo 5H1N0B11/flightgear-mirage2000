@@ -131,7 +131,7 @@ var pylonSetsSMSHelper = {
 if (variantID == consts.VARIANT_N) {
 	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.am39, pylonSets.as30, pylonSets.dmk82, pylonSets.dmk82se];
 	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.am39, pylonSets.as30, pylonSets.dmk82, pylonSets.dmk82se];
-	var ExteriorWingSet  = [pylonSets.empty,pylonSets.magic_2, pylonSets.pod_smo];
+	var ExteriorWingSet  = [pylonSets.empty, pylonSets.magic_2, pylonSets.pod_smo];
 	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.gbu12_x2, pylonSets.scalp, pylonSets.asmp, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.apache];
 	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.pod_pdlct, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
 	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
@@ -139,7 +139,7 @@ if (variantID == consts.VARIANT_N) {
 } else if (variantID == consts.VARIANT_D) {
 	var InteriorWingSetR = [pylonSets.empty, pylonSets.t2, pylonSets.tb2, pylonSets.am39, pylonSets.as30, pylonSets.dmk82, pylonSets.dmk82se];
 	var InteriorWingSetL = [pylonSets.empty, pylonSets.t4, pylonSets.tb4, pylonSets.am39, pylonSets.as30, pylonSets.dmk82, pylonSets.dmk82se];
-	var ExteriorWingSet  = [pylonSets.empty,pylonSets.magic_2, pylonSets.pod_smo];
+	var ExteriorWingSet  = [pylonSets.empty, pylonSets.magic_2, pylonSets.pod_smo];
 	var CenterSet   = [pylonSets.empty, pylonSets.t, pylonSets.gbu12_x2, pylonSets.scalp, pylonSets.gbu24, pylonSets.dmk82, pylonSets.dmk82se, pylonSets.apache];
 	var ForwardfuselagepylonsR = [pylonSets.empty, pylonSets.pod_pdlct, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
 	var ForwardfuselagepylonsL = [pylonSets.empty, pylonSets.gun_cc422, pylonSets.mk82, pylonSets.mk82se, pylonSets.gbu12];
@@ -232,16 +232,16 @@ var wp_order = [];
 if (variantID == consts.VARIANT_5) {
 	append(pylons,pylonI);
 	pylon_order = [9,0,8,1,7,2,6,3,5,4];
-	wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE", "GBU-12", "GBU-24", "SCALP","APACHE", "AM39-Exocet", "AS-37-Armat"];
+	wp_order = ["30mm Cannon","Magic-2","S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE", "GBU-12", "GBU-24", "SCALP","APACHE", "AM39-Exocet", "AS-37-Armat", "smoke-pod"];
 } elsif (variantID == consts.VARIANT_5B) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
-	wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "GBU-24", "SCALP", "APACHE", "AM39-Exocet"];
+	wp_order = ["Magic-2", "S530D", "MICA-IR", "MICA-EM", "Mk-82","Mk-82SE","GBU-12", "GBU-24", "SCALP", "APACHE", "AM39-Exocet", "smoke-pod"];
 } elsif (variantID == consts.VARIANT_N) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
-	wp_order = ["Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS30L", "ASMP"];
+	wp_order = ["Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS30L", "ASMP", "smoke-pod"];
 } elsif (variantID == consts.VARIANT_D) {
 	pylon_order = [0,8,1,7,2,6,3,5,4];
-	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS30L"];
+	wp_order = ["CC422", "Magic-2", "MICA-IR", "GBU-12", "GBU-24", "SCALP", "APACHE", "Mk-82","Mk-82SE","AM39-Exocet", "AS30L", "smoke-pod"];
 }
 
 

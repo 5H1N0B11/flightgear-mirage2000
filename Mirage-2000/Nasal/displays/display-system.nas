@@ -2,7 +2,6 @@
 # The origin of this file is from a file called the same in https://github.com/NikolaiVChr/f16:
 #    https://github.com/NikolaiVChr/f16/blob/master/Nasal/MFD/display-system.nas as per 0d480e0
 #
-# As of Feb 2025 the display system is only used for the right MFD and therefore functionality has been cut down.
 #
 # ---------
 # Page:
@@ -2127,6 +2126,8 @@ var DisplaySystem = {
 				cannon_air_air_incitation  : "controls/armament/cannon-air-air-incitation",
 				cannon_air_air_wingspan    : "controls/armament/cannon-air-air-wingspan",
 				flightmode                 : "/instrumentation/flightmode/selected",
+				smoke_pod_left             : "payload/armament/smoke-pod/flags/smoke-id-100",
+				smoke_pod_right            : "payload/armament/smoke-pod/flags/smoke-id-500",
 			};
 
 			foreach(var name; keys(me.input)) {
@@ -2134,6 +2135,8 @@ var DisplaySystem = {
 			}
 
 			me.wow = FALSE;
+
+			me.smoke_on = FALSE;
 
 			me.fuze = 0; # there are no real fuze settings in OPRF, so just faking
 
@@ -2279,6 +2282,8 @@ var DisplaySystem = {
 			} elsif (controlName == OSB9) {
 				if (me.wpn != nil and contains(me.wpn, "powerOnRequired") and me.wpn["powerOnRequired"] == TRUE) {
 					me.wpn.togglePowerOn();
+				} elsif (me.wpn != nil and me.wpn.type == "smoke-pod") {
+					me.smoke_on = me.smoke_on == TRUE ? FALSE : TRUE;
 				}
 			} elsif (controlName == OSB12) {
 				if (me.wpn_kind == WPN_KIND_CANNON) {
@@ -2374,6 +2379,7 @@ var DisplaySystem = {
 				me.spotted_text.hide();
 				me.designated_label.hide();
 				me.designated_text.hide();
+				me.smoke_on = FALSE;
 			} else {
 				if (me.wpn.type == "GBU-12" or me.wpn.type == "GBU-24" or me.wpn.type == "AS30L") {
 					if (groundTargeting.theSpottedTarget != nil) {
@@ -2406,6 +2412,9 @@ var DisplaySystem = {
 
 				if (contains(me.wpn, "powerOnRequired") and me.wpn["powerOnRequired"] == TRUE) { # most guided weapons - therefore use a generic approach
 					me.osb9 = me.wpn.isPowerOn()?"PWR ON":"PWR OFF";
+					me.osb9_selected = TRUE;
+				} elsif (me.wpn.type == "smoke-pod") {
+					me.osb9 = me.smoke_on == TRUE ? "SMOKE ON":"SMOKE OFF";
 					me.osb9_selected = TRUE;
 				}
 
@@ -2491,6 +2500,17 @@ var DisplaySystem = {
 						me.osb6 = "AAW";
 					}
 					me.osb6_selected = TRUE;
+				} else if (me.wpn.type == "smoke-pod") {
+					if (me.smoke_on == TRUE and pylons.pylon2.weapons != nil) {
+						me.input.smoke_pod_left.setValue(TRUE);
+					} else {
+						me.input.smoke_pod_left.setValue(FALSE);
+					}
+					if (me.smoke_on == TRUE and pylons.pylon6.weapons != nil) {
+						me.input.smoke_pod_right.setValue(TRUE);
+					} else {
+						me.input.smoke_pod_right.setValue(FALSE);
+					}
 				}
 			}
 
