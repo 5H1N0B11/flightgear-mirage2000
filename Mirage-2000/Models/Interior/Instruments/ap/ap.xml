@@ -5,61 +5,71 @@
 	<path>ap.ac</path>
 	<animation>
 		<!-- object name in ac file -->
-		<object-name>ap.label</object-name>
-		<object-name>ap.pa</object-name>
-		<object-name>ap.pa-alt</object-name>
-		<object-name>ap.pa-alt-on</object-name>
-		<object-name>ap.pa-app</object-name>
-		<object-name>ap.pa-app-on</object-name>
-		<object-name>ap.pa-hdg</object-name>
-		<object-name>ap.pa-hdg-on</object-name>
-		<object-name>ap.pa-nav</object-name>
-		<object-name>ap.pa-nav-on</object-name>
-		<object-name>ap.pa-on</object-name>
-		<object-name>ap.pa-pitch</object-name>
-		<object-name>ap.pa-spd</object-name>
-		<object-name>ap.pa-spd-on</object-name>
-		<object-name>ap.pa-stby</object-name>
-		<object-name>ap.pa-stby-on</object-name>
-		<object-name>ap.pa-vs</object-name>
-		<object-name>ap.pa-vs-on</object-name>
+		<object-name>ap.pa-att-button</object-name>
+		<object-name>ap.pa-att-armed-off</object-name>
+		<object-name>ap.pa-att-armed-on</object-name>
+		<object-name>ap.pa-att-standby-off</object-name>
+		<object-name>ap.pa-att-standby-on</object-name>
+
+		<object-name>ap.pa-alt-button</object-name>
+		<object-name>ap.pa-alt-armed-off</object-name>
+		<object-name>ap.pa-alt-armed-on</object-name>
+		<object-name>ap.pa-alt-standby-off</object-name>
+		<object-name>ap.pa-alt-standby-on</object-name>
+
+		<object-name>ap.pa-aff-button</object-name>
+		<object-name>ap.pa-aff-armed-off</object-name>
+		<object-name>ap.pa-aff-armed-on</object-name>
+		<object-name>ap.pa-aff-standby-off</object-name>
+		<object-name>ap.pa-aff-standby-on</object-name>
+
+		<!-- ap.pa-empty-* is not needed -->
+		<object-name>ap.pa-empty-button</object-name>
+		<object-name>ap.pa-empty-armed-off</object-name>
+		<object-name>ap.pa-empty-standby-off</object-name>
+
+		<object-name>ap.pa-app-button</object-name>
+		<object-name>ap.pa-app-g-armed-off</object-name>
+		<object-name>ap.pa-app-g-armed-on</object-name>
+		<object-name>ap.pa-app-g-standby-off</object-name>
+		<object-name>ap.pa-app-g-standby-on</object-name>
+		<object-name>ap.pa-app-l-armed-off</object-name>
+		<object-name>ap.pa-app-l-armed-on</object-name>
+		<object-name>ap.pa-app-l-standby-off</object-name>
+		<object-name>ap.pa-app-l-standby-on</object-name>
 	</animation>
 
 	<animation>
-		<!-- lights : illuminations -->
 		<type>material</type>
-		<object-name>ap.label</object-name>
-		<emission>
-		<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
-		<red>   0.1 </red>
-		<green> 0.5 </green>
-		<blue>  0.2 </blue>
-		</emission>
-	</animation>
+		<object-name>ap.pa-att-armed-off</object-name>
+		<object-name>ap.pa-att-armed-on</object-name>
+		<object-name>ap.pa-att-standby-off</object-name>
+		<object-name>ap.pa-att-standby-on</object-name>
 
-	<animation>
-		<type>material</type>
-		<object-name>ap.pa</object-name>
-		<object-name>ap.pa-alt</object-name>
-		<object-name>ap.pa-vs</object-name>
-		<object-name>ap.pa-nav</object-name>
-		<object-name>ap.pa-spd</object-name>
-		<object-name>ap.pa-app</object-name>
-		<object-name>ap.pa-stby</object-name>
-		<object-name>ap.pa-hdg</object-name>
-		<object-name>ap.pa-on</object-name>
-		<object-name>ap.pa-alt-on</object-name>
-		<object-name>ap.pa-vs-on</object-name>
-		<object-name>ap.pa-nav-on</object-name>
-		<object-name>ap.pa-spd-on</object-name>
-		<object-name>ap.pa-app-on</object-name>
-		<object-name>ap.pa-stby-on</object-name>
-		<object-name>ap.pa-hdg-on</object-name>
+		<object-name>ap.pa-alt-armed-off</object-name>
+		<object-name>ap.pa-alt-armed-on</object-name>
+		<object-name>ap.pa-alt-standby-off</object-name>
+		<object-name>ap.pa-alt-standby-on</object-name>
+
+		<object-name>ap.pa-aff-armed-off</object-name>
+		<object-name>ap.pa-aff-armed-on</object-name>
+		<object-name>ap.pa-aff-standby-off</object-name>
+		<object-name>ap.pa-aff-standby-on</object-name>
+
+		<object-name>ap.pa-app-g-armed-off</object-name>
+		<object-name>ap.pa-app-g-armed-on</object-name>
+		<object-name>ap.pa-app-g-standby-off</object-name>
+		<object-name>ap.pa-app-g-standby-on</object-name>
+		<object-name>ap.pa-app-l-armed-off</object-name>
+		<object-name>ap.pa-app-l-armed-on</object-name>
+		<object-name>ap.pa-app-l-standby-off</object-name>
+		<object-name>ap.pa-app-l-standby-on</object-name>
+
 		<emission>
-		<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
-		<red>   0.6 </red>
-		<green> 0.5 </green>
-		<blue>  0.5 </blue>
+			<factor-prop>/systems/electrical/outputs/instrument-lights</factor-prop>
+			<red>   0.3 </red>
+			<green> 0.3 </green>
+			<blue>  0.3 </blue>
 		</emission>
 	</animation>
 
@@ -68,142 +78,178 @@
 	BUTTONS - lighting
 	================================================================================
 	-->
+	<!-- ATT -->
 	<animation>
 		<type>select</type>
-		<object-name>ap.pa-on</object-name>
+		<object-name>ap.pa-att-armed-off</object-name>
 		<condition>
-		<or>
-			<equals>
-				<property>autopilot/locks/AP-status</property>
-				<value>AP1</value> <!-- cf. constants.nas AP_STATUS_ON -->
-			</equals>
-			<and>
-				<equals>
-					<property>autopilot/locks/AP-status</property>
-					<value>TEMP DISENGAGE</value> <!-- cf. constants.nas AP_STATUS_STBY -->
-				</equals>
-				<equals>
-					<property>sim/model/lights/pa-blink/state</property>
-					<value>true</value>
-				</equals>
-			</and>
-		</or>
+			<not>
+				<property>autopilot/buttons/pa-att-armed</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-att-armed-on</object-name>
+		<condition>
+			<property>autopilot/buttons/pa-att-armed</property>
 		</condition>
 	</animation>
 
 	<animation>
 		<type>select</type>
-		<object-name>ap.pa-stby-on</object-name>
+		<object-name>ap.pa-att-standby-off</object-name>
 		<condition>
-		<and>
-			<equals>
-			<property>autopilot/locks/heading</property>
-			<value>ROLL</value>
-			</equals>
-			<equals>
-			<property>autopilot/locks/altitude</property>
-			<value>PTCH</value>
-			</equals>
-		</and>
+			<not>
+				<property>autopilot/buttons/pa-att-standby</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-att-standby-on</object-name>
+		<condition>
+			<property>autopilot/buttons/pa-att-standby</property>
+		</condition>
+	</animation>
+
+	<!-- ALT -->
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-alt-armed-off</object-name>
+		<condition>
+			<not>
+				<property>autopilot/buttons/pa-alt-armed</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-alt-armed-on</object-name>
+		<condition>
+			<property>autopilot/buttons/pa-alt-armed</property>
 		</condition>
 	</animation>
 
 	<animation>
 		<type>select</type>
-		<object-name>ap.pa-hdg-on</object-name>
+		<object-name>ap.pa-alt-standby-off</object-name>
 		<condition>
-		<equals>
-			<property>autopilot/locks/heading</property>
-			<value>HDG</value>
-		</equals>
+			<not>
+				<property>autopilot/buttons/pa-alt-standby</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-alt-standby-on</object-name>
+		<condition>
+			<property>autopilot/buttons/pa-alt-standby</property>
+		</condition>
+	</animation>
+
+	<!-- ALT AFF -->
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-aff-armed-off</object-name>
+		<condition>
+			<not>
+				<property>autopilot/buttons/pa-aff-armed</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-aff-armed-on</object-name>
+		<condition>
+			<property>autopilot/buttons/pa-aff-armed</property>
 		</condition>
 	</animation>
 
 	<animation>
 		<type>select</type>
-		<object-name>ap.pa-nav-on</object-name>
+		<object-name>ap.pa-aff-standby-off</object-name>
 		<condition>
-		<or>
-			<equals>
-			<property>autopilot/locks/heading</property>
-			<value>LNAV</value>
-			</equals>
-			<equals>
-			<property>autopilot/locks/heading</property>
-			<value>VOR</value>
-			</equals>
-			<equals>
-			<property>autopilot/locks/heading</property>
-			<value>LOC</value>
-			</equals>
-			<equals>
-			<property>autopilot/locks/heading-arm</property>
-			<value>VOR</value>
-			</equals>
-			<equals>
-			<property>autopilot/locks/heading-arm</property>
-			<value>LOC</value>
-			</equals>
-		</or>
+			<not>
+				<property>autopilot/buttons/pa-aff-standby</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-aff-standby-on</object-name>
+		<condition>
+			<property>autopilot/buttons/pa-aff-standby</property>
+		</condition>
+	</animation>
+
+	<!-- APP L -->
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-app-l-armed-off</object-name>
+		<condition>
+			<not>
+				<property>autopilot/buttons/pa-app-l-armed</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-app-l-armed-on</object-name>
+		<condition>
+			<property>autopilot/buttons/pa-app-l-armed</property>
 		</condition>
 	</animation>
 
 	<animation>
 		<type>select</type>
-		<object-name>ap.pa-app-on</object-name>
+		<object-name>ap.pa-app-l-standby-off</object-name>
 		<condition>
-		<or>
-			<equals>
-			<property>autopilot/locks/altitude-arm</property>
-			<value>GS</value>
-			</equals>
-			<equals>
-			<property>autopilot/locks/altitude</property>
-			<value>GS</value>
-			</equals>
-		</or>
+			<not>
+				<property>autopilot/buttons/pa-app-l-standby</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-app-l-standby-on</object-name>
+		<condition>
+			<property>autopilot/buttons/pa-app-l-standby</property>
+		</condition>
+	</animation>
+
+	<!-- APP G -->
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-app-g-armed-off</object-name>
+		<condition>
+			<not>
+				<property>autopilot/buttons/pa-app-g-armed</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>ap.pa-app-g-armed-on</object-name>
+		<condition>
+			<property>autopilot/buttons/pa-app-g-armed</property>
 		</condition>
 	</animation>
 
 	<animation>
 		<type>select</type>
-		<object-name>ap.pa-alt-on</object-name>
+		<object-name>ap.pa-app-g-standby-off</object-name>
 		<condition>
-		<or>
-			<equals>
-			<property>autopilot/locks/altitude</property>
-			<value>ALT</value>
-			</equals>
-			<and>
-			<equals>
-				<property>autopilot/locks/altitude</property>
-				<value>TF</value>
-			</equals>
-			<property>sim/model/lights/pa-blink/state</property>
-			</and>
-		</or>
+			<not>
+				<property>autopilot/buttons/pa-app-g-standby</property>
+			</not>
 		</condition>
 	</animation>
-
 	<animation>
 		<type>select</type>
-		<object-name>ap.pa-vs-on</object-name>
+		<object-name>ap.pa-app-g-standby-on</object-name>
 		<condition>
-		<equals>
-			<property>autopilot/locks/altitude</property>
-			<value>VS</value>
-		</equals>
-		</condition>
-	</animation>
-
-	<animation>
-		<type>select</type>
-		<object-name>ap.pa-spd-on</object-name>
-		<condition>
-		<equals>
-			<property>autopilot/locks/speed</property>
-			<value>SPD</value>
-		</equals>
+			<property>autopilot/buttons/pa-app-g-standby</property>
 		</condition>
 	</animation>
 
@@ -214,147 +260,96 @@
 	-->
 	<animation>
 		<type>pick</type>
-		<object-name>ap.pa</object-name>
+		<object-name>ap.pa-att-button</object-name>
+		<object-name>ap.pa-att-armed-off</object-name>
+		<object-name>ap.pa-att-armed-on</object-name>
+		<object-name>ap.pa-att-standby-off</object-name>
+		<object-name>ap.pa-att-standby-on</object-name>
 		<visible>true</visible>
 		<action>
-		<button>0</button>
-		<repeatable>false</repeatable>
-		<binding>
-			<command>property-toggle</command>
-			<property>sim/model/click</property>
-		</binding>
-		<binding>
-			<command>nasal</command>
-			<script>mirage2000.updateAPMode(consts.BTN_PA);</script>
-		</binding>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_PA);</script>
+			</binding>
 		</action>
 	</animation>
 
 	<animation>
 		<type>pick</type>
-		<object-name>ap.pa-stby</object-name>
+		<object-name>ap.pa-alt-button</object-name>
+		<object-name>ap.pa-alt-armed-off</object-name>
+		<object-name>ap.pa-alt-armed-on</object-name>
+		<object-name>ap.pa-alt-standby-off</object-name>
+		<object-name>ap.pa-alt-standby-on</object-name>
 		<visible>true</visible>
 		<action>
-		<button>0</button>
-		<repeatable>false</repeatable>
-		<binding>
-			<command>property-toggle</command>
-			<property>sim/model/click</property>
-		</binding>
-		<binding>
-			<command>nasal</command>
-			<script>mirage2000.updateAPMode("stby")</script>
-		</binding>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_ALT);</script>
+			</binding>
 		</action>
 	</animation>
 
 	<animation>
 		<type>pick</type>
-		<object-name>ap.pa-vs</object-name>
+		<object-name>ap.pa-aff-button</object-name>
+		<object-name>ap.pa-aff-armed-off</object-name>
+		<object-name>ap.pa-aff-armed-on</object-name>
+		<object-name>ap.pa-aff-standby-off</object-name>
+		<object-name>ap.pa-aff-standby-on</object-name>
 		<visible>true</visible>
 		<action>
-		<button>0</button>
-		<repeatable>false</repeatable>
-		<binding>
-			<command>property-toggle</command>
-			<property>sim/model/click</property>
-		</binding>
-		<binding>
-			<command>nasal</command>
-			<script>mirage2000.updateAPMode("vs")</script>
-		</binding>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_ALT_AFF);</script>
+			</binding>
 		</action>
 	</animation>
 
 	<animation>
 		<type>pick</type>
-		<object-name>ap.pa-alt</object-name>
+		<object-name>ap.pa-app-button</object-name>
+		<object-name>ap.pa-app-g-armed-off</object-name>
+		<object-name>ap.pa-app-g-armed-on</object-name>
+		<object-name>ap.pa-app-g-standby-off</object-name>
+		<object-name>ap.pa-app-g-standby-on</object-name>
+		<object-name>ap.pa-app-l-armed-off</object-name>
+		<object-name>ap.pa-app-l-armed-on</object-name>
+		<object-name>ap.pa-app-l-standby-off</object-name>
+		<object-name>ap.pa-app-l-standby-on</object-name>
 		<visible>true</visible>
 		<action>
-		<button>0</button>
-		<repeatable>false</repeatable>
-		<binding>
-			<command>property-toggle</command>
-			<property>sim/model/click</property>
-		</binding>
-		<binding>
-			<command>nasal</command>
-			<script>mirage2000.updateAPMode("alt")</script>
-		</binding>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_APP);</script>
+			</binding>
 		</action>
 	</animation>
 
-	<animation>
-		<type>pick</type>
-		<object-name>ap.pa-hdg</object-name>
-		<visible>true</visible>
-		<action>
-		<button>0</button>
-		<repeatable>false</repeatable>
-		<binding>
-			<command>property-toggle</command>
-			<property>sim/model/click</property>
-		</binding>
-		<binding>
-			<command>nasal</command>
-			<script>mirage2000.updateAPMode("hdg")</script>
-		</binding>
-		</action>
-	</animation>
-
-	<animation>
-		<type>pick</type>
-		<object-name>ap.pa-nav</object-name>
-		<visible>true</visible>
-		<action>
-		<button>0</button>
-		<repeatable>false</repeatable>
-		<binding>
-			<command>property-toggle</command>
-			<property>sim/model/click</property>
-		</binding>
-		<binding>
-			<command>nasal</command>
-			<script>mirage2000.updateAPMode("nav")</script>
-		</binding>
-		</action>
-	</animation>
-
-	<animation>
-		<type>pick</type>
-		<object-name>ap.pa-app</object-name>
-		<visible>true</visible>
-		<action>
-		<button>0</button>
-		<repeatable>false</repeatable>
-		<binding>
-			<command>property-toggle</command>
-			<property>sim/model/click</property>
-		</binding>
-		<binding>
-			<command>nasal</command>
-			<script>mirage2000.updateAPMode("app")</script>
-		</binding>
-		</action>
-	</animation>
-
-	<animation>
-		<type>pick</type>
-		<object-name>ap.pa-spd</object-name>
-		<visible>true</visible>
-		<action>
-		<button>0</button>
-		<repeatable>false</repeatable>
-		<binding>
-			<command>property-toggle</command>
-			<property>sim/model/click</property>
-		</binding>
-		<binding>
-			<command>nasal</command>
-			<script>mirage2000.updateAPMode("spd");</script>
-		</binding>
-		</action>
-	</animation>
 
 	<!--
 	================================================================================
@@ -363,79 +358,82 @@
 	-->
 	<animation>
 		<type>pick</type>
-		<object-name>ap.pa</object-name>
-		<object-name>ap.pa-on</object-name>
+		<object-name>ap.pa-att-button</object-name>
+		<object-name>ap.pa-att-armed-off</object-name>
+		<object-name>ap.pa-att-armed-on</object-name>
+		<object-name>ap.pa-att-standby-off</object-name>
+		<object-name>ap.pa-att-standby-on</object-name>
 		<hovered>
 			<binding>
 				<command>set-tooltip</command>
-				<tooltip-id>enable_autopilot</tooltip-id>
-				<label>Enable Autopilot</label>
+				<tooltip-id>att_autopilot</tooltip-id>
+				<label>Engage / Disengage Autopilot</label>
 			</binding>
 		</hovered>
 	</animation>
 
 	<animation>
 		<type>pick</type>
-		<object-name>ap.pa-vs</object-name>
-		<object-name>ap.pa-vs-on</object-name>
+		<object-name>ap.pa-alt-button</object-name>
+		<object-name>ap.pa-alt-armed-off</object-name>
+		<object-name>ap.pa-alt-armed-on</object-name>
+		<object-name>ap.pa-alt-standby-off</object-name>
+		<object-name>ap.pa-alt-standby-on</object-name>
 		<hovered>
 			<binding>
 				<command>set-tooltip</command>
-				<tooltip-id>vertivalSpeed_autopilot</tooltip-id>
-				<label>Vertical Speed</label>
+				<tooltip-id>alt_autopilot</tooltip-id>
+				<label>Altitude Hold</label>
 			</binding>
 		</hovered>
 	</animation>
 
 	<animation>
 		<type>pick</type>
-		<object-name>ap.pa-alt</object-name>
-		<object-name>ap.pa-alt-on</object-name>
+		<object-name>ap.pa-aff-button</object-name>
+		<object-name>ap.pa-aff-armed-off</object-name>
+		<object-name>ap.pa-aff-armed-on</object-name>
+		<object-name>ap.pa-aff-standby-off</object-name>
+		<object-name>ap.pa-aff-standby-on</object-name>
 		<hovered>
 			<binding>
 				<command>set-tooltip</command>
-				<tooltip-id>Altitute_autopilot</tooltip-id>
-				<label>Altitude</label>
+				<tooltip-id>aff_autopilot</tooltip-id>
+				<label>Selected Altitude Hold</label>
 			</binding>
 		</hovered>
 	</animation>
 
 	<animation>
 		<type>pick</type>
-		<object-name>ap.pa-hdg</object-name>
-		<object-name>ap.pa-hdg-on</object-name>
+		<object-name>ap.pa-empty-button</object-name>
+		<object-name>ap.pa-empty-armed-off</object-name>
+		<object-name>ap.pa-empty-standby-off</object-name>
 		<hovered>
 			<binding>
 				<command>set-tooltip</command>
-				<tooltip-id>heading_autopilot</tooltip-id>
-				<label>Heading Bug</label>
+				<tooltip-id>empty_autopilot</tooltip-id>
+				<label>Not in Use</label>
 			</binding>
 		</hovered>
 	</animation>
 
 	<animation>
 		<type>pick</type>
-		<object-name>ap.pa-nav</object-name>
-		<object-name>ap.pa-nav-on</object-name>
-		<hovered>
-		<binding>
-			<command>set-tooltip</command>
-			<tooltip-id>nav_autopilot</tooltip-id>
-			<label>Navigation : %s</label>
-			<property>autopilot/settings/nav-source</property>
-		</binding>
-		</hovered>
-	</animation>
-
-	<animation>
-		<type>pick</type>
-		<object-name>ap.pa-spd</object-name>
-		<object-name>ap.pa-spd-on</object-name>
+		<object-name>ap.pa-app-button</object-name>
+		<object-name>ap.pa-app-g-armed-off</object-name>
+		<object-name>ap.pa-app-g-armed-on</object-name>
+		<object-name>ap.pa-app-g-standby-off</object-name>
+		<object-name>ap.pa-app-g-standby-on</object-name>
+		<object-name>ap.pa-app-l-armed-off</object-name>
+		<object-name>ap.pa-app-l-armed-on</object-name>
+		<object-name>ap.pa-app-l-standby-off</object-name>
+		<object-name>ap.pa-app-l-standby-on</object-name>
 		<hovered>
 			<binding>
 				<command>set-tooltip</command>
-				<tooltip-id>speed_autopilot</tooltip-id>
-				<label>Speed</label>
+				<tooltip-id>app_autopilot</tooltip-id>
+				<label>Approach (ILS)</label>
 			</binding>
 		</hovered>
 	</animation>

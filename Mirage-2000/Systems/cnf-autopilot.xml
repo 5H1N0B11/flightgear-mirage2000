@@ -66,4 +66,20 @@
 		</vertical-speed-pid>
 	</internal>
 
+	<buttons> <!-- Animations for autopilot button faces visibility -->
+		<pa-att-armed type="bool">false</pa-att-armed>
+		<pa-att-standby type="bool">false</pa-att-standby>
+
+		<pa-alt-armed type="bool">false</pa-alt-armed>
+		<pa-alt-standby type="bool">false</pa-alt-standby>
+
+		<pa-aff-armed type="bool">false</pa-aff-armed>
+		<pa-aff-standby type="bool">false</pa-aff-standby>
+
+		<pa-app-g-armed type="bool">false</pa-app-g-armed>
+		<pa-app-g-standby type="bool">false</pa-app-g-standby>
+		<pa-app-l-armed type="bool">false</pa-app-l-armed>
+		<pa-app-l-standby type="bool">false</pa-app-l-standby>
+	</buttons>
+
 </PropertyList>

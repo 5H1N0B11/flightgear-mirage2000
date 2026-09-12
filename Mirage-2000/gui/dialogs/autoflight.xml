@@ -6,7 +6,6 @@
 
 	<name>autopilot</name>
 	<layout>vbox</layout>
-
 	<group>
 		<layout>hbox</layout>
 
@@ -32,79 +31,9 @@
 
 	<hrule/>
 
-	<group>
-		<layout>table</layout>
-
-		<!-- Row for attitude mode -->
-		<button>
-			<row>0</row>
-			<col>0</col>
-			<halign>fill</halign>
-			<legend>PA</legend>
-			<binding>
-				<command>nasal</command>
-				<script>mirage2000.updateAPMode(consts.BTN_PA);</script>
-			</binding>
-		</button>
-
-		<!-- row for altitude at engagement mode -->
-		<button>
-			<row>1</row>
-			<col>0</col>
-			<halign>fill</halign>
-			<legend>ALT</legend>
-			<binding>
-				<command>nasal</command>
-				<script>mirage2000.updateAPMode(consts.BTN_ALT);</script>
-			</binding>
-		</button>
-		<!-- row for altitude selected mode -->
-		<button>
-			<row>2</row>
-			<col>0</col>
-			<halign>fill</halign>
-			<legend>ALT AFF</legend>
-			<binding>
-				<command>nasal</command>
-				<script>mirage2000.updateAPMode(consts.BTN_ALT_AFF);</script>
-			</binding>
-		</button>
-
-		<input>
-			<row>2</row>
-			<col>1</col>
-			<pref-width>70</pref-width>
-			<property>/autopilot/settings/selected-altitude-ft</property>
-			<live>true</live>
-			<enable><false/></enable>
-		</input>
-		<!-- row for approach mode -->
-		<button>
-			<row>3</row>
-			<col>0</col>
-			<halign>fill</halign>
-			<legend>LG</legend>
-			<binding>
-				<command>nasal</command>
-				<script>mirage2000.updateAPMode(consts.BTN_LG);</script>
-			</binding>
-		</button>
-		<!-- row for standby mode -->
-		<button>
-			<row>5</row>
-			<col>0</col>
-			<halign>fill</halign>
-			<legend>STBY</legend>
-			<color>
-				<red>0.0</red>
-				<green>0.0</green>
-				<blue>1.0</blue>
-			</color>
-			<binding>
-				<command>nasal</command>
-				<script>mirage2000.updateAPMode(consts.BTN_STBY);</script>
-			</binding>
-		</button>
-	</group>
+	<text>
+		<halign>left</halign>
+		<label>Use the buttons at the top left of the front panel in combination with keybindings instead.</label>
+	</text>
 
 </PropertyList>

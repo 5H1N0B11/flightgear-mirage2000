@@ -5,119 +5,35 @@
 The Autopilot system
 ********************
 
-Autopilot Panel
-===============
+The Mirage has a rather simple (but not simplistic) autopilot, which can be either ``off``, ``on`` in a specific mode or in ``standby``. The following modes are available:
 
-.. image:: images/autopilot_display.png
-   :alt: Autopilot display
+* Attitude hold (``PA`` - basic mode): keep the pitch and roll attitude of the aircraft as maintained or indicated
+* Altitude hold (``ALT`` - advanced mode): maintain the altitude as captured at the moment when the ``ALT`` button was pressed.
+* Selected altitude hold (``ALT AFF`` - advanced mode): capture and then maintain the altitude as pre-selected in :ref:`link_subsection_cfg_page`.
+* (mode not in use)
+* Automatic approach (``LG`` - advanced mode): capture / maintain heading and pitch based ILS signal as well as pre-selected runway heading (*CP - cap vrai piste*) and glideslope (*PD – pente désirée*)
+
+Please be aware:
+
+* There is no autopilot mode for speed. In all modes the pilot has to actively use the throttle to maintain the desired speed.
+* There is no autopilot mode to follow waypoints.
+* The *autpilot* and *terrain following* are not the same thing. And currently terrain following is not implemented.
+* The default FlightGear autopilot and autompilot dialogue are not available.
+
+To change modes do the following:
+
+* To engage or disengage the autopilot press either the ``PA`` button or use ``Key: BACKSPACE``. If the autopilot is in one of the three advanced modes, then you have to toggle twice to disengage (once to get from an advanced mode to the basic mode and then to disengage altogether).
+* To engage or disengage standby mode use ``Key: ctrl + a`` (there is no button on the panel). Does only work if the autopilot is in a basic or advanced mode.
+* To engage one of the three advanced modes (``ALT``, ``ALT AFF``, ``LG``) press the respecitive buttons on the panel (there is no key binding). To disengage one of the three advanced modes either choose a different advanced mode or press the ``PA`` button to get into basic mode.
+
+.. image:: images/autopilot_states.png
+   :alt: autopilot states
    :align: center
+   :scale: 50%
 
-The autopilot allows the onboard computer to control the aircraft without constant input from the pilot.
+The following features of the original autopilot are not yet implemented:
 
-Clicking one of the switches equals to toggling the mode and eventually disabling other incompatible modes. An enabled mode will be lit up or blinking, but they will only be active if the ``AP`` switch is also lit up.
-
-Only the ``Stby`` button being lit up by default (the autopilot is not enabled on startup).
-
-While the autopilot panel allows the pilot to toggle its different modes, the details of each parameter have to be set either on the ILS/TACAN panel, on the left MFD, or in the ``Autopilot -> Route manager`` built-in FlightGear menu.
-
-Details about the autopilot's enabled modes, registered altitude, heading, next waypoint, and speed can all be found in the ``EADI`` tab of the left MFD. The active pitch and roll control modes will be shown in white near the top of the ``EADI``.
-
-Note that the switches might not all be visible depending on your viewpoint. You can move your head by using ``Key: shift``, ``right mouse  button`` and dragging your mouse across the screen. To reset it, you can use one of the flight mode keys (see Flight Modes section).
-
-
-Autopilot Switches and Modes
-============================
-
-AP (Active Autopilot)
----------------------
-
-This switch acts as the main toggle for the autopilot.
-
-If ``AP`` and ``Stby`` are the only two modes active, the onboard computer will attempt maintain the current pitch & roll angle of the aircraft once the stick is released to its central position, but will not override the pilot's input.
-
-When other modes are enabled, having the ``AP`` switch enabled will make them actively guide the aircraft. When in active guidance modes (``VS``, ``ALT``, ``HDG``, ``LNAV``, ``APP``).
-
-If switched on, a white ``AP1`` sign will appear at the top of the ``EADI`` tab of the left MFD.
-
-Stby (Standby)
---------------
-
-Default state. Clicking it immediately disables all enabled modes except pitch and roll stabilisation (see previous section).
-
-These modes appear as ``PTCH`` and ``ROLL`` in the ``EADI``.
-
-Vs (Vertical Speed)
--------------------
-
-Enabling this mode registers the current vertical speed (visible in both the physical variometer and the EADI tab of the left MFD) and attempts to keep it constant at this value. This value will be remembered but not displayed.
-
-The vertical speed will only be registered once the mode is activated, i.e. once both the ``AP`` switch and the ``Vs`` switch are simultaneously active.
-
-Note that the throttle is not controlled by this autopilot mode, and the aircraft might stall if you do not pay attention to your speed if this mode is active at high vertical speeds or low throttle input.
-
-This mode is incompatible with ``ALT``, ``TF`` and ``APP`` modes.
-
-This mode appears as ``VS`` in the ``EADI``.
-
-Alt (Altitude)
---------------
-
-This switch controls the altitude above sea level (ASL) hold mode (there is no terrain following mode). Enabling it registers the current altitude and holds it, correcting small deviations at a low vertical speed (ca. 500ft/min). Use it once you are already level at the altitude you want to keep.
-
-This mode will lock the manual pitch and yaw input of the aircraft, but will only control the pitch.
-
-This mode is incompatible with the ``VS`` and ``APP`` modes.
-
-The ASL hold mode appears as ``ALT`` in the ``EADI``.
-
-Alt Aff (Altitude Assigned)
----------------------------
-
-This switch captures the ``SELECTED ALT`` set in the autopilot panel (or the ``EADI`` tab of the left MFD). The aircraft climbs or descends towards it at a brisk, airspeed-scaled vertical speed (ca. 1500ft/min at low speed, ca. 3000ft/min at cruise, up to ca. 4500ft/min at high speed), then smoothly levels off and holds the assigned altitude. The throttle is not controlled, so watch your speed during steep climbs or engage the ``Spd`` mode.
-
-Like ``Alt``, this mode locks the manual pitch and yaw input and only controls the pitch, and is incompatible with the ``VS`` and ``APP`` modes.
-
-This mode also appears as ``ALT`` in the ``EADI``.
-
-Hdg (Heading)
--------------
-
-This mode will override the roll axis and lock the pitch axis of the aircraft. Once enabled, the aircraft will attempt to stabilise or turn itself towards the heading bug set in the ``EHSI`` tab of the left MFD (bottom left knob). This direction will be visible both on the ``EHSI`` in pink, and in the HUD as a downwards triangle on the compass.
-
-This mode is incompatible with ``LNAV`` and ``APP`` modes.
-
-This mode appears as ``HDG`` in the ``EADI``.
-
-Nav (Navigation Source)
------------------------
-
-This mode will override the roll axis and lock the pitch axis of the aircraft. Once enabled, the aircraft will attempt to follow the navigation source (``NAV1``, ``NAV2``, ``TACAN`` or ``FMS``) set in the ``EHSI`` page of the left MFD. Depending on the NAVSRC mode, it can be configured on the ``RMU`` page or in the ``Autopilot -> Route manager`` menu). The selected direction will be shown by the blue arrow on the ``EHSI``, as well as the numerical value at the bottom right of the same page. For more details, please refer to the ``EHSI`` section of this guide.
-
-This mode is incompatible with ``HDG`` and ``APP`` modes.
-
-This mode appears as ``LNAV`` in the ``EADI``.
-
-App (ILS Approach)
-------------------
-
-Switches to instrumental landing system approach by overriding the pitch and roll axes of the aircraft. It will not, however, control its throttle. It will use the frequency set in the ``VOR.ILS`` panel or the ``RMU`` tab of the left MFD.
-
-This mode is only applicable if the aircraft is decently well aligned with the runway to begin with. It will disengage at around 100ft AGL.
-
-This mode is incompatible with the ``VS``, ``ALT``, ``TF``, ``HDG`` and ``LNAV`` modes.
-
-This mode appears as ``APP`` in the ``EADI``.
-
-Spd (Speed)
------------
-
-This is an in-sim switch only, and does not exist on actual Mirage 2000s. It overrides the pilot's throttle input in order to maintain the airspeed set in the ``EADI`` tab of the left MFD.
-
-Note that once disabled, the pilot has to move the throttle in order to unlock it again.
-
-This mode is not shown as enabled or otherwise in the ``EADI``.
-
-Note: Autopilot glitches
-------------------------
-
-Please note that when activating the ``VS``, ``ALT``, ``LNAV`` or ``APP`` modes with too much G-load or AoA, the nose might start bobbing up and down violently. This is an in-sim issue that has not been solved yet. Should this happen to you, disable the autopilot, stabilise the aircraft, then enable it again.
+* Moving the stick more than 50% will not disengage the autopilot.
+* The autopilot does not wait to be fully engaged until the stick is in the neutral position.
+* When the autopilot is engaged, you cannot use the trim buttons to change pitch attitude and bearing.
+* Some specific yellow buttons will not blink in specific situations - instead they will illuminate steadily.

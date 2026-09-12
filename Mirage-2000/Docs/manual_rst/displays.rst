@@ -303,7 +303,7 @@ In the middle of the screen navigation data is presented - left side is visible 
 * the distance (e.g. ``32N``).
 
 
-.. _link_subsection_sms:
+.. _link_subsection_sms_page:
 
 Store Management system (SMS)
 -----------------------------
@@ -323,7 +323,7 @@ The abbreviations used for the stores are available in the weapons overview tabl
    :align: center
    :scale: 50%
 
-.. _link_subsection_ppa:
+.. _link_subsection_ppa_page:
 
 Poste de Préparation Armement (PPA)
 -----------------------------------
@@ -339,7 +339,22 @@ The displayed menus depend on the chosen weapon and sometimes on previously chos
    :align: center
    :scale: 50%
 
-.. _link_subsection_rwr:
+
+.. _link_subsection_cfg_page:
+
+Configuration Screen (CFG)
+--------------------------
+
+This MFD page allows to dynamically configure different areas of the aircraft before and during flight:
+
+* Bingo fuel: between 100 and 3000 kg. Button up increases by 100 kg, button down decreases by 10 kg.
+* Selected altitude (*alt. aff.* = altitude affiché for the autopilot): between 1000 and 50'000 ft. Button up increases by 1000 ft, button down decreases by 100 ft.
+
+
+NB: this page is based on pure guess how it might work in the real thing and what might be configurable.
+
+
+.. _link_subsection_rwr_page:
 
 Radar Warning Receiver (RWR) and Counter-Measures
 -------------------------------------------------

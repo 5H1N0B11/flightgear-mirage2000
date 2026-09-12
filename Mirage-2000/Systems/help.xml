@@ -180,7 +180,7 @@
 	</key>
 
 	<key>
-		<name>Ctrl + h</name>
+		<name>Ctrl + d</name>
 		<desc>Toggle Headtracker (if available)</desc>
 	</key>
 
@@ -189,12 +189,12 @@
 		<desc>Toggle Headtracker translate (if available)</desc>
 	</key>
 
-	<key n="362">
+	<key>
 		<name>HOME</name>
 		<desc>Select next page on left MFD</desc>
 	</key>
 
-	<key n="363">
+	<key>
 		<name>END</name>
 		<desc>Select next page on right MFD</desc>
 	</key>
@@ -222,6 +222,17 @@
 		<name>Ctrl + .</name>
 		<desc>Previous Waypoint</desc>
 	</key>
+
+	<key>
+		<name>BACKSPACE</name>
+		<desc>Press PA autopilot button</desc>
+	</key>
+
+	<key>
+		<name>Ctrl + a</name>
+		<desc>Toggle autopilot standby</desc>
+	</key>
+
 
 	<text>Two PDF manuals are located in the Mirage-2000/Docs/ folder - e.g. accessible through the menu Mirage 2000 > New | Old PDF Manual.</text>
 </PropertyList>

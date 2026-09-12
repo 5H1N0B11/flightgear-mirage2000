@@ -178,6 +178,6 @@ NB: Nose Wheel Steering is "Dirigeabilité Roue Avant" in French, which is abbre
 Miscellaneous
 -------------
 
-* When heavily loaded, the `fly-by-wire system (FBW)⇗ <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure. Use the SMS page (:ref:`link_subsection_sms`).
+* When heavily loaded, the `fly-by-wire system (FBW)⇗ <https://en.wikipedia.org/wiki/Fly-by-wire>`_ should be set correctly to lower allowable flight limits in order to save the structure. Use the SMS page (:ref:`link_subsection_sms_page`).
 * Afterburners engage when throttle moves past 85% in real-life, 90% in-sim.
 * The 1700l and 2200l droppable tanks are not supersonic, but the 1300l is.

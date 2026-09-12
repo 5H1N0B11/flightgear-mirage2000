@@ -630,7 +630,7 @@
 		</key>
 
 		<key n="8">
-			<name>Ctrl + h</name>
+			<name>Ctrl + d</name>
 			<desc>Toggle Headtracker (if available)</desc>
 			<binding>
 				<command>nasal</command>
@@ -719,6 +719,24 @@
 					<script>setprop("/autopilot/route-manager/input", "@previous")</script>
 				</binding>
 			</mod-ctrl>
+		</key>
+
+		<key n="8"> <!-- same as ctrl+h -->
+			<name>BACKSPACE</name>
+			<desc>Press PA autopilot button</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_PA);</script>
+			</binding>
+		</key>
+
+		<key n="1">
+			<name>Ctrl + a</name>
+			<desc>Toggle autopilot standby</desc>
+			<binding>
+				<command>nasal</command>
+				<script>mirage2000.updateAPMode(consts.BTN_STBY);</script>
+			</binding>
 		</key>
 
 	</keyboard>

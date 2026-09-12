@@ -5,9 +5,6 @@ print("*** LOADING instrumentation.nas ... ***");
 #
 ################################################################################
 
-var blinking     = 0;
-var viewNum      = 1;
-var isHUDvisible = 1;
 var wow              = props.globals.getNode("/gear/gear/wow",1);
 var AngleOfAttack    = props.globals.getNode("orientation/alpha-deg");
 var AirSpeed         = props.globals.getNode("velocities/airspeed-kt");
@@ -149,8 +146,6 @@ aircraft.light.new("/sim/model/lights/formation", [0], formation_switch);
 # Landing
 var landing1_switch = props.globals.getNode("/systems/electrical/outputs/landing-lights", 1);
 aircraft.light.new(props.globals.getNode("/sim/model/lights/landing"), [0], landing1_switch);
-
-var ap_blink = aircraft.light.new("/sim/model/lights/pa-blink", [0.4, 0.4], "/autopilot/locks/FD-status");
 
 var encodeLight = func() {
     var mycomp = strobe_switch.getValue() ~ strobe2_switch.getValue() ~ tailLight_switch.getValue() ~ position_switch.getValue() ~ formation_switch.getValue() ~ landing1_switch.getValue();

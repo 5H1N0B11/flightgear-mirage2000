@@ -683,6 +683,12 @@ var autostart = func{
 		doors.move_canopy();
 	}, 42);
 
+	# Execute some tests
+	settimer(func {
+		testAutopilotButtonLights();
+	}, 43);
+
+
 	setFlightMode(consts.FLIGHT_MODE_GROUND);
 
 	#turning on the air conditioning

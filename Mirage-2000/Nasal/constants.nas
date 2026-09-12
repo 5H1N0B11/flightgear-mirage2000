@@ -39,7 +39,7 @@ var BTN_PA = "PA";
 var BTN_STBY = "STBY";
 var BTN_ALT = "ALT"; # hold the current altitude
 var BTN_ALT_AFF = "ALT_AFF"; # hold the altitude assigned
-var BTN_LG = "LG"; # approach
+var BTN_APP = "APP"; # approach
 
 var AP_STATUS_ON = "AP1"; # M2000 specific
 var AP_STATUS_STBY = "TEMP DISENGAGE"; # M2000 specific

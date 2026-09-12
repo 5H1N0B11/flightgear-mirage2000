@@ -7,7 +7,7 @@ Weapons and Armament
 Overview of Available Weapons in the FlighGear version
 ======================================================
 
-The abbreviation column refers to the abbreviations used in the SMS page (see :ref:`link_subsection_sms`).
+The abbreviation column refers to the abbreviations used in the SMS page (see :ref:`link_subsection_sms_page`).
 
 ..
    The table must be in sync with pylonSetsSMSHelper in pylons.nas
@@ -149,7 +149,7 @@ Basic Keys
 Configuring the Active Weapon
 =============================
 
-The stores management system (see :ref:`link_subsection_sms`) shows the available and active weapons. Depending on the active weapon some configurations can be done through the weapons configuration panel (see :ref:`link_subsection_ppa`).
+The stores management system (see :ref:`link_subsection_sms_page`) shows the available and active weapons. Depending on the active weapon some configurations can be done through the weapons configuration panel (see :ref:`link_subsection_ppa_page`).
 
 
 Shooting
@@ -163,7 +163,7 @@ Use the trigger (``Key: e``) for releasing a weapon no matter the type.
 Smoke Pods
 ==========
 
-You can use smoke pods on the left outer station (2.L) and/or the right outer station (2.R). Use ``Key: w`` to switch to smoke pods and then use the weapons configuration panel (see :ref:`link_subsection_ppa`) to toggle smoke on and off.
+You can use smoke pods on the left outer station (2.L) and/or the right outer station (2.R). Use ``Key: w`` to switch to smoke pods and then use the weapons configuration panel (see :ref:`link_subsection_ppa_page`) to toggle smoke on and off.
 
 
 Ground Attack
@@ -298,7 +298,7 @@ Therefore, the implementation is purely fictional and takes inspiration from the
 * The type of radar target has to be set before takeoff (to simulate that early versions of the AS-37 had 3 different seekers to be installed - even though the AS-37A most probably did not have diffenet seekers): ``GROUND`` (GCI, radar towers - radar code ``S`` in OPRF), ``SHIP`` (frigates etc. - ``SH``), ``SAM`` for larger static ground based SAMS (SA-3 ``3``, S-200 ``5``, S-300 ``20``, MIM104D ``P``), or ``AAW``` for smaller SAMS and self-propelled anti-aircraft warefare systems (Shilka ``AA``, SA-6 ``6`` and Buk-M2 ``17``) - this is really just a "random" choice for simulation.
 * Power for the missile seeker must be explicitly activated.
 
-For aiming you need to combine the RWR display (see :ref:`link_subsection_rwr`) with information in the HUD:
+For aiming you need to combine the RWR display (see :ref:`link_subsection_rwr_page`) with information in the HUD:
 
 * The HUD only displays a narrow field of view and filters on surface or naval assets which have an air radar. Unknown target types will not be displayed. A mximum of 8 threats are displayed (more severe threats are prioritised).
 * The HUD is based on the passive radar homing detection capabilities of the missile, which has been chosen to be 50 nm (the max range of the missile is 54 nm) - which is much lower than the RWR capabilities.

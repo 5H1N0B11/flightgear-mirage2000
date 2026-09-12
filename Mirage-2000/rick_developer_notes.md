@@ -43,7 +43,6 @@
 
 
 ## Radar stuff todo ##
-* Constrain radar to only collect max 28 contacts
 * me.debug = getprop("debug-radar/debug-main");
 * Update tacview.nas ca. line 34 for - because it is F-16 specific
   * return radar_system.getCompleteList();
@@ -53,7 +52,6 @@
 * Implement radar power modes: Arrêt (Off), Préchauffage (WARM-UP), Silence (STANDBY), Émission (On - Emit) - see Chucks 2000C guide page 107. Currently radar-standby makes the screen to not getting power anymore, so effectively no STANDBY mode at all on the screen
 * Check keybindings H (active target seeking) and Q (active ECM): do they still work? <key n="81"><name>Q</name><desc>Active ECM</desc><binding><command>nasal</command><script>instrumentation.activate_ECM()</script></binding></key>
 * We need a steerpoints implementation
-* check whether datalink works
 
 
 <!-- ========================================================================================= -->

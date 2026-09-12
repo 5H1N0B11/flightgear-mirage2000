@@ -47,6 +47,16 @@ var input = {
 	ap_internal_to_flag        : "/autopilot/internal/to-flag",
 	ap_internal_from_flag      : "/autopilot/internal/from-flag",
 	dme_frequencies_source     : "/instrumentation/dme/frequencies/source",
+	buttons_pa_att_armed       : "autopilot/buttons/pa-att-armed",
+	buttons_pa_att_standby     : "autopilot/buttons/pa-att-standby",
+	buttons_pa_alt_armed       : "autopilot/buttons/pa-alt-armed",
+	buttons_pa_alt_standby     : "autopilot/buttons/pa-alt-standby",
+	buttons_pa_aff_armed       : "autopilot/buttons/pa-aff-armed",
+	buttons_pa_aff_standby     : "autopilot/buttons/pa-aff-standby",
+	buttons_pa_app_g_armed     : "autopilot/buttons/pa-app-g-armed",
+	buttons_pa_app_g_standby   : "autopilot/buttons/pa-app-g-standby",
+	buttons_pa_app_l_armed     : "autopilot/buttons/pa-app-l-armed",
+	buttons_pa_app_l_standby   : "autopilot/buttons/pa-app-l-standby",
 };
 
 foreach(var name; keys(input)) {
@@ -130,7 +140,7 @@ var updateAPMode = func(btn_pressed) {
 			input.ap_target_climb_rate.setValue(_selectedAltitudeClimbRate());
 			input.ap_target_altitude.setValue(input.ap_selected_altitude.getValue());
 		}
-	} else if (btn_pressed == consts.BTN_LG) {
+	} else if (btn_pressed == consts.BTN_APP) {
 		if (ap_mode == consts.AP_MODE_APPROACH) {
 			_resetAttitudeMode();
 		} else if (ap_mode == consts.AP_MODE_OFF or _checkAPOperationalLimits(consts.AP_MODE_APPROACH) == false) {
@@ -301,4 +311,38 @@ var updateAutopilot = func () {
 			#input.dme_frequencies_source.setValue("/instrumentation/nav[1]/frequencies/selected-mhz");
 		}
 	}
+}
+
+var testAutopilotButtonLights = func () {
+	settimer(func {
+		input.buttons_pa_att_armed.setValue(true);
+		input.buttons_pa_alt_armed.setValue(true);
+		input.buttons_pa_aff_armed.setValue(true);
+		input.buttons_pa_app_l_armed.setValue(true);
+		input.buttons_pa_app_g_armed.setValue(true);
+	}, 1);
+
+	settimer(func {
+		input.buttons_pa_att_standby.setValue(true);
+		input.buttons_pa_alt_standby.setValue(true);
+		input.buttons_pa_aff_standby.setValue(true);
+		input.buttons_pa_app_l_standby.setValue(true);
+		input.buttons_pa_app_g_standby.setValue(true);
+	}, 3);
+
+	settimer(func {
+		input.buttons_pa_att_armed.setValue(false);
+		input.buttons_pa_alt_armed.setValue(false);
+		input.buttons_pa_aff_armed.setValue(false);
+		input.buttons_pa_app_l_armed.setValue(false);
+		input.buttons_pa_app_g_armed.setValue(false);
+	}, 5);
+
+	settimer(func {
+		input.buttons_pa_att_standby.setValue(false);
+		input.buttons_pa_alt_standby.setValue(false);
+		input.buttons_pa_aff_standby.setValue(false);
+		input.buttons_pa_app_l_standby.setValue(false);
+		input.buttons_pa_app_g_standby.setValue(false);
+	}, 7);
 }
