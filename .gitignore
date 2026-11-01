@@ -4,3 +4,6 @@
 
 # Documentation build outputs
 /Mirage-2000/.vscode/
+
+# KDE Dolphin folder settings
+.directory
