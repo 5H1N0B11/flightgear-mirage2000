@@ -10,4 +10,4 @@ The content of the `Docs` folder has evolved historically.
 * wingman_m2000-5_demo.xml and wingman_m2000-5D_demo: AI scenarios to have a second Mirage as a wingman.
 
 ## Files for developers: ##
-* manual_rst directory: Contains the source files for the new manual.
+* The source files for the manual are in [docs/manual_rst](https://github.com/5H1N0B11/flightgear-Mirage2000-Ressources/tree/main/docs/manual_rst) in the flightgear-Mirage2000-Ressources repository.

@@ -3,5 +3,4 @@
 .idea/
 
 # Documentation build outputs
-/Mirage-2000/Docs/manual_rst/build/
 /Mirage-2000/.vscode/
